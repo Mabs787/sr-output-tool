@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout — Test App</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f5f5f7;
+        color: #1a1a2e;
+        min-height: 100vh;
+      }
+
+      /* ── Skip link ─────────────────────────── */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 16px;
+        background: #1a1a2e;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 0 0 8px 8px;
+        z-index: 100;
+        font-size: 14px;
+        text-decoration: none;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* ── Header ────────────────────────────── */
+      header {
+        background: #1a1a2e;
+        color: #fff;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      header h1 {
+        font-size: 18px;
+        font-weight: 600;
+      }
+      header nav a {
+        color: #a5b4fc;
+        text-decoration: none;
+        font-size: 14px;
+        margin-left: 12px;
+      }
+      header nav a:hover,
+      header nav a:focus {
+        text-decoration: underline;
+      }
+
+      /* ── Main layout ───────────────────────── */
+      main {
+        max-width: 640px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      /* ── Card ──────────────────────────────── */
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px 48px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+      .card h2 {
+        font-size: 26px;
+        margin-bottom: 4px;
+      }
+      .card .sub {
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 28px;
+      }
+
+      /* ── Form ──────────────────────────────── */
+      .field {
+        margin-bottom: 20px;
+      }
+      .field label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .field label .req {
+        color: #ef4444;
+        margin-left: 2px;
+      }
+      .field input,
+      .field select {
+        display: block;
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        background: #fafafa;
+        color: #1a1a2e;
+        transition:
+          border-color 0.15s,
+          outline 0.15s;
+      }
+      .field input:focus,
+      .field select:focus {
+        outline: 3px solid #6c8cff;
+        outline-offset: 2px;
+        border-color: #6c8cff;
+        background: #fff;
+      }
+      .field .error-msg {
+        color: #ef4444;
+        font-size: 13px;
+        margin-top: 4px;
+        display: none;
+      }
+      .field.has-error input {
+        border-color: #ef4444;
+      }
+      .field.has-error .error-msg {
+        display: block;
+      }
+
+      .row {
+        display: flex;
+        gap: 16px;
+      }
+      .row > .field {
+        flex: 1;
+      }
+
+      /* ── Checkbox ──────────────────────────── */
+      .checkbox-field {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0 8px;
+      }
+      .checkbox-field input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #6c8cff;
+      }
+      .checkbox-field label {
+        font-size: 14px;
+        color: #374151;
+        cursor: pointer;
+      }
+
+      /* ── Summary ───────────────────────────── */
+      .summary {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 0;
+        border-top: 1px solid #e5e7eb;
+        margin-top: 20px;
+        font-size: 15px;
+      }
+      .summary .total {
+        font-weight: 700;
+        font-size: 18px;
+      }
+
+      /* ── Button ────────────────────────────── */
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        font-size: 17px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 8px;
+        background: #6c8cff;
+        color: #fff;
+        transition: all 0.15s;
+      }
+      .btn:hover {
+        background: #4f6fdf;
+      }
+      .btn:focus {
+        outline: 3px solid #6c8cff;
+        outline-offset: 3px;
+      }
+      .btn:disabled {
+        background: #cbd5e1;
+        cursor: not-allowed;
+      }
+
+      .secure {
+        text-align: center;
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 16px;
+      }
+
+      /* ── Live region / confirmation ────────── */
+      .sr-live {
+        position: absolute;
+        left: -9999px;
+      }
+
+      .confirmation {
+        display: none;
+        text-align: center;
+        padding: 32px 0;
+      }
+      .confirmation.visible {
+        display: block;
+      }
+      .confirmation .check {
+        font-size: 56px;
+        margin-bottom: 12px;
+      }
+      .confirmation h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+        color: #065f46;
+      }
+      .confirmation p {
+        font-size: 15px;
+        color: #6b7280;
+      }
+      .confirmation .alert-box {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-top: 20px;
+        text-align: left;
+      }
+      .confirmation .alert-title {
+        font-weight: 600;
+        color: #065f46;
+        font-size: 15px;
+      }
+      .confirmation .alert-text {
+        color: #047857;
+        font-size: 14px;
+        margin-top: 4px;
+      }
+      .confirmation .order-id {
+        color: #6b7280;
+        font-size: 13px;
+        margin-top: 16px;
+      }
+
+      /* ── Error dialog ──────────────────────── */
+      dialog {
+        border: none;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        max-width: 400px;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      dialog h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+        color: #ef4444;
+      }
+      dialog p {
+        font-size: 14px;
+        color: #374151;
+        margin-bottom: 20px;
+      }
+      dialog button {
+        padding: 10px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #6c8cff;
+        color: #fff;
+      }
+      dialog button:focus {
+        outline: 3px solid #6c8cff;
+        outline-offset: 2px;
+      }
+
+      /* ── Footer ────────────────────────────── */
+      footer {
+        text-align: center;
+        padding: 32px 20px;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header role="banner">
+      <h1>TestShop</h1>
+      <nav aria-label="Main navigation">
+        <a href="#">Home</a>
+        <a href="#">Products</a>
+        <a href="#" aria-current="page">Checkout</a>
+      </nav>
+    </header>
+
+    <main id="main" role="main">
+      <div class="card">
+        <!-- === Form === -->
+        <form id="checkout-form" novalidate>
+          <h2 tabindex="-1">Checkout</h2>
+          <p class="sub">Complete your payment details below</p>
+
+          <!-- Name -->
+          <div class="field">
+            <label for="name"
+              >Full name <span class="req" aria-hidden="true">*</span></label
+            >
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              aria-required="true"
+              placeholder="Jane Smith"
+            />
+            <span class="error-msg" id="name-error" role="alert"
+              >Please enter your name</span
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="field">
+            <label for="email"
+              >Email <span class="req" aria-hidden="true">*</span></label
+            >
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              aria-required="true"
+              placeholder="jane@example.com"
+            />
+            <span class="error-msg" id="email-error" role="alert"
+              >Please enter a valid email</span
+            >
+          </div>
+
+          <!-- Card number -->
+          <div class="field">
+            <label for="card"
+              >Card number <span class="req" aria-hidden="true">*</span></label
+            >
+            <input
+              id="card"
+              name="cardNumber"
+              type="text"
+              inputmode="numeric"
+              autocomplete="cc-number"
+              aria-required="true"
+              placeholder="1234 5678 9012 3456"
+              maxlength="19"
+            />
+            <span class="error-msg" id="card-error" role="alert"
+              >Please enter a valid card number</span
+            >
+          </div>
+
+          <!-- Expiry + CVC row -->
+          <div class="row">
+            <div class="field">
+              <label for="expiry"
+                >Expiry date
+                <span class="req" aria-hidden="true">*</span></label
+              >
+              <input
+                id="expiry"
+                name="expiry"
+                type="text"
+                inputmode="numeric"
+                autocomplete="cc-exp"
+                aria-required="true"
+                placeholder="MM / YY"
+                maxlength="7"
+              />
+              <span class="error-msg" id="expiry-error" role="alert"
+                >Please enter expiry date</span
+              >
+            </div>
+            <div class="field">
+              <label for="cvc"
+                >CVC <span class="req" aria-hidden="true">*</span></label
+              >
+              <input
+                id="cvc"
+                name="cvc"
+                type="text"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                aria-required="true"
+                placeholder="123"
+                maxlength="4"
+              />
+              <span class="error-msg" id="cvc-error" role="alert"
+                >Please enter CVC</span
+              >
+            </div>
+          </div>
+
+          <!-- Country select -->
+          <div class="field">
+            <label for="country">Country</label>
+            <select id="country" name="country">
+              <option value="GB" selected>United Kingdom</option>
+              <option value="US">United States</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="AU">Australia</option>
+            </select>
+          </div>
+
+          <!-- Save card checkbox -->
+          <div class="checkbox-field">
+            <input type="checkbox" id="save-card" name="saveCard" />
+            <label for="save-card">Save card for future purchases</label>
+          </div>
+
+          <!-- Summary -->
+          <div class="summary" aria-label="Order summary">
+            <span>Total</span>
+            <span class="total">£29.99</span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn" id="pay-btn">Pay £29.99</button>
+          <div class="secure">🔒 Secured by Stripe</div>
+        </form>
+
+        <!-- === Confirmation (hidden until success) === -->
+        <div
+          class="confirmation"
+          id="confirmation"
+          role="region"
+          aria-label="Payment confirmation"
+        >
+          <div class="check" aria-hidden="true">✅</div>
+          <h2>Payment Successful</h2>
+          <p>Thank you for your purchase.</p>
+          <div class="alert-box" role="alert">
+            <div class="alert-title">Order confirmed</div>
+            <div class="alert-text">
+              Your order has been confirmed and a receipt has been sent to your
+              email.
+            </div>
+          </div>
+          <div class="order-id">Order #SR-20260320 · £29.99</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Error dialog -->
+    <dialog id="error-dialog" aria-labelledby="dialog-title">
+      <h3 id="dialog-title">Validation Error</h3>
+      <p id="dialog-message">Please fix the errors in the form.</p>
+      <button id="dialog-close" autofocus>OK</button>
+    </dialog>
+
+    <!-- Live region for dynamic announcements -->
+    <div
+      class="sr-live"
+      aria-live="assertive"
+      aria-atomic="true"
+      id="live-region"
+    ></div>
+
+    <footer role="contentinfo">
+      <p>TestShop — Screen Reader Outcome Engine test application</p>
+    </footer>
+
+    <script>
+      const form = document.getElementById("checkout-form");
+      const confirmation = document.getElementById("confirmation");
+      const errorDialog = document.getElementById("error-dialog");
+      const dialogClose = document.getElementById("dialog-close");
+      const dialogMessage = document.getElementById("dialog-message");
+      const liveRegion = document.getElementById("live-region");
+      const payBtn = document.getElementById("pay-btn");
+
+      // ── Validation ────────────────────────────
+      const validators = {
+        name: (v) => v.trim().length >= 2,
+        email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+        card: (v) => v.replace(/\s/g, "").length >= 13,
+        expiry: (v) => /^\d{2}\s*\/\s*\d{2}$/.test(v),
+        cvc: (v) => /^\d{3,4}$/.test(v),
+      };
+
+      function validateField(id) {
+        const input = document.getElementById(id);
+        const field = input.closest(".field");
+        const valid = validators[id](input.value);
+        field.classList.toggle("has-error", !valid);
+        input.setAttribute("aria-invalid", String(!valid));
+        if (!valid) {
+          input.setAttribute("aria-describedby", id + "-error");
+        } else {
+          input.removeAttribute("aria-describedby");
+        }
+        return valid;
+      }
+
+      // Validate on blur
+      Object.keys(validators).forEach((id) => {
+        document
+          .getElementById(id)
+          .addEventListener("blur", () => validateField(id));
+      });
+
+      // ── Card number formatting (auto-space) ───
+      document.getElementById("card").addEventListener("input", function (e) {
+        let v = this.value.replace(/\D/g, "").slice(0, 16);
+        this.value = v.replace(/(.{4})/g, "$1 ").trim();
+      });
+
+      // ── Expiry formatting ─────────────────────
+      document.getElementById("expiry").addEventListener("input", function () {
+        let v = this.value.replace(/\D/g, "").slice(0, 4);
+        if (v.length >= 3) v = v.slice(0, 2) + " / " + v.slice(2);
+        this.value = v;
+      });
+
+      // ── Form submit ───────────────────────────
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const allValid = Object.keys(validators).every(validateField);
+        if (!allValid) {
+          const firstInvalid = Object.keys(validators).find(
+            (id) => !validators[id](document.getElementById(id).value),
+          );
+          // Show error dialog
+          dialogMessage.textContent =
+            "Please correct the highlighted fields before submitting.";
+          errorDialog.showModal();
+          return;
+        }
+
+        // Simulate processing
+        payBtn.disabled = true;
+        payBtn.textContent = "Processing…";
+        liveRegion.textContent = "Processing payment, please wait.";
+
+        setTimeout(() => {
+          // Hide form, show confirmation
+          form.style.display = "none";
+          confirmation.classList.add("visible");
+          liveRegion.textContent =
+            "Payment successful. Your order has been confirmed.";
+
+          // Move focus to confirmation heading
+          confirmation.querySelector("h2").setAttribute("tabindex", "-1");
+          confirmation.querySelector("h2").focus();
+        }, 1500);
+      });
+
+      // ── Dialog close ──────────────────────────
+      dialogClose.addEventListener("click", () => {
+        errorDialog.close();
+        // Focus the first invalid field
+        const firstInvalid = Object.keys(validators).find(
+          (id) => !validators[id](document.getElementById(id).value),
+        );
+        if (firstInvalid) document.getElementById(firstInvalid).focus();
+      });
+
+      errorDialog.addEventListener("close", () => {
+        const firstInvalid = Object.keys(validators).find(
+          (id) => !validators[id](document.getElementById(id).value),
+        );
+        if (firstInvalid) document.getElementById(firstInvalid).focus();
+      });
+    </script>
+  </body>
+</html>

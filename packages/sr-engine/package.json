@@ -1,0 +1,17 @@
+{
+  "name": "@sr-output/engine",
+  "version": "0.1.0",
+  "description": "Core engine — accessibility announcement generation and event tracking",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

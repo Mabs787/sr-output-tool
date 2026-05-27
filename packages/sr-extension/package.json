@@ -1,0 +1,10 @@
+{
+  "name": "@sr-output/extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser extension shell for the SR output tool",
+  "scripts": {
+    "sync:runtime": "node scripts/sync-engine-runtime.mjs",
+    "package:zip": "node scripts/package-extension-zip.mjs"
+  }
+}
