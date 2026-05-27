@@ -4,7 +4,36 @@ This file is the human-readable release notes for the repo, especially for exten
 
 ## Unreleased
 
-- Initial public repo setup in progress.
+- Ongoing local changes.
+
+## Version 1.0.0 - 2026-05-27
+
+### Highlights
+
+- First public release of the SR Output Tool.
+- Added a shareable packaged browser extension zip for non-developer distribution.
+
+### Engine
+
+- Split the shared screen-reader logic into `@sr-output/engine`.
+- Centralized announcement generation, context-end announcements, and DOM scanning logic in the engine package.
+- Documented a VoiceOver-led workflow for refining engine output using reduced examples and regression tests.
+
+### Extension
+
+- Packaged the browser extension as `@sr-output/extension`.
+- Added the generated engine runtime sync flow used by the extension.
+- Added extension-specific documentation for setup, local loading, packaging, and release sharing.
+
+### Notes
+
+- The engine is modeled primarily around VoiceOver behavior.
+- The extension is intended as a fast accessibility feedback tool and should not replace testing with real screen readers.
+- Current sharing is through GitHub release assets rather than a browser store listing.
+
+### Asset
+
+- Attach `packages/sr-extension/dist/sr-output-tool-extension-v1.0.0.zip` to the matching GitHub Release.
 
 ## Release Template
 
