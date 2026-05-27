@@ -74,7 +74,7 @@ The zip contains the extension files needed for the latest local build. It is us
 If you want to share the extension with non-developers through GitHub:
 
 1. Run `npm run package:extension` from the repo root.
-2. Update the repo release notes in [CHANGELOG.md](../../CHANGELOG.md).
+2. Update the extension release notes in [RELEASE_NOTES.md](RELEASE_NOTES.md).
 3. Create a GitHub Release for the version.
 4. Upload the generated zip from `packages/sr-extension/dist/` as a release asset.
 

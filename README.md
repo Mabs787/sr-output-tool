@@ -16,7 +16,7 @@ test-app/         optional local fixture for manual checks
 
 - [packages/sr-engine/README.md](packages/sr-engine/README.md) explains what the engine owns, how to build it, and how to refine its output.
 - [packages/sr-extension/README.md](packages/sr-extension/README.md) explains how to build, load, use, and package the browser extension.
-- [CHANGELOG.md](CHANGELOG.md) is the release-notes file to use when publishing extension zip builds.
+- [packages/sr-extension/RELEASE_NOTES.md](packages/sr-extension/RELEASE_NOTES.md) is the extension-specific release-notes file to use when publishing extension zip builds.
 
 ## Quick Start
 
@@ -62,5 +62,5 @@ npm run test-app
 For public sharing, the intended flow is:
 
 1. Run `npm run package:extension` to produce the latest extension zip.
-2. Add a new entry to [CHANGELOG.md](CHANGELOG.md).
+2. Add a new entry to [packages/sr-extension/RELEASE_NOTES.md](packages/sr-extension/RELEASE_NOTES.md).
 3. Create a GitHub Release and attach the generated zip from `packages/sr-extension/dist/`.
