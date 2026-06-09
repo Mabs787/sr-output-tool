@@ -2,13 +2,17 @@
 
 This repo contains the shared screen-reader modeling engine and the browser extension that uses it to inspect page output quickly while building accessible UI.
 
+Task orchestration is handled with Turbo, so package builds and tests reuse cached outputs instead of rebuilding the whole repo on every run.
+
+The repo uses Yarn as the source-of-truth package manager.
+
 ## Repo Structure
 
 ```text
 packages/
   sr-engine/      shared screen-reader rules, announcement logic, and DOM scanning
   sr-extension/   browser extension shell built on top of the engine
-tests/            extension-facing regression coverage
+    tests/        extension-facing regression coverage
 test-app/         optional local fixture for manual checks
 ```
 
@@ -21,10 +25,12 @@ test-app/         optional local fixture for manual checks
 ## Quick Start
 
 ```bash
-npm install
-npm run build
-npm run test:unit
+yarn install
+yarn build
+yarn test:unit
 ```
+
+`yarn build`, `yarn test:unit`, and `yarn package:extension` now run through Turbo across the workspace graph, with the extension build depending on the engine build and a bundled browser runtime step.
 
 ## Architecture Overview
 
@@ -44,23 +50,23 @@ npm run test:unit
 ## Common Commands
 
 ```bash
-# Build the engine and sync the generated runtime into the extension
-npm run build
+# Build the engine and bundle the extension runtime
+yarn build
 
 # Run the regression suite
-npm run test:unit
+yarn test:unit
 
 # Create a zip of the latest extension build
-npm run package:extension
+yarn package:extension
 
 # Optional local page for manual checks
-npm run test-app
+yarn test-app
 ```
 
 ## Releases
 
 For public sharing, the intended flow is:
 
-1. Run `npm run package:extension` to produce the latest extension zip.
+1. Run `yarn package:extension` to produce the latest extension zip.
 2. Add a new entry to [packages/sr-extension/RELEASE_NOTES.md](packages/sr-extension/RELEASE_NOTES.md).
 3. Create a GitHub Release and attach the generated zip from `packages/sr-extension/dist/`.

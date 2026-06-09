@@ -57,6 +57,7 @@
   let panelFrame = null;
   let panelDragHandle = null;
   let panelDragState = null;
+  let selectedScanRoot = null;
 
   // Overlay element for selection preview
   let overlay = null;
@@ -92,7 +93,7 @@
       border: "3px solid red",
       background: "rgba(255, 0, 0, 0.12)",
       borderRadius: "3px",
-      zIndex: "2147483647",
+      zIndex: "2147483646",
       display: "none",
     });
     document.documentElement.appendChild(highlight);
@@ -173,7 +174,7 @@
     panelFrame = document.createElement("iframe");
     panelFrame.id = "__sr-ext-panel-frame__";
     panelFrame.src = chrome.runtime.getURL(
-      `popup.html?tabId=${tabId}&embedded=1`,
+      `src/ui/popup.html?tabId=${tabId}&embedded=1`,
     );
     panelFrame.title = "SR Output Tool";
     Object.assign(panelFrame.style, {
@@ -242,6 +243,7 @@
   function removePanel() {
     exitSelectionMode();
     stopPanelDrag();
+    selectedScanRoot = null;
     if (panelDragHandle) {
       panelDragHandle.removeEventListener("mousedown", startPanelDrag);
       panelDragHandle = null;
@@ -485,6 +487,28 @@
     return [descriptor, extras.join(" - ")].filter(Boolean).join(" ");
   }
 
+  function describeSelectedElementTag(el) {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return "";
+    }
+
+    const tag = el.tagName.toLowerCase();
+    const attrs = el
+      .getAttributeNames()
+      .filter(
+        (name) =>
+          name !== "data-sr-id" &&
+          name !== "data-sr-candidate-id" &&
+          !name.startsWith("__sr"),
+      )
+      .map((name) => {
+        const value = el.getAttribute(name);
+        return value === "" ? name : `${name}="${value}"`;
+      });
+
+    return [`<${tag}`, ...attrs].join(" ") + ">";
+  }
+
   const generateAnnouncement = window.__srEngineGenerateAnnouncement;
   const getContextEndAnnouncement = window.__srEngineGetContextEndAnnouncement;
   const createDomScanner = window.__srEngineCreateDomScanner;
@@ -558,8 +582,10 @@
 
   function scanElement(el) {
     const scanRoot = getScanRoot(el);
+    selectedScanRoot = scanRoot;
 
     if (!scanRoot) {
+      selectedScanRoot = null;
       chrome.runtime.sendMessage({
         type: "SR_SCAN_RESULT",
         log: [],
@@ -569,16 +595,18 @@
     }
 
     clearSrIds();
+    const selectedElement = describeSelectedElementTag(scanRoot);
     const log = scanSubtree(scanRoot);
     chrome.runtime.sendMessage({
       type: "SR_SCAN_RESULT",
       log,
-      selectedElement: describeSelectableElement(scanRoot),
+      selectedElement,
     });
   }
 
   window.__sr_extension_test__ = {
     getScanRoot,
+    getSelectableTarget,
     scanSubtree,
     captureElement,
     generateAnnouncement,
@@ -600,6 +628,18 @@
     el.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
+  function highlightSelectedElement() {
+    if (!selectedScanRoot || !document.documentElement.contains(selectedScanRoot)) {
+      hideHighlight();
+      return false;
+    }
+
+    createHighlight();
+    positionBox(highlight, selectedScanRoot.getBoundingClientRect());
+    selectedScanRoot.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    return true;
+  }
+
   function clearHighlight() {
     hideHighlight();
   }
@@ -609,6 +649,170 @@
       el.removeAttribute("data-sr-id");
     });
     hideHighlight();
+  }
+
+  function isInlineSelectionTarget(el) {
+    const style = getComputedStyle(el);
+    if (style.display === "inline" || style.display === "contents") {
+      return true;
+    }
+
+    return [
+      "span",
+      "strong",
+      "em",
+      "b",
+      "i",
+      "small",
+      "mark",
+      "abbr",
+      "cite",
+      "q",
+      "s",
+      "u",
+      "sub",
+      "sup",
+      "time",
+    ].includes(el.tagName.toLowerCase());
+  }
+
+  function getSelectionContainerTarget(target) {
+    let current = target;
+
+    while (
+      current &&
+      current !== document.body &&
+      current !== document.documentElement
+    ) {
+      if (!isInlineSelectionTarget(current)) {
+        return current;
+      }
+
+      current = current.parentElement;
+    }
+
+    return target;
+  }
+
+  function getSelectableTarget(target) {
+    if (!target || target.nodeType !== Node.ELEMENT_NODE) {
+      return null;
+    }
+
+    if (isPanelTarget(target)) {
+      return null;
+    }
+
+    const containerTarget = getSelectionContainerTarget(target);
+    const containerScanRoot = getScanRoot(containerTarget);
+
+    if (
+      containerScanRoot &&
+      containerScanRoot !== document.body &&
+      containerScanRoot !== document.documentElement &&
+      isVisible(containerScanRoot)
+    ) {
+      return containerScanRoot;
+    }
+
+    const matched = target.matches(SELECTABLE_ROOT_SELECTOR)
+      ? target
+      : target.closest(SELECTABLE_ROOT_SELECTOR);
+
+    if (!matched) {
+      return null;
+    }
+
+    const scanRoot = getScanRoot(matched);
+    return scanRoot && isVisible(scanRoot) ? scanRoot : null;
+  }
+
+  function updateHoveredElement(nextEl) {
+    hoveredEl = nextEl;
+
+    if (!hoveredEl) {
+      hideOverlay();
+      return;
+    }
+
+    createOverlay();
+    positionBox(overlay, hoveredEl.getBoundingClientRect());
+  }
+
+  function handleSelectionPointerMove(event) {
+    if (!selectionMode) {
+      return;
+    }
+
+    const nextEl = getSelectableTarget(event.target);
+    if (nextEl === hoveredEl) {
+      return;
+    }
+
+    updateHoveredElement(nextEl);
+  }
+
+  function handleSelectionClick(event) {
+    if (!selectionMode) {
+      return;
+    }
+
+    const target = getSelectableTarget(event.target);
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    exitSelectionMode({ notify: false });
+    scanElement(target);
+  }
+
+  function handleSelectionKeydown(event) {
+    if (!selectionMode || event.key !== "Escape") {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    exitSelectionMode({ notify: true });
+  }
+
+  function enterSelectionMode() {
+    if (selectionMode) {
+      return;
+    }
+
+    selectionMode = true;
+    createOverlay();
+    hideOverlay();
+
+    window.addEventListener("mousemove", handleSelectionPointerMove, true);
+    window.addEventListener("click", handleSelectionClick, true);
+    window.addEventListener("keydown", handleSelectionKeydown, true);
+  }
+
+  function exitSelectionMode(options = {}) {
+    const { notify = true } = options;
+
+    if (!selectionMode) {
+      return;
+    }
+
+    selectionMode = false;
+    hoveredEl = null;
+    hideOverlay();
+
+    window.removeEventListener("mousemove", handleSelectionPointerMove, true);
+    window.removeEventListener("click", handleSelectionClick, true);
+    window.removeEventListener("keydown", handleSelectionKeydown, true);
+
+    if (notify) {
+      chrome.runtime.sendMessage({ type: "SR_SELECTION_CANCELLED" }).catch(() => {
+        // Ignore if the extension UI is no longer listening.
+      });
+    }
   }
 
   // ── Message handling ───────────────────────
@@ -649,6 +853,10 @@
         sendResponse({ ok: true });
         break;
 
+      case "SR_HIGHLIGHT_SELECTED_ELEMENT":
+        sendResponse({ ok: highlightSelectedElement() });
+        break;
+
       case "SR_HIGHLIGHT_CANDIDATE": {
         const el = getCandidateElement(msg.candidateId);
         if (!el) {
@@ -671,6 +879,7 @@
 
       case "SR_CLEAR":
         exitSelectionMode();
+        selectedScanRoot = null;
         clearCandidateIds();
         clearSrIds();
         clearHighlight();

@@ -2,9 +2,34 @@
 
 This file is the human-readable release notes history for `@sr-output/extension`, especially for GitHub Releases and packaged zip builds shared with non-developers.
 
-## Unreleased
+## Version 1.1.0 - 2026-06-09
 
-- Ongoing local changes.
+### Highlights
+
+- Reworked extension packaging so builds produce a loadable Chrome extension and shareable zip.
+- Improved VoiceOver-aligned output for grouped metadata, linked image cards, and rail-style content.
+- Added inspector UI improvements for selected-element visibility and page highlighting.
+
+### Extension
+
+- Moved extension source into `src/` and added build tooling for unpacked and zipped extension output.
+- Added an in-page inspector panel with draggable/resizable behavior.
+- Added selected-element tag display with overflow ellipsis.
+- Added hover highlighting for selected elements and output rows, with the inspector panel layered above highlights.
+
+### Engine Dependency Notes
+
+- Refined DOM scanning for text-only groups, metadata groups, transparent list wrappers, and linked image-card rails.
+- Added regression coverage for VoiceOver-style traversal and grouping behavior.
+- Added a reusable refinement prompt template for future engine comparisons.
+
+### Notes
+
+- The tool remains VoiceOver-led and directional; important accessibility flows should still be verified with real assistive technology.
+
+### Asset
+
+- Attach `packages/sr-extension/dist/sr-extension-chrome.zip` to the matching GitHub Release.
 
 ## Version 1.0.0 - 2026-05-27
 
@@ -33,7 +58,7 @@ This file is the human-readable release notes history for `@sr-output/extension`
 
 ### Asset
 
-- Attach `packages/sr-extension/dist/sr-output-tool-extension-v1.0.0.zip` to the matching GitHub Release.
+- Attach `packages/sr-extension/dist/sr-extension-chrome.zip` to the matching GitHub Release.
 
 ## Release Template
 
@@ -61,4 +86,4 @@ Copy this section when preparing a new extension release.
 
 #### Asset
 
-- Attach `packages/sr-extension/dist/sr-output-tool-extension-vx.y.z.zip` to the matching GitHub Release.
+- Attach `packages/sr-extension/dist/sr-extension-chrome.zip` to the matching GitHub Release.

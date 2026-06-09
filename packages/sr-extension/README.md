@@ -8,28 +8,31 @@ The shared engine behind the extension is modeled primarily around VoiceOver-sty
 
 This extension should be treated as a fast feedback tool, not a replacement for real assistive technology testing. It can help you catch obvious labeling, role, state, and grouping issues earlier, but it will never fully represent the behavior of VoiceOver, NVDA, JAWS, TalkBack, or browser-specific accessibility quirks. Use it to get a strong initial signal, then confirm important flows with actual screen reader testing.
 
+Extension-facing regression tests live in `packages/sr-extension/tests/` and run with `yarn test:unit` from the repo root or `yarn workspace @sr-output/extension test:unit` when working only in this package.
+
 ## Development Setup
 
 From the repo root:
 
 ```bash
-npm install
-npm run build
+yarn install
+yarn build
 ```
 
-`npm run build` does two things:
+`yarn build` does two things:
 
 - builds `@sr-output/engine`
-- syncs the generated browser runtime into this extension package as `engine-runtime.js`
+- bundles the browser runtime into `src/content/engine-runtime.js`
+- writes a loadable unpacked extension build to `dist/sr-extension-chrome/`
 
-If you change engine logic, rerun `npm run build` before reloading the extension in the browser.
+If you change engine logic, rerun `yarn build` before reloading the extension in the browser.
 
 ## Load The Extension Locally
 
 1. Open Chrome and go to `chrome://extensions/`
 2. Enable **Developer mode** (toggle in the top-right)
 3. Click **Load unpacked**
-4. Select the `packages/sr-extension` folder
+4. Select the `packages/sr-extension/dist/sr-extension-chrome` folder
 5. After local code changes, click **Reload** on the extension card to pick up the latest files
 
 ## How to Use
@@ -58,10 +61,10 @@ You can package the current unpacked extension files into a zip archive for shar
 From the repo root:
 
 ```bash
-npm run package:extension
+yarn package:extension
 ```
 
-That command builds the engine, refreshes `engine-runtime.js`, and writes a zip file to:
+That command builds the engine, rebuilds `src/content/engine-runtime.js`, prepares `dist/sr-extension-chrome/`, and writes `sr-extension-chrome.zip` to:
 
 ```text
 packages/sr-extension/dist/
@@ -73,18 +76,21 @@ The zip contains the extension files needed for the latest local build. It is us
 
 If you want to share the extension with non-developers through GitHub:
 
-1. Run `npm run package:extension` from the repo root.
+1. Run `yarn package:extension` from the repo root.
 2. Update the extension release notes in [RELEASE_NOTES.md](RELEASE_NOTES.md).
 3. Create a GitHub Release for the version.
-4. Upload the generated zip from `packages/sr-extension/dist/` as a release asset.
+4. Upload `packages/sr-extension/dist/sr-extension-chrome.zip` as the release asset.
 
 That gives you a public release page with human-readable notes plus a downloadable zip for people who do not need the source repository.
 
 ## Architecture
 
 ```text
-popup.html / popup.js / popup.css  — Embedded inspector overlay UI
-content.js                         — Content script (overlay host, DOM selection, scanning, highlighting)
-background.js                      — Service worker (overlay toggle, message relay, storage)
-manifest.json                      — MV3 manifest
+src/ui/popup.html / src/ui/popup.js / src/ui/popup.css            — Embedded inspector overlay UI
+src/content/content.js                                           — Content script (overlay host, DOM selection, scanning, highlighting)
+src/content/engine-runtime-entry.js                              — Bundle entry that imports the shared engine package for the browser runtime
+src/content/engine-runtime.js                                    — Generated browser bundle injected before the content script
+src/background/background.js                                     — Service worker (overlay toggle, message relay, storage)
+src/background/offscreen.html / src/background/offscreen.js      — Offscreen clipboard document
+src/manifest.json                                                — MV3 manifest source copied to dist/sr-extension-chrome/manifest.json at build time
 ```

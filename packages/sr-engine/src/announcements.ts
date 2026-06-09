@@ -324,6 +324,12 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "text": {
+      pushIfPresent(parts, label);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "list": {
       pushIfPresent(parts, el.name);
       parts.push(el.roleDescription ?? "list");

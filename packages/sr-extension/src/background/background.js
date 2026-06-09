@@ -9,7 +9,7 @@ async function ensureContentScript(tabId) {
   try {
     await chrome.scripting.executeScript({
       target: { tabId },
-      files: ["engine-runtime.js", "content.js"],
+      files: ["src/content/engine-runtime.js", "src/content/content.js"],
     });
   } catch {
     // Unsupported pages such as chrome:// pages.
@@ -19,7 +19,7 @@ async function ensureContentScript(tabId) {
 let creatingOffscreenDocument = null;
 
 async function hasOffscreenDocument() {
-  const offscreenUrl = chrome.runtime.getURL("offscreen.html");
+  const offscreenUrl = chrome.runtime.getURL("src/background/offscreen.html");
 
   if (chrome.runtime.getContexts) {
     const contexts = await chrome.runtime.getContexts({
@@ -45,7 +45,7 @@ async function ensureOffscreenDocument() {
 
   creatingOffscreenDocument = chrome.offscreen
     .createDocument({
-      url: "offscreen.html",
+      url: "src/background/offscreen.html",
       reasons: ["CLIPBOARD"],
       justification: "Copy SR output from the embedded inspector panel.",
     })

@@ -293,6 +293,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return getReadableText(clone);
     }
 
+    function getElementAccessibleName(node: any): string | undefined {
+      if (!node) {
+        return undefined;
+      }
+
+      const nodeAriaLabel = node.getAttribute("aria-label");
+      if (nodeAriaLabel) {
+        return nodeAriaLabel;
+      }
+
+      const nodeAriaLabelledBy = node.getAttribute("aria-labelledby");
+      if (nodeAriaLabelledBy) {
+        const text = nodeAriaLabelledBy
+          .split(/\s+/)
+          .map((id: string) => {
+            const ref = resolveIdRef(id);
+            return ref ? getAccessibleText(ref) || "" : "";
+          })
+          .filter(Boolean)
+          .join(" ");
+
+        if (text) {
+          return text;
+        }
+      }
+
+      return getAccessibleText(node);
+    }
+
     function getFormLabelText(labelEl: any): string | undefined {
       if (!labelEl) {
         return undefined;
@@ -462,16 +491,21 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
 
       if (role === "link") {
-        const listItem =
+        const railCardPosition = getImageCardRailPosition();
+        if (railCardPosition) {
+          return railCardPosition.position;
+        }
+
+        const directListItem =
           el.parentElement?.tagName.toLowerCase() === "li"
             ? el.parentElement
             : null;
-        const list = listItem?.parentElement;
-        if (listItem && list) {
-          const siblings = Array.from(list.children).filter(
+        const directList = directListItem?.parentElement;
+        if (directListItem && directList) {
+          const siblings = Array.from(directList.children).filter(
             (child: any) => child.tagName.toLowerCase() === "li",
           );
-          const index = siblings.indexOf(listItem);
+          const index = siblings.indexOf(directListItem);
           return index >= 0 ? index + 1 : undefined;
         }
       }
@@ -621,6 +655,37 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
 
       return !getReadableText(clone);
+    }
+
+    function getImageCardRailPosition():
+      | { position: number; size: number }
+      | undefined {
+      if (role !== "link") {
+        return undefined;
+      }
+
+      if (!isImageCardRailListItem(el.closest("li"))) {
+        return undefined;
+      }
+
+      const listItem = el.closest("li");
+      const list = listItem?.parentElement;
+      if (!list) {
+        return undefined;
+      }
+
+      const siblings = Array.from(list.children).filter((child: any) =>
+        isSemanticListItemElement(child),
+      );
+      const index = siblings.indexOf(listItem);
+      if (index < 0) {
+        return undefined;
+      }
+
+      return {
+        position: index + 2,
+        size: siblings.length + 2,
+      };
     }
 
     function hasInteractiveDescendants(): boolean {
@@ -1139,12 +1204,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
                                 : siblings.length || undefined;
                             })()
                           : role === "link"
-                            ? Array.from(
-                                el.closest("li")?.parentElement?.children || [],
+                            ? getImageCardRailPosition()?.size ||
+                              Array.from(
+                                el.closest("li")?.parentElement?.children ||
+                                  [],
                               ).filter(
                                 (child: any) =>
                                   child.tagName.toLowerCase() === "li",
-                              ).length || undefined
+                              ).length ||
+                              undefined
                             : role === "group"
                               ? (() => {
                                   const { siblings, usesExplicitRoleListItem } =
@@ -1251,16 +1319,28 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         : undefined);
 
     const combinedName =
-      name ||
-      (headingButton
-        ? getAccessibleText(headingButton)?.slice(0, 200) || undefined
-        : headingLink
-          ? getAccessibleText(headingLink)?.slice(0, 200) || undefined
-          : undefined);
+      role === "heading" && headingLink
+        ? getElementAccessibleName(headingLink)?.slice(0, 200) || name
+        : name ||
+          (headingButton
+            ? getAccessibleText(headingButton)?.slice(0, 200) || undefined
+            : headingLink
+              ? getElementAccessibleName(headingLink)?.slice(0, 200) ||
+                undefined
+              : undefined);
+
+    const effectiveRole =
+      role === "text" && isNamedInlineMetadataText(el)
+        ? "group"
+        : role === "group" && isSingleReadableTextGroup(el)
+          ? "text"
+          : role;
+    const effectiveName =
+      effectiveRole === "text" ? text || combinedName : combinedName;
 
     return {
-      role,
-      name: combinedName,
+      role: effectiveRole,
+      name: effectiveName,
       text,
       description,
       details,
@@ -1456,6 +1536,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     descriptor: ElementDescriptor | null,
   ): ElementDescriptor | null {
     if (
+      descriptor?.role === "group" &&
+      isNamedInlineMetadataText(el) &&
+      getReadableText(el)
+    ) {
+      return {
+        role: "text",
+        name: getReadableText(el),
+      };
+    }
+
+    if (
       !descriptor ||
       descriptor.role !== "group" ||
       !hasImplicitTitledGroupRole(el)
@@ -1504,8 +1595,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         blockingAncestor.tagName?.toLowerCase() === "li" &&
         containingListItem &&
         hasProgressbarDescendants(containingListItem);
+      const imageCardRailAllowsText =
+        blockingAncestor.tagName?.toLowerCase() === "li" &&
+        isImageCardRailListItem(containingListItem);
       const listItemAllowsText =
-        imageListItemAllowsText || progressListItemAllowsText;
+        imageListItemAllowsText ||
+        progressListItemAllowsText ||
+        imageCardRailAllowsText;
       const regionAllowsText =
         blockingAncestor.tagName?.toLowerCase() === "li" &&
         containingRegion &&
@@ -1564,6 +1660,241 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return true;
   }
 
+  function isImageCardRailListItem(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    const tag = el.tagName.toLowerCase();
+    const role = el.getAttribute("role") || "";
+    if (!isSemanticListItemElement(el) || (tag !== "li" && role !== "listitem")) {
+      return false;
+    }
+
+    const interactiveDescendants = Array.from(
+      el.querySelectorAll(
+        "button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link']",
+      ),
+    ).filter(
+      (node: any) =>
+        node.getAttribute("aria-hidden") !== "true" &&
+        !node.closest("[aria-hidden='true']"),
+    );
+    if (interactiveDescendants.length !== 1) {
+      return false;
+    }
+
+    const link = interactiveDescendants[0];
+    const linkTag = link.tagName.toLowerCase();
+    const linkRole = link.getAttribute("role") || "";
+    if (!(linkTag === "a" || linkRole === "link")) {
+      return false;
+    }
+
+    if (!link.querySelector("img[alt]:not([alt='']), [role='img'][aria-label]")) {
+      return false;
+    }
+
+    const clone = el.cloneNode(true);
+    for (const node of Array.from(
+      clone.querySelectorAll(
+        "button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link'], [aria-hidden='true']",
+      ),
+    )) {
+      node.remove();
+    }
+
+    return Boolean(getReadableText(clone));
+  }
+
+  function isTransparentListWrapperGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    if ((el.getAttribute("role") || "") !== "group") {
+      return false;
+    }
+
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+
+    if (el.tabIndex >= 0 || el.hasAttribute("tabindex")) {
+      return false;
+    }
+
+    const listChildren = Array.from(el.children).filter((child: any) => {
+      const childTag = child.tagName.toLowerCase();
+      const childRole = child.getAttribute("role") || "";
+      return (
+        childTag === "ul" ||
+        childTag === "ol" ||
+        childRole === "list"
+      );
+    });
+    if (listChildren.length !== 1) {
+      return false;
+    }
+
+    const clone = el.cloneNode(true);
+    for (const list of Array.from(
+      clone.querySelectorAll(":scope > ul, :scope > ol, :scope > [role='list']"),
+    )) {
+      list.remove();
+    }
+
+    return !getReadableText(clone);
+  }
+
+  function isInlineTextOnlyGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    if ((el.getAttribute("role") || "") !== "group") {
+      return false;
+    }
+
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+
+    if (el.tabIndex >= 0 || el.hasAttribute("tabindex")) {
+      return false;
+    }
+
+    const hasVisibleBlockingDescendant = Array.from(
+      el.querySelectorAll(
+        "button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link'], img[alt], [role='img'], table, [role='table'], [role='grid']",
+      ),
+    ).some(
+      (node: any) =>
+        node.getAttribute("aria-hidden") !== "true" &&
+        !node.closest("[aria-hidden='true']"),
+    );
+
+    if (hasVisibleBlockingDescendant) {
+      return false;
+    }
+
+    const children = Array.from(el.children);
+    if (!children.length) {
+      return false;
+    }
+
+    const hasOnlyInlineTextChildren = children.every((child: any) => {
+      if (child.getAttribute("aria-hidden") === "true") {
+        return true;
+      }
+
+      const childRole = child.getAttribute("role") || "";
+      if (childRole === "text") {
+        return Boolean(getReadableText(child));
+      }
+
+      const childTag = child.tagName.toLowerCase();
+      return INLINE_TEXT_TAGS.has(childTag) && Boolean(getReadableText(child));
+    });
+
+    return hasOnlyInlineTextChildren && Boolean(getReadableText(el));
+  }
+
+  function isSingleTextChildGroup(el: any): boolean {
+    if (!isInlineTextOnlyGroup(el)) {
+      return false;
+    }
+
+    const visibleTextChildren = Array.from(el.children).filter(
+      (child: any) =>
+        child.getAttribute("aria-hidden") !== "true" &&
+        Boolean(getReadableText(child)),
+    );
+
+    return visibleTextChildren.length === 1;
+  }
+
+  function isNamedInlineMetadataText(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    if ((el.getAttribute("role") || "") !== "text") {
+      return false;
+    }
+
+    if (!el.getAttribute("aria-label") && !el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+
+    if (el.tabIndex >= 0 || el.hasAttribute("tabindex")) {
+      return false;
+    }
+
+    const parent = el.parentElement;
+    return (
+      parent?.getAttribute("role") === "group" &&
+      !parent.getAttribute("aria-label") &&
+      !parent.getAttribute("aria-labelledby")
+    );
+  }
+
+  function isSingleReadableTextGroup(el: any): boolean {
+    if (isSingleTextChildGroup(el)) {
+      return true;
+    }
+
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    if ((el.getAttribute("role") || "") !== "group") {
+      return false;
+    }
+
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+
+    if (el.tabIndex >= 0 || el.hasAttribute("tabindex")) {
+      return false;
+    }
+
+    const blockingDescendants = Array.from(
+      el.querySelectorAll(
+        "button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link'], img[alt], [role='img'], table, [role='table'], [role='grid']",
+      ),
+    ).filter(
+      (node: any) =>
+        node.getAttribute("aria-hidden") !== "true" &&
+        !node.closest("[aria-hidden='true']"),
+    );
+    if (blockingDescendants.length > 0) {
+      return false;
+    }
+
+    const textContainers = Array.from(el.querySelectorAll("*")).filter(
+      (node: any) => {
+        if (
+          node.getAttribute("aria-hidden") === "true" ||
+          node.closest("[aria-hidden='true']")
+        ) {
+          return false;
+        }
+
+        if (!getReadableText(node)) {
+          return false;
+        }
+
+        return !Array.from(node.children).some((child: any) =>
+          getReadableText(child),
+        );
+      },
+    );
+
+    return textContainers.length === 1 && Boolean(getReadableText(el));
+  }
+
   function removeCollapsedPopupContentFromClone(
     sourceEl: any,
     cloneEl: any,
@@ -1602,6 +1933,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (tag === "li" || role === "listitem") {
+      if (isImageCardRailListItem(el)) {
+        return false;
+      }
+
       if (hasProgressbarDescendants(el)) {
         return false;
       }
@@ -1686,6 +2021,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (hasImplicitGroupRole) return true;
     if (isStructuredTableStop(el)) return true;
     if (hasImplicitTitledGroupRole(el)) return true;
+    if (isTransparentListWrapperGroup(el)) return false;
+    if (isNamedInlineMetadataText(el)) return true;
+    if (isSingleReadableTextGroup(el)) return true;
+    if (isInlineTextOnlyGroup(el)) return false;
     if (
       CONTEXT_ROLES.has(role) ||
       (CONTEXT_TAGS.has(tag) && !isPresentationalRole(role))
@@ -1731,6 +2070,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (isStructuredTableStop(el)) {
       return true;
+    }
+    if (isNamedInlineMetadataText(el)) {
+      return true;
+    }
+    if (isSingleReadableTextGroup(el)) {
+      return false;
+    }
+    if (isInlineTextOnlyGroup(el)) {
+      return false;
     }
     if (
       CONTEXT_ROLES.has(role) ||

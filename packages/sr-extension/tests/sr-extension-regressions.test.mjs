@@ -7,13 +7,13 @@ import { JSDOM } from "jsdom";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const repoRoot = path.resolve(__dirname, "..");
+const repoRoot = path.resolve(__dirname, "..", "..", "..");
 const engineRuntimeSource = readFileSync(
-  path.join(repoRoot, "packages/sr-extension/engine-runtime.js"),
+  path.join(repoRoot, "packages/sr-extension/src/content/engine-runtime.js"),
   "utf8",
 );
 const contentScriptSource = readFileSync(
-  path.join(repoRoot, "packages/sr-extension/content.js"),
+  path.join(repoRoot, "packages/sr-extension/src/content/content.js"),
   "utf8",
 );
 
@@ -87,6 +87,28 @@ function getAnnouncements(log) {
 
 function getLogEntry(log, announcement) {
   return log.find((entry) => entry.announcement === announcement);
+}
+
+function setVisibleLayout(root) {
+  let index = 0;
+  for (const el of root.querySelectorAll("*")) {
+    Object.defineProperty(el, "getBoundingClientRect", {
+      configurable: true,
+      value: () => ({
+        width: 320,
+        height: 48,
+        top: index++ * 12,
+        left: 0,
+        right: 320,
+        bottom: index * 12 + 48,
+        x: 0,
+        y: index * 12,
+        toJSON() {
+          return this;
+        },
+      }),
+    });
+  }
 }
 
 test("announces sibling body copy between heading, image, and link", () => {
@@ -185,6 +207,25 @@ test("normalizes code-block selections to the enclosing snippet container", () =
     `window.masthead.addBanners([ { id: 'notification-example-1', title: "Some title", description: "Some description" } ]);`,
     "Copy code to clipboard, button",
   ]);
+});
+
+test("prefers the nearest visible div container during element picking", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="page-root">
+      <div id="card-root">
+        <div id="copy-root">
+          <span id="copy-text">Plan details</span>
+        </div>
+      </div>
+    </div>
+  `);
+
+  setVisibleLayout(document.body);
+
+  const target = document.getElementById("copy-text");
+  const selectableTarget = harness.getSelectableTarget(target);
+
+  assert.equal(selectableTarget?.id, "copy-root");
 });
 
 test("announces tabs, tab panel, grouped cards, and container end markers", () => {
@@ -928,6 +969,110 @@ test("announces rail groups with nested image cards and group end marker", () =>
   assert.equal(getLogEntry(log, "end of, Inside job, group")?.role, "group");
 });
 
+test("announces linked channel rails without unlabeled wrapper groups", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <section id="channel-rail-root" data-test-id="channel-rail-section">
+      <h2>Explore by channel</h2>
+      <button aria-label="Previous slide" disabled></button>
+      <button aria-label="Next slide"></button>
+      <div role="group" data-drag-to-scroll="drag-scroll">
+        <ul>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky One" href="/watch/channel/sky-one">
+                <img alt="Sky One" src="https://example.test/sky-one.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky One</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky Atlantic" href="/watch/channel/sky-atlantic">
+                <img alt="Sky Atlantic" src="https://example.test/sky-atlantic.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky Atlantic</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky Arts" href="/watch/channel/sky-arts">
+                <img alt="Sky Arts" src="https://example.test/sky-arts.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky Arts</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky Witness" href="/watch/channel/sky-witness">
+                <img alt="Sky Witness" src="https://example.test/sky-witness.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky Witness</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky Comedy" href="/watch/channel/sky-comedy">
+                <img alt="Sky Comedy" src="https://example.test/sky-comedy.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky Comedy</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky Documentaries" href="/watch/channel/sky-documentaries">
+                <img alt="Sky Documentaries" src="https://example.test/sky-documentaries.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky Documentaries</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a aria-label="Navigate to Sky Crime" href="/watch/channel/sky-crime">
+                <img alt="Sky Crime" src="https://example.test/sky-crime.png">
+                <img alt="" src="https://example.test/glare.png">
+              </a>
+              <span>Sky Crime</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  `);
+
+  const root = document.getElementById("channel-rail-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "heading level 2, Explore by channel",
+    "Previous slide, button, dimmed",
+    "Next slide, button",
+    "list, 7 items",
+    "link, image, Navigate to Sky One, 2 of 9",
+    "Sky One",
+    "link, image, Navigate to Sky Atlantic, 3 of 9",
+    "Sky Atlantic",
+    "link, image, Navigate to Sky Arts, 4 of 9",
+    "Sky Arts",
+    "link, image, Navigate to Sky Witness, 5 of 9",
+    "Sky Witness",
+    "link, image, Navigate to Sky Comedy, 6 of 9",
+    "Sky Comedy",
+    "link, image, Navigate to Sky Documentaries, 7 of 9",
+    "Sky Documentaries",
+    "link, image, Navigate to Sky Crime, 8 of 9",
+    "Sky Crime",
+    "end of list",
+  ]);
+
+  assert.equal(getLogEntry(log, "end of list")?.role, "list");
+});
+
 test("announces wrapped accordion items in order even when ids are duplicated", () => {
   const { document, harness } = loadExtensionHarness(`
     <section id="smart-home-faq-root">
@@ -1593,5 +1738,145 @@ test("announces focusable comparison tables with switch labels and group context
     "Column Header 2 Row 2 Cell 2, column 3 of 3",
     "end of table",
     "end of, Comparison Table Example 2, group",
+  ]);
+});
+
+test("flattens text-only youtube metadata groups closer to voiceover", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="youtube-lockup-root">
+      <yt-lockup-view-model class="ytd-item-section-renderer lockup ytLockupViewModelWrapper">
+        <div class="ytLockupViewModelHost ytLockupViewModelHorizontal ytLockupViewModelCompact ytLockupViewModelFlexNone">
+          <div class="ytLockupViewModelMetadata">
+            <yt-lockup-metadata-view-model class="ytLockupMetadataViewModelHost ytLockupMetadataViewModelHorizontal ytLockupMetadataViewModelCompact">
+              <div class="ytLockupMetadataViewModelTextContainer">
+                <h3 class="ytLockupMetadataViewModelHeadingReset" title="late night drive with sombr | undressed, back to friends, and more">
+                  <a href="/watch?v=u36th-a8zMM&amp;t=613s" rel="nofollow" class="ytLockupMetadataViewModelTitle" aria-haspopup="false" aria-label="late night drive with sombr | undressed, back to friends, and more 1 hour, 16 minutes">
+                    <span class="ytAttributedStringHost ytAttributedStringWhiteSpacePreWrap" dir="auto" role="text">late night drive with sombr | undressed, back to friends, and more</span>
+                  </a>
+                </h3>
+                <div class="ytLockupMetadataViewModelMetadata">
+                  <yt-content-metadata-view-model class="ytContentMetadataViewModelHost">
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow">
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" role="text">sombaddies</span>
+                    </div>
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow">
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" role="text">648k views</span>
+                      <span aria-hidden="true" class="ytContentMetadataViewModelDelimiter"> • </span>
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" aria-label="10 months ago" role="text">10 months ago</span>
+                    </div>
+                  </yt-content-metadata-view-model>
+                </div>
+              </div>
+              <div class="ytLockupMetadataViewModelMenuButton">
+                <button-view-model class="ytSpecButtonViewModelHost">
+                  <button class="ytSpecButtonShapeNextHost" aria-label="More actions" aria-disabled="false"></button>
+                </button-view-model>
+              </div>
+            </yt-lockup-metadata-view-model>
+          </div>
+        </div>
+      </yt-lockup-view-model>
+      <yt-lockup-view-model class="ytd-item-section-renderer lockup ytLockupViewModelWrapper">
+        <div class="ytLockupViewModelHost ytLockupViewModelHorizontal ytLockupViewModelCompact ytLockupViewModelFlexNone">
+          <div class="ytLockupViewModelMetadata">
+            <yt-lockup-metadata-view-model class="ytLockupMetadataViewModelHost ytLockupMetadataViewModelHorizontal ytLockupMetadataViewModelCompact">
+              <div class="ytLockupMetadataViewModelTextContainer">
+                <h3 class="ytLockupMetadataViewModelHeadingReset" title="🌍 OUR WORLD CUP 2026 PREDICTIONS!">
+                  <a href="/watch?v=Gvc0x_tg3IA" rel="nofollow" class="ytLockupMetadataViewModelTitle" aria-haspopup="false" aria-label="🌍 OUR WORLD CUP 2026 PREDICTIONS! 1 hour, 9 minutes">
+                    <span class="ytAttributedStringHost ytAttributedStringWhiteSpacePreWrap" dir="auto" role="text">🌍 OUR WORLD CUP 2026 PREDICTIONS!</span>
+                  </a>
+                </h3>
+                <div class="ytLockupMetadataViewModelMetadata">
+                  <yt-content-metadata-view-model class="ytContentMetadataViewModelHost">
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow">
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" role="text">DR Sports<span class="ytAttributedStringLinkInheritColor" dir="auto"><span class="ytAttributedStringInlineBlockMod"><span class="ytIconWrapperHost ytAttributedStringImageElement" role="img" aria-label="" aria-hidden="true"></span></span></span></span>
+                    </div>
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow">
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" role="text">4.8k views</span>
+                      <span aria-hidden="true" class="ytContentMetadataViewModelDelimiter"> • </span>
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" aria-label="Streamed 6 minutes ago" role="text">Streamed 6 minutes ago</span>
+                    </div>
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow ytContentMetadataViewModelMetadataRowMetadataRowWrap">
+                      <div class="ytContentMetadataViewModelBadge">
+                        <yt-badge-view-model class="ytBadgeViewModelHost">
+                          <badge-shape class="ytBadgeShapeHost ytBadgeShapeDefault ytBadgeShapeTypography">
+                            <div class="ytBadgeShapeText">New</div>
+                          </badge-shape>
+                        </yt-badge-view-model>
+                      </div>
+                    </div>
+                  </yt-content-metadata-view-model>
+                </div>
+              </div>
+              <div class="ytLockupMetadataViewModelMenuButton">
+                <button-view-model class="ytSpecButtonViewModelHost">
+                  <button class="ytSpecButtonShapeNextHost" aria-label="More actions" aria-disabled="false"></button>
+                </button-view-model>
+              </div>
+            </yt-lockup-metadata-view-model>
+          </div>
+        </div>
+      </yt-lockup-view-model>
+      <yt-lockup-view-model class="ytd-item-section-renderer lockup ytLockupViewModelWrapper">
+        <div class="ytLockupViewModelHost ytLockupViewModelHorizontal ytLockupViewModelCompact ytLockupViewModelFlexNone">
+          <div class="ytLockupViewModelMetadata">
+            <yt-lockup-metadata-view-model class="ytLockupMetadataViewModelHost ytLockupMetadataViewModelHorizontal ytLockupMetadataViewModelCompact">
+              <div class="ytLockupMetadataViewModelTextContainer">
+                <h3 class="ytLockupMetadataViewModelHeadingReset" title="Stable Ronaldo Reacts To Drake - ICEMAN (Album Reactions)">
+                  <a href="/watch?v=5UdPaMbEf9E&amp;t=4090s" rel="nofollow" class="ytLockupMetadataViewModelTitle" aria-haspopup="false" aria-label="Stable Ronaldo Reacts To Drake - ICEMAN (Album Reactions) 2 hours, 18 minutes">
+                    <span class="ytAttributedStringHost ytAttributedStringWhiteSpacePreWrap" dir="auto" role="text">Stable Ronaldo Reacts To Drake - ICEMAN (Album Reactions)</span>
+                  </a>
+                </h3>
+                <div class="ytLockupMetadataViewModelMetadata">
+                  <yt-content-metadata-view-model class="ytContentMetadataViewModelHost">
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow">
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" role="text">Stable Ronaldo Live<span class="ytAttributedStringLinkInheritColor" dir="auto"><span class="ytAttributedStringInlineBlockMod"><span class="ytIconWrapperHost ytAttributedStringImageElement" role="img" aria-label="" aria-hidden="true"></span></span></span></span>
+                    </div>
+                    <div role="group" class="ytContentMetadataViewModelMetadataRow">
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" role="text">149k views</span>
+                      <span aria-hidden="true" class="ytContentMetadataViewModelDelimiter"> • </span>
+                      <span class="ytAttributedStringHost ytContentMetadataViewModelMetadataText" dir="auto" aria-label="3 weeks ago" role="text">3 weeks ago</span>
+                    </div>
+                  </yt-content-metadata-view-model>
+                </div>
+              </div>
+              <div class="ytLockupMetadataViewModelMenuButton">
+                <button-view-model class="ytSpecButtonViewModelHost">
+                  <button class="ytSpecButtonShapeNextHost" aria-label="More actions" aria-disabled="false"></button>
+                </button-view-model>
+              </div>
+            </yt-lockup-metadata-view-model>
+          </div>
+        </div>
+      </yt-lockup-view-model>
+    </div>
+  `);
+
+  const root = document.getElementById("youtube-lockup-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "heading level 3, link, late night drive with sombr | undressed, back to friends, and more 1 hour, 16 minutes",
+    "sombaddies",
+    "648k views",
+    "10 months ago, group",
+    "10 months ago",
+    "end of, 10 months ago, group",
+    "More actions, button",
+    "heading level 3, link, 🌍 OUR WORLD CUP 2026 PREDICTIONS! 1 hour, 9 minutes",
+    "DR Sports",
+    "4.8k views",
+    "Streamed 6 minutes ago, group",
+    "Streamed 6 minutes ago",
+    "end of, Streamed 6 minutes ago, group",
+    "New",
+    "More actions, button",
+    "heading level 3, link, Stable Ronaldo Reacts To Drake - ICEMAN (Album Reactions) 2 hours, 18 minutes",
+    "Stable Ronaldo Live",
+    "149k views",
+    "3 weeks ago, group",
+    "3 weeks ago",
+    "end of, 3 weeks ago, group",
+    "More actions, button",
   ]);
 });
