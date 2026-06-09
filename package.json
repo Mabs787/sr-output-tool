@@ -1,22 +1,25 @@
 {
   "name": "sr-output-tool",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "description": "Screen Reader Outcome Engine — shared screen reader logic for the browser extension",
   "workspaces": [
     "packages/sr-engine",
     "packages/sr-extension"
   ],
   "scripts": {
-    "build": "npm run build:engine && npm run sync:extension-engine",
+    "build": "turbo run build",
     "build:engine": "npm run build -w packages/sr-engine",
-    "sync:extension-engine": "npm run sync:runtime -w packages/sr-extension",
-    "package:extension": "npm run build && npm run package:zip -w packages/sr-extension",
-    "test:unit": "npm run build:engine && npm run sync:extension-engine && node --test tests/*.test.mjs",
+    "build:extension-runtime": "turbo run build:runtime --filter=@sr-output/extension",
+    "package:extension": "turbo run package:zip --filter=@sr-output/extension",
+    "test:unit": "turbo run test:unit",
     "test-app": "node test-app/server.js"
   },
   "devDependencies": {
-    "jsdom": "^26.1.0"
+    "esbuild": "^0.25.5",
+    "jsdom": "^26.1.0",
+    "turbo": "^2.0.14"
   },
   "engines": {
     "node": ">=18"

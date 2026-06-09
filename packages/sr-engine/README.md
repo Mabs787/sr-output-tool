@@ -66,24 +66,7 @@ npm run test:unit
 
 ## Prompt Template For Refinement
 
-Use a prompt shaped like this when you want AI help refining behavior:
-
-```text
-Here is a reduced HTML sample:
-[paste HTML]
-
-Here is what the SR Output Tool currently announces:
-[paste current output]
-
-Here is what VoiceOver announces:
-[paste VoiceOver output]
-
-Interaction path:
-[describe focus order, selected element, or cursor path]
-
-Please update the engine logic to move the output closer to VoiceOver,
-prefer the smallest defensible change, and add or update a regression test.
-```
+Use [docs/refinement-template.md](docs/refinement-template.md) when you want AI help refining behavior. It captures the reduced HTML, current extension output, actual VoiceOver right-arrow output, selected scan root, and constraints in a repeatable format.
 
 ## Notes
 

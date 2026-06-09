@@ -195,10 +195,15 @@ h2 {
 }
 
 #selected-element-text {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 12px;
   line-height: 1.4;
   color: #27405a;
-  word-break: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #log-container.hidden {

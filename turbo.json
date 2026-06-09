@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "src/content/engine-runtime.js"]
+    },
+    "build:runtime": {
+      "dependsOn": ["^build"],
+      "outputs": ["src/content/engine-runtime.js"]
+    },
+    "test:unit": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "package:zip": {
+      "dependsOn": ["build"],
+      "outputs": ["dist/**"]
+    }
+  }
+}

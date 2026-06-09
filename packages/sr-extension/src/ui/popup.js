@@ -18,6 +18,7 @@ let isSelecting = false;
 function renderSelectedElement() {
   const text = (currentSelectedElement || "").trim();
   selectedElementTextEl.textContent = text;
+  selectedElementTextEl.title = text;
   selectedElementEl.classList.toggle("hidden", !text);
 }
 
@@ -52,7 +53,7 @@ async function ensureContentScript() {
   try {
     await chrome.scripting.executeScript({
       target: { tabId },
-      files: ["content.js"],
+      files: ["src/content/engine-runtime.js", "src/content/content.js"],
     });
     return true;
   } catch {
@@ -212,6 +213,19 @@ clearBtn.addEventListener("click", async () => {
   });
   await ensureContentScript();
   await sendToContentScript({ type: "SR_CLEAR" });
+});
+
+selectedElementEl.addEventListener("mouseenter", async () => {
+  if (!currentSelectedElement) {
+    return;
+  }
+
+  await ensureContentScript();
+  await sendToContentScript({ type: "SR_HIGHLIGHT_SELECTED_ELEMENT" });
+});
+
+selectedElementEl.addEventListener("mouseleave", async () => {
+  await sendToContentScript({ type: "SR_CLEAR_HIGHLIGHT" });
 });
 
 closeBtn.addEventListener("click", async () => {
