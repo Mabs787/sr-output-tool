@@ -214,6 +214,37 @@
     panelHost.style.right = "auto";
   }
 
+  function applyPanelTheme(theme) {
+    const isDark = theme === "dark";
+
+    if (panelHost) {
+      Object.assign(panelHost.style, {
+        background: isDark ? "#141a22" : "#fafafa",
+        border: isDark
+          ? "1px solid rgba(255, 255, 255, 0.14)"
+          : "1px solid rgba(0, 0, 0, 0.12)",
+        boxShadow: isDark
+          ? "0 20px 50px rgba(0, 0, 0, 0.5)"
+          : "0 20px 50px rgba(0, 0, 0, 0.28)",
+      });
+    }
+
+    if (panelDragHandle) {
+      Object.assign(panelDragHandle.style, {
+        background: isDark
+          ? "linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))"
+          : "linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.02))",
+        borderBottom: isDark
+          ? "1px solid rgba(255, 255, 255, 0.12)"
+          : "1px solid rgba(0, 0, 0, 0.08)",
+      });
+    }
+
+    if (panelFrame) {
+      panelFrame.style.background = isDark ? "#141a22" : "#fafafa";
+    }
+  }
+
   function onPanelDragMove(event) {
     if (!panelDragState || !panelHost) return;
     updatePanelPosition(
@@ -874,6 +905,11 @@
 
       case "SR_CLEAR_HIGHLIGHT":
         clearHighlight();
+        sendResponse({ ok: true });
+        break;
+
+      case "SR_SET_PANEL_THEME":
+        applyPanelTheme(msg.theme);
         sendResponse({ ok: true });
         break;
 

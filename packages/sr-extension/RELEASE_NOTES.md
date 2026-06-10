@@ -2,6 +2,38 @@
 
 This file is the human-readable release notes history for `@sr-output/extension`, especially for GitHub Releases and packaged zip builds shared with non-developers.
 
+## Version 1.2.0 - 2026-06-10
+
+### Highlights
+
+- Added feedback entry points through the extension popup and GitHub issue templates.
+- Improved VoiceOver-aligned output for several real TUI component patterns.
+- Added clearer empty-output handling when a selected element has no modeled screen reader output.
+
+### Extension
+
+- Added a top-level Feedback button that opens the repo's GitHub Issues page.
+- Added GitHub issue forms for output mismatches and feature requests.
+- Added in-output empty state messaging: "No output for element."
+- Continued popup polish for theme-aware UI, selected-element display, and output rendering.
+
+### Engine Dependency Notes
+
+- Refined multiline styled heading output to include VoiceOver-style nested text levels.
+- Refined grouped card links, paragraph-contained links, award image-strip links, and compact per-person price text.
+- Skips empty `role="banner"` media banners when all meaningful content is hidden from assistive technology.
+- Added regression coverage for each VoiceOver comparison used in this release.
+
+### Notes
+
+- The tool remains VoiceOver-led and directional; important accessibility flows should still be verified with real assistive technology.
+- Empty output now appears inside the output panel instead of only as a status message.
+
+### Asset
+
+- Attach `packages/sr-extension/dist/sr-extension-chrome.zip` to the matching GitHub Release.
+- Link users to [docs/install-and-use.md](docs/install-and-use.md) for non-technical installation and usage steps.
+
 ## Version 1.1.0 - 2026-06-09
 
 ### Highlights
@@ -16,6 +48,7 @@ This file is the human-readable release notes history for `@sr-output/extension`
 - Added an in-page inspector panel with draggable/resizable behavior.
 - Added selected-element tag display with overflow ellipsis.
 - Added hover highlighting for selected elements and output rows, with the inspector panel layered above highlights.
+- Added a persisted System/Light/Dark theme preference for the inspector panel.
 
 ### Engine Dependency Notes
 
@@ -30,6 +63,7 @@ This file is the human-readable release notes history for `@sr-output/extension`
 ### Asset
 
 - Attach `packages/sr-extension/dist/sr-extension-chrome.zip` to the matching GitHub Release.
+- Link users to [docs/install-and-use.md](docs/install-and-use.md) for non-technical installation and usage steps.
 
 ## Version 1.0.0 - 2026-05-27
 

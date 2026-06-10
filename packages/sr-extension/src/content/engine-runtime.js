@@ -115,6 +115,18 @@
           parts.push("busy");
         }
       }
+      function formatHeadingFragments(fragments) {
+        const normalizedFragments = fragments?.map((fragment) => normalizeText(fragment)).filter((fragment) => Boolean(fragment));
+        if (!normalizedFragments?.length) {
+          return void 0;
+        }
+        const [firstFragment, ...nestedFragments] = normalizedFragments;
+        return [
+          firstFragment,
+          ...nestedFragments.map((fragment) => `level 2 ${fragment}`),
+          `level 2, ${normalizedFragments.length} items`
+        ].join(", ");
+      }
       function generateAnnouncement2(el) {
         const parts = [];
         const role = (el.role ?? "").toLowerCase();
@@ -123,13 +135,14 @@
         switch (role) {
           case "heading": {
             const level = el.level ?? 2;
+            const headingLabel = formatHeadingFragments(el.headingFragments) ?? label;
             parts.push(`heading level ${level}`);
             if (el.headingLink) {
               parts.push("link");
-              pushIfPresent(parts, label);
+              pushIfPresent(parts, headingLabel);
               pushCollectionPosition(parts, el);
             } else {
-              pushIfPresent(parts, label);
+              pushIfPresent(parts, headingLabel);
             }
             if (el.headingButton) {
               if (el.expanded !== void 0) {
@@ -191,6 +204,9 @@
             if (el.iconOnlyLink) {
               parts.push("link");
               parts.push("image");
+              pushIfPresent(parts, label);
+            } else if (el.linkRoleFirst) {
+              parts.push("link");
               pushIfPresent(parts, label);
             } else {
               if (hasPopupState) {
@@ -500,6 +516,9 @@
         return parts.filter(Boolean).join(", ");
       }
       function getContextEndAnnouncement2(descriptor) {
+        if (descriptor?.suppressContextEnd) {
+          return null;
+        }
         const role = (descriptor?.role ?? "").toLowerCase();
         if (role === "list") {
           return descriptor?.roleDescription === "definition list" ? "end of definition list" : "end of list";
@@ -556,6 +575,9 @@
             if (/[.,;:!?)]/.test(rightChar) || /[(]/.test(leftChar)) {
               return false;
             }
+            if (/[\p{N}]/u.test(leftChar) && /^pp\b/i.test(right)) {
+              return false;
+            }
             return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}]/u.test(rightChar);
           }
           function collectReadableText(node) {
@@ -583,6 +605,34 @@
           }
           const text = collectReadableText(el).replace(/\s+/g, " ").trim();
           return text || void 0;
+        }
+        function getReadableTextIgnoringAriaHidden(el) {
+          if (!el) {
+            return void 0;
+          }
+          const clone = el.cloneNode(true);
+          for (const hiddenNode of Array.from(clone.querySelectorAll("[aria-hidden='true']"))) {
+            hiddenNode.remove();
+          }
+          return getReadableText(clone);
+        }
+        function isParagraphOnlyLinkText(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+            return false;
+          }
+          if (el.tagName.toLowerCase() !== "p") {
+            return false;
+          }
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+            return false;
+          }
+          const links = Array.from(el.querySelectorAll("a[href]")).filter((link) => link.getAttribute("aria-hidden") !== "true" && !link.closest("[aria-hidden='true']"));
+          if (!links.length) {
+            return false;
+          }
+          const paragraphText = getReadableTextIgnoringAriaHidden(el);
+          const linkText = links.map((link) => getReadableTextIgnoringAriaHidden(link) || "").filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+          return Boolean(paragraphText && linkText && paragraphText === linkText);
         }
         function getStandaloneLabelText(el) {
           if (!el || el.tagName?.toLowerCase() !== "label") {
@@ -752,6 +802,33 @@
               }
             }
             return void 0;
+          }
+          function getAwardsImageStripLinkLabel(node) {
+            if (!node || node.tagName?.toLowerCase() !== "a" || !node.hasAttribute("href") || node.getAttribute("aria-label") !== "") {
+              return void 0;
+            }
+            const list = node.querySelector("ul,ol");
+            if (!list) {
+              return void 0;
+            }
+            const urlText = Array.from(node.childNodes).filter((child) => child.nodeType === Node.ELEMENT_NODE).map((child) => {
+              const childTag = child.tagName.toLowerCase();
+              return childTag === "ul" || childTag === "ol" ? "" : getAccessibleText(child) || "";
+            }).filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+            if (!urlText) {
+              return void 0;
+            }
+            const imageLabels = Array.from(list.querySelectorAll("li img[alt]")).slice(0, 2).map((image, index) => {
+              const alt = image.getAttribute("alt")?.replace(/\s+/g, " ").trim();
+              if (index === 1) {
+                return alt?.replace(/\s+Recommended$/i, "");
+              }
+              return alt;
+            }).filter(Boolean);
+            if (!imageLabels.length) {
+              return void 0;
+            }
+            return [urlText, ...imageLabels].join(" ");
           }
           let role = el.getAttribute("role") || "";
           function isIconOnlyLink() {
@@ -974,6 +1051,71 @@
             }
             const links = Array.from(el.querySelectorAll(":scope > a[href]"));
             return links.length === 1 ? links[0] : null;
+          }
+          function hasRawMarkupText(value2) {
+            return /<\/?[a-z][\s\S]*>/i.test(value2 || "");
+          }
+          function hasGroupedVisibleLinkBody(node) {
+            if (!node || node.tagName?.toLowerCase() !== "a") {
+              return false;
+            }
+            return Array.from(node.children).some((child) => {
+              if ((child.getAttribute("role") || "") !== "group") {
+                return false;
+              }
+              if (child.getAttribute("aria-hidden") === "true" || child.closest("[aria-hidden='true']")) {
+                return false;
+              }
+              return Boolean(getReadableText(child));
+            });
+          }
+          function isGroupedLinkBody() {
+            const parentLink = el.parentElement;
+            if (!parentLink || parentLink.tagName.toLowerCase() !== "a" || !parentLink.hasAttribute("href")) {
+              return false;
+            }
+            return (el.getAttribute("role") || "") === "group" && hasRawMarkupText(parentLink.getAttribute("aria-label")) && hasGroupedVisibleLinkBody(parentLink);
+          }
+          function getFragmentedHeadingText() {
+            if (!/^h[1-6]$/.test(tag) || !el.querySelector("br")) {
+              return void 0;
+            }
+            if (el.querySelector("button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link']")) {
+              return void 0;
+            }
+            const fragments = [];
+            let textBuffer = "";
+            function pushText(value2) {
+              const normalized = value2?.replace(/\s+/g, " ").trim();
+              if (normalized) {
+                fragments.push(normalized);
+              }
+            }
+            function flushTextBuffer() {
+              pushText(textBuffer);
+              textBuffer = "";
+            }
+            for (const child of Array.from(el.childNodes)) {
+              if (child.nodeType === Node.TEXT_NODE) {
+                textBuffer += child.textContent || "";
+                continue;
+              }
+              if (child.nodeType !== Node.ELEMENT_NODE) {
+                continue;
+              }
+              if (child.getAttribute("aria-hidden") === "true") {
+                continue;
+              }
+              const childTag = child.tagName.toLowerCase();
+              if (childTag === "br") {
+                flushTextBuffer();
+                continue;
+              }
+              flushTextBuffer();
+              pushText(getAccessibleText(child));
+            }
+            flushTextBuffer();
+            return fragments.length > 1 ? fragments : void 0;
           }
           function resolveIdRef(id) {
             if (!id) {
@@ -1219,7 +1361,7 @@
             }
           }
           if (!name && role === "link") {
-            name = getNestedImageLabel(el) || el.getAttribute("aria-label") || void 0;
+            name = getAwardsImageStripLinkLabel(el) || getNestedImageLabel(el) || el.getAttribute("aria-label") || void 0;
           }
           if (!name && (role === "group" || role === "listitem")) {
             const childImage = el.querySelector("img[alt]");
@@ -1293,6 +1435,7 @@
             level = parseInt(ariaLevel, 10);
           const headingButton = getHeadingButton();
           const headingLink = getHeadingLink();
+          const headingFragments = role === "heading" && !headingButton && !headingLink ? getFragmentedHeadingText() : void 0;
           const inferredSetSize = role === "list" ? (tag === "dl" ? Array.from(el.children).filter((child) => {
             const childTag = child.tagName.toLowerCase();
             if (!["dt", "dd"].includes(childTag)) {
@@ -1358,12 +1501,13 @@
           const selectedCount = role === "listbox" ? Array.from(el.querySelectorAll("[role='option'][aria-selected='true']")).length || void 0 : void 0;
           const combinedExpanded = expanded ?? (headingButton?.hasAttribute("aria-expanded") ? headingButton.getAttribute("aria-expanded") === "true" : void 0);
           const combinedName = role === "heading" && headingLink ? getElementAccessibleName(headingLink)?.slice(0, 200) || name : name || (headingButton ? getAccessibleText(headingButton)?.slice(0, 200) || void 0 : headingLink ? getElementAccessibleName(headingLink)?.slice(0, 200) || void 0 : void 0);
-          const effectiveRole = role === "text" && isNamedInlineMetadataText(el) ? "group" : role === "group" && isSingleReadableTextGroup(el) ? "text" : role;
-          const effectiveName = effectiveRole === "text" ? text || combinedName : combinedName;
+          const effectiveRole = role === "region" && isCarouselContainer(el) ? "group" : role === "text" && isNamedInlineMetadataText(el) ? "group" : role === "group" && isSingleReadableTextGroup(el) ? "text" : role;
+          const effectiveName = isCarouselContainer(el) || isFocusableCarouselSlideGroup(el) || isGroupedLinkBody() ? void 0 : effectiveRole === "text" ? text || combinedName : combinedName;
+          const effectiveText = isCarouselContainer(el) || isFocusableCarouselSlideGroup(el) || isGroupedLinkBody() ? void 0 : text;
           return {
             role: effectiveRole,
             name: effectiveName,
-            text,
+            text: effectiveText,
             description,
             details,
             errorMessage,
@@ -1371,6 +1515,7 @@
             value,
             valueText,
             level,
+            headingFragments,
             setSize,
             positionInSet,
             rowIndex,
@@ -1406,6 +1551,8 @@
             headingButton: Boolean(headingButton) || void 0,
             headingLink: Boolean(headingLink) || void 0,
             iconOnlyLink: isIconOnlyLink() || void 0,
+            linkRoleFirst: role === "link" && (Boolean(getAwardsImageStripLinkLabel(el)) || hasRawMarkupText(ariaLabel) && hasGroupedVisibleLinkBody(el) || isParagraphOnlyLinkText(el.parentElement)) ? true : void 0,
+            suppressContextEnd: isGroupedLinkBody() ? true : void 0,
             groupContext: role === "button" && el.parentElement?.tagName.toLowerCase() === "li" && !isStandaloneListItemButton() || Boolean(headingButton) ? true : void 0,
             boundingBox: {
               x: Math.round(rect.x),
@@ -1734,6 +1881,32 @@
           });
           return textContainers.length === 1 && Boolean(getReadableText(el));
         }
+        function isCarouselContainer(el) {
+          return el?.nodeType === Node.ELEMENT_NODE && (el.getAttribute("aria-roledescription") || "").toLowerCase() === "carousel";
+        }
+        function isInsideCarousel(el) {
+          for (let current = el?.parentElement; current; current = current.parentElement) {
+            if (isCarouselContainer(current)) {
+              return true;
+            }
+          }
+          return false;
+        }
+        function isFocusableCarouselSlideGroup(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+            return false;
+          }
+          if ((el.getAttribute("role") || "") !== "group") {
+            return false;
+          }
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+            return false;
+          }
+          if (el.tabIndex < 0) {
+            return false;
+          }
+          return isInsideCarousel(el);
+        }
         function removeCollapsedPopupContentFromClone(sourceEl, cloneEl) {
           if (!sourceEl || !cloneEl) {
             return;
@@ -1820,6 +1993,14 @@
             return true;
           if (isInlineTextOnlyGroup(el))
             return false;
+          if (role === "banner" && tag !== "header" && el.getAttribute("aria-label") === "" && !getReadableTextIgnoringAriaHidden(el)) {
+            return false;
+          }
+          if (tag === "p" && isParagraphOnlyLinkText(el))
+            return false;
+          if (tag === "p" && el.querySelector("[aria-hidden='true']") && !getReadableTextIgnoringAriaHidden(el)) {
+            return false;
+          }
           if (CONTEXT_ROLES.has(role) || CONTEXT_TAGS.has(tag) && !isPresentationalRole(role))
             return true;
           if (STOP_TAGS.has(tag)) {
@@ -1862,6 +2043,9 @@
           }
           if (isInlineTextOnlyGroup(el)) {
             return false;
+          }
+          if (tag === "a" && el.hasAttribute("href") && /<\/?[a-z][\s\S]*>/i.test(el.getAttribute("aria-label") || "") && Array.from(el.children).some((child) => (child.getAttribute("role") || "") === "group" && child.getAttribute("aria-hidden") !== "true" && !child.closest("[aria-hidden='true']") && Boolean(getReadableText(child)))) {
+            return true;
           }
           if (CONTEXT_ROLES.has(role) || CONTEXT_TAGS.has(tag) && !isPresentationalRole(role)) {
             return true;

@@ -98,6 +98,23 @@ function pushSupplementalText(parts: string[], el: ElementDescriptor): void {
   }
 }
 
+function formatHeadingFragments(fragments?: string[]): string | undefined {
+  const normalizedFragments = fragments
+    ?.map((fragment) => normalizeText(fragment))
+    .filter((fragment): fragment is string => Boolean(fragment));
+
+  if (!normalizedFragments?.length) {
+    return undefined;
+  }
+
+  const [firstFragment, ...nestedFragments] = normalizedFragments;
+  return [
+    firstFragment,
+    ...nestedFragments.map((fragment) => `level 2 ${fragment}`),
+    `level 2, ${normalizedFragments.length} items`,
+  ].join(", ");
+}
+
 export function generateAnnouncement(el: ElementDescriptor): string {
   const parts: string[] = [];
   const role = (el.role ?? "").toLowerCase();
@@ -110,13 +127,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
   switch (role) {
     case "heading": {
       const level = el.level ?? 2;
+      const headingLabel = formatHeadingFragments(el.headingFragments) ?? label;
       parts.push(`heading level ${level}`);
       if (el.headingLink) {
         parts.push("link");
-        pushIfPresent(parts, label);
+        pushIfPresent(parts, headingLabel);
         pushCollectionPosition(parts, el);
       } else {
-        pushIfPresent(parts, label);
+        pushIfPresent(parts, headingLabel);
       }
       if (el.headingButton) {
         if (el.expanded !== undefined) {
@@ -181,6 +199,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (el.iconOnlyLink) {
         parts.push("link");
         parts.push("image");
+        pushIfPresent(parts, label);
+      } else if (el.linkRoleFirst) {
+        parts.push("link");
         pushIfPresent(parts, label);
       } else {
         if (hasPopupState) {
@@ -546,6 +567,10 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 export function getContextEndAnnouncement(
   descriptor?: ElementDescriptor,
 ): string | null {
+  if (descriptor?.suppressContextEnd) {
+    return null;
+  }
+
   const role = (descriptor?.role ?? "").toLowerCase();
   if (role === "list") {
     return descriptor?.roleDescription === "definition list"
