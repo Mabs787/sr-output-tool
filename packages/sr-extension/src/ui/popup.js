@@ -1,19 +1,78 @@
 const selectBtn = document.getElementById("select-btn");
 const copyBtn = document.getElementById("copy-btn");
 const clearBtn = document.getElementById("clear-btn");
+const feedbackBtn = document.getElementById("feedback-btn");
+const settingsBtn = document.getElementById("settings-btn");
+const settingsMenu = document.getElementById("settings-menu");
 const closeBtn = document.getElementById("close-btn");
 const statusEl = document.getElementById("status");
 const selectedElementEl = document.getElementById("selected-element");
 const selectedElementTextEl = document.getElementById("selected-element-text");
 const logContainer = document.getElementById("log-container");
 const logList = document.getElementById("log-list");
+const themeInputs = Array.from(document.querySelectorAll("input[name='theme']"));
 
 const params = new URLSearchParams(window.location.search);
+const FEEDBACK_URL = "https://github.com/Mabs787/sr-output-tool/issues";
+const THEME_STORAGE_KEY = "sr_theme";
+const THEME_MODES = new Set(["system", "light", "dark"]);
 
 let targetTabId = Number.parseInt(params.get("tabId") || "", 10);
 let currentLog = [];
 let currentSelectedElement = "";
 let isSelecting = false;
+let currentThemePreference = "system";
+const systemDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+function getResolvedTheme(preference) {
+  if (preference === "dark" || preference === "light") {
+    return preference;
+  }
+
+  return systemDarkQuery.matches ? "dark" : "light";
+}
+
+async function persistThemePreference(preference) {
+  try {
+    await chrome.storage.sync.set({ [THEME_STORAGE_KEY]: preference });
+  } catch {
+    await chrome.storage.local.set({ [THEME_STORAGE_KEY]: preference });
+  }
+}
+
+async function readThemePreference() {
+  try {
+    const data = await chrome.storage.sync.get([THEME_STORAGE_KEY]);
+    return data[THEME_STORAGE_KEY];
+  } catch {
+    const data = await chrome.storage.local.get([THEME_STORAGE_KEY]);
+    return data[THEME_STORAGE_KEY];
+  }
+}
+
+function applyThemePreference(preference) {
+  currentThemePreference = THEME_MODES.has(preference) ? preference : "system";
+  const resolvedTheme = getResolvedTheme(currentThemePreference);
+
+  document.documentElement.dataset.themePreference = currentThemePreference;
+  document.documentElement.dataset.theme = resolvedTheme;
+  document.body.dataset.themePreference = currentThemePreference;
+  document.body.dataset.theme = resolvedTheme;
+
+  for (const input of themeInputs) {
+    input.checked = input.value === currentThemePreference;
+  }
+
+  sendToContentScript({
+    type: "SR_SET_PANEL_THEME",
+    theme: resolvedTheme,
+  });
+}
+
+async function initTheme() {
+  const storedPreference = await readThemePreference();
+  applyThemePreference(storedPreference);
+}
 
 function renderSelectedElement() {
   const text = (currentSelectedElement || "").trim();
@@ -79,6 +138,15 @@ function updateSelectionState(selecting) {
   isSelecting = selecting;
   selectBtn.textContent = selecting ? "Cancel Picking" : "Pick On Page";
   selectBtn.classList.toggle("active", selecting);
+}
+
+function setSettingsMenuOpen(open) {
+  settingsMenu.classList.toggle("hidden", !open);
+  settingsBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+function isSettingsMenuOpen() {
+  return !settingsMenu.classList.contains("hidden");
 }
 
 function getCopyText() {
@@ -148,6 +216,8 @@ async function copyOutput() {
 }
 
 async function init() {
+  await initTheme();
+
   const data = await chrome.storage.session.get([
     "sr_log",
     "sr_selected_element",
@@ -194,6 +264,55 @@ selectBtn.addEventListener("click", async () => {
 
 copyBtn.addEventListener("click", async () => {
   await copyOutput();
+});
+
+feedbackBtn.addEventListener("click", async () => {
+  await chrome.tabs.create({ url: FEEDBACK_URL });
+});
+
+settingsBtn.addEventListener("click", () => {
+  setSettingsMenuOpen(!isSettingsMenuOpen());
+});
+
+document.addEventListener("click", (event) => {
+  if (
+    !isSettingsMenuOpen() ||
+    settingsMenu.contains(event.target) ||
+    settingsBtn.contains(event.target)
+  ) {
+    return;
+  }
+
+  setSettingsMenuOpen(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !isSettingsMenuOpen()) {
+    return;
+  }
+
+  setSettingsMenuOpen(false);
+  settingsBtn.focus();
+});
+
+for (const input of themeInputs) {
+  input.addEventListener("change", async () => {
+    if (!input.checked) {
+      return;
+    }
+
+    const nextPreference = THEME_MODES.has(input.value)
+      ? input.value
+      : "system";
+    applyThemePreference(nextPreference);
+    await persistThemePreference(nextPreference);
+  });
+}
+
+systemDarkQuery.addEventListener("change", () => {
+  if (currentThemePreference === "system") {
+    applyThemePreference("system");
+  }
 });
 
 clearBtn.addEventListener("click", async () => {
@@ -255,12 +374,20 @@ function renderLog() {
   logList.innerHTML = "";
 
   if (currentLog.length === 0) {
-    logContainer.classList.add("hidden");
-    clearBtn.disabled = true;
+    logContainer.classList.remove("hidden");
+    clearBtn.disabled = false;
     copyBtn.disabled = true;
-    if (!isSelecting && !statusEl.textContent) {
-      setStatus("No accessible elements found in the selected element.");
-    }
+
+    const li = document.createElement("li");
+    li.className = "empty-output";
+
+    const annoSpan = document.createElement("span");
+    annoSpan.className = "announcement";
+    annoSpan.textContent = "No output for element.";
+    li.appendChild(annoSpan);
+    logList.appendChild(li);
+
+    setStatus("");
     return;
   }
 

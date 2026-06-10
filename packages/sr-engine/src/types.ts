@@ -22,6 +22,7 @@ export interface ElementDescriptor {
   value?: string;
   valueText?: string;
   level?: number;
+  headingFragments?: string[];
   setSize?: number;
   positionInSet?: number;
   rowIndex?: number;
@@ -57,6 +58,8 @@ export interface ElementDescriptor {
   headingButton?: boolean;
   headingLink?: boolean;
   iconOnlyLink?: boolean;
+  linkRoleFirst?: boolean;
+  suppressContextEnd?: boolean;
   groupContext?: boolean;
 }
 

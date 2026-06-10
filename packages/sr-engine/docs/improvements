@@ -1,0 +1,46 @@
+# SR Engine Refinement Prompt
+
+Use this template when refining `sr-engine` output against real VoiceOver output.
+
+```text
+I want to refine the SR Output Tool engine using this VoiceOver comparison.
+
+Please update only the necessary `sr-engine` logic, prefer the smallest defensible change, and add or update only the relevant regression test.
+
+Page / component:
+[Briefly describe the page, component, or UI pattern]
+
+Interaction path:
+Extension scan output, modeled as the sequence VoiceOver would announce when moving item-by-item with the right arrow key.
+
+Scan root / selected element:
+[Describe the element or subtree selected in the extension]
+
+Reduced HTML sample:
+```html
+<div class="media-banner" id="3jUsGgdPruMQVee4hWeLrM" data-town-crier="browse/components/media-banner"> <div class="single-box-curved left-aligned no-image-for-mobile has-modules-loaded" aria-label="" role="banner" data-module="mediaBanner" data-sr-id="__sr_el_0_1781123057359"> <div class="card__wrapper"> <div class="card standard"> <div class="boxes"> <div class="text-box__wrapper alignment_center"> <div class="text-box"> <div class="text-box__title" aria-hidden="true"><h1>Awards and accolades</h1></div> <div class="text-box__subtitle" aria-hidden="true"> <p></p><p>From Most Trusted Travel Company to Family Holidays Provider of the Year 2025, our many awards – often voted for by our customers – do the talking for us.</p><p></p> </div> <div class="text-box__tncText" aria-hidden="true"></div> </div> </div> </div> </div> </div> <div class="media-banner__media-wrapper"> <figure class="media-banner__figure"> <picture class=""> <source srcset="https://content.tui.co.uk/adamtui/2024_12/10_11/823bbe4c-0b4b-48b2-bb11-b24200c3d89d/2000x3000_AwardsHero_v2.2_1224WebOriginalCompressed.jpg" media="(min-width: 1081px)"> <source srcset="https://content.tui.co.uk/adamtui/2024_12/10_11/823bbe4c-0b4b-48b2-bb11-b24200c3d89d/2000x3000_AwardsHero_v2.2_1224WebOriginalCompressed.jpg?i10c=img.resize(width:1080);img.crop(width:1080,height:608)" media="(min-width: 659px)"> <source srcset="https://content.tui.co.uk/adamtui/2024_12/10_11/823bbe4c-0b4b-48b2-bb11-b24200c3d89d/2000x3000_AwardsHero_v2.2_1224WebOriginalCompressed.jpg?i10c=img.resize(width:658);img.crop(width:658,height:370)" media="(min-width: 489px)"> <source srcset="https://content.tui.co.uk/adamtui/2024_12/10_11/823bbe4c-0b4b-48b2-bb11-b24200c3d89d/2000x3000_AwardsHero_v2.2_1224WebOriginalCompressed.jpg?i10c=img.resize(width:1519);img.crop(width:1519,height:550)" media="(min-width: 0)"> <img id="image-62WH7zoXzKKHjBgFHpsPGQ" class="media-banner__image" loading="eager" fetchpriority="high" style="" decoding="async" src="https://content.tui.co.uk/adamtui/2024_12/10_11/823bbe4c-0b4b-48b2-bb11-b24200c3d89d/2000x3000_AwardsHero_v2.2_1224WebOriginalCompressed.jpg" alt="Illustration of a person jumping up and celebrating." aria-hidden="true" width="1519" height="550"> </picture> </figure> </div> </div> <page-slot name="uniqodo-media-banner"></page-slot> </div>
+```
+
+Current SR Output Tool output:
+```text
+banner
+end of banner
+```
+
+Actual VoiceOver output:
+```text
+vo skips element
+```
+
+Desired behavior:
+[Summarize the intended change in one or two sentences]
+
+Constraints:
+- Keep the change focused on the mismatch above.
+- Do not update unrelated tests.
+- Rebuild the extension runtime if engine logic changes.
+- Run the relevant unit tests and report the result.
+
+Optional hypothesis:
+[If you have a guess, add it here. Otherwise leave blank.]
+```

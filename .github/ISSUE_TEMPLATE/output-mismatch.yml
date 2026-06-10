@@ -1,0 +1,89 @@
+name: Output mismatch
+description: Report where SR Output Tool differs from real screen reader output
+title: "[Output mismatch]: "
+labels: ["output mismatch"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve SR Output Tool.
+
+        Please remove private, sensitive, or irrelevant content before pasting page markup.
+
+  - type: input
+    id: browser_screen_reader
+    attributes:
+      label: Browser and screen reader
+      description: For example, Safari + VoiceOver on macOS.
+      placeholder: Safari + VoiceOver
+    validations:
+      required: false
+
+  - type: textarea
+    id: page_component
+    attributes:
+      label: Page / component
+      description: Briefly describe the page, component, or UI pattern.
+      placeholder: TUI media banner, carousel card, form input group, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: interaction_path
+    attributes:
+      label: Interaction path
+      description: Describe how you moved through the element.
+      placeholder: Extension scan output, modeled as moving item-by-item with the VoiceOver right arrow key.
+    validations:
+      required: false
+
+  - type: textarea
+    id: selected_element
+    attributes:
+      label: Scan root / selected element
+      description: Describe the selected subtree or element.
+      placeholder: Clickable hero section, carousel container, card link, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: current_output
+    attributes:
+      label: Current SR Output Tool output
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: screen_reader_output
+    attributes:
+      label: Actual screen reader output
+      description: Paste the real output from VoiceOver or another screen reader.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: desired_behavior
+    attributes:
+      label: Desired behavior
+      description: Summarize what should change.
+    validations:
+      required: true
+
+  - type: textarea
+    id: html_sample
+    attributes:
+      label: Reduced HTML sample
+      description: Paste the smallest DOM snippet that reproduces the mismatch. Remove private data first.
+      render: html
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Add any hypothesis, screenshots, or extra context.
+    validations:
+      required: false

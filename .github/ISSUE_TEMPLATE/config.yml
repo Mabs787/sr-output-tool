@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: View existing issues
+    url: https://github.com/Mabs787/sr-output-tool/issues
+    about: Check whether the feedback has already been reported.

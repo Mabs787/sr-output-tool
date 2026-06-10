@@ -140,6 +140,247 @@ test("announces sibling body copy between heading, image, and link", () => {
   ]);
 });
 
+test("announces multiline styled hero headings with VoiceOver nested text levels", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="hero-root">
+      <div class="media-banner">
+        <div class="single-box-curved centered">
+          <div class="card__wrapper">
+            <div class="card">
+              <div class="boxes">
+                <div class="text-box__wrapper alignment_center">
+                  <div class="text-box">
+                    <div class="text-box__title">
+                      <h3>Price drop: up to <b><span style="color: red;">£600</span></b> off<br>last-minute holidays</h3>
+                    </div>
+                    <div class="text-box__subtitle">
+                      <p>Summer deals too good to miss.</p>
+                    </div>
+                    <div class="text-box__button-container">
+                      <a class="text-box__button button promotion medium" href="https://www.tui.co.uk/destinations/deals/last-minute-holidays">
+                        View deals
+                      </a>
+                    </div>
+                    <div class="text-box__tncText">Based on 2 adults. Travel by 31st July. T&amp;Cs apply.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media-banner__media-wrapper">
+            <figure class="media-banner__figure">
+              <img class="media-banner__image" src="https://example.test/menorca.jpg" alt="" aria-hidden="true">
+            </figure>
+          </div>
+        </div>
+        <a href="https://www.tui.co.uk/destinations/deals/last-minute-holidays" class="js-media-banner-link">
+          <span class="u-hide-visually">View deals</span>
+        </a>
+      </div>
+    </div>
+  `);
+
+  const root = document.getElementById("hero-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "heading level 3, Price drop: up to, level 2 £600, level 2 off, level 2 last-minute holidays, level 2, 4 items",
+    "Summer deals too good to miss.",
+    "View deals, link",
+    "Based on 2 adults. Travel by 31st July. T&Cs apply.",
+    "View deals, link",
+  ]);
+});
+
+test("announces budget deal card links with grouped visible text and compact per-person prices", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <section id="budget-deals-root">
+      <h2>Holiday deals on a budget</h2>
+      <a href="/deals-under-300" aria-label="<p>Under</p><p><b>£300</b>pp</p>. <p>Deals under £300pp</p>">
+        <div role="group">
+          <p>Deals under</p>
+          <p><b>£300</b>pp</p>
+          <p>Deals under £300pp</p>
+        </div>
+      </a>
+      <a href="/deals-under-500" aria-label="<p>Under</p><p><b>£500</b>pp</p>. <p>Deals under £500pp</p>">
+        <div role="group">
+          <p>Deals under</p>
+          <p><b>£500</b>pp</p>
+          <p>Deals under £500pp</p>
+        </div>
+      </a>
+      <a href="/deals-under-1000" aria-label="<p>Under</p><p><b>£1000</b>pp</p>. <p>Deals under £1000pp</p>">
+        <div role="group">
+          <p>Deals under</p>
+          <p><b>£1000</b>pp</p>
+          <p>Deals under £1000pp</p>
+        </div>
+      </a>
+    </section>
+  `);
+
+  const root = document.getElementById("budget-deals-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "heading level 2, Holiday deals on a budget",
+    "link, <p>Under</p><p><b>£300</b>pp</p>. <p>Deals under £300pp</p>",
+    "group",
+    "Deals under",
+    "£300pp",
+    "Deals under £300pp",
+    "link, <p>Under</p><p><b>£500</b>pp</p>. <p>Deals under £500pp</p>",
+    "group",
+    "Deals under",
+    "£500pp",
+    "Deals under £500pp",
+    "link, <p>Under</p><p><b>£1000</b>pp</p>. <p>Deals under £1000pp</p>",
+    "group",
+    "Deals under",
+    "£1000pp",
+    "Deals under £1000pp",
+  ]);
+});
+
+test("announces links inside TUI confidence carousel text cards", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="confidence-root">
+      <div class="usp-carousel-container__header">
+        <div class="usp-carousel-container__top-title">
+          <p>Book with confidence</p>
+        </div>
+        <div class="usp-carousel-container__bottom-title">
+          <p><a href="https://www.tui.co.uk/holidays/home-of-holiday-value">Find out more reasons to book with TUI</a></p>
+        </div>
+      </div>
+      <div class="embla__container" aria-live="polite">
+        <div class="embla__slide">
+          <div class="card usp-carousel-container__carousel-content">
+            <div class="usp-carousel-container__carousel-content__slide-text">
+              <p role="presentation"><b>Hotels, flights,</b></p>
+              <p role="presentation"><b>transfers and more</b></p>
+              <p role="presentation"><b> all packed up. </b></p>
+            </div>
+          </div>
+        </div>
+        <div class="embla__slide">
+          <div class="card usp-carousel-container__carousel-content">
+            <div class="usp-carousel-container__carousel-content__slide-text" aria-label="Price-Match Promise.  Get the best price  guaranteed. ">
+              <p><span aria-hidden="true"><b>Price-Match Promise.</b></span></p>
+              <p><span aria-hidden="true">Get the </span><a href="https://www.tui.co.uk/info/price-match-promise">best price </a></p>
+              <p><a href="https://www.tui.co.uk/info/price-match-promise">guaranteed. </a></p>
+            </div>
+          </div>
+        </div>
+        <div class="embla__slide">
+          <div class="card usp-carousel-container__carousel-content">
+            <div class="usp-carousel-container__carousel-content__slide-text">
+              <p role="presentation"><b>Book and pay, </b></p>
+              <p role="presentation"><b>your way.</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button"><span class="u-hide-visually"></span></button>
+    </div>
+  `);
+
+  const root = document.getElementById("confidence-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "Book with confidence",
+    "link, Find out more reasons to book with TUI",
+    "Hotels, flights,",
+    "transfers and more",
+    "all packed up.",
+    "Price-Match Promise. Get the best price guaranteed., group",
+    "link, best price",
+    "link, guaranteed.",
+    "end of, Price-Match Promise.  Get the best price  guaranteed. , group",
+    "Book and pay,",
+    "your way.",
+    "button",
+  ]);
+});
+
+test("announces TUI awards image strip links with URL and award labels", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="awards-root" class="awards">
+      <div class="awards__container content-width">
+        <div class="awards__title">Delivering happiness to our customers</div>
+        <div class="awards__images-container">
+          <a
+            class="awards__link"
+            href="https://www.tui.co.uk/destinations/info/reviews-and-awards/?vlid=T|NL|B1|AV|NA|NA|NO|NO|NO|BAU|440"
+            aria-label=""
+          >
+            <span class="u-hide-visually">
+              https://www.tui.co.uk/destinations/info/reviews-and-awards/?vlid=T|NL|B1|AV|NA|NA|NO|NO|NO|BAU|440
+            </span>
+            <ul>
+              <li><img src="https://example.test/trustpilot.jpg" alt="Trustpilot"></li>
+              <li><img src="https://example.test/good-housekeeping.png" alt="Good Housekeeping Reader Recommended"></li>
+              <li><img src="https://example.test/british-travel-awards.png" alt="British Travel Awards"></li>
+              <li><img src="https://example.test/disability-smart.png" alt="Disability Smart Awards"></li>
+            </ul>
+          </a>
+        </div>
+      </div>
+    </div>
+  `);
+
+  const root = document.getElementById("awards-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "Delivering happiness to our customers",
+    "link, https://www.tui.co.uk/destinations/info/reviews-and-awards/?vlid=T|NL|B1|AV|NA|NA|NO|NO|NO|BAU|440 Trustpilot Good Housekeeping Reader",
+  ]);
+});
+
+test("skips empty aria-labeled media banner landmarks with hidden content", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="media-banner-root" class="media-banner">
+      <div class="single-box-curved left-aligned no-image-for-mobile" aria-label="" role="banner">
+        <div class="card__wrapper">
+          <div class="card standard">
+            <div class="boxes">
+              <div class="text-box__wrapper alignment_center">
+                <div class="text-box">
+                  <div class="text-box__title" aria-hidden="true">
+                    <h1>Awards and accolades</h1>
+                  </div>
+                  <div class="text-box__subtitle" aria-hidden="true">
+                    <p>From Most Trusted Travel Company to Family Holidays Provider of the Year 2025, our many awards do the talking for us.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="media-banner__media-wrapper">
+          <figure class="media-banner__figure">
+            <img
+              class="media-banner__image"
+              src="https://example.test/awards-hero.jpg"
+              alt="Illustration of a person jumping up and celebrating."
+              aria-hidden="true"
+            >
+          </figure>
+        </div>
+      </div>
+      <page-slot name="uniqodo-media-banner"></page-slot>
+    </div>
+  `);
+
+  const root = document.getElementById("media-banner-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), []);
+});
+
 test("announces code snippets before their nested clipboard buttons", () => {
   const { document, harness } = loadExtensionHarness(`
     <div id="snippet-root" class="snippet-clipboard-content notranslate position-relative overflow-auto">
@@ -1071,6 +1312,61 @@ test("announces linked channel rails without unlabeled wrapper groups", () => {
   ]);
 
   assert.equal(getLogEntry(log, "end of list")?.role, "list");
+});
+
+test("announces carousel slide text once with group context", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <section id="carousel-root">
+      <h2>Insurance products for your home-sweet-home</h2>
+      <div role="region" aria-roledescription="carousel">
+        <span class="visually-hidden">Current slide, 1 of 4, Home Insurance</span>
+        <button aria-label="Previous slide: 4 of 4 - Mobile Insurance"></button>
+        <button aria-label="Next slide: 2 of 4 - Accidental Damage"></button>
+        <div aria-live="polite">
+          <div aria-hidden="true" role="group" tabindex="-1">
+            <p>Mobile Insurance</p>
+            <p>5-star Defaqto Mobile Insurance</p>
+          </div>
+          <div aria-hidden="false" role="group" tabindex="0">
+            <div>
+              <img alt="" role="presentation" src="https://example.test/home.png">
+              <p>Home Insurance</p>
+              <p>Cover for your home-sweet-home</p>
+            </div>
+          </div>
+          <div aria-hidden="true" role="group" tabindex="-1">
+            <p>Accidental Damage</p>
+            <p>Add additional accidental damage cover for added peace of mind</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `);
+
+  const root = document.getElementById("carousel-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "heading level 2, Insurance products for your home-sweet-home",
+    "group",
+    "Current slide, 1 of 4, Home Insurance",
+    "Previous slide: 4 of 4 - Mobile Insurance, button",
+    "Next slide: 2 of 4 - Accidental Damage, button",
+    "group",
+    "Home Insurance",
+    "Cover for your home-sweet-home",
+    "end of group",
+    "end of group",
+  ]);
+
+  assert.equal(
+    getAnnouncements(log).filter(
+      (announcement) =>
+        announcement === "Home Insurance" ||
+        announcement === "Cover for your home-sweet-home",
+    ).length,
+    2,
+  );
 });
 
 test("announces wrapped accordion items in order even when ids are duplicated", () => {

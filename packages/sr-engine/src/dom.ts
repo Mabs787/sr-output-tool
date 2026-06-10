@@ -56,6 +56,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return false;
       }
 
+      if (/[\p{N}]/u.test(leftChar) && /^pp\b/i.test(right)) {
+        return false;
+      }
+
       return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}]/u.test(rightChar);
     }
 
@@ -91,6 +95,55 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const text = collectReadableText(el).replace(/\s+/g, " ").trim();
     return text || undefined;
+  }
+
+  function getReadableTextIgnoringAriaHidden(el: any): string | undefined {
+    if (!el) {
+      return undefined;
+    }
+
+    const clone = el.cloneNode(true);
+    for (const hiddenNode of Array.from(
+      clone.querySelectorAll("[aria-hidden='true']"),
+    )) {
+      hiddenNode.remove();
+    }
+
+    return getReadableText(clone);
+  }
+
+  function isParagraphOnlyLinkText(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    if (el.tagName.toLowerCase() !== "p") {
+      return false;
+    }
+
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+
+    const links = Array.from(el.querySelectorAll("a[href]")).filter(
+      (link: any) =>
+        link.getAttribute("aria-hidden") !== "true" &&
+        !link.closest("[aria-hidden='true']"),
+    );
+
+    if (!links.length) {
+      return false;
+    }
+
+    const paragraphText = getReadableTextIgnoringAriaHidden(el);
+    const linkText = links
+      .map((link: any) => getReadableTextIgnoringAriaHidden(link) || "")
+      .filter(Boolean)
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    return Boolean(paragraphText && linkText && paragraphText === linkText);
   }
 
   function getStandaloneLabelText(el: any): string | undefined {
@@ -363,6 +416,56 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
 
       return undefined;
+    }
+
+    function getAwardsImageStripLinkLabel(node: any): string | undefined {
+      if (
+        !node ||
+        node.tagName?.toLowerCase() !== "a" ||
+        !node.hasAttribute("href") ||
+        node.getAttribute("aria-label") !== ""
+      ) {
+        return undefined;
+      }
+
+      const list = node.querySelector("ul,ol");
+      if (!list) {
+        return undefined;
+      }
+
+      const urlText = Array.from(node.childNodes)
+        .filter((child: any) => child.nodeType === Node.ELEMENT_NODE)
+        .map((child: any) => {
+          const childTag = child.tagName.toLowerCase();
+          return childTag === "ul" || childTag === "ol"
+            ? ""
+            : getAccessibleText(child) || "";
+        })
+        .filter(Boolean)
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      if (!urlText) {
+        return undefined;
+      }
+
+      const imageLabels = Array.from(list.querySelectorAll("li img[alt]"))
+        .slice(0, 2)
+        .map((image: any, index) => {
+          const alt = image.getAttribute("alt")?.replace(/\s+/g, " ").trim();
+          if (index === 1) {
+            return alt?.replace(/\s+Recommended$/i, "");
+          }
+          return alt;
+        })
+        .filter(Boolean);
+
+      if (!imageLabels.length) {
+        return undefined;
+      }
+
+      return [urlText, ...imageLabels].join(" ");
     }
 
     let role = el.getAttribute("role") || "";
@@ -719,6 +822,105 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return links.length === 1 ? links[0] : null;
     }
 
+    function hasRawMarkupText(value?: string | null): boolean {
+      return /<\/?[a-z][\s\S]*>/i.test(value || "");
+    }
+
+    function hasGroupedVisibleLinkBody(node: any): boolean {
+      if (!node || node.tagName?.toLowerCase() !== "a") {
+        return false;
+      }
+
+      return Array.from(node.children).some((child: any) => {
+        if ((child.getAttribute("role") || "") !== "group") {
+          return false;
+        }
+
+        if (
+          child.getAttribute("aria-hidden") === "true" ||
+          child.closest("[aria-hidden='true']")
+        ) {
+          return false;
+        }
+
+        return Boolean(getReadableText(child));
+      });
+    }
+
+    function isGroupedLinkBody(): boolean {
+      const parentLink = el.parentElement;
+      if (
+        !parentLink ||
+        parentLink.tagName.toLowerCase() !== "a" ||
+        !parentLink.hasAttribute("href")
+      ) {
+        return false;
+      }
+
+      return (
+        (el.getAttribute("role") || "") === "group" &&
+        hasRawMarkupText(parentLink.getAttribute("aria-label")) &&
+        hasGroupedVisibleLinkBody(parentLink)
+      );
+    }
+
+    function getFragmentedHeadingText(): string[] | undefined {
+      if (!/^h[1-6]$/.test(tag) || !el.querySelector("br")) {
+        return undefined;
+      }
+
+      if (
+        el.querySelector(
+          "button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link']",
+        )
+      ) {
+        return undefined;
+      }
+
+      const fragments: string[] = [];
+      let textBuffer = "";
+
+      function pushText(value?: string | null): void {
+        const normalized = value?.replace(/\s+/g, " ").trim();
+        if (normalized) {
+          fragments.push(normalized);
+        }
+      }
+
+      function flushTextBuffer(): void {
+        pushText(textBuffer);
+        textBuffer = "";
+      }
+
+      for (const child of Array.from(el.childNodes)) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          textBuffer += child.textContent || "";
+          continue;
+        }
+
+        if (child.nodeType !== Node.ELEMENT_NODE) {
+          continue;
+        }
+
+        if (child.getAttribute("aria-hidden") === "true") {
+          continue;
+        }
+
+        const childTag = child.tagName.toLowerCase();
+        if (childTag === "br") {
+          flushTextBuffer();
+          continue;
+        }
+
+        flushTextBuffer();
+        pushText(getAccessibleText(child));
+      }
+
+      flushTextBuffer();
+
+      return fragments.length > 1 ? fragments : undefined;
+    }
+
     function resolveIdRef(id: string | null | undefined): any {
       if (!id) {
         return null;
@@ -1021,7 +1223,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (!name && role === "link") {
       name =
-        getNestedImageLabel(el) || el.getAttribute("aria-label") || undefined;
+        getAwardsImageStripLinkLabel(el) ||
+        getNestedImageLabel(el) ||
+        el.getAttribute("aria-label") ||
+        undefined;
     }
     if (!name && (role === "group" || role === "listitem")) {
       const childImage = el.querySelector("img[alt]");
@@ -1120,6 +1325,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const headingButton = getHeadingButton();
     const headingLink = getHeadingLink();
+    const headingFragments =
+      role === "heading" && !headingButton && !headingLink
+        ? getFragmentedHeadingText()
+        : undefined;
 
     const inferredSetSize =
       role === "list"
@@ -1330,18 +1539,32 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               : undefined);
 
     const effectiveRole =
-      role === "text" && isNamedInlineMetadataText(el)
+      role === "region" && isCarouselContainer(el)
+        ? "group"
+        : role === "text" && isNamedInlineMetadataText(el)
         ? "group"
         : role === "group" && isSingleReadableTextGroup(el)
           ? "text"
           : role;
     const effectiveName =
-      effectiveRole === "text" ? text || combinedName : combinedName;
+      isCarouselContainer(el) ||
+      isFocusableCarouselSlideGroup(el) ||
+      isGroupedLinkBody()
+        ? undefined
+        : effectiveRole === "text"
+          ? text || combinedName
+          : combinedName;
+    const effectiveText =
+      isCarouselContainer(el) ||
+      isFocusableCarouselSlideGroup(el) ||
+      isGroupedLinkBody()
+        ? undefined
+        : text;
 
     return {
       role: effectiveRole,
       name: effectiveName,
-      text,
+      text: effectiveText,
       description,
       details,
       errorMessage,
@@ -1349,6 +1572,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       value,
       valueText,
       level,
+      headingFragments,
       setSize,
       positionInSet,
       rowIndex,
@@ -1384,6 +1608,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       headingButton: Boolean(headingButton) || undefined,
       headingLink: Boolean(headingLink) || undefined,
       iconOnlyLink: isIconOnlyLink() || undefined,
+      linkRoleFirst:
+        role === "link" &&
+        (Boolean(getAwardsImageStripLinkLabel(el)) ||
+          (hasRawMarkupText(ariaLabel) && hasGroupedVisibleLinkBody(el)) ||
+          isParagraphOnlyLinkText(el.parentElement))
+          ? true
+          : undefined,
+      suppressContextEnd: isGroupedLinkBody() ? true : undefined,
       groupContext:
         (role === "button" &&
           el.parentElement?.tagName.toLowerCase() === "li" &&
@@ -1895,6 +2127,44 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return textContainers.length === 1 && Boolean(getReadableText(el));
   }
 
+  function isCarouselContainer(el: any): boolean {
+    return (
+      el?.nodeType === Node.ELEMENT_NODE &&
+      (el.getAttribute("aria-roledescription") || "").toLowerCase() ===
+        "carousel"
+    );
+  }
+
+  function isInsideCarousel(el: any): boolean {
+    for (let current = el?.parentElement; current; current = current.parentElement) {
+      if (isCarouselContainer(current)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function isFocusableCarouselSlideGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+      return false;
+    }
+
+    if ((el.getAttribute("role") || "") !== "group") {
+      return false;
+    }
+
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+
+    if (el.tabIndex < 0) {
+      return false;
+    }
+
+    return isInsideCarousel(el);
+  }
+
   function removeCollapsedPopupContentFromClone(
     sourceEl: any,
     cloneEl: any,
@@ -2026,6 +2296,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (isSingleReadableTextGroup(el)) return true;
     if (isInlineTextOnlyGroup(el)) return false;
     if (
+      role === "banner" &&
+      tag !== "header" &&
+      el.getAttribute("aria-label") === "" &&
+      !getReadableTextIgnoringAriaHidden(el)
+    ) {
+      return false;
+    }
+    if (tag === "p" && isParagraphOnlyLinkText(el)) return false;
+    if (
+      tag === "p" &&
+      el.querySelector("[aria-hidden='true']") &&
+      !getReadableTextIgnoringAriaHidden(el)
+    ) {
+      return false;
+    }
+    if (
       CONTEXT_ROLES.has(role) ||
       (CONTEXT_TAGS.has(tag) && !isPresentationalRole(role))
     )
@@ -2079,6 +2365,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (isInlineTextOnlyGroup(el)) {
       return false;
+    }
+    if (
+      tag === "a" &&
+      el.hasAttribute("href") &&
+      /<\/?[a-z][\s\S]*>/i.test(el.getAttribute("aria-label") || "") &&
+      Array.from(el.children).some(
+        (child: any) =>
+          (child.getAttribute("role") || "") === "group" &&
+          child.getAttribute("aria-hidden") !== "true" &&
+          !child.closest("[aria-hidden='true']") &&
+          Boolean(getReadableText(child)),
+      )
+    ) {
+      return true;
     }
     if (
       CONTEXT_ROLES.has(role) ||

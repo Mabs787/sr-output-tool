@@ -1,72 +1,34 @@
 # SR Output Tool — Engine
 
-`@sr-output/engine` is the shared screen-reader modeling core used by the rest of the repo.
+`@sr-output/engine` is the shared screen-reader modeling core used by the browser extension.
 
-It owns the rules that decide how DOM structure, roles, labels, states, grouping, and context should be turned into human-readable screen-reader-style output. The current behavior is modeled primarily around VoiceOver patterns, so VoiceOver is the main reference point when refining output.
+It owns the rules that decide how DOM structure, roles, labels, states, grouping, and context should be turned into human-readable screen-reader-style output. Current behavior is modeled primarily around VoiceOver patterns.
 
-## What This Package Owns
+## Docs
 
-- announcement generation
-- context-end announcements
-- DOM scanning and capture heuristics used by the extension
-- the shared browser runtime that gets synced into the extension package
+- [Engine architecture](docs/architecture.md)
+- [Refinement workflow](docs/refinement-workflow.md)
+- [Refinement prompt template](docs/refinement-template.md)
 
 ## Build
 
 From the repo root:
 
 ```bash
-npm run build:engine
+yarn build:engine
 ```
 
 Or from this package:
 
 ```bash
-npm run build -w packages/sr-engine
+yarn workspace @sr-output/engine build
 ```
 
 ## Refining The Engine
 
 The most reliable way to improve the engine is to compare a small real DOM sample against actual VoiceOver output, then lock the fix in with a regression test.
 
-### Recommended Workflow
-
-1. Isolate the smallest possible example.
-   Copy the relevant element or subtree into a minimal test page or reduced HTML snippet. Keep only the structure needed to reproduce the mismatch.
-
-2. Capture what the extension outputs.
-   Load the page, inspect the target with the extension, and copy the generated output.
-
-3. Capture what VoiceOver outputs.
-   Run the same interaction with VoiceOver and write down the exact wording, order, grouping, and anything it skips or combines.
-
-4. Compare the mismatch directly.
-   Look for the smallest concrete difference: missing label, wrong role order, duplicated text, incorrect list behavior, extra wrapper output, missing end marker, and so on.
-
-5. Ask the AI tool to refine the engine.
-   Give it these inputs together:
-   - the reduced HTML snippet
-   - the current extension output
-   - the actual VoiceOver output
-   - the user action or focus path used to get that output
-   - any hypothesis about the mismatch
-
-6. Make the smallest engine change that explains the mismatch.
-   In practice this is usually in the announcement formatter or DOM scanner logic rather than extension UI code.
-
-7. Add or update a regression test.
-   Put the reduced example into the extension-facing regression suite so the VoiceOver-aligned behavior stays locked in.
-
-8. Rebuild and rerun tests.
-
-```bash
-npm run build
-npm run test:unit
-```
-
-## Prompt Template For Refinement
-
-Use [docs/refinement-template.md](docs/refinement-template.md) when you want AI help refining behavior. It captures the reduced HTML, current extension output, actual VoiceOver right-arrow output, selected scan root, and constraints in a repeatable format.
+Use [docs/refinement-workflow.md](docs/refinement-workflow.md) for the step-by-step process and [docs/refinement-template.md](docs/refinement-template.md) when preparing a new refinement request.
 
 ## Notes
 
