@@ -70,3 +70,11 @@ For public sharing, the intended flow is:
 1. Run `yarn package:extension` to produce the latest extension zip.
 2. Add a new entry to [packages/sr-extension/RELEASE_NOTES.md](packages/sr-extension/RELEASE_NOTES.md).
 3. Create a GitHub Release and attach the generated zip from `packages/sr-extension/dist/`.
+
+## License
+
+Copyright (c) 2026 Mabs787. All rights reserved.
+
+This repository is public for transparency and review. Commercial use,
+redistribution, sublicensing, or republishing is not permitted without prior
+written permission.
