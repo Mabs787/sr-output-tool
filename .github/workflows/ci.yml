@@ -13,8 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
-    name: Build and test
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -33,11 +33,65 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            packages/sr-engine/dist
+            packages/sr-extension/src/content/engine-runtime.js
+            packages/sr-extension/dist/sr-extension-chrome
+          if-no-files-found: error
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: .
+
       - name: Unit tests
-        run: yarn test:unit
+        run: node --test packages/sr-extension/tests/*.test.mjs
+
+  package-extension:
+    name: Package extension
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: .
 
       - name: Package extension
-        run: yarn package:extension
+        run: node packages/sr-extension/tooling/package-extension-zip.mjs
 
       - name: Upload extension package
         uses: actions/upload-artifact@v4
