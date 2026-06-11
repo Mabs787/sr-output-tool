@@ -33,14 +33,18 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Archive build output
+        run: |
+          tar -czf build-output.tgz \
+            packages/sr-engine/dist \
+            packages/sr-extension/src/content/engine-runtime.js \
+            packages/sr-extension/dist/sr-extension-chrome
+
       - name: Upload build output
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: |
-            packages/sr-engine/dist
-            packages/sr-extension/src/content/engine-runtime.js
-            packages/sr-extension/dist/sr-extension-chrome
+          path: build-output.tgz
           if-no-files-found: error
 
   unit-tests:
@@ -67,8 +71,14 @@ jobs:
           name: build-output
           path: .
 
-      - name: Unit tests
-        run: node --test packages/sr-extension/tests/*.test.mjs
+      - name: Restore build output
+        run: tar -xzf build-output.tgz
+
+      - name: Engine unit tests
+        run: yarn --cwd packages/sr-engine test:unit
+
+      - name: Extension unit tests
+        run: yarn --cwd packages/sr-extension test:unit
 
   package-extension:
     name: Package extension
@@ -89,6 +99,9 @@ jobs:
         with:
           name: build-output
           path: .
+
+      - name: Restore build output
+        run: tar -xzf build-output.tgz
 
       - name: Package extension
         run: node packages/sr-extension/tooling/package-extension-zip.mjs

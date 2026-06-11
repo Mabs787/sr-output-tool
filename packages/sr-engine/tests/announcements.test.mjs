@@ -1,0 +1,83 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const {
+  generateAnnouncement,
+  getContextEndAnnouncement,
+} = require("../dist/index.js");
+
+test("generateAnnouncement formats interactive control states", () => {
+  assert.equal(
+    generateAnnouncement({
+      role: "button",
+      name: "Filters",
+      hasPopup: "menu",
+      expanded: false,
+    }),
+    "Filters, menu pop up, collapsed, button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "checkbox",
+      name: "Email alerts",
+      checked: "mixed",
+      details: "Choose at least one alert type",
+    }),
+    "Email alerts, check box, half checked, Choose at least one alert type",
+  );
+});
+
+test("generateAnnouncement formats headings, links, and table cells", () => {
+  assert.equal(
+    generateAnnouncement({
+      role: "heading",
+      level: 1,
+      headingFragments: ["Pricing", "For teams"],
+      headingLink: true,
+      positionInSet: 2,
+      setSize: 4,
+    }),
+    "heading level 1, link, Pricing, level 2 For teams, level 2, 2 items, 2 of 4",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "cell",
+      name: "£99",
+      columnHeaderText: "Price",
+      tableRole: "table",
+      columnIndex: 2,
+      columnCount: 3,
+      rowIndex: 4,
+      rowCount: 8,
+    }),
+    "Price £99, column 2 of 3",
+  );
+});
+
+test("getContextEndAnnouncement returns matching container end phrases", () => {
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "navigation",
+      name: "Primary",
+    }),
+    "end of Primary navigation",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "list",
+      roleDescription: "definition list",
+    }),
+    "end of definition list",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "group",
+      suppressContextEnd: true,
+    }),
+    null,
+  );
+});

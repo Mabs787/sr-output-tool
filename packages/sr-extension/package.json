@@ -9,7 +9,7 @@
   "scripts": {
     "build": "yarn build:runtime && node tooling/build-extension.mjs",
     "build:runtime": "node tooling/build-engine-runtime.mjs",
-    "test:unit": "node --test tests/*.test.mjs",
+    "test:unit": "node --test tests/*.test.mjs tests/popup/*.test.mjs",
     "package:zip": "node tooling/package-extension-zip.mjs"
   }
 }
