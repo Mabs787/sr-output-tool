@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   hosted-macos-capability-check:
     name: Hosted macOS capability check
@@ -138,8 +141,18 @@ jobs:
         run: |
           set +e
           mkdir -p voiceover-smoke
-          osascript -e 'tell application "VoiceOver" to quit' > voiceover-smoke/voiceover-cleanup.txt 2>&1
-          pgrep -al VoiceOver >> voiceover-smoke/voiceover-cleanup.txt 2>&1 || true
+          {
+            osascript -e 'tell application "VoiceOver" to quit'
+            echo "osascript exit=$?"
+            sleep 2
+            pgrep -al VoiceOver || true
+            pkill -x VoiceOver || true
+            pkill -x "VoiceOver Quick" || true
+            sleep 1
+            echo
+            echo "## VoiceOver processes after cleanup"
+            pgrep -al VoiceOver || true
+          } > voiceover-smoke/voiceover-cleanup.txt 2>&1
 
       - name: Upload smoke diagnostics
         if: always()
