@@ -69,6 +69,8 @@ function loadExtensionHarness(html) {
     window.CSS.escape = (value) => String(value);
   }
 
+  window.HTMLElement.prototype.scrollIntoView ||= function scrollIntoView() {};
+
   window.chrome = createChromeMock();
   window.Date.now = () => 1700000000000;
   window.eval(engineRuntimeSource);
@@ -91,7 +93,21 @@ function getLogEntry(log, announcement) {
 
 function setVisibleLayout(root) {
   let index = 0;
-  for (const el of root.querySelectorAll("*")) {
+  function collectElements(node) {
+    const elements = [];
+    for (const el of node.querySelectorAll("*")) {
+      elements.push(el);
+      if (el.shadowRoot) {
+        elements.push(...collectElements(el.shadowRoot));
+      }
+      if (el.tagName?.toLowerCase() === "template" && el.content) {
+        elements.push(...collectElements(el.content));
+      }
+    }
+    return elements;
+  }
+
+  for (const el of collectElements(root)) {
     Object.defineProperty(el, "getBoundingClientRect", {
       configurable: true,
       value: () => ({
@@ -302,6 +318,218 @@ test("announces links inside TUI confidence carousel text cards", () => {
     "Book and pay,",
     "your way.",
     "button",
+  ]);
+});
+
+test("announces weather widget content inside declarative shadow roots", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="weather-root">
+      <tui-weather>
+        <template shadowrootmode="open">
+          <div>
+            <div>
+              <div>Where's hot when?</div>
+              <div>Let our handy tool help you decide where to head for your next sunshine fix.</div>
+            </div>
+            <div>
+              <div>Changing any of the fields will automatically update the context.</div>
+              <div>
+                <div>When</div>
+                <select>
+                  <option>January</option>
+                  <option selected>May</option>
+                </select>
+              </div>
+              <div>
+                <div>Where</div>
+                <div role="combobox" aria-haspopup="listbox" aria-expanded="false">
+                  <input type="text" aria-autocomplete="list" placeholder="Anywhere">
+                  <div role="listbox"></div>
+                </div>
+              </div>
+              <div>
+                <div>Weather</div>
+                <button type="button"><span>Any</span></button>
+                <button type="button"><span>Warm</span><span>16 - 22ºC</span></button>
+                <button type="button"><span>Hot</span><span>23 - 28ºC</span></button>
+              </div>
+            </div>
+            <div aria-live="polite" role="region">There are now 30 destinations.</div>
+            <div>
+              <a href="/koh-samui">
+                <div>
+                  <span>28 ºC</span>
+                  <span>Koh Samui, Thailand</span>
+                </div>
+                <div>
+                  <span>2%</span>
+                  <span>chance of sun</span>
+                  <span>110mm</span>
+                  <span>rain per month</span>
+                </div>
+              </a>
+            </div>
+            <ul role="navigation" aria-label="Pagination">
+              <li><a href="#1" aria-label="Page 1 is your current page" aria-current="page">1</a></li>
+              <li><a href="#2" aria-label="Page 2">2</a></li>
+              <li><a role="button" tabindex="0" aria-label="Jump forward">...</a></li>
+              <li><a href="#5" aria-label="Page 5">5</a></li>
+              <li><a href="#2" role="button" aria-label="Next page">Next</a></li>
+            </ul>
+          </div>
+        </template>
+      </tui-weather>
+    </div>
+  `);
+
+  const root = document.getElementById("weather-root");
+  setVisibleLayout(root);
+  const log = harness.scanSubtree(root);
+  const announcements = getAnnouncements(log);
+
+  assert.notDeepEqual(announcements, ["No output for element."]);
+  assert.ok(announcements.includes("Where's hot when?"));
+  harness.highlightElement(
+    getLogEntry(log, "Where's hot when?")?.srId,
+  );
+
+  const highlight = document.getElementById("__sr-ext-highlight__");
+  assert.equal(highlight?.style.display, "block");
+  assert.equal(highlight?.style.width, "320px");
+  assert.equal(highlight?.style.height, "48px");
+
+  assert.ok(
+    announcements.includes(
+      "Let our handy tool help you decide where to head for your next sunshine fix.",
+    ),
+  );
+  assert.ok(
+    announcements.includes(
+      "Changing any of the fields will automatically update the context.",
+    ),
+  );
+  assert.ok(announcements.includes("May, menu pop up, collapsed, button"));
+  assert.ok(
+    announcements.some(
+      (announcement) =>
+        announcement.includes("Koh Samui, Thailand") &&
+        announcement.includes("2% chance of sun") &&
+        announcement.includes("110mm rain per month") &&
+        announcement.includes("link"),
+    ),
+  );
+  assert.ok(announcements.includes("Pagination, navigation"));
+  assert.ok(
+    announcements.some(
+      (announcement) =>
+        announcement.includes("Page 2") && announcement.includes("link"),
+    ),
+  );
+  assert.ok(
+    announcements.some(
+      (announcement) =>
+        announcement.includes("Jump forward") &&
+        announcement.includes("button"),
+    ),
+  );
+  assert.ok(announcements.includes("end of Pagination navigation"));
+});
+
+test("selects the composed-path child inside open shadow roots", () => {
+  const { document, harness, window } = loadExtensionHarness(`
+    <div id="shadow-selection-root">
+      <tui-product-card></tui-product-card>
+    </div>
+  `);
+
+  const host = document.querySelector("tui-product-card");
+  const shadowRoot = host.attachShadow({ mode: "open" });
+  shadowRoot.innerHTML = `
+    <article>
+      <button type="button"><span>Shortlist</span></button>
+    </article>
+  `;
+
+  const root = document.getElementById("shadow-selection-root");
+  setVisibleLayout(root);
+
+  const button = shadowRoot.querySelector("button");
+  const label = shadowRoot.querySelector("span");
+  const eventElement = harness.getEventElement({
+    target: host,
+    composedPath: () => [
+      label,
+      button,
+      shadowRoot,
+      host,
+      document.body,
+      document.documentElement,
+      document,
+      window,
+    ],
+  });
+
+  assert.equal(eventElement, label);
+  assert.equal(harness.getSelectableTarget(eventElement), button);
+});
+
+test("announces TUI sort listbox and filter tabs closer to VoiceOver", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="filter-sort-root">
+      <div class="sorting-wrapper" data-testid="sorting-wrapper">
+        <span class="sorting-wrapper__text">Refine your results by applying filters:</span>
+        <span class="sorting-wrapper__label">Sort by:</span>
+        <div class="input input-select override sorting-wrapper__select">
+          <div class="group">
+            <select id="select-sort-by-P-19059254752" name="sort-by" aria-label="" aria-disabled="false" data-testid="sort-type" role="listbox" tabindex="0">
+              <option value="default">Recommended</option>
+              <option value="priceAsc">Price - lowest to highest</option>
+              <option value="priceDesc">Price - highest to lowest</option>
+              <option value="tripAdvisorRatingDesc">TripAdvisor rating</option>
+              <option value="discountDesc">Saving amount</option>
+              <option value="departureDateAsc">Departure Date</option>
+            </select>
+            <span aria-hidden="true" class="icon-control"><span class="icon sort-by"></span></span>
+          </div>
+        </div>
+      </div>
+      <div class="filters-panel" data-testid="filters-panel" style="min-height: 108px;">
+        <div class="filters-panel__inner">
+          <div class="modal-positioning">
+            <div>
+              <div class="filters-panel__content">
+                <div class="filters-panel__filters" role="tablist">
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>Dates &amp; duration</h4></button></div>
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>Board</h4></button></div>
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>Destination</h4></button></div>
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>2 Guests</h4></button></div>
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>Departure airport</h4></button></div>
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>Rating</h4></button></div>
+                  <div class="filter-pill"><button class="filter-pill__button" aria-haspopup="true" role="tab" aria-selected="false" type="button" tabindex="0"><h4>Price</h4></button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+
+  const root = document.getElementById("filter-sort-root");
+  setVisibleLayout(root);
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "Refine your results by applying filters:",
+    "Sort by:",
+    "list box, 1 item selected, Recommended, menu item, 1 of 6",
+    "Dates & duration, menu pop-up, tab, group, 1 of 7",
+    "Board, menu pop-up, tab, group, 2 of 7",
+    "Destination, menu pop-up, tab, group, 3 of 7",
+    "2 Guests, menu pop-up, tab, group, 4 of 7",
+    "Departure airport, menu pop-up, tab, group, 5 of 7",
+    "Rating, menu pop-up, tab, group, 6 of 7",
+    "Price, menu pop-up, tab, group, 7 of 7",
   ]);
 });
 
@@ -1700,6 +1928,63 @@ test("announces footer landmarks, footer select labels, and footer end marker", 
   ]);
 
   assert.equal(getLogEntry(log, "end of, footer")?.role, "contentinfo");
+});
+
+test("announces empty basket summary closer to VoiceOver", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <aside id="basket-root">
+      <h2>Basket</h2>
+      <hr role="separator">
+      <div aria-label="Basket Summary">
+        <div>
+          <a aria-label="Review your basket" href="https://www.tesco.com/shop/en-GB/trolley">
+            <svg aria-hidden="true" viewBox="0 0 24 24"></svg>
+          </a>
+          <output>
+            <h3>£0.00 Guide price</h3>
+            <span aria-hidden="true">
+              <span>£0.00</span>
+              <span>Guide price</span>
+            </span>
+          </output>
+        </div>
+        <a aria-disabled="true" role="link">
+          <span>Checkout</span>
+        </a>
+      </div>
+      <div>
+        <h3>Groceries</h3>
+        <hr role="separator">
+        <h4>Reserve a slot for either home delivery or collection</h4>
+      </div>
+      <div>
+        <svg aria-hidden="true" viewBox="0 0 24 24"></svg>
+        <h4>Grocery basket empty</h4>
+        <p>Products you add to your basket will appear here</p>
+      </div>
+    </aside>
+  `);
+
+  const root = document.getElementById("basket-root");
+  setVisibleLayout(root);
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "complementary",
+    "heading level 2, Basket",
+    "horizontal splitter",
+    "Basket Summary, group",
+    "link, Review your basket",
+    "heading level 3, £0.00, level 2 space, level 2 Guide price, level 2, 3 items",
+    "dimmed, link, Checkout",
+    "end of, Basket Summary, group",
+    "heading level 3, Groceries",
+    "horizontal splitter",
+    "heading level 4, Reserve a slot for either home delivery or collection",
+    "heading level 4, Grocery basket empty",
+    "Products you add to your basket will appear here",
+    "end of, complementary",
+  ]);
 });
 
 test("announces product cards with linked headings, rating images, and quantity labels", () => {

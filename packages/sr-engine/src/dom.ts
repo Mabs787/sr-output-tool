@@ -496,8 +496,54 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
       return (
         !getReadableText(clone) &&
-        Boolean(getNestedImageLabel(el) || el.getAttribute("aria-label"))
+        Boolean(
+          getNestedImageLabel(el) ||
+            (el.getAttribute("aria-label") &&
+              !isDecorativeGraphicOnlyLabelledLink()),
+        )
       );
+    }
+
+    function isDecorativeGraphicOnlyLabelledLink(): boolean {
+      if (role !== "link" || !el.getAttribute("aria-label")) {
+        return false;
+      }
+
+      if (getNestedImageLabel(el)) {
+        return false;
+      }
+
+      const hasDecorativeGraphic = Boolean(
+        el.querySelector(
+          "svg[aria-hidden='true'], img[aria-hidden='true'], [role='img'][aria-hidden='true']",
+        ),
+      );
+      if (!hasDecorativeGraphic) {
+        return false;
+      }
+
+      const clone = el.cloneNode(true);
+      for (const node of Array.from(
+        clone.querySelectorAll("img, svg, [role='img'], [aria-hidden='true']"),
+      )) {
+        node.remove();
+      }
+
+      return !getReadableText(clone);
+    }
+
+    function getPriceGuideHeadingFragments(): string[] | undefined {
+      if (!/^h[1-6]$/.test(tag)) {
+        return undefined;
+      }
+
+      const text = getReadableText(el)?.replace(/\s+/g, " ").trim();
+      const match = text?.match(/^(£[\d,.]+(?:\.\d{2})?)\s+(Guide price)$/);
+      if (!match) {
+        return undefined;
+      }
+
+      return [match[1], "space", match[2]];
     }
 
     function getSemanticListContext(node: any) {
@@ -577,9 +623,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return index >= 0 ? index + 1 : undefined;
       }
 
+      if (role === "listbox" && tag === "select") {
+        return el.selectedIndex >= 0 ? el.selectedIndex + 1 : undefined;
+      }
+
       if (role === "tab") {
-        const siblings = Array.from(el.parentElement?.children || []).filter(
-          (child: any) => child.getAttribute("role") === "tab",
+        const tablist = el.closest("[role='tablist']");
+        const siblings = Array.from(
+          tablist?.querySelectorAll("[role='tab']") || [],
         );
         const index = siblings.indexOf(el);
         return index >= 0 ? index + 1 : undefined;
@@ -1294,6 +1345,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ? el.options[el.selectedIndex].text
         : undefined;
     }
+    if (role === "listbox" && tag === "select") {
+      value = el.options[el.selectedIndex]
+        ? el.options[el.selectedIndex].text
+        : undefined;
+    }
     let valueText = el.getAttribute("aria-valuetext") || undefined;
     if (role === "progressbar" && !valueText) {
       const valueNow = Number.parseFloat(
@@ -1327,7 +1383,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const headingLink = getHeadingLink();
     const headingFragments =
       role === "heading" && !headingButton && !headingLink
-        ? getFragmentedHeadingText()
+        ? getFragmentedHeadingText() || getPriceGuideHeadingFragments()
         : undefined;
 
     const inferredSetSize =
@@ -1358,13 +1414,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               (child: any) => child.tagName.toLowerCase() === "dt",
             ).length || undefined
           : role === "tab"
-            ? Array.from(el.parentElement?.children || []).filter(
-                (child: any) => child.getAttribute("role") === "tab",
+            ? Array.from(
+                el
+                  .closest("[role='tablist']")
+                  ?.querySelectorAll("[role='tab']") || [],
               ).length || undefined
             : role === "progressbar"
               ? Array.from(el.parentElement?.children || []).filter(
                   (child: any) => child.getAttribute("role") === "progressbar",
                 ).length || undefined
+              : role === "listbox" && tag === "select"
+                ? el.options?.length || undefined
               : role === "listitem"
                 ? Array.from(el.parentElement?.children || []).filter(
                     (child: any) => isSemanticListItemElement(child),
@@ -1516,9 +1576,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const sort = el.getAttribute("aria-sort") || undefined;
     const selectedCount =
       role === "listbox"
-        ? Array.from(
-            el.querySelectorAll("[role='option'][aria-selected='true']"),
-          ).length || undefined
+        ? tag === "select"
+          ? el.selectedOptions?.length || undefined
+          : Array.from(
+              el.querySelectorAll("[role='option'][aria-selected='true']"),
+            ).length || undefined
         : undefined;
 
     const combinedExpanded =
@@ -1611,6 +1673,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       linkRoleFirst:
         role === "link" &&
         (Boolean(getAwardsImageStripLinkLabel(el)) ||
+          isDecorativeGraphicOnlyLabelledLink() ||
           (hasRawMarkupText(ariaLabel) && hasGroupedVisibleLinkBody(el)) ||
           isParagraphOnlyLinkText(el.parentElement))
           ? true
@@ -2285,6 +2348,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (tag === "a" && el.hasAttribute("href")) return true;
+    if (role === "link") return true;
     if (tag === "input" && el.type !== "hidden") return true;
     if (hasStandaloneLabelStop(el)) return true;
     if (getFocusableTableGroupLabel(el)) return true;
@@ -2493,6 +2557,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
 
+    function getWalkChildren(el: any): any[] {
+      if (el.shadowRoot) {
+        return Array.from(el.shadowRoot.children);
+      }
+
+      const declarativeShadowRoot = Array.from(el.children).find(
+        (child: any) =>
+          child.tagName?.toLowerCase() === "template" &&
+          child.getAttribute("shadowrootmode"),
+      );
+      if (declarativeShadowRoot) {
+        return Array.from(declarativeShadowRoot.content?.children || []);
+      }
+
+      return Array.from(el.children);
+    }
+
     function walk(el: any, allowRoot: boolean): void {
       if (!el || el.nodeType !== Node.ELEMENT_NODE) {
         return;
@@ -2544,12 +2625,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
         const childrenToWalk =
           descriptor?.role === "listbox"
-            ? Array.from(el.children).filter(
+            ? getWalkChildren(el).filter(
                 (child: any) =>
                   (child.getAttribute("role") || "") === "option" &&
                   child.getAttribute("aria-selected") === "true",
               )
-            : Array.from(el.children);
+            : getWalkChildren(el);
 
         for (const child of childrenToWalk) {
           walk(child, false);
@@ -2591,7 +2672,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return;
       }
 
-      for (const child of Array.from(el.children)) {
+      for (const child of getWalkChildren(el)) {
         walk(child, false);
       }
     }

@@ -192,11 +192,20 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "link": {
       const popupType = formatPopupType(el.hasPopup);
       const hasPopupState = popupType && el.expanded !== undefined;
+      if (el.disabled) {
+        parts.push("dimmed");
+      }
       if (popupType && el.expanded !== undefined) {
         parts.push(popupType);
         parts.push(el.expanded ? "expanded" : "collapsed");
       }
-      if (el.iconOnlyLink) {
+      if (el.disabled) {
+        parts.push("link");
+        if (el.iconOnlyLink) {
+          parts.push("image");
+        }
+        pushIfPresent(parts, label);
+      } else if (el.iconOnlyLink) {
         parts.push("link");
         parts.push("image");
         pushIfPresent(parts, label);
@@ -216,6 +225,12 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push(el.current === true ? "current" : `current ${el.current}`);
       }
       pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "separator": {
+      parts.push("horizontal splitter");
       pushSupplementalText(parts, el);
       break;
     }
@@ -255,9 +270,10 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "combobox": {
       if (el.nativeSelect) {
+        const selectLabel = normalizeText(el.name);
         pushIfPresent(parts, value);
-        if (label && label !== value) {
-          pushIfPresent(parts, label);
+        if (selectLabel && selectLabel !== value) {
+          pushIfPresent(parts, selectLabel);
         }
         parts.push("menu pop up");
         parts.push(el.expanded ? "expanded" : "collapsed");
@@ -369,6 +385,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           `${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected`,
         );
       }
+      if (value) {
+        parts.push(value);
+        parts.push("menu item");
+        pushCollectionPosition(parts, el);
+      }
       pushSupplementalText(parts, el);
       break;
     }
@@ -467,7 +488,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (el.selected) {
         parts.push("selected");
       }
+      const popupType = formatPopupType(el.hasPopup);
+      if (popupType) {
+        parts.push(popupType.replace("pop up", "pop-up"));
+      }
       parts.push("tab");
+      if (popupType) {
+        parts.push("group");
+      }
       pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
       break;
@@ -557,7 +585,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
   }
 
-  if (el.disabled && role !== "button") {
+  if (el.disabled && role !== "button" && role !== "link") {
     parts.push("dimmed");
   }
 
@@ -592,6 +620,12 @@ export function getContextEndAnnouncement(
     return descriptor?.name
       ? `end of ${descriptor.name} navigation`
       : "end of navigation";
+  }
+
+  if (role === "complementary") {
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, complementary`
+      : "end of, complementary";
   }
 
   if (role === "tabpanel") {
