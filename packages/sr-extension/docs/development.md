@@ -44,3 +44,8 @@ yarn workspace @sr-output/extension test:unit
 ```
 
 Extension-facing regression tests live in `packages/sr-extension/tests/`.
+Popup-specific tests live in `packages/sr-extension/tests/popup/`.
+
+## Continuous Integration
+
+GitHub Actions runs the standard build, unit test, and extension packaging checks on pushes and pull requests to `main`. The unit test job runs both the direct engine tests and the extension test suite.

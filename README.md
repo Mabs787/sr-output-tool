@@ -11,8 +11,9 @@ The repo uses Yarn as the source-of-truth package manager.
 ```text
 packages/
   sr-engine/      shared screen-reader rules, announcement logic, and DOM scanning
+    tests/        direct engine unit coverage
   sr-extension/   browser extension shell built on top of the engine
-    tests/        extension-facing regression coverage
+    tests/        extension-facing regression and popup coverage
 test-app/         optional local fixture for manual checks
 ```
 
@@ -31,6 +32,16 @@ yarn test:unit
 ```
 
 `yarn build`, `yarn test:unit`, and `yarn package:extension` now run through Turbo across the workspace graph, with the extension build depending on the engine build and a bundled browser runtime step.
+
+## Continuous Integration
+
+GitHub Actions runs on pushes and pull requests to `main`. The CI workflow has separate jobs for:
+
+- `Build`
+- `Unit tests`
+- `Package extension`
+
+The build job archives the compiled engine, generated extension runtime, and unpacked extension build for the downstream test and package jobs.
 
 ## Architecture Overview
 

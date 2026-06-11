@@ -29,3 +29,4 @@ yarn test:unit
 ```
 
 Extension-facing regression tests live in `packages/sr-extension/tests/`.
+Popup-specific tests live in `packages/sr-extension/tests/popup/`.

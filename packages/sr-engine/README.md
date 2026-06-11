@@ -24,6 +24,20 @@ Or from this package:
 yarn workspace @sr-output/engine build
 ```
 
+## Tests
+
+Direct engine unit tests live in `packages/sr-engine/tests/` and run through the workspace test command:
+
+```bash
+yarn test:unit
+```
+
+Or from this package:
+
+```bash
+yarn workspace @sr-output/engine test:unit
+```
+
 ## Refining The Engine
 
 The most reliable way to improve the engine is to compare a small real DOM sample against actual VoiceOver output, then lock the fix in with a regression test.
