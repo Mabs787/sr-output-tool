@@ -133,6 +133,111 @@ jobs:
 
           screencapture voiceover-smoke/safari-after-navigation.png > voiceover-smoke/screencapture.txt 2>&1 || true
 
+      - name: Capture VoiceOver output candidates
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## VoiceOver process snapshot"
+            pgrep -al VoiceOver || true
+            echo
+
+            echo "## VoiceOver UI dump"
+            osascript <<'APPLESCRIPT'
+          on safeText(valueToRead)
+            try
+              if valueToRead is missing value then return ""
+              return valueToRead as text
+            on error
+              return ""
+            end try
+          end safeText
+
+          on describeElement(elementToRead, indentText)
+            set outputText to ""
+            tell application "System Events"
+              try
+                set elementRole to my safeText(role of elementToRead)
+              on error
+                set elementRole to ""
+              end try
+              try
+                set elementName to my safeText(name of elementToRead)
+              on error
+                set elementName to ""
+              end try
+              try
+                set elementValue to my safeText(value of elementToRead)
+              on error
+                set elementValue to ""
+              end try
+
+              if elementRole is not "" or elementName is not "" or elementValue is not "" then
+                set outputText to outputText & indentText & "role=" & elementRole & " name=" & elementName & " value=" & elementValue & linefeed
+              end if
+            end tell
+            return outputText
+          end describeElement
+
+          on describeProcess(processName)
+            set outputText to "process=" & processName & linefeed
+            tell application "System Events"
+              if not (exists process processName) then return outputText & "missing" & linefeed
+              tell process processName
+                try
+                  set outputText to outputText & "windowCount=" & ((count of windows) as text) & linefeed
+                  repeat with windowToRead in windows
+                    set outputText to outputText & my describeElement(windowToRead, "  ")
+                    try
+                      repeat with elementToRead in UI elements of windowToRead
+                        set outputText to outputText & my describeElement(elementToRead, "    ")
+                        try
+                          repeat with childToRead in UI elements of elementToRead
+                            set outputText to outputText & my describeElement(childToRead, "      ")
+                          end repeat
+                        end try
+                      end repeat
+                    end try
+                  end repeat
+                on error errorMessage number errorNumber
+                  set outputText to outputText & "error=" & errorNumber & " " & errorMessage & linefeed
+                end try
+              end tell
+            end tell
+            return outputText
+          end describeProcess
+
+          return describeProcess("VoiceOver") & linefeed & describeProcess("VoiceOver Quick")
+          APPLESCRIPT
+            echo "exit=$?"
+            echo
+
+            echo "## Safari focused accessibility element"
+            osascript <<'APPLESCRIPT'
+          tell application "System Events"
+            tell process "Safari"
+              try
+                set focusedElement to value of attribute "AXFocusedUIElement"
+                set focusedRole to role of focusedElement
+                set focusedName to ""
+                set focusedValue to ""
+                try
+                  set focusedName to name of focusedElement as text
+                end try
+                try
+                  set focusedValue to value of focusedElement as text
+                end try
+                return "role=" & focusedRole & linefeed & "name=" & focusedName & linefeed & "value=" & focusedValue
+              on error errorMessage number errorNumber
+                return "error=" & errorNumber & " " & errorMessage
+              end try
+            end tell
+          end tell
+          APPLESCRIPT
+            echo "exit=$?"
+          } > voiceover-smoke/voiceover-output-candidates.txt 2>&1
+
       - name: Stop VoiceOver
         if: always()
         run: |
