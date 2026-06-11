@@ -2,6 +2,42 @@
 
 This file is the human-readable release notes history for `@sr-output/extension`, especially for GitHub Releases and packaged zip builds shared with non-developers.
 
+## Version 1.2.1 - 2026-06-11
+
+### Highlights
+
+- Improved VoiceOver-aligned output for native select listboxes, tablists, separators, disabled links, complementary regions, and guide-price heading fragments.
+- Improved element selection and highlighting inside open and declarative shadow DOM content.
+- Added popup accessibility polish for larger button targets, clearer focus rings, aligned output rows, and more consistent theme colors.
+
+### Extension
+
+- Updated element picking to use the composed event path so child elements inside open shadow roots can be selected instead of only selecting the host wrapper.
+- Updated selected-element highlighting and SR output row hover behavior to work across regular DOM, open shadow roots, and declarative shadow templates.
+- Increased popup button and output-row interaction targets to at least 44 by 44 pixels.
+- Added a 1px blue focus ring offset outside popup buttons.
+- Removed inconsistent blue borders from appearance buttons and the selected-element panel.
+- Aligned SR output row numbers with their announcement text.
+- Made the dark-mode pick-element button use the same bold blue treatment as light mode.
+- Kept cancel button red styling consistent across themes.
+
+### Engine Dependency Notes
+
+- Refined native select listbox output to include selected item count, selected option text, menu item role, and option position.
+- Refined `aria-haspopup` tab output to include menu pop-up, tab, group, and tablist-relative position.
+- Refined separator, disabled link, decorative SVG link, complementary region end, and guide-price heading output.
+- Added DOM traversal support for open shadow roots and declarative shadow templates.
+- Added focused regression coverage for the new VoiceOver comparisons and shadow DOM selection behavior.
+
+### Notes
+
+- The tool remains VoiceOver-led and directional; important accessibility flows should still be verified with real assistive technology.
+
+### Asset
+
+- Attach `packages/sr-extension/dist/sr-extension-chrome.zip` to the matching GitHub Release.
+- Link users to [docs/install-and-use.md](docs/install-and-use.md) for non-technical installation and usage steps.
+
 ## Version 1.2.0 - 2026-06-10
 
 ### Highlights
