@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Unit tests
+        run: yarn test:unit
+
+      - name: Package extension
+        run: yarn package:extension
+
+      - name: Upload extension package
+        uses: actions/upload-artifact@v4
+        with:
+          name: sr-output-extension
+          path: packages/sr-extension/dist/*.zip
+          if-no-files-found: error
