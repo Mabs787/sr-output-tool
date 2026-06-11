@@ -1,0 +1,74 @@
+name: VoiceOver smoke
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hosted-macos-capability-check:
+    name: Hosted macOS capability check
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build extension runtime
+        run: yarn build
+
+      - name: Capture macOS environment
+        run: |
+          mkdir -p voiceover-smoke
+          {
+            echo "## macOS"
+            sw_vers
+            echo
+            echo "## Runner"
+            uname -a
+            echo
+            echo "## Node"
+            node --version
+            yarn --version
+            echo
+            echo "## VoiceOver processes before test"
+            pgrep -al VoiceOver || true
+          } > voiceover-smoke/environment.txt
+
+      - name: Check AppleScript and accessibility scripting
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## osascript sanity check"
+            osascript -e 'return "osascript available"'
+            echo "exit=$?"
+            echo
+
+            echo "## System Events UI scripting status"
+            osascript -e 'tell application "System Events" to get UI elements enabled'
+            echo "exit=$?"
+            echo
+
+            echo "## Frontmost app"
+            osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true'
+            echo "exit=$?"
+          } > voiceover-smoke/accessibility-scripting.txt 2>&1
+
+      - name: Upload smoke diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: voiceover-smoke-diagnostics
+          path: voiceover-smoke
+          if-no-files-found: error
