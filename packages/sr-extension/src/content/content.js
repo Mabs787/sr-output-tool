@@ -117,6 +117,61 @@
     if (highlight) highlight.style.display = "none";
   }
 
+  function queryAnnotatedElement(attributeName, id) {
+    if (!id) {
+      return null;
+    }
+
+    const selector = `[${attributeName}="${CSS.escape(id)}"]`;
+
+    function queryWithin(root) {
+      const match = root.querySelector(selector);
+      if (match) {
+        return match;
+      }
+
+      for (const el of root.querySelectorAll("*")) {
+        if (el.shadowRoot) {
+          const shadowMatch = queryWithin(el.shadowRoot);
+          if (shadowMatch) {
+            return shadowMatch;
+          }
+        }
+
+        if (el.tagName?.toLowerCase() === "template" && el.content) {
+          const templateMatch = queryWithin(el.content);
+          if (templateMatch) {
+            return templateMatch;
+          }
+        }
+      }
+
+      return null;
+    }
+
+    return queryWithin(document);
+  }
+
+  function clearAnnotatedElements(attributeName) {
+    function clearWithin(root) {
+      root.querySelectorAll(`[${attributeName}]`).forEach((el) => {
+        el.removeAttribute(attributeName);
+      });
+
+      for (const el of root.querySelectorAll("*")) {
+        if (el.shadowRoot) {
+          clearWithin(el.shadowRoot);
+        }
+
+        if (el.tagName?.toLowerCase() === "template" && el.content) {
+          clearWithin(el.content);
+        }
+      }
+    }
+
+    clearWithin(document);
+  }
+
   function cleanup() {
     if (overlay) {
       overlay.remove();
@@ -643,13 +698,16 @@
     generateAnnouncement,
     isStopElement,
     shouldDescendIntoStop,
+    highlightElement,
+    clearSrIds,
+    getEventElement,
   };
 
   // ── Highlight a specific element by its sr-id ──
 
   function highlightElement(srId) {
     createHighlight();
-    const el = document.querySelector(`[data-sr-id="${CSS.escape(srId)}"]`);
+    const el = queryAnnotatedElement("data-sr-id", srId);
     if (!el) {
       hideHighlight();
       return;
@@ -660,7 +718,7 @@
   }
 
   function highlightSelectedElement() {
-    if (!selectedScanRoot || !document.documentElement.contains(selectedScanRoot)) {
+    if (!selectedScanRoot || !selectedScanRoot.isConnected) {
       hideHighlight();
       return false;
     }
@@ -676,9 +734,7 @@
   }
 
   function clearSrIds() {
-    document.querySelectorAll("[data-sr-id]").forEach((el) => {
-      el.removeAttribute("data-sr-id");
-    });
+    clearAnnotatedElements("data-sr-id");
     hideHighlight();
   }
 
@@ -758,6 +814,24 @@
     return scanRoot && isVisible(scanRoot) ? scanRoot : null;
   }
 
+  function getEventElement(event) {
+    const path =
+      typeof event.composedPath === "function" ? event.composedPath() : [];
+    const pathElement = path.find(
+      (node) =>
+        node?.nodeType === Node.ELEMENT_NODE &&
+        node !== document.documentElement &&
+        node !== document.body &&
+        !isPanelTarget(node),
+    );
+
+    if (pathElement) {
+      return pathElement;
+    }
+
+    return event.target?.nodeType === Node.ELEMENT_NODE ? event.target : null;
+  }
+
   function updateHoveredElement(nextEl) {
     hoveredEl = nextEl;
 
@@ -775,7 +849,7 @@
       return;
     }
 
-    const nextEl = getSelectableTarget(event.target);
+    const nextEl = getSelectableTarget(getEventElement(event));
     if (nextEl === hoveredEl) {
       return;
     }
@@ -788,7 +862,7 @@
       return;
     }
 
-    const target = getSelectableTarget(event.target);
+    const target = getSelectableTarget(getEventElement(event));
     if (!target) {
       return;
     }

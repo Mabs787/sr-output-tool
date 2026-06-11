@@ -1,10 +1,10 @@
 {
   "name": "@sr-output/extension",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Browser extension shell for the SR output tool",
   "devDependencies": {
-    "@sr-output/engine": "1.2.0"
+    "@sr-output/engine": "1.2.1"
   },
   "scripts": {
     "build": "yarn build:runtime && node tooling/build-extension.mjs",

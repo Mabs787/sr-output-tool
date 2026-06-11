@@ -197,11 +197,20 @@
           case "link": {
             const popupType = formatPopupType(el.hasPopup);
             const hasPopupState = popupType && el.expanded !== void 0;
+            if (el.disabled) {
+              parts.push("dimmed");
+            }
             if (popupType && el.expanded !== void 0) {
               parts.push(popupType);
               parts.push(el.expanded ? "expanded" : "collapsed");
             }
-            if (el.iconOnlyLink) {
+            if (el.disabled) {
+              parts.push("link");
+              if (el.iconOnlyLink) {
+                parts.push("image");
+              }
+              pushIfPresent(parts, label);
+            } else if (el.iconOnlyLink) {
               parts.push("link");
               parts.push("image");
               pushIfPresent(parts, label);
@@ -221,6 +230,11 @@
               parts.push(el.current === true ? "current" : `current ${el.current}`);
             }
             pushCollectionPosition(parts, el);
+            pushSupplementalText(parts, el);
+            break;
+          }
+          case "separator": {
+            parts.push("horizontal splitter");
             pushSupplementalText(parts, el);
             break;
           }
@@ -255,9 +269,10 @@
           }
           case "combobox": {
             if (el.nativeSelect) {
+              const selectLabel = normalizeText(el.name);
               pushIfPresent(parts, value);
-              if (label && label !== value) {
-                pushIfPresent(parts, label);
+              if (selectLabel && selectLabel !== value) {
+                pushIfPresent(parts, selectLabel);
               }
               parts.push("menu pop up");
               parts.push(el.expanded ? "expanded" : "collapsed");
@@ -357,6 +372,11 @@
             if (el.selectedCount) {
               parts.push(`${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected`);
             }
+            if (value) {
+              parts.push(value);
+              parts.push("menu item");
+              pushCollectionPosition(parts, el);
+            }
             pushSupplementalText(parts, el);
             break;
           }
@@ -435,7 +455,14 @@
             if (el.selected) {
               parts.push("selected");
             }
+            const popupType = formatPopupType(el.hasPopup);
+            if (popupType) {
+              parts.push(popupType.replace("pop up", "pop-up"));
+            }
             parts.push("tab");
+            if (popupType) {
+              parts.push("group");
+            }
             pushCollectionPosition(parts, el);
             pushSupplementalText(parts, el);
             break;
@@ -510,7 +537,7 @@
             break;
           }
         }
-        if (el.disabled && role !== "button") {
+        if (el.disabled && role !== "button" && role !== "link") {
           parts.push("dimmed");
         }
         return parts.filter(Boolean).join(", ");
@@ -531,6 +558,9 @@
         }
         if (role === "navigation") {
           return descriptor?.name ? `end of ${descriptor.name} navigation` : "end of navigation";
+        }
+        if (role === "complementary") {
+          return descriptor?.name ? `end of, ${descriptor.name}, complementary` : "end of, complementary";
         }
         if (role === "tabpanel") {
           return descriptor?.name ? `end of ${descriptor.name} tab panel` : "end of tab panel";
@@ -843,7 +873,35 @@
             for (const node of Array.from(clone.querySelectorAll("img, svg, [role='img'], [aria-hidden='true']"))) {
               node.remove();
             }
-            return !getReadableText(clone) && Boolean(getNestedImageLabel(el) || el.getAttribute("aria-label"));
+            return !getReadableText(clone) && Boolean(getNestedImageLabel(el) || el.getAttribute("aria-label") && !isDecorativeGraphicOnlyLabelledLink());
+          }
+          function isDecorativeGraphicOnlyLabelledLink() {
+            if (role !== "link" || !el.getAttribute("aria-label")) {
+              return false;
+            }
+            if (getNestedImageLabel(el)) {
+              return false;
+            }
+            const hasDecorativeGraphic = Boolean(el.querySelector("svg[aria-hidden='true'], img[aria-hidden='true'], [role='img'][aria-hidden='true']"));
+            if (!hasDecorativeGraphic) {
+              return false;
+            }
+            const clone = el.cloneNode(true);
+            for (const node of Array.from(clone.querySelectorAll("img, svg, [role='img'], [aria-hidden='true']"))) {
+              node.remove();
+            }
+            return !getReadableText(clone);
+          }
+          function getPriceGuideHeadingFragments() {
+            if (!/^h[1-6]$/.test(tag)) {
+              return void 0;
+            }
+            const text2 = getReadableText(el)?.replace(/\s+/g, " ").trim();
+            const match = text2?.match(/^(£[\d,.]+(?:\.\d{2})?)\s+(Guide price)$/);
+            if (!match) {
+              return void 0;
+            }
+            return [match[1], "space", match[2]];
           }
           function getSemanticListContext(node) {
             let listItem = node?.nodeType === Node.ELEMENT_NODE ? node : null;
@@ -894,8 +952,12 @@
               const index = siblings.indexOf(listItem);
               return index >= 0 ? index + 1 : void 0;
             }
+            if (role === "listbox" && tag === "select") {
+              return el.selectedIndex >= 0 ? el.selectedIndex + 1 : void 0;
+            }
             if (role === "tab") {
-              const siblings = Array.from(el.parentElement?.children || []).filter((child) => child.getAttribute("role") === "tab");
+              const tablist = el.closest("[role='tablist']");
+              const siblings = Array.from(tablist?.querySelectorAll("[role='tab']") || []);
               const index = siblings.indexOf(el);
               return index >= 0 ? index + 1 : void 0;
             }
@@ -1417,6 +1479,9 @@
           if (role === "combobox" && tag === "select") {
             value = el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : void 0;
           }
+          if (role === "listbox" && tag === "select") {
+            value = el.options[el.selectedIndex] ? el.options[el.selectedIndex].text : void 0;
+          }
           let valueText = el.getAttribute("aria-valuetext") || void 0;
           if (role === "progressbar" && !valueText) {
             const valueNow = Number.parseFloat(el.getAttribute("aria-valuenow") || "");
@@ -1435,7 +1500,7 @@
             level = parseInt(ariaLevel, 10);
           const headingButton = getHeadingButton();
           const headingLink = getHeadingLink();
-          const headingFragments = role === "heading" && !headingButton && !headingLink ? getFragmentedHeadingText() : void 0;
+          const headingFragments = role === "heading" && !headingButton && !headingLink ? getFragmentedHeadingText() || getPriceGuideHeadingFragments() : void 0;
           const inferredSetSize = role === "list" ? (tag === "dl" ? Array.from(el.children).filter((child) => {
             const childTag = child.tagName.toLowerCase();
             if (!["dt", "dd"].includes(childTag)) {
@@ -1447,7 +1512,7 @@
             const childTag = child.tagName.toLowerCase();
             const childRole = child.getAttribute("role") || "";
             return childRole === "listitem" || childTag === "li" && (!childRole || childRole === "listitem");
-          }).length) || void 0 : role === "term" ? Array.from(el.parentElement?.children || []).filter((child) => child.tagName.toLowerCase() === "dt").length || void 0 : role === "tab" ? Array.from(el.parentElement?.children || []).filter((child) => child.getAttribute("role") === "tab").length || void 0 : role === "progressbar" ? Array.from(el.parentElement?.children || []).filter((child) => child.getAttribute("role") === "progressbar").length || void 0 : role === "listitem" ? Array.from(el.parentElement?.children || []).filter((child) => isSemanticListItemElement(child)).length || void 0 : role === "heading" && (headingButton || headingLink) ? Array.from(el.closest("li")?.parentElement?.children || []).filter((child) => child.tagName.toLowerCase() === "li").length || void 0 : role === "button" && isStandaloneListItemButton() ? Array.from(el.closest("li")?.parentElement?.children || []).filter((child) => child.tagName.toLowerCase() === "li").length || void 0 : role === "button" && el.closest("dd") && el.closest("dl") ? Array.from(el.closest("dl")?.children || []).filter((child) => {
+          }).length) || void 0 : role === "term" ? Array.from(el.parentElement?.children || []).filter((child) => child.tagName.toLowerCase() === "dt").length || void 0 : role === "tab" ? Array.from(el.closest("[role='tablist']")?.querySelectorAll("[role='tab']") || []).length || void 0 : role === "progressbar" ? Array.from(el.parentElement?.children || []).filter((child) => child.getAttribute("role") === "progressbar").length || void 0 : role === "listbox" && tag === "select" ? el.options?.length || void 0 : role === "listitem" ? Array.from(el.parentElement?.children || []).filter((child) => isSemanticListItemElement(child)).length || void 0 : role === "heading" && (headingButton || headingLink) ? Array.from(el.closest("li")?.parentElement?.children || []).filter((child) => child.tagName.toLowerCase() === "li").length || void 0 : role === "button" && isStandaloneListItemButton() ? Array.from(el.closest("li")?.parentElement?.children || []).filter((child) => child.tagName.toLowerCase() === "li").length || void 0 : role === "button" && el.closest("dd") && el.closest("dl") ? Array.from(el.closest("dl")?.children || []).filter((child) => {
             if (!["dt", "dd"].includes(child.tagName.toLowerCase())) {
               return false;
             }
@@ -1498,7 +1563,7 @@
           const controls = el.getAttribute("aria-controls") || void 0;
           const modal = el.getAttribute("aria-modal") === "true" ? true : void 0;
           const sort = el.getAttribute("aria-sort") || void 0;
-          const selectedCount = role === "listbox" ? Array.from(el.querySelectorAll("[role='option'][aria-selected='true']")).length || void 0 : void 0;
+          const selectedCount = role === "listbox" ? tag === "select" ? el.selectedOptions?.length || void 0 : Array.from(el.querySelectorAll("[role='option'][aria-selected='true']")).length || void 0 : void 0;
           const combinedExpanded = expanded ?? (headingButton?.hasAttribute("aria-expanded") ? headingButton.getAttribute("aria-expanded") === "true" : void 0);
           const combinedName = role === "heading" && headingLink ? getElementAccessibleName(headingLink)?.slice(0, 200) || name : name || (headingButton ? getAccessibleText(headingButton)?.slice(0, 200) || void 0 : headingLink ? getElementAccessibleName(headingLink)?.slice(0, 200) || void 0 : void 0);
           const effectiveRole = role === "region" && isCarouselContainer(el) ? "group" : role === "text" && isNamedInlineMetadataText(el) ? "group" : role === "group" && isSingleReadableTextGroup(el) ? "text" : role;
@@ -1551,7 +1616,7 @@
             headingButton: Boolean(headingButton) || void 0,
             headingLink: Boolean(headingLink) || void 0,
             iconOnlyLink: isIconOnlyLink() || void 0,
-            linkRoleFirst: role === "link" && (Boolean(getAwardsImageStripLinkLabel(el)) || hasRawMarkupText(ariaLabel) && hasGroupedVisibleLinkBody(el) || isParagraphOnlyLinkText(el.parentElement)) ? true : void 0,
+            linkRoleFirst: role === "link" && (Boolean(getAwardsImageStripLinkLabel(el)) || isDecorativeGraphicOnlyLabelledLink() || hasRawMarkupText(ariaLabel) && hasGroupedVisibleLinkBody(el) || isParagraphOnlyLinkText(el.parentElement)) ? true : void 0,
             suppressContextEnd: isGroupedLinkBody() ? true : void 0,
             groupContext: role === "button" && el.parentElement?.tagName.toLowerCase() === "li" && !isStandaloneListItemButton() || Boolean(headingButton) ? true : void 0,
             boundingBox: {
@@ -1973,6 +2038,8 @@
           }
           if (tag === "a" && el.hasAttribute("href"))
             return true;
+          if (role === "link")
+            return true;
           if (tag === "input" && el.type !== "hidden")
             return true;
           if (hasStandaloneLabelStop(el))
@@ -2113,6 +2180,16 @@
         function scanSubtree(root) {
           const log = [];
           let stopIndex = 0;
+          function getWalkChildren(el) {
+            if (el.shadowRoot) {
+              return Array.from(el.shadowRoot.children);
+            }
+            const declarativeShadowRoot = Array.from(el.children).find((child) => child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode"));
+            if (declarativeShadowRoot) {
+              return Array.from(declarativeShadowRoot.content?.children || []);
+            }
+            return Array.from(el.children);
+          }
           function walk(el, allowRoot) {
             if (!el || el.nodeType !== Node.ELEMENT_NODE) {
               return;
@@ -2155,7 +2232,7 @@
               if (!shouldDescendIntoStop(el)) {
                 return;
               }
-              const childrenToWalk = descriptor?.role === "listbox" ? Array.from(el.children).filter((child) => (child.getAttribute("role") || "") === "option" && child.getAttribute("aria-selected") === "true") : Array.from(el.children);
+              const childrenToWalk = descriptor?.role === "listbox" ? getWalkChildren(el).filter((child) => (child.getAttribute("role") || "") === "option" && child.getAttribute("aria-selected") === "true") : getWalkChildren(el);
               for (const child of childrenToWalk) {
                 walk(child, false);
               }
@@ -2188,7 +2265,7 @@
               }
               return;
             }
-            for (const child of Array.from(el.children)) {
+            for (const child of getWalkChildren(el)) {
               walk(child, false);
             }
           }

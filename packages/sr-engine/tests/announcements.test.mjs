@@ -75,9 +75,33 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
   );
   assert.equal(
     getContextEndAnnouncement({
+      role: "complementary",
+    }),
+    "end of, complementary",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
       role: "group",
       suppressContextEnd: true,
     }),
     null,
+  );
+});
+
+test("generateAnnouncement matches VoiceOver phrasing for separators and disabled links", () => {
+  assert.equal(
+    generateAnnouncement({
+      role: "separator",
+    }),
+    "horizontal splitter",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "Checkout",
+      disabled: true,
+    }),
+    "dimmed, link, Checkout",
   );
 });

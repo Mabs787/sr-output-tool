@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SR Output Tool",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Select a section of the DOM to see simulated screen reader output",
   "permissions": [
     "activeTab",
