@@ -8,10 +8,9 @@
 
 ## Testing
 
-- [ ] `npm run build`
-- [ ] `npm run test:unit`
-- [ ] `npm run package:extension`
-- [ ] Not run; explain why:
+- [ ] GitHub Actions passed
+- [ ] Local/manual checks run, if needed:
+- [ ] Not run or CI unavailable; explain why:
 
 ## Release Notes
 
