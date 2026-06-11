@@ -69,7 +69,80 @@ jobs:
             echo "exit=$?"
           } > voiceover-smoke/accessibility-scripting.txt 2>&1
 
+      - name: Create browser fixture
+        run: |
+          mkdir -p voiceover-smoke
+          cat > voiceover-smoke/fixture.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <title>SR Output Tool VoiceOver Smoke Fixture</title>
+            </head>
+            <body>
+              <main>
+                <h1>VoiceOver smoke fixture</h1>
+                <p>This page checks whether hosted macOS can drive browser navigation with VoiceOver.</p>
+                <button type="button">Continue</button>
+              </main>
+            </body>
+          </html>
+          HTML
+
+      - name: Launch VoiceOver and navigate fixture
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+          FIXTURE_URL="file://$PWD/voiceover-smoke/fixture.html"
+
+          {
+            echo "## Fixture"
+            echo "$FIXTURE_URL"
+            echo
+
+            echo "## Launch Safari"
+            osascript -e "tell application \"Safari\" to activate" \
+              -e "tell application \"Safari\" to open location \"$FIXTURE_URL\""
+            echo "exit=$?"
+            sleep 3
+            echo
+
+            echo "## Launch VoiceOver"
+            open -a VoiceOver
+            echo "exit=$?"
+            sleep 5
+            pgrep -al VoiceOver || true
+            echo
+
+            echo "## VoiceOver right-arrow navigation"
+            osascript \
+              -e 'tell application "System Events"' \
+              -e 'key code 124 using {control down, option down}' \
+              -e 'delay 1' \
+              -e 'key code 124 using {control down, option down}' \
+              -e 'delay 1' \
+              -e 'key code 124 using {control down, option down}' \
+              -e 'end tell'
+            echo "exit=$?"
+            echo
+
+            echo "## Frontmost app after navigation"
+            osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true'
+            echo "exit=$?"
+          } > voiceover-smoke/voiceover-navigation.txt 2>&1
+
+          screencapture voiceover-smoke/safari-after-navigation.png > voiceover-smoke/screencapture.txt 2>&1 || true
+
+      - name: Stop VoiceOver
+        if: always()
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+          osascript -e 'tell application "VoiceOver" to quit' > voiceover-smoke/voiceover-cleanup.txt 2>&1
+          pgrep -al VoiceOver >> voiceover-smoke/voiceover-cleanup.txt 2>&1 || true
+
       - name: Upload smoke diagnostics
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: voiceover-smoke-diagnostics
