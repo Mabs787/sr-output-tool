@@ -310,6 +310,8 @@ jobs:
             echo
             echo "## VoiceOver processes after cleanup"
             pgrep -al VoiceOver || true
+            echo
+            echo "Note: hosted macOS may relaunch VoiceOver after kill; this cleanup step is diagnostic only."
           } > voiceover-smoke/voiceover-cleanup.txt 2>&1
 
       - name: Upload smoke diagnostics
