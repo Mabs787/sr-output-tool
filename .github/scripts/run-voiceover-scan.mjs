@@ -179,19 +179,6 @@ function resetVoiceOverPosition() {
   };
 }
 
-function recoverVoiceOverNavigation() {
-  return runAppleScript(`
-tell application "System Events"
-  key code 53
-  delay 0.2
-  key code 126 using {control down, option down, shift down}
-  delay 0.2
-  key code 124 using {control down, option down}
-  delay 0.5
-end tell
-`, 8000);
-}
-
 function captureVoiceOverState() {
   return runAppleScript(`
 on safeText(valueToRead)
@@ -524,15 +511,6 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
   return { stop: false, reason: "" };
 }
 
-function shouldRecoverNavigation(voiceOverSteps) {
-  if (voiceOverSteps.length < 3) {
-    return false;
-  }
-
-  const recent = voiceOverSteps.slice(-3).map(getCaptureText);
-  return recent.every((text) => text && text === recent[0]);
-}
-
 function compare(targetName, voiceOverSteps, engineResult) {
   const voiceOverLines = voiceOverSteps
     .map(getComparisonVoiceOverText)
@@ -619,10 +597,6 @@ function scanTarget(target) {
       focus: parseVoiceOverText(focusRaw.stdout || ""),
       recovery: null,
     });
-
-    if (shouldRecoverNavigation(voiceOverSteps)) {
-      voiceOverSteps.at(-1).recovery = recoverVoiceOverNavigation();
-    }
 
     const stopCheck = shouldStopScan({
       target,
