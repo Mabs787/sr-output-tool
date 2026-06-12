@@ -19,18 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build extension runtime
-        run: yarn build
-
       - name: Capture macOS environment
         run: |
           mkdir -p voiceover-smoke
@@ -43,7 +31,7 @@ jobs:
             echo
             echo "## Node"
             node --version
-            yarn --version
+            yarn --version || true
             echo
             echo "## VoiceOver processes before test"
             pgrep -al VoiceOver || true
@@ -221,7 +209,8 @@ jobs:
             echo "exit=$?"
           } > voiceover-smoke/voiceover-navigation.txt 2>&1
 
-      - name: Capture VoiceOver last phrase output
+      - name: Capture VoiceOver cursor output
+        continue-on-error: true
         run: |
           set +e
           mkdir -p voiceover-smoke
@@ -256,120 +245,6 @@ jobs:
             echo "exit=$?"
             echo
 
-            echo "## Stepwise last phrase capture"
-            for step in 1 2 3 4 5; do
-              pkill -x "VoiceOver Quick" || true
-              osascript \
-                -e 'tell application "Safari" to activate' \
-                -e 'delay 0.3' \
-                -e 'tell application "System Events"' \
-                -e 'key code 124 using {control down, option down}' \
-                -e 'end tell'
-              navigation_exit=$?
-              sleep 1
-
-              echo "step=$step navigationExit=$navigation_exit"
-              osascript <<'APPLESCRIPT'
-          on safeText(valueToRead)
-            try
-              if valueToRead is missing value then return ""
-              return valueToRead as text
-            on error errorMessage number errorNumber
-              return "error=" & errorNumber & " " & errorMessage
-            end try
-          end safeText
-
-          tell application "VoiceOver"
-            set phraseText to my safeText(content of last phrase)
-            set cursorText to my safeText(text under cursor of vo cursor)
-            return "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
-          end tell
-          APPLESCRIPT
-              echo "captureExit=$?"
-              echo
-            done
-          } > voiceover-smoke/voiceover-last-phrase.txt 2>&1
-
-      - name: Capture VoiceOver output candidates
-        run: |
-          set +e
-          mkdir -p voiceover-smoke
-
-          {
-            echo "## VoiceOver process snapshot"
-            pgrep -al VoiceOver || true
-            echo
-
-            echo "## VoiceOver UI dump"
-            osascript <<'APPLESCRIPT'
-          on safeText(valueToRead)
-            try
-              if valueToRead is missing value then return ""
-              return valueToRead as text
-            on error
-              return ""
-            end try
-          end safeText
-
-          on describeElement(elementToRead, indentText)
-            set outputText to ""
-            tell application "System Events"
-              try
-                set elementRole to my safeText(role of elementToRead)
-              on error
-                set elementRole to ""
-              end try
-              try
-                set elementName to my safeText(name of elementToRead)
-              on error
-                set elementName to ""
-              end try
-              try
-                set elementValue to my safeText(value of elementToRead)
-              on error
-                set elementValue to ""
-              end try
-
-              if elementRole is not "" or elementName is not "" or elementValue is not "" then
-                set outputText to outputText & indentText & "role=" & elementRole & " name=" & elementName & " value=" & elementValue & linefeed
-              end if
-            end tell
-            return outputText
-          end describeElement
-
-          on describeProcess(processName)
-            set outputText to "process=" & processName & linefeed
-            tell application "System Events"
-              if not (exists process processName) then return outputText & "missing" & linefeed
-              tell process processName
-                try
-                  set outputText to outputText & "windowCount=" & ((count of windows) as text) & linefeed
-                  repeat with windowToRead in windows
-                    set outputText to outputText & my describeElement(windowToRead, "  ")
-                    try
-                      repeat with elementToRead in UI elements of windowToRead
-                        set outputText to outputText & my describeElement(elementToRead, "    ")
-                        try
-                          repeat with childToRead in UI elements of elementToRead
-                            set outputText to outputText & my describeElement(childToRead, "      ")
-                          end repeat
-                        end try
-                      end repeat
-                    end try
-                  end repeat
-                on error errorMessage number errorNumber
-                  set outputText to outputText & "error=" & errorNumber & " " & errorMessage & linefeed
-                end try
-              end tell
-            end tell
-            return outputText
-          end describeProcess
-
-          return describeProcess("VoiceOver") & linefeed & describeProcess("VoiceOver Quick")
-          APPLESCRIPT
-            echo "exit=$?"
-            echo
-
             echo "## Safari focused accessibility element"
             osascript <<'APPLESCRIPT'
           tell application "System Events"
@@ -393,71 +268,10 @@ jobs:
           end tell
           APPLESCRIPT
             echo "exit=$?"
-            echo
-
-            echo "## Safari accessibility tree sample"
-            osascript <<'APPLESCRIPT'
-          on safeText(valueToRead)
-            try
-              if valueToRead is missing value then return ""
-              return valueToRead as text
-            on error
-              return ""
-            end try
-          end safeText
-
-          on describeElement(elementToRead, indentText, depthRemaining)
-            set outputText to ""
-            tell application "System Events"
-              try
-                set elementRole to my safeText(role of elementToRead)
-              on error
-                set elementRole to ""
-              end try
-              try
-                set elementName to my safeText(name of elementToRead)
-              on error
-                set elementName to ""
-              end try
-              try
-                set elementValue to my safeText(value of elementToRead)
-              on error
-                set elementValue to ""
-              end try
-
-              if elementRole is not "" or elementName is not "" or elementValue is not "" then
-                set outputText to outputText & indentText & "role=" & elementRole & " name=" & elementName & " value=" & elementValue & linefeed
-              end if
-
-              if depthRemaining > 0 then
-                try
-                  repeat with childToRead in UI elements of elementToRead
-                    set outputText to outputText & my describeElement(childToRead, indentText & "  ", depthRemaining - 1)
-                  end repeat
-                end try
-              end if
-            end tell
-            return outputText
-          end describeElement
-
-          tell application "System Events"
-            tell process "Safari"
-              try
-                set outputText to "windowCount=" & ((count of windows) as text) & linefeed
-                repeat with windowToRead in windows
-                  set outputText to outputText & my describeElement(windowToRead, "  ", 4)
-                end repeat
-                return outputText
-              on error errorMessage number errorNumber
-                return "error=" & errorNumber & " " & errorMessage
-              end try
-            end tell
-          end tell
-          APPLESCRIPT
-            echo "exit=$?"
-          } > voiceover-smoke/voiceover-output-candidates.txt 2>&1
+          } > voiceover-smoke/voiceover-last-phrase.txt 2>&1
 
       - name: Capture VoiceOver diagnostics
+        continue-on-error: true
         run: |
           set +e
           mkdir -p voiceover-smoke
@@ -475,8 +289,8 @@ jobs:
             defaults read com.apple.VoiceOver4 || true
             echo
 
-            echo "## VoiceOver scripting definition"
-            sdef /System/Library/CoreServices/VoiceOver.app || true
+            echo "## VoiceOver process snapshot"
+            pgrep -al VoiceOver || true
           } > voiceover-smoke/voiceover-diagnostics.txt 2>&1
 
       - name: Stop VoiceOver
@@ -485,12 +299,10 @@ jobs:
           set +e
           mkdir -p voiceover-smoke
           {
-            osascript -e 'tell application "VoiceOver" to quit'
-            echo "osascript exit=$?"
-            sleep 2
+            echo "## VoiceOver processes before cleanup"
             pgrep -al VoiceOver || true
-            pkill -x VoiceOver || true
             pkill -x "VoiceOver Quick" || true
+            pkill -x VoiceOver || true
             sleep 1
             echo
             echo "## VoiceOver processes after cleanup"
