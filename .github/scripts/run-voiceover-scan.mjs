@@ -70,6 +70,42 @@ function activateSafari() {
   return runAppleScript('tell application "Safari" to activate', 8000);
 }
 
+function dismissSafariDialogs() {
+  return runAppleScript(`
+set logText to ""
+tell application "System Events"
+  if exists process "Safari" then
+    tell process "Safari"
+      repeat with attemptNumber from 1 to 5
+        try
+          set logText to logText & "attempt=" & attemptNumber & " windowCount=" & ((count of windows) as text) & linefeed
+          repeat with windowToRead in windows
+            try
+              set logText to logText & "  window=" & ((name of windowToRead) as text) & linefeed
+              repeat with buttonToRead in buttons of windowToRead
+                try
+                  set buttonName to name of buttonToRead as text
+                  set logText to logText & "    button=" & buttonName & linefeed
+                  if buttonName contains "Not Now" or buttonName contains "Don" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" then
+                    click buttonToRead
+                    set logText to logText & "clicked=" & buttonName & linefeed
+                    delay 1
+                    exit repeat
+                  end if
+                end try
+              end repeat
+            end try
+          end repeat
+        end try
+        delay 1
+      end repeat
+    end tell
+  end if
+end tell
+return logText
+`, 12000);
+}
+
 function navigateRight() {
   return runAppleScript(`
 tell application "System Events"
@@ -204,15 +240,23 @@ function scanTarget(target) {
 
   const launchSafariResult = launchSafari(url);
   run("sleep", ["3"], { timeout: 5000 });
+  const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
   activateSafari();
+  const dismissSafariAfterVoiceOver = dismissSafariDialogs();
   run("sleep", ["1"], { timeout: 3000 });
 
-  const engineRaw = renderEngineOutput(
+  let engineRaw = renderEngineOutput(
     target.scanRootSelector || "[data-sr-scan-root]",
   );
+  if (!engineRaw.ok) {
+    dismissSafariDialogs();
+    engineRaw = renderEngineOutput(
+      target.scanRootSelector || "[data-sr-scan-root]",
+    );
+  }
   let engineResult;
   try {
     engineResult = JSON.parse(engineRaw.stdout || "{}");
@@ -239,6 +283,8 @@ function scanTarget(target) {
 
   summary.finishedAt = new Date().toISOString();
   summary.launchSafari = launchSafariResult;
+  summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
+  summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
   summary.engineRaw = engineRaw;
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
