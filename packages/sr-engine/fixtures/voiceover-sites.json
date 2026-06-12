@@ -1,0 +1,8 @@
+[
+  {
+    "name": "basic-page",
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/basic-page.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "steps": 3
+  }
+]
