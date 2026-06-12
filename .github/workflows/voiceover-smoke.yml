@@ -116,15 +116,40 @@ jobs:
 
             echo "## Dismiss VoiceOver welcome"
             osascript <<'APPLESCRIPT'
+          set logText to ""
+
           tell application "System Events"
             repeat with attemptNumber from 1 to 10
               if exists process "VoiceOver" then
                 tell process "VoiceOver"
                   try
+                    set logText to logText & "attempt=" & attemptNumber & " windowCount=" & ((count of windows) as text) & linefeed
+                    repeat with windowToRead in windows
+                      try
+                        set logText to logText & "  window=" & ((name of windowToRead) as text) & linefeed
+                        repeat with buttonToRead in buttons of windowToRead
+                          try
+                            set logText to logText & "    button=" & ((name of buttonToRead) as text) & linefeed
+                          end try
+                        end repeat
+                      end try
+                    end repeat
+                  end try
+
+                  try
                     if exists button "Use VoiceOver" of window 1 then
                       click button "Use VoiceOver" of window 1
+                      set logText to logText & "clicked=Use VoiceOver" & linefeed
                       delay 2
                       exit repeat
+                    end if
+                  end try
+
+                  try
+                    if exists button "Continue" of window 1 then
+                      click button "Continue" of window 1
+                      set logText to logText & "clicked=Continue" & linefeed
+                      delay 1
                     end if
                   end try
                 end tell
@@ -135,10 +160,13 @@ jobs:
             try
               if exists process "VoiceOver Quick" then
                 key code 53
+                set logText to logText & "pressed=Escape for VoiceOver Quick" & linefeed
                 delay 1
               end if
             end try
           end tell
+
+          return logText
           APPLESCRIPT
             echo "exit=$?"
             osascript -e "tell application \"Safari\" to activate"
@@ -162,12 +190,10 @@ jobs:
             echo "exit=$?"
           } > voiceover-smoke/voiceover-navigation.txt 2>&1
 
-          screencapture voiceover-smoke/safari-after-navigation.png > voiceover-smoke/screencapture.txt 2>&1 || true
-
       - name: Capture VoiceOver last phrase output
         run: |
           set +e
-          mkdir -p voiceover-smoke/screenshots
+          mkdir -p voiceover-smoke
 
           osascript -e 'tell application "VoiceOver" to set enabled of caption window to true' > voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
           osascript -e 'tell application "Safari" to activate' >> voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
@@ -227,41 +253,9 @@ jobs:
           end tell
           APPLESCRIPT
               echo "captureExit=$?"
-              screencapture "voiceover-smoke/screenshots/last-phrase-step-$step.png" || true
               echo
             done
           } > voiceover-smoke/voiceover-last-phrase.txt 2>&1
-
-      - name: Capture VoiceOver navigation screenshots
-        run: |
-          set +e
-          mkdir -p voiceover-smoke/screenshots
-
-          {
-            echo "## VoiceOver caption panel toggle"
-            osascript \
-              -e 'tell application "Safari" to activate' \
-              -e 'delay 1' \
-              -e 'tell application "System Events"' \
-              -e 'key code 109 using {control down, option down, command down}' \
-              -e 'end tell'
-            echo "exit=$?"
-            sleep 2
-            screencapture voiceover-smoke/screenshots/00-caption-toggle.png
-            echo "screenshot=00-caption-toggle.png"
-            echo
-
-            echo "## Stepwise VoiceOver navigation screenshots"
-            for step in 1 2 3 4 5; do
-              osascript \
-                -e 'tell application "System Events"' \
-                -e 'key code 124 using {control down, option down}' \
-                -e 'end tell'
-              echo "step=$step exit=$?"
-              sleep 1
-              screencapture "voiceover-smoke/screenshots/step-$step.png"
-            done
-          } > voiceover-smoke/voiceover-screenshot-capture.txt 2>&1
 
       - name: Capture VoiceOver output candidates
         run: |
