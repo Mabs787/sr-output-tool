@@ -69,6 +69,34 @@ jobs:
             echo "exit=$?"
           } > voiceover-smoke/accessibility-scripting.txt 2>&1
 
+      - name: Configure VoiceOver first-run state
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## Seed VoiceOver first-run preferences"
+            defaults write com.apple.VoiceOverTraining doNotShowSplashScreen -bool true
+            echo "doNotShowSplashScreen exit=$?"
+            defaults write com.apple.VoiceOverTraining doNotShowWelcome -bool true
+            echo "doNotShowWelcome exit=$?"
+            defaults write com.apple.VoiceOverTraining didShowWelcome -bool true
+            echo "didShowWelcome exit=$?"
+            defaults write com.apple.VoiceOverTraining hasRunQuickStart -bool true
+            echo "hasRunQuickStart exit=$?"
+            defaults write com.apple.VoiceOverTraining quickStartCompleted -bool true
+            echo "quickStartCompleted exit=$?"
+            defaults write com.apple.VoiceOverTraining showTrainingAtStartup -bool false
+            echo "showTrainingAtStartup exit=$?"
+            defaults write com.apple.VoiceOver4/default SCREnableCaptionPanel -bool true
+            echo "SCREnableCaptionPanel exit=$?"
+            echo
+
+            echo "## Seeded domains"
+            defaults read com.apple.VoiceOverTraining || true
+            defaults read com.apple.VoiceOver4/default || true
+          } > voiceover-smoke/voiceover-first-run-state.txt 2>&1
+
       - name: Create browser fixture
         run: |
           mkdir -p voiceover-smoke
@@ -169,8 +197,10 @@ jobs:
           return logText
           APPLESCRIPT
             echo "exit=$?"
+            pkill -x "VoiceOver Quick" || true
             osascript -e "tell application \"Safari\" to activate"
             sleep 2
+            pgrep -al VoiceOver || true
             echo
 
             echo "## VoiceOver right-arrow navigation"
@@ -197,6 +227,7 @@ jobs:
 
           osascript -e 'tell application "VoiceOver" to set enabled of caption window to true' > voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
           osascript -e 'tell application "Safari" to activate' >> voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
+          pkill -x "VoiceOver Quick" >> voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
           sleep 1
 
           {
@@ -226,6 +257,7 @@ jobs:
 
             echo "## Stepwise last phrase capture"
             for step in 1 2 3 4 5; do
+              pkill -x "VoiceOver Quick" || true
               osascript \
                 -e 'tell application "Safari" to activate' \
                 -e 'delay 0.3' \
