@@ -13,7 +13,7 @@ jobs:
   hosted-macos-capability-check:
     name: Hosted macOS capability check
     runs-on: macos-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -303,6 +303,9 @@ jobs:
             pgrep -al VoiceOver || true
             pkill -x "VoiceOver Quick" || true
             pkill -x VoiceOver || true
+            sleep 1
+            pkill -9 -x "VoiceOver Quick" || true
+            pkill -9 -x VoiceOver || true
             sleep 1
             echo
             echo "## VoiceOver processes after cleanup"
