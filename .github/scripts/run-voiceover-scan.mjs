@@ -35,6 +35,17 @@ function runAppleScript(script, timeout = 15000) {
   };
 }
 
+function toCommandResult(result) {
+  return {
+    ok: result.status === 0 && !result.error,
+    status: result.status,
+    signal: result.signal,
+    stdout: String(result.stdout || "").trim(),
+    stderr: String(result.stderr || "").trim(),
+    error: result.error ? String(result.error.message || result.error) : "",
+  };
+}
+
 function appleString(value) {
   return JSON.stringify(String(value));
 }
@@ -57,15 +68,15 @@ function getTargetUrl(target) {
 }
 
 function launchSafari(url) {
-  return runAppleScript(`
-tell application "Safari"
-  activate
-  if (count of documents) is 0 then
-    make new document
-  end if
-  set URL of document 1 to ${appleString(url)}
-end tell
-`, 15000);
+  const openResult = toCommandResult(
+    run("open", ["-a", "Safari", url], { timeout: 15000 }),
+  );
+  const activateResult = activateSafari();
+
+  return {
+    ...openResult,
+    activateSafari: activateResult,
+  };
 }
 
 function launchVoiceOver() {
@@ -106,13 +117,7 @@ tell application "System Events"
             end try
           end repeat
         end try
-        if clickedButton is false then
-          try
-            key code 36
-            set logText to logText & "pressed=Return" & linefeed
-            delay 1
-          end try
-        end if
+        if clickedButton is false then set logText to logText & "no dialog action" & linefeed
         delay 1
       end repeat
     end tell
@@ -231,6 +236,30 @@ tell application "System Events"
   end tell
 end tell
 `, 8000);
+}
+
+function prepareScanRoot(scanRootSelector) {
+  const script = [
+    "(() => {",
+    `const root = document.querySelector(${JSON.stringify(scanRootSelector)}) || document.body;`,
+    "root.setAttribute('tabindex', root.getAttribute('tabindex') || '-1');",
+    "root.scrollIntoView({ block: 'start', inline: 'nearest' });",
+    "root.focus({ preventScroll: true });",
+    "return JSON.stringify({",
+    "title: document.title,",
+    "readyState: document.readyState,",
+    "url: location.href,",
+    "activeTagName: document.activeElement?.tagName || '',",
+    "activeText: document.activeElement?.innerText || document.activeElement?.value || '',",
+    "});",
+    "})()",
+  ].join(" ");
+
+  return runAppleScript(`
+tell application "Safari"
+  do JavaScript ${appleString(script)} in document 1
+end tell
+`, 15000);
 }
 
 function injectEngineRuntime() {
@@ -432,6 +461,9 @@ function scanTarget(target) {
   run("sleep", ["3"], { timeout: 5000 });
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
+  const prepareScanRootBeforeVoiceOver = prepareScanRoot(
+    target.scanRootSelector || "[data-sr-scan-root]",
+  );
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
@@ -439,6 +471,9 @@ function scanTarget(target) {
   const dismissSafariAfterVoiceOver = dismissSafariDialogs();
   const dismissSystemAfterVoiceOver = dismissSystemDialogs();
   activateSafari();
+  const prepareScanRootAfterVoiceOver = prepareScanRoot(
+    target.scanRootSelector || "[data-sr-scan-root]",
+  );
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = resetVoiceOverPosition();
   run("sleep", ["2"], { timeout: 4000 });
@@ -511,8 +546,10 @@ function scanTarget(target) {
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
+  summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
+  summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
   summary.injectEngineRuntime = injectEngineRuntimeResult;
   summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
