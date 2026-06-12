@@ -64,11 +64,19 @@ jobs:
           mkdir -p voiceover-smoke
 
           {
+            echo "## Stop Safari before seeding preferences"
+            osascript -e 'tell application "Safari" to quit' || true
+            killall Safari || true
+            sleep 2
+            echo
+
             echo "## Seed Safari automation preferences"
             defaults write com.apple.Safari IncludeDevelopMenu -bool true
             echo "IncludeDevelopMenu exit=$?"
             defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
             echo "AllowJavaScriptFromAppleEvents exit=$?"
+            safaridriver --enable
+            echo "safaridriver --enable exit=$?"
             defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
             echo "AppleDictationAutoEnable exit=$?"
             defaults write com.apple.assistant.support "Dictation Enabled" -bool false
@@ -81,6 +89,35 @@ jobs:
             defaults read com.apple.HIToolbox AppleDictationAutoEnable || true
             defaults read com.apple.assistant.support "Dictation Enabled" || true
           } > voiceover-smoke/safari-automation-state.txt 2>&1
+
+      - name: Prime Safari JavaScript automation
+        continue-on-error: true
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## Launch Safari after preference seeding"
+            open -a Safari about:blank
+            echo "open exit=$?"
+            sleep 5
+            echo
+
+            echo "## AppleScript activate Safari"
+            osascript -e 'tell application "Safari" to activate'
+            echo "activate exit=$?"
+            echo
+
+            echo "## Safari JavaScript Apple Event smoke"
+            osascript -e 'tell application "Safari" to do JavaScript "document.title = \"VoiceOver automation primed\"; document.title" in document 1'
+            echo "do JavaScript exit=$?"
+            echo
+
+            echo "## Stop primed Safari"
+            osascript -e 'tell application "Safari" to quit' || true
+            killall Safari || true
+            sleep 2
+          } > voiceover-smoke/safari-automation-prime.txt 2>&1
 
       - name: Configure VoiceOver first-run state
         run: |
