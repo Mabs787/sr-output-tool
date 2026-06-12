@@ -313,6 +313,13 @@ function getComparisonVoiceOverText(step) {
     .trim();
 }
 
+function isComparisonNoise(announcement) {
+  return (
+    announcement === "main" ||
+    announcement.endsWith(" web content")
+  );
+}
+
 function getStopPhrases(target) {
   const values = [];
   const stopWhen = target.stopWhen || {};
@@ -376,9 +383,11 @@ function compare(targetName, voiceOverSteps, engineResult) {
   const voiceOverLines = voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
-    .filter((announcement) => announcement !== "main");
+    .filter((announcement) => !isComparisonNoise(announcement));
   const engineLines = Array.isArray(engineResult?.announcements)
-    ? engineResult.announcements.filter((announcement) => announcement !== "main")
+    ? engineResult.announcements.filter(
+        (announcement) => !isComparisonNoise(announcement),
+      )
     : [];
 
   const lines = [
