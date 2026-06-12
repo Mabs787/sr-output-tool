@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawnSync } from "node:child_process";
+import { JSDOM } from "jsdom";
 
 const repoRoot = process.cwd();
 const manifestPath = path.join(
@@ -238,7 +239,7 @@ end tell
 `, 8000);
 }
 
-function prepareScanRoot(scanRootSelector) {
+function prepareScanRootInSafari(scanRootSelector) {
   const script = [
     "(() => {",
     `const root = document.querySelector(${JSON.stringify(scanRootSelector)}) || document.body;`,
@@ -262,6 +263,22 @@ end tell
 `, 15000);
 }
 
+function prepareScanRoot(target, scanRootSelector) {
+  if (target.fixturePath) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout:
+        "skipped: Safari JavaScript automation is not required for fixture scans",
+      stderr: "",
+      error: "",
+    };
+  }
+
+  return prepareScanRootInSafari(scanRootSelector);
+}
+
 function injectEngineRuntime() {
   const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
   return runAppleScript(`
@@ -271,7 +288,100 @@ end tell
 `, 20000);
 }
 
-function renderEngineOutput(scanRootSelector) {
+function renderEngineOutputInJsdom(target, scanRootSelector) {
+  if (!target.fixturePath) {
+    return null;
+  }
+
+  try {
+    const fixturePath = path.resolve(repoRoot, target.fixturePath);
+    const html = readFileSync(fixturePath, "utf8");
+    const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
+    const dom = new JSDOM(html, {
+      url: pathToFileURL(fixturePath).href,
+      runScripts: "dangerously",
+      pretendToBeVisual: true,
+    });
+    const { window } = dom;
+
+    if (
+      !Object.getOwnPropertyDescriptor(window.HTMLElement.prototype, "innerText")
+    ) {
+      Object.defineProperty(window.HTMLElement.prototype, "innerText", {
+        configurable: true,
+        get() {
+          return this.textContent || "";
+        },
+        set(value) {
+          this.textContent = value;
+        },
+      });
+    }
+
+    if (!window.CSS) {
+      window.CSS = {};
+    }
+
+    if (!window.CSS.escape) {
+      window.CSS.escape = (value) => String(value);
+    }
+
+    window.HTMLElement.prototype.scrollIntoView ||= function scrollIntoView() {};
+    window.Date.now = () => 1700000000000;
+    window.eval(engineRuntimeSource);
+
+    const createDomScanner = window.__srEngineCreateDomScanner;
+    const generateAnnouncement = window.__srEngineGenerateAnnouncement;
+    const getContextEndAnnouncement = window.__srEngineGetContextEndAnnouncement;
+    if (typeof createDomScanner !== "function") {
+      return {
+        ok: false,
+        status: 1,
+        signal: null,
+        stdout: "",
+        stderr: "engine runtime was not available in jsdom",
+        error: "",
+      };
+    }
+
+    const scanner = createDomScanner({
+      generateAnnouncement,
+      getContextEndAnnouncement,
+      now: () => 1700000000000,
+    });
+    const root =
+      window.document.querySelector(scanRootSelector) || window.document.body;
+    const log = scanner.scanSubtree(root);
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: JSON.stringify({
+        source: "jsdom",
+        announcements: log.map((entry) => entry.announcement),
+        entries: log.map((entry) => ({
+          announcement: entry.announcement,
+          role: entry.descriptor?.role || "",
+          name: entry.descriptor?.name || "",
+          tagName: entry.element?.tagName || "",
+        })),
+      }),
+      stderr: "",
+      error: "",
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 1,
+      signal: null,
+      stdout: "",
+      stderr: "",
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+function renderEngineOutputInSafari(scanRootSelector) {
   const script = [
     "(() => {",
     "const createDomScanner = window.__srEngineCreateDomScanner;",
@@ -298,6 +408,13 @@ tell application "Safari"
   do JavaScript ${appleString(script)} in document 1
 end tell
 `, 15000);
+}
+
+function renderEngineOutput(target, scanRootSelector) {
+  return (
+    renderEngineOutputInJsdom(target, scanRootSelector) ||
+    renderEngineOutputInSafari(scanRootSelector)
+  );
 }
 
 function parseVoiceOverText(stdout) {
@@ -462,6 +579,7 @@ function scanTarget(target) {
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
+    target,
     target.scanRootSelector || "[data-sr-scan-root]",
   );
   launchVoiceOver();
@@ -472,6 +590,7 @@ function scanTarget(target) {
   const dismissSystemAfterVoiceOver = dismissSystemDialogs();
   activateSafari();
   const prepareScanRootAfterVoiceOver = prepareScanRoot(
+    target,
     target.scanRootSelector || "[data-sr-scan-root]",
   );
   run("sleep", ["1"], { timeout: 3000 });
@@ -518,9 +637,19 @@ function scanTarget(target) {
 
   activateSafari();
   run("sleep", ["1"], { timeout: 3000 });
-  const injectEngineRuntimeResult = injectEngineRuntime();
+  const injectEngineRuntimeResult = target.fixturePath
+    ? {
+        ok: true,
+        status: 0,
+        signal: null,
+        stdout: "skipped: engine output rendered in jsdom for fixture scan",
+        stderr: "",
+        error: "",
+      }
+    : injectEngineRuntime();
   let dismissSafariBeforeEngineRetry = null;
   let engineRaw = renderEngineOutput(
+    target,
     target.scanRootSelector || "[data-sr-scan-root]",
   );
   if (!engineRaw.ok) {
@@ -528,8 +657,11 @@ function scanTarget(target) {
     dismissSystemDialogs();
     activateSafari();
     run("sleep", ["1"], { timeout: 3000 });
-    injectEngineRuntime();
+    if (!target.fixturePath) {
+      injectEngineRuntime();
+    }
     engineRaw = renderEngineOutput(
+      target,
       target.scanRootSelector || "[data-sr-scan-root]",
     );
   }

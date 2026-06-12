@@ -19,6 +19,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Capture macOS environment
         run: |
           mkdir -p voiceover-smoke
@@ -75,8 +84,6 @@ jobs:
             echo "IncludeDevelopMenu exit=$?"
             defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
             echo "AllowJavaScriptFromAppleEvents exit=$?"
-            safaridriver --enable
-            echo "safaridriver --enable exit=$?"
             defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
             echo "AppleDictationAutoEnable exit=$?"
             defaults write com.apple.assistant.support "Dictation Enabled" -bool false
