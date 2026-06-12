@@ -261,7 +261,7 @@ function compare(targetName, voiceOverSteps, engineResult) {
     .map((step) => step.voiceOver?.lastPhrase || step.voiceOver?.voCursorText || "")
     .filter(Boolean);
   const engineLines = Array.isArray(engineResult?.announcements)
-    ? engineResult.announcements
+    ? engineResult.announcements.filter((announcement) => announcement !== "main")
     : [];
 
   const lines = [
