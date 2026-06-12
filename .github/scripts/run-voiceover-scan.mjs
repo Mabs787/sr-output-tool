@@ -163,14 +163,14 @@ end tell
 }
 
 function resetVoiceOverPosition() {
-  return runAppleScript(`
-tell application "System Events"
-  key code 53
-  delay 0.2
-  key code 126 using {control down, option down, command down}
-  delay 0.5
-end tell
-`, 8000);
+  return {
+    ok: true,
+    status: 0,
+    signal: null,
+    stdout: "skipped: reset can move VoiceOver into browser chrome",
+    stderr: "",
+    error: "",
+  };
 }
 
 function recoverVoiceOverNavigation() {
@@ -319,7 +319,12 @@ function getComparisonVoiceOverText(step) {
 function isComparisonNoise(announcement) {
   return (
     announcement === "main" ||
-    announcement.endsWith(" web content")
+    announcement === "toolbar" ||
+    announcement === "collection" ||
+    announcement === "Edit button" ||
+    announcement === "Edit customizations button" ||
+    announcement.endsWith(" web content") ||
+    announcement.includes(" splitter")
   );
 }
 
