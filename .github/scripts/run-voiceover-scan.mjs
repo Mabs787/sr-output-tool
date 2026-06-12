@@ -164,11 +164,6 @@ end tell
 
 function resetVoiceOverPosition() {
   return runAppleScript(`
-tell application "VoiceOver"
-  try
-    move vo cursor to first item
-  end try
-end tell
 tell application "System Events"
   key code 53
   delay 0.2
