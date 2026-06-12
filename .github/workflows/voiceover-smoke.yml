@@ -114,11 +114,40 @@ jobs:
             pgrep -al VoiceOver || true
             echo
 
+            echo "## Dismiss VoiceOver welcome"
+            osascript <<'APPLESCRIPT'
+          tell application "System Events"
+            repeat with attemptNumber from 1 to 10
+              if exists process "VoiceOver" then
+                tell process "VoiceOver"
+                  try
+                    if exists button "Use VoiceOver" of window 1 then
+                      click button "Use VoiceOver" of window 1
+                      delay 2
+                      exit repeat
+                    end if
+                  end try
+                end tell
+              end if
+              delay 1
+            end repeat
+
+            try
+              if exists process "VoiceOver Quick" then
+                key code 53
+                delay 1
+              end if
+            end try
+          end tell
+          APPLESCRIPT
+            echo "exit=$?"
+            osascript -e "tell application \"Safari\" to activate"
+            sleep 2
+            echo
+
             echo "## VoiceOver right-arrow navigation"
             osascript \
               -e 'tell application "System Events"' \
-              -e 'key code 109 using {control down, option down, command down}' \
-              -e 'delay 1' \
               -e 'key code 124 using {control down, option down}' \
               -e 'delay 1' \
               -e 'key code 124 using {control down, option down}' \
@@ -134,6 +163,74 @@ jobs:
           } > voiceover-smoke/voiceover-navigation.txt 2>&1
 
           screencapture voiceover-smoke/safari-after-navigation.png > voiceover-smoke/screencapture.txt 2>&1 || true
+
+      - name: Capture VoiceOver last phrase output
+        run: |
+          set +e
+          mkdir -p voiceover-smoke/screenshots
+
+          osascript -e 'tell application "VoiceOver" to set enabled of caption window to true' > voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
+          osascript -e 'tell application "Safari" to activate' >> voiceover-smoke/voiceover-caption-window.txt 2>&1 || true
+          sleep 1
+
+          {
+            echo "## Initial VoiceOver state"
+            osascript <<'APPLESCRIPT'
+          on safeText(valueToRead)
+            try
+              if valueToRead is missing value then return ""
+              return valueToRead as text
+            on error errorMessage number errorNumber
+              return "error=" & errorNumber & " " & errorMessage
+            end try
+          end safeText
+
+          tell application "VoiceOver"
+            set captionState to false
+            try
+              set captionState to enabled of caption window
+            end try
+            set phraseText to my safeText(content of last phrase)
+            set cursorText to my safeText(text under cursor of vo cursor)
+            return "captionWindowEnabled=" & (captionState as text) & linefeed & "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
+          end tell
+          APPLESCRIPT
+            echo "exit=$?"
+            echo
+
+            echo "## Stepwise last phrase capture"
+            for step in 1 2 3 4 5; do
+              osascript \
+                -e 'tell application "Safari" to activate' \
+                -e 'delay 0.3' \
+                -e 'tell application "System Events"' \
+                -e 'key code 124 using {control down, option down}' \
+                -e 'end tell'
+              navigation_exit=$?
+              sleep 1
+
+              echo "step=$step navigationExit=$navigation_exit"
+              osascript <<'APPLESCRIPT'
+          on safeText(valueToRead)
+            try
+              if valueToRead is missing value then return ""
+              return valueToRead as text
+            on error errorMessage number errorNumber
+              return "error=" & errorNumber & " " & errorMessage
+            end try
+          end safeText
+
+          tell application "VoiceOver"
+            set phraseText to my safeText(content of last phrase)
+            set cursorText to my safeText(text under cursor of vo cursor)
+            return "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
+          end tell
+          APPLESCRIPT
+              echo "captureExit=$?"
+              screencapture "voiceover-smoke/screenshots/last-phrase-step-$step.png" || true
+              echo
+            done
+          } > voiceover-smoke/voiceover-last-phrase.txt 2>&1
 
       - name: Capture VoiceOver navigation screenshots
         run: |
