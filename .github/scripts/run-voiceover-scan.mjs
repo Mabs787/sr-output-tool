@@ -8,6 +8,10 @@ const manifestPath = path.join(
   repoRoot,
   "packages/sr-engine/fixtures/voiceover-sites.json",
 );
+const engineRuntimePath = path.join(
+  repoRoot,
+  "packages/sr-extension/src/content/engine-runtime.js",
+);
 const outputRoot = path.join(repoRoot, "voiceover-smoke/scans");
 
 function run(command, args, options = {}) {
@@ -115,6 +119,38 @@ return logText
 `, 12000);
 }
 
+function dismissSystemDialogs() {
+  return runAppleScript(`
+set logText to ""
+tell application "System Events"
+  repeat with processToRead in application processes
+    try
+      set processName to name of processToRead as text
+      repeat with windowToRead in windows of processToRead
+        try
+          set windowName to name of windowToRead as text
+          set logText to logText & "process=" & processName & " window=" & windowName & linefeed
+          repeat with buttonToRead in buttons of windowToRead
+            try
+              set buttonName to name of buttonToRead as text
+              set logText to logText & "  button=" & buttonName & linefeed
+              if buttonName contains "Don" or buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" then
+                click buttonToRead
+                set logText to logText & "clicked=" & processName & ":" & buttonName & linefeed
+                delay 1
+                return logText
+              end if
+            end try
+          end repeat
+        end try
+      end repeat
+    end try
+  end repeat
+end tell
+return logText
+`, 10000);
+}
+
 function navigateRight() {
   return runAppleScript(`
 tell application "System Events"
@@ -168,6 +204,15 @@ tell application "System Events"
   end tell
 end tell
 `, 8000);
+}
+
+function injectEngineRuntime() {
+  const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
+  return runAppleScript(`
+tell application "Safari"
+  do JavaScript ${appleString(engineRuntimeSource)} in document 1
+end tell
+`, 20000);
 }
 
 function renderEngineOutput(scanRootSelector) {
@@ -250,21 +295,47 @@ function scanTarget(target) {
   const launchSafariResult = launchSafari(url);
   run("sleep", ["3"], { timeout: 5000 });
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
+  const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
   activateSafari();
   const dismissSafariAfterVoiceOver = dismissSafariDialogs();
+  const dismissSystemAfterVoiceOver = dismissSystemDialogs();
   run("sleep", ["1"], { timeout: 3000 });
 
+  const voiceOverSteps = [];
+  for (let index = 0; index < Number(target.steps || 3); index += 1) {
+    const navigation = navigateRight();
+    run("sleep", ["1"], { timeout: 3000 });
+    const dismissSystemAfterNavigation = dismissSystemDialogs();
+    const voiceOverRaw = captureVoiceOverState();
+    const focusRaw = captureSafariFocus();
+
+    voiceOverSteps.push({
+      index: index + 1,
+      navigation,
+      dismissSystemAfterNavigation,
+      voiceOverRaw,
+      voiceOver: parseVoiceOverText(voiceOverRaw.stdout || ""),
+      focusRaw,
+      focus: parseVoiceOverText(focusRaw.stdout || ""),
+    });
+  }
+
+  activateSafari();
+  run("sleep", ["1"], { timeout: 3000 });
+  const injectEngineRuntimeResult = injectEngineRuntime();
   let dismissSafariBeforeEngineRetry = null;
   let engineRaw = renderEngineOutput(
     target.scanRootSelector || "[data-sr-scan-root]",
   );
   if (!engineRaw.ok) {
     dismissSafariBeforeEngineRetry = dismissSafariDialogs();
+    dismissSystemDialogs();
     activateSafari();
     run("sleep", ["1"], { timeout: 3000 });
+    injectEngineRuntime();
     engineRaw = renderEngineOutput(
       target.scanRootSelector || "[data-sr-scan-root]",
     );
@@ -276,27 +347,13 @@ function scanTarget(target) {
     engineResult = { error: `Unable to parse engine output: ${error.message}` };
   }
 
-  const voiceOverSteps = [];
-  for (let index = 0; index < Number(target.steps || 3); index += 1) {
-    const navigation = navigateRight();
-    run("sleep", ["1"], { timeout: 3000 });
-    const voiceOverRaw = captureVoiceOverState();
-    const focusRaw = captureSafariFocus();
-
-    voiceOverSteps.push({
-      index: index + 1,
-      navigation,
-      voiceOverRaw,
-      voiceOver: parseVoiceOverText(voiceOverRaw.stdout || ""),
-      focusRaw,
-      focus: parseVoiceOverText(focusRaw.stdout || ""),
-    });
-  }
-
   summary.finishedAt = new Date().toISOString();
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
+  summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
+  summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
+  summary.injectEngineRuntime = injectEngineRuntimeResult;
   summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
   summary.engineRaw = engineRaw;
 

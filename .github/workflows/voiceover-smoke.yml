@@ -69,11 +69,17 @@ jobs:
             echo "IncludeDevelopMenu exit=$?"
             defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
             echo "AllowJavaScriptFromAppleEvents exit=$?"
+            defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
+            echo "AppleDictationAutoEnable exit=$?"
+            defaults write com.apple.assistant.support "Dictation Enabled" -bool false
+            echo "Dictation Enabled exit=$?"
             echo
 
             echo "## Seeded Safari domain"
             defaults read com.apple.Safari IncludeDevelopMenu || true
             defaults read com.apple.Safari AllowJavaScriptFromAppleEvents || true
+            defaults read com.apple.HIToolbox AppleDictationAutoEnable || true
+            defaults read com.apple.assistant.support "Dictation Enabled" || true
           } > voiceover-smoke/safari-automation-state.txt 2>&1
 
       - name: Configure VoiceOver first-run state
