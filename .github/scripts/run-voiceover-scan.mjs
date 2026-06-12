@@ -272,6 +272,7 @@ function getCaptureText(step) {
 function getComparisonVoiceOverText(step) {
   const phrase = step.voiceOver?.lastPhrase || "";
   const cursor = step.voiceOver?.voCursorText || "";
+  let comparisonText = phrase || cursor;
 
   if (
     cursor &&
@@ -279,10 +280,13 @@ function getComparisonVoiceOverText(step) {
       phrase.includes(" To click this ") ||
       phrase.includes(" To exit this "))
   ) {
-    return cursor;
+    comparisonText = cursor;
   }
 
-  return phrase || cursor;
+  return comparisonText
+    .replace(/^Safari .+? window /, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function getStopPhrases(target) {

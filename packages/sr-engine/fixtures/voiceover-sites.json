@@ -6,5 +6,13 @@
     "scanRootSelector": "[data-sr-scan-root]",
     "maxSteps": 12,
     "maxSeconds": 60
+  },
+  {
+    "name": "actions-page",
+    "mode": "page",
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/actions-page.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "maxSteps": 30,
+    "maxSeconds": 90
   }
 ]
