@@ -60,7 +60,10 @@ function launchSafari(url) {
   return runAppleScript(`
 tell application "Safari"
   activate
-  open location ${appleString(url)}
+  if (count of documents) is 0 then
+    make new document
+  end if
+  set URL of document 1 to ${appleString(url)}
 end tell
 `, 15000);
 }
@@ -161,6 +164,11 @@ end tell
 
 function resetVoiceOverPosition() {
   return runAppleScript(`
+tell application "VoiceOver"
+  try
+    move vo cursor to first item
+  end try
+end tell
 tell application "System Events"
   key code 53
   delay 0.2
@@ -430,8 +438,10 @@ function scanTarget(target) {
   activateSafari();
   const dismissSafariAfterVoiceOver = dismissSafariDialogs();
   const dismissSystemAfterVoiceOver = dismissSystemDialogs();
-  const resetVoiceOverAfterLoad = resetVoiceOverPosition();
+  activateSafari();
   run("sleep", ["1"], { timeout: 3000 });
+  const resetVoiceOverAfterLoad = resetVoiceOverPosition();
+  run("sleep", ["2"], { timeout: 4000 });
 
   const voiceOverSteps = [];
   const scanStartedAt = Date.now();
