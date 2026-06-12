@@ -256,6 +256,69 @@ function parseVoiceOverText(stdout) {
   return result;
 }
 
+function getCaptureText(step) {
+  return [
+    step.voiceOver?.lastPhrase || "",
+    step.voiceOver?.voCursorText || "",
+    step.focus?.role || "",
+    step.focus?.name || "",
+    step.focus?.value || "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+}
+
+function getStopPhrases(target) {
+  const values = [];
+  const stopWhen = target.stopWhen || {};
+
+  if (typeof stopWhen.voiceOverIncludes === "string") {
+    values.push(stopWhen.voiceOverIncludes);
+  }
+
+  if (Array.isArray(stopWhen.voiceOverIncludes)) {
+    values.push(...stopWhen.voiceOverIncludes);
+  }
+
+  return values.map((value) => value.toLowerCase());
+}
+
+function shouldStopScan({ target, voiceOverSteps, startedAt }) {
+  const maxSeconds = Number(target.maxSeconds || 120);
+  const elapsedSeconds = (Date.now() - startedAt) / 1000;
+  if (elapsedSeconds >= maxSeconds) {
+    return { stop: true, reason: `maxSeconds:${maxSeconds}` };
+  }
+
+  const latestStep = voiceOverSteps.at(-1);
+  const latestText = latestStep ? getCaptureText(latestStep) : "";
+  const latestLower = latestText.toLowerCase();
+  const stopPhrase = getStopPhrases(target).find((phrase) =>
+    latestLower.includes(phrase),
+  );
+  if (stopPhrase) {
+    return { stop: true, reason: `stopWhen.voiceOverIncludes:${stopPhrase}` };
+  }
+
+  const meaningfulTexts = voiceOverSteps.map(getCaptureText).filter(Boolean);
+  if (meaningfulTexts.length >= 4) {
+    const recent = meaningfulTexts.slice(-4);
+    if (new Set(recent).size === 1) {
+      return { stop: true, reason: "repeated-output" };
+    }
+  }
+
+  if (voiceOverSteps.length >= 5) {
+    const recent = voiceOverSteps.slice(-5).map(getCaptureText);
+    if (recent.every((text) => text === "")) {
+      return { stop: true, reason: "no-captured-progress" };
+    }
+  }
+
+  return { stop: false, reason: "" };
+}
+
 function compare(targetName, voiceOverSteps, engineResult) {
   const voiceOverLines = voiceOverSteps
     .map((step) => step.voiceOver?.lastPhrase || step.voiceOver?.voCursorText || "")
@@ -287,8 +350,10 @@ function scanTarget(target) {
   const url = getTargetUrl(target);
   const summary = {
     name: target.name,
+    mode: target.mode || "page",
     url,
-    steps: target.steps,
+    maxSteps: target.maxSteps,
+    maxSeconds: target.maxSeconds,
     startedAt: new Date().toISOString(),
   };
 
@@ -305,7 +370,11 @@ function scanTarget(target) {
   run("sleep", ["1"], { timeout: 3000 });
 
   const voiceOverSteps = [];
-  for (let index = 0; index < Number(target.steps || 3); index += 1) {
+  const scanStartedAt = Date.now();
+  const maxSteps = Number(target.maxSteps || target.steps || 100);
+  let stopReason = "maxSteps";
+
+  for (let index = 0; index < maxSteps; index += 1) {
     const navigation = navigateRight();
     run("sleep", ["1"], { timeout: 3000 });
     const dismissSystemAfterNavigation = dismissSystemDialogs();
@@ -321,6 +390,16 @@ function scanTarget(target) {
       focusRaw,
       focus: parseVoiceOverText(focusRaw.stdout || ""),
     });
+
+    const stopCheck = shouldStopScan({
+      target,
+      voiceOverSteps,
+      startedAt: scanStartedAt,
+    });
+    if (stopCheck.stop) {
+      stopReason = stopCheck.reason;
+      break;
+    }
   }
 
   activateSafari();
@@ -348,6 +427,8 @@ function scanTarget(target) {
   }
 
   summary.finishedAt = new Date().toISOString();
+  summary.stopReason = stopReason;
+  summary.capturedSteps = voiceOverSteps.length;
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
