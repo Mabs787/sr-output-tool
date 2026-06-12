@@ -269,6 +269,22 @@ function getCaptureText(step) {
     .trim();
 }
 
+function getComparisonVoiceOverText(step) {
+  const phrase = step.voiceOver?.lastPhrase || "";
+  const cursor = step.voiceOver?.voCursorText || "";
+
+  if (
+    cursor &&
+    (phrase.startsWith("You are currently on ") ||
+      phrase.includes(" To click this ") ||
+      phrase.includes(" To exit this "))
+  ) {
+    return cursor;
+  }
+
+  return phrase || cursor;
+}
+
 function getStopPhrases(target) {
   const values = [];
   const stopWhen = target.stopWhen || {};
@@ -321,7 +337,7 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
 
 function compare(targetName, voiceOverSteps, engineResult) {
   const voiceOverLines = voiceOverSteps
-    .map((step) => step.voiceOver?.lastPhrase || step.voiceOver?.voCursorText || "")
+    .map(getComparisonVoiceOverText)
     .filter(Boolean);
   const engineLines = Array.isArray(engineResult?.announcements)
     ? engineResult.announcements.filter((announcement) => announcement !== "main")
