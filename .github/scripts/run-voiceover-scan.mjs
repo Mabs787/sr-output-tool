@@ -338,7 +338,8 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
 function compare(targetName, voiceOverSteps, engineResult) {
   const voiceOverLines = voiceOverSteps
     .map(getComparisonVoiceOverText)
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((announcement) => announcement !== "main");
   const engineLines = Array.isArray(engineResult?.announcements)
     ? engineResult.announcements.filter((announcement) => announcement !== "main")
     : [];
