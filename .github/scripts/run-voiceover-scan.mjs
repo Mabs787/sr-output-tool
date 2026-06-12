@@ -77,6 +77,7 @@ tell application "System Events"
   if exists process "Safari" then
     tell process "Safari"
       repeat with attemptNumber from 1 to 5
+        set clickedButton to false
         try
           set logText to logText & "attempt=" & attemptNumber & " windowCount=" & ((count of windows) as text) & linefeed
           repeat with windowToRead in windows
@@ -89,6 +90,7 @@ tell application "System Events"
                   if buttonName contains "Not Now" or buttonName contains "Don" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" then
                     click buttonToRead
                     set logText to logText & "clicked=" & buttonName & linefeed
+                    set clickedButton to true
                     delay 1
                     exit repeat
                   end if
@@ -97,6 +99,13 @@ tell application "System Events"
             end try
           end repeat
         end try
+        if clickedButton is false then
+          try
+            key code 36
+            set logText to logText & "pressed=Return" & linefeed
+            delay 1
+          end try
+        end if
         delay 1
       end repeat
     end tell
@@ -248,11 +257,14 @@ function scanTarget(target) {
   const dismissSafariAfterVoiceOver = dismissSafariDialogs();
   run("sleep", ["1"], { timeout: 3000 });
 
+  let dismissSafariBeforeEngineRetry = null;
   let engineRaw = renderEngineOutput(
     target.scanRootSelector || "[data-sr-scan-root]",
   );
   if (!engineRaw.ok) {
-    dismissSafariDialogs();
+    dismissSafariBeforeEngineRetry = dismissSafariDialogs();
+    activateSafari();
+    run("sleep", ["1"], { timeout: 3000 });
     engineRaw = renderEngineOutput(
       target.scanRootSelector || "[data-sr-scan-root]",
     );
@@ -285,6 +297,7 @@ function scanTarget(target) {
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
+  summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
   summary.engineRaw = engineRaw;
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
