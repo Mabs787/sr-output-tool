@@ -69,6 +69,13 @@ function getTargetUrl(target) {
 }
 
 function launchSafari(url) {
+  const stopSafariResult = runAppleScript(`
+tell application "Safari"
+  quit
+end tell
+`, 5000);
+  run("killall", ["Safari"], { timeout: 5000 });
+  run("sleep", ["2"], { timeout: 4000 });
   const openResult = toCommandResult(
     run("open", ["-a", "Safari", url], { timeout: 15000 }),
   );
@@ -76,6 +83,7 @@ function launchSafari(url) {
 
   return {
     ...openResult,
+    stopSafari: stopSafariResult,
     activateSafari: activateResult,
   };
 }
@@ -579,6 +587,27 @@ function scanTarget(target) {
   const scanStartedAt = Date.now();
   const maxSteps = Number(target.maxSteps || target.steps || 100);
   let stopReason = "maxSteps";
+
+  const initialDismissSystem = dismissSystemDialogs();
+  const initialVoiceOverRaw = captureVoiceOverState();
+  const initialFocusRaw = captureSafariFocus();
+  voiceOverSteps.push({
+    index: 0,
+    navigation: {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "initial capture before navigation",
+      stderr: "",
+      error: "",
+    },
+    dismissSystemAfterNavigation: initialDismissSystem,
+    voiceOverRaw: initialVoiceOverRaw,
+    voiceOver: parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
+    focusRaw: initialFocusRaw,
+    focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
+    recovery: null,
+  });
 
   for (let index = 0; index < maxSteps; index += 1) {
     const navigation = navigateRight();
