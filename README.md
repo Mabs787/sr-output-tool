@@ -65,6 +65,13 @@ To download the latest successful artifact from `main` with the GitHub CLI:
 yarn voiceover:refinement --download-latest --force
 ```
 
+To create a controlled AI handoff prompt for one eligible scan:
+
+```bash
+yarn voiceover:create-refinement-prompt --list
+yarn voiceover:create-refinement-prompt --target hero-sibling-copy
+```
+
 ## Architecture Overview
 
 `@sr-output/engine` owns the reusable screen-reader logic:

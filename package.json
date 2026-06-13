@@ -16,6 +16,7 @@
     "test:unit": "turbo run test:unit",
     "test-app": "node test-app/server.js",
     "voiceover:create-url-manifest": "node .github/scripts/create-voiceover-url-manifest.mjs",
+    "voiceover:create-refinement-prompt": "node .github/scripts/create-refinement-prompt.mjs",
     "voiceover:refinement": "node .github/scripts/prepare-voiceover-refinement.mjs"
   },
   "devDependencies": {
