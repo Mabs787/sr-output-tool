@@ -223,28 +223,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const controlTag = control.tagName.toLowerCase();
     const controlRole = control.getAttribute("role") || "";
-    if (controlTag === "select" || controlRole === "switch") {
-      return true;
-    }
-
-    if (controlTag === "textarea") {
-      return true;
-    }
-
-    if (controlTag === "input") {
-      const inputType = (control.getAttribute("type") || "text").toLowerCase();
-      return ![
-        "button",
-        "checkbox",
-        "hidden",
-        "image",
-        "radio",
-        "reset",
-        "submit",
-      ].includes(inputType);
-    }
-
-    return false;
+    return controlTag === "select" || controlRole === "switch";
   }
 
   function isStructuredTableStop(el: any): boolean {
