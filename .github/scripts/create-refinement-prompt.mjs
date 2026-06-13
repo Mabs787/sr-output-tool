@@ -96,7 +96,7 @@ function formatMismatches(mismatches) {
         `#${item.index}
 Type: ${item.type}
 Confidence: ${item.confidence}
-Should refine: ${item.shouldRefine ? "yes" : "no"}
+Priority hint: ${item.priority}
 Reason: ${item.explanation}
 VoiceOver: ${item.voiceOver || "(none)"}
 Engine: ${item.engine || "(none)"}`,
@@ -135,8 +135,11 @@ If \`Eligible\` is false, stop and do not change code.
 - Add or update only the relevant regression test.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
-- Do not treat punctuation-only differences as proof by themselves; inspect the source HTML and existing engine patterns first.
-- If there are no actionable mismatches, stop and report that no engine change is justified.
+- Treat mismatch hints as advisory only.
+- Reason from the source HTML, VoiceOver output, and engine output.
+- Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, or engine bug.
+- Do not treat punctuation-only or role-order differences as proof by themselves; inspect the source HTML and existing engine patterns first.
+- If no engine change is justified, stop and report that decision.
 - Run the relevant unit tests and report the result.
 
 ## VoiceOver Output
@@ -147,12 +150,14 @@ ${formatList(voiceOverOutput)}
 
 ${formatList(engineOutput)}
 
-## Positional Mismatches
+## Mismatch Hints
 
 - Total: ${mismatch.count}
-- Actionable: ${mismatch.actionableCount}
+- High confidence: ${mismatch.highConfidenceCount}
 - Low confidence: ${mismatch.lowConfidenceCount}
-- Engine change recommended: ${mismatch.shouldRefine ? "yes" : "no"}
+- Needs AI review: ${mismatch.needsAiReview ? "yes" : "no"}
+
+Use these hints to navigate the comparison, not as final instructions.
 
 ${formatMismatches(mismatch.items)}
 

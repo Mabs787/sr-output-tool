@@ -208,18 +208,18 @@ function printQueue(queue, downloadRun) {
 
     if (item.eligible) {
       console.log(`  mismatches: ${item.mismatch.count}`);
-      console.log(`  actionable mismatches: ${item.mismatch.actionableCount}`);
-      console.log(`  low-confidence mismatches: ${item.mismatch.lowConfidenceCount}`);
-      if (item.mismatch.firstActionable) {
-        console.log(`  first actionable mismatch #${item.mismatch.firstActionable.index}`);
+      console.log(`  high-confidence hints: ${item.mismatch.highConfidenceCount}`);
+      console.log(`  low-confidence hints: ${item.mismatch.lowConfidenceCount}`);
+      if (item.mismatch.firstHighConfidence) {
+        console.log(`  first high-confidence hint #${item.mismatch.firstHighConfidence.index}`);
         console.log(
-          `    type: ${item.mismatch.firstActionable.type} (${item.mismatch.firstActionable.confidence})`,
+          `    type: ${item.mismatch.firstHighConfidence.type} (${item.mismatch.firstHighConfidence.confidence})`,
         );
         console.log(
-          `    VoiceOver: ${item.mismatch.firstActionable.voiceOver || "(none)"}`,
+          `    VoiceOver: ${item.mismatch.firstHighConfidence.voiceOver || "(none)"}`,
         );
         console.log(
-          `    Engine:    ${item.mismatch.firstActionable.engine || "(none)"}`,
+          `    Engine:    ${item.mismatch.firstHighConfidence.engine || "(none)"}`,
         );
       } else if (item.mismatch.first) {
         console.log(`  first mismatch #${item.mismatch.first.index}`);

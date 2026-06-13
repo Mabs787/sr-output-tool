@@ -27,7 +27,7 @@ export function classifyMismatch(voiceOver, engine) {
       type: "engine-extra",
       confidence: "high",
       explanation: "Engine produced an announcement where VoiceOver had none.",
-      shouldRefine: true,
+      priority: "high",
     };
   }
 
@@ -36,7 +36,7 @@ export function classifyMismatch(voiceOver, engine) {
       type: "voiceover-extra",
       confidence: "high",
       explanation: "VoiceOver produced an announcement where the engine had none.",
-      shouldRefine: true,
+      priority: "high",
     };
   }
 
@@ -45,7 +45,7 @@ export function classifyMismatch(voiceOver, engine) {
       type: "match",
       confidence: "none",
       explanation: "Outputs match exactly.",
-      shouldRefine: false,
+      priority: "none",
     };
   }
 
@@ -54,7 +54,7 @@ export function classifyMismatch(voiceOver, engine) {
       type: "punctuation-only",
       confidence: "low",
       explanation: "Outputs differ only by punctuation or bullet formatting.",
-      shouldRefine: false,
+      priority: "low",
     };
   }
 
@@ -64,7 +64,7 @@ export function classifyMismatch(voiceOver, engine) {
       confidence: "low",
       explanation:
         "Outputs contain the same words but VoiceOver and the engine order role/name text differently.",
-      shouldRefine: false,
+      priority: "low",
     };
   }
 
@@ -72,7 +72,7 @@ export function classifyMismatch(voiceOver, engine) {
     type: "content",
     confidence: "high",
     explanation: "Outputs differ in content, not only punctuation or role order.",
-    shouldRefine: true,
+    priority: "high",
   };
 }
 
@@ -94,16 +94,16 @@ export function analyzeMismatches(voiceOverOutput, engineOutput) {
     }
   }
 
-  const actionable = items.filter((item) => item.shouldRefine);
+  const highConfidence = items.filter((item) => item.confidence === "high");
   const lowConfidence = items.filter((item) => item.confidence === "low");
 
   return {
     count: items.length,
-    actionableCount: actionable.length,
+    highConfidenceCount: highConfidence.length,
     lowConfidenceCount: lowConfidence.length,
     first: items[0] || null,
-    firstActionable: actionable[0] || null,
-    shouldRefine: actionable.length > 0,
+    firstHighConfidence: highConfidence[0] || null,
+    needsAiReview: items.length > 0,
     items,
   };
 }
