@@ -466,6 +466,7 @@ function isComparisonNoise(announcement) {
     announcement === "collection" ||
     announcement === "Edit button" ||
     announcement === "Edit customizations button" ||
+    /^Safari .+ window$/.test(announcement) ||
     announcement.endsWith(" web content") ||
     announcement.includes(" splitter")
   );
