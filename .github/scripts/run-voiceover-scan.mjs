@@ -180,15 +180,13 @@ end tell
 `, 8000);
 }
 
-function resetVoiceOverPosition() {
-  return {
-    ok: true,
-    status: 0,
-    signal: null,
-    stdout: "skipped: reset can move VoiceOver into browser chrome",
-    stderr: "",
-    error: "",
-  };
+function moveVoiceOverToStart() {
+  return runAppleScript(`
+tell application "System Events"
+  key code 115 using {control down, option down}
+  delay 0.5
+end tell
+`, 8000);
 }
 
 function captureVoiceOverState() {
@@ -584,7 +582,7 @@ function scanTarget(target) {
     target.scanRootSelector || "[data-sr-scan-root]",
   );
   run("sleep", ["1"], { timeout: 3000 });
-  const resetVoiceOverAfterLoad = resetVoiceOverPosition();
+  const resetVoiceOverAfterLoad = moveVoiceOverToStart();
   run("sleep", ["2"], { timeout: 4000 });
 
   const voiceOverSteps = [];
