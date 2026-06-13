@@ -176,7 +176,7 @@ tell application "System Events"
                 try
                   set buttonName to name of buttonToRead as text
                   set logText to logText & "    button=" & buttonName & linefeed
-                  if buttonName contains "Not Now" or buttonName contains "Don" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" then
+                  if buttonName contains "Not Now" or buttonName contains "Don" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" or buttonName is "Allow" then
                     click buttonToRead
                     set logText to logText & "clicked=" & buttonName & linefeed
                     set clickedButton to true
@@ -213,7 +213,7 @@ tell application "System Events"
             try
               set buttonName to name of buttonToRead as text
               set logText to logText & "  button=" & buttonName & linefeed
-              if buttonName contains "Don" or buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" then
+              if buttonName contains "Don" or buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "Allow" then
                 click buttonToRead
                 set logText to logText & "clicked=" & processName & ":" & buttonName & linefeed
                 delay 1
@@ -719,11 +719,6 @@ async function scanTarget(target, index) {
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
   run("sleep", ["2"], { timeout: 4000 });
-  const beforeScanScreenshot = captureScreenshot(
-    targetOutputDir,
-    null,
-    "before-scan",
-  );
 
   const voiceOverSteps = [];
   const scanStartedAt = Date.now();
@@ -734,12 +729,14 @@ async function scanTarget(target, index) {
   const initialVoiceOverRaw = captureVoiceOverState();
   const initialFocusRaw = captureSafariFocus();
   const initialScreenshots = {};
+  let initialDismissSystemAfterScreenshot = null;
   if (!initialVoiceOverRaw.ok) {
     initialScreenshots.voiceOverReadFailed = captureScreenshot(
       targetOutputDir,
       0,
       "voiceover-read-failed",
     );
+    initialDismissSystemAfterScreenshot = dismissSystemDialogs();
   }
   voiceOverSteps.push({
     index: 0,
@@ -757,6 +754,7 @@ async function scanTarget(target, index) {
     focusRaw: initialFocusRaw,
     focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
     recovery: null,
+    dismissSystemAfterScreenshot: initialDismissSystemAfterScreenshot,
     screenshots: initialScreenshots,
   });
 
@@ -768,12 +766,14 @@ async function scanTarget(target, index) {
     const focusRaw = captureSafariFocus();
     const stepNumber = index + 1;
     const screenshots = {};
+    let dismissSystemAfterScreenshot = null;
     if (!voiceOverRaw.ok) {
       screenshots.voiceOverReadFailed = captureScreenshot(
         targetOutputDir,
         stepNumber,
         "voiceover-read-failed",
       );
+      dismissSystemAfterScreenshot = dismissSystemDialogs();
     }
 
     voiceOverSteps.push({
@@ -785,6 +785,7 @@ async function scanTarget(target, index) {
       focusRaw,
       focus: parseVoiceOverText(focusRaw.stdout || ""),
       recovery: null,
+      dismissSystemAfterScreenshot,
       screenshots,
     });
 
@@ -798,8 +799,6 @@ async function scanTarget(target, index) {
       break;
     }
   }
-  const finalScreenshot = captureScreenshot(targetOutputDir, null, "final");
-
   activateSafari();
   run("sleep", ["1"], { timeout: 3000 });
   const injectEngineRuntimeResult = target.fixturePath || target.url
@@ -848,10 +847,6 @@ async function scanTarget(target, index) {
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
-  summary.screenshots = {
-    beforeScan: beforeScanScreenshot,
-    final: finalScreenshot,
-  };
   summary.injectEngineRuntime = injectEngineRuntimeResult;
   summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
   summary.engineRaw = engineRaw;
