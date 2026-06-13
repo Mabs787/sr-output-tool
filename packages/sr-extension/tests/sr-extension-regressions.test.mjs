@@ -1111,6 +1111,7 @@ test("announces additional aria help, error, popup, live, modal, and sort contex
   const log = harness.scanSubtree(root);
 
   assert.deepEqual(getAnnouncements(log), [
+    "Email",
     "Email, text field, auto complete available, Enter your email address, invalid, Email is invalid",
     "Enter your email address",
     "Email is invalid",
@@ -1118,6 +1119,29 @@ test("announces additional aria help, error, popup, live, modal, and sort contex
     "status, Saved successfully",
     "Preferences, dialog, modal",
     "Name, column header, column 1, row 1, sorted ascending",
+  ]);
+});
+
+test("announces visible text input labels before their controls", () => {
+  const { document, harness } = loadExtensionHarness(`
+    <div id="contact-details-root">
+      <h1>Contact details</h1>
+      <p>Enter your details to continue.</p>
+      <label for="email">Email address</label>
+      <input id="email" name="email" type="email" autocomplete="email">
+      <button type="button">Continue</button>
+    </div>
+  `);
+
+  const root = document.getElementById("contact-details-root");
+  const log = harness.scanSubtree(root);
+
+  assert.deepEqual(getAnnouncements(log), [
+    "heading level 1, Contact details",
+    "Enter your details to continue.",
+    "Email address",
+    "Email address, text field",
+    "Continue, button",
   ]);
 });
 
