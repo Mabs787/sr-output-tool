@@ -551,11 +551,22 @@ function createAiRefinementInput({
   voiceOverOutput,
   engineOutput,
 }) {
+  const minVoiceOverAnnouncements = Number(
+    target.refinement?.minVoiceOverAnnouncements || 1,
+  );
+  const refinementEligible = voiceOverOutput.length >= minVoiceOverAnnouncements;
+  const refinementSkipReasons = refinementEligible
+    ? []
+    : [
+        `VoiceOver captured ${voiceOverOutput.length} announcement(s), expected at least ${minVoiceOverAnnouncements}.`,
+      ];
+
   return {
     schemaVersion: 1,
     purpose:
       "Use this payload to refine sr-engine output against real VoiceOver output.",
     instructions: [
+      "Only refine sr-engine when refinement.eligible is true.",
       "Compare voiceOverOutput with engineOutput.",
       "Identify the smallest defensible sr-engine logic change needed to bring engineOutput closer to VoiceOver.",
       "Update only necessary sr-engine logic.",
@@ -574,6 +585,11 @@ function createAiRefinementInput({
       capturedSteps: summary.capturedSteps,
       startedAt: summary.startedAt,
       finishedAt: summary.finishedAt,
+    },
+    refinement: {
+      eligible: refinementEligible,
+      skipReasons: refinementSkipReasons,
+      minVoiceOverAnnouncements,
     },
     voiceOverOutput,
     engineOutput,

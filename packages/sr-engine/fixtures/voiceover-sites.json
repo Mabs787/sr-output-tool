@@ -4,6 +4,9 @@
     "mode": "page",
     "fixturePath": "packages/sr-engine/fixtures/voiceover/basic-page.html",
     "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 3
+    },
     "maxSteps": 12,
     "maxSeconds": 60
   },
@@ -12,6 +15,9 @@
     "mode": "page",
     "fixturePath": "packages/sr-engine/fixtures/voiceover/actions-page.html",
     "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 8
+    },
     "maxSteps": 30,
     "maxSeconds": 90
   },
@@ -20,6 +26,9 @@
     "mode": "page",
     "fixturePath": "packages/sr-engine/fixtures/voiceover/input-page.html",
     "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 5
+    },
     "maxSteps": 30,
     "maxSeconds": 90
   }
