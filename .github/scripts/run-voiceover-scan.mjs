@@ -89,7 +89,11 @@ end tell
 }
 
 function launchVoiceOver() {
+  run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
+  run("pkill", ["-x", "VoiceOver"], { timeout: 5000 });
+  run("sleep", ["2"], { timeout: 4000 });
   run("open", ["-a", "VoiceOver"], { timeout: 10000 });
+  run("sleep", ["2"], { timeout: 4000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
 }
 
