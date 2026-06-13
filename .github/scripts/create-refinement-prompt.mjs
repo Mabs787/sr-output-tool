@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { analyzeMismatches } from "./voiceover-refinement-analysis.mjs";
 
 const repoRoot = process.cwd();
 const defaultArtifactDir = path.join(repoRoot, "voiceover-smoke-diagnostics");
@@ -76,25 +77,6 @@ function getPayloads(artifactDir) {
     .sort((left, right) => left.name.localeCompare(right.name));
 }
 
-function getMismatches(voiceOverOutput, engineOutput) {
-  const length = Math.max(voiceOverOutput.length, engineOutput.length);
-  const mismatches = [];
-
-  for (let index = 0; index < length; index += 1) {
-    const voiceOver = voiceOverOutput[index] || "";
-    const engine = engineOutput[index] || "";
-    if (voiceOver !== engine) {
-      mismatches.push({
-        index: index + 1,
-        voiceOver,
-        engine,
-      });
-    }
-  }
-
-  return mismatches;
-}
-
 function formatList(items) {
   if (!items.length) {
     return "(none)";
@@ -111,7 +93,13 @@ function formatMismatches(mismatches) {
   return mismatches
     .map(
       (item) =>
-        `#${item.index}\nVoiceOver: ${item.voiceOver || "(none)"}\nEngine: ${item.engine || "(none)"}`,
+        `#${item.index}
+Type: ${item.type}
+Confidence: ${item.confidence}
+Should refine: ${item.shouldRefine ? "yes" : "no"}
+Reason: ${item.explanation}
+VoiceOver: ${item.voiceOver || "(none)"}
+Engine: ${item.engine || "(none)"}`,
     )
     .join("\n\n");
 }
@@ -119,7 +107,7 @@ function formatMismatches(mismatches) {
 function createPrompt({ name, payloadPath, payload }) {
   const voiceOverOutput = payload.voiceOverOutput || [];
   const engineOutput = payload.engineOutput || [];
-  const mismatches = getMismatches(voiceOverOutput, engineOutput);
+  const mismatch = analyzeMismatches(voiceOverOutput, engineOutput);
 
   return `# SR Engine Refinement Request
 
@@ -148,6 +136,7 @@ If \`Eligible\` is false, stop and do not change code.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
 - Do not treat punctuation-only differences as proof by themselves; inspect the source HTML and existing engine patterns first.
+- If there are no actionable mismatches, stop and report that no engine change is justified.
 - Run the relevant unit tests and report the result.
 
 ## VoiceOver Output
@@ -160,7 +149,12 @@ ${formatList(engineOutput)}
 
 ## Positional Mismatches
 
-${formatMismatches(mismatches)}
+- Total: ${mismatch.count}
+- Actionable: ${mismatch.actionableCount}
+- Low confidence: ${mismatch.lowConfidenceCount}
+- Engine change recommended: ${mismatch.shouldRefine ? "yes" : "no"}
+
+${formatMismatches(mismatch.items)}
 
 ## Source HTML
 

@@ -72,6 +72,8 @@ yarn voiceover:create-refinement-prompt --list
 yarn voiceover:create-refinement-prompt --target hero-sibling-copy
 ```
 
+The refinement queue and prompt classify mismatches before any AI edit is attempted. Punctuation-only and role-order differences are treated as low-confidence and should not trigger engine changes by themselves.
+
 ## Architecture Overview
 
 `@sr-output/engine` owns the reusable screen-reader logic:
