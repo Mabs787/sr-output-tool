@@ -62,6 +62,34 @@ function writeText(filePath, value) {
   writeFileSync(filePath, `${String(value).trimEnd()}\n`);
 }
 
+function getScreenshotFileName(stepIndex, label) {
+  const stepPart =
+    typeof stepIndex === "number" ? String(stepIndex).padStart(3, "0") : "scan";
+  const labelPart = String(label)
+    .replace(/[^a-z0-9]+/gi, "-")
+    .replace(/^-|-$/g, "")
+    .toLowerCase();
+
+  return `${stepPart}-${labelPart}.png`;
+}
+
+function captureScreenshot(targetOutputDir, stepIndex, label) {
+  const screenshotsDir = path.join(targetOutputDir, "screenshots");
+  mkdirSync(screenshotsDir, { recursive: true });
+
+  const fileName = getScreenshotFileName(stepIndex, label);
+  const filePath = path.join(screenshotsDir, fileName);
+  const result = toCommandResult(
+    run("screencapture", ["-x", filePath], { timeout: 10000 }),
+  );
+
+  return {
+    ...result,
+    label,
+    path: path.relative(targetOutputDir, filePath),
+  };
+}
+
 function getTargetUrl(target) {
   if (target.url) {
     return target.url;
@@ -691,6 +719,11 @@ async function scanTarget(target, index) {
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
   run("sleep", ["2"], { timeout: 4000 });
+  const beforeScanScreenshot = captureScreenshot(
+    targetOutputDir,
+    null,
+    "before-scan",
+  );
 
   const voiceOverSteps = [];
   const scanStartedAt = Date.now();
@@ -700,6 +733,14 @@ async function scanTarget(target, index) {
   const initialDismissSystem = dismissSystemDialogs();
   const initialVoiceOverRaw = captureVoiceOverState();
   const initialFocusRaw = captureSafariFocus();
+  const initialScreenshots = {};
+  if (!initialVoiceOverRaw.ok) {
+    initialScreenshots.voiceOverReadFailed = captureScreenshot(
+      targetOutputDir,
+      0,
+      "voiceover-read-failed",
+    );
+  }
   voiceOverSteps.push({
     index: 0,
     navigation: {
@@ -716,6 +757,7 @@ async function scanTarget(target, index) {
     focusRaw: initialFocusRaw,
     focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
     recovery: null,
+    screenshots: initialScreenshots,
   });
 
   for (let index = 0; index < maxSteps; index += 1) {
@@ -724,9 +766,18 @@ async function scanTarget(target, index) {
     const dismissSystemAfterNavigation = dismissSystemDialogs();
     const voiceOverRaw = captureVoiceOverState();
     const focusRaw = captureSafariFocus();
+    const stepNumber = index + 1;
+    const screenshots = {};
+    if (!voiceOverRaw.ok) {
+      screenshots.voiceOverReadFailed = captureScreenshot(
+        targetOutputDir,
+        stepNumber,
+        "voiceover-read-failed",
+      );
+    }
 
     voiceOverSteps.push({
-      index: index + 1,
+      index: stepNumber,
       navigation,
       dismissSystemAfterNavigation,
       voiceOverRaw,
@@ -734,6 +785,7 @@ async function scanTarget(target, index) {
       focusRaw,
       focus: parseVoiceOverText(focusRaw.stdout || ""),
       recovery: null,
+      screenshots,
     });
 
     const stopCheck = shouldStopScan({
@@ -746,6 +798,7 @@ async function scanTarget(target, index) {
       break;
     }
   }
+  const finalScreenshot = captureScreenshot(targetOutputDir, null, "final");
 
   activateSafari();
   run("sleep", ["1"], { timeout: 3000 });
@@ -795,6 +848,10 @@ async function scanTarget(target, index) {
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
+  summary.screenshots = {
+    beforeScan: beforeScanScreenshot,
+    final: finalScreenshot,
+  };
   summary.injectEngineRuntime = injectEngineRuntimeResult;
   summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
   summary.engineRaw = engineRaw;
