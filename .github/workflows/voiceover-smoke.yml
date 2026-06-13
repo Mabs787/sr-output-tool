@@ -1,0 +1,183 @@
+name: VoiceOver smoke
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hosted-macos-capability-check:
+    name: Hosted macOS capability check
+    runs-on: macos-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Capture macOS environment
+        run: |
+          mkdir -p voiceover-smoke
+          {
+            echo "## macOS"
+            sw_vers
+            echo
+            echo "## Runner"
+            uname -a
+            echo
+            echo "## Node"
+            node --version
+            yarn --version || true
+            echo
+            echo "## VoiceOver processes before test"
+            pgrep -al VoiceOver || true
+          } > voiceover-smoke/environment.txt
+
+      - name: Check AppleScript and accessibility scripting
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## osascript sanity check"
+            osascript -e 'return "osascript available"'
+            echo "exit=$?"
+            echo
+
+            echo "## System Events UI scripting status"
+            osascript -e 'tell application "System Events" to get UI elements enabled'
+            echo "exit=$?"
+            echo
+
+            echo "## Frontmost app"
+            osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true'
+            echo "exit=$?"
+          } > voiceover-smoke/accessibility-scripting.txt 2>&1
+
+      - name: Configure Safari automation state
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## Stop Safari before seeding preferences"
+            osascript -e 'tell application "Safari" to quit' || true
+            killall Safari || true
+            sleep 2
+            echo
+
+            echo "## Seed Safari automation preferences"
+            defaults write com.apple.Safari IncludeDevelopMenu -bool true
+            echo "IncludeDevelopMenu exit=$?"
+            defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
+            echo "AllowJavaScriptFromAppleEvents exit=$?"
+            defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
+            echo "AppleDictationAutoEnable exit=$?"
+            defaults write com.apple.assistant.support "Dictation Enabled" -bool false
+            echo "Dictation Enabled exit=$?"
+            echo
+
+            echo "## Seeded Safari domain"
+            defaults read com.apple.Safari IncludeDevelopMenu || true
+            defaults read com.apple.Safari AllowJavaScriptFromAppleEvents || true
+            defaults read com.apple.HIToolbox AppleDictationAutoEnable || true
+            defaults read com.apple.assistant.support "Dictation Enabled" || true
+          } > voiceover-smoke/safari-automation-state.txt 2>&1
+
+      - name: Configure VoiceOver first-run state
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## Seed VoiceOver first-run preferences"
+            defaults write com.apple.VoiceOverTraining doNotShowSplashScreen -bool true
+            echo "doNotShowSplashScreen exit=$?"
+            defaults write com.apple.VoiceOverTraining doNotShowWelcome -bool true
+            echo "doNotShowWelcome exit=$?"
+            defaults write com.apple.VoiceOverTraining didShowWelcome -bool true
+            echo "didShowWelcome exit=$?"
+            defaults write com.apple.VoiceOverTraining hasRunQuickStart -bool true
+            echo "hasRunQuickStart exit=$?"
+            defaults write com.apple.VoiceOverTraining quickStartCompleted -bool true
+            echo "quickStartCompleted exit=$?"
+            defaults write com.apple.VoiceOverTraining showTrainingAtStartup -bool false
+            echo "showTrainingAtStartup exit=$?"
+            defaults write com.apple.VoiceOver4/default SCREnableCaptionPanel -bool true
+            echo "SCREnableCaptionPanel exit=$?"
+            echo
+
+            echo "## Seeded domains"
+            defaults read com.apple.VoiceOverTraining || true
+            defaults read com.apple.VoiceOver4/default || true
+          } > voiceover-smoke/voiceover-first-run-state.txt 2>&1
+
+      - name: Run VoiceOver scan manifest
+        continue-on-error: true
+        run: node .github/scripts/run-voiceover-scan.mjs
+
+      - name: Capture VoiceOver diagnostics
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## VoiceOver defaults domains"
+            defaults domains | tr ',' '\n' | sed 's/^ *//' | grep -i voice || true
+            echo
+
+            echo "## com.apple.VoiceOver4/default"
+            defaults read com.apple.VoiceOver4/default || true
+            echo
+
+            echo "## com.apple.VoiceOver4"
+            defaults read com.apple.VoiceOver4 || true
+            echo
+
+            echo "## VoiceOver process snapshot"
+            pgrep -al VoiceOver || true
+          } > voiceover-smoke/voiceover-diagnostics.txt 2>&1
+
+      - name: Stop VoiceOver
+        if: always()
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+          {
+            echo "## VoiceOver processes before cleanup"
+            pgrep -al VoiceOver || true
+            pkill -x "VoiceOver Quick" || true
+            pkill -x VoiceOver || true
+            sleep 1
+            pkill -9 -x "VoiceOver Quick" || true
+            pkill -9 -x VoiceOver || true
+            sleep 1
+            echo
+            echo "## VoiceOver processes after cleanup"
+            pgrep -al VoiceOver || true
+            echo
+            echo "Note: hosted macOS may relaunch VoiceOver after kill; this cleanup step is diagnostic only."
+          } > voiceover-smoke/voiceover-cleanup.txt 2>&1
+
+      - name: Upload smoke diagnostics
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: voiceover-smoke-diagnostics
+          path: voiceover-smoke
+          if-no-files-found: error

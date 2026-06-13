@@ -1,0 +1,35 @@
+[
+  {
+    "name": "basic-page",
+    "mode": "page",
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/basic-page.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 3
+    },
+    "maxSteps": 12,
+    "maxSeconds": 60
+  },
+  {
+    "name": "actions-page",
+    "mode": "page",
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/actions-page.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 8
+    },
+    "maxSteps": 30,
+    "maxSeconds": 90
+  },
+  {
+    "name": "input-page",
+    "mode": "page",
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/input-page.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 5
+    },
+    "maxSteps": 30,
+    "maxSeconds": 90
+  }
+]
