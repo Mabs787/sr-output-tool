@@ -172,11 +172,20 @@ tell application "System Events"
           repeat with windowToRead in windows
             try
               set logText to logText & "  window=" & ((name of windowToRead) as text) & linefeed
+              try
+                if exists button "Allow" of windowToRead then
+                  click button "Allow" of windowToRead
+                  set logText to logText & "clicked=Allow" & linefeed
+                  set clickedButton to true
+                  delay 1
+                  exit repeat
+                end if
+              end try
               repeat with buttonToRead in buttons of windowToRead
                 try
                   set buttonName to name of buttonToRead as text
                   set logText to logText & "    button=" & buttonName & linefeed
-                  if buttonName contains "Not Now" or buttonName contains "Don" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" or buttonName is "Allow" then
+                  if buttonName contains "Not Now" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" or buttonName is "Allow" then
                     click buttonToRead
                     set logText to logText & "clicked=" & buttonName & linefeed
                     set clickedButton to true
@@ -209,11 +218,19 @@ tell application "System Events"
         try
           set windowName to name of windowToRead as text
           set logText to logText & "process=" & processName & " window=" & windowName & linefeed
+          try
+            if exists button "Allow" of windowToRead then
+              click button "Allow" of windowToRead
+              set logText to logText & "clicked=" & processName & ":Allow" & linefeed
+              delay 1
+              return logText
+            end if
+          end try
           repeat with buttonToRead in buttons of windowToRead
             try
               set buttonName to name of buttonToRead as text
               set logText to logText & "  button=" & buttonName & linefeed
-              if buttonName contains "Don" or buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "Allow" then
+              if buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "Allow" then
                 click buttonToRead
                 set logText to logText & "clicked=" & processName & ":" & buttonName & linefeed
                 delay 1
