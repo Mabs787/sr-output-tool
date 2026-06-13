@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
+import { analyzeMismatches } from "./voiceover-refinement-analysis.mjs";
 
 const repoRoot = process.cwd();
 const defaultArtifactDir = path.join(repoRoot, "voiceover-smoke-diagnostics");
@@ -164,29 +165,6 @@ function getScanNames(artifactDir) {
     .sort((left, right) => left.name.localeCompare(right.name));
 }
 
-function summarizeMismatch(voiceOverOutput, engineOutput) {
-  const maxLength = Math.max(voiceOverOutput.length, engineOutput.length);
-  const mismatches = [];
-
-  for (let index = 0; index < maxLength; index += 1) {
-    const voiceOver = voiceOverOutput[index] || "";
-    const engine = engineOutput[index] || "";
-    if (voiceOver !== engine) {
-      mismatches.push({
-        index: index + 1,
-        voiceOver,
-        engine,
-      });
-    }
-  }
-
-  return {
-    count: mismatches.length,
-    first: mismatches[0] || null,
-    items: mismatches,
-  };
-}
-
 function buildQueue(artifactDir) {
   return getScanNames(artifactDir).map(({ name, payloadPath }) => {
     const payload = readJson(payloadPath);
@@ -199,7 +177,7 @@ function buildQueue(artifactDir) {
       skipReasons: payload.refinement?.skipReasons || [],
       voiceOverCount: voiceOverOutput.length,
       engineCount: engineOutput.length,
-      mismatch: summarizeMismatch(voiceOverOutput, engineOutput),
+      mismatch: analyzeMismatches(voiceOverOutput, engineOutput),
       payload,
     };
   });
@@ -230,8 +208,24 @@ function printQueue(queue, downloadRun) {
 
     if (item.eligible) {
       console.log(`  mismatches: ${item.mismatch.count}`);
-      if (item.mismatch.first) {
+      console.log(`  high-confidence hints: ${item.mismatch.highConfidenceCount}`);
+      console.log(`  low-confidence hints: ${item.mismatch.lowConfidenceCount}`);
+      if (item.mismatch.firstHighConfidence) {
+        console.log(`  first high-confidence hint #${item.mismatch.firstHighConfidence.index}`);
+        console.log(
+          `    type: ${item.mismatch.firstHighConfidence.type} (${item.mismatch.firstHighConfidence.confidence})`,
+        );
+        console.log(
+          `    VoiceOver: ${item.mismatch.firstHighConfidence.voiceOver || "(none)"}`,
+        );
+        console.log(
+          `    Engine:    ${item.mismatch.firstHighConfidence.engine || "(none)"}`,
+        );
+      } else if (item.mismatch.first) {
         console.log(`  first mismatch #${item.mismatch.first.index}`);
+        console.log(
+          `    type: ${item.mismatch.first.type} (${item.mismatch.first.confidence})`,
+        );
         console.log(`    VoiceOver: ${item.mismatch.first.voiceOver || "(none)"}`);
         console.log(`    Engine:    ${item.mismatch.first.engine || "(none)"}`);
       }

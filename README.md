@@ -72,6 +72,8 @@ yarn voiceover:create-refinement-prompt --list
 yarn voiceover:create-refinement-prompt --target hero-sibling-copy
 ```
 
+The refinement queue and prompt include mismatch hints before any AI edit is attempted. These hints help prioritize review, but the AI should still reason from the source HTML, VoiceOver output, and engine output before deciding whether an engine change is justified.
+
 ## Architecture Overview
 
 `@sr-output/engine` owns the reusable screen-reader logic:
