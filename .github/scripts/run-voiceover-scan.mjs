@@ -9,6 +9,9 @@ const manifestPath = path.join(
   repoRoot,
   "packages/sr-engine/fixtures/voiceover-sites.json",
 );
+const scanManifestPath = process.env.VOICEOVER_SCAN_MANIFEST
+  ? path.resolve(repoRoot, process.env.VOICEOVER_SCAN_MANIFEST)
+  : manifestPath;
 const engineRuntimePath = path.join(
   repoRoot,
   "packages/sr-extension/src/content/engine-runtime.js",
@@ -66,6 +69,33 @@ function getTargetUrl(target) {
 
   const fixturePath = path.resolve(repoRoot, target.fixturePath);
   return pathToFileURL(fixturePath).href;
+}
+
+function getScanRootSelector(target) {
+  return (
+    target.scanRootSelector || (target.fixturePath ? "[data-sr-scan-root]" : "body")
+  );
+}
+
+function getTargetOutputName(target, index) {
+  if (target.name) {
+    return target.name;
+  }
+
+  if (!target.url) {
+    return `target-${index + 1}`;
+  }
+
+  try {
+    const url = new URL(target.url);
+    return `${url.hostname}${url.pathname}`
+      .replace(/\/$/, "")
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/^-|-$/g, "")
+      .toLowerCase();
+  } catch {
+    return `target-${index + 1}`;
+  }
 }
 
 function launchSafari(url) {
@@ -261,13 +291,13 @@ end tell
 }
 
 function prepareScanRoot(target, scanRootSelector) {
-  if (target.fixturePath) {
+  if (target.fixturePath || target.url) {
     return {
       ok: true,
       status: 0,
       signal: null,
       stdout:
-        "skipped: Safari JavaScript automation is not required for fixture scans",
+        "skipped: Safari JavaScript automation is not required for page scans",
       stderr: "",
       error: "",
     };
@@ -285,17 +315,49 @@ end tell
 `, 20000);
 }
 
-function renderEngineOutputInJsdom(target, scanRootSelector) {
-  if (!target.fixturePath) {
+async function getTargetSourceHtml(target) {
+  if (target.fixturePath) {
+    return readFileSync(path.resolve(repoRoot, target.fixturePath), "utf8");
+  }
+
+  if (target.url) {
+    const response = await fetch(target.url, {
+      headers: {
+        "user-agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Unable to fetch ${target.url}: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    return response.text();
+  }
+
+  return "";
+}
+
+function getJsdomUrl(target) {
+  if (target.fixturePath) {
+    return pathToFileURL(path.resolve(repoRoot, target.fixturePath)).href;
+  }
+
+  return target.url || "https://example.test/";
+}
+
+async function renderEngineOutputInJsdom(target, scanRootSelector) {
+  if (!target.fixturePath && !target.url) {
     return null;
   }
 
   try {
-    const fixturePath = path.resolve(repoRoot, target.fixturePath);
-    const html = readFileSync(fixturePath, "utf8");
+    const html = await getTargetSourceHtml(target);
     const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
     const dom = new JSDOM(html, {
-      url: pathToFileURL(fixturePath).href,
+      url: getJsdomUrl(target),
       runScripts: "dangerously",
       pretendToBeVisual: true,
     });
@@ -407,9 +469,9 @@ end tell
 `, 15000);
 }
 
-function renderEngineOutput(target, scanRootSelector) {
+async function renderEngineOutput(target, scanRootSelector) {
   return (
-    renderEngineOutputInJsdom(target, scanRootSelector) ||
+    (await renderEngineOutputInJsdom(target, scanRootSelector)) ||
     renderEngineOutputInSafari(scanRootSelector)
   );
 }
@@ -537,19 +599,12 @@ function getNormalizedEngineOutput(engineResult) {
     : [];
 }
 
-function getSourceHtml(target) {
-  if (!target.fixturePath) {
-    return "";
-  }
-
-  return readFileSync(path.resolve(repoRoot, target.fixturePath), "utf8");
-}
-
 function createAiRefinementInput({
   target,
   summary,
   voiceOverOutput,
   engineOutput,
+  sourceHtml,
 }) {
   const minVoiceOverAnnouncements = Number(
     target.refinement?.minVoiceOverAnnouncements || 1,
@@ -593,19 +648,22 @@ function createAiRefinementInput({
     },
     voiceOverOutput,
     engineOutput,
-    sourceHtml: getSourceHtml(target),
+    sourceHtml,
   };
 }
 
-function scanTarget(target) {
-  const targetOutputDir = path.join(outputRoot, target.name);
+async function scanTarget(target, index) {
+  const targetName = getTargetOutputName(target, index);
+  const scanRootSelector = getScanRootSelector(target);
+  const targetOutputDir = path.join(outputRoot, targetName);
   mkdirSync(targetOutputDir, { recursive: true });
 
   const url = getTargetUrl(target);
   const summary = {
-    name: target.name,
+    name: targetName,
     mode: target.mode || "page",
     url,
+    source: target.fixturePath ? "fixture" : "url",
     maxSteps: target.maxSteps,
     maxSeconds: target.maxSeconds,
     startedAt: new Date().toISOString(),
@@ -617,7 +675,7 @@ function scanTarget(target) {
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
     target,
-    target.scanRootSelector || "[data-sr-scan-root]",
+    scanRootSelector,
   );
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
@@ -628,7 +686,7 @@ function scanTarget(target) {
   activateSafari();
   const prepareScanRootAfterVoiceOver = prepareScanRoot(
     target,
-    target.scanRootSelector || "[data-sr-scan-root]",
+    scanRootSelector,
   );
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
@@ -691,32 +749,32 @@ function scanTarget(target) {
 
   activateSafari();
   run("sleep", ["1"], { timeout: 3000 });
-  const injectEngineRuntimeResult = target.fixturePath
+  const injectEngineRuntimeResult = target.fixturePath || target.url
     ? {
         ok: true,
         status: 0,
         signal: null,
-        stdout: "skipped: engine output rendered in jsdom for fixture scan",
+        stdout: "skipped: engine output rendered in jsdom for page scan",
         stderr: "",
         error: "",
       }
     : injectEngineRuntime();
   let dismissSafariBeforeEngineRetry = null;
-  let engineRaw = renderEngineOutput(
+  let engineRaw = await renderEngineOutput(
     target,
-    target.scanRootSelector || "[data-sr-scan-root]",
+    scanRootSelector,
   );
   if (!engineRaw.ok) {
     dismissSafariBeforeEngineRetry = dismissSafariDialogs();
     dismissSystemDialogs();
     activateSafari();
     run("sleep", ["1"], { timeout: 3000 });
-    if (!target.fixturePath) {
+    if (!target.fixturePath && !target.url) {
       injectEngineRuntime();
     }
-    engineRaw = renderEngineOutput(
+    engineRaw = await renderEngineOutput(
       target,
-      target.scanRootSelector || "[data-sr-scan-root]",
+      scanRootSelector,
     );
   }
   let engineResult;
@@ -742,6 +800,7 @@ function scanTarget(target) {
   summary.engineRaw = engineRaw;
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
   const engineOutput = getNormalizedEngineOutput(engineResult);
+  const sourceHtml = await getTargetSourceHtml(target).catch(() => "");
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
     summary,
@@ -761,6 +820,7 @@ function scanTarget(target) {
       summary,
       voiceOverOutput,
       engineOutput,
+      sourceHtml,
     }),
   );
   writeText(
@@ -790,7 +850,7 @@ function scanTarget(target) {
 
 mkdirSync(outputRoot, { recursive: true });
 
-const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-for (const target of manifest) {
-  scanTarget(target);
+const manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
+for (const [index, target] of manifest.entries()) {
+  await scanTarget(target, index);
 }

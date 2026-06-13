@@ -1,5 +1,16 @@
 [
   {
+    "name": "hero-sibling-copy",
+    "mode": "page",
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/hero-sibling-copy.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 4
+    },
+    "maxSteps": 20,
+    "maxSeconds": 60
+  },
+  {
     "name": "basic-page",
     "mode": "page",
     "fixturePath": "packages/sr-engine/fixtures/voiceover/basic-page.html",

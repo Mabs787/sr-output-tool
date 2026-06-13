@@ -43,6 +43,28 @@ GitHub Actions runs on pushes and pull requests to `main`. The CI workflow has s
 
 The build job archives the compiled engine, generated extension runtime, and unpacked extension build for the downstream test and package jobs.
 
+The `VoiceOver smoke` workflow runs on hosted macOS and captures real VoiceOver output for fixture pages. Its artifact includes `ai-refinement-input.json` files that pair normalized VoiceOver output with normalized engine output and source HTML.
+
+Manual workflow runs can scan whole pages from a pasted URL list. In GitHub Actions, run `VoiceOver smoke` with the `urls` input set to one or more page URLs. No element selector is required; URL targets default to scanning the full `body`.
+
+To create the same URL manifest locally:
+
+```bash
+yarn voiceover:create-url-manifest --urls "https://example.com/page"
+```
+
+After downloading the `voiceover-smoke-diagnostics` artifact, prepare the refinement queue with:
+
+```bash
+yarn voiceover:refinement
+```
+
+To download the latest successful artifact from `main` with the GitHub CLI:
+
+```bash
+yarn voiceover:refinement --download-latest --force
+```
+
 ## Architecture Overview
 
 `@sr-output/engine` owns the reusable screen-reader logic:
