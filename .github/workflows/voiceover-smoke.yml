@@ -5,6 +5,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      urls:
+        description: "Optional newline, comma, or space separated page URLs to scan instead of fixtures"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -125,8 +130,14 @@ jobs:
             defaults read com.apple.VoiceOver4/default || true
           } > voiceover-smoke/voiceover-first-run-state.txt 2>&1
 
+      - name: Create URL scan manifest
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' }}
+        run: node .github/scripts/create-voiceover-url-manifest.mjs --urls "${{ inputs.urls }}"
+
       - name: Run VoiceOver scan manifest
         continue-on-error: true
+        env:
+          VOICEOVER_SCAN_MANIFEST: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' && 'voiceover-smoke/url-manifest.json' || '' }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
       - name: Capture VoiceOver diagnostics

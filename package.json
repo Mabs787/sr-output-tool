@@ -14,7 +14,9 @@
     "build:extension-runtime": "turbo run build:runtime --filter=@sr-output/extension",
     "package:extension": "turbo run package:zip --filter=@sr-output/extension",
     "test:unit": "turbo run test:unit",
-    "test-app": "node test-app/server.js"
+    "test-app": "node test-app/server.js",
+    "voiceover:create-url-manifest": "node .github/scripts/create-voiceover-url-manifest.mjs",
+    "voiceover:refinement": "node .github/scripts/prepare-voiceover-refinement.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.5",
