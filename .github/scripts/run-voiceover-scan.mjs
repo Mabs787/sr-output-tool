@@ -522,31 +522,63 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
   return { stop: false, reason: "" };
 }
 
-function compare(targetName, voiceOverSteps, engineResult) {
-  const voiceOverLines = voiceOverSteps
+function getNormalizedVoiceOverOutput(voiceOverSteps) {
+  return voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
     .filter((announcement) => !isComparisonNoise(announcement));
-  const engineLines = Array.isArray(engineResult?.announcements)
+}
+
+function getNormalizedEngineOutput(engineResult) {
+  return Array.isArray(engineResult?.announcements)
     ? engineResult.announcements.filter(
         (announcement) => !isComparisonNoise(announcement),
       )
     : [];
+}
 
-  const lines = [
-    `# ${targetName}`,
-    "",
-    "## VoiceOver Captures",
-    ...voiceOverLines.map((line, index) => `${index + 1}. ${line}`),
-    "",
-    "## Engine Output",
-    ...engineLines.map((line, index) => `${index + 1}. ${line}`),
-    "",
-    "## Notes",
-    "This comparison is artifact-only for now. It does not fail CI.",
-  ];
+function getSourceHtml(target) {
+  if (!target.fixturePath) {
+    return "";
+  }
 
-  return `${lines.join("\n")}\n`;
+  return readFileSync(path.resolve(repoRoot, target.fixturePath), "utf8");
+}
+
+function createAiRefinementInput({
+  target,
+  summary,
+  voiceOverOutput,
+  engineOutput,
+}) {
+  return {
+    schemaVersion: 1,
+    purpose:
+      "Use this payload to refine sr-engine output against real VoiceOver output.",
+    instructions: [
+      "Compare voiceOverOutput with engineOutput.",
+      "Identify the smallest defensible sr-engine logic change needed to bring engineOutput closer to VoiceOver.",
+      "Update only necessary sr-engine logic.",
+      "Add or update only the relevant regression test.",
+      "Do not modify this artifact or unrelated tests.",
+    ],
+    target: {
+      name: target.name,
+      mode: target.mode || "page",
+      url: summary.url,
+      fixturePath: target.fixturePath || "",
+      scanRootSelector: target.scanRootSelector || "[data-sr-scan-root]",
+    },
+    scan: {
+      stopReason: summary.stopReason,
+      capturedSteps: summary.capturedSteps,
+      startedAt: summary.startedAt,
+      finishedAt: summary.finishedAt,
+    },
+    voiceOverOutput,
+    engineOutput,
+    sourceHtml: getSourceHtml(target),
+  };
 }
 
 function scanTarget(target) {
@@ -692,6 +724,8 @@ function scanTarget(target) {
   summary.injectEngineRuntime = injectEngineRuntimeResult;
   summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
   summary.engineRaw = engineRaw;
+  const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
+  const engineOutput = getNormalizedEngineOutput(engineResult);
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
     summary,
@@ -699,10 +733,24 @@ function scanTarget(target) {
     voiceOverSteps,
   });
   writeJson(path.join(targetOutputDir, "engine-output.json"), engineResult);
+  writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
+    announcements: voiceOverOutput,
+    source: "VoiceOver",
+    normalization: "comparison-noise-filtered",
+  });
+  writeJson(
+    path.join(targetOutputDir, "ai-refinement-input.json"),
+    createAiRefinementInput({
+      target,
+      summary,
+      voiceOverOutput,
+      engineOutput,
+    }),
+  );
   writeText(
     path.join(targetOutputDir, "engine-output.txt"),
-    Array.isArray(engineResult.announcements)
-      ? engineResult.announcements.join("\n")
+    engineOutput.length
+      ? engineOutput.join("\n")
       : JSON.stringify(engineResult, null, 2),
   );
   writeText(
@@ -721,10 +769,6 @@ function scanTarget(target) {
         ].join("\n");
       })
       .join("\n\n"),
-  );
-  writeText(
-    path.join(targetOutputDir, "comparison.md"),
-    compare(target.name, voiceOverSteps, engineResult),
   );
 }
 
