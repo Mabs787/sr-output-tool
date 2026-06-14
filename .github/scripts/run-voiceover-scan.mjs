@@ -17,6 +17,8 @@ const engineRuntimePath = path.join(
   "packages/sr-extension/src/content/engine-runtime.js",
 );
 const outputRoot = path.join(repoRoot, "voiceover-smoke/scans");
+const captureStepScreenshots =
+  process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
 
 function run(command, args, options = {}) {
   return spawnSync(command, args, {
@@ -819,6 +821,10 @@ async function scanTarget(target, index) {
   );
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
   const initialFocusRaw = captureSafariFocus();
+  const initialScreenshots = { ...initialVoiceOverCapture.screenshots };
+  if (captureStepScreenshots) {
+    initialScreenshots.step = captureScreenshot(targetOutputDir, 0, "step");
+  }
   voiceOverSteps.push({
     index: 0,
     navigation: {
@@ -837,7 +843,7 @@ async function scanTarget(target, index) {
     recovery: null,
     voiceOverRawAttempts: initialVoiceOverCapture.attempts,
     dismissSystemAfterScreenshot: initialVoiceOverCapture.dismissals,
-    screenshots: initialVoiceOverCapture.screenshots,
+    screenshots: initialScreenshots,
   });
 
   for (let index = 0; index < maxSteps; index += 1) {
@@ -851,6 +857,10 @@ async function scanTarget(target, index) {
     );
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
     const focusRaw = captureSafariFocus();
+    const screenshots = { ...voiceOverCapture.screenshots };
+    if (captureStepScreenshots) {
+      screenshots.step = captureScreenshot(targetOutputDir, stepNumber, "step");
+    }
 
     voiceOverSteps.push({
       index: stepNumber,
@@ -863,7 +873,7 @@ async function scanTarget(target, index) {
       recovery: null,
       voiceOverRawAttempts: voiceOverCapture.attempts,
       dismissSystemAfterScreenshot: voiceOverCapture.dismissals,
-      screenshots: voiceOverCapture.screenshots,
+      screenshots,
     });
 
     const stopCheck = shouldStopScan({
@@ -924,6 +934,7 @@ async function scanTarget(target, index) {
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
+  summary.captureStepScreenshots = captureStepScreenshots;
   summary.injectEngineRuntime = injectEngineRuntimeResult;
   summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
   summary.engineRaw = engineRaw;

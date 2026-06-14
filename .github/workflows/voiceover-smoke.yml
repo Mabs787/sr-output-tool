@@ -13,6 +13,11 @@ on:
         description: "Optional newline, comma, or space separated page URLs to scan instead of fixtures"
         required: false
         type: string
+      capture_step_screenshots:
+        description: "Capture a screenshot after each VoiceOver step for debugging"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -208,6 +213,7 @@ jobs:
         continue-on-error: true
         env:
           VOICEOVER_SCAN_MANIFEST: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' && 'voiceover-smoke/url-manifest.json' || '' }}
+          VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_step_screenshots && 'true' || '' }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
       - name: Capture VoiceOver diagnostics
