@@ -20,7 +20,7 @@ permissions:
 jobs:
   hosted-macos-capability-check:
     name: Hosted macOS capability check
-    runs-on: macos-latest
+    runs-on: macos-26
     timeout-minutes: 10
 
     steps:
