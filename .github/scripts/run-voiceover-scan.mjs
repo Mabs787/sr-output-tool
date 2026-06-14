@@ -604,18 +604,16 @@ function getComparisonVoiceOverText(step) {
     .trim();
 }
 
-function isComparisonNoise(announcement) {
+function isSystemNoise(announcement) {
   return (
-    announcement === "main" ||
-    announcement === "toolbar" ||
-    announcement === "collection" ||
     announcement === "Edit button" ||
     announcement === "Edit customizations button" ||
     announcement === "Open System Settings button" ||
+    announcement.includes("Open System Settings button") ||
     /^Safari .+ window$/.test(announcement) ||
     /^application, alert, system dialog /.test(announcement) ||
-    announcement.endsWith(" web content") ||
-    announcement.includes(" splitter")
+    /^application alert system dialog /.test(announcement) ||
+    announcement.includes("requesting to bypass the system private window picker")
   );
 }
 
@@ -673,14 +671,12 @@ function getNormalizedVoiceOverOutput(voiceOverSteps) {
   return voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
-    .filter((announcement) => !isComparisonNoise(announcement));
+    .filter((announcement) => !isSystemNoise(announcement));
 }
 
 function getNormalizedEngineOutput(engineResult) {
   return Array.isArray(engineResult?.announcements)
-    ? engineResult.announcements.filter(
-        (announcement) => !isComparisonNoise(announcement),
-      )
+    ? engineResult.announcements
     : [];
 }
 
@@ -932,7 +928,7 @@ async function scanTarget(target, index) {
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "comparison-noise-filtered",
+    normalization: "system-noise-filtered",
   });
   writeJson(
     path.join(targetOutputDir, "ai-refinement-input.json"),
