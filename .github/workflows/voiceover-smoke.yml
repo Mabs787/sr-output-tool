@@ -43,6 +43,11 @@ jobs:
             echo "## macOS"
             sw_vers
             echo
+            echo "## VoiceOver app"
+            /usr/bin/mdls -name kMDItemVersion -name kMDItemCFBundleIdentifier /System/Library/CoreServices/VoiceOver.app || true
+            /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
+            /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
+            echo
             echo "## Runner"
             uname -a
             echo
@@ -147,6 +152,12 @@ jobs:
             sw_vers
             echo
 
+            echo "## VoiceOver app"
+            /usr/bin/mdls -name kMDItemVersion -name kMDItemCFBundleIdentifier /System/Library/CoreServices/VoiceOver.app || true
+            /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
+            /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
+            echo
+
             echo "## Safari"
             /usr/bin/mdls -name kMDItemVersion /Applications/Safari.app || true
             echo
@@ -175,6 +186,14 @@ jobs:
 
             echo "## com.apple.VoiceOver4"
             defaults read com.apple.VoiceOver4 || true
+            echo
+
+            echo "## com.apple.VoiceOver"
+            defaults read com.apple.VoiceOver || true
+            echo
+
+            echo "## com.apple.VoiceOver exported plist"
+            defaults export com.apple.VoiceOver - || true
             echo
 
             echo "## com.apple.VoiceOverTraining"
@@ -209,6 +228,14 @@ jobs:
 
             echo "## com.apple.VoiceOver4"
             defaults read com.apple.VoiceOver4 || true
+            echo
+
+            echo "## com.apple.VoiceOver"
+            defaults read com.apple.VoiceOver || true
+            echo
+
+            echo "## com.apple.VoiceOver exported plist"
+            defaults export com.apple.VoiceOver - || true
             echo
 
             echo "## VoiceOver process snapshot"
