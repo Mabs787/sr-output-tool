@@ -133,6 +133,54 @@ jobs:
             defaults read com.apple.VoiceOver4/default || true
           } > voiceover-smoke/voiceover-first-run-state.txt 2>&1
 
+      - name: Capture VoiceOver profile snapshot
+        run: |
+          set +e
+          mkdir -p voiceover-smoke
+
+          {
+            echo "## VoiceOver profile snapshot"
+            date
+            echo
+
+            echo "## macOS"
+            sw_vers
+            echo
+
+            echo "## Safari"
+            /usr/bin/mdls -name kMDItemVersion /Applications/Safari.app || true
+            echo
+
+            echo "## VoiceOver preference domains"
+            defaults domains | tr ',' '\n' | sed 's/^ *//' | grep -i 'VoiceOver' | sort || true
+            echo
+
+            echo "## Local comparison targets"
+            echo "These are the settings to compare against local screenshots:"
+            echo "- Speech verbosity"
+            echo "- Braille verbosity"
+            echo "- Web navigation order"
+            echo "- Grouping behaviour"
+            echo "- Skip redundant labels"
+            echo "- Speak instructions/hints"
+            echo "- Navigate images"
+            echo "- Quick Nav"
+            echo "- Voice/language"
+            echo "- VoiceOver Recognition"
+            echo
+
+            echo "## com.apple.VoiceOver4/default"
+            defaults read com.apple.VoiceOver4/default || true
+            echo
+
+            echo "## com.apple.VoiceOver4"
+            defaults read com.apple.VoiceOver4 || true
+            echo
+
+            echo "## com.apple.VoiceOverTraining"
+            defaults read com.apple.VoiceOverTraining || true
+          } > voiceover-smoke/voiceover-profile.txt 2>&1
+
       - name: Create URL scan manifest
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' }}
         run: node .github/scripts/create-voiceover-url-manifest.mjs --urls "${{ inputs.urls }}"
