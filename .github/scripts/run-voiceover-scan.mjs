@@ -649,11 +649,14 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
     return { stop: true, reason: `stopWhen.voiceOverIncludes:${stopPhrase}` };
   }
 
-  const meaningfulTexts = voiceOverSteps.map(getCaptureText).filter(Boolean);
-  if (meaningfulTexts.length >= 4) {
-    const recent = meaningfulTexts.slice(-4);
+  const meaningfulTexts = voiceOverSteps
+    .map(getComparisonVoiceOverText)
+    .filter(Boolean)
+    .filter((announcement) => !isSystemNoise(announcement));
+  if (meaningfulTexts.length >= 3) {
+    const recent = meaningfulTexts.slice(-3);
     if (new Set(recent).size === 1) {
-      return { stop: true, reason: "repeated-output" };
+      return { stop: true, reason: "repeated-normalized-output" };
     }
   }
 
@@ -668,10 +671,19 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
 }
 
 function getNormalizedVoiceOverOutput(voiceOverSteps) {
-  return voiceOverSteps
+  const announcements = voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
     .filter((announcement) => !isSystemNoise(announcement));
+
+  while (
+    announcements.length >= 2 &&
+    announcements.at(-1) === announcements.at(-2)
+  ) {
+    announcements.pop();
+  }
+
+  return announcements;
 }
 
 function getNormalizedEngineOutput(engineResult) {
