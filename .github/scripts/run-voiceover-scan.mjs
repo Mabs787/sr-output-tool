@@ -611,7 +611,9 @@ function isComparisonNoise(announcement) {
     announcement === "collection" ||
     announcement === "Edit button" ||
     announcement === "Edit customizations button" ||
+    announcement === "Open System Settings button" ||
     /^Safari .+ window$/.test(announcement) ||
+    /^application, alert, system dialog /.test(announcement) ||
     announcement.endsWith(" web content") ||
     announcement.includes(" splitter")
   );
@@ -685,6 +687,7 @@ function getNormalizedEngineOutput(engineResult) {
 function createAiRefinementInput({
   target,
   summary,
+  voiceOverSteps,
   voiceOverOutput,
   engineOutput,
   sourceHtml,
@@ -692,12 +695,33 @@ function createAiRefinementInput({
   const minVoiceOverAnnouncements = Number(
     target.refinement?.minVoiceOverAnnouncements || 1,
   );
-  const refinementEligible = voiceOverOutput.length >= minVoiceOverAnnouncements;
-  const refinementSkipReasons = refinementEligible
-    ? []
-    : [
+  const failedVoiceOverReads = voiceOverSteps.filter(
+    (step) => step.voiceOverRaw && !step.voiceOverRaw.ok,
+  );
+  const recoveredVoiceOverReads = voiceOverSteps.filter(
+    (step) => (step.voiceOverRawAttempts || []).length > 1,
+  );
+  const refinementSkipReasons = [];
+
+  if (voiceOverOutput.length < minVoiceOverAnnouncements) {
+    refinementSkipReasons.push(
         `VoiceOver captured ${voiceOverOutput.length} announcement(s), expected at least ${minVoiceOverAnnouncements}.`,
-      ];
+    );
+  }
+
+  if (failedVoiceOverReads.length) {
+    refinementSkipReasons.push(
+      `VoiceOver capture had ${failedVoiceOverReads.length} failed read(s); output may be incomplete.`,
+    );
+  }
+
+  if (recoveredVoiceOverReads.length) {
+    refinementSkipReasons.push(
+      `VoiceOver capture needed ${recoveredVoiceOverReads.length} recovered read(s); output may include transient system UI.`,
+    );
+  }
+
+  const refinementEligible = refinementSkipReasons.length === 0;
 
   return {
     schemaVersion: 1,
@@ -915,6 +939,7 @@ async function scanTarget(target, index) {
     createAiRefinementInput({
       target,
       summary,
+      voiceOverSteps,
       voiceOverOutput,
       engineOutput,
       sourceHtml,
