@@ -1,7 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { JSDOM } from "jsdom";
 
 const repoRoot = process.cwd();
@@ -19,6 +19,9 @@ const engineRuntimePath = path.join(
 const outputRoot = path.join(repoRoot, "voiceover-smoke/scans");
 const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
+const captureScreenRecording =
+  process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
+const screenRecordingMaxSeconds = 600;
 const navigationMode =
   process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
     ? "plain-right-arrow"
@@ -66,6 +69,91 @@ function writeJson(filePath, value) {
 
 function writeText(filePath, value) {
   writeFileSync(filePath, `${String(value).trimEnd()}\n`);
+}
+
+function startScreenRecording() {
+  if (!captureScreenRecording) {
+    return null;
+  }
+
+  const recordingsDir = path.join(repoRoot, "voiceover-smoke/recordings");
+  mkdirSync(recordingsDir, { recursive: true });
+
+  const filePath = path.join(recordingsDir, "voiceover-scan.mov");
+  const child = spawn(
+    "screencapture",
+    ["-v", `-V${screenRecordingMaxSeconds}`, filePath],
+    {
+      cwd: repoRoot,
+      stdio: ["ignore", "pipe", "pipe"],
+    },
+  );
+
+  const recording = {
+    filePath,
+    relativePath: path.relative(path.join(repoRoot, "voiceover-smoke"), filePath),
+    startedAt: new Date().toISOString(),
+    stdout: "",
+    stderr: "",
+    child,
+  };
+
+  child.stdout.on("data", (chunk) => {
+    recording.stdout += String(chunk);
+  });
+  child.stderr.on("data", (chunk) => {
+    recording.stderr += String(chunk);
+  });
+
+  return recording;
+}
+
+function stopScreenRecording(recording) {
+  if (!recording) {
+    return Promise.resolve({
+      enabled: false,
+    });
+  }
+
+  return new Promise((resolve) => {
+    let settled = false;
+    let forceStopTimer = null;
+
+    const finish = (code, signal) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (forceStopTimer) {
+        clearTimeout(forceStopTimer);
+      }
+      resolve({
+        enabled: true,
+        path: recording.relativePath,
+        maxSeconds: screenRecordingMaxSeconds,
+        startedAt: recording.startedAt,
+        finishedAt: new Date().toISOString(),
+        status: code,
+        signal,
+        stdout: recording.stdout.trim(),
+        stderr: recording.stderr.trim(),
+      });
+    };
+
+    recording.child.once("exit", finish);
+
+    if (recording.child.exitCode !== null || recording.child.signalCode !== null) {
+      finish(recording.child.exitCode, recording.child.signalCode);
+      return;
+    }
+
+    recording.child.kill("SIGINT");
+    forceStopTimer = setTimeout(() => {
+      if (!settled && recording.child.exitCode === null) {
+        recording.child.kill("SIGTERM");
+      }
+    }, 5000);
+  });
 }
 
 function getScreenshotFileName(stepIndex, label) {
@@ -1004,7 +1092,13 @@ async function scanTarget(target, index) {
 
 mkdirSync(outputRoot, { recursive: true });
 
+const screenRecording = startScreenRecording();
 const manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
 for (const [index, target] of manifest.entries()) {
   await scanTarget(target, index);
 }
+const screenRecordingResult = await stopScreenRecording(screenRecording);
+writeJson(
+  path.join(repoRoot, "voiceover-smoke/screen-recording.json"),
+  screenRecordingResult,
+);

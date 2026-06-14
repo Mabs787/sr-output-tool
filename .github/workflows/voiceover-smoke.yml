@@ -18,6 +18,11 @@ on:
         required: false
         default: false
         type: boolean
+      capture_screen_recording:
+        description: "Capture a screen recording for the full VoiceOver scan"
+        required: false
+        default: false
+        type: boolean
       navigation_mode:
         description: "How VoiceOver should move between items"
         required: false
@@ -222,6 +227,7 @@ jobs:
         env:
           VOICEOVER_SCAN_MANIFEST: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' && 'voiceover-smoke/url-manifest.json' || '' }}
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_step_screenshots && 'true' || '' }}
+          VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_screen_recording && 'true' || '' }}
           VOICEOVER_NAVIGATION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.navigation_mode || 'voiceover-right-arrow' }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
