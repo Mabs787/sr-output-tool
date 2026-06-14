@@ -19,6 +19,10 @@ const engineRuntimePath = path.join(
 const outputRoot = path.join(repoRoot, "voiceover-smoke/scans");
 const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
+const navigationMode =
+  process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
+    ? "plain-right-arrow"
+    : "voiceover-right-arrow";
 
 function run(command, args, options = {}) {
   return spawnSync(command, args, {
@@ -250,6 +254,14 @@ return logText
 }
 
 function navigateRight() {
+  if (navigationMode === "plain-right-arrow") {
+    return runAppleScript(`
+tell application "System Events"
+  key code 124
+end tell
+`, 8000);
+  }
+
   return runAppleScript(`
 tell application "System Events"
   key code 124 using {control down, option down}
@@ -783,6 +795,7 @@ async function scanTarget(target, index) {
     source: target.fixturePath ? "fixture" : "url",
     maxSteps: target.maxSteps,
     maxSeconds: target.maxSeconds,
+    navigationMode,
     startedAt: new Date().toISOString(),
   };
 

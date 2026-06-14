@@ -18,6 +18,14 @@ on:
         required: false
         default: false
         type: boolean
+      navigation_mode:
+        description: "How VoiceOver should move between items"
+        required: false
+        default: voiceover-right-arrow
+        type: choice
+        options:
+          - voiceover-right-arrow
+          - plain-right-arrow
 
 permissions:
   contents: read
@@ -214,6 +222,7 @@ jobs:
         env:
           VOICEOVER_SCAN_MANIFEST: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' && 'voiceover-smoke/url-manifest.json' || '' }}
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_step_screenshots && 'true' || '' }}
+          VOICEOVER_NAVIGATION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.navigation_mode || 'voiceover-right-arrow' }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
       - name: Capture VoiceOver diagnostics
