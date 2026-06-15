@@ -18,6 +18,7 @@ const manifestPath = path.join(
 const scanManifestPath = process.env.VOICEOVER_SCAN_MANIFEST
   ? path.resolve(repoRoot, process.env.VOICEOVER_SCAN_MANIFEST)
   : manifestPath;
+const scanTargetName = String(process.env.VOICEOVER_SCAN_TARGET || "").trim();
 const engineRuntimePath = path.join(
   repoRoot,
   "packages/sr-extension/src/content/engine-runtime.js",
@@ -399,9 +400,13 @@ tell application "VoiceOver"
   try
     set captionState to enabled of caption window
   end try
+  set captionText to ""
+  try
+    set captionText to my safeText(content of caption window)
+  end try
   set phraseText to my safeText(content of last phrase)
   set cursorText to my safeText(text under cursor of vo cursor)
-  return "captionWindowEnabled=" & (captionState as text) & linefeed & "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
+  return "captionWindowEnabled=" & (captionState as text) & linefeed & "captionText=" & captionText & linefeed & "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
 end tell
 `, 8000);
 }
@@ -704,15 +709,30 @@ function getCaptureText(step) {
 }
 
 function getComparisonVoiceOverText(step) {
+  const caption = step.voiceOver?.captionText || "";
   const phrase = step.voiceOver?.lastPhrase || "";
   const cursor = step.voiceOver?.voCursorText || "";
-  let comparisonText = phrase || cursor;
+  let comparisonText = caption || phrase || cursor;
 
-  if (
+  if (!caption && cursor && phrase.startsWith("You are currently on a ")) {
+    const role = phrase
+      .replace(/^You are currently on an? /, "")
+      .replace(/\..*$/, "")
+      .trim();
+    const lowerCursor = cursor.toLowerCase();
+    const lowerRole = role.toLowerCase();
+    if (role && lowerCursor.endsWith(` ${lowerRole}`)) {
+      const name = cursor.slice(0, -role.length).trim();
+      comparisonText = lowerRole.startsWith("heading level")
+        ? `${role}, ${name}`
+        : `${name}, ${role}`;
+    } else if (role) {
+      comparisonText = `${role}, ${cursor}`;
+    }
+  } else if (
+    !caption &&
     cursor &&
-    (phrase.startsWith("You are currently on ") ||
-      phrase.includes(" To click this ") ||
-      phrase.includes(" To exit this "))
+    (phrase.includes(" To click this ") || phrase.includes(" To exit this "))
   ) {
     comparisonText = cursor;
   }
@@ -1092,12 +1112,16 @@ async function scanTarget(target, index) {
     path.join(targetOutputDir, "voiceover-output.txt"),
     voiceOverSteps
       .map((step) => {
+        const stored = getComparisonVoiceOverText(step);
+        const caption = step.voiceOver?.captionText || "";
         const phrase = step.voiceOver?.lastPhrase || "";
         const cursor = step.voiceOver?.voCursorText || "";
         const focusName = step.focus?.name || "";
         const focusRole = step.focus?.role || "";
         return [
           `step ${step.index}`,
+          `storedOutput: ${stored}`,
+          `captionText: ${caption}`,
           `lastPhrase: ${phrase}`,
           `voCursorText: ${cursor}`,
           `focused: ${focusRole} ${focusName}`.trim(),
@@ -1110,7 +1134,13 @@ async function scanTarget(target, index) {
 mkdirSync(outputRoot, { recursive: true });
 
 const screenRecording = startScreenRecording();
-const manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
+let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
+if (scanTargetName) {
+  manifest = manifest.filter((target) => target.name === scanTargetName);
+  if (manifest.length === 0) {
+    throw new Error(`No VoiceOver scan target matched "${scanTargetName}".`);
+  }
+}
 for (const [index, target] of manifest.entries()) {
   await scanTarget(target, index);
 }

@@ -13,6 +13,10 @@ on:
         description: "Optional newline, comma, or space separated page URLs to scan instead of fixtures"
         required: false
         type: string
+      scan_target:
+        description: "Optional fixture target name to scan, for example actions-page"
+        required: false
+        type: string
       capture_step_screenshots:
         description: "Capture a screenshot after each VoiceOver step for debugging"
         required: false
@@ -231,6 +235,7 @@ jobs:
         continue-on-error: true
         env:
           VOICEOVER_SCAN_MANIFEST: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' && 'voiceover-smoke/url-manifest.json' || '' }}
+          VOICEOVER_SCAN_TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.scan_target || '' }}
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_step_screenshots && 'true' || '' }}
           VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_screen_recording && 'true' || '' }}
           VOICEOVER_SCREEN_RECORDING_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.screen_recording_seconds || '180' }}
