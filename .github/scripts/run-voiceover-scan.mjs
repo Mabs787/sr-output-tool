@@ -124,6 +124,76 @@ function startScreenRecording() {
   return recording;
 }
 
+function waitForChild(child, timeoutMs) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (code, signal) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      clearTimeout(timer);
+      resolve({ code, signal });
+    };
+    const timer = setTimeout(() => {
+      if (!settled && child.exitCode === null) {
+        child.kill("SIGTERM");
+      }
+    }, timeoutMs);
+
+    child.once("exit", finish);
+    if (child.exitCode !== null || child.signalCode !== null) {
+      finish(child.exitCode, child.signalCode);
+    }
+  });
+}
+
+async function preflightScreenRecordingPermission() {
+  if (!captureScreenRecording) {
+    return { enabled: false };
+  }
+
+  const recordingsDir = path.join(repoRoot, "voiceover-smoke/recordings");
+  mkdirSync(recordingsDir, { recursive: true });
+  const filePath = path.join(recordingsDir, "screen-recording-preflight.mov");
+  const child = spawn("screencapture", ["-v", "-V1", filePath], {
+    cwd: repoRoot,
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  let stdout = "";
+  let stderr = "";
+  const dismissals = [];
+  child.stdout.on("data", (chunk) => {
+    stdout += String(chunk);
+  });
+  child.stderr.on("data", (chunk) => {
+    stderr += String(chunk);
+  });
+
+  for (let attempt = 1; attempt <= 8 && child.exitCode === null; attempt += 1) {
+    run("sleep", ["0.5"], { timeout: 1500 });
+    dismissals.push({
+      attempt,
+      result: dismissSystemDialogs(),
+    });
+  }
+
+  const { code, signal } = await waitForChild(child, 10000);
+  const fileExists = existsSync(filePath);
+  return {
+    enabled: true,
+    path: path.relative(path.join(repoRoot, "voiceover-smoke"), filePath),
+    fileExists,
+    fileSize: fileExists ? statSync(filePath).size : 0,
+    status: code,
+    signal,
+    stdout: stdout.trim(),
+    stderr: stderr.trim(),
+    dismissals,
+  };
+}
+
 function stopScreenRecording(recording) {
   if (!recording) {
     return Promise.resolve({
@@ -385,18 +455,29 @@ function isInstructionalVoiceOverCaption(value) {
 
 function captureVoiceOverCaptionOcrBurst(targetOutputDir, stepIndex) {
   const delays = [0, 0.12, 0.28];
-  const attempts = delays.map((delay, attemptIndex) => {
+  const attempts = [];
+  for (const [attemptIndex, delay] of delays.entries()) {
     if (delay > 0) {
       run("sleep", [String(delay)], { timeout: 2000 });
     }
-    return {
+    const attempt = {
       delay,
       ...captureVoiceOverCaptionOcrState(
         targetOutputDir,
         `${stepIndex}-attempt-${attemptIndex + 1}`,
       ),
     };
-  });
+    attempts.push(attempt);
+
+    const text = cleanCaptionOcrText(attempt.parsed?.captionOcrText);
+    if (text && !isInstructionalVoiceOverCaption(text)) {
+      return {
+        ...attempt,
+        attempts,
+      };
+    }
+  }
+
   const withText = attempts.filter((attempt) =>
     cleanCaptionOcrText(attempt.parsed?.captionOcrText),
   );
@@ -1465,6 +1546,11 @@ async function scanTarget(target, index) {
 
 mkdirSync(outputRoot, { recursive: true });
 
+const screenRecordingPreflight = await preflightScreenRecordingPermission();
+writeJson(
+  path.join(repoRoot, "voiceover-smoke/screen-recording-preflight.json"),
+  screenRecordingPreflight,
+);
 const screenRecording = startScreenRecording();
 let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
 if (scanTargetName) {
