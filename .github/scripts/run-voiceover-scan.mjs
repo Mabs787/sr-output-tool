@@ -411,6 +411,87 @@ end tell
 `, 8000);
 }
 
+function captureVoiceOverCaptionUiState() {
+  return runAppleScript(`
+on safeText(valueToRead)
+  try
+    if valueToRead is missing value then return ""
+    return valueToRead as text
+  on error
+    return ""
+  end try
+end safeText
+
+on cleanLine(valueToClean)
+  set textToClean to my safeText(valueToClean)
+  set AppleScript's text item delimiters to linefeed
+  set textParts to text items of textToClean
+  set AppleScript's text item delimiters to " "
+  set textToClean to textParts as text
+  set AppleScript's text item delimiters to return
+  set textParts to text items of textToClean
+  set AppleScript's text item delimiters to " "
+  set textToClean to textParts as text
+  set AppleScript's text item delimiters to ""
+  return textToClean
+end cleanLine
+
+set captionText to ""
+set debugText to ""
+tell application "System Events"
+  repeat with processToRead in application processes
+    try
+      set processName to name of processToRead as text
+      if processName contains "VoiceOver" then
+        set debugText to debugText & "process:" & processName & " "
+        repeat with windowToRead in windows of processToRead
+          try
+            set windowName to my cleanLine(name of windowToRead)
+            set debugText to debugText & "window:" & windowName & " "
+            set uiItems to entire contents of windowToRead
+            repeat with uiItem in uiItems
+              try
+                set roleText to my cleanLine(role of uiItem)
+                set nameText to ""
+                set valueText to ""
+                set descriptionText to ""
+                try
+                  set nameText to my cleanLine(name of uiItem)
+                end try
+                try
+                  set valueText to my cleanLine(value of uiItem)
+                end try
+                try
+                  set descriptionText to my cleanLine(description of uiItem)
+                end try
+
+                set candidateText to ""
+                if valueText is not "" then
+                  set candidateText to valueText
+                else if nameText is not "" then
+                  set candidateText to nameText
+                else if descriptionText is not "" then
+                  set candidateText to descriptionText
+                end if
+
+                if candidateText is not "" and candidateText is not "Close" and candidateText is not "close button" then
+                  if roleText contains "text" or roleText contains "Text" or roleText contains "static" or roleText contains "Static" then
+                    set captionText to captionText & " " & candidateText
+                  end if
+                end if
+              end try
+            end repeat
+          end try
+        end repeat
+      end if
+    end try
+  end repeat
+end tell
+
+return "captionUiText=" & my cleanLine(captionText) & linefeed & "captionUiDebug=" & my cleanLine(debugText)
+`, 8000);
+}
+
 function captureSafariFocus() {
   return runAppleScript(`
 tell application "System Events"
@@ -697,6 +778,8 @@ function parseVoiceOverText(stdout) {
 
 function getCaptureText(step) {
   return [
+    step.voiceOver?.captionUiText || "",
+    step.voiceOver?.captionText || "",
     step.voiceOver?.lastPhrase || "",
     step.voiceOver?.voCursorText || "",
     step.focus?.role || "",
@@ -709,7 +792,8 @@ function getCaptureText(step) {
 }
 
 function getComparisonVoiceOverText(step) {
-  const caption = step.voiceOver?.captionText || "";
+  const caption =
+    step.voiceOver?.captionUiText || step.voiceOver?.captionText || "";
   const phrase = step.voiceOver?.lastPhrase || "";
   const cursor = step.voiceOver?.voCursorText || "";
   let comparisonText = caption || phrase || cursor;
@@ -958,7 +1042,12 @@ async function scanTarget(target, index) {
     0,
   );
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
+  const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
   const initialFocusRaw = captureSafariFocus();
+  const initialVoiceOver = {
+    ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
+    ...parseVoiceOverText(initialCaptionUiRaw.stdout || ""),
+  };
   const initialScreenshots = { ...initialVoiceOverCapture.screenshots };
   if (captureStepScreenshots) {
     initialScreenshots.step = captureScreenshot(targetOutputDir, 0, "step");
@@ -975,7 +1064,8 @@ async function scanTarget(target, index) {
     },
     dismissSystemAfterNavigation: initialDismissSystem,
     voiceOverRaw: initialVoiceOverRaw,
-    voiceOver: parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
+    captionUiRaw: initialCaptionUiRaw,
+    voiceOver: initialVoiceOver,
     focusRaw: initialFocusRaw,
     focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
     recovery: null,
@@ -994,7 +1084,12 @@ async function scanTarget(target, index) {
       stepNumber,
     );
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
+    const captionUiRaw = captureVoiceOverCaptionUiState();
     const focusRaw = captureSafariFocus();
+    const voiceOver = {
+      ...parseVoiceOverText(voiceOverRaw.stdout || ""),
+      ...parseVoiceOverText(captionUiRaw.stdout || ""),
+    };
     const screenshots = { ...voiceOverCapture.screenshots };
     if (captureStepScreenshots) {
       screenshots.step = captureScreenshot(targetOutputDir, stepNumber, "step");
@@ -1005,7 +1100,8 @@ async function scanTarget(target, index) {
       navigation,
       dismissSystemAfterNavigation,
       voiceOverRaw,
-      voiceOver: parseVoiceOverText(voiceOverRaw.stdout || ""),
+      captionUiRaw,
+      voiceOver,
       focusRaw,
       focus: parseVoiceOverText(focusRaw.stdout || ""),
       recovery: null,
@@ -1113,6 +1209,8 @@ async function scanTarget(target, index) {
     voiceOverSteps
       .map((step) => {
         const stored = getComparisonVoiceOverText(step);
+        const captionUi = step.voiceOver?.captionUiText || "";
+        const captionUiDebug = step.voiceOver?.captionUiDebug || "";
         const caption = step.voiceOver?.captionText || "";
         const phrase = step.voiceOver?.lastPhrase || "";
         const cursor = step.voiceOver?.voCursorText || "";
@@ -1121,6 +1219,8 @@ async function scanTarget(target, index) {
         return [
           `step ${step.index}`,
           `storedOutput: ${stored}`,
+          `captionUiText: ${captionUi}`,
+          `captionUiDebug: ${captionUiDebug}`,
           `captionText: ${caption}`,
           `lastPhrase: ${phrase}`,
           `voCursorText: ${cursor}`,
