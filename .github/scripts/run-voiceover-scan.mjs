@@ -332,7 +332,12 @@ let request = VNRecognizeTextRequest { request, error in
     guard let recognized = observation.topCandidates(1).first else { continue }
     let text = recognized.string.trimmingCharacters(in: .whitespacesAndNewlines)
     if text.isEmpty || text == "×" || text.lowercased() == "x" { continue }
-    if observation.boundingBox.minY >= 0.08 && observation.boundingBox.maxY <= 0.45 {
+    // VoiceOver's caption panel is anchored near the lower-middle of the
+    // hosted runner display. Keep only text inside that panel so page content
+    // visible behind it is not mixed into the captured announcement.
+    if observation.boundingBox.minX >= 0.095 &&
+       observation.boundingBox.minY >= 0.10 &&
+       observation.boundingBox.maxY <= 0.24 {
       candidates.append(Candidate(text: text, confidence: recognized.confidence, box: observation.boundingBox))
     }
   }
@@ -443,7 +448,7 @@ function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
 
 function cleanCaptionOcrText(value) {
   return String(value || "")
-    .replace(/^[x×]\s+/i, "")
+    .replace(/^[x×]\s*/i, "")
     .replace(/^Safari .+? window /, "")
     .replace(/\s+/g, " ")
     .trim();
