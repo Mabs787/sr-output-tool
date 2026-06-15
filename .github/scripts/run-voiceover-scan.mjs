@@ -1132,6 +1132,10 @@ function isSystemNoise(announcement) {
   );
 }
 
+function isRefinementNoise(announcement) {
+  return /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement);
+}
+
 function getStopPhrases(target) {
   const values = [];
   const stopWhen = target.stopWhen || {};
@@ -1167,7 +1171,10 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
   const meaningfulTexts = voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
-    .filter((announcement) => !isSystemNoise(announcement));
+    .filter(
+      (announcement) =>
+        !isSystemNoise(announcement) && !isRefinementNoise(announcement),
+    );
   if (meaningfulTexts.length >= 3) {
     const recent = meaningfulTexts.slice(-3);
     if (new Set(recent).size === 1) {
@@ -1189,7 +1196,10 @@ function getNormalizedVoiceOverOutput(voiceOverSteps) {
   const announcements = voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
-    .filter((announcement) => !isSystemNoise(announcement));
+    .filter(
+      (announcement) =>
+        !isSystemNoise(announcement) && !isRefinementNoise(announcement),
+    );
 
   while (
     announcements.length >= 2 &&
@@ -1558,6 +1568,8 @@ if (scanTargetName) {
   if (manifest.length === 0) {
     throw new Error(`No VoiceOver scan target matched "${scanTargetName}".`);
   }
+} else {
+  manifest = manifest.filter((target) => target.default !== false);
 }
 for (const [index, target] of manifest.entries()) {
   await scanTarget(target, index);

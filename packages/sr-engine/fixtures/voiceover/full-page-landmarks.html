@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SR Output Tool Full Page Fixture</title>
+  </head>
+  <body data-sr-scan-root>
+    <header>
+      <a href="/">TravelCo</a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/holidays">Holidays</a></li>
+          <li><a href="/deals">Deals</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </nav>
+      <form action="/search" role="search">
+        <label for="site-search">Search holidays</label>
+        <input id="site-search" name="q" type="search" value="Majorca">
+        <button type="submit">Search</button>
+      </form>
+    </header>
+
+    <main>
+      <h1>Low cost holidays</h1>
+      <p>Compare sunny escapes, flexible deposits and family-friendly hotels.</p>
+
+      <section aria-labelledby="featured-heading">
+        <h2 id="featured-heading">Featured deal</h2>
+        <article>
+          <h3>Majorca beach escape</h3>
+          <p>7 nights from London Gatwick with breakfast included.</p>
+          <p><strong>Guide price</strong> £499 per person</p>
+          <a href="/deals/majorca">View deal</a>
+          <button type="button">Save deal</button>
+        </article>
+      </section>
+
+      <section aria-labelledby="filters-heading">
+        <h2 id="filters-heading">Refine results</h2>
+        <fieldset>
+          <legend>Holiday preferences</legend>
+          <label>
+            <input type="checkbox" name="board" value="breakfast" checked>
+            Breakfast included
+          </label>
+          <label for="departure-airport">Departure airport</label>
+          <select id="departure-airport" name="departure-airport">
+            <option>London Gatwick</option>
+            <option>Manchester</option>
+            <option>Birmingham</option>
+          </select>
+        </fieldset>
+      </section>
+
+      <section aria-labelledby="included-heading">
+        <h2 id="included-heading">Included benefits</h2>
+        <ul>
+          <li>Free cancellation</li>
+          <li>Low deposit</li>
+          <li>24 hour support</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="summary-heading">
+        <h2 id="summary-heading">Price summary</h2>
+        <table>
+          <caption>Holiday price breakdown</caption>
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Hotel and flights</th>
+              <td>£499</td>
+            </tr>
+            <tr>
+              <th scope="row">Baggage</th>
+              <td>£0</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer>
+      <h2>Need help?</h2>
+      <p>Our travel team can help with booking changes and accessibility requests.</p>
+      <nav aria-label="Footer">
+        <a href="/accessibility">Accessibility</a>
+        <a href="/contact">Contact us</a>
+      </nav>
+    </footer>
+  </body>
+</html>

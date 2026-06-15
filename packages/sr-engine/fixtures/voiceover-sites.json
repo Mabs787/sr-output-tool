@@ -42,5 +42,17 @@
     },
     "maxSteps": 30,
     "maxSeconds": 90
+  },
+  {
+    "name": "full-page-landmarks",
+    "mode": "page",
+    "default": false,
+    "fixturePath": "packages/sr-engine/fixtures/voiceover/full-page-landmarks.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 20
+    },
+    "maxSteps": 90,
+    "maxSeconds": 240
   }
 ]
