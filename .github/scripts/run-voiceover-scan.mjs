@@ -1,4 +1,10 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
@@ -21,7 +27,14 @@ const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
 const captureScreenRecording =
   process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
-const screenRecordingMaxSeconds = 600;
+const requestedScreenRecordingSeconds = Number(
+  process.env.VOICEOVER_SCREEN_RECORDING_SECONDS || 180,
+);
+const screenRecordingSeconds =
+  Number.isFinite(requestedScreenRecordingSeconds) &&
+  requestedScreenRecordingSeconds > 0
+    ? Math.min(Math.floor(requestedScreenRecordingSeconds), 600)
+    : 180;
 const navigationMode =
   process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
     ? "plain-right-arrow"
@@ -82,7 +95,7 @@ function startScreenRecording() {
   const filePath = path.join(recordingsDir, "voiceover-scan.mov");
   const child = spawn(
     "screencapture",
-    ["-v", `-V${screenRecordingMaxSeconds}`, filePath],
+    ["-v", `-V${screenRecordingSeconds}`, filePath],
     {
       cwd: repoRoot,
       stdio: ["ignore", "pipe", "pipe"],
@@ -127,10 +140,14 @@ function stopScreenRecording(recording) {
       if (forceStopTimer) {
         clearTimeout(forceStopTimer);
       }
+      const fileExists = existsSync(recording.filePath);
+      const fileSize = fileExists ? statSync(recording.filePath).size : 0;
       resolve({
         enabled: true,
         path: recording.relativePath,
-        maxSeconds: screenRecordingMaxSeconds,
+        fileExists,
+        fileSize,
+        seconds: screenRecordingSeconds,
         startedAt: recording.startedAt,
         finishedAt: new Date().toISOString(),
         status: code,
@@ -147,12 +164,12 @@ function stopScreenRecording(recording) {
       return;
     }
 
-    recording.child.kill("SIGINT");
+    // Let screencapture finish on its own so macOS finalizes the .mov file.
     forceStopTimer = setTimeout(() => {
       if (!settled && recording.child.exitCode === null) {
         recording.child.kill("SIGTERM");
       }
-    }, 5000);
+    }, (screenRecordingSeconds + 30) * 1000);
   });
 }
 
