@@ -266,7 +266,7 @@ let request = VNRecognizeTextRequest { request, error in
     guard let recognized = observation.topCandidates(1).first else { continue }
     let text = recognized.string.trimmingCharacters(in: .whitespacesAndNewlines)
     if text.isEmpty || text == "×" || text.lowercased() == "x" { continue }
-    if observation.boundingBox.maxY <= 0.45 {
+    if observation.boundingBox.minY >= 0.08 && observation.boundingBox.maxY <= 0.45 {
       candidates.append(Candidate(text: text, confidence: recognized.confidence, box: observation.boundingBox))
     }
   }
@@ -930,6 +930,7 @@ function getComparisonVoiceOverText(step) {
   }
 
   return comparisonText
+    .replace(/^[x×]\s+/i, "")
     .replace(/^Safari .+? window /, "")
     .replace(/\s+/g, " ")
     .trim();
@@ -1137,7 +1138,7 @@ async function scanTarget(target, index) {
   );
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
-  run("sleep", ["2"], { timeout: 4000 });
+  run("sleep", ["0.3"], { timeout: 2000 });
 
   const voiceOverSteps = [];
   const scanStartedAt = Date.now();
@@ -1145,13 +1146,13 @@ async function scanTarget(target, index) {
   let stopReason = "maxSteps";
 
   const initialDismissSystem = dismissSystemDialogs();
+  const initialCaptionOcr = captureVoiceOverCaptionOcrState(targetOutputDir, 0);
   const initialVoiceOverCapture = captureVoiceOverStateWithRecovery(
     targetOutputDir,
     0,
   );
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
   const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
-  const initialCaptionOcr = captureVoiceOverCaptionOcrState(targetOutputDir, 0);
   const initialFocusRaw = captureSafariFocus();
   const initialVoiceOver = {
     ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
@@ -1188,19 +1189,19 @@ async function scanTarget(target, index) {
 
   for (let index = 0; index < maxSteps; index += 1) {
     const navigation = navigateRight();
-    run("sleep", ["1"], { timeout: 3000 });
-    const dismissSystemAfterNavigation = dismissSystemDialogs();
+    run("sleep", ["0.3"], { timeout: 2000 });
     const stepNumber = index + 1;
+    const captionOcr = captureVoiceOverCaptionOcrState(
+      targetOutputDir,
+      stepNumber,
+    );
+    const dismissSystemAfterNavigation = dismissSystemDialogs();
     const voiceOverCapture = captureVoiceOverStateWithRecovery(
       targetOutputDir,
       stepNumber,
     );
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
     const captionUiRaw = captureVoiceOverCaptionUiState();
-    const captionOcr = captureVoiceOverCaptionOcrState(
-      targetOutputDir,
-      stepNumber,
-    );
     const focusRaw = captureSafariFocus();
     const voiceOver = {
       ...parseVoiceOverText(voiceOverRaw.stdout || ""),
