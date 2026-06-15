@@ -205,25 +205,16 @@ function captureScreenshot(targetOutputDir, stepIndex, label) {
   };
 }
 
-function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
-  const screenshot = captureScreenshot(targetOutputDir, stepIndex, "voiceover-caption");
-  if (!screenshot.ok) {
-    return {
-      screenshot,
-      ocr: {
-        ok: false,
-        status: screenshot.status,
-        signal: screenshot.signal,
-        stdout: "",
-        stderr: screenshot.stderr,
-        error: screenshot.error || "Unable to capture screenshot for OCR",
-      },
-      parsed: {},
-    };
+let captionOcrTool = null;
+
+function getCaptionOcrTool() {
+  if (captionOcrTool) {
+    return captionOcrTool;
   }
 
-  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-vo-ocr-"));
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-vo-ocr-tool-"));
   const scriptPath = path.join(tempDir, "read-voiceover-caption.swift");
+  const binaryPath = path.join(tempDir, "read-voiceover-caption");
   writeFileSync(
     scriptPath,
     `
@@ -295,14 +286,83 @@ print("captionOcrDebug=\\(debug)")
 `,
   );
 
+  const compile = toCommandResult(
+    run("swiftc", [scriptPath, "-o", binaryPath], { timeout: 60000 }),
+  );
+  captionOcrTool = {
+    ok: compile.ok,
+    path: binaryPath,
+    compile,
+  };
+  return captionOcrTool;
+}
+
+function createFailedCaptionOcrResult(screenshot, message, extra = {}) {
+  return {
+    screenshot,
+    ocr: {
+      ok: false,
+      status: extra.status ?? null,
+      signal: extra.signal ?? null,
+      stdout: extra.stdout || "",
+      stderr: extra.stderr || "",
+      error: extra.error || message,
+    },
+    parsed: {},
+    tool: extra.tool || null,
+  };
+}
+
+function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
+  const screenshot = captureScreenshot(
+    targetOutputDir,
+    stepIndex,
+    "voiceover-caption",
+  );
+  if (!screenshot.ok) {
+    return {
+      screenshot,
+      ocr: {
+        ok: false,
+        status: screenshot.status,
+        signal: screenshot.signal,
+        stdout: "",
+        stderr: screenshot.stderr,
+        error: screenshot.error || "Unable to capture screenshot for OCR",
+      },
+      parsed: {},
+    };
+  }
+
+  const tool = getCaptionOcrTool();
+  if (!tool.ok) {
+    return createFailedCaptionOcrResult(
+      screenshot,
+      "Unable to compile VoiceOver caption OCR helper",
+      {
+        tool,
+        status: tool.compile.status,
+        signal: tool.compile.signal,
+        stdout: tool.compile.stdout,
+        stderr: tool.compile.stderr,
+        error: tool.compile.error,
+      },
+    );
+  }
+
   const ocr = toCommandResult(
-    run("swift", [scriptPath, screenshot.filePath], { timeout: 20000 }),
+    run(tool.path, [screenshot.filePath], { timeout: 10000 }),
   );
 
   return {
     screenshot,
     ocr,
     parsed: parseVoiceOverText(ocr.stdout || ""),
+    tool: {
+      ok: tool.ok,
+      path: tool.path,
+      compile: tool.compile,
+    },
   };
 }
 
@@ -936,6 +996,20 @@ function getComparisonVoiceOverText(step) {
     .trim();
 }
 
+function getSupplementalVoiceOverTexts(step, primaryText) {
+  const phrase = (step.voiceOver?.lastPhrase || "").replace(/\s+/g, " ").trim();
+  const supplemental = [];
+
+  if (
+    phrase === "You are currently on a main, inside of web content." &&
+    phrase !== primaryText
+  ) {
+    supplemental.push(phrase);
+  }
+
+  return supplemental;
+}
+
 function isSystemNoise(announcement) {
   return (
     announcement === "Edit button" ||
@@ -1003,10 +1077,13 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
 }
 
 function getNormalizedVoiceOverOutput(voiceOverSteps) {
-  const announcements = voiceOverSteps
-    .map(getComparisonVoiceOverText)
-    .filter(Boolean)
-    .filter((announcement) => !isSystemNoise(announcement));
+  const announcements = voiceOverSteps.flatMap((step) => {
+    const primaryText = getComparisonVoiceOverText(step);
+    return [
+      ...getSupplementalVoiceOverTexts(step, primaryText),
+      primaryText,
+    ].filter(Boolean);
+  }).filter((announcement) => !isSystemNoise(announcement));
 
   while (
     announcements.length >= 2 &&
@@ -1329,6 +1406,7 @@ async function scanTarget(target, index) {
     voiceOverSteps
       .map((step) => {
         const stored = getComparisonVoiceOverText(step);
+        const supplemental = getSupplementalVoiceOverTexts(step, stored);
         const captionOcr = step.voiceOver?.captionOcrText || "";
         const captionOcrDebug = step.voiceOver?.captionOcrDebug || "";
         const captionUi = step.voiceOver?.captionUiText || "";
@@ -1341,6 +1419,7 @@ async function scanTarget(target, index) {
         return [
           `step ${step.index}`,
           `storedOutput: ${stored}`,
+          `supplementalOutput: ${supplemental.join(" | ")}`,
           `captionOcrText: ${captionOcr}`,
           `captionOcrDebug: ${captionOcrDebug}`,
           `captionUiText: ${captionUi}`,
