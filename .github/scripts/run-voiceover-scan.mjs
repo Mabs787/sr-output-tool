@@ -178,7 +178,12 @@ function stopScreenRecording(recording) {
 
 function getScreenshotFileName(stepIndex, label) {
   const stepPart =
-    typeof stepIndex === "number" ? String(stepIndex).padStart(3, "0") : "scan";
+    typeof stepIndex === "number"
+      ? String(stepIndex).padStart(3, "0")
+      : String(stepIndex)
+          .replace(/[^a-z0-9]+/gi, "-")
+          .replace(/^-|-$/g, "")
+          .toLowerCase() || "scan";
   const labelPart = String(label)
     .replace(/[^a-z0-9]+/gi, "-")
     .replace(/^-|-$/g, "")
@@ -366,6 +371,48 @@ function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
   };
 }
 
+function cleanCaptionOcrText(value) {
+  return String(value || "")
+    .replace(/^[x×]\s+/i, "")
+    .replace(/^Safari .+? window /, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isInstructionalVoiceOverCaption(value) {
+  return /^You are currently (on|in) /i.test(cleanCaptionOcrText(value));
+}
+
+function captureVoiceOverCaptionOcrBurst(targetOutputDir, stepIndex) {
+  const delays = [0, 0.12, 0.28];
+  const attempts = delays.map((delay, attemptIndex) => {
+    if (delay > 0) {
+      run("sleep", [String(delay)], { timeout: 2000 });
+    }
+    return {
+      delay,
+      ...captureVoiceOverCaptionOcrState(
+        targetOutputDir,
+        `${stepIndex}-attempt-${attemptIndex + 1}`,
+      ),
+    };
+  });
+  const withText = attempts.filter((attempt) =>
+    cleanCaptionOcrText(attempt.parsed?.captionOcrText),
+  );
+  const selected =
+    withText.find(
+      (attempt) => !isInstructionalVoiceOverCaption(attempt.parsed?.captionOcrText),
+    ) ||
+    withText[0] ||
+    attempts.at(-1);
+
+  return {
+    ...selected,
+    attempts,
+  };
+}
+
 function getTargetUrl(target) {
   if (target.url) {
     return target.url;
@@ -543,7 +590,6 @@ function moveVoiceOverToStart() {
   return runAppleScript(`
 tell application "System Events"
   key code 115 using {control down, option down}
-  delay 0.5
 end tell
 `, 8000);
 }
@@ -989,25 +1035,7 @@ function getComparisonVoiceOverText(step) {
     comparisonText = cursor;
   }
 
-  return comparisonText
-    .replace(/^[x×]\s+/i, "")
-    .replace(/^Safari .+? window /, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function getSupplementalVoiceOverTexts(step, primaryText) {
-  const phrase = (step.voiceOver?.lastPhrase || "").replace(/\s+/g, " ").trim();
-  const supplemental = [];
-
-  if (
-    phrase === "You are currently on a main, inside of web content." &&
-    phrase !== primaryText
-  ) {
-    supplemental.push(phrase);
-  }
-
-  return supplemental;
+  return cleanCaptionOcrText(comparisonText);
 }
 
 function isSystemNoise(announcement) {
@@ -1077,13 +1105,10 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
 }
 
 function getNormalizedVoiceOverOutput(voiceOverSteps) {
-  const announcements = voiceOverSteps.flatMap((step) => {
-    const primaryText = getComparisonVoiceOverText(step);
-    return [
-      ...getSupplementalVoiceOverTexts(step, primaryText),
-      primaryText,
-    ].filter(Boolean);
-  }).filter((announcement) => !isSystemNoise(announcement));
+  const announcements = voiceOverSteps
+    .map(getComparisonVoiceOverText)
+    .filter(Boolean)
+    .filter((announcement) => !isSystemNoise(announcement));
 
   while (
     announcements.length >= 2 &&
@@ -1215,15 +1240,14 @@ async function scanTarget(target, index) {
   );
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
-  run("sleep", ["0.3"], { timeout: 2000 });
 
   const voiceOverSteps = [];
   const scanStartedAt = Date.now();
   const maxSteps = Number(target.maxSteps || target.steps || 100);
   let stopReason = "maxSteps";
 
+  const initialCaptionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, 0);
   const initialDismissSystem = dismissSystemDialogs();
-  const initialCaptionOcr = captureVoiceOverCaptionOcrState(targetOutputDir, 0);
   const initialVoiceOverCapture = captureVoiceOverStateWithRecovery(
     targetOutputDir,
     0,
@@ -1255,6 +1279,7 @@ async function scanTarget(target, index) {
     voiceOverRaw: initialVoiceOverRaw,
     captionUiRaw: initialCaptionUiRaw,
     captionOcrRaw: initialCaptionOcr.ocr,
+    captionOcrAttempts: initialCaptionOcr.attempts,
     voiceOver: initialVoiceOver,
     focusRaw: initialFocusRaw,
     focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
@@ -1266,12 +1291,8 @@ async function scanTarget(target, index) {
 
   for (let index = 0; index < maxSteps; index += 1) {
     const navigation = navigateRight();
-    run("sleep", ["0.3"], { timeout: 2000 });
     const stepNumber = index + 1;
-    const captionOcr = captureVoiceOverCaptionOcrState(
-      targetOutputDir,
-      stepNumber,
-    );
+    const captionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, stepNumber);
     const dismissSystemAfterNavigation = dismissSystemDialogs();
     const voiceOverCapture = captureVoiceOverStateWithRecovery(
       targetOutputDir,
@@ -1298,6 +1319,7 @@ async function scanTarget(target, index) {
       voiceOverRaw,
       captionUiRaw,
       captionOcrRaw: captionOcr.ocr,
+      captionOcrAttempts: captionOcr.attempts,
       voiceOver,
       focusRaw,
       focus: parseVoiceOverText(focusRaw.stdout || ""),
@@ -1406,9 +1428,16 @@ async function scanTarget(target, index) {
     voiceOverSteps
       .map((step) => {
         const stored = getComparisonVoiceOverText(step);
-        const supplemental = getSupplementalVoiceOverTexts(step, stored);
         const captionOcr = step.voiceOver?.captionOcrText || "";
         const captionOcrDebug = step.voiceOver?.captionOcrDebug || "";
+        const captionOcrAttempts = (step.captionOcrAttempts || [])
+          .map((attempt) => {
+            const text = cleanCaptionOcrText(
+              attempt.parsed?.captionOcrText || "",
+            );
+            return `${attempt.delay}s:${text}`;
+          })
+          .join(" | ");
         const captionUi = step.voiceOver?.captionUiText || "";
         const captionUiDebug = step.voiceOver?.captionUiDebug || "";
         const caption = step.voiceOver?.captionText || "";
@@ -1419,8 +1448,8 @@ async function scanTarget(target, index) {
         return [
           `step ${step.index}`,
           `storedOutput: ${stored}`,
-          `supplementalOutput: ${supplemental.join(" | ")}`,
           `captionOcrText: ${captionOcr}`,
+          `captionOcrAttempts: ${captionOcrAttempts}`,
           `captionOcrDebug: ${captionOcrDebug}`,
           `captionUiText: ${captionUi}`,
           `captionUiDebug: ${captionUiDebug}`,
