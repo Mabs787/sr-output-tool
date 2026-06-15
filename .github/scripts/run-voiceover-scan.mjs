@@ -3,8 +3,10 @@ import {
   mkdirSync,
   readFileSync,
   statSync,
+  mkdtempSync,
   writeFileSync,
 } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
@@ -199,6 +201,108 @@ function captureScreenshot(targetOutputDir, stepIndex, label) {
     ...result,
     label,
     path: path.relative(targetOutputDir, filePath),
+    filePath,
+  };
+}
+
+function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
+  const screenshot = captureScreenshot(targetOutputDir, stepIndex, "voiceover-caption");
+  if (!screenshot.ok) {
+    return {
+      screenshot,
+      ocr: {
+        ok: false,
+        status: screenshot.status,
+        signal: screenshot.signal,
+        stdout: "",
+        stderr: screenshot.stderr,
+        error: screenshot.error || "Unable to capture screenshot for OCR",
+      },
+      parsed: {},
+    };
+  }
+
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-vo-ocr-"));
+  const scriptPath = path.join(tempDir, "read-voiceover-caption.swift");
+  writeFileSync(
+    scriptPath,
+    `
+import AppKit
+import Foundation
+import Vision
+
+let imagePath = CommandLine.arguments.dropFirst().first ?? ""
+guard let image = NSImage(contentsOfFile: imagePath),
+      let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+  FileHandle.standardError.write(Data("Unable to read screenshot\\n".utf8))
+  exit(1)
+}
+
+final class Candidate {
+  let text: String
+  let confidence: Float
+  let minX: CGFloat
+  let minY: CGFloat
+  let maxY: CGFloat
+
+  init(text: String, confidence: Float, box: CGRect) {
+    self.text = text
+    self.confidence = confidence
+    self.minX = box.minX
+    self.minY = box.minY
+    self.maxY = box.maxY
+  }
+}
+
+var candidates: [Candidate] = []
+let request = VNRecognizeTextRequest { request, error in
+  if let error {
+    FileHandle.standardError.write(Data("\\(error.localizedDescription)\\n".utf8))
+    return
+  }
+
+  let observations = request.results as? [VNRecognizedTextObservation] ?? []
+  for observation in observations {
+    guard let recognized = observation.topCandidates(1).first else { continue }
+    let text = recognized.string.trimmingCharacters(in: .whitespacesAndNewlines)
+    if text.isEmpty || text == "×" || text.lowercased() == "x" { continue }
+    if observation.boundingBox.maxY <= 0.45 {
+      candidates.append(Candidate(text: text, confidence: recognized.confidence, box: observation.boundingBox))
+    }
+  }
+}
+
+request.recognitionLevel = .accurate
+request.usesLanguageCorrection = false
+
+let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+try handler.perform([request])
+
+let sorted = candidates.sorted {
+  if abs($0.minY - $1.minY) > 0.025 {
+    return $0.minY > $1.minY
+  }
+  return $0.minX < $1.minX
+}
+
+let caption = sorted.map { $0.text }.joined(separator: " ")
+let debug = sorted.map {
+  "\\($0.text)@confidence:\\(String(format: "%.2f", $0.confidence)),x:\\(String(format: "%.3f", Double($0.minX))),y:\\(String(format: "%.3f", Double($0.minY)))-\\(String(format: "%.3f", Double($0.maxY)))"
+}.joined(separator: " | ")
+
+print("captionOcrText=\\(caption)")
+print("captionOcrDebug=\\(debug)")
+`,
+  );
+
+  const ocr = toCommandResult(
+    run("swift", [scriptPath, screenshot.filePath], { timeout: 20000 }),
+  );
+
+  return {
+    screenshot,
+    ocr,
+    parsed: parseVoiceOverText(ocr.stdout || ""),
   };
 }
 
@@ -778,6 +882,7 @@ function parseVoiceOverText(stdout) {
 
 function getCaptureText(step) {
   return [
+    step.voiceOver?.captionOcrText || "",
     step.voiceOver?.captionUiText || "",
     step.voiceOver?.captionText || "",
     step.voiceOver?.lastPhrase || "",
@@ -793,7 +898,10 @@ function getCaptureText(step) {
 
 function getComparisonVoiceOverText(step) {
   const caption =
-    step.voiceOver?.captionUiText || step.voiceOver?.captionText || "";
+    step.voiceOver?.captionOcrText ||
+    step.voiceOver?.captionUiText ||
+    step.voiceOver?.captionText ||
+    "";
   const phrase = step.voiceOver?.lastPhrase || "";
   const cursor = step.voiceOver?.voCursorText || "";
   let comparisonText = caption || phrase || cursor;
@@ -1043,12 +1151,15 @@ async function scanTarget(target, index) {
   );
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
   const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
+  const initialCaptionOcr = captureVoiceOverCaptionOcrState(targetOutputDir, 0);
   const initialFocusRaw = captureSafariFocus();
   const initialVoiceOver = {
     ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
     ...parseVoiceOverText(initialCaptionUiRaw.stdout || ""),
+    ...initialCaptionOcr.parsed,
   };
   const initialScreenshots = { ...initialVoiceOverCapture.screenshots };
+  initialScreenshots.voiceOverCaptionOcr = initialCaptionOcr.screenshot;
   if (captureStepScreenshots) {
     initialScreenshots.step = captureScreenshot(targetOutputDir, 0, "step");
   }
@@ -1065,6 +1176,7 @@ async function scanTarget(target, index) {
     dismissSystemAfterNavigation: initialDismissSystem,
     voiceOverRaw: initialVoiceOverRaw,
     captionUiRaw: initialCaptionUiRaw,
+    captionOcrRaw: initialCaptionOcr.ocr,
     voiceOver: initialVoiceOver,
     focusRaw: initialFocusRaw,
     focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
@@ -1085,12 +1197,18 @@ async function scanTarget(target, index) {
     );
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
     const captionUiRaw = captureVoiceOverCaptionUiState();
+    const captionOcr = captureVoiceOverCaptionOcrState(
+      targetOutputDir,
+      stepNumber,
+    );
     const focusRaw = captureSafariFocus();
     const voiceOver = {
       ...parseVoiceOverText(voiceOverRaw.stdout || ""),
       ...parseVoiceOverText(captionUiRaw.stdout || ""),
+      ...captionOcr.parsed,
     };
     const screenshots = { ...voiceOverCapture.screenshots };
+    screenshots.voiceOverCaptionOcr = captionOcr.screenshot;
     if (captureStepScreenshots) {
       screenshots.step = captureScreenshot(targetOutputDir, stepNumber, "step");
     }
@@ -1101,6 +1219,7 @@ async function scanTarget(target, index) {
       dismissSystemAfterNavigation,
       voiceOverRaw,
       captionUiRaw,
+      captionOcrRaw: captionOcr.ocr,
       voiceOver,
       focusRaw,
       focus: parseVoiceOverText(focusRaw.stdout || ""),
@@ -1209,6 +1328,8 @@ async function scanTarget(target, index) {
     voiceOverSteps
       .map((step) => {
         const stored = getComparisonVoiceOverText(step);
+        const captionOcr = step.voiceOver?.captionOcrText || "";
+        const captionOcrDebug = step.voiceOver?.captionOcrDebug || "";
         const captionUi = step.voiceOver?.captionUiText || "";
         const captionUiDebug = step.voiceOver?.captionUiDebug || "";
         const caption = step.voiceOver?.captionText || "";
@@ -1219,6 +1340,8 @@ async function scanTarget(target, index) {
         return [
           `step ${step.index}`,
           `storedOutput: ${stored}`,
+          `captionOcrText: ${captionOcr}`,
+          `captionOcrDebug: ${captionOcrDebug}`,
           `captionUiText: ${captionUi}`,
           `captionUiDebug: ${captionUiDebug}`,
           `captionText: ${caption}`,
