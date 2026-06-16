@@ -160,9 +160,30 @@ jobs:
             echo "SCREnableCaptionPanel exit=$?"
             echo
 
+            echo "## Disable VoiceOver visual/text recognition where supported"
+            for domain in com.apple.VoiceOver4/default com.apple.VoiceOver4 com.apple.VoiceOver; do
+              for key in \
+                SCRCognitionEnabled \
+                SCRImageDescriptionsEnabled \
+                SCREnableImageDescriptions \
+                SCRTextRecognitionEnabled \
+                SCREnableTextRecognition \
+                SCRVoiceOverRecognitionEnabled \
+                SCRVisualRecognitionEnabled; do
+                defaults write "$domain" "$key" -bool false
+                echo "$domain $key exit=$?"
+              done
+            done
+            defaults write NSGlobalDomain AppleLiveTextEnabled -bool false
+            echo "NSGlobalDomain AppleLiveTextEnabled exit=$?"
+            echo
+
             echo "## Seeded domains"
             defaults read com.apple.VoiceOverTraining || true
             defaults read com.apple.VoiceOver4/default || true
+            defaults read com.apple.VoiceOver4 || true
+            defaults read com.apple.VoiceOver || true
+            defaults read NSGlobalDomain AppleLiveTextEnabled || true
           } > voiceover-smoke/voiceover-first-run-state.txt 2>&1
 
       - name: Capture VoiceOver profile snapshot

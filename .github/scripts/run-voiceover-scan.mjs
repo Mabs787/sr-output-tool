@@ -1254,7 +1254,7 @@ function dismissPageConsentVisually(target, targetOutputDir) {
     retryClick = clickScreenPoint(parsed.x, parsed.y);
     click = retryClick;
   }
-  run("sleep", ["1"], { timeout: 3000 });
+  run("sleep", ["3"], { timeout: 5000 });
   return {
     skipped: false,
     action: "clicked",
@@ -1560,17 +1560,22 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
     return { stop: true, reason: `stopWhen.voiceOverIncludes:${stopPhrase}` };
   }
 
-  const meaningfulTexts = voiceOverSteps
-    .map(getComparisonVoiceOverText)
-    .filter(Boolean)
-    .filter(
-      (announcement) =>
-        !isSystemNoise(announcement) && !isRefinementNoise(announcement),
-    );
-  if (meaningfulTexts.length >= 3) {
-    const recent = meaningfulTexts.slice(-3);
-    if (new Set(recent).size === 1) {
-      return { stop: true, reason: "repeated-normalized-output" };
+  const stopOnRepeatedOutput =
+    target.stopWhen?.repeatedNormalizedOutput ??
+    Boolean(target.fixturePath && !target.url);
+  if (stopOnRepeatedOutput) {
+    const meaningfulTexts = voiceOverSteps
+      .map(getComparisonVoiceOverText)
+      .filter(Boolean)
+      .filter(
+        (announcement) =>
+          !isSystemNoise(announcement) && !isRefinementNoise(announcement),
+      );
+    if (meaningfulTexts.length >= 3) {
+      const recent = meaningfulTexts.slice(-3);
+      if (new Set(recent).size === 1) {
+        return { stop: true, reason: "repeated-normalized-output" };
+      }
     }
   }
 
@@ -1656,10 +1661,22 @@ function createAiRefinementInput({
       "Only refine sr-engine when refinement.eligible is true.",
       "Compare voiceOverOutput with engineOutput.",
       "Identify the smallest defensible sr-engine logic change needed to bring engineOutput closer to VoiceOver.",
+      "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in sourceHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
       "Add or update only the relevant regression test.",
       "Do not modify this artifact or unrelated tests.",
     ],
+    knownLimitations: [
+      "VoiceOver may announce visual text detected inside images or media, depending on macOS, Safari, VoiceOver Recognition, and downloaded recognition models.",
+      "sr-engine operates on DOM and accessibility semantics. It is not expected to reproduce image-recognition-only announcements unless the page exposes equivalent accessible text in sourceHtml.",
+      "Treat additional VoiceOver lines that look like visual OCR output as contextual evidence, not as an automatic sr-engine defect.",
+    ],
+    refinementGuidance: {
+      visualRecognitionOnly:
+        "If VoiceOver announces text that is visible in an image but absent from sourceHtml/accessibility markup, classify it as likely visual-recognition output and do not refine sr-engine to synthesize it.",
+      actionableMismatch:
+        "Refine sr-engine when the mismatch can be explained by DOM, ARIA, native HTML semantics, focus/navigation context, or exposed accessible names/descriptions.",
+    },
     target: {
       name: target.name,
       mode: target.mode || "page",
