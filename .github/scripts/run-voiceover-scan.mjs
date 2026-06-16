@@ -417,11 +417,13 @@ struct Match {
 let targets = [
   Target(preference: "essential", label: "essential cookies only"),
   Target(preference: "reject", label: "reject all"),
+  Target(preference: "reject", label: "decline"),
   Target(preference: "reject", label: "continue without accepting"),
   Target(preference: "reject", label: "necessary cookies only"),
   Target(preference: "save", label: "save choices"),
   Target(preference: "save", label: "save settings"),
   Target(preference: "accept", label: "accept all"),
+  Target(preference: "accept", label: "accept"),
   Target(preference: "accept", label: "allow all"),
   Target(preference: "accept", label: "accept cookies"),
   Target(preference: "close", label: "no thanks"),
@@ -1028,6 +1030,7 @@ JSON.stringify((() => {
         "reject non-essential",
         "reject non essential",
         "decline all",
+        "decline",
         "deny all",
         "continue without accepting",
         "necessary cookies only",
@@ -1047,6 +1050,7 @@ JSON.stringify((() => {
       preference: "accept",
       labels: [
         "accept all",
+        "accept",
         "allow all",
         "agree",
         "i agree",
@@ -1269,6 +1273,61 @@ function dismissPageConsentVisually(target, targetOutputDir) {
   };
 }
 
+function dismissBrowserBlockingOverlays(target, targetOutputDir) {
+  const attempts = [];
+  let finalDomResult = null;
+  let finalVisualResult = null;
+
+  for (let attempt = 1; attempt <= 4; attempt += 1) {
+    activateSafari();
+    const safariDialogs = dismissSafariDialogs();
+    const systemDialogs = dismissSystemDialogs();
+    activateSafari();
+    run("sleep", ["1"], { timeout: 3000 });
+
+    const domConsent = dismissPageConsent(target);
+    finalDomResult = domConsent;
+    const domAction = getDomConsentAction(domConsent);
+
+    let visualConsent = {
+      skipped: true,
+      reason: "DOM consent handler already completed",
+    };
+    if (!["clicked", "hidden"].includes(domAction)) {
+      visualConsent = dismissPageConsentVisually(target, targetOutputDir);
+      finalVisualResult = visualConsent;
+    }
+
+    const visualAction = visualConsent?.action || "";
+    attempts.push({
+      attempt,
+      safariDialogs,
+      systemDialogs,
+      domConsent,
+      visualConsent,
+    });
+
+    if (
+      ["clicked", "hidden"].includes(domAction) ||
+      ["clicked", "hidden"].includes(visualAction)
+    ) {
+      run("sleep", ["2"], { timeout: 4000 });
+      break;
+    }
+
+    run("sleep", ["2"], { timeout: 4000 });
+  }
+
+  return {
+    attempts,
+    domConsent: finalDomResult,
+    visualConsent: finalVisualResult || {
+      skipped: true,
+      reason: "visual consent handler was not needed",
+    },
+  };
+}
+
 function injectEngineRuntime() {
   const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
   return runAppleScript(`
@@ -1487,6 +1546,77 @@ function reduceHtmlForRefinement(sourceHtml, target) {
   };
 }
 
+function cssEscape(value) {
+  return String(value).replace(
+    /[\0-\x1f\x7f]|^-?\d|^-$|[^\w-]/g,
+    (match, offset) => {
+      if (match === "\0") {
+        return "\uFFFD";
+      }
+
+      const firstCodeUnit = match.charCodeAt(0);
+      const isControlCharacter =
+        (firstCodeUnit >= 0x1 && firstCodeUnit <= 0x1f) ||
+        firstCodeUnit === 0x7f;
+      const isLeadingDigit =
+        offset === 0 && firstCodeUnit >= 0x30 && firstCodeUnit <= 0x39;
+      const isSecondCharacterDigitAfterHyphen =
+        offset === 1 &&
+        firstCodeUnit >= 0x30 &&
+        firstCodeUnit <= 0x39 &&
+        String(value).charCodeAt(0) === 0x2d;
+
+      if (
+        isControlCharacter ||
+        isLeadingDigit ||
+        isSecondCharacterDigitAfterHyphen
+      ) {
+        return `\\${firstCodeUnit.toString(16)} `;
+      }
+
+      return `\\${match}`;
+    },
+  );
+}
+
+function installSafeSelectorApis(window) {
+  const prototypes = [
+    window.Document.prototype,
+    window.DocumentFragment.prototype,
+    window.Element.prototype,
+  ].filter(Boolean);
+
+  for (const prototype of prototypes) {
+    const querySelector = prototype.querySelector;
+    if (typeof querySelector === "function") {
+      prototype.querySelector = function safeQuerySelector(selector) {
+        try {
+          return querySelector.call(this, selector);
+        } catch (error) {
+          if (error?.name === "SyntaxError") {
+            return null;
+          }
+          throw error;
+        }
+      };
+    }
+
+    const querySelectorAll = prototype.querySelectorAll;
+    if (typeof querySelectorAll === "function") {
+      prototype.querySelectorAll = function safeQuerySelectorAll(selector) {
+        try {
+          return querySelectorAll.call(this, selector);
+        } catch (error) {
+          if (error?.name === "SyntaxError") {
+            return [];
+          }
+          throw error;
+        }
+      };
+    }
+  }
+}
+
 async function renderEngineOutputInJsdom(target, scanRootSelector) {
   if (!target.fixturePath && !target.url) {
     return null;
@@ -1497,7 +1627,7 @@ async function renderEngineOutputInJsdom(target, scanRootSelector) {
     const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
     const dom = new JSDOM(html, {
       url: getJsdomUrl(target),
-      runScripts: "dangerously",
+      runScripts: "outside-only",
       pretendToBeVisual: true,
     });
     const { window } = dom;
@@ -1520,10 +1650,9 @@ async function renderEngineOutputInJsdom(target, scanRootSelector) {
       window.CSS = {};
     }
 
-    if (!window.CSS.escape) {
-      window.CSS.escape = (value) => String(value);
-    }
+    window.CSS.escape = cssEscape;
 
+    installSafeSelectorApis(window);
     window.HTMLElement.prototype.scrollIntoView ||= function scrollIntoView() {};
     window.Date.now = () => 1700000000000;
     window.eval(engineRuntimeSource);
@@ -1899,17 +2028,22 @@ async function scanTarget(target, index) {
 
   const launchSafariResult = launchSafari(url);
   run("sleep", ["5"], { timeout: 7000 });
-  const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
-  const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
-  const dismissPageConsentBeforeVoiceOver = dismissPageConsent(target);
-  const dismissPageConsentVisuallyBeforeVoiceOver = ["clicked", "hidden"].includes(
-    getDomConsentAction(dismissPageConsentBeforeVoiceOver),
-  )
-    ? {
-        skipped: true,
-        reason: "DOM consent handler already completed",
-      }
-    : dismissPageConsentVisually(target, targetOutputDir);
+  const dismissBrowserBlockingOverlaysBeforeVoiceOver =
+    dismissBrowserBlockingOverlays(target, targetOutputDir);
+  const lastOverlayAttempt =
+    dismissBrowserBlockingOverlaysBeforeVoiceOver.attempts.at(-1) || {};
+  const dismissSafariBeforeVoiceOver =
+    lastOverlayAttempt.safariDialogs || dismissSafariDialogs();
+  const dismissSystemBeforeVoiceOver =
+    lastOverlayAttempt.systemDialogs || dismissSystemDialogs();
+  const dismissPageConsentBeforeVoiceOver =
+    dismissBrowserBlockingOverlaysBeforeVoiceOver.domConsent ||
+    dismissPageConsent(target);
+  const dismissPageConsentVisuallyBeforeVoiceOver =
+    dismissBrowserBlockingOverlaysBeforeVoiceOver.visualConsent || {
+      skipped: true,
+      reason: "visual consent handler was not needed",
+    };
   run("sleep", ["1"], { timeout: 3000 });
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
     target,
@@ -2070,6 +2204,8 @@ async function scanTarget(target, index) {
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
+  summary.dismissBrowserBlockingOverlaysBeforeVoiceOver =
+    dismissBrowserBlockingOverlaysBeforeVoiceOver;
   summary.dismissPageConsentBeforeVoiceOver =
     dismissPageConsentBeforeVoiceOver;
   summary.dismissPageConsentVisuallyBeforeVoiceOver =
