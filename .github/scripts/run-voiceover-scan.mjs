@@ -1311,6 +1311,182 @@ function getJsdomUrl(target) {
   return target.url || "https://example.test/";
 }
 
+function getReferencedIds(document) {
+  const referencedIds = new Set();
+  const referenceAttributes = [
+    "aria-activedescendant",
+    "aria-controls",
+    "aria-describedby",
+    "aria-details",
+    "aria-errormessage",
+    "aria-flowto",
+    "aria-labelledby",
+    "aria-owns",
+    "for",
+    "headers",
+    "list",
+  ];
+
+  for (const element of document.querySelectorAll("*")) {
+    for (const attribute of referenceAttributes) {
+      const value = element.getAttribute(attribute);
+      if (!value) {
+        continue;
+      }
+      for (const id of value.split(/\s+/)) {
+        if (id) {
+          referencedIds.add(id);
+        }
+      }
+    }
+  }
+
+  return referencedIds;
+}
+
+function shouldKeepAttribute(attribute, element, referencedIds) {
+  const name = attribute.name.toLowerCase();
+
+  if (name === "id") {
+    return referencedIds.has(attribute.value);
+  }
+
+  if (name === "role" || name.startsWith("aria-")) {
+    return true;
+  }
+
+  return [
+    "alt",
+    "checked",
+    "controls",
+    "disabled",
+    "for",
+    "headers",
+    "hidden",
+    "href",
+    "inert",
+    "label",
+    "list",
+    "name",
+    "open",
+    "placeholder",
+    "readonly",
+    "required",
+    "selected",
+    "tabindex",
+    "title",
+    "type",
+    "value",
+  ].includes(name);
+}
+
+function normalizeTextNodes(document) {
+  const walker = document.createTreeWalker(document.body, 4);
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode);
+  }
+
+  for (const node of textNodes) {
+    node.nodeValue = node.nodeValue.replace(/\s+/g, " ");
+    if (!node.nodeValue.trim()) {
+      node.remove();
+    }
+  }
+}
+
+function removeComments(document) {
+  const walker = document.createTreeWalker(document, 128);
+  const comments = [];
+
+  while (walker.nextNode()) {
+    comments.push(walker.currentNode);
+  }
+
+  for (const comment of comments) {
+    comment.remove();
+  }
+}
+
+function pruneEmptyElements(document) {
+  const removableNames = new Set(["DIV", "SPAN"]);
+  let removed = true;
+
+  while (removed) {
+    removed = false;
+    const elements = Array.from(document.querySelectorAll("div, span")).reverse();
+    for (const element of elements) {
+      if (
+        removableNames.has(element.tagName) &&
+        !element.attributes.length &&
+        !element.children.length &&
+        !element.textContent.trim()
+      ) {
+        element.remove();
+        removed = true;
+      }
+    }
+  }
+}
+
+function reduceHtmlForRefinement(sourceHtml, target) {
+  if (!sourceHtml.trim()) {
+    return {
+      html: "",
+      stats: {
+        originalLength: 0,
+        reducedLength: 0,
+      },
+    };
+  }
+
+  const dom = new JSDOM(sourceHtml, { url: getJsdomUrl(target) });
+  const { document } = dom.window;
+  const referencedIds = getReferencedIds(document);
+
+  document
+    .querySelectorAll("script, style, link, meta, noscript, template")
+    .forEach((element) => element.remove());
+
+  document.querySelectorAll("svg").forEach((element) => {
+    const accessibleText =
+      element.getAttribute("aria-label") ||
+      element.getAttribute("title") ||
+      element.querySelector("title")?.textContent ||
+      "";
+    element.textContent = "";
+    if (accessibleText && !element.getAttribute("aria-label")) {
+      element.setAttribute("aria-label", accessibleText.trim());
+    }
+  });
+
+  for (const element of document.querySelectorAll("*")) {
+    for (const attribute of Array.from(element.attributes)) {
+      if (!shouldKeepAttribute(attribute, element, referencedIds)) {
+        element.removeAttribute(attribute.name);
+      }
+    }
+  }
+
+  removeComments(document);
+  normalizeTextNodes(document);
+  pruneEmptyElements(document);
+
+  const reducedHtml = document.body?.innerHTML.trim() || document.documentElement.outerHTML;
+  return {
+    html: reducedHtml,
+    stats: {
+      originalLength: sourceHtml.length,
+      reducedLength: reducedHtml.length,
+      reductionPercent:
+        sourceHtml.length > 0
+          ? Math.round((1 - reducedHtml.length / sourceHtml.length) * 100)
+          : 0,
+    },
+  };
+}
+
 async function renderEngineOutputInJsdom(target, scanRootSelector) {
   if (!target.fixturePath && !target.url) {
     return null;
@@ -1616,7 +1792,8 @@ function createAiRefinementInput({
   voiceOverSteps,
   voiceOverOutput,
   engineOutput,
-  sourceHtml,
+  reducedHtml,
+  reducedHtmlStats,
 }) {
   const minVoiceOverAnnouncements = Number(
     target.refinement?.minVoiceOverAnnouncements || 1,
@@ -1657,19 +1834,19 @@ function createAiRefinementInput({
       "Only refine sr-engine when refinement.eligible is true.",
       "Compare voiceOverOutput with engineOutput.",
       "Identify the smallest defensible sr-engine logic change needed to bring engineOutput closer to VoiceOver.",
-      "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in sourceHtml through DOM text, alt text, aria-label, or related accessible markup.",
+      "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
       "Add or update only the relevant regression test.",
       "Do not modify this artifact or unrelated tests.",
     ],
     knownLimitations: [
       "VoiceOver may announce visual text detected inside images or media, depending on macOS, Safari, VoiceOver Recognition, and downloaded recognition models.",
-      "sr-engine operates on DOM and accessibility semantics. It is not expected to reproduce image-recognition-only announcements unless the page exposes equivalent accessible text in sourceHtml.",
+      "sr-engine operates on DOM and accessibility semantics. It is not expected to reproduce image-recognition-only announcements unless the page exposes equivalent accessible text in reducedHtml.",
       "Treat additional VoiceOver lines that look like visual OCR output as contextual evidence, not as an automatic sr-engine defect.",
     ],
     refinementGuidance: {
       visualRecognitionOnly:
-        "If VoiceOver announces text that is visible in an image but absent from sourceHtml/accessibility markup, classify it as likely visual-recognition output and do not refine sr-engine to synthesize it.",
+        "If VoiceOver announces text that is visible in an image but absent from reducedHtml/accessibility markup, classify it as likely visual-recognition output and do not refine sr-engine to synthesize it.",
       actionableMismatch:
         "Refine sr-engine when the mismatch can be explained by DOM, ARIA, native HTML semantics, focus/navigation context, or exposed accessible names/descriptions.",
     },
@@ -1693,7 +1870,12 @@ function createAiRefinementInput({
     },
     voiceOverOutput,
     engineOutput,
-    sourceHtml,
+    reducedHtml,
+    reducedHtmlStats,
+    diagnostics: {
+      sourceHtmlPath: "source.html",
+      reducedHtmlPath: "reduced-html.html",
+    },
   };
 }
 
@@ -1904,12 +2086,15 @@ async function scanTarget(target, index) {
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
   const engineOutput = getNormalizedEngineOutput(engineResult);
   const sourceHtml = await getTargetSourceHtml(target).catch(() => "");
+  const reducedHtml = reduceHtmlForRefinement(sourceHtml, target);
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
     summary,
     engine: engineResult,
     voiceOverSteps,
   });
+  writeText(path.join(targetOutputDir, "source.html"), sourceHtml);
+  writeText(path.join(targetOutputDir, "reduced-html.html"), reducedHtml.html);
   writeJson(path.join(targetOutputDir, "engine-output.json"), engineResult);
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
@@ -1924,7 +2109,8 @@ async function scanTarget(target, index) {
       voiceOverSteps,
       voiceOverOutput,
       engineOutput,
-      sourceHtml,
+      reducedHtml: reducedHtml.html,
+      reducedHtmlStats: reducedHtml.stats,
     }),
   );
   writeText(
