@@ -281,6 +281,7 @@ function captureScreenshot(targetOutputDir, stepIndex, label) {
 }
 
 let captionOcrTool = null;
+let pageConsentOcrTool = null;
 
 function getCaptionOcrTool() {
   if (captionOcrTool) {
@@ -376,6 +377,119 @@ print("captionOcrDebug=\\(debug)")
     compile,
   };
   return captionOcrTool;
+}
+
+function getPageConsentOcrTool() {
+  if (pageConsentOcrTool) {
+    return pageConsentOcrTool;
+  }
+
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-vo-consent-tool-"));
+  const scriptPath = path.join(tempDir, "find-page-consent.swift");
+  const binaryPath = path.join(tempDir, "find-page-consent");
+  writeFileSync(
+    scriptPath,
+    `
+import AppKit
+import Foundation
+import Vision
+
+let imagePath = CommandLine.arguments.dropFirst().first ?? ""
+guard let image = NSImage(contentsOfFile: imagePath),
+      let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+  FileHandle.standardError.write(Data("Unable to read screenshot\\n".utf8))
+  exit(1)
+}
+
+struct Target {
+  let preference: String
+  let label: String
+}
+
+struct Match {
+  let target: Target
+  let text: String
+  let confidence: Float
+  let x: Int
+  let y: Int
+}
+
+let targets = [
+  Target(preference: "essential", label: "essential cookies only"),
+  Target(preference: "reject", label: "reject all"),
+  Target(preference: "reject", label: "continue without accepting"),
+  Target(preference: "reject", label: "necessary cookies only"),
+  Target(preference: "save", label: "save choices"),
+  Target(preference: "save", label: "save settings"),
+  Target(preference: "accept", label: "accept all"),
+  Target(preference: "accept", label: "allow all"),
+  Target(preference: "accept", label: "accept cookies"),
+  Target(preference: "close", label: "no thanks"),
+  Target(preference: "close", label: "maybe later"),
+  Target(preference: "close", label: "close")
+]
+
+func normalize(_ value: String) -> String {
+  value
+    .replacingOccurrences(of: "\\\\s+", with: " ", options: .regularExpression)
+    .trimmingCharacters(in: .whitespacesAndNewlines)
+    .lowercased()
+}
+
+var matches: [Match] = []
+var debug: [String] = []
+let request = VNRecognizeTextRequest { request, error in
+  if let error {
+    FileHandle.standardError.write(Data("\\(error.localizedDescription)\\n".utf8))
+    return
+  }
+
+  let observations = request.results as? [VNRecognizedTextObservation] ?? []
+  for observation in observations {
+    guard let recognized = observation.topCandidates(1).first else { continue }
+    let text = recognized.string.trimmingCharacters(in: .whitespacesAndNewlines)
+    if text.isEmpty { continue }
+    let normalized = normalize(text)
+    debug.append("\\(text)@confidence:\\(String(format: "%.2f", recognized.confidence))")
+
+    if let target = targets.first(where: { normalized == $0.label || normalized.contains($0.label) }) {
+      let x = Int(observation.boundingBox.midX * CGFloat(cgImage.width))
+      let y = Int((1 - observation.boundingBox.midY) * CGFloat(cgImage.height))
+      matches.append(Match(target: target, text: text, confidence: recognized.confidence, x: x, y: y))
+    }
+  }
+}
+
+request.recognitionLevel = .accurate
+request.usesLanguageCorrection = false
+
+let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+try handler.perform([request])
+
+if let match = matches.first {
+  print("action=found")
+  print("preference=\\(match.target.preference)")
+  print("label=\\(match.target.label)")
+  print("text=\\(match.text)")
+  print("x=\\(match.x)")
+  print("y=\\(match.y)")
+  print("confidence=\\(String(format: "%.2f", match.confidence))")
+} else {
+  print("action=none")
+}
+print("debug=\\(debug.prefix(40).joined(separator: " | "))")
+`,
+  );
+
+  const compile = toCommandResult(
+    run("swiftc", [scriptPath, "-o", binaryPath], { timeout: 60000 }),
+  );
+  pageConsentOcrTool = {
+    ok: compile.ok,
+    path: binaryPath,
+    compile,
+  };
+  return pageConsentOcrTool;
 }
 
 function createFailedCaptionOcrResult(screenshot, message, extra = {}) {
@@ -1065,6 +1179,81 @@ end tell
 `, 15000);
 }
 
+function getDomConsentAction(result) {
+  try {
+    return JSON.parse(result.stdout || "{}").action || "";
+  } catch {
+    return "";
+  }
+}
+
+function clickScreenPoint(x, y) {
+  return runAppleScript(`
+tell application "System Events"
+  click at {${Number(x)}, ${Number(y)}}
+end tell
+`, 8000);
+}
+
+function dismissPageConsentVisually(target, targetOutputDir) {
+  if (!target.url) {
+    return {
+      skipped: true,
+      reason: "visual consent handling is only applied to live URL scans",
+    };
+  }
+
+  const screenshot = captureScreenshot(
+    targetOutputDir,
+    "consent",
+    "page-consent",
+  );
+  if (!screenshot.ok) {
+    return {
+      skipped: false,
+      action: "screenshot-failed",
+      screenshot,
+    };
+  }
+
+  const tool = getPageConsentOcrTool();
+  if (!tool.ok) {
+    return {
+      skipped: false,
+      action: "ocr-tool-failed",
+      screenshot,
+      tool,
+    };
+  }
+
+  const ocr = toCommandResult(
+    run(tool.path, [screenshot.filePath], { timeout: 10000 }),
+  );
+  const parsed = parseVoiceOverText(ocr.stdout || "");
+  if (!ocr.ok || parsed.action !== "found") {
+    return {
+      skipped: false,
+      action: parsed.action || "none",
+      screenshot,
+      ocr,
+      parsed,
+      tool,
+    };
+  }
+
+  const click = clickScreenPoint(parsed.x, parsed.y);
+  run("sleep", ["1"], { timeout: 3000 });
+  return {
+    skipped: false,
+    action: "clicked",
+    screenshot,
+    ocr,
+    parsed,
+    click,
+    tool,
+  };
+}
+
 function injectEngineRuntime() {
   const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
   return runAppleScript(`
@@ -1503,6 +1692,14 @@ async function scanTarget(target, index) {
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
   const dismissPageConsentBeforeVoiceOver = dismissPageConsent(target);
+  const dismissPageConsentVisuallyBeforeVoiceOver = ["clicked", "hidden"].includes(
+    getDomConsentAction(dismissPageConsentBeforeVoiceOver),
+  )
+    ? {
+        skipped: true,
+        reason: "DOM consent handler already completed",
+      }
+    : dismissPageConsentVisually(target, targetOutputDir);
   run("sleep", ["1"], { timeout: 3000 });
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
     target,
@@ -1665,6 +1862,8 @@ async function scanTarget(target, index) {
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
   summary.dismissPageConsentBeforeVoiceOver =
     dismissPageConsentBeforeVoiceOver;
+  summary.dismissPageConsentVisuallyBeforeVoiceOver =
+    dismissPageConsentVisuallyBeforeVoiceOver;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
