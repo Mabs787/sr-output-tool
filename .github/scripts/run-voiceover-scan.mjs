@@ -1241,7 +1241,19 @@ function dismissPageConsentVisually(target, targetOutputDir) {
     };
   }
 
-  const click = clickScreenPoint(parsed.x, parsed.y);
+  const dismissSystemBeforeClick = dismissSystemDialogs();
+  activateSafari();
+  run("sleep", ["0.5"], { timeout: 2000 });
+  let click = clickScreenPoint(parsed.x, parsed.y);
+  let dismissSystemBeforeRetry = null;
+  let retryClick = null;
+  if (!click.ok) {
+    dismissSystemBeforeRetry = dismissSystemDialogs();
+    activateSafari();
+    run("sleep", ["0.5"], { timeout: 2000 });
+    retryClick = clickScreenPoint(parsed.x, parsed.y);
+    click = retryClick;
+  }
   run("sleep", ["1"], { timeout: 3000 });
   return {
     skipped: false,
@@ -1249,6 +1261,9 @@ function dismissPageConsentVisually(target, targetOutputDir) {
     screenshot,
     ocr,
     parsed,
+    dismissSystemBeforeClick,
+    dismissSystemBeforeRetry,
+    retryClick,
     click,
     tool,
   };
