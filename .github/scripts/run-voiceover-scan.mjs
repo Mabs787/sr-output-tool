@@ -1521,11 +1521,7 @@ function isSystemNoise(announcement) {
 }
 
 function isRefinementNoise(announcement) {
-  return (
-    /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement) ||
-    announcement === "content information" ||
-    announcement === "end of, content information"
-  );
+  return /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement);
 }
 
 function getStopPhrases(target) {
