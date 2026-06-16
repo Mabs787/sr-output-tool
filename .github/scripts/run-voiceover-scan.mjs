@@ -947,6 +947,8 @@ JSON.stringify((() => {
     "input[type='submit']",
     "a[href]",
   ];
+  const consentTextPattern =
+    /cookie|cookies|consent|privacy|personal data|trusted partners/i;
 
   const normalize = (value) =>
     String(value || "")
@@ -976,20 +978,8 @@ JSON.stringify((() => {
     );
   };
 
-  const collectRoots = (root, roots = []) => {
-    roots.push(root);
-    for (const element of root.querySelectorAll("*")) {
-      if (element.shadowRoot) {
-        collectRoots(element.shadowRoot, roots);
-      }
-    }
-    return roots;
-  };
-
-  const candidates = collectRoots(document)
-    .flatMap((root) =>
-      selectors.flatMap((selector) => Array.from(root.querySelectorAll(selector))),
-    )
+  const candidates = Array.from(document.querySelectorAll(selectors.join(",")))
+    .slice(0, 500)
     .filter((element, index, all) => all.indexOf(element) === index)
     .map((element) => ({
       element,
@@ -1020,6 +1010,42 @@ JSON.stringify((() => {
         };
       }
     }
+  }
+
+  const overlayCandidates = Array.from(
+    document.querySelectorAll(
+      [
+        "[role='dialog']",
+        "[aria-modal='true']",
+        "[class*='cookie' i]",
+        "[id*='cookie' i]",
+        "[class*='consent' i]",
+        "[id*='consent' i]",
+        "[class*='privacy' i]",
+        "[id*='privacy' i]",
+      ].join(","),
+    ),
+  )
+    .slice(0, 50)
+    .filter((element) => isVisible(element))
+    .filter((element) => consentTextPattern.test(element.innerText || element.textContent || ""));
+
+  if (overlayCandidates.length) {
+    for (const element of overlayCandidates) {
+      element.setAttribute("data-sr-voiceover-hidden-consent", "true");
+      element.style.setProperty("display", "none", "important");
+      element.style.setProperty("visibility", "hidden", "important");
+    }
+
+    return {
+      action: "hidden",
+      preference: "neutral",
+      reason: "visible consent overlay hidden after no matching button was found",
+      hiddenCount: overlayCandidates.length,
+      candidateCount: candidates.length,
+      candidateLabels: candidates.slice(0, 20).map((candidate) => candidate.label),
+      url: location.href,
+    };
   }
 
   return {
