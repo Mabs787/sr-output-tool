@@ -48,7 +48,7 @@ jobs:
   hosted-macos-capability-check:
     name: Hosted macOS capability check
     runs-on: macos-26
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout

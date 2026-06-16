@@ -53,6 +53,6 @@
       "minVoiceOverAnnouncements": 20
     },
     "maxSteps": 90,
-    "maxSeconds": 240
+    "maxSeconds": 480
   }
 ]

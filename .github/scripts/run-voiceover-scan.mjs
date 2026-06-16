@@ -1131,6 +1131,7 @@ function isSystemNoise(announcement) {
     announcement === "Open System Settings button" ||
     announcement.includes("Open System Settings button") ||
     /^Safari .+ window$/.test(announcement) ||
+    /^Safari, .+, window$/.test(announcement) ||
     /^application, alert, system dialog /.test(announcement) ||
     /^application alert system dialog /.test(announcement) ||
     announcement.includes("requesting to bypass the system private window picker")
