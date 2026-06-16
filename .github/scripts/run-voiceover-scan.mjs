@@ -336,6 +336,7 @@ let request = VNRecognizeTextRequest { request, error in
     // hosted runner display. Keep only text inside that panel so page content
     // visible behind it is not mixed into the captured announcement.
     if observation.boundingBox.minX >= 0.095 &&
+       observation.boundingBox.minX <= 0.28 &&
        observation.boundingBox.minY >= 0.10 &&
        observation.boundingBox.maxY <= 0.24 {
       candidates.append(Candidate(text: text, confidence: recognized.confidence, box: observation.boundingBox))
@@ -888,25 +889,6 @@ function prepareScanRoot(target, scanRootSelector) {
   }
 
   return prepareScanRootInSafari(scanRootSelector);
-}
-
-function stopLivePageLoading(target) {
-  if (!target.url) {
-    return {
-      ok: true,
-      status: 0,
-      signal: null,
-      stdout: "skipped: only live URL scans need page-load stopping",
-      stderr: "",
-      error: "",
-    };
-  }
-
-  return runAppleScript(`
-tell application "Safari"
-  do JavaScript "window.stop(); JSON.stringify({ action: 'stopped', readyState: document.readyState, url: location.href })" in document 1
-end tell
-`, 8000);
 }
 
 function dismissPageConsent(target) {
@@ -1520,7 +1502,6 @@ async function scanTarget(target, index) {
   run("sleep", ["5"], { timeout: 7000 });
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
-  const stopLivePageLoadingBeforeConsent = stopLivePageLoading(target);
   const dismissPageConsentBeforeVoiceOver = dismissPageConsent(target);
   run("sleep", ["1"], { timeout: 3000 });
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
@@ -1682,7 +1663,6 @@ async function scanTarget(target, index) {
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
-  summary.stopLivePageLoadingBeforeConsent = stopLivePageLoadingBeforeConsent;
   summary.dismissPageConsentBeforeVoiceOver =
     dismissPageConsentBeforeVoiceOver;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
