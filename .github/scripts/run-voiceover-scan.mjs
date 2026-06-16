@@ -890,6 +890,154 @@ function prepareScanRoot(target, scanRootSelector) {
   return prepareScanRootInSafari(scanRootSelector);
 }
 
+function dismissPageConsent(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "skipped: consent handling is only applied to live URL scans",
+      stderr: "",
+      error: "",
+    };
+  }
+
+  const script = `
+JSON.stringify((() => {
+  const preferenceGroups = [
+    {
+      preference: "reject",
+      labels: [
+        "reject all",
+        "reject optional",
+        "reject non-essential",
+        "reject non essential",
+        "decline all",
+        "deny all",
+        "continue without accepting",
+        "necessary cookies only",
+        "essential cookies only",
+      ],
+    },
+    {
+      preference: "save",
+      labels: [
+        "save choices",
+        "save settings",
+        "confirm choices",
+        "confirm my choices",
+      ],
+    },
+    {
+      preference: "accept",
+      labels: [
+        "accept all",
+        "allow all",
+        "agree",
+        "i agree",
+        "accept cookies",
+      ],
+    },
+  ];
+
+  const selectors = [
+    "button",
+    "[role='button']",
+    "input[type='button']",
+    "input[type='submit']",
+    "a[href]",
+  ];
+
+  const normalize = (value) =>
+    String(value || "")
+      .replace(/\\s+/g, " ")
+      .trim()
+      .toLowerCase();
+
+  const getLabel = (element) =>
+    normalize(
+      element.getAttribute("aria-label") ||
+        element.getAttribute("title") ||
+        element.value ||
+        element.innerText ||
+        element.textContent ||
+        "",
+    );
+
+  const isVisible = (element) => {
+    const style = window.getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return (
+      style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      Number(style.opacity || "1") > 0 &&
+      rect.width > 0 &&
+      rect.height > 0
+    );
+  };
+
+  const collectRoots = (root, roots = []) => {
+    roots.push(root);
+    for (const element of root.querySelectorAll("*")) {
+      if (element.shadowRoot) {
+        collectRoots(element.shadowRoot, roots);
+      }
+    }
+    return roots;
+  };
+
+  const candidates = collectRoots(document)
+    .flatMap((root) =>
+      selectors.flatMap((selector) => Array.from(root.querySelectorAll(selector))),
+    )
+    .filter((element, index, all) => all.indexOf(element) === index)
+    .map((element) => ({
+      element,
+      label: getLabel(element),
+      tagName: element.tagName.toLowerCase(),
+      role: element.getAttribute("role") || "",
+      visible: isVisible(element),
+    }))
+    .filter((candidate) => candidate.visible && candidate.label);
+
+  for (const group of preferenceGroups) {
+    for (const label of group.labels) {
+      const exactMatch = candidates.find((candidate) => candidate.label === label);
+      const partialMatch = candidates.find((candidate) =>
+        candidate.label.includes(label),
+      );
+      const match = exactMatch || partialMatch;
+      if (match) {
+        match.element.click();
+        return {
+          action: "clicked",
+          preference: group.preference,
+          label: match.label,
+          tagName: match.tagName,
+          role: match.role,
+          candidateCount: candidates.length,
+          url: location.href,
+        };
+      }
+    }
+  }
+
+  return {
+    action: "none",
+    candidateCount: candidates.length,
+    candidateLabels: candidates.slice(0, 20).map((candidate) => candidate.label),
+    url: location.href,
+  };
+})())
+`;
+
+  return runAppleScript(`
+tell application "Safari"
+  do JavaScript ${appleString(script)} in document 1
+end tell
+`, 15000);
+}
+
 function injectEngineRuntime() {
   const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
   return runAppleScript(`
@@ -1327,6 +1475,8 @@ async function scanTarget(target, index) {
   run("sleep", ["3"], { timeout: 5000 });
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
+  const dismissPageConsentBeforeVoiceOver = dismissPageConsent(target);
+  run("sleep", ["1"], { timeout: 3000 });
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
     target,
     scanRootSelector,
@@ -1486,6 +1636,8 @@ async function scanTarget(target, index) {
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
+  summary.dismissPageConsentBeforeVoiceOver =
+    dismissPageConsentBeforeVoiceOver;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
