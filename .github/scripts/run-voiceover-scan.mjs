@@ -890,6 +890,25 @@ function prepareScanRoot(target, scanRootSelector) {
   return prepareScanRootInSafari(scanRootSelector);
 }
 
+function stopLivePageLoading(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "skipped: only live URL scans need page-load stopping",
+      stderr: "",
+      error: "",
+    };
+  }
+
+  return runAppleScript(`
+tell application "Safari"
+  do JavaScript "window.stop(); JSON.stringify({ action: 'stopped', readyState: document.readyState, url: location.href })" in document 1
+end tell
+`, 8000);
+}
+
 function dismissPageConsent(target) {
   if (!target.url) {
     return {
@@ -1498,9 +1517,10 @@ async function scanTarget(target, index) {
   };
 
   const launchSafariResult = launchSafari(url);
-  run("sleep", ["3"], { timeout: 5000 });
+  run("sleep", ["5"], { timeout: 7000 });
   const dismissSafariBeforeVoiceOver = dismissSafariDialogs();
   const dismissSystemBeforeVoiceOver = dismissSystemDialogs();
+  const stopLivePageLoadingBeforeConsent = stopLivePageLoading(target);
   const dismissPageConsentBeforeVoiceOver = dismissPageConsent(target);
   run("sleep", ["1"], { timeout: 3000 });
   const prepareScanRootBeforeVoiceOver = prepareScanRoot(
@@ -1662,6 +1682,7 @@ async function scanTarget(target, index) {
   summary.launchSafari = launchSafariResult;
   summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
+  summary.stopLivePageLoadingBeforeConsent = stopLivePageLoadingBeforeConsent;
   summary.dismissPageConsentBeforeVoiceOver =
     dismissPageConsentBeforeVoiceOver;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
