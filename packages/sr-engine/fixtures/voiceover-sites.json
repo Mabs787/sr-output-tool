@@ -52,6 +52,9 @@
     "refinement": {
       "minVoiceOverAnnouncements": 20
     },
+    "stopWhen": {
+      "voiceOverIncludes": "end of, content information"
+    },
     "maxSteps": 90,
     "maxSeconds": 480
   }

@@ -1089,11 +1089,14 @@ function getCaptureText(step) {
 }
 
 function getComparisonVoiceOverText(step) {
-  const caption =
+  const captionCandidate =
     step.voiceOver?.captionOcrText ||
     step.voiceOver?.captionUiText ||
     step.voiceOver?.captionText ||
     "";
+  const caption = isSystemNoise(cleanCaptionOcrText(captionCandidate))
+    ? ""
+    : captionCandidate;
   const phrase = step.voiceOver?.lastPhrase || "";
   const cursor = step.voiceOver?.voCursorText || "";
   let comparisonText = caption || phrase || cursor;
@@ -1139,7 +1142,11 @@ function isSystemNoise(announcement) {
 }
 
 function isRefinementNoise(announcement) {
-  return /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement);
+  return (
+    /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement) ||
+    announcement === "content information" ||
+    announcement === "end of, content information"
+  );
 }
 
 function getStopPhrases(target) {
