@@ -2326,6 +2326,7 @@ async function scanTarget(target, index) {
     scanRootSelector,
   );
   run("sleep", ["1"], { timeout: 3000 });
+  const screenRecording = startScreenRecording();
   const resetVoiceOverAfterLoad = await focusScanStartMarker(target);
   run("sleep", ["2"], { timeout: 4000 });
   const interactWithWebContentBeforeScan = interactWithVoiceOverItem();
@@ -2454,10 +2455,16 @@ async function scanTarget(target, index) {
   }
   activateChrome();
   run("sleep", ["1"], { timeout: 3000 });
+  const screenRecordingResult = await stopScreenRecording(screenRecording);
+  writeJson(
+    path.join(repoRoot, "voiceover-smoke/screen-recording.json"),
+    screenRecordingResult,
+  );
 
   summary.finishedAt = new Date().toISOString();
   summary.stopReason = stopReason;
   summary.capturedSteps = voiceOverSteps.length;
+  summary.screenRecording = screenRecordingResult;
   summary.launchChrome = launchChromeResult;
   summary.dismissChromeBeforeVoiceOver = dismissChromeBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
@@ -2538,7 +2545,6 @@ writeJson(
   path.join(repoRoot, "voiceover-smoke/screen-recording-preflight.json"),
   screenRecordingPreflight,
 );
-const screenRecording = startScreenRecording();
 let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
 if (scanTargetName) {
   manifest = manifest.filter((target) => target.name === scanTargetName);
@@ -2551,8 +2557,3 @@ if (scanTargetName) {
 for (const [index, target] of manifest.entries()) {
   await scanTarget(target, index);
 }
-const screenRecordingResult = await stopScreenRecording(screenRecording);
-writeJson(
-  path.join(repoRoot, "voiceover-smoke/screen-recording.json"),
-  screenRecordingResult,
-);
