@@ -1327,7 +1327,8 @@ function dismissBrowserBlockingOverlays(target, targetOutputDir) {
 
     if (
       ["clicked", "hidden"].includes(domAction) ||
-      ["clicked", "hidden"].includes(visualAction)
+      (["clicked", "hidden"].includes(visualAction) &&
+        visualConsent?.parsed?.preference !== "system-permission")
     ) {
       run("sleep", ["2"], { timeout: 4000 });
       break;
