@@ -32,7 +32,7 @@ const requestedScreenRecordingSeconds = Number(
 const screenRecordingSeconds =
   Number.isFinite(requestedScreenRecordingSeconds) &&
   requestedScreenRecordingSeconds > 0
-    ? Math.min(Math.floor(requestedScreenRecordingSeconds), 600)
+    ? Math.min(Math.floor(requestedScreenRecordingSeconds), 3600)
     : 180;
 const navigationMode =
   process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
@@ -391,6 +391,7 @@ function stopScreenRecording(recording) {
 
   return new Promise((resolve) => {
     let settled = false;
+    let terminateTimer = null;
     let forceStopTimer = null;
 
     const finish = (code, signal) => {
@@ -398,6 +399,9 @@ function stopScreenRecording(recording) {
         return;
       }
       settled = true;
+      if (terminateTimer) {
+        clearTimeout(terminateTimer);
+      }
       if (forceStopTimer) {
         clearTimeout(forceStopTimer);
       }
@@ -425,12 +429,17 @@ function stopScreenRecording(recording) {
       return;
     }
 
-    // Let screencapture finish on its own so macOS finalizes the .mov file.
-    forceStopTimer = setTimeout(() => {
+    recording.child.kill("SIGINT");
+    terminateTimer = setTimeout(() => {
       if (!settled && recording.child.exitCode === null) {
         recording.child.kill("SIGTERM");
       }
-    }, (screenRecordingSeconds + 30) * 1000);
+    }, 10000);
+    forceStopTimer = setTimeout(() => {
+      if (!settled && recording.child.exitCode === null) {
+        recording.child.kill("SIGKILL");
+      }
+    }, 20000);
   });
 }
 
