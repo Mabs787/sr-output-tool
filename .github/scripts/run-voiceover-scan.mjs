@@ -391,7 +391,6 @@ function stopScreenRecording(recording) {
 
   return new Promise((resolve) => {
     let settled = false;
-    let terminateTimer = null;
     let forceStopTimer = null;
 
     const finish = (code, signal) => {
@@ -399,9 +398,6 @@ function stopScreenRecording(recording) {
         return;
       }
       settled = true;
-      if (terminateTimer) {
-        clearTimeout(terminateTimer);
-      }
       if (forceStopTimer) {
         clearTimeout(forceStopTimer);
       }
@@ -429,17 +425,12 @@ function stopScreenRecording(recording) {
       return;
     }
 
-    recording.child.kill("SIGINT");
-    terminateTimer = setTimeout(() => {
+    // screencapture finalizes .mov files reliably when -V exits naturally.
+    forceStopTimer = setTimeout(() => {
       if (!settled && recording.child.exitCode === null) {
         recording.child.kill("SIGTERM");
       }
-    }, 10000);
-    forceStopTimer = setTimeout(() => {
-      if (!settled && recording.child.exitCode === null) {
-        recording.child.kill("SIGKILL");
-      }
-    }, 20000);
+    }, (screenRecordingSeconds + 30) * 1000);
   });
 }
 
@@ -2279,6 +2270,57 @@ function createAiRefinementInput({
   };
 }
 
+function createScanDebugSummary({
+  target,
+  summary,
+  voiceOverOutput,
+  reducedHtmlStats,
+}) {
+  return {
+    schemaVersion: 1,
+    target: {
+      name: summary.name,
+      mode: summary.mode,
+      url: summary.url,
+      scanRootSelector: target.scanRootSelector || "[data-sr-scan-root]",
+    },
+    scan: {
+      stopReason: summary.stopReason,
+      capturedSteps: summary.capturedSteps,
+      maxSteps: summary.maxSteps,
+      maxStepSeconds: summary.maxStepSeconds,
+      navigationMode: summary.navigationMode,
+      startedAt: summary.startedAt,
+      finishedAt: summary.finishedAt,
+    },
+    output: {
+      voiceOverAnnouncementCount: voiceOverOutput.length,
+      firstVoiceOverAnnouncement: voiceOverOutput[0] || "",
+      lastVoiceOverAnnouncement: voiceOverOutput.at(-1) || "",
+      reducedHtmlStats,
+    },
+    setup: {
+      launchChrome: summary.launchChrome,
+      launchVoiceOver: summary.launchVoiceOver,
+      prepareScanRootBeforeVoiceOver: summary.prepareScanRootBeforeVoiceOver,
+      injectScanBoundaryMarkersBeforeVoiceOver:
+        summary.injectScanBoundaryMarkersBeforeVoiceOver,
+      prepareScanRootAfterVoiceOver: summary.prepareScanRootAfterVoiceOver,
+      resetVoiceOverAfterLoad: summary.resetVoiceOverAfterLoad,
+      interactWithWebContentBeforeScan: summary.interactWithWebContentBeforeScan,
+      sourceHtmlCapture: summary.sourceHtmlCapture,
+    },
+    recording: summary.screenRecording,
+    consent: {
+      browserBlockingOverlaysBeforeVoiceOver:
+        summary.dismissBrowserBlockingOverlaysBeforeVoiceOver,
+      pageConsentBeforeVoiceOver: summary.dismissPageConsentBeforeVoiceOver,
+      pageConsentVisuallyBeforeVoiceOver:
+        summary.dismissPageConsentVisuallyBeforeVoiceOver,
+    },
+  };
+}
+
 async function scanTarget(target, index) {
   const targetName = getTargetOutputName(target, index);
   const scanRootSelector = getScanRootSelector(target);
@@ -2534,6 +2576,15 @@ async function scanTarget(target, index) {
       voiceOverSteps,
       voiceOverOutput,
       reducedHtml: reducedHtml.html,
+      reducedHtmlStats: reducedHtml.stats,
+    }),
+  );
+  writeJson(
+    path.join(targetOutputDir, "scan-debug.json"),
+    createScanDebugSummary({
+      target,
+      summary,
+      voiceOverOutput,
       reducedHtmlStats: reducedHtml.stats,
     }),
   );
