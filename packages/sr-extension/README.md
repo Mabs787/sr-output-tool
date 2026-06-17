@@ -4,7 +4,7 @@ A Chrome/Chromium browser extension that opens an inspector overlay inside the c
 
 The main goal of the tool is to make screen reader output easier to inspect while building and reviewing web components. It gives you a fast, readable approximation of what the accessibility tree is likely to expose.
 
-The shared engine behind the extension is modeled primarily around VoiceOver-style output and interaction patterns. This extension is useful for quick feedback, but it should not replace testing important flows with real assistive technology.
+The shared engine behind the extension is modeled around Chrome + VoiceOver output and interaction patterns. This extension is useful for quick feedback, but it should not replace testing important flows with real assistive technology.
 
 ## Install And Use
 

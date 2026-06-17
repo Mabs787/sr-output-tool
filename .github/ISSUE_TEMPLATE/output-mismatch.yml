@@ -14,8 +14,8 @@ body:
     id: browser_screen_reader
     attributes:
       label: Browser and screen reader
-      description: For example, Safari + VoiceOver on macOS.
-      placeholder: Safari + VoiceOver
+      description: For example, Chrome + VoiceOver on macOS.
+      placeholder: Chrome + VoiceOver
     validations:
       required: false
 

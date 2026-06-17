@@ -2,7 +2,7 @@
 
 `@sr-output/engine` is the shared screen-reader modeling core used by the browser extension.
 
-The engine turns DOM structure, roles, labels, states, grouping, and context into human-readable screen-reader-style output. Current behavior is modeled primarily around VoiceOver patterns.
+The engine turns DOM structure, roles, labels, states, grouping, and context into human-readable screen-reader-style output. Current behavior is modeled around Chrome + VoiceOver patterns.
 
 ## What The Engine Owns
 

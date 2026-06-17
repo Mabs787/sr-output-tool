@@ -7,7 +7,7 @@ The browser extension opens an inspector overlay inside the current page, lets t
 - **In-page inspector overlay**: Clicking the extension action toggles a fixed overlay inside the current tab, so status stays visible during scanning.
 - **DOM selection**: A crosshair overlay lets the user pick any element directly on the page. The selected subtree is scanned.
 - **Copy output**: The overlay can copy the current announcement list directly to the clipboard.
-- **SR Engine**: Uses `@sr-output/engine`, with announcements currently tuned most closely to VoiceOver-style output.
+- **SR Engine**: Uses `@sr-output/engine`, with announcements currently tuned most closely to Chrome + VoiceOver output.
 - **Element highlighting**: Each scanned element is tagged with a `data-sr-id` attribute. Hovering a log entry highlights the matching element on the page.
 
 ## File Map

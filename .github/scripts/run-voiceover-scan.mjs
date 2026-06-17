@@ -609,7 +609,7 @@ function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
 function cleanCaptionOcrText(value) {
   return String(value || "")
     .replace(/^[x×]\s*/i, "")
-    .replace(/^Safari .+? window /, "")
+    .replace(/^Google Chrome .+? window /, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -695,23 +695,23 @@ function getTargetOutputName(target, index) {
   }
 }
 
-function launchSafari(url) {
-  const stopSafariResult = runAppleScript(`
-tell application "Safari"
+function launchChrome(url) {
+  const stopChromeResult = runAppleScript(`
+tell application "Google Chrome"
   quit
 end tell
 `, 5000);
-  run("killall", ["Safari"], { timeout: 5000 });
+  run("killall", ["Google Chrome"], { timeout: 5000 });
   run("sleep", ["2"], { timeout: 4000 });
   const openResult = toCommandResult(
-    run("open", ["-a", "Safari", url], { timeout: 15000 }),
+    run("open", ["-a", "Google Chrome", url], { timeout: 15000 }),
   );
-  const activateResult = activateSafari();
+  const activateResult = activateChrome();
 
   return {
     ...openResult,
-    stopSafari: stopSafariResult,
-    activateSafari: activateResult,
+    stopChrome: stopChromeResult,
+    activateChrome: activateResult,
   };
 }
 
@@ -724,16 +724,16 @@ function launchVoiceOver() {
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
 }
 
-function activateSafari() {
-  return runAppleScript('tell application "Safari" to activate', 8000);
+function activateChrome() {
+  return runAppleScript('tell application "Google Chrome" to activate', 8000);
 }
 
-function dismissSafariDialogs() {
+function dismissChromeDialogs() {
   return runAppleScript(`
 set logText to ""
 tell application "System Events"
-  if exists process "Safari" then
-    tell process "Safari"
+  if exists process "Google Chrome" then
+    tell process "Google Chrome"
       repeat with attemptNumber from 1 to 5
         set clickedButton to false
         try
@@ -948,10 +948,10 @@ return "captionUiText=" & my cleanLine(captionText) & linefeed & "captionUiDebug
 `, 8000);
 }
 
-function captureSafariFocus() {
+function captureChromeFocus() {
   return runAppleScript(`
 tell application "System Events"
-  tell process "Safari"
+  tell process "Google Chrome"
     try
       set focusedElement to value of attribute "AXFocusedUIElement"
       set focusedRole to role of focusedElement
@@ -997,7 +997,7 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
 
   for (let attempt = 1; attempt <= 3 && !voiceOverRaw.ok; attempt += 1) {
     dismissals.push(dismissSystemDialogs());
-    activateSafari();
+    activateChrome();
     run("sleep", [String(attempt)], { timeout: (attempt + 2) * 1000 });
     voiceOverRaw = captureVoiceOverState();
     attempts.push(voiceOverRaw);
@@ -1011,7 +1011,7 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
   };
 }
 
-function prepareScanRootInSafari(scanRootSelector) {
+function prepareScanRootInChrome(scanRootSelector) {
   const script = [
     "(() => {",
     `const root = document.querySelector(${JSON.stringify(scanRootSelector)}) || document.body;`,
@@ -1029,8 +1029,8 @@ function prepareScanRootInSafari(scanRootSelector) {
   ].join(" ");
 
   return runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(script)} in document 1
+tell application "Google Chrome"
+  execute javascript ${appleString(script)} in active tab of front window
 end tell
 `, 15000);
 }
@@ -1042,13 +1042,13 @@ function prepareScanRoot(target, scanRootSelector) {
       status: 0,
       signal: null,
       stdout:
-        "skipped: Safari JavaScript automation is not required for page scans",
+        "skipped: scan root preparation is handled by scan markers for live URL scans",
       stderr: "",
       error: "",
     };
   }
 
-  return prepareScanRootInSafari(scanRootSelector);
+  return prepareScanRootInChrome(scanRootSelector);
 }
 
 function injectScanBoundaryMarkers(target) {
@@ -1102,8 +1102,8 @@ JSON.stringify((() => {
 `;
 
   return runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(script)} in document 1
+tell application "Google Chrome"
+  execute javascript ${appleString(script)} in active tab of front window
 end tell
 `, 15000);
 }
@@ -1138,8 +1138,8 @@ JSON.stringify((() => {
 `;
 
   return runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(script)} in document 1
+tell application "Google Chrome"
+  execute javascript ${appleString(script)} in active tab of front window
 end tell
 `, 15000);
 }
@@ -1314,8 +1314,8 @@ JSON.stringify((() => {
 `;
 
   return runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(script)} in document 1
+tell application "Google Chrome"
+  execute javascript ${appleString(script)} in active tab of front window
 end tell
 `, 15000);
 }
@@ -1384,14 +1384,14 @@ function dismissPageConsentVisually(target, targetOutputDir) {
   }
 
   const dismissSystemBeforeClick = dismissSystemDialogs();
-  activateSafari();
+  activateChrome();
   run("sleep", ["0.5"], { timeout: 2000 });
   let click = clickScreenPoint(parsed.x, parsed.y);
   let dismissSystemBeforeRetry = null;
   let retryClick = null;
   if (!click.ok) {
     dismissSystemBeforeRetry = dismissSystemDialogs();
-    activateSafari();
+    activateChrome();
     run("sleep", ["0.5"], { timeout: 2000 });
     retryClick = clickScreenPoint(parsed.x, parsed.y);
     click = retryClick;
@@ -1417,10 +1417,10 @@ function dismissBrowserBlockingOverlays(target, targetOutputDir) {
   let finalVisualResult = null;
 
   for (let attempt = 1; attempt <= 4; attempt += 1) {
-    activateSafari();
-    const safariDialogs = dismissSafariDialogs();
+    activateChrome();
+    const chromeDialogs = dismissChromeDialogs();
     const systemDialogs = dismissSystemDialogs();
-    activateSafari();
+    activateChrome();
     run("sleep", ["1"], { timeout: 3000 });
 
     const domConsent = dismissPageConsent(target);
@@ -1439,7 +1439,7 @@ function dismissBrowserBlockingOverlays(target, targetOutputDir) {
     const visualAction = visualConsent?.action || "";
     attempts.push({
       attempt,
-      safariDialogs,
+      chromeDialogs,
       systemDialogs,
       domConsent,
       visualConsent,
@@ -1499,11 +1499,11 @@ function captureRenderedSourceHtml(target) {
 
   return {
     ...runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(script)} in document 1
+tell application "Google Chrome"
+  execute javascript ${appleString(script)} in active tab of front window
 end tell
 `, 30000),
-    source: "safari-rendered-dom",
+    source: "chrome-rendered-dom",
   };
 }
 
@@ -1787,9 +1787,11 @@ function isSystemNoise(announcement) {
     announcement === "Edit customizations button" ||
     announcement === "Open System Settings button" ||
     announcement.includes("Open System Settings button") ||
-    /^Safari .+ window$/.test(announcement) ||
-    /^Safari, .+, window$/.test(announcement) ||
-    /^Safari, .+, window, .+ web content, has$/i.test(announcement) ||
+    /^(Google Chrome|Chrome) .+ window$/.test(announcement) ||
+    /^(Google Chrome|Chrome), .+, window$/.test(announcement) ||
+    /^(Google Chrome|Chrome), .+, window, .+ web content, has$/i.test(
+      announcement,
+    ) ||
     /^application, alert, system dialog /.test(announcement) ||
     /^application alert system dialog /.test(announcement) ||
     announcement.includes("requesting to bypass the system private window picker")
@@ -2021,18 +2023,19 @@ function createAiRefinementInput({
   return {
     schemaVersion: 1,
     purpose:
-      "Use this payload as source material for rebuilding sr-engine behavior from real VoiceOver output.",
+      "Use this payload as source material for rebuilding sr-engine behavior from real Chrome + VoiceOver output.",
     instructions: [
       "Only refine sr-engine when refinement.eligible is true.",
-      "Use voiceOverOutput as the source-of-truth screen reader sequence for the captured page state.",
+      "Use Chrome + VoiceOver output as the source-of-truth screen reader sequence for the captured page state.",
       "Use reducedHtml to reason about the DOM, native HTML semantics, ARIA, accessible names, and exposed text behind the VoiceOver output.",
+      "Do not add Google Chrome-specific behavior to sr-engine; Google Chrome + VoiceOver can be modeled as a separate profile later.",
       "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
       "Add or update only the relevant regression test.",
       "Do not modify this artifact or unrelated tests.",
     ],
     knownLimitations: [
-      "VoiceOver may announce visual text detected inside images or media, depending on macOS, Safari, VoiceOver Recognition, and downloaded recognition models.",
+      "VoiceOver may announce visual text detected inside images or media, depending on macOS, browser behavior, VoiceOver Recognition, and downloaded recognition models.",
       "sr-engine operates on DOM and accessibility semantics. It is not expected to reproduce image-recognition-only announcements unless the page exposes equivalent accessible text in reducedHtml.",
       "Treat additional VoiceOver lines that look like visual OCR output as contextual evidence, not as an automatic sr-engine defect.",
     ],
@@ -2090,14 +2093,14 @@ async function scanTarget(target, index) {
     startedAt: new Date().toISOString(),
   };
 
-  const launchSafariResult = launchSafari(url);
+  const launchChromeResult = launchChrome(url);
   run("sleep", ["5"], { timeout: 7000 });
   const dismissBrowserBlockingOverlaysBeforeVoiceOver =
     dismissBrowserBlockingOverlays(target, targetOutputDir);
   const lastOverlayAttempt =
     dismissBrowserBlockingOverlaysBeforeVoiceOver.attempts.at(-1) || {};
-  const dismissSafariBeforeVoiceOver =
-    lastOverlayAttempt.safariDialogs || dismissSafariDialogs();
+  const dismissChromeBeforeVoiceOver =
+    lastOverlayAttempt.chromeDialogs || dismissChromeDialogs();
   const dismissSystemBeforeVoiceOver =
     lastOverlayAttempt.systemDialogs || dismissSystemDialogs();
   const dismissPageConsentBeforeVoiceOver =
@@ -2118,10 +2121,10 @@ async function scanTarget(target, index) {
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
-  activateSafari();
-  const dismissSafariAfterVoiceOver = dismissSafariDialogs();
+  activateChrome();
+  const dismissChromeAfterVoiceOver = dismissChromeDialogs();
   const dismissSystemAfterVoiceOver = dismissSystemDialogs();
-  activateSafari();
+  activateChrome();
   const prepareScanRootAfterVoiceOver = prepareScanRoot(
     target,
     scanRootSelector,
@@ -2143,7 +2146,7 @@ async function scanTarget(target, index) {
   );
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
   const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
-  const initialFocusRaw = captureSafariFocus();
+  const initialFocusRaw = captureChromeFocus();
   const initialVoiceOver = {
     ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
     ...parseVoiceOverText(initialCaptionUiRaw.stdout || ""),
@@ -2199,7 +2202,7 @@ async function scanTarget(target, index) {
     );
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
     const captionUiRaw = captureVoiceOverCaptionUiState();
-    const focusRaw = captureSafariFocus();
+    const focusRaw = captureChromeFocus();
     const voiceOver = {
       ...parseVoiceOverText(voiceOverRaw.stdout || ""),
       ...parseVoiceOverText(captionUiRaw.stdout || ""),
@@ -2251,14 +2254,14 @@ async function scanTarget(target, index) {
       break;
     }
   }
-  activateSafari();
+  activateChrome();
   run("sleep", ["1"], { timeout: 3000 });
 
   summary.finishedAt = new Date().toISOString();
   summary.stopReason = stopReason;
   summary.capturedSteps = voiceOverSteps.length;
-  summary.launchSafari = launchSafariResult;
-  summary.dismissSafariBeforeVoiceOver = dismissSafariBeforeVoiceOver;
+  summary.launchChrome = launchChromeResult;
+  summary.dismissChromeBeforeVoiceOver = dismissChromeBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
   summary.dismissBrowserBlockingOverlaysBeforeVoiceOver =
     dismissBrowserBlockingOverlaysBeforeVoiceOver;
@@ -2269,7 +2272,7 @@ async function scanTarget(target, index) {
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.injectScanBoundaryMarkersBeforeVoiceOver =
     injectScanBoundaryMarkersBeforeVoiceOver;
-  summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
+  summary.dismissChromeAfterVoiceOver = dismissChromeAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;

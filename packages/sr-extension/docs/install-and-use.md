@@ -53,4 +53,4 @@ If Chrome cannot reload the extension, remove the old **SR Output Tool** extensi
 
 - Keep the unzipped `sr-extension-chrome` folder after installing. Chrome needs it to keep the extension loaded.
 - If you move or delete the folder, Chrome may no longer be able to run the extension.
-- This tool gives a fast approximation of VoiceOver-style output, but important accessibility flows should still be checked with real assistive technology.
+- This tool gives a fast approximation of Chrome + VoiceOver output, but important accessibility flows should still be checked with real assistive technology.

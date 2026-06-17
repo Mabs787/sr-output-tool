@@ -101,7 +101,7 @@ jobs:
             --url "${{ matrix.url }}" \
             --output voiceover-smoke/url-manifest.json
 
-      - name: Configure Safari and VoiceOver
+      - name: Configure Chrome and VoiceOver
         run: |
           set +e
           mkdir -p voiceover-smoke
@@ -113,12 +113,12 @@ jobs:
             /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
             echo
 
-            echo "## Safari"
-            osascript -e 'tell application "Safari" to quit' || true
-            killall Safari || true
+            echo "## Chrome"
+            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version || true
+            osascript -e 'tell application "Google Chrome" to quit' || true
+            killall "Google Chrome" || true
             sleep 2
-            defaults write com.apple.Safari IncludeDevelopMenu -bool true
-            defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
+            defaults write com.google.Chrome AllowJavaScriptFromAppleEvents -bool true
             defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
             defaults write com.apple.assistant.support "Dictation Enabled" -bool false
             echo
