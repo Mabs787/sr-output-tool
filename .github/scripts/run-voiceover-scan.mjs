@@ -22,6 +22,7 @@ const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
 const captureScreenRecording =
   process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
+const scanEndMarkerText = "SR Output Tool VoiceOver scan end marker";
 const requestedScreenRecordingSeconds = Number(
   process.env.VOICEOVER_SCREEN_RECORDING_SECONDS || 180,
 );
@@ -1047,6 +1048,51 @@ function prepareScanRoot(target, scanRootSelector) {
   return prepareScanRootInSafari(scanRootSelector);
 }
 
+function injectScanEndMarker(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "skipped: scan end marker is only injected for live URL scans",
+      stderr: "",
+      error: "",
+    };
+  }
+
+  const script = `
+JSON.stringify((() => {
+  const markerText = ${JSON.stringify(scanEndMarkerText)};
+  const existing = document.querySelector("[data-sr-voiceover-scan-end]");
+  if (existing) {
+    existing.textContent = markerText;
+    return { action: "updated", text: existing.textContent };
+  }
+
+  const marker = document.createElement("p");
+  marker.dataset.srVoiceoverScanEnd = "true";
+  marker.textContent = markerText;
+  marker.style.cssText = [
+    "display:block",
+    "margin:0",
+    "padding:0",
+    "font-size:1px",
+    "line-height:1px",
+    "color:transparent",
+    "background:transparent"
+  ].join(";");
+  document.body.appendChild(marker);
+  return { action: "inserted", text: marker.textContent };
+})())
+`;
+
+  return runAppleScript(`
+tell application "Safari"
+  do JavaScript ${appleString(script)} in document 1
+end tell
+`, 15000);
+}
+
 function dismissPageConsent(target) {
   if (!target.url) {
     return {
@@ -1654,6 +1700,7 @@ function isSystemNoise(announcement) {
     announcement.includes("Open System Settings button") ||
     /^Safari .+ window$/.test(announcement) ||
     /^Safari, .+, window$/.test(announcement) ||
+    /^Safari, .+, window, .+ web content, has$/i.test(announcement) ||
     /^application, alert, system dialog /.test(announcement) ||
     /^application alert system dialog /.test(announcement) ||
     announcement.includes("requesting to bypass the system private window picker")
@@ -1662,6 +1709,10 @@ function isSystemNoise(announcement) {
 
 function isRefinementNoise(announcement) {
   return /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement);
+}
+
+function isScanEndMarker(announcement) {
+  return announcement.toLowerCase().includes(scanEndMarkerText);
 }
 
 function getStopPhrases(target) {
@@ -1683,6 +1734,16 @@ function shouldStopScan({ target, voiceOverSteps }) {
   const latestStep = voiceOverSteps.at(-1);
   const latestText = latestStep ? getCaptureText(latestStep) : "";
   const latestLower = latestText.toLowerCase();
+  const latestAnnouncement = latestStep
+    ? getComparisonVoiceOverText(latestStep).toLowerCase()
+    : "";
+  if (
+    latestLower.includes(scanEndMarkerText) ||
+    latestAnnouncement.includes(scanEndMarkerText)
+  ) {
+    return { stop: true, reason: "scan-end-marker" };
+  }
+
   const stopPhrase = getStopPhrases(target).find((phrase) =>
     latestLower.includes(phrase),
   );
@@ -1724,6 +1785,10 @@ function getNormalizedVoiceOverOutput(voiceOverSteps) {
     .filter(
       (announcement) =>
         !isSystemNoise(announcement) && !isRefinementNoise(announcement),
+    )
+    .filter(
+      (announcement) =>
+        !isScanEndMarker(announcement),
     );
 
   while (
@@ -1933,6 +1998,7 @@ async function scanTarget(target, index) {
     target,
     scanRootSelector,
   );
+  const injectScanEndMarkerBeforeVoiceOver = injectScanEndMarker(target);
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
@@ -1946,6 +2012,7 @@ async function scanTarget(target, index) {
   );
   run("sleep", ["1"], { timeout: 3000 });
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
+  run("sleep", ["2"], { timeout: 4000 });
 
   const voiceOverSteps = [];
   const maxSteps = getMaxSteps(target);
@@ -2084,6 +2151,8 @@ async function scanTarget(target, index) {
   summary.dismissPageConsentVisuallyBeforeVoiceOver =
     dismissPageConsentVisuallyBeforeVoiceOver;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
+  summary.injectScanEndMarkerBeforeVoiceOver =
+    injectScanEndMarkerBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
