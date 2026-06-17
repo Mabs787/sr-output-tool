@@ -10,6 +10,7 @@ const defaultOutputPath = path.join(
 function parseArgs(argv) {
   const options = {
     output: defaultOutputPath,
+    matrixOutput: "",
     urls: [],
   };
 
@@ -17,6 +18,9 @@ function parseArgs(argv) {
     const arg = argv[index];
     if (arg === "--output") {
       options.output = path.resolve(repoRoot, argv[index + 1] || "");
+      index += 1;
+    } else if (arg === "--matrix-output") {
+      options.matrixOutput = path.resolve(repoRoot, argv[index + 1] || "");
       index += 1;
     } else if (arg === "--url") {
       options.urls.push(argv[index + 1] || "");
@@ -42,6 +46,8 @@ Options:
   --url <url>       Add one URL. Can be repeated.
   --urls <urls>     Add newline, comma, or space separated URLs.
   --output <path>   Manifest output path. Defaults to ./voiceover-smoke/url-manifest.json
+  --matrix-output <path>
+                    Also write a GitHub Actions matrix JSON file.
   --help            Show this help
 `);
 }
@@ -99,6 +105,16 @@ function main() {
   const manifest = createManifest(urls);
   mkdirSync(path.dirname(options.output), { recursive: true });
   writeFileSync(options.output, `${JSON.stringify(manifest, null, 2)}\n`);
+  if (options.matrixOutput) {
+    const matrix = {
+      include: manifest.map((target) => ({
+        name: target.name,
+        url: target.url,
+      })),
+    };
+    mkdirSync(path.dirname(options.matrixOutput), { recursive: true });
+    writeFileSync(options.matrixOutput, `${JSON.stringify(matrix, null, 2)}\n`);
+  }
   console.log(
     `Wrote ${manifest.length} URL scan target(s) to ${path.relative(repoRoot, options.output)}`,
   );

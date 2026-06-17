@@ -4,10 +4,9 @@ import { spawnSync } from "node:child_process";
 import { analyzeMismatches } from "./voiceover-refinement-analysis.mjs";
 
 const repoRoot = process.cwd();
-const defaultArtifactDir = path.join(repoRoot, "voiceover-smoke-diagnostics");
-const defaultWorkflow = "VoiceOver smoke";
+const defaultArtifactDir = path.join(repoRoot, "voiceover-scan-artifacts");
+const defaultWorkflow = "VoiceOver scan";
 const defaultBranch = "main";
-const artifactName = "voiceover-smoke-diagnostics";
 
 function parseArgs(argv) {
   const options = {
@@ -51,9 +50,9 @@ function printHelp() {
   node .github/scripts/prepare-voiceover-refinement.mjs [options]
 
 Options:
-  --artifact-dir <path>   Diagnostics folder to inspect. Defaults to ./voiceover-smoke-diagnostics
-  --download-latest       Download the latest successful VoiceOver smoke artifact with gh
-  --workflow <name>       Workflow name for --download-latest. Defaults to "VoiceOver smoke"
+  --artifact-dir <path>   Diagnostics folder to inspect. Defaults to ./voiceover-scan-artifacts
+  --download-latest       Download all artifacts from the latest successful VoiceOver scan run with gh
+  --workflow <name>       Workflow name for --download-latest. Defaults to "VoiceOver scan"
   --branch <name>         Branch for --download-latest. Defaults to main
   --force                 Replace the artifact directory when downloading
   --json                  Print the refinement queue as JSON
@@ -130,8 +129,6 @@ function downloadLatestArtifact(options) {
     "run",
     "download",
     String(latestRun.databaseId),
-    "--name",
-    artifactName,
     "--dir",
     options.artifactDir,
   ]);
@@ -150,17 +147,38 @@ function readJson(filePath) {
 }
 
 function getScanNames(artifactDir) {
-  const scansDir = path.join(artifactDir, "scans");
-  if (!existsSync(scansDir)) {
-    throw new Error(`${path.relative(repoRoot, scansDir)} was not found.`);
+  const scanRoots = [];
+  const collectScanRoots = (dir) => {
+    const scansDir = path.join(dir, "scans");
+    if (existsSync(scansDir)) {
+      scanRoots.push(scansDir);
+    }
+
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        collectScanRoots(path.join(dir, entry.name));
+      }
+    }
+  };
+
+  if (!existsSync(artifactDir)) {
+    throw new Error(`${path.relative(repoRoot, artifactDir)} was not found.`);
+  }
+  collectScanRoots(artifactDir);
+
+  if (!scanRoots.length) {
+    throw new Error(`No scans directories were found in ${path.relative(repoRoot, artifactDir)}.`);
   }
 
-  return readdirSync(scansDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((filePath) => ({
-      name: filePath.name,
-      payloadPath: path.join(scansDir, filePath.name, "ai-refinement-input.json"),
-    }))
+  return scanRoots
+    .flatMap((scansDir) =>
+      readdirSync(scansDir, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((filePath) => ({
+          name: filePath.name,
+          payloadPath: path.join(scansDir, filePath.name, "ai-refinement-input.json"),
+        })),
+    )
     .filter((scan) => existsSync(scan.payloadPath))
     .sort((left, right) => left.name.localeCompare(right.name));
 }
@@ -186,7 +204,7 @@ function buildQueue(artifactDir) {
 function printQueue(queue, downloadRun) {
   if (downloadRun) {
     console.log(
-      `Downloaded ${artifactName} from ${downloadRun.url} (${downloadRun.createdAt})`,
+      `Downloaded VoiceOver scan artifacts from ${downloadRun.url} (${downloadRun.createdAt})`,
     );
     console.log("");
   }

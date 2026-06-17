@@ -13,13 +13,9 @@ import { spawn, spawnSync } from "node:child_process";
 import { JSDOM } from "jsdom";
 
 const repoRoot = process.cwd();
-const manifestPath = path.join(
-  repoRoot,
-  "packages/sr-engine/fixtures/voiceover-sites.json",
-);
 const scanManifestPath = process.env.VOICEOVER_SCAN_MANIFEST
   ? path.resolve(repoRoot, process.env.VOICEOVER_SCAN_MANIFEST)
-  : manifestPath;
+  : "";
 const scanTargetName = String(process.env.VOICEOVER_SCAN_TARGET || "").trim();
 const engineRuntimePath = path.join(
   repoRoot,
@@ -287,8 +283,11 @@ function getScreenshotFileName(stepIndex, label) {
   return `${stepPart}-${labelPart}.png`;
 }
 
-function captureScreenshot(targetOutputDir, stepIndex, label) {
-  const screenshotsDir = path.join(targetOutputDir, "screenshots");
+function captureScreenshot(targetOutputDir, stepIndex, label, options = {}) {
+  const persist = options.persist ?? captureStepScreenshots;
+  const screenshotsDir = persist
+    ? path.join(targetOutputDir, "screenshots")
+    : mkdtempSync(path.join(os.tmpdir(), "sr-vo-screenshot-"));
   mkdirSync(screenshotsDir, { recursive: true });
 
   const fileName = getScreenshotFileName(stepIndex, label);
@@ -300,7 +299,8 @@ function captureScreenshot(targetOutputDir, stepIndex, label) {
   return {
     ...result,
     label,
-    path: path.relative(targetOutputDir, filePath),
+    persisted: persist,
+    path: persist ? path.relative(targetOutputDir, filePath) : "",
     filePath,
   };
 }
@@ -992,6 +992,7 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
     targetOutputDir,
     stepIndex,
     "voiceover-read-failed",
+    { persist: captureStepScreenshots },
   );
 
   for (let attempt = 1; attempt <= 3 && !voiceOverRaw.ok; attempt += 1) {
@@ -1254,6 +1255,7 @@ function dismissPageConsentVisually(target, targetOutputDir) {
     targetOutputDir,
     "consent",
     "page-consent",
+    { persist: captureStepScreenshots },
   );
   if (!screenshot.ok) {
     return {
@@ -1953,6 +1955,69 @@ function getNormalizedEngineOutput(engineResult) {
     : [];
 }
 
+function formatVoiceOverStepDebug(step) {
+  const stored = getComparisonVoiceOverText(step);
+  const captionOcr = step.voiceOver?.captionOcrText || "";
+  const captionOcrDebug = step.voiceOver?.captionOcrDebug || "";
+  const captionOcrAttempts = (step.captionOcrAttempts || [])
+    .map((attempt) => {
+      const text = cleanCaptionOcrText(attempt.parsed?.captionOcrText || "");
+      return `${attempt.delay}s:${text}`;
+    })
+    .join(" | ");
+  const captionUi = step.voiceOver?.captionUiText || "";
+  const captionUiDebug = step.voiceOver?.captionUiDebug || "";
+  const caption = step.voiceOver?.captionText || "";
+  const phrase = step.voiceOver?.lastPhrase || "";
+  const cursor = step.voiceOver?.voCursorText || "";
+  const focusName = step.focus?.name || "";
+  const focusRole = step.focus?.role || "";
+  return [
+    `step ${step.index}`,
+    `storedOutput: ${stored}`,
+    `captionOcrText: ${captionOcr}`,
+    `captionOcrAttempts: ${captionOcrAttempts}`,
+    `captionOcrDebug: ${captionOcrDebug}`,
+    `captionUiText: ${captionUi}`,
+    `captionUiDebug: ${captionUiDebug}`,
+    `captionText: ${caption}`,
+    `lastPhrase: ${phrase}`,
+    `voCursorText: ${cursor}`,
+    `focused: ${focusRole} ${focusName}`.trim(),
+  ].join("\n");
+}
+
+function writeVoiceOverProgressFiles({
+  targetOutputDir,
+  summary,
+  voiceOverSteps,
+  reason,
+}) {
+  const progressSummary = {
+    ...summary,
+    progressReason: reason,
+    progressWrittenAt: new Date().toISOString(),
+    capturedSteps: voiceOverSteps.length,
+  };
+  const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
+
+  writeJson(path.join(targetOutputDir, "raw.partial.json"), {
+    summary: progressSummary,
+    engine: null,
+    voiceOverSteps,
+  });
+  writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
+    announcements: voiceOverOutput,
+    source: "VoiceOver",
+    normalization: "system-noise-filtered",
+    partial: true,
+  });
+  writeText(
+    path.join(targetOutputDir, "voiceover-output.txt"),
+    voiceOverSteps.map(formatVoiceOverStepDebug).join("\n\n"),
+  );
+}
+
 function createAiRefinementInput({
   target,
   summary,
@@ -2125,7 +2190,9 @@ async function scanTarget(target, index) {
   const initialScreenshots = { ...initialVoiceOverCapture.screenshots };
   initialScreenshots.voiceOverCaptionOcr = initialCaptionOcr.screenshot;
   if (captureStepScreenshots) {
-    initialScreenshots.step = captureScreenshot(targetOutputDir, 0, "step");
+    initialScreenshots.step = captureScreenshot(targetOutputDir, 0, "step", {
+      persist: true,
+    });
   }
   voiceOverSteps.push({
     index: 0,
@@ -2151,6 +2218,12 @@ async function scanTarget(target, index) {
     dismissSystemAfterScreenshot: initialVoiceOverCapture.dismissals,
     screenshots: initialScreenshots,
   });
+  writeVoiceOverProgressFiles({
+    targetOutputDir,
+    summary,
+    voiceOverSteps,
+    reason: "initial-capture",
+  });
 
   for (let index = 0; maxSteps === null || index < maxSteps; index += 1) {
     const stepStartedAt = Date.now();
@@ -2173,7 +2246,9 @@ async function scanTarget(target, index) {
     const screenshots = { ...voiceOverCapture.screenshots };
     screenshots.voiceOverCaptionOcr = captionOcr.screenshot;
     if (captureStepScreenshots) {
-      screenshots.step = captureScreenshot(targetOutputDir, stepNumber, "step");
+      screenshots.step = captureScreenshot(targetOutputDir, stepNumber, "step", {
+        persist: true,
+      });
     }
 
     voiceOverSteps.push({
@@ -2192,6 +2267,12 @@ async function scanTarget(target, index) {
       voiceOverRawAttempts: voiceOverCapture.attempts,
       dismissSystemAfterScreenshot: voiceOverCapture.dismissals,
       screenshots,
+    });
+    writeVoiceOverProgressFiles({
+      targetOutputDir,
+      summary,
+      voiceOverSteps,
+      reason: `step:${stepNumber}`,
     });
 
     const stopCheck = shouldStopScan({
@@ -2304,45 +2385,15 @@ async function scanTarget(target, index) {
   );
   writeText(
     path.join(targetOutputDir, "voiceover-output.txt"),
-    voiceOverSteps
-      .map((step) => {
-        const stored = getComparisonVoiceOverText(step);
-        const captionOcr = step.voiceOver?.captionOcrText || "";
-        const captionOcrDebug = step.voiceOver?.captionOcrDebug || "";
-        const captionOcrAttempts = (step.captionOcrAttempts || [])
-          .map((attempt) => {
-            const text = cleanCaptionOcrText(
-              attempt.parsed?.captionOcrText || "",
-            );
-            return `${attempt.delay}s:${text}`;
-          })
-          .join(" | ");
-        const captionUi = step.voiceOver?.captionUiText || "";
-        const captionUiDebug = step.voiceOver?.captionUiDebug || "";
-        const caption = step.voiceOver?.captionText || "";
-        const phrase = step.voiceOver?.lastPhrase || "";
-        const cursor = step.voiceOver?.voCursorText || "";
-        const focusName = step.focus?.name || "";
-        const focusRole = step.focus?.role || "";
-        return [
-          `step ${step.index}`,
-          `storedOutput: ${stored}`,
-          `captionOcrText: ${captionOcr}`,
-          `captionOcrAttempts: ${captionOcrAttempts}`,
-          `captionOcrDebug: ${captionOcrDebug}`,
-          `captionUiText: ${captionUi}`,
-          `captionUiDebug: ${captionUiDebug}`,
-          `captionText: ${caption}`,
-          `lastPhrase: ${phrase}`,
-          `voCursorText: ${cursor}`,
-          `focused: ${focusRole} ${focusName}`.trim(),
-        ].join("\n");
-      })
-      .join("\n\n"),
+    voiceOverSteps.map(formatVoiceOverStepDebug).join("\n\n"),
   );
 }
 
 mkdirSync(outputRoot, { recursive: true });
+
+if (!scanManifestPath) {
+  throw new Error("VOICEOVER_SCAN_MANIFEST is required for URL scans.");
+}
 
 const screenRecordingPreflight = await preflightScreenRecordingPermission();
 writeJson(

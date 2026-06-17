@@ -3,7 +3,7 @@ import path from "node:path";
 import { analyzeMismatches } from "./voiceover-refinement-analysis.mjs";
 
 const repoRoot = process.cwd();
-const defaultArtifactDir = path.join(repoRoot, "voiceover-smoke-diagnostics");
+const defaultArtifactDir = path.join(repoRoot, "voiceover-scan-artifacts");
 const defaultOutputDir = path.join(repoRoot, "voiceover-smoke/refinement-prompts");
 
 function parseArgs(argv) {
@@ -38,10 +38,10 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`Usage:
-  node .github/scripts/create-refinement-prompt.mjs --target hero-sibling-copy
+  node .github/scripts/create-refinement-prompt.mjs --target www-example-com-page
 
 Options:
-  --artifact-dir <path>   Diagnostics folder to inspect. Defaults to ./voiceover-smoke-diagnostics
+  --artifact-dir <path>   Diagnostics folder to inspect. Defaults to ./voiceover-scan-artifacts
   --output-dir <path>     Prompt output folder. Defaults to ./voiceover-smoke/refinement-prompts
   --target <name>         Eligible scan target to build a prompt for
   --list                  List eligible and skipped targets
@@ -54,25 +54,46 @@ function readJson(filePath) {
 }
 
 function getPayloads(artifactDir) {
-  const scansDir = path.join(artifactDir, "scans");
-  if (!existsSync(scansDir)) {
-    throw new Error(`${path.relative(repoRoot, scansDir)} was not found.`);
+  const scanRoots = [];
+  const collectScanRoots = (dir) => {
+    const scansDir = path.join(dir, "scans");
+    if (existsSync(scansDir)) {
+      scanRoots.push(scansDir);
+    }
+
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        collectScanRoots(path.join(dir, entry.name));
+      }
+    }
+  };
+
+  if (!existsSync(artifactDir)) {
+    throw new Error(`${path.relative(repoRoot, artifactDir)} was not found.`);
+  }
+  collectScanRoots(artifactDir);
+
+  if (!scanRoots.length) {
+    throw new Error(`No scans directories were found in ${path.relative(repoRoot, artifactDir)}.`);
   }
 
-  return readdirSync(scansDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => {
-      const payloadPath = path.join(
-        scansDir,
-        entry.name,
-        "ai-refinement-input.json",
-      );
-      return {
-        name: entry.name,
-        payloadPath,
-        payload: existsSync(payloadPath) ? readJson(payloadPath) : null,
-      };
-    })
+  return scanRoots
+    .flatMap((scansDir) =>
+      readdirSync(scansDir, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => {
+          const payloadPath = path.join(
+            scansDir,
+            entry.name,
+            "ai-refinement-input.json",
+          );
+          return {
+            name: entry.name,
+            payloadPath,
+            payload: existsSync(payloadPath) ? readJson(payloadPath) : null,
+          };
+        }),
+    )
     .filter((entry) => entry.payload)
     .sort((left, right) => left.name.localeCompare(right.name));
 }

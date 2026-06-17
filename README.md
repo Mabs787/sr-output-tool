@@ -43,9 +43,9 @@ GitHub Actions runs on pushes and pull requests to `main`. The CI workflow has s
 
 The build job archives the compiled engine, generated extension runtime, and unpacked extension build for the downstream test and package jobs.
 
-The `VoiceOver smoke` workflow runs on hosted macOS and captures real VoiceOver output for fixture pages. Its artifact includes `ai-refinement-input.json` files that pair normalized VoiceOver output with normalized engine output and source HTML.
+The `VoiceOver scan` workflow runs manually on hosted macOS and captures real VoiceOver output for pasted page URLs. Each URL runs in its own job and uploads its own artifact with `ai-refinement-input.json`, normalized VoiceOver output, normalized engine output, and reduced page HTML.
 
-Manual workflow runs can scan whole pages from a pasted URL list. In GitHub Actions, run `VoiceOver smoke` with the `urls` input set to one or more page URLs. No element selector is required; URL targets default to scanning the full `body`.
+In GitHub Actions, run `VoiceOver scan` with the `urls` input set to one or more page URLs. No element selector is required; URL targets default to scanning the full `body`. Screenshots and screen recordings are disabled by default and should only be enabled for debugging.
 
 To create the same URL manifest locally:
 
@@ -53,7 +53,7 @@ To create the same URL manifest locally:
 yarn voiceover:create-url-manifest --urls "https://example.com/page"
 ```
 
-After downloading the `voiceover-smoke-diagnostics` artifact, prepare the refinement queue with:
+After downloading a `voiceover-scan-*` artifact, prepare the refinement queue with:
 
 ```bash
 yarn voiceover:refinement
@@ -69,7 +69,7 @@ To create a controlled AI handoff prompt for one eligible scan:
 
 ```bash
 yarn voiceover:create-refinement-prompt --list
-yarn voiceover:create-refinement-prompt --target hero-sibling-copy
+yarn voiceover:create-refinement-prompt --target www-example-com-page
 ```
 
 The refinement queue and prompt include mismatch hints before any AI edit is attempted. These hints help prioritize review, but the AI should still reason from the source HTML, VoiceOver output, and engine output before deciding whether an engine change is justified.

@@ -1,29 +1,19 @@
-name: VoiceOver smoke
+name: VoiceOver scan
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       urls:
-        description: "Optional newline, comma, or space separated page URLs to scan instead of fixtures"
-        required: false
-        type: string
-      scan_target:
-        description: "Optional fixture target name to scan, for example actions-page"
-        required: false
+        description: "Newline, comma, or space separated page URLs to scan"
+        required: true
         type: string
       capture_step_screenshots:
-        description: "Capture a screenshot after each VoiceOver step for debugging"
+        description: "Save screenshots for each VoiceOver step"
         required: false
         default: false
         type: boolean
       capture_screen_recording:
-        description: "Capture a screen recording for the full VoiceOver scan"
+        description: "Save a screen recording for each page scan"
         required: false
         default: false
         type: boolean
@@ -50,10 +40,47 @@ permissions:
   contents: read
 
 jobs:
-  hosted-macos-capability-check:
-    name: Hosted macOS capability check
+  prepare:
+    name: Prepare URL matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create URL matrix
+        id: matrix
+        run: |
+          set -euo pipefail
+          mkdir -p voiceover-smoke
+          node .github/scripts/create-voiceover-url-manifest.mjs \
+            --urls "${{ inputs.urls }}" \
+            --output voiceover-smoke/url-manifest.json \
+            --matrix-output voiceover-smoke/url-matrix.json
+          {
+            echo "matrix<<EOF"
+            node -e "process.stdout.write(JSON.stringify(JSON.parse(require('fs').readFileSync('voiceover-smoke/url-matrix.json', 'utf8'))))"
+            echo
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload URL matrix
+        uses: actions/upload-artifact@v6
+        with:
+          name: voiceover-url-matrix
+          path: voiceover-smoke
+          if-no-files-found: error
+
+  scan:
+    name: Scan ${{ matrix.name }}
+    needs: prepare
     runs-on: macos-26
-    timeout-minutes: 30
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
       - name: Checkout
@@ -68,104 +95,42 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Capture macOS environment
+      - name: Create single-page manifest
         run: |
+          node .github/scripts/create-voiceover-url-manifest.mjs \
+            --url "${{ matrix.url }}" \
+            --output voiceover-smoke/url-manifest.json
+
+      - name: Configure Safari and VoiceOver
+        run: |
+          set +e
           mkdir -p voiceover-smoke
           {
-            echo "## macOS"
+            echo "## Environment"
             sw_vers
             echo
-            echo "## VoiceOver app"
-            /usr/bin/mdls -name kMDItemVersion -name kMDItemCFBundleIdentifier /System/Library/CoreServices/VoiceOver.app || true
             /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
             /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
             echo
-            echo "## Runner"
-            uname -a
-            echo
-            echo "## Node"
-            node --version
-            yarn --version || true
-            echo
-            echo "## VoiceOver processes before test"
-            pgrep -al VoiceOver || true
-          } > voiceover-smoke/environment.txt
 
-      - name: Check AppleScript and accessibility scripting
-        run: |
-          set +e
-          mkdir -p voiceover-smoke
-
-          {
-            echo "## osascript sanity check"
-            osascript -e 'return "osascript available"'
-            echo "exit=$?"
-            echo
-
-            echo "## System Events UI scripting status"
-            osascript -e 'tell application "System Events" to get UI elements enabled'
-            echo "exit=$?"
-            echo
-
-            echo "## Frontmost app"
-            osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true'
-            echo "exit=$?"
-          } > voiceover-smoke/accessibility-scripting.txt 2>&1
-
-      - name: Configure Safari automation state
-        run: |
-          set +e
-          mkdir -p voiceover-smoke
-
-          {
-            echo "## Stop Safari before seeding preferences"
+            echo "## Safari"
             osascript -e 'tell application "Safari" to quit' || true
             killall Safari || true
             sleep 2
-            echo
-
-            echo "## Seed Safari automation preferences"
             defaults write com.apple.Safari IncludeDevelopMenu -bool true
-            echo "IncludeDevelopMenu exit=$?"
             defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
-            echo "AllowJavaScriptFromAppleEvents exit=$?"
             defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
-            echo "AppleDictationAutoEnable exit=$?"
             defaults write com.apple.assistant.support "Dictation Enabled" -bool false
-            echo "Dictation Enabled exit=$?"
             echo
 
-            echo "## Seeded Safari domain"
-            defaults read com.apple.Safari IncludeDevelopMenu || true
-            defaults read com.apple.Safari AllowJavaScriptFromAppleEvents || true
-            defaults read com.apple.HIToolbox AppleDictationAutoEnable || true
-            defaults read com.apple.assistant.support "Dictation Enabled" || true
-          } > voiceover-smoke/safari-automation-state.txt 2>&1
-
-      - name: Configure VoiceOver first-run state
-        run: |
-          set +e
-          mkdir -p voiceover-smoke
-
-          {
-            echo "## Seed VoiceOver first-run preferences"
+            echo "## VoiceOver"
             defaults write com.apple.VoiceOverTraining doNotShowSplashScreen -bool true
-            echo "doNotShowSplashScreen exit=$?"
             defaults write com.apple.VoiceOverTraining doNotShowWelcome -bool true
-            echo "doNotShowWelcome exit=$?"
             defaults write com.apple.VoiceOverTraining didShowWelcome -bool true
-            echo "didShowWelcome exit=$?"
             defaults write com.apple.VoiceOverTraining hasRunQuickStart -bool true
-            echo "hasRunQuickStart exit=$?"
             defaults write com.apple.VoiceOverTraining quickStartCompleted -bool true
-            echo "quickStartCompleted exit=$?"
             defaults write com.apple.VoiceOverTraining showTrainingAtStartup -bool false
-            echo "showTrainingAtStartup exit=$?"
             defaults write com.apple.VoiceOver4/default SCREnableCaptionPanel -bool true
-            echo "SCREnableCaptionPanel exit=$?"
-            echo
-
-            echo "## Disable VoiceOver visual/text recognition where supported"
             for domain in com.apple.VoiceOver4/default com.apple.VoiceOver4 com.apple.VoiceOver; do
               for key in \
                 SCRCognitionEnabled \
@@ -176,128 +141,33 @@ jobs:
                 SCRVoiceOverRecognitionEnabled \
                 SCRVisualRecognitionEnabled; do
                 defaults write "$domain" "$key" -bool false
-                echo "$domain $key exit=$?"
               done
             done
             defaults write NSGlobalDomain AppleLiveTextEnabled -bool false
-            echo "NSGlobalDomain AppleLiveTextEnabled exit=$?"
-            echo
+          } > voiceover-smoke/environment.txt 2>&1
 
-            echo "## Seeded domains"
-            defaults read com.apple.VoiceOverTraining || true
-            defaults read com.apple.VoiceOver4/default || true
-            defaults read com.apple.VoiceOver4 || true
-            defaults read com.apple.VoiceOver || true
-            defaults read NSGlobalDomain AppleLiveTextEnabled || true
-          } > voiceover-smoke/voiceover-first-run-state.txt 2>&1
-
-      - name: Capture VoiceOver profile snapshot
-        run: |
-          set +e
-          mkdir -p voiceover-smoke
-
-          {
-            echo "## VoiceOver profile snapshot"
-            date
-            echo
-
-            echo "## macOS"
-            sw_vers
-            echo
-
-            echo "## VoiceOver app"
-            /usr/bin/mdls -name kMDItemVersion -name kMDItemCFBundleIdentifier /System/Library/CoreServices/VoiceOver.app || true
-            /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
-            /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
-            echo
-
-            echo "## Safari"
-            /usr/bin/mdls -name kMDItemVersion /Applications/Safari.app || true
-            echo
-
-            echo "## VoiceOver preference domains"
-            defaults domains | tr ',' '\n' | sed 's/^ *//' | grep -i 'VoiceOver' | sort || true
-            echo
-
-            echo "## Local comparison targets"
-            echo "These are the settings to compare against local screenshots:"
-            echo "- Speech verbosity"
-            echo "- Braille verbosity"
-            echo "- Web navigation order"
-            echo "- Grouping behaviour"
-            echo "- Skip redundant labels"
-            echo "- Speak instructions/hints"
-            echo "- Navigate images"
-            echo "- Quick Nav"
-            echo "- Voice/language"
-            echo "- VoiceOver Recognition"
-            echo
-
-            echo "## com.apple.VoiceOver4/default"
-            defaults read com.apple.VoiceOver4/default || true
-            echo
-
-            echo "## com.apple.VoiceOver4"
-            defaults read com.apple.VoiceOver4 || true
-            echo
-
-            echo "## com.apple.VoiceOver"
-            defaults read com.apple.VoiceOver || true
-            echo
-
-            echo "## com.apple.VoiceOver exported plist"
-            defaults export com.apple.VoiceOver - || true
-            echo
-
-            echo "## com.apple.VoiceOverTraining"
-            defaults read com.apple.VoiceOverTraining || true
-          } > voiceover-smoke/voiceover-profile.txt 2>&1
-
-      - name: Create URL scan manifest
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' }}
-        run: node .github/scripts/create-voiceover-url-manifest.mjs --urls "${{ inputs.urls }}"
-
-      - name: Run VoiceOver scan manifest
+      - name: Run VoiceOver scan
         continue-on-error: true
         env:
-          VOICEOVER_SCAN_MANIFEST: ${{ github.event_name == 'workflow_dispatch' && inputs.urls != '' && 'voiceover-smoke/url-manifest.json' || '' }}
-          VOICEOVER_SCAN_TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.scan_target || '' }}
-          VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_step_screenshots && 'true' || '' }}
-          VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_screen_recording && 'true' || '' }}
-          VOICEOVER_SCREEN_RECORDING_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.screen_recording_seconds || '180' }}
-          VOICEOVER_MAX_STEP_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.max_step_seconds || '30' }}
-          VOICEOVER_NAVIGATION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.navigation_mode || 'voiceover-right-arrow' }}
+          VOICEOVER_SCAN_MANIFEST: voiceover-smoke/url-manifest.json
+          VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ inputs.capture_step_screenshots && 'true' || '' }}
+          VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ inputs.capture_screen_recording && 'true' || '' }}
+          VOICEOVER_SCREEN_RECORDING_SECONDS: ${{ inputs.screen_recording_seconds }}
+          VOICEOVER_MAX_STEP_SECONDS: ${{ inputs.max_step_seconds }}
+          VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
-      - name: Capture VoiceOver diagnostics
+      - name: Capture diagnostics
         if: always()
         continue-on-error: true
         run: |
           set +e
           mkdir -p voiceover-smoke
-
           {
-            echo "## VoiceOver defaults domains"
-            defaults domains | tr ',' '\n' | sed 's/^ *//' | grep -i voice || true
-            echo
-
-            echo "## com.apple.VoiceOver4/default"
+            echo "## VoiceOver preferences"
             defaults read com.apple.VoiceOver4/default || true
             echo
-
-            echo "## com.apple.VoiceOver4"
-            defaults read com.apple.VoiceOver4 || true
-            echo
-
-            echo "## com.apple.VoiceOver"
-            defaults read com.apple.VoiceOver || true
-            echo
-
-            echo "## com.apple.VoiceOver exported plist"
-            defaults export com.apple.VoiceOver - || true
-            echo
-
-            echo "## VoiceOver process snapshot"
+            echo "## VoiceOver processes"
             pgrep -al VoiceOver || true
           } > voiceover-smoke/voiceover-diagnostics.txt 2>&1
 
@@ -307,7 +177,6 @@ jobs:
           set +e
           mkdir -p voiceover-smoke
           {
-            echo "## VoiceOver processes before cleanup"
             pgrep -al VoiceOver || true
             pkill -x "VoiceOver Quick" || true
             pkill -x VoiceOver || true
@@ -315,17 +184,13 @@ jobs:
             pkill -9 -x "VoiceOver Quick" || true
             pkill -9 -x VoiceOver || true
             sleep 1
-            echo
-            echo "## VoiceOver processes after cleanup"
             pgrep -al VoiceOver || true
-            echo
-            echo "Note: hosted macOS may relaunch VoiceOver after kill; this cleanup step is diagnostic only."
           } > voiceover-smoke/voiceover-cleanup.txt 2>&1
 
-      - name: Upload smoke diagnostics
+      - name: Upload scan artifact
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: voiceover-smoke-diagnostics
+          name: voiceover-scan-${{ matrix.name }}
           path: voiceover-smoke
           if-no-files-found: error
