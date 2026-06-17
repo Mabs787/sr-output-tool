@@ -32,6 +32,11 @@ on:
         required: false
         default: "180"
         type: string
+      max_step_seconds:
+        description: "Maximum seconds to spend on one VoiceOver navigation/capture step"
+        required: false
+        default: "30"
+        type: string
       navigation_mode:
         description: "How VoiceOver should move between items"
         required: false
@@ -48,7 +53,7 @@ jobs:
   hosted-macos-capability-check:
     name: Hosted macOS capability check
     runs-on: macos-26
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -260,6 +265,7 @@ jobs:
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_step_screenshots && 'true' || '' }}
           VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_screen_recording && 'true' || '' }}
           VOICEOVER_SCREEN_RECORDING_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.screen_recording_seconds || '180' }}
+          VOICEOVER_MAX_STEP_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.max_step_seconds || '30' }}
           VOICEOVER_NAVIGATION_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.navigation_mode || 'voiceover-right-arrow' }}
         run: node .github/scripts/run-voiceover-scan.mjs
 

@@ -80,8 +80,7 @@ function createManifest(urls) {
     refinement: {
       minVoiceOverAnnouncements: 1,
     },
-    maxSteps: 260,
-    maxSeconds: 480,
+    maxStepSeconds: 30,
   }));
 }
 

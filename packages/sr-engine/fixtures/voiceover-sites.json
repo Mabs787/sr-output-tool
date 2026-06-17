@@ -7,8 +7,7 @@
     "refinement": {
       "minVoiceOverAnnouncements": 4
     },
-    "maxSteps": 20,
-    "maxSeconds": 60
+    "maxStepSeconds": 30
   },
   {
     "name": "basic-page",
@@ -18,8 +17,7 @@
     "refinement": {
       "minVoiceOverAnnouncements": 3
     },
-    "maxSteps": 12,
-    "maxSeconds": 60
+    "maxStepSeconds": 30
   },
   {
     "name": "actions-page",
@@ -29,8 +27,7 @@
     "refinement": {
       "minVoiceOverAnnouncements": 8
     },
-    "maxSteps": 30,
-    "maxSeconds": 90
+    "maxStepSeconds": 30
   },
   {
     "name": "input-page",
@@ -40,8 +37,7 @@
     "refinement": {
       "minVoiceOverAnnouncements": 5
     },
-    "maxSteps": 30,
-    "maxSeconds": 90
+    "maxStepSeconds": 30
   },
   {
     "name": "full-page-landmarks",
@@ -55,7 +51,6 @@
     "stopWhen": {
       "voiceOverIncludes": "end of, content information"
     },
-    "maxSteps": 90,
-    "maxSeconds": 480
+    "maxStepSeconds": 30
   }
 ]

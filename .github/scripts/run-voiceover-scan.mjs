@@ -42,6 +42,9 @@ const navigationMode =
   process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
     ? "plain-right-arrow"
     : "voiceover-right-arrow";
+const defaultMaxStepSeconds = Number(
+  process.env.VOICEOVER_MAX_STEP_SECONDS || 30,
+);
 
 function run(command, args, options = {}) {
   return spawnSync(command, args, {
@@ -85,6 +88,28 @@ function writeJson(filePath, value) {
 
 function writeText(filePath, value) {
   writeFileSync(filePath, `${String(value).trimEnd()}\n`);
+}
+
+function getMaxStepSeconds(target) {
+  const value = Number(target.maxStepSeconds || defaultMaxStepSeconds);
+  return Number.isFinite(value) && value > 0 ? value : 30;
+}
+
+function getMaxSteps(target) {
+  const value = Number(target.maxSteps || target.steps);
+  return Number.isFinite(value) && value > 0 ? Math.floor(value) : null;
+}
+
+function getStepTiming(startedAt, maxStepSeconds) {
+  const durationMs = Date.now() - startedAt;
+  return {
+    startedAt: new Date(startedAt).toISOString(),
+    finishedAt: new Date().toISOString(),
+    durationMs,
+    durationSeconds: Number((durationMs / 1000).toFixed(3)),
+    maxStepSeconds,
+    exceededMaxStepSeconds: durationMs / 1000 > maxStepSeconds,
+  };
 }
 
 function startScreenRecording() {
@@ -1863,13 +1888,7 @@ function getStopPhrases(target) {
   return values.map((value) => value.toLowerCase());
 }
 
-function shouldStopScan({ target, voiceOverSteps, startedAt }) {
-  const maxSeconds = Number(target.maxSeconds || 120);
-  const elapsedSeconds = (Date.now() - startedAt) / 1000;
-  if (elapsedSeconds >= maxSeconds) {
-    return { stop: true, reason: `maxSeconds:${maxSeconds}` };
-  }
-
+function shouldStopScan({ target, voiceOverSteps }) {
   const latestStep = voiceOverSteps.at(-1);
   const latestText = latestStep ? getCaptureText(latestStep) : "";
   const latestLower = latestText.toLowerCase();
@@ -1882,7 +1901,7 @@ function shouldStopScan({ target, voiceOverSteps, startedAt }) {
 
   const stopOnRepeatedOutput =
     target.stopWhen?.repeatedNormalizedOutput ??
-    Boolean(target.fixturePath && !target.url);
+    Boolean((target.fixturePath && !target.url) || getMaxSteps(target) === null);
   if (stopOnRepeatedOutput) {
     const meaningfulTexts = voiceOverSteps
       .map(getComparisonVoiceOverText)
@@ -2008,6 +2027,7 @@ function createAiRefinementInput({
     scan: {
       stopReason: summary.stopReason,
       capturedSteps: summary.capturedSteps,
+      maxStepSeconds: summary.maxStepSeconds,
       startedAt: summary.startedAt,
       finishedAt: summary.finishedAt,
     },
@@ -2034,13 +2054,14 @@ async function scanTarget(target, index) {
   mkdirSync(targetOutputDir, { recursive: true });
 
   const url = getTargetUrl(target);
+  const maxStepSeconds = getMaxStepSeconds(target);
   const summary = {
     name: targetName,
     mode: target.mode || "page",
     url,
     source: target.fixturePath ? "fixture" : "url",
     maxSteps: target.maxSteps,
-    maxSeconds: target.maxSeconds,
+    maxStepSeconds,
     navigationMode,
     startedAt: new Date().toISOString(),
   };
@@ -2083,10 +2104,10 @@ async function scanTarget(target, index) {
   const resetVoiceOverAfterLoad = moveVoiceOverToStart();
 
   const voiceOverSteps = [];
-  const scanStartedAt = Date.now();
-  const maxSteps = Number(target.maxSteps || target.steps || 100);
-  let stopReason = "maxSteps";
+  const maxSteps = getMaxSteps(target);
+  let stopReason = "not-stopped";
 
+  const initialStepStartedAt = Date.now();
   const initialCaptionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, 0);
   const initialDismissSystem = dismissSystemDialogs();
   const initialVoiceOverCapture = captureVoiceOverStateWithRecovery(
@@ -2108,6 +2129,7 @@ async function scanTarget(target, index) {
   }
   voiceOverSteps.push({
     index: 0,
+    timing: getStepTiming(initialStepStartedAt, maxStepSeconds),
     navigation: {
       ok: true,
       status: 0,
@@ -2130,7 +2152,8 @@ async function scanTarget(target, index) {
     screenshots: initialScreenshots,
   });
 
-  for (let index = 0; index < maxSteps; index += 1) {
+  for (let index = 0; maxSteps === null || index < maxSteps; index += 1) {
+    const stepStartedAt = Date.now();
     const navigation = navigateRight();
     const stepNumber = index + 1;
     const captionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, stepNumber);
@@ -2155,6 +2178,7 @@ async function scanTarget(target, index) {
 
     voiceOverSteps.push({
       index: stepNumber,
+      timing: getStepTiming(stepStartedAt, maxStepSeconds),
       navigation,
       dismissSystemAfterNavigation,
       voiceOverRaw,
@@ -2173,10 +2197,14 @@ async function scanTarget(target, index) {
     const stopCheck = shouldStopScan({
       target,
       voiceOverSteps,
-      startedAt: scanStartedAt,
     });
     if (stopCheck.stop) {
       stopReason = stopCheck.reason;
+      break;
+    }
+
+    if (maxSteps !== null && index + 1 >= maxSteps) {
+      stopReason = `maxSteps:${maxSteps}`;
       break;
     }
   }
