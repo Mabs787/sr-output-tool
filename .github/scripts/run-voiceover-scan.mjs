@@ -77,28 +77,48 @@ async function evaluateJavaScriptInChrome(expression, timeout = 15000) {
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
+  const deadline = Date.now() + timeout;
+  let lastError = "";
+  let lastStderr = "";
 
   try {
-    const targetsResponse = await fetch(
-      `http://127.0.0.1:${chromeDebuggingPort}/json/list`,
-      { signal: controller.signal },
-    );
-    if (!targetsResponse.ok) {
-      return commandResult({
-        ok: false,
-        stderr: `Chrome DevTools target list returned HTTP ${targetsResponse.status}.`,
-        extras: { source: "chrome-devtools" },
-      });
+    let page = null;
+
+    while (Date.now() < deadline && !page) {
+      try {
+        const targetsResponse = await fetch(
+          `http://127.0.0.1:${chromeDebuggingPort}/json/list`,
+          { signal: controller.signal },
+        );
+        if (!targetsResponse.ok) {
+          lastStderr = `Chrome DevTools target list returned HTTP ${targetsResponse.status}.`;
+        } else {
+          const targets = await targetsResponse.json();
+          page =
+            targets.find(
+              (target) =>
+                target.type === "page" && target.url !== "chrome://newtab/",
+            ) || targets.find((target) => target.type === "page");
+          if (!page?.webSocketDebuggerUrl) {
+            page = null;
+            lastStderr =
+              "No Chrome page target with a DevTools WebSocket was found.";
+          }
+        }
+      } catch (error) {
+        lastError = error?.message || String(error);
+      }
+
+      if (!page) {
+        run("sleep", ["1"], { timeout: 2000 });
+      }
     }
 
-    const targets = await targetsResponse.json();
-    const page =
-      targets.find((target) => target.type === "page" && target.url !== "chrome://newtab/") ||
-      targets.find((target) => target.type === "page");
     if (!page?.webSocketDebuggerUrl) {
       return commandResult({
         ok: false,
-        stderr: "No Chrome page target with a DevTools WebSocket was found.",
+        stderr: lastStderr,
+        error: lastError || "Chrome DevTools target was not available.",
         extras: { source: "chrome-devtools" },
       });
     }
@@ -843,6 +863,9 @@ function getTargetOutputName(target, index) {
 }
 
 function launchChrome(url) {
+  const chromeUserDataDir = mkdtempSync(
+    path.join(os.tmpdir(), "sr-vo-chrome-profile-"),
+  );
   const stopChromeResult = runAppleScript(`
 tell application "Google Chrome"
   quit
@@ -856,11 +879,12 @@ end tell
       [
         "-na",
         "Google Chrome",
+        url,
         "--args",
         `--remote-debugging-port=${chromeDebuggingPort}`,
         "--remote-allow-origins=*",
+        `--user-data-dir=${chromeUserDataDir}`,
         "--no-first-run",
-        url,
       ],
       { timeout: 15000 },
     ),
@@ -869,18 +893,40 @@ end tell
 
   return {
     ...openResult,
+    chromeDebuggingPort,
+    chromeUserDataDir,
     stopChrome: stopChromeResult,
     activateChrome: activateResult,
   };
 }
 
 function launchVoiceOver() {
-  run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
-  run("pkill", ["-x", "VoiceOver"], { timeout: 5000 });
+  const stopQuickBefore = toCommandResult(
+    run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 }),
+  );
+  const stopVoiceOverBefore = toCommandResult(
+    run("pkill", ["-x", "VoiceOver"], { timeout: 5000 }),
+  );
   run("sleep", ["2"], { timeout: 4000 });
-  run("open", ["-a", "VoiceOver"], { timeout: 10000 });
+  const openResult = toCommandResult(
+    run("open", ["-a", "VoiceOver"], { timeout: 10000 }),
+  );
   run("sleep", ["2"], { timeout: 4000 });
-  run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
+  const stopQuickAfter = toCommandResult(
+    run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 }),
+  );
+  run("sleep", ["2"], { timeout: 4000 });
+  const processCheck = toCommandResult(
+    run("pgrep", ["-al", "VoiceOver"], { timeout: 5000 }),
+  );
+
+  return {
+    open: openResult,
+    processCheck,
+    stopQuickBefore,
+    stopVoiceOverBefore,
+    stopQuickAfter,
+  };
 }
 
 function activateChrome() {
@@ -2268,7 +2314,7 @@ async function scanTarget(target, index) {
   );
   const injectScanBoundaryMarkersBeforeVoiceOver =
     await injectScanBoundaryMarkers(target, scanRootSelector);
-  launchVoiceOver();
+  const launchVoiceOverResult = launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
   activateChrome();
@@ -2424,6 +2470,7 @@ async function scanTarget(target, index) {
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.injectScanBoundaryMarkersBeforeVoiceOver =
     injectScanBoundaryMarkersBeforeVoiceOver;
+  summary.launchVoiceOver = launchVoiceOverResult;
   summary.dismissChromeAfterVoiceOver = dismissChromeAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
