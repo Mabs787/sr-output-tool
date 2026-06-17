@@ -41,6 +41,9 @@ const navigationMode =
 const defaultMaxStepSeconds = Number(
   process.env.VOICEOVER_MAX_STEP_SECONDS || 30,
 );
+const chromeDebuggingPort = Number(
+  process.env.CHROME_REMOTE_DEBUGGING_PORT || 9222,
+);
 
 function run(command, args, options = {}) {
   return spawnSync(command, args, {
@@ -63,6 +66,130 @@ function runAppleScript(script, timeout = 15000) {
   };
 }
 
+async function evaluateJavaScriptInChrome(expression, timeout = 15000) {
+  if (!globalThis.WebSocket) {
+    return commandResult({
+      ok: false,
+      stderr: "WebSocket is unavailable in this Node runtime.",
+      extras: { source: "chrome-devtools" },
+    });
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const targetsResponse = await fetch(
+      `http://127.0.0.1:${chromeDebuggingPort}/json/list`,
+      { signal: controller.signal },
+    );
+    if (!targetsResponse.ok) {
+      return commandResult({
+        ok: false,
+        stderr: `Chrome DevTools target list returned HTTP ${targetsResponse.status}.`,
+        extras: { source: "chrome-devtools" },
+      });
+    }
+
+    const targets = await targetsResponse.json();
+    const page =
+      targets.find((target) => target.type === "page" && target.url !== "chrome://newtab/") ||
+      targets.find((target) => target.type === "page");
+    if (!page?.webSocketDebuggerUrl) {
+      return commandResult({
+        ok: false,
+        stderr: "No Chrome page target with a DevTools WebSocket was found.",
+        extras: { source: "chrome-devtools" },
+      });
+    }
+
+    const result = await new Promise((resolve, reject) => {
+      const socket = new WebSocket(page.webSocketDebuggerUrl);
+      const requestId = 1;
+      const closeSocket = () => {
+        try {
+          socket.close();
+        } catch {
+          // Best effort cleanup only.
+        }
+      };
+
+      socket.addEventListener("open", () => {
+        socket.send(
+          JSON.stringify({
+            id: requestId,
+            method: "Runtime.evaluate",
+            params: {
+              expression,
+              awaitPromise: true,
+              returnByValue: true,
+            },
+          }),
+        );
+      });
+
+      socket.addEventListener("message", (event) => {
+        let message = null;
+        try {
+          message = JSON.parse(String(event.data || ""));
+        } catch (error) {
+          closeSocket();
+          reject(error);
+          return;
+        }
+
+        if (message.id !== requestId) {
+          return;
+        }
+
+        closeSocket();
+        resolve(message);
+      });
+
+      socket.addEventListener("error", () => {
+        closeSocket();
+        reject(new Error("Chrome DevTools WebSocket error."));
+      });
+    });
+
+    if (result.error) {
+      return commandResult({
+        ok: false,
+        stderr: JSON.stringify(result.error),
+        extras: { source: "chrome-devtools" },
+      });
+    }
+
+    const evaluation = result.result || {};
+    if (evaluation.exceptionDetails) {
+      return commandResult({
+        ok: false,
+        stderr: JSON.stringify(evaluation.exceptionDetails),
+        extras: { source: "chrome-devtools" },
+      });
+    }
+
+    const remoteObject = evaluation.result || {};
+    return commandResult({
+      ok: true,
+      stdout:
+        remoteObject.value === undefined
+          ? remoteObject.description || ""
+          : String(remoteObject.value),
+      extras: { source: "chrome-devtools" },
+    });
+  } catch (error) {
+    return commandResult({
+      ok: false,
+      stderr: error?.name === "AbortError" ? "Chrome DevTools request timed out." : "",
+      error: error?.message || String(error),
+      extras: { source: "chrome-devtools" },
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function toCommandResult(result) {
   return {
     ok: result.status === 0 && !result.error,
@@ -71,6 +198,26 @@ function toCommandResult(result) {
     stdout: String(result.stdout || "").trim(),
     stderr: String(result.stderr || "").trim(),
     error: result.error ? String(result.error.message || result.error) : "",
+  };
+}
+
+function commandResult({
+  ok,
+  stdout = "",
+  stderr = "",
+  error = "",
+  status = ok ? 0 : 1,
+  signal = null,
+  extras = {},
+}) {
+  return {
+    ok,
+    status,
+    signal,
+    stdout: String(stdout || "").trim(),
+    stderr: String(stderr || "").trim(),
+    error: String(error || ""),
+    ...extras,
   };
 }
 
@@ -704,7 +851,19 @@ end tell
   run("killall", ["Google Chrome"], { timeout: 5000 });
   run("sleep", ["2"], { timeout: 4000 });
   const openResult = toCommandResult(
-    run("open", ["-a", "Google Chrome", url], { timeout: 15000 }),
+    run(
+      "open",
+      [
+        "-na",
+        "Google Chrome",
+        "--args",
+        `--remote-debugging-port=${chromeDebuggingPort}`,
+        "--remote-allow-origins=*",
+        "--no-first-run",
+        url,
+      ],
+      { timeout: 15000 },
+    ),
   );
   const activateResult = activateChrome();
 
@@ -836,6 +995,14 @@ function moveVoiceOverToStart() {
   return runAppleScript(`
 tell application "System Events"
   key code 115 using {control down, option down}
+end tell
+`, 8000);
+}
+
+function interactWithVoiceOverItem() {
+  return runAppleScript(`
+tell application "System Events"
+  key code 125 using {control down, option down, shift down}
 end tell
 `, 8000);
 }
@@ -1011,7 +1178,7 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
   };
 }
 
-function prepareScanRootInChrome(scanRootSelector) {
+async function prepareScanRootInChrome(scanRootSelector) {
   const script = [
     "(() => {",
     `const root = document.querySelector(${JSON.stringify(scanRootSelector)}) || document.body;`,
@@ -1028,14 +1195,10 @@ function prepareScanRootInChrome(scanRootSelector) {
     "})()",
   ].join(" ");
 
-  return runAppleScript(`
-tell application "Google Chrome"
-  execute javascript ${appleString(script)} in active tab of front window
-end tell
-`, 15000);
+  return evaluateJavaScriptInChrome(script, 15000);
 }
 
-function prepareScanRoot(target, scanRootSelector) {
+async function prepareScanRoot(target, scanRootSelector) {
   if (target.fixturePath || target.url) {
     return {
       ok: true,
@@ -1051,7 +1214,7 @@ function prepareScanRoot(target, scanRootSelector) {
   return prepareScanRootInChrome(scanRootSelector);
 }
 
-function injectScanBoundaryMarkers(target) {
+async function injectScanBoundaryMarkers(target) {
   if (!target.url) {
     return {
       ok: true,
@@ -1101,14 +1264,10 @@ JSON.stringify((() => {
 })())
 `;
 
-  return runAppleScript(`
-tell application "Google Chrome"
-  execute javascript ${appleString(script)} in active tab of front window
-end tell
-`, 15000);
+  return evaluateJavaScriptInChrome(script, 15000);
 }
 
-function focusScanStartMarker(target) {
+async function focusScanStartMarker(target) {
   if (!target.url) {
     return moveVoiceOverToStart();
   }
@@ -1137,14 +1296,10 @@ JSON.stringify((() => {
 })())
 `;
 
-  return runAppleScript(`
-tell application "Google Chrome"
-  execute javascript ${appleString(script)} in active tab of front window
-end tell
-`, 15000);
+  return evaluateJavaScriptInChrome(script, 15000);
 }
 
-function dismissPageConsent(target) {
+async function dismissPageConsent(target) {
   if (!target.url) {
     return {
       ok: true,
@@ -1313,11 +1468,7 @@ JSON.stringify((() => {
 })())
 `;
 
-  return runAppleScript(`
-tell application "Google Chrome"
-  execute javascript ${appleString(script)} in active tab of front window
-end tell
-`, 15000);
+  return evaluateJavaScriptInChrome(script, 15000);
 }
 
 function getDomConsentAction(result) {
@@ -1411,7 +1562,7 @@ function dismissPageConsentVisually(target, targetOutputDir) {
   };
 }
 
-function dismissBrowserBlockingOverlays(target, targetOutputDir) {
+async function dismissBrowserBlockingOverlays(target, targetOutputDir) {
   const attempts = [];
   let finalDomResult = null;
   let finalVisualResult = null;
@@ -1423,7 +1574,7 @@ function dismissBrowserBlockingOverlays(target, targetOutputDir) {
     activateChrome();
     run("sleep", ["1"], { timeout: 3000 });
 
-    const domConsent = dismissPageConsent(target);
+    const domConsent = await dismissPageConsent(target);
     finalDomResult = domConsent;
     const domAction = getDomConsentAction(domConsent);
 
@@ -1475,7 +1626,7 @@ async function getTargetSourceHtml(target) {
   return "";
 }
 
-function captureRenderedSourceHtml(target) {
+async function captureRenderedSourceHtml(target) {
   if (!target.url) {
     return {
       ok: true,
@@ -1498,18 +1649,14 @@ function captureRenderedSourceHtml(target) {
   ].join(" ");
 
   return {
-    ...runAppleScript(`
-tell application "Google Chrome"
-  execute javascript ${appleString(script)} in active tab of front window
-end tell
-`, 30000),
+    ...(await evaluateJavaScriptInChrome(script, 30000)),
     source: "chrome-rendered-dom",
   };
 }
 
 async function getArtifactSourceHtml(target) {
   if (target.url) {
-    const rendered = captureRenderedSourceHtml(target);
+    const rendered = await captureRenderedSourceHtml(target);
     return {
       html: rendered.ok ? rendered.stdout || "" : "",
       capture: rendered,
@@ -2096,7 +2243,7 @@ async function scanTarget(target, index) {
   const launchChromeResult = launchChrome(url);
   run("sleep", ["5"], { timeout: 7000 });
   const dismissBrowserBlockingOverlaysBeforeVoiceOver =
-    dismissBrowserBlockingOverlays(target, targetOutputDir);
+    await dismissBrowserBlockingOverlays(target, targetOutputDir);
   const lastOverlayAttempt =
     dismissBrowserBlockingOverlaysBeforeVoiceOver.attempts.at(-1) || {};
   const dismissChromeBeforeVoiceOver =
@@ -2105,19 +2252,19 @@ async function scanTarget(target, index) {
     lastOverlayAttempt.systemDialogs || dismissSystemDialogs();
   const dismissPageConsentBeforeVoiceOver =
     dismissBrowserBlockingOverlaysBeforeVoiceOver.domConsent ||
-    dismissPageConsent(target);
+    (await dismissPageConsent(target));
   const dismissPageConsentVisuallyBeforeVoiceOver =
     dismissBrowserBlockingOverlaysBeforeVoiceOver.visualConsent || {
       skipped: true,
       reason: "visual consent handler was not needed",
     };
   run("sleep", ["1"], { timeout: 3000 });
-  const prepareScanRootBeforeVoiceOver = prepareScanRoot(
+  const prepareScanRootBeforeVoiceOver = await prepareScanRoot(
     target,
     scanRootSelector,
   );
   const injectScanBoundaryMarkersBeforeVoiceOver =
-    injectScanBoundaryMarkers(target);
+    await injectScanBoundaryMarkers(target);
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
@@ -2125,13 +2272,15 @@ async function scanTarget(target, index) {
   const dismissChromeAfterVoiceOver = dismissChromeDialogs();
   const dismissSystemAfterVoiceOver = dismissSystemDialogs();
   activateChrome();
-  const prepareScanRootAfterVoiceOver = prepareScanRoot(
+  const prepareScanRootAfterVoiceOver = await prepareScanRoot(
     target,
     scanRootSelector,
   );
   run("sleep", ["1"], { timeout: 3000 });
-  const resetVoiceOverAfterLoad = focusScanStartMarker(target);
+  const resetVoiceOverAfterLoad = await focusScanStartMarker(target);
   run("sleep", ["2"], { timeout: 4000 });
+  const interactWithWebContentBeforeScan = interactWithVoiceOverItem();
+  run("sleep", ["1"], { timeout: 3000 });
 
   const voiceOverSteps = [];
   const maxSteps = getMaxSteps(target);
@@ -2276,6 +2425,7 @@ async function scanTarget(target, index) {
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
+  summary.interactWithWebContentBeforeScan = interactWithWebContentBeforeScan;
   summary.captureStepScreenshots = captureStepScreenshots;
   summary.omittedOutputs = [
     {

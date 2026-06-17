@@ -125,8 +125,9 @@ jobs:
                 "minVoiceOverAnnouncements": 1
               },
               "maxStepSeconds": 10,
-              "maxSteps": 6,
+              "maxSteps": 20,
               "stopWhen": {
+                "voiceOverIncludes": "Fixture button",
                 "repeatedNormalizedOutput": true
               }
             }
@@ -184,6 +185,37 @@ jobs:
           VOICEOVER_MAX_STEP_SECONDS: "10"
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
         run: node .github/scripts/run-voiceover-scan.mjs
+
+      - name: Assert Chrome fixture output
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const output = JSON.parse(fs.readFileSync('voiceover-smoke/scans/chrome-fixture/voiceover-output.json', 'utf8'));
+          const announcements = Array.isArray(output.announcements) ? output.announcements : [];
+          const normalized = announcements
+            .join('\n')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+          const expected = [
+            'chrome fixture heading',
+            'list 2 items',
+            'alpha link',
+            'beta link',
+            'fixture button',
+          ];
+          const missing = expected.filter((phrase) => !normalized.includes(phrase));
+          if (missing.length > 0) {
+            console.error('Chrome fixture VoiceOver output did not include expected page content.');
+            console.error(`Missing: ${missing.join(', ')}`);
+            console.error('Announcements:');
+            for (const announcement of announcements) {
+              console.error(`- ${announcement}`);
+            }
+            process.exit(1);
+          }
+          NODE
 
       - name: Capture diagnostics
         if: always()
