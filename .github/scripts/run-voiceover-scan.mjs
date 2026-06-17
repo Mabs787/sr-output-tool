@@ -22,7 +22,10 @@ const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
 const captureScreenRecording =
   process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
-const scanEndMarkerText = "SR Output Tool VoiceOver scan end marker";
+const scanMarkerTexts = {
+  start: "SR Output Tool VoiceOver scan start marker",
+  end: "SR Output Tool VoiceOver scan end marker",
+};
 const requestedScreenRecordingSeconds = Number(
   process.env.VOICEOVER_SCREEN_RECORDING_SECONDS || 180,
 );
@@ -1048,13 +1051,13 @@ function prepareScanRoot(target, scanRootSelector) {
   return prepareScanRootInSafari(scanRootSelector);
 }
 
-function injectScanEndMarker(target) {
+function injectScanBoundaryMarkers(target) {
   if (!target.url) {
     return {
       ok: true,
       status: 0,
       signal: null,
-      stdout: "skipped: scan end marker is only injected for live URL scans",
+      stdout: "skipped: scan boundary markers are only injected for live URL scans",
       stderr: "",
       error: "",
     };
@@ -1062,17 +1065,8 @@ function injectScanEndMarker(target) {
 
   const script = `
 JSON.stringify((() => {
-  const markerText = ${JSON.stringify(scanEndMarkerText)};
-  const existing = document.querySelector("[data-sr-voiceover-scan-end]");
-  if (existing) {
-    existing.textContent = markerText;
-    return { action: "updated", text: existing.textContent };
-  }
-
-  const marker = document.createElement("p");
-  marker.dataset.srVoiceoverScanEnd = "true";
-  marker.textContent = markerText;
-  marker.style.cssText = [
+  const markers = ${JSON.stringify(scanMarkerTexts)};
+  const style = [
     "display:block",
     "margin:0",
     "padding:0",
@@ -1081,8 +1075,28 @@ JSON.stringify((() => {
     "color:transparent",
     "background:transparent"
   ].join(";");
-  document.body.appendChild(marker);
-  return { action: "inserted", text: marker.textContent };
+
+  function createMarker(boundary, text) {
+    const marker = document.createElement("p");
+    marker.dataset.srVoiceoverScanBoundary = boundary;
+    marker.textContent = text;
+    marker.style.cssText = style;
+    return marker;
+  }
+
+  document
+    .querySelectorAll("[data-sr-voiceover-scan-boundary], [data-sr-voiceover-scan-end]")
+    .forEach((marker) => marker.remove());
+
+  const startMarker = createMarker("start", markers.start);
+  const endMarker = createMarker("end", markers.end);
+  document.body.insertBefore(startMarker, document.body.firstChild);
+  document.body.appendChild(endMarker);
+  return {
+    action: "inserted",
+    startText: startMarker.textContent,
+    endText: endMarker.textContent
+  };
 })())
 `;
 
@@ -1421,24 +1435,62 @@ async function getTargetSourceHtml(target) {
     return readFileSync(path.resolve(repoRoot, target.fixturePath), "utf8");
   }
 
-  if (target.url) {
-    const response = await fetch(target.url, {
-      headers: {
-        "user-agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15",
-      },
-    });
+  return "";
+}
 
-    if (!response.ok) {
-      throw new Error(
-        `Unable to fetch ${target.url}: ${response.status} ${response.statusText}`,
-      );
-    }
-
-    return response.text();
+function captureRenderedSourceHtml(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "",
+      stderr: "",
+      error: "",
+      source: "not-applicable",
+    };
   }
 
-  return "";
+  const script = [
+    "(() => {",
+    "document",
+    "  .querySelectorAll('[data-sr-voiceover-scan-boundary], [data-sr-voiceover-scan-end]')",
+    "  .forEach((marker) => marker.remove());",
+    "return document.documentElement.outerHTML;",
+    "})()",
+  ].join(" ");
+
+  return {
+    ...runAppleScript(`
+tell application "Safari"
+  do JavaScript ${appleString(script)} in document 1
+end tell
+`, 30000),
+    source: "safari-rendered-dom",
+  };
+}
+
+async function getArtifactSourceHtml(target) {
+  if (target.url) {
+    const rendered = captureRenderedSourceHtml(target);
+    return {
+      html: rendered.ok ? rendered.stdout || "" : "",
+      capture: rendered,
+    };
+  }
+
+  return {
+    html: await getTargetSourceHtml(target).catch(() => ""),
+    capture: {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "fixture/source file read from disk",
+      stderr: "",
+      error: "",
+      source: target.fixturePath ? "fixture-file" : "empty",
+    },
+  };
 }
 
 function getJsdomUrl(target) {
@@ -1711,8 +1763,19 @@ function isRefinementNoise(announcement) {
   return /^You are currently (on|in) .+\.?( To .+)?$/i.test(announcement);
 }
 
-function isScanEndMarker(announcement) {
-  return announcement.toLowerCase().includes(scanEndMarkerText);
+function getScanBoundary(announcement) {
+  const normalized = announcement.toLowerCase();
+  if (normalized.includes(scanMarkerTexts.start.toLowerCase())) {
+    return "start";
+  }
+  if (normalized.includes(scanMarkerTexts.end.toLowerCase())) {
+    return "end";
+  }
+  return "";
+}
+
+function isScanBoundaryMarker(announcement) {
+  return Boolean(getScanBoundary(announcement));
 }
 
 function getStopPhrases(target) {
@@ -1738,8 +1801,8 @@ function shouldStopScan({ target, voiceOverSteps }) {
     ? getComparisonVoiceOverText(latestStep).toLowerCase()
     : "";
   if (
-    latestLower.includes(scanEndMarkerText) ||
-    latestAnnouncement.includes(scanEndMarkerText)
+    latestLower.includes(scanMarkerTexts.end.toLowerCase()) ||
+    latestAnnouncement.includes(scanMarkerTexts.end.toLowerCase())
   ) {
     return { stop: true, reason: "scan-end-marker" };
   }
@@ -1779,17 +1842,32 @@ function shouldStopScan({ target, voiceOverSteps }) {
 }
 
 function getNormalizedVoiceOverOutput(voiceOverSteps) {
-  const announcements = voiceOverSteps
+  const filteredAnnouncements = voiceOverSteps
     .map(getComparisonVoiceOverText)
     .filter(Boolean)
     .filter(
       (announcement) =>
         !isSystemNoise(announcement) && !isRefinementNoise(announcement),
-    )
-    .filter(
-      (announcement) =>
-        !isScanEndMarker(announcement),
     );
+  const hasStartMarker = filteredAnnouncements.some(
+    (announcement) => getScanBoundary(announcement) === "start",
+  );
+  const announcements = [];
+  let withinScan = !hasStartMarker;
+
+  for (const announcement of filteredAnnouncements) {
+    const boundary = getScanBoundary(announcement);
+    if (boundary === "start") {
+      withinScan = true;
+      continue;
+    }
+    if (boundary === "end") {
+      break;
+    }
+    if (withinScan && !isScanBoundaryMarker(announcement)) {
+      announcements.push(announcement);
+    }
+  }
 
   while (
     announcements.length >= 2 &&
@@ -1998,7 +2076,8 @@ async function scanTarget(target, index) {
     target,
     scanRootSelector,
   );
-  const injectScanEndMarkerBeforeVoiceOver = injectScanEndMarker(target);
+  const injectScanBoundaryMarkersBeforeVoiceOver =
+    injectScanBoundaryMarkers(target);
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
@@ -2151,8 +2230,8 @@ async function scanTarget(target, index) {
   summary.dismissPageConsentVisuallyBeforeVoiceOver =
     dismissPageConsentVisuallyBeforeVoiceOver;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
-  summary.injectScanEndMarkerBeforeVoiceOver =
-    injectScanEndMarkerBeforeVoiceOver;
+  summary.injectScanBoundaryMarkersBeforeVoiceOver =
+    injectScanBoundaryMarkersBeforeVoiceOver;
   summary.dismissSafariAfterVoiceOver = dismissSafariAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
@@ -2166,7 +2245,17 @@ async function scanTarget(target, index) {
     },
   ];
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
-  const sourceHtml = await getTargetSourceHtml(target).catch(() => "");
+  const sourceHtmlArtifact = await getArtifactSourceHtml(target);
+  const sourceHtml = sourceHtmlArtifact.html;
+  summary.sourceHtmlCapture = {
+    source: sourceHtmlArtifact.capture.source,
+    ok: sourceHtmlArtifact.capture.ok,
+    status: sourceHtmlArtifact.capture.status,
+    signal: sourceHtmlArtifact.capture.signal,
+    stderr: sourceHtmlArtifact.capture.stderr,
+    error: sourceHtmlArtifact.capture.error,
+    length: sourceHtml.length,
+  };
   const reducedHtml = reduceHtmlForRefinement(sourceHtml, target);
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
