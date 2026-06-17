@@ -1079,6 +1079,7 @@ JSON.stringify((() => {
   function createMarker(boundary, text) {
     const marker = document.createElement("p");
     marker.dataset.srVoiceoverScanBoundary = boundary;
+    marker.tabIndex = -1;
     marker.textContent = text;
     marker.style.cssText = style;
     return marker;
@@ -1096,6 +1097,42 @@ JSON.stringify((() => {
     action: "inserted",
     startText: startMarker.textContent,
     endText: endMarker.textContent
+  };
+})())
+`;
+
+  return runAppleScript(`
+tell application "Safari"
+  do JavaScript ${appleString(script)} in document 1
+end tell
+`, 15000);
+}
+
+function focusScanStartMarker(target) {
+  if (!target.url) {
+    return moveVoiceOverToStart();
+  }
+
+  const script = `
+JSON.stringify((() => {
+  const marker = document.querySelector('[data-sr-voiceover-scan-boundary="start"]');
+  if (!marker) {
+    return {
+      action: "missing",
+      activeTagName: document.activeElement?.tagName || "",
+      activeText: document.activeElement?.innerText || document.activeElement?.value || ""
+    };
+  }
+
+  marker.setAttribute("tabindex", "-1");
+  marker.scrollIntoView({ block: "start", inline: "nearest" });
+  marker.focus({ preventScroll: true });
+
+  return {
+    action: "focused",
+    activeTagName: document.activeElement?.tagName || "",
+    activeText: document.activeElement?.innerText || document.activeElement?.value || "",
+    markerText: marker.textContent || ""
   };
 })())
 `;
@@ -2090,7 +2127,7 @@ async function scanTarget(target, index) {
     scanRootSelector,
   );
   run("sleep", ["1"], { timeout: 3000 });
-  const resetVoiceOverAfterLoad = moveVoiceOverToStart();
+  const resetVoiceOverAfterLoad = focusScanStartMarker(target);
   run("sleep", ["2"], { timeout: 4000 });
 
   const voiceOverSteps = [];
