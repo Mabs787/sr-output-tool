@@ -17,10 +17,6 @@ const scanManifestPath = process.env.VOICEOVER_SCAN_MANIFEST
   ? path.resolve(repoRoot, process.env.VOICEOVER_SCAN_MANIFEST)
   : "";
 const scanTargetName = String(process.env.VOICEOVER_SCAN_TARGET || "").trim();
-const engineRuntimePath = path.join(
-  repoRoot,
-  "packages/sr-extension/src/content/engine-runtime.js",
-);
 const outputRoot = path.join(repoRoot, "voiceover-smoke/scans");
 const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
@@ -1374,15 +1370,6 @@ function dismissBrowserBlockingOverlays(target, targetOutputDir) {
   };
 }
 
-function injectEngineRuntime() {
-  const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
-  return runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(engineRuntimeSource)} in document 1
-end tell
-`, 20000);
-}
-
 async function getTargetSourceHtml(target) {
   if (target.fixturePath) {
     return readFileSync(path.resolve(repoRoot, target.fixturePath), "utf8");
@@ -1592,204 +1579,6 @@ function reduceHtmlForRefinement(sourceHtml, target) {
   };
 }
 
-function cssEscape(value) {
-  return String(value).replace(
-    /[\0-\x1f\x7f]|^-?\d|^-$|[^\w-]/g,
-    (match, offset) => {
-      if (match === "\0") {
-        return "\uFFFD";
-      }
-
-      const firstCodeUnit = match.charCodeAt(0);
-      const isControlCharacter =
-        (firstCodeUnit >= 0x1 && firstCodeUnit <= 0x1f) ||
-        firstCodeUnit === 0x7f;
-      const isLeadingDigit =
-        offset === 0 && firstCodeUnit >= 0x30 && firstCodeUnit <= 0x39;
-      const isSecondCharacterDigitAfterHyphen =
-        offset === 1 &&
-        firstCodeUnit >= 0x30 &&
-        firstCodeUnit <= 0x39 &&
-        String(value).charCodeAt(0) === 0x2d;
-
-      if (
-        isControlCharacter ||
-        isLeadingDigit ||
-        isSecondCharacterDigitAfterHyphen
-      ) {
-        return `\\${firstCodeUnit.toString(16)} `;
-      }
-
-      return `\\${match}`;
-    },
-  );
-}
-
-function installSafeSelectorApis(window) {
-  const prototypes = [
-    window.Document.prototype,
-    window.DocumentFragment.prototype,
-    window.Element.prototype,
-  ].filter(Boolean);
-
-  for (const prototype of prototypes) {
-    const querySelector = prototype.querySelector;
-    if (typeof querySelector === "function") {
-      prototype.querySelector = function safeQuerySelector(selector) {
-        try {
-          return querySelector.call(this, selector);
-        } catch (error) {
-          if (error?.name === "SyntaxError") {
-            return null;
-          }
-          throw error;
-        }
-      };
-    }
-
-    const querySelectorAll = prototype.querySelectorAll;
-    if (typeof querySelectorAll === "function") {
-      prototype.querySelectorAll = function safeQuerySelectorAll(selector) {
-        try {
-          return querySelectorAll.call(this, selector);
-        } catch (error) {
-          if (error?.name === "SyntaxError") {
-            return [];
-          }
-          throw error;
-        }
-      };
-    }
-  }
-}
-
-async function renderEngineOutputInJsdom(target, scanRootSelector) {
-  if (!target.fixturePath && !target.url) {
-    return null;
-  }
-
-  try {
-    const html = await getTargetSourceHtml(target);
-    const engineRuntimeSource = readFileSync(engineRuntimePath, "utf8");
-    const dom = new JSDOM(html, {
-      url: getJsdomUrl(target),
-      runScripts: "outside-only",
-      pretendToBeVisual: true,
-    });
-    const { window } = dom;
-
-    if (
-      !Object.getOwnPropertyDescriptor(window.HTMLElement.prototype, "innerText")
-    ) {
-      Object.defineProperty(window.HTMLElement.prototype, "innerText", {
-        configurable: true,
-        get() {
-          return this.textContent || "";
-        },
-        set(value) {
-          this.textContent = value;
-        },
-      });
-    }
-
-    if (!window.CSS) {
-      window.CSS = {};
-    }
-
-    window.CSS.escape = cssEscape;
-
-    installSafeSelectorApis(window);
-    window.HTMLElement.prototype.scrollIntoView ||= function scrollIntoView() {};
-    window.Date.now = () => 1700000000000;
-    window.eval(engineRuntimeSource);
-
-    const createDomScanner = window.__srEngineCreateDomScanner;
-    const generateAnnouncement = window.__srEngineGenerateAnnouncement;
-    const getContextEndAnnouncement = window.__srEngineGetContextEndAnnouncement;
-    if (typeof createDomScanner !== "function") {
-      return {
-        ok: false,
-        status: 1,
-        signal: null,
-        stdout: "",
-        stderr: "engine runtime was not available in jsdom",
-        error: "",
-      };
-    }
-
-    const scanner = createDomScanner({
-      generateAnnouncement,
-      getContextEndAnnouncement,
-      now: () => 1700000000000,
-    });
-    const root =
-      window.document.querySelector(scanRootSelector) || window.document.body;
-    const log = scanner.scanSubtree(root);
-    return {
-      ok: true,
-      status: 0,
-      signal: null,
-      stdout: JSON.stringify({
-        source: "jsdom",
-        announcements: log.map((entry) => entry.announcement),
-        entries: log.map((entry) => ({
-          announcement: entry.announcement,
-          role: entry.descriptor?.role || "",
-          name: entry.descriptor?.name || "",
-          tagName: entry.element?.tagName || "",
-        })),
-      }),
-      stderr: "",
-      error: "",
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      status: 1,
-      signal: null,
-      stdout: "",
-      stderr: "",
-      error: error instanceof Error ? error.message : String(error),
-    };
-  }
-}
-
-function renderEngineOutputInSafari(scanRootSelector) {
-  const script = [
-    "(() => {",
-    "const createDomScanner = window.__srEngineCreateDomScanner;",
-    "const generateAnnouncement = window.__srEngineGenerateAnnouncement;",
-    "const getContextEndAnnouncement = window.__srEngineGetContextEndAnnouncement;",
-    "if (typeof createDomScanner !== 'function') return JSON.stringify({ error: 'engine runtime was not available' });",
-    "const scanner = createDomScanner({ generateAnnouncement, getContextEndAnnouncement, now: () => 1700000000000 });",
-    `const root = document.querySelector(${JSON.stringify(scanRootSelector)}) || document.body;`,
-    "const log = scanner.scanSubtree(root);",
-    "return JSON.stringify({",
-    "announcements: log.map((entry) => entry.announcement),",
-    "entries: log.map((entry) => ({",
-    "announcement: entry.announcement,",
-    "role: entry.descriptor?.role || '',",
-    "name: entry.descriptor?.name || '',",
-    "tagName: entry.element?.tagName || '',",
-    "})),",
-    "});",
-    "})()",
-  ].join(" ");
-
-  return runAppleScript(`
-tell application "Safari"
-  do JavaScript ${appleString(script)} in document 1
-end tell
-`, 15000);
-}
-
-async function renderEngineOutput(target, scanRootSelector) {
-  return (
-    (await renderEngineOutputInJsdom(target, scanRootSelector)) ||
-    renderEngineOutputInSafari(scanRootSelector)
-  );
-}
-
 function parseVoiceOverText(stdout) {
   const lines = stdout.split(/\r?\n/);
   const result = {};
@@ -1901,9 +1690,7 @@ function shouldStopScan({ target, voiceOverSteps }) {
     return { stop: true, reason: `stopWhen.voiceOverIncludes:${stopPhrase}` };
   }
 
-  const stopOnRepeatedOutput =
-    target.stopWhen?.repeatedNormalizedOutput ??
-    Boolean((target.fixturePath && !target.url) || getMaxSteps(target) === null);
+  const stopOnRepeatedOutput = target.stopWhen?.repeatedNormalizedOutput === true;
   if (stopOnRepeatedOutput) {
     const meaningfulTexts = voiceOverSteps
       .map(getComparisonVoiceOverText)
@@ -1947,12 +1734,6 @@ function getNormalizedVoiceOverOutput(voiceOverSteps) {
   }
 
   return announcements;
-}
-
-function getNormalizedEngineOutput(engineResult) {
-  return Array.isArray(engineResult?.announcements)
-    ? engineResult.announcements
-    : [];
 }
 
 function formatVoiceOverStepDebug(step) {
@@ -2023,7 +1804,6 @@ function createAiRefinementInput({
   summary,
   voiceOverSteps,
   voiceOverOutput,
-  engineOutput,
   reducedHtml,
   reducedHtmlStats,
 }) {
@@ -2061,11 +1841,11 @@ function createAiRefinementInput({
   return {
     schemaVersion: 1,
     purpose:
-      "Use this payload to refine sr-engine output against real VoiceOver output.",
+      "Use this payload as source material for rebuilding sr-engine behavior from real VoiceOver output.",
     instructions: [
       "Only refine sr-engine when refinement.eligible is true.",
-      "Compare voiceOverOutput with engineOutput.",
-      "Identify the smallest defensible sr-engine logic change needed to bring engineOutput closer to VoiceOver.",
+      "Use voiceOverOutput as the source-of-truth screen reader sequence for the captured page state.",
+      "Use reducedHtml to reason about the DOM, native HTML semantics, ARIA, accessible names, and exposed text behind the VoiceOver output.",
       "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
       "Add or update only the relevant regression test.",
@@ -2080,7 +1860,7 @@ function createAiRefinementInput({
       visualRecognitionOnly:
         "If VoiceOver announces text that is visible in an image but absent from reducedHtml/accessibility markup, classify it as likely visual-recognition output and do not refine sr-engine to synthesize it.",
       actionableMismatch:
-        "Refine sr-engine when the mismatch can be explained by DOM, ARIA, native HTML semantics, focus/navigation context, or exposed accessible names/descriptions.",
+        "Refine sr-engine when the VoiceOver behavior can be explained by DOM, ARIA, native HTML semantics, focus/navigation context, or exposed accessible names/descriptions.",
     },
     target: {
       name: target.name,
@@ -2102,7 +1882,6 @@ function createAiRefinementInput({
       minVoiceOverAnnouncements,
     },
     voiceOverOutput,
-    engineOutput,
     reducedHtml,
     reducedHtmlStats,
     diagnostics: {
@@ -2291,40 +2070,6 @@ async function scanTarget(target, index) {
   }
   activateSafari();
   run("sleep", ["1"], { timeout: 3000 });
-  const injectEngineRuntimeResult = target.fixturePath || target.url
-    ? {
-        ok: true,
-        status: 0,
-        signal: null,
-        stdout: "skipped: engine output rendered in jsdom for page scan",
-        stderr: "",
-        error: "",
-      }
-    : injectEngineRuntime();
-  let dismissSafariBeforeEngineRetry = null;
-  let engineRaw = await renderEngineOutput(
-    target,
-    scanRootSelector,
-  );
-  if (!engineRaw.ok) {
-    dismissSafariBeforeEngineRetry = dismissSafariDialogs();
-    dismissSystemDialogs();
-    activateSafari();
-    run("sleep", ["1"], { timeout: 3000 });
-    if (!target.fixturePath && !target.url) {
-      injectEngineRuntime();
-    }
-    engineRaw = await renderEngineOutput(
-      target,
-      scanRootSelector,
-    );
-  }
-  let engineResult;
-  try {
-    engineResult = JSON.parse(engineRaw.stdout || "{}");
-  } catch (error) {
-    engineResult = { error: `Unable to parse engine output: ${error.message}` };
-  }
 
   summary.finishedAt = new Date().toISOString();
   summary.stopReason = stopReason;
@@ -2344,22 +2089,24 @@ async function scanTarget(target, index) {
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
   summary.captureStepScreenshots = captureStepScreenshots;
-  summary.injectEngineRuntime = injectEngineRuntimeResult;
-  summary.dismissSafariBeforeEngineRetry = dismissSafariBeforeEngineRetry;
-  summary.engineRaw = engineRaw;
+  summary.omittedOutputs = [
+    {
+      name: "engine",
+      reason:
+        "Engine output is intentionally omitted from live VoiceOver scan artifacts.",
+    },
+  ];
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
-  const engineOutput = getNormalizedEngineOutput(engineResult);
   const sourceHtml = await getTargetSourceHtml(target).catch(() => "");
   const reducedHtml = reduceHtmlForRefinement(sourceHtml, target);
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
     summary,
-    engine: engineResult,
+    engine: null,
     voiceOverSteps,
   });
   writeText(path.join(targetOutputDir, "source.html"), sourceHtml);
   writeText(path.join(targetOutputDir, "reduced-html.html"), reducedHtml.html);
-  writeJson(path.join(targetOutputDir, "engine-output.json"), engineResult);
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
@@ -2372,16 +2119,9 @@ async function scanTarget(target, index) {
       summary,
       voiceOverSteps,
       voiceOverOutput,
-      engineOutput,
       reducedHtml: reducedHtml.html,
       reducedHtmlStats: reducedHtml.stats,
     }),
-  );
-  writeText(
-    path.join(targetOutputDir, "engine-output.txt"),
-    engineOutput.length
-      ? engineOutput.join("\n")
-      : JSON.stringify(engineResult, null, 2),
   );
   writeText(
     path.join(targetOutputDir, "voiceover-output.txt"),

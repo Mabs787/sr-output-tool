@@ -1,6 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { analyzeMismatches } from "./voiceover-refinement-analysis.mjs";
 
 const repoRoot = process.cwd();
 const defaultArtifactDir = path.join(repoRoot, "voiceover-scan-artifacts");
@@ -106,33 +105,12 @@ function formatList(items) {
   return items.map((item, index) => `${index + 1}. ${item}`).join("\n");
 }
 
-function formatMismatches(mismatches) {
-  if (!mismatches.length) {
-    return "No positional mismatches were found.";
-  }
-
-  return mismatches
-    .map(
-      (item) =>
-        `#${item.index}
-Type: ${item.type}
-Confidence: ${item.confidence}
-Priority hint: ${item.priority}
-Reason: ${item.explanation}
-VoiceOver: ${item.voiceOver || "(none)"}
-Engine: ${item.engine || "(none)"}`,
-    )
-    .join("\n\n");
-}
-
 function createPrompt({ name, payloadPath, payload }) {
   const voiceOverOutput = payload.voiceOverOutput || [];
-  const engineOutput = payload.engineOutput || [];
-  const mismatch = analyzeMismatches(voiceOverOutput, engineOutput);
 
   return `# SR Engine Refinement Request
 
-Use this VoiceOver comparison to refine the SR Output Tool engine.
+Use this VoiceOver capture and reduced HTML to refine the SR Output Tool engine.
 
 ## Target
 
@@ -156,9 +134,8 @@ If \`Eligible\` is false, stop and do not change code.
 - Add or update only the relevant regression test.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
-- Treat mismatch hints as advisory only.
-- Reason from the source HTML, VoiceOver output, and engine output.
-- Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, or engine bug.
+- Reason from the source HTML and VoiceOver output.
+- Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, visual-recognition-only, or engine bug.
 - Do not treat punctuation-only or role-order differences as proof by themselves; inspect the source HTML and existing engine patterns first.
 - If no engine change is justified, stop and report that decision.
 - Run the relevant unit tests and report the result.
@@ -167,25 +144,10 @@ If \`Eligible\` is false, stop and do not change code.
 
 ${formatList(voiceOverOutput)}
 
-## Engine Output
-
-${formatList(engineOutput)}
-
-## Mismatch Hints
-
-- Total: ${mismatch.count}
-- High confidence: ${mismatch.highConfidenceCount}
-- Low confidence: ${mismatch.lowConfidenceCount}
-- Needs AI review: ${mismatch.needsAiReview ? "yes" : "no"}
-
-Use these hints to navigate the comparison, not as final instructions.
-
-${formatMismatches(mismatch.items)}
-
-## Source HTML
+## Reduced HTML
 
 \`\`\`html
-${payload.sourceHtml || ""}
+${payload.reducedHtml || ""}
 \`\`\`
 `;
 }

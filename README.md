@@ -72,7 +72,7 @@ yarn voiceover:create-refinement-prompt --list
 yarn voiceover:create-refinement-prompt --target www-example-com-page
 ```
 
-The refinement queue and prompt include mismatch hints before any AI edit is attempted. These hints help prioritize review, but the AI should still reason from the source HTML, VoiceOver output, and engine output before deciding whether an engine change is justified.
+The refinement queue and prompt use VoiceOver output plus reduced HTML as the source material. Engine output is intentionally omitted from live-site scan artifacts while the project builds a broader real-world example set.
 
 ## Architecture Overview
 

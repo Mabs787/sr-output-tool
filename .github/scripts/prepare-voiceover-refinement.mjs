@@ -1,7 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { analyzeMismatches } from "./voiceover-refinement-analysis.mjs";
 
 const repoRoot = process.cwd();
 const defaultArtifactDir = path.join(repoRoot, "voiceover-scan-artifacts");
@@ -187,15 +186,12 @@ function buildQueue(artifactDir) {
   return getScanNames(artifactDir).map(({ name, payloadPath }) => {
     const payload = readJson(payloadPath);
     const voiceOverOutput = payload.voiceOverOutput || [];
-    const engineOutput = payload.engineOutput || [];
     return {
       name,
       payloadPath: path.relative(repoRoot, payloadPath),
       eligible: Boolean(payload.refinement?.eligible),
       skipReasons: payload.refinement?.skipReasons || [],
       voiceOverCount: voiceOverOutput.length,
-      engineCount: engineOutput.length,
-      mismatch: analyzeMismatches(voiceOverOutput, engineOutput),
       payload,
     };
   });
@@ -218,35 +214,10 @@ function printQueue(queue, downloadRun) {
     const status = item.eligible ? "eligible" : "skipped";
     console.log(`${item.name}: ${status}`);
     console.log(`  payload: ${item.payloadPath}`);
-    console.log(`  counts: VoiceOver ${item.voiceOverCount}, engine ${item.engineCount}`);
+    console.log(`  count: VoiceOver ${item.voiceOverCount}`);
 
     if (item.skipReasons.length) {
       console.log(`  skip: ${item.skipReasons.join("; ")}`);
-    }
-
-    if (item.eligible) {
-      console.log(`  mismatches: ${item.mismatch.count}`);
-      console.log(`  high-confidence hints: ${item.mismatch.highConfidenceCount}`);
-      console.log(`  low-confidence hints: ${item.mismatch.lowConfidenceCount}`);
-      if (item.mismatch.firstHighConfidence) {
-        console.log(`  first high-confidence hint #${item.mismatch.firstHighConfidence.index}`);
-        console.log(
-          `    type: ${item.mismatch.firstHighConfidence.type} (${item.mismatch.firstHighConfidence.confidence})`,
-        );
-        console.log(
-          `    VoiceOver: ${item.mismatch.firstHighConfidence.voiceOver || "(none)"}`,
-        );
-        console.log(
-          `    Engine:    ${item.mismatch.firstHighConfidence.engine || "(none)"}`,
-        );
-      } else if (item.mismatch.first) {
-        console.log(`  first mismatch #${item.mismatch.first.index}`);
-        console.log(
-          `    type: ${item.mismatch.first.type} (${item.mismatch.first.confidence})`,
-        );
-        console.log(`    VoiceOver: ${item.mismatch.first.voiceOver || "(none)"}`);
-        console.log(`    Engine:    ${item.mismatch.first.engine || "(none)"}`);
-      }
     }
     console.log("");
   }
