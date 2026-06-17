@@ -258,11 +258,6 @@ function getMaxStepSeconds(target) {
   return Number.isFinite(value) && value > 0 ? value : 30;
 }
 
-function getMaxSteps(target) {
-  const value = Number(target.maxSteps || target.steps);
-  return Number.isFinite(value) && value > 0 ? Math.floor(value) : null;
-}
-
 function getStepTiming(startedAt, maxStepSeconds) {
   const durationMs = Date.now() - startedAt;
   return {
@@ -2049,30 +2044,6 @@ function shouldStopScan({ target, voiceOverSteps }) {
     return { stop: true, reason: `stopWhen.voiceOverIncludes:${stopPhrase}` };
   }
 
-  const stopOnRepeatedOutput = target.stopWhen?.repeatedNormalizedOutput === true;
-  if (stopOnRepeatedOutput) {
-    const meaningfulTexts = voiceOverSteps
-      .map(getComparisonVoiceOverText)
-      .filter(Boolean)
-      .filter(
-        (announcement) =>
-          !isSystemNoise(announcement) && !isRefinementNoise(announcement),
-      );
-    if (meaningfulTexts.length >= 3) {
-      const recent = meaningfulTexts.slice(-3);
-      if (new Set(recent).size === 1) {
-        return { stop: true, reason: "repeated-normalized-output" };
-      }
-    }
-  }
-
-  if (voiceOverSteps.length >= 5) {
-    const recent = voiceOverSteps.slice(-5).map(getCaptureText);
-    if (recent.every((text) => text === "")) {
-      return { stop: true, reason: "no-captured-progress" };
-    }
-  }
-
   return { stop: false, reason: "" };
 }
 
@@ -2287,7 +2258,6 @@ function createScanDebugSummary({
     scan: {
       stopReason: summary.stopReason,
       capturedSteps: summary.capturedSteps,
-      maxSteps: summary.maxSteps,
       maxStepSeconds: summary.maxStepSeconds,
       navigationMode: summary.navigationMode,
       startedAt: summary.startedAt,
@@ -2334,7 +2304,6 @@ async function scanTarget(target, index) {
     mode: target.mode || "page",
     url,
     source: target.fixturePath ? "fixture" : "url",
-    maxSteps: target.maxSteps,
     maxStepSeconds,
     navigationMode,
     startedAt: new Date().toISOString(),
@@ -2384,7 +2353,6 @@ async function scanTarget(target, index) {
   run("sleep", ["1"], { timeout: 3000 });
 
   const voiceOverSteps = [];
-  const maxSteps = getMaxSteps(target);
   let stopReason = "not-stopped";
 
   const initialStepStartedAt = Date.now();
@@ -2440,7 +2408,7 @@ async function scanTarget(target, index) {
     reason: "initial-capture",
   });
 
-  for (let index = 0; maxSteps === null || index < maxSteps; index += 1) {
+  for (let index = 0; ; index += 1) {
     const stepStartedAt = Date.now();
     const navigation = navigateRight();
     const stepNumber = index + 1;
@@ -2499,10 +2467,6 @@ async function scanTarget(target, index) {
       break;
     }
 
-    if (maxSteps !== null && index + 1 >= maxSteps) {
-      stopReason = `maxSteps:${maxSteps}`;
-      break;
-    }
   }
   activateChrome();
   run("sleep", ["1"], { timeout: 3000 });
