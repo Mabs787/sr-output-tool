@@ -100,16 +100,96 @@ jobs:
             <head>
               <meta charset="utf-8">
               <title>Chrome VoiceOver Fixture</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  line-height: 1.5;
+                  margin: 0;
+                }
+                header,
+                main,
+                footer {
+                  padding: 24px;
+                }
+                nav ul,
+                .cards {
+                  display: flex;
+                  gap: 16px;
+                  list-style: none;
+                  padding: 0;
+                }
+                section {
+                  margin-block: 24px;
+                }
+              </style>
             </head>
             <body>
+              <a href="#main-content">Skip to main content</a>
+              <header>
+                <p>Fixture Travel</p>
+                <nav aria-label="Primary">
+                  <ul>
+                    <li><a href="#deals">Deals</a></li>
+                    <li><a href="#support">Support</a></li>
+                    <li><a href="#account">Account</a></li>
+                  </ul>
+                </nav>
+              </header>
               <main data-sr-scan-root>
-                <h1>Chrome fixture heading</h1>
-                <ul>
-                  <li><a href="#alpha">Alpha link</a></li>
-                  <li><a href="#beta">Beta link</a></li>
-                </ul>
-                <button type="button">Fixture button</button>
+                <h1 id="main-content">Chrome fixture travel deals</h1>
+                <p>Find accessible package details, manage booking options, and request help.</p>
+                <section aria-labelledby="booking-heading">
+                  <h2 id="booking-heading">Booking help</h2>
+                  <form>
+                    <label for="destination">Destination</label>
+                    <input id="destination" name="destination" type="text" value="Lisbon">
+                    <fieldset>
+                      <legend>Trip extras</legend>
+                      <label><input type="checkbox" name="extras" value="hotel" checked> Hotel included</label>
+                      <label><input type="checkbox" name="extras" value="transfers"> Airport transfers</label>
+                    </fieldset>
+                    <button type="submit">Submit enquiry</button>
+                  </form>
+                </section>
+                <section aria-labelledby="featured-heading">
+                  <h2 id="featured-heading">Featured destinations</h2>
+                  <ul class="cards">
+                    <li>
+                      <article>
+                        <h3>Lisbon city break</h3>
+                        <p>Four nights from 299 pounds.</p>
+                        <a href="#lisbon">View Lisbon deal</a>
+                      </article>
+                    </li>
+                    <li>
+                      <article>
+                        <h3>Barcelona beach stay</h3>
+                        <p>Seven nights from 449 pounds.</p>
+                        <a href="#barcelona">View Barcelona deal</a>
+                      </article>
+                    </li>
+                    <li>
+                      <article>
+                        <h3>Edinburgh weekend</h3>
+                        <p>Two nights from 179 pounds.</p>
+                        <a href="#edinburgh">View Edinburgh deal</a>
+                      </article>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="status-heading">
+                  <h2 id="status-heading">Booking status</h2>
+                  <dl>
+                    <dt>Reference</dt>
+                    <dd>FX-2048</dd>
+                    <dt>Status</dt>
+                    <dd>Ready to review</dd>
+                  </dl>
+                </section>
               </main>
+              <footer>
+                <p>Fixture page for Chrome and VoiceOver scanning.</p>
+              </footer>
             </body>
           </html>
           HTML
@@ -124,10 +204,10 @@ jobs:
               "refinement": {
                 "minVoiceOverAnnouncements": 1
               },
-              "maxStepSeconds": 10,
-              "maxSteps": 20,
+              "maxStepSeconds": 8,
+              "maxSteps": 8,
               "stopWhen": {
-                "voiceOverIncludes": "Fixture button",
+                "voiceOverIncludes": "Booking help",
                 "repeatedNormalizedOutput": true
               }
             }
@@ -182,8 +262,10 @@ jobs:
       - name: Run Chrome fixture scan
         env:
           VOICEOVER_SCAN_MANIFEST: voiceover-smoke/url-manifest.json
-          VOICEOVER_MAX_STEP_SECONDS: "10"
+          VOICEOVER_MAX_STEP_SECONDS: "8"
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
+          VOICEOVER_CAPTURE_SCREEN_RECORDING: "true"
+          VOICEOVER_SCREEN_RECORDING_SECONDS: "30"
         run: node .github/scripts/run-voiceover-scan.mjs
 
       - name: Assert Chrome fixture output
@@ -199,11 +281,8 @@ jobs:
             .replace(/\s+/g, ' ')
             .trim();
           const expected = [
-            'chrome fixture heading',
-            'list 2 items',
-            'alpha link',
-            'beta link',
-            'fixture button',
+            'chrome fixture travel deals',
+            'booking help',
           ];
           const missing = expected.filter((phrase) => !normalized.includes(phrase));
           if (missing.length > 0) {

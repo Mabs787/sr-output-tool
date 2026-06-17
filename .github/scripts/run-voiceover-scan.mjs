@@ -1199,7 +1199,7 @@ async function prepareScanRootInChrome(scanRootSelector) {
 }
 
 async function prepareScanRoot(target, scanRootSelector) {
-  if (target.fixturePath || target.url) {
+  if (target.url && !target.fixturePath) {
     return {
       ok: true,
       status: 0,
@@ -1214,8 +1214,8 @@ async function prepareScanRoot(target, scanRootSelector) {
   return prepareScanRootInChrome(scanRootSelector);
 }
 
-async function injectScanBoundaryMarkers(target) {
-  if (!target.url) {
+async function injectScanBoundaryMarkers(target, scanRootSelector) {
+  if (!target.url && !target.fixturePath) {
     return {
       ok: true,
       status: 0,
@@ -1226,9 +1226,10 @@ async function injectScanBoundaryMarkers(target) {
     };
   }
 
-  const script = `
+const script = `
 JSON.stringify((() => {
   const markers = ${JSON.stringify(scanMarkerTexts)};
+  const root = document.querySelector(${JSON.stringify(scanRootSelector)}) || document.body;
   const style = [
     "display:block",
     "margin:0",
@@ -1254,10 +1255,12 @@ JSON.stringify((() => {
 
   const startMarker = createMarker("start", markers.start);
   const endMarker = createMarker("end", markers.end);
-  document.body.insertBefore(startMarker, document.body.firstChild);
-  document.body.appendChild(endMarker);
+  root.insertBefore(startMarker, root.firstChild);
+  root.appendChild(endMarker);
   return {
     action: "inserted",
+    rootSelector: ${JSON.stringify(scanRootSelector)},
+    rootTagName: root.tagName,
     startText: startMarker.textContent,
     endText: endMarker.textContent
   };
@@ -1268,7 +1271,7 @@ JSON.stringify((() => {
 }
 
 async function focusScanStartMarker(target) {
-  if (!target.url) {
+  if (!target.url && !target.fixturePath) {
     return moveVoiceOverToStart();
   }
 
@@ -2264,7 +2267,7 @@ async function scanTarget(target, index) {
     scanRootSelector,
   );
   const injectScanBoundaryMarkersBeforeVoiceOver =
-    await injectScanBoundaryMarkers(target);
+    await injectScanBoundaryMarkers(target, scanRootSelector);
   launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
