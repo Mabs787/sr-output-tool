@@ -415,6 +415,7 @@ struct Match {
 }
 
 let targets = [
+  Target(preference: "system-permission", label: "allow"),
   Target(preference: "essential", label: "essential cookies only"),
   Target(preference: "reject", label: "reject all"),
   Target(preference: "reject", label: "decline"),
@@ -440,6 +441,7 @@ func normalize(_ value: String) -> String {
 
 var matches: [Match] = []
 var debug: [String] = []
+var recognizedLines: [String] = []
 let request = VNRecognizeTextRequest { request, error in
   if let error {
     FileHandle.standardError.write(Data("\\(error.localizedDescription)\\n".utf8))
@@ -452,9 +454,25 @@ let request = VNRecognizeTextRequest { request, error in
     let text = recognized.string.trimmingCharacters(in: .whitespacesAndNewlines)
     if text.isEmpty { continue }
     let normalized = normalize(text)
+    recognizedLines.append(normalized)
     debug.append("\\(text)@confidence:\\(String(format: "%.2f", recognized.confidence))")
 
-    if let target = targets.first(where: { normalized == $0.label || normalized.contains($0.label) }) {
+    let hasSystemPermissionPrompt = recognizedLines.contains { line in
+      line.contains("access to control") || line.contains("wants access")
+    }
+
+    if let target = targets.first(where: { target in
+      if target.preference == "system-permission" {
+        return hasSystemPermissionPrompt && normalized == target.label
+      }
+
+      if normalized == target.label {
+        return true
+      }
+
+      let buttonLikeLengthLimit = target.label.count + 18
+      return normalized.count <= buttonLikeLengthLimit && normalized.contains(target.label)
+    }) {
       let x = Int(observation.boundingBox.midX * CGFloat(cgImage.width))
       let y = Int((1 - observation.boundingBox.midY) * CGFloat(cgImage.height))
       matches.append(Match(target: target, text: text, confidence: recognized.confidence, x: x, y: y))
