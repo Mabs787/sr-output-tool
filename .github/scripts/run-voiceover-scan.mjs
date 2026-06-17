@@ -2028,7 +2028,7 @@ function createAiRefinementInput({
       "Only refine sr-engine when refinement.eligible is true.",
       "Use Chrome + VoiceOver output as the source-of-truth screen reader sequence for the captured page state.",
       "Use reducedHtml to reason about the DOM, native HTML semantics, ARIA, accessible names, and exposed text behind the VoiceOver output.",
-      "Do not add Google Chrome-specific behavior to sr-engine; Google Chrome + VoiceOver can be modeled as a separate profile later.",
+      "Do not add Safari-specific behavior to sr-engine; Safari + VoiceOver can be modeled as a separate profile later.",
       "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
       "Add or update only the relevant regression test.",

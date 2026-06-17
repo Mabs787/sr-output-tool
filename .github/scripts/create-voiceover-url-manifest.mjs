@@ -87,6 +87,10 @@ function createManifest(urls) {
       minVoiceOverAnnouncements: 1,
     },
     maxStepSeconds: 30,
+    maxSteps: 80,
+    stopWhen: {
+      repeatedNormalizedOutput: true,
+    },
   }));
 }
 
