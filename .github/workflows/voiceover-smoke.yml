@@ -25,6 +25,11 @@ on:
         options:
           - voiceover-right-arrow
           - plain-right-arrow
+      scan_timeout_minutes:
+        description: "Maximum minutes for each page scan job"
+        required: false
+        default: "120"
+        type: string
 
 permissions:
   contents: read
@@ -68,7 +73,7 @@ jobs:
     needs:
       - prepare
     runs-on: macos-26
-    timeout-minutes: 60
+    timeout-minutes: ${{ fromJSON(inputs.scan_timeout_minutes) }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
