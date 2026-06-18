@@ -43,7 +43,7 @@ GitHub Actions runs on pushes and pull requests to `main`. The CI workflow has s
 
 The build job archives the compiled engine, generated extension runtime, and unpacked extension build for the downstream test and package jobs.
 
-The `VoiceOver scan` workflow runs manually on hosted macOS and captures real VoiceOver output for pasted page URLs. Each URL runs in its own job and uploads its own artifact with `ai-refinement-input.json`, normalized VoiceOver output, normalized engine output, and reduced page HTML.
+The `VoiceOver scan` workflow runs manually on hosted macOS and captures real VoiceOver output for pasted page URLs. Each URL runs in its own job and uploads a refinement artifact with `refinement-manifest.json`, `voiceover-output.json`, `rendered-html.html`, `accessibility-tree.json`, and `scan-debug.json`.
 
 In GitHub Actions, run `VoiceOver scan` with the `urls` input set to one or more page URLs. No element selector is required; URL targets default to scanning the full `body`. Screenshots and screen recordings are disabled by default and should only be enabled for debugging.
 

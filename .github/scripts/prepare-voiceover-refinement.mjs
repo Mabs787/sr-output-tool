@@ -145,54 +145,99 @@ function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, "utf8"));
 }
 
-function getScanNames(artifactDir) {
-  const scanRoots = [];
-  const collectScanRoots = (dir) => {
-    const scansDir = path.join(dir, "scans");
-    if (existsSync(scansDir)) {
-      scanRoots.push(scansDir);
+function collectFiles(dir, fileName, results = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      collectFiles(entryPath, fileName, results);
+    } else if (entry.name === fileName) {
+      results.push(entryPath);
     }
+  }
 
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      if (entry.isDirectory()) {
-        collectScanRoots(path.join(dir, entry.name));
-      }
-    }
-  };
+  return results;
+}
 
+function resolveManifestFile(scanDir, manifest, key) {
+  const relativePath = manifest.files?.[key] || "";
+  return relativePath ? path.join(scanDir, relativePath) : "";
+}
+
+function getScanManifests(artifactDir) {
   if (!existsSync(artifactDir)) {
     throw new Error(`${path.relative(repoRoot, artifactDir)} was not found.`);
   }
-  collectScanRoots(artifactDir);
 
-  if (!scanRoots.length) {
-    throw new Error(`No scans directories were found in ${path.relative(repoRoot, artifactDir)}.`);
+  const manifests = collectFiles(artifactDir, "refinement-manifest.json")
+    .map((manifestPath) => ({
+      name: path.basename(path.dirname(manifestPath)),
+      manifestPath,
+      scanDir: path.dirname(manifestPath),
+    }))
+    .sort((left, right) => left.name.localeCompare(right.name));
+
+  if (!manifests.length) {
+    throw new Error(
+      `No refinement-manifest.json files were found in ${path.relative(repoRoot, artifactDir)}.`,
+    );
   }
 
-  return scanRoots
-    .flatMap((scansDir) =>
-      readdirSync(scansDir, { withFileTypes: true })
-        .filter((entry) => entry.isDirectory())
-        .map((filePath) => ({
-          name: filePath.name,
-          payloadPath: path.join(scansDir, filePath.name, "ai-refinement-input.json"),
-        })),
-    )
-    .filter((scan) => existsSync(scan.payloadPath))
-    .sort((left, right) => left.name.localeCompare(right.name));
+  return manifests;
 }
 
 function buildQueue(artifactDir) {
-  return getScanNames(artifactDir).map(({ name, payloadPath }) => {
-    const payload = readJson(payloadPath);
-    const voiceOverOutput = payload.voiceOverOutput || [];
+  return getScanManifests(artifactDir).map(({ name, manifestPath, scanDir }) => {
+    const manifest = readJson(manifestPath);
+    const voiceOverPath = resolveManifestFile(scanDir, manifest, "voiceOverOutput");
+    const renderedHtmlPath = resolveManifestFile(scanDir, manifest, "renderedHtml");
+    const accessibilityTreePath = resolveManifestFile(
+      scanDir,
+      manifest,
+      "accessibilityTree",
+    );
+    const scanDebugPath = resolveManifestFile(scanDir, manifest, "scanDebug");
+    const voiceOverOutput = existsSync(voiceOverPath)
+      ? readJson(voiceOverPath).announcements || []
+      : [];
+    const requiredFiles = [
+      voiceOverPath,
+      renderedHtmlPath,
+      accessibilityTreePath,
+      scanDebugPath,
+    ];
+    const missingFiles = requiredFiles.filter((filePath) => !existsSync(filePath));
+    const skipReasons = [];
+
+    if (missingFiles.length) {
+      skipReasons.push(
+        `Missing artifact file(s): ${missingFiles
+          .map((filePath) => path.relative(scanDir, filePath))
+          .join(", ")}.`,
+      );
+    }
+    if (manifest.scan?.stopReason !== "scan-end-marker") {
+      skipReasons.push(
+        `Scan stop reason was ${manifest.scan?.stopReason || "unknown"}.`,
+      );
+    }
+    if (!voiceOverOutput.length) {
+      skipReasons.push("VoiceOver output is empty.");
+    }
+
     return {
       name,
-      payloadPath: path.relative(repoRoot, payloadPath),
-      eligible: Boolean(payload.refinement?.eligible),
-      skipReasons: payload.refinement?.skipReasons || [],
+      manifestPath: path.relative(repoRoot, manifestPath),
+      scanDir: path.relative(repoRoot, scanDir),
+      files: Object.fromEntries(
+        Object.entries(manifest.files || {}).map(([key, filePath]) => [
+          key,
+          path.relative(repoRoot, path.join(scanDir, filePath)),
+        ]),
+      ),
+      eligible: skipReasons.length === 0,
+      skipReasons,
       voiceOverCount: voiceOverOutput.length,
-      payload,
+      manifest,
     };
   });
 }
@@ -213,7 +258,7 @@ function printQueue(queue, downloadRun) {
   for (const item of queue) {
     const status = item.eligible ? "eligible" : "skipped";
     console.log(`${item.name}: ${status}`);
-    console.log(`  payload: ${item.payloadPath}`);
+    console.log(`  manifest: ${item.manifestPath}`);
     console.log(`  count: VoiceOver ${item.voiceOverCount}`);
 
     if (item.skipReasons.length) {

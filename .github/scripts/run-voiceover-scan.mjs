@@ -2487,168 +2487,18 @@ function getNormalizedVoiceOverOutput(voiceOverSteps) {
   return announcements;
 }
 
-function formatVoiceOverStepDebug(step) {
-  const stored = getComparisonVoiceOverText(step);
-  const captionOcr = step.voiceOver?.captionOcrText || "";
-  const captionOcrDebug = step.voiceOver?.captionOcrDebug || "";
-  const captionOcrAttempts = (step.captionOcrAttempts || [])
-    .map((attempt) => {
-      const text = cleanCaptionOcrText(attempt.parsed?.captionOcrText || "");
-      return `${attempt.delay}s:${text}`;
-    })
-    .join(" | ");
-  const captionUi = step.voiceOver?.captionUiText || "";
-  const captionUiDebug = step.voiceOver?.captionUiDebug || "";
-  const caption = step.voiceOver?.captionText || "";
-  const phrase = step.voiceOver?.lastPhrase || "";
-  const cursor = step.voiceOver?.voCursorText || "";
-  const focusName = step.focus?.name || "";
-  const focusRole = step.focus?.role || "";
-  return [
-    `step ${step.index}`,
-    `storedOutput: ${stored}`,
-    `captionOcrText: ${captionOcr}`,
-    `captionOcrAttempts: ${captionOcrAttempts}`,
-    `captionOcrDebug: ${captionOcrDebug}`,
-    `captionUiText: ${captionUi}`,
-    `captionUiDebug: ${captionUiDebug}`,
-    `captionText: ${caption}`,
-    `lastPhrase: ${phrase}`,
-    `voCursorText: ${cursor}`,
-    `focused: ${focusRole} ${focusName}`.trim(),
-  ].join("\n");
-}
-
 function writeVoiceOverProgressFiles({
   targetOutputDir,
-  summary,
   voiceOverSteps,
-  reason,
 }) {
-  const progressSummary = {
-    ...summary,
-    progressReason: reason,
-    progressWrittenAt: new Date().toISOString(),
-    capturedSteps: voiceOverSteps.length,
-  };
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
 
-  writeJson(path.join(targetOutputDir, "raw.partial.json"), {
-    summary: progressSummary,
-    engine: null,
-    voiceOverSteps,
-  });
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
     normalization: "system-noise-filtered",
     partial: true,
   });
-  writeText(
-    path.join(targetOutputDir, "voiceover-output.txt"),
-    voiceOverSteps.map(formatVoiceOverStepDebug).join("\n\n"),
-  );
-}
-
-function createAiRefinementInput({
-  target,
-  summary,
-  voiceOverSteps,
-  voiceOverOutput,
-  reducedHtml,
-  reducedHtmlStats,
-  accessibilityTreeStats,
-}) {
-  const minVoiceOverAnnouncements = Number(
-    target.refinement?.minVoiceOverAnnouncements || 1,
-  );
-  const failedVoiceOverReads = voiceOverSteps.filter(
-    (step) => step.voiceOverRaw && !step.voiceOverRaw.ok,
-  );
-  const recoveredVoiceOverReads = voiceOverSteps.filter(
-    (step) => (step.voiceOverRawAttempts || []).length > 1,
-  );
-  const refinementSkipReasons = [];
-
-  if (voiceOverOutput.length < minVoiceOverAnnouncements) {
-    refinementSkipReasons.push(
-        `VoiceOver captured ${voiceOverOutput.length} announcement(s), expected at least ${minVoiceOverAnnouncements}.`,
-    );
-  }
-
-  if (failedVoiceOverReads.length) {
-    refinementSkipReasons.push(
-      `VoiceOver capture had ${failedVoiceOverReads.length} failed read(s); output may be incomplete.`,
-    );
-  }
-
-  if (recoveredVoiceOverReads.length) {
-    refinementSkipReasons.push(
-      `VoiceOver capture needed ${recoveredVoiceOverReads.length} recovered read(s); output may include transient system UI.`,
-    );
-  }
-
-  const refinementEligible = refinementSkipReasons.length === 0;
-
-  return {
-    schemaVersion: 1,
-    purpose:
-      "Use this payload as source material for rebuilding sr-engine behavior from real Chrome + VoiceOver output.",
-    instructions: [
-      "Only refine sr-engine when refinement.eligible is true.",
-      "Use Chrome + VoiceOver output as the source-of-truth screen reader sequence for the captured page state.",
-      "Use reducedHtml to reason about the DOM, native HTML semantics, ARIA, accessible names, and exposed text behind the VoiceOver output.",
-      "Use accessibility-tree.json to inspect Chrome's exposed accessibility tree for the captured page state.",
-      "Before creating regression tests, review VoiceOver announcements for capture artifacts and refine obvious OCR/caption errors in the expected output.",
-      "Do not add Safari-specific behavior to sr-engine; Safari + VoiceOver can be modeled as a separate profile later.",
-      "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
-      "Update only necessary sr-engine logic.",
-      "Add or update only the relevant regression test.",
-      "Do not modify this artifact or unrelated tests.",
-    ],
-    knownLimitations: [
-      "VoiceOver may announce visual text detected inside images or media, depending on macOS, browser behavior, VoiceOver Recognition, and downloaded recognition models.",
-      "VoiceOver caption OCR can occasionally add incorrect leading characters or punctuation at the start of an announcement.",
-      "sr-engine operates on DOM and accessibility semantics. It is not expected to reproduce image-recognition-only announcements unless the page exposes equivalent accessible text in reducedHtml.",
-      "Treat additional VoiceOver lines that look like visual OCR output as contextual evidence, not as an automatic sr-engine defect.",
-    ],
-    refinementGuidance: {
-      visualRecognitionOnly:
-        "If VoiceOver announces text that is visible in an image but absent from reducedHtml/accessibility markup, classify it as likely visual-recognition output and do not refine sr-engine to synthesize it.",
-      actionableMismatch:
-        "Refine sr-engine when the VoiceOver behavior can be explained by DOM, ARIA, native HTML semantics, focus/navigation context, or exposed accessible names/descriptions.",
-      captionCleanup:
-        "When building a test suite from this payload, inspect the start of each announcement for obvious caption/OCR artifacts such as stray punctuation or marker characters. Correct those expected strings only when the artifact is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    },
-    target: {
-      name: target.name,
-      mode: target.mode || "page",
-      url: summary.url,
-      fixturePath: target.fixturePath || "",
-      scanRootSelector: target.scanRootSelector || "[data-sr-scan-root]",
-    },
-    scan: {
-      stopReason: summary.stopReason,
-      capturedSteps: summary.capturedSteps,
-      maxStepSeconds: summary.maxStepSeconds,
-      startedAt: summary.startedAt,
-      finishedAt: summary.finishedAt,
-    },
-    refinement: {
-      eligible: refinementEligible,
-      skipReasons: refinementSkipReasons,
-      minVoiceOverAnnouncements,
-    },
-    voiceOverOutput,
-    reducedHtml,
-    reducedHtmlStats,
-    accessibilityTreeStats,
-    diagnostics: {
-      sourceHtmlPath: "source.html",
-      reducedHtmlPath: "rendered-html.html",
-      accessibilityTreePath: "accessibility-tree.json",
-    },
-  };
 }
 
 function createScanDebugSummary({
@@ -2860,9 +2710,7 @@ async function scanTarget(target, index) {
   });
   writeVoiceOverProgressFiles({
     targetOutputDir,
-    summary,
     voiceOverSteps,
-    reason: "initial-capture",
   });
 
   for (let index = 0; ; index += 1) {
@@ -2910,9 +2758,7 @@ async function scanTarget(target, index) {
     });
     writeVoiceOverProgressFiles({
       targetOutputDir,
-      summary,
       voiceOverSteps,
-      reason: `step:${stepNumber}`,
     });
 
     const stopCheck = shouldStopScan({
@@ -2956,13 +2802,6 @@ async function scanTarget(target, index) {
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
   summary.interactWithWebContentBeforeScan = interactWithWebContentBeforeScan;
   summary.captureStepScreenshots = captureStepScreenshots;
-  summary.omittedOutputs = [
-    {
-      name: "engine",
-      reason:
-        "Engine output is intentionally omitted from live VoiceOver scan artifacts.",
-    },
-  ];
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
   const sourceHtmlArtifact = await getArtifactSourceHtml(target);
   const sourceHtml = sourceHtmlArtifact.html;
@@ -3002,12 +2841,6 @@ async function scanTarget(target, index) {
       accessibilityTree.domSnapshotMappedNodeCount || 0,
   };
 
-  writeJson(path.join(targetOutputDir, "raw.json"), {
-    summary,
-    engine: null,
-    voiceOverSteps,
-  });
-  writeText(path.join(targetOutputDir, "source.html"), sourceHtml);
   writeText(path.join(targetOutputDir, "rendered-html.html"), reducedHtml.html);
   writeJson(
     path.join(targetOutputDir, "accessibility-tree.json"),
@@ -3018,18 +2851,6 @@ async function scanTarget(target, index) {
     source: "VoiceOver",
     normalization: "system-noise-filtered",
   });
-  writeJson(
-    path.join(targetOutputDir, "ai-refinement-input.json"),
-    createAiRefinementInput({
-      target,
-      summary,
-      voiceOverSteps,
-      voiceOverOutput,
-      reducedHtml: reducedHtml.html,
-      reducedHtmlStats: reducedHtml.stats,
-      accessibilityTreeStats,
-    }),
-  );
   writeJson(
     path.join(targetOutputDir, "scan-debug.json"),
     createScanDebugSummary({
@@ -3049,10 +2870,6 @@ async function scanTarget(target, index) {
       reducedHtmlStats: reducedHtml.stats,
       accessibilityTreeStats,
     }),
-  );
-  writeText(
-    path.join(targetOutputDir, "voiceover-output.txt"),
-    voiceOverSteps.map(formatVoiceOverStepDebug).join("\n\n"),
   );
 }
 

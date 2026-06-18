@@ -148,7 +148,6 @@ jobs:
           } > voiceover-smoke/environment.txt 2>&1
 
       - name: Run VoiceOver scan
-        continue-on-error: true
         env:
           VOICEOVER_SCAN_MANIFEST: voiceover-smoke/url-manifest.json
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ inputs.capture_step_screenshots && 'true' || '' }}
@@ -198,6 +197,7 @@ jobs:
             voiceover-smoke/scans/**/accessibility-tree.json
             voiceover-smoke/scans/**/scan-debug.json
             voiceover-smoke/scans/**/refinement-manifest.json
+            voiceover-smoke/recordings/voiceover-scan.mov
             voiceover-smoke/screen-recording.json
             voiceover-smoke/screen-recording-preflight.json
             voiceover-smoke/environment.txt

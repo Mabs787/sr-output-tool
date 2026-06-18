@@ -52,49 +52,91 @@ function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, "utf8"));
 }
 
+function collectFiles(dir, fileName, results = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      collectFiles(entryPath, fileName, results);
+    } else if (entry.name === fileName) {
+      results.push(entryPath);
+    }
+  }
+
+  return results;
+}
+
+function resolveManifestFile(scanDir, manifest, key) {
+  const relativePath = manifest.files?.[key] || "";
+  return relativePath ? path.join(scanDir, relativePath) : "";
+}
+
 function getPayloads(artifactDir) {
-  const scanRoots = [];
-  const collectScanRoots = (dir) => {
-    const scansDir = path.join(dir, "scans");
-    if (existsSync(scansDir)) {
-      scanRoots.push(scansDir);
-    }
-
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      if (entry.isDirectory()) {
-        collectScanRoots(path.join(dir, entry.name));
-      }
-    }
-  };
-
   if (!existsSync(artifactDir)) {
     throw new Error(`${path.relative(repoRoot, artifactDir)} was not found.`);
   }
-  collectScanRoots(artifactDir);
 
-  if (!scanRoots.length) {
-    throw new Error(`No scans directories were found in ${path.relative(repoRoot, artifactDir)}.`);
+  const entries = collectFiles(artifactDir, "refinement-manifest.json")
+    .map((manifestPath) => {
+      const scanDir = path.dirname(manifestPath);
+      const manifest = readJson(manifestPath);
+      const voiceOverPath = resolveManifestFile(scanDir, manifest, "voiceOverOutput");
+      const renderedHtmlPath = resolveManifestFile(scanDir, manifest, "renderedHtml");
+      const accessibilityTreePath = resolveManifestFile(
+        scanDir,
+        manifest,
+        "accessibilityTree",
+      );
+      const scanDebugPath = resolveManifestFile(scanDir, manifest, "scanDebug");
+      const missingFiles = [
+        voiceOverPath,
+        renderedHtmlPath,
+        accessibilityTreePath,
+        scanDebugPath,
+      ].filter((filePath) => !existsSync(filePath));
+      const voiceOverOutput = existsSync(voiceOverPath)
+        ? readJson(voiceOverPath).announcements || []
+        : [];
+      const skipReasons = [];
+
+      if (missingFiles.length) {
+        skipReasons.push(
+          `Missing artifact file(s): ${missingFiles
+            .map((filePath) => path.relative(scanDir, filePath))
+            .join(", ")}.`,
+        );
+      }
+      if (manifest.scan?.stopReason !== "scan-end-marker") {
+        skipReasons.push(
+          `Scan stop reason was ${manifest.scan?.stopReason || "unknown"}.`,
+        );
+      }
+      if (!voiceOverOutput.length) {
+        skipReasons.push("VoiceOver output is empty.");
+      }
+
+      return {
+        name: path.basename(scanDir),
+        manifestPath,
+        scanDir,
+        manifest,
+        voiceOverPath,
+        renderedHtmlPath,
+        accessibilityTreePath,
+        scanDebugPath,
+        voiceOverOutput,
+        skipReasons,
+        eligible: skipReasons.length === 0,
+      };
+    })
+    .sort((left, right) => left.name.localeCompare(right.name));
+
+  if (!entries.length) {
+    throw new Error(
+      `No refinement-manifest.json files were found in ${path.relative(repoRoot, artifactDir)}.`,
+    );
   }
 
-  return scanRoots
-    .flatMap((scansDir) =>
-      readdirSync(scansDir, { withFileTypes: true })
-        .filter((entry) => entry.isDirectory())
-        .map((entry) => {
-          const payloadPath = path.join(
-            scansDir,
-            entry.name,
-            "ai-refinement-input.json",
-          );
-          return {
-            name: entry.name,
-            payloadPath,
-            payload: existsSync(payloadPath) ? readJson(payloadPath) : null,
-          };
-        }),
-    )
-    .filter((entry) => entry.payload)
-    .sort((left, right) => left.name.localeCompare(right.name));
+  return entries;
 }
 
 function formatList(items) {
@@ -105,25 +147,54 @@ function formatList(items) {
   return items.map((item, index) => `${index + 1}. ${item}`).join("\n");
 }
 
-function createPrompt({ name, payloadPath, payload }) {
-  const voiceOverOutput = payload.voiceOverOutput || [];
+function summarizeAccessibilityTree(accessibilityTree) {
+  const nodes = accessibilityTree.nodes || [];
+  const visibleNodes = nodes.filter((node) => !node.ignored);
+  const interestingNodes = visibleNodes
+    .filter((node) => node.role || node.name)
+    .slice(0, 250)
+    .map((node) => ({
+      role: node.role,
+      name: node.name,
+      properties: node.properties,
+      renderedHtmlSelector: node.renderedHtmlSelector,
+    }));
+
+  return {
+    nodeCount: accessibilityTree.nodeCount,
+    ignoredNodeCount: accessibilityTree.ignoredNodeCount,
+    axMappedNodeCount: accessibilityTree.axMappedNodeCount,
+    nodes: interestingNodes,
+  };
+}
+
+function createPrompt(entry) {
+  const {
+    name,
+    manifestPath,
+    manifest,
+    voiceOverOutput,
+    renderedHtmlPath,
+    accessibilityTreePath,
+  } = entry;
+  const renderedHtml = readFileSync(renderedHtmlPath, "utf8");
+  const accessibilityTree = readJson(accessibilityTreePath);
 
   return `# SR Engine Refinement Request
 
-Use this VoiceOver capture and reduced HTML to refine the SR Output Tool engine.
+Use this VoiceOver capture, rendered HTML, and Chrome accessibility tree to refine the SR Output Tool engine.
 
 ## Target
 
 - Name: ${name}
-- Payload: ${path.relative(repoRoot, payloadPath)}
-- URL: ${payload.target?.url || ""}
-- Fixture: ${payload.target?.fixturePath || ""}
-- Scan root: ${payload.target?.scanRootSelector || ""}
+- Manifest: ${path.relative(repoRoot, manifestPath)}
+- URL: ${manifest.target?.url || ""}
+- Scan root: ${manifest.target?.scanRootSelector || ""}
 
 ## Eligibility
 
-- Eligible: ${Boolean(payload.refinement?.eligible)}
-- Skip reasons: ${(payload.refinement?.skipReasons || []).join("; ") || "none"}
+- Eligible: ${entry.eligible}
+- Skip reasons: ${entry.skipReasons.join("; ") || "none"}
 
 If \`Eligible\` is false, stop and do not change code.
 
@@ -134,7 +205,8 @@ If \`Eligible\` is false, stop and do not change code.
 - Add or update only the relevant regression test.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
-- Reason from the source HTML and VoiceOver output.
+- Reason from VoiceOver output, rendered HTML, and the Chrome accessibility tree.
+- Inspect the start of each VoiceOver announcement for obvious caption/OCR artifacts before creating expected test output.
 - Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, visual-recognition-only, or engine bug.
 - Do not treat punctuation-only or role-order differences as proof by themselves; inspect the source HTML and existing engine patterns first.
 - If no engine change is justified, stop and report that decision.
@@ -144,18 +216,24 @@ If \`Eligible\` is false, stop and do not change code.
 
 ${formatList(voiceOverOutput)}
 
-## Reduced HTML
+## Chrome Accessibility Tree Summary
+
+\`\`\`json
+${JSON.stringify(summarizeAccessibilityTree(accessibilityTree), null, 2)}
+\`\`\`
+
+## Rendered HTML
 
 \`\`\`html
-${payload.reducedHtml || ""}
+${renderedHtml}
 \`\`\`
 `;
 }
 
 function listTargets(entries) {
   for (const entry of entries) {
-    const eligible = Boolean(entry.payload.refinement?.eligible);
-    const reasons = entry.payload.refinement?.skipReasons || [];
+    const eligible = entry.eligible;
+    const reasons = entry.skipReasons;
     console.log(`${entry.name}: ${eligible ? "eligible" : "skipped"}`);
     if (reasons.length) {
       console.log(`  ${reasons.join("; ")}`);
@@ -185,8 +263,8 @@ function main() {
     throw new Error(`Target not found: ${options.target}`);
   }
 
-  if (!entry.payload.refinement?.eligible) {
-    const reasons = entry.payload.refinement?.skipReasons || [];
+  if (!entry.eligible) {
+    const reasons = entry.skipReasons;
     throw new Error(
       `Target is not eligible for refinement: ${reasons.join("; ") || "no reason provided"}`,
     );
