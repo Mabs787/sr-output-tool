@@ -2075,6 +2075,9 @@ async function captureAccessibilityTree(target) {
   const reducedNodes = nodes.map((node) =>
     reduceAccessibilityTreeNode(node, domNodeMap.map),
   );
+  const axMappedNodeCount = reducedNodes.filter(
+    (node) => node.renderedHtmlSelector,
+  ).length;
   return {
     ok: true,
     source: "chrome-accessibility-tree",
@@ -2083,7 +2086,8 @@ async function captureAccessibilityTree(target) {
       source: "chrome-accessibility-tree",
       nodeCount: reducedNodes.length,
       ignoredNodeCount: reducedNodes.filter((node) => node.ignored).length,
-      mappedNodeCount: domNodeMap.stats.mappedNodeCount,
+      axMappedNodeCount,
+      domSnapshotMappedNodeCount: domNodeMap.stats.mappedNodeCount,
       mapSource: "rendered-html:data-sr-dom-node-id",
       nodes: reducedNodes,
     },
@@ -2974,7 +2978,9 @@ async function scanTarget(target, index) {
     error: accessibilityTreeArtifact.capture.error,
     nodeCount: accessibilityTree.nodeCount || 0,
     ignoredNodeCount: accessibilityTree.ignoredNodeCount || 0,
-    mappedNodeCount: accessibilityTree.mappedNodeCount || 0,
+    axMappedNodeCount: accessibilityTree.axMappedNodeCount || 0,
+    domSnapshotMappedNodeCount:
+      accessibilityTree.domSnapshotMappedNodeCount || 0,
     domNodeMapOk: accessibilityTreeArtifact.domNodeMapCapture?.ok ?? null,
     domNodeMapStderr: accessibilityTreeArtifact.domNodeMapCapture?.stderr || "",
     domNodeMapError: accessibilityTreeArtifact.domNodeMapCapture?.error || "",
@@ -2982,7 +2988,9 @@ async function scanTarget(target, index) {
   const accessibilityTreeStats = {
     nodeCount: accessibilityTree.nodeCount || 0,
     ignoredNodeCount: accessibilityTree.ignoredNodeCount || 0,
-    mappedNodeCount: accessibilityTree.mappedNodeCount || 0,
+    axMappedNodeCount: accessibilityTree.axMappedNodeCount || 0,
+    domSnapshotMappedNodeCount:
+      accessibilityTree.domSnapshotMappedNodeCount || 0,
   };
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
