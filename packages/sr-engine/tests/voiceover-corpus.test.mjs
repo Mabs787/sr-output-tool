@@ -16,7 +16,6 @@ const {
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixturesDir = path.join(testDir, "fixtures/voiceover");
 const shouldRun = process.env.SR_VOICEOVER_CORPUS_TESTS === "true";
-const corpusTest = shouldRun ? test : test.skip;
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, "utf8"));
@@ -97,6 +96,10 @@ function scanHtml(html) {
   }
 }
 
+function getExpectedAnnouncements(fixture) {
+  return fixture.refinedAnnouncements || fixture.expectedAnnouncements;
+}
+
 function assertAnnouncementsMatch(actual, expected) {
   const mismatchIndex = expected.findIndex(
     (announcement, index) => actual[index] !== announcement,
@@ -138,8 +141,12 @@ test("VoiceOver corpus fixtures are present", () => {
 });
 
 for (const fixture of cases) {
-  corpusTest(`VoiceOver corpus: ${fixture.name}`, () => {
+  const runFixtureTest =
+    shouldRun && !fixture.skipCorpusReason ? test : test.skip;
+
+  runFixtureTest(`VoiceOver corpus: ${fixture.name}`, () => {
     const html = readFileSync(path.join(fixturesDir, fixture.html), "utf8");
+    const expected = getExpectedAnnouncements(fixture);
     let actual;
     try {
       actual = scanHtml(html);
@@ -159,6 +166,6 @@ for (const fixture of cases) {
       );
     }
 
-    assertAnnouncementsMatch(actual, fixture.expectedAnnouncements);
+    assertAnnouncementsMatch(actual, expected);
   });
 }

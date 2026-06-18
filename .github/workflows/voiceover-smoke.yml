@@ -17,6 +17,11 @@ on:
         required: false
         default: false
         type: boolean
+      capture_step_snapshots:
+        description: "Save per-step DOM/AX diagnostics for each VoiceOver step"
+        required: false
+        default: false
+        type: boolean
       max_step_seconds:
         description: "Maximum seconds to spend on one VoiceOver navigation/capture step"
         required: false
@@ -152,6 +157,7 @@ jobs:
           VOICEOVER_SCAN_MANIFEST: voiceover-smoke/url-manifest.json
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ inputs.capture_step_screenshots && 'true' || '' }}
           VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ inputs.capture_screen_recording && 'true' || '' }}
+          VOICEOVER_CAPTURE_STEP_SNAPSHOTS: ${{ inputs.capture_step_snapshots && 'true' || '' }}
           VOICEOVER_MAX_STEP_SECONDS: ${{ inputs.max_step_seconds }}
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
         run: node .github/scripts/run-voiceover-scan.mjs
@@ -195,6 +201,7 @@ jobs:
             voiceover-smoke/scans/**/voiceover-output.json
             voiceover-smoke/scans/**/rendered-html.html
             voiceover-smoke/scans/**/accessibility-tree.json
+            voiceover-smoke/scans/**/step-snapshots.json
             voiceover-smoke/scans/**/scan-debug.json
             voiceover-smoke/scans/**/refinement-manifest.json
             voiceover-smoke/recordings/voiceover-scan.mov

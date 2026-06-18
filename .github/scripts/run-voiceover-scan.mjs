@@ -22,6 +22,8 @@ const captureStepScreenshots =
   process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
 const captureScreenRecording =
   process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
+const captureStepSnapshots =
+  process.env.VOICEOVER_CAPTURE_STEP_SNAPSHOTS === "true";
 const scanMarkerTexts = {
   start: "SR Output Tool VoiceOver scan start marker",
   end: "SR Output Tool VoiceOver scan end marker",
@@ -387,6 +389,53 @@ function getStepTiming(startedAt, maxStepSeconds) {
     maxStepSeconds,
     exceededMaxStepSeconds: durationMs / 1000 > maxStepSeconds,
   };
+}
+
+function getSnapshotSearchText({ announcement = "", focus = {} } = {}) {
+  return [
+    announcement,
+    focus.role || "",
+    focus.name || "",
+    focus.value || "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .replace(/\b(button|link|heading|navigation|group|list|item|collapsed|expanded|visited)\b/gi, " ")
+    .replace(/\b\d+\s+of\s+\d+\b/gi, " ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function getSearchTokens(value) {
+  return Array.from(
+    new Set(
+      String(value || "")
+        .split(/\s+/)
+        .map((token) => token.trim())
+        .filter((token) => token.length >= 3)
+        .slice(0, 12),
+    ),
+  );
+}
+
+function scoreAxSnapshotNode(node, tokens) {
+  const haystack = [
+    node.role || "",
+    node.name || "",
+    node.value || "",
+    node.description || "",
+  ]
+    .join(" ")
+    .toLowerCase();
+  if (!haystack || tokens.length === 0) {
+    return 0;
+  }
+  return tokens.reduce(
+    (score, token) => score + (haystack.includes(token) ? 1 : 0),
+    0,
+  );
 }
 
 function startScreenRecording() {
@@ -2096,6 +2145,130 @@ async function captureAccessibilityTree(target) {
   };
 }
 
+async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
+  if (!captureStepSnapshots || !target.url) {
+    return null;
+  }
+
+  const pageStateScript = [
+    "(() => {",
+    "let nextNodeId = 1;",
+    "for (const element of Array.from(document.body?.querySelectorAll('*') || [])) {",
+    "  if (!element.hasAttribute('data-sr-dom-node-id')) {",
+    "    element.setAttribute('data-sr-dom-node-id', String(nextNodeId));",
+    "  }",
+    "  nextNodeId += 1;",
+    "}",
+    "function attrs(element) {",
+    "  if (!element?.attributes) return {};",
+    "  const keep = new Set(['id', 'role', 'aria-label', 'aria-labelledby', 'aria-describedby', 'aria-expanded', 'aria-hidden', 'hidden', 'href', 'type', 'title', 'alt', 'data-sr-dom-node-id']);",
+    "  return Object.fromEntries(Array.from(element.attributes).filter((attr) => keep.has(attr.name.toLowerCase())).map((attr) => [attr.name, attr.value]));",
+    "}",
+    "function describe(element) {",
+    "  if (!element) return null;",
+    "  const style = window.getComputedStyle(element);",
+    "  const rect = element.getBoundingClientRect();",
+    "  return {",
+    "    tagName: element.tagName?.toLowerCase() || '',",
+    "    attributes: attrs(element),",
+    "    text: (element.innerText || element.textContent || element.value || '').replace(/\\s+/g, ' ').trim().slice(0, 500),",
+    "    computed: { display: style.display, visibility: style.visibility, opacity: style.opacity },",
+    "    rect: { x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height), top: Math.round(rect.top), left: Math.round(rect.left), bottom: Math.round(rect.bottom), right: Math.round(rect.right) }",
+    "  };",
+    "}",
+    "const active = document.activeElement;",
+    "const center = active?.getBoundingClientRect ? active.getBoundingClientRect() : null;",
+    "const pointElements = center ? document.elementsFromPoint(center.left + center.width / 2, center.top + center.height / 2).slice(0, 8).map(describe) : [];",
+    "return JSON.stringify({",
+    "  title: document.title,",
+    "  readyState: document.readyState,",
+    "  url: location.href,",
+    "  viewport: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio },",
+    "  scroll: { x: Math.round(window.scrollX), y: Math.round(window.scrollY) },",
+    "  activeElement: describe(active),",
+    "  pointElements",
+    "});",
+    "})()",
+  ].join(" ");
+
+  const pageStateCapture = await evaluateJavaScriptInChrome(pageStateScript, 15000);
+  let pageState = {};
+  try {
+    pageState = JSON.parse(pageStateCapture.stdout || "{}");
+  } catch (error) {
+    pageState = {
+      parseError: error?.message || String(error),
+      raw: pageStateCapture.stdout || "",
+    };
+  }
+
+  const axCapture = await sendChromeDevToolsCommand(
+    "Accessibility.getFullAXTree",
+    {},
+    30000,
+  );
+  let accessibility = {
+    ok: axCapture.ok,
+    status: axCapture.status,
+    signal: axCapture.signal,
+    stderr: axCapture.stderr,
+    error: axCapture.error,
+    nodeCount: 0,
+    ignoredNodeCount: 0,
+    matchedNodes: [],
+  };
+
+  if (axCapture.ok) {
+    try {
+      const parsed = JSON.parse(axCapture.stdout || "{}");
+      const domNodeMap = await captureBackendDomNodeMap();
+      const nodes = Array.isArray(parsed.nodes)
+        ? parsed.nodes.map((node) => reduceAccessibilityTreeNode(node, domNodeMap.map))
+        : [];
+      const tokens = getSearchTokens(
+        getSnapshotSearchText({ announcement, focus }),
+      );
+      const matchedNodes = nodes
+        .map((node) => ({ node, score: scoreAxSnapshotNode(node, tokens) }))
+        .filter((entry) => entry.score > 0 && !entry.node.ignored)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 20)
+        .map(({ node, score }) => ({ score, ...node }));
+
+      accessibility = {
+        ok: true,
+        nodeCount: nodes.length,
+        ignoredNodeCount: nodes.filter((node) => node.ignored).length,
+        domSnapshotMappedNodeCount: domNodeMap.stats.mappedNodeCount,
+        tokens,
+        matchedNodes,
+      };
+    } catch (error) {
+      accessibility = {
+        ...accessibility,
+        ok: false,
+        error: error?.message || String(error),
+      };
+    }
+  }
+
+  return {
+    index: stepIndex,
+    capturedAt: new Date().toISOString(),
+    announcement,
+    focus,
+    pageStateCapture: {
+      ok: pageStateCapture.ok,
+      status: pageStateCapture.status,
+      signal: pageStateCapture.signal,
+      stderr: pageStateCapture.stderr,
+      error: pageStateCapture.error,
+    },
+    pageState,
+    accessibility,
+  };
+}
+
 async function getArtifactSourceHtml(target) {
   if (target.url) {
     const rendered = await captureRenderedSourceHtml(target);
@@ -2501,6 +2674,21 @@ function writeVoiceOverProgressFiles({
   });
 }
 
+function writeStepSnapshotsFile(targetOutputDir, stepSnapshots, partial = false) {
+  if (!captureStepSnapshots) {
+    return;
+  }
+
+  writeJson(path.join(targetOutputDir, "step-snapshots.json"), {
+    schemaVersion: 1,
+    source: "chrome-step-diagnostics",
+    description:
+      "Per-step VoiceOver diagnostics for comparing caption output with the live Chrome DOM and accessibility tree during the scan.",
+    partial,
+    snapshots: stepSnapshots,
+  });
+}
+
 function createScanDebugSummary({
   target,
   summary,
@@ -2534,6 +2722,9 @@ function createScanDebugSummary({
       htmlReduced: true,
       accessibilityTreeSource: summary.accessibilityTreeCapture?.source || "",
       accessibilityTreePath: "accessibility-tree.json",
+      stepSnapshotsPath: summary.stepSnapshots?.enabled
+        ? "step-snapshots.json"
+        : "",
       accessibilityTreeStats,
     },
     setup: {
@@ -2548,6 +2739,7 @@ function createScanDebugSummary({
       sourceHtmlCapture: summary.sourceHtmlCapture,
     },
     recording: summary.screenRecording,
+    stepSnapshots: summary.stepSnapshots,
     consent: {
       browserBlockingOverlaysBeforeVoiceOver:
         summary.dismissBrowserBlockingOverlaysBeforeVoiceOver,
@@ -2584,6 +2776,7 @@ function createRefinementManifest({
       renderedHtml: "rendered-html.html",
       accessibilityTree: "accessibility-tree.json",
       scanDebug: "scan-debug.json",
+      stepSnapshots: summary.stepSnapshots?.enabled ? "step-snapshots.json" : "",
     },
     refinementNotes: [
       "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
@@ -2660,6 +2853,7 @@ async function scanTarget(target, index) {
   run("sleep", ["1"], { timeout: 3000 });
 
   const voiceOverSteps = [];
+  const stepSnapshots = [];
   let stopReason = "not-stopped";
 
   const initialStepStartedAt = Date.now();
@@ -2672,6 +2866,7 @@ async function scanTarget(target, index) {
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
   const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
   const initialFocusRaw = captureChromeFocus();
+  const initialFocus = parseVoiceOverText(initialFocusRaw.stdout || "");
   const initialVoiceOver = {
     ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
     ...parseVoiceOverText(initialCaptionUiRaw.stdout || ""),
@@ -2702,7 +2897,7 @@ async function scanTarget(target, index) {
     captionOcrAttempts: initialCaptionOcr.attempts,
     voiceOver: initialVoiceOver,
     focusRaw: initialFocusRaw,
-    focus: parseVoiceOverText(initialFocusRaw.stdout || ""),
+    focus: initialFocus,
     recovery: null,
     voiceOverRawAttempts: initialVoiceOverCapture.attempts,
     dismissSystemAfterScreenshot: initialVoiceOverCapture.dismissals,
@@ -2712,6 +2907,16 @@ async function scanTarget(target, index) {
     targetOutputDir,
     voiceOverSteps,
   });
+  const initialSnapshot = await captureStepSnapshot({
+    target,
+    stepIndex: 0,
+    announcement: getComparisonVoiceOverText(voiceOverSteps.at(-1)),
+    focus: initialFocus,
+  });
+  if (initialSnapshot) {
+    stepSnapshots.push(initialSnapshot);
+    writeStepSnapshotsFile(targetOutputDir, stepSnapshots, true);
+  }
 
   for (let index = 0; ; index += 1) {
     const stepStartedAt = Date.now();
@@ -2726,6 +2931,7 @@ async function scanTarget(target, index) {
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
     const captionUiRaw = captureVoiceOverCaptionUiState();
     const focusRaw = captureChromeFocus();
+    const focus = parseVoiceOverText(focusRaw.stdout || "");
     const voiceOver = {
       ...parseVoiceOverText(voiceOverRaw.stdout || ""),
       ...parseVoiceOverText(captionUiRaw.stdout || ""),
@@ -2750,7 +2956,7 @@ async function scanTarget(target, index) {
       captionOcrAttempts: captionOcr.attempts,
       voiceOver,
       focusRaw,
-      focus: parseVoiceOverText(focusRaw.stdout || ""),
+      focus,
       recovery: null,
       voiceOverRawAttempts: voiceOverCapture.attempts,
       dismissSystemAfterScreenshot: voiceOverCapture.dismissals,
@@ -2760,6 +2966,16 @@ async function scanTarget(target, index) {
       targetOutputDir,
       voiceOverSteps,
     });
+    const stepSnapshot = await captureStepSnapshot({
+      target,
+      stepIndex: stepNumber,
+      announcement: getComparisonVoiceOverText(voiceOverSteps.at(-1)),
+      focus,
+    });
+    if (stepSnapshot) {
+      stepSnapshots.push(stepSnapshot);
+      writeStepSnapshotsFile(targetOutputDir, stepSnapshots, true);
+    }
 
     const stopCheck = shouldStopScan({
       target,
@@ -2802,6 +3018,10 @@ async function scanTarget(target, index) {
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
   summary.interactWithWebContentBeforeScan = interactWithWebContentBeforeScan;
   summary.captureStepScreenshots = captureStepScreenshots;
+  summary.stepSnapshots = {
+    enabled: captureStepSnapshots,
+    capturedSteps: stepSnapshots.length,
+  };
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
   const sourceHtmlArtifact = await getArtifactSourceHtml(target);
   const sourceHtml = sourceHtmlArtifact.html;
@@ -2846,6 +3066,7 @@ async function scanTarget(target, index) {
     path.join(targetOutputDir, "accessibility-tree.json"),
     accessibilityTree,
   );
+  writeStepSnapshotsFile(targetOutputDir, stepSnapshots, false);
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",

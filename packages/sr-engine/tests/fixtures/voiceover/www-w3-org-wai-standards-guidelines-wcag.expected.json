@@ -349,7 +349,9 @@
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json."
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "Skipped for corpus gating: captured VoiceOver language labels differ from rendered-html.html content, indicating page state/content drift.",
+    "Rendered HTML contains lowercase čeština/español/français and 日本語/polski where raw VoiceOver expected contains Ceština/Español/Français and E4iE."
   ],
   "source": {
     "manifestPath": "../../../../../tmp/sr-vo-set1-27784643970/voiceover-scan-www-w3-org-wai-standards-guidelines-wcag/scans/www-w3-org-wai-standards-guidelines-wcag/refinement-manifest.json",
@@ -357,5 +359,12 @@
       "firstVoiceOverAnnouncement": "Skip Link and Language Selector, navigation",
       "lastVoiceOverAnnouncement": "end of, Site, footer"
     }
+  },
+  "skipCorpusReason": "Skipped for corpus gating: captured VoiceOver language labels differ from rendered-html.html content, indicating page state/content drift.",
+  "refinement": {
+    "status": "needs-recapture",
+    "rawAnnouncementCount": 321,
+    "updatedAt": "2026-06-18",
+    "reviewedBy": "codex"
   }
 }

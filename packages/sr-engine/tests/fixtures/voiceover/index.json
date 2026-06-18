@@ -102,5 +102,14 @@
       "voiceOverAnnouncementCount": 56
     }
   ],
-  "skipped": []
+  "skipped": [],
+  "refinement": {
+    "status": "partially-refined",
+    "updatedAt": "2026-06-18",
+    "reviewedBy": "codex",
+    "notes": [
+      "Raw expectedAnnouncements are preserved in each fixture. Tests prefer refinedAnnouncements when present.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until recaptured."
+    ]
+  }
 }

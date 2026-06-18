@@ -200,7 +200,9 @@
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json."
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "Skipped for corpus gating: captured VoiceOver includes Retool ad/OCR announcements that are absent from rendered-html.html.",
+    "Recapture this page with rendered HTML and VoiceOver output from the same ad/cookie state before using it as a regression gate."
   ],
   "source": {
     "manifestPath": "../../../../../tmp/sr-vo-set1-27784643970/voiceover-scan-developer-mozilla-org-en-us/scans/developer-mozilla-org-en-us/refinement-manifest.json",
@@ -208,5 +210,12 @@
       "firstVoiceOverAnnouncement": "list 2 items",
       "lastVoiceOverAnnouncement": "end of, footer"
     }
+  },
+  "skipCorpusReason": "Skipped for corpus gating: captured VoiceOver includes Retool ad/OCR announcements that are absent from rendered-html.html.",
+  "refinement": {
+    "status": "needs-recapture",
+    "rawAnnouncementCount": 172,
+    "updatedAt": "2026-06-18",
+    "reviewedBy": "codex"
   }
 }

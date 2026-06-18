@@ -213,5 +213,16 @@
       "firstVoiceOverAnnouncement": "link, Skip to main content",
       "lastVoiceOverAnnouncement": "• end of, Utility links, navigation"
     }
+  },
+  "skipCorpusReason": "Skipped for corpus gating: captured VoiceOver includes web.dev appearance/language custom element announcements whose accessible state is not represented in rendered-html.html.",
+  "refinement": {
+    "status": "needs-recapture",
+    "reviewedAt": "2026-06-18",
+    "reviewedBy": "codex",
+    "notes": [
+      "The raw stream announces Appearance and Language controls after the search combo box, but the rendered fixture only exposes the custom elements/hidden selector shell, not the VoiceOver-visible control internals.",
+      "Recapture with richer rendered/shadow DOM context before using this fixture as a corpus gate."
+    ],
+    "rawAnnouncementCount": 177
   }
 }
