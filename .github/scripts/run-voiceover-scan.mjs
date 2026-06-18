@@ -888,7 +888,7 @@ function cleanCaptionOcrText(value) {
     .replace(/^[x×]\s*/i, "")
     .replace(/^Google Chrome .+? window /, "")
     .replace(/\bvisited,\s+(?=link\b)/gi, "")
-    .replace(/^,\s+(?=end of\b)/i, "")
+    .replace(/^[.,;:]\s+(?=end of\b)/i, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -1810,14 +1810,16 @@ async function captureRenderedSourceHtml(target) {
     "  .querySelectorAll('[data-sr-voiceover-scan-boundary], [data-sr-voiceover-scan-end]')",
     "  .forEach((marker) => marker.remove());",
     "document",
-    "  .querySelectorAll('[data-sr-rendered-viewport], [data-sr-computed-hidden], [data-sr-rendered-position]')",
+    "  .querySelectorAll('[data-sr-rendered-viewport], [data-sr-computed-hidden], [data-sr-rendered-position], [data-sr-dom-node-id]')",
     "  .forEach((element) => {",
     "    element.removeAttribute('data-sr-rendered-viewport');",
     "    element.removeAttribute('data-sr-computed-hidden');",
     "    element.removeAttribute('data-sr-rendered-position');",
+    "    element.removeAttribute('data-sr-dom-node-id');",
     "  });",
     "document.body?.setAttribute('data-sr-rendered-viewport', `${window.innerWidth}x${window.innerHeight}`);",
-    "for (const element of Array.from(document.body?.querySelectorAll('*') || [])) {",
+    "for (const [index, element] of Array.from(document.body?.querySelectorAll('*') || []).entries()) {",
+    "  element.setAttribute('data-sr-dom-node-id', String(index + 1));",
     "  const style = window.getComputedStyle(element);",
     "  const hiddenReasons = [];",
     "  if (style.display === 'none') hiddenReasons.push('display:none');",
@@ -1859,7 +1861,7 @@ function getAxValue(value) {
   return null;
 }
 
-function reduceAccessibilityTreeNode(node) {
+function reduceAccessibilityTreeNode(node, backendDomNodeMap = new Map()) {
   const reduced = {
     nodeId: node.nodeId || "",
     ignored: Boolean(node.ignored),
@@ -1882,6 +1884,14 @@ function reduceAccessibilityTreeNode(node) {
 
   if (node.backendDOMNodeId) {
     reduced.backendDOMNodeId = node.backendDOMNodeId;
+    const domNode = backendDomNodeMap.get(node.backendDOMNodeId);
+    if (domNode?.domNodeId) {
+      reduced.domNodeId = domNode.domNodeId;
+      reduced.renderedHtmlSelector = `[data-sr-dom-node-id="${domNode.domNodeId}"]`;
+    }
+    if (domNode?.tagName) {
+      reduced.tagName = domNode.tagName;
+    }
   }
   if (node.childIds?.length) {
     reduced.childIds = node.childIds;
@@ -1901,6 +1911,106 @@ function reduceAccessibilityTreeNode(node) {
   }
 
   return reduced;
+}
+
+function getSnapshotString(strings, index) {
+  return typeof index === "number" && index >= 0 ? strings[index] || "" : "";
+}
+
+async function captureBackendDomNodeMap() {
+  const captured = await sendChromeDevToolsCommand(
+    "DOMSnapshot.captureSnapshot",
+    {
+      computedStyles: [],
+      includeDOMRects: false,
+      includePaintOrder: false,
+    },
+    30000,
+  );
+
+  if (!captured.ok) {
+    return {
+      ok: false,
+      map: new Map(),
+      stats: {
+        mappedNodeCount: 0,
+      },
+      capture: captured,
+    };
+  }
+
+  let parsed = {};
+  try {
+    parsed = JSON.parse(captured.stdout || "{}");
+  } catch (error) {
+    return {
+      ok: false,
+      map: new Map(),
+      stats: {
+        mappedNodeCount: 0,
+      },
+      capture: {
+        ...captured,
+        ok: false,
+        stderr: `Unable to parse Chrome DOM snapshot: ${error?.message || error}`,
+      },
+    };
+  }
+
+  const strings = Array.isArray(parsed.strings) ? parsed.strings : [];
+  const documentSnapshot = Array.isArray(parsed.documents)
+    ? parsed.documents[0]
+    : null;
+  const nodes = documentSnapshot?.nodes || {};
+  const backendNodeIds = Array.isArray(nodes.backendNodeId)
+    ? nodes.backendNodeId
+    : [];
+  const nodeNames = Array.isArray(nodes.nodeName) ? nodes.nodeName : [];
+  const attributes = Array.isArray(nodes.attributes) ? nodes.attributes : [];
+  const map = new Map();
+
+  for (let index = 0; index < backendNodeIds.length; index += 1) {
+    const backendDOMNodeId = backendNodeIds[index];
+    if (!backendDOMNodeId) {
+      continue;
+    }
+
+    const attributeIndexes = Array.isArray(attributes[index])
+      ? attributes[index]
+      : [];
+    let domNodeId = "";
+    for (
+      let attributeIndex = 0;
+      attributeIndex < attributeIndexes.length;
+      attributeIndex += 2
+    ) {
+      const name = getSnapshotString(strings, attributeIndexes[attributeIndex]);
+      if (name === "data-sr-dom-node-id") {
+        domNodeId = getSnapshotString(
+          strings,
+          attributeIndexes[attributeIndex + 1],
+        );
+        break;
+      }
+    }
+
+    if (domNodeId) {
+      map.set(backendDOMNodeId, {
+        backendDOMNodeId,
+        domNodeId,
+        tagName: getSnapshotString(strings, nodeNames[index]).toLowerCase(),
+      });
+    }
+  }
+
+  return {
+    ok: true,
+    map,
+    stats: {
+      mappedNodeCount: map.size,
+    },
+    capture: captured,
+  };
 }
 
 async function captureAccessibilityTree(target) {
@@ -1960,8 +2070,11 @@ async function captureAccessibilityTree(target) {
     };
   }
 
+  const domNodeMap = await captureBackendDomNodeMap();
   const nodes = Array.isArray(parsed.nodes) ? parsed.nodes : [];
-  const reducedNodes = nodes.map(reduceAccessibilityTreeNode);
+  const reducedNodes = nodes.map((node) =>
+    reduceAccessibilityTreeNode(node, domNodeMap.map),
+  );
   return {
     ok: true,
     source: "chrome-accessibility-tree",
@@ -1970,9 +2083,12 @@ async function captureAccessibilityTree(target) {
       source: "chrome-accessibility-tree",
       nodeCount: reducedNodes.length,
       ignoredNodeCount: reducedNodes.filter((node) => node.ignored).length,
+      mappedNodeCount: domNodeMap.stats.mappedNodeCount,
+      mapSource: "rendered-html:data-sr-dom-node-id",
       nodes: reducedNodes,
     },
     capture: captured,
+    domNodeMapCapture: domNodeMap.capture,
   };
 }
 
@@ -2584,6 +2700,41 @@ function createScanDebugSummary({
   };
 }
 
+function createRefinementManifest({
+  target,
+  summary,
+  voiceOverOutput,
+  reducedHtmlStats,
+  accessibilityTreeStats,
+}) {
+  return {
+    schemaVersion: 1,
+    target: {
+      name: summary.name,
+      mode: summary.mode,
+      url: summary.url,
+      scanRootSelector: target.scanRootSelector || "[data-sr-scan-root]",
+    },
+    scan: {
+      stopReason: summary.stopReason,
+      capturedSteps: summary.capturedSteps,
+      startedAt: summary.startedAt,
+      finishedAt: summary.finishedAt,
+    },
+    files: {
+      voiceOverOutput: "voiceover-output.json",
+      renderedHtml: "rendered-html.html",
+      accessibilityTree: "accessibility-tree.json",
+      scanDebug: "scan-debug.json",
+    },
+    stats: {
+      voiceOverAnnouncementCount: voiceOverOutput.length,
+      reducedHtml: reducedHtmlStats,
+      accessibilityTree: accessibilityTreeStats,
+    },
+  };
+}
+
 async function scanTarget(target, index) {
   const targetName = getTargetOutputName(target, index);
   const scanRootSelector = getScanRootSelector(target);
@@ -2823,10 +2974,15 @@ async function scanTarget(target, index) {
     error: accessibilityTreeArtifact.capture.error,
     nodeCount: accessibilityTree.nodeCount || 0,
     ignoredNodeCount: accessibilityTree.ignoredNodeCount || 0,
+    mappedNodeCount: accessibilityTree.mappedNodeCount || 0,
+    domNodeMapOk: accessibilityTreeArtifact.domNodeMapCapture?.ok ?? null,
+    domNodeMapStderr: accessibilityTreeArtifact.domNodeMapCapture?.stderr || "",
+    domNodeMapError: accessibilityTreeArtifact.domNodeMapCapture?.error || "",
   };
   const accessibilityTreeStats = {
     nodeCount: accessibilityTree.nodeCount || 0,
     ignoredNodeCount: accessibilityTree.ignoredNodeCount || 0,
+    mappedNodeCount: accessibilityTree.mappedNodeCount || 0,
   };
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
@@ -2860,6 +3016,16 @@ async function scanTarget(target, index) {
   writeJson(
     path.join(targetOutputDir, "scan-debug.json"),
     createScanDebugSummary({
+      target,
+      summary,
+      voiceOverOutput,
+      reducedHtmlStats: reducedHtml.stats,
+      accessibilityTreeStats,
+    }),
+  );
+  writeJson(
+    path.join(targetOutputDir, "refinement-manifest.json"),
+    createRefinementManifest({
       target,
       summary,
       voiceOverOutput,
