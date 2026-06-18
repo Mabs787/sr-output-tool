@@ -202,6 +202,133 @@ async function evaluateJavaScriptInChrome(expression, timeout = 15000) {
   }
 }
 
+async function sendChromeDevToolsCommand(method, params = {}, timeout = 15000) {
+  if (!globalThis.WebSocket) {
+    return commandResult({
+      ok: false,
+      stderr: "WebSocket is unavailable in this Node runtime.",
+      extras: { source: "chrome-devtools" },
+    });
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  const deadline = Date.now() + timeout;
+  let lastError = "";
+  let lastStderr = "";
+
+  try {
+    let page = null;
+
+    while (Date.now() < deadline && !page) {
+      try {
+        const targetsResponse = await fetch(
+          `http://127.0.0.1:${chromeDebuggingPort}/json/list`,
+          { signal: controller.signal },
+        );
+        if (!targetsResponse.ok) {
+          lastStderr = `Chrome DevTools target list returned HTTP ${targetsResponse.status}.`;
+        } else {
+          const targets = await targetsResponse.json();
+          page =
+            targets.find(
+              (target) =>
+                target.type === "page" && target.url !== "chrome://newtab/",
+            ) || targets.find((target) => target.type === "page");
+          if (!page?.webSocketDebuggerUrl) {
+            page = null;
+            lastStderr =
+              "No Chrome page target with a DevTools WebSocket was found.";
+          }
+        }
+      } catch (error) {
+        lastError = error?.message || String(error);
+      }
+
+      if (!page) {
+        run("sleep", ["1"], { timeout: 2000 });
+      }
+    }
+
+    if (!page?.webSocketDebuggerUrl) {
+      return commandResult({
+        ok: false,
+        stderr: lastStderr,
+        error: lastError || "Chrome DevTools target was not available.",
+        extras: { source: "chrome-devtools" },
+      });
+    }
+
+    const result = await new Promise((resolve, reject) => {
+      const socket = new WebSocket(page.webSocketDebuggerUrl);
+      const requestId = 1;
+      const closeSocket = () => {
+        try {
+          socket.close();
+        } catch {
+          // Best effort cleanup only.
+        }
+      };
+
+      socket.addEventListener("open", () => {
+        socket.send(
+          JSON.stringify({
+            id: requestId,
+            method,
+            params,
+          }),
+        );
+      });
+
+      socket.addEventListener("message", (event) => {
+        let message = null;
+        try {
+          message = JSON.parse(String(event.data || ""));
+        } catch (error) {
+          closeSocket();
+          reject(error);
+          return;
+        }
+
+        if (message.id !== requestId) {
+          return;
+        }
+
+        closeSocket();
+        resolve(message);
+      });
+
+      socket.addEventListener("error", () => {
+        closeSocket();
+        reject(new Error("Chrome DevTools WebSocket error."));
+      });
+    });
+
+    if (result.error) {
+      return commandResult({
+        ok: false,
+        stderr: JSON.stringify(result.error),
+        extras: { source: "chrome-devtools" },
+      });
+    }
+
+    return commandResult({
+      ok: true,
+      stdout: JSON.stringify(result.result || {}),
+      extras: { source: "chrome-devtools", method },
+    });
+  } catch (error) {
+    return commandResult({
+      ok: false,
+      stderr: error?.name === "AbortError" ? "Chrome DevTools request timed out." : "",
+      error: error?.message || String(error),
+      extras: { source: "chrome-devtools", method },
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function toCommandResult(result) {
   return {
     ok: result.status === 0 && !result.error,
@@ -1716,6 +1843,139 @@ async function captureRenderedSourceHtml(target) {
   };
 }
 
+function getAxValue(value) {
+  if (!value || typeof value !== "object") {
+    return value ?? null;
+  }
+
+  if (Object.hasOwn(value, "value")) {
+    return value.value;
+  }
+
+  if (Object.hasOwn(value, "description")) {
+    return value.description;
+  }
+
+  return null;
+}
+
+function reduceAccessibilityTreeNode(node) {
+  const reduced = {
+    nodeId: node.nodeId || "",
+    ignored: Boolean(node.ignored),
+    role: getAxValue(node.role) || "",
+    name: getAxValue(node.name) || "",
+  };
+
+  const optionalValues = {
+    value: getAxValue(node.value),
+    description: getAxValue(node.description),
+    keyshortcuts: getAxValue(node.keyshortcuts),
+    roledescription: getAxValue(node.roledescription),
+    valuetext: getAxValue(node.valuetext),
+  };
+  for (const [key, value] of Object.entries(optionalValues)) {
+    if (value !== null && value !== "") {
+      reduced[key] = value;
+    }
+  }
+
+  if (node.backendDOMNodeId) {
+    reduced.backendDOMNodeId = node.backendDOMNodeId;
+  }
+  if (node.childIds?.length) {
+    reduced.childIds = node.childIds;
+  }
+  if (node.ignoredReasons?.length) {
+    reduced.ignoredReasons = node.ignoredReasons.map((reason) => ({
+      name: reason.name || "",
+      value: getAxValue(reason.value),
+    }));
+  }
+  if (node.properties?.length) {
+    reduced.properties = Object.fromEntries(
+      node.properties
+        .map((property) => [property.name, getAxValue(property.value)])
+        .filter(([name, value]) => name && value !== null && value !== ""),
+    );
+  }
+
+  return reduced;
+}
+
+async function captureAccessibilityTree(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      source: "not-applicable",
+      tree: {
+        schemaVersion: 1,
+        source: "not-applicable",
+        nodes: [],
+      },
+      capture: commandResult({
+        ok: true,
+        stdout: "fixture/source scans do not expose a live Chrome accessibility tree",
+        extras: { source: "not-applicable" },
+      }),
+    };
+  }
+
+  const captured = await sendChromeDevToolsCommand(
+    "Accessibility.getFullAXTree",
+    {},
+    30000,
+  );
+
+  if (!captured.ok) {
+    return {
+      ok: false,
+      source: "chrome-accessibility-tree",
+      tree: {
+        schemaVersion: 1,
+        source: "chrome-accessibility-tree",
+        nodes: [],
+      },
+      capture: captured,
+    };
+  }
+
+  let parsed = {};
+  try {
+    parsed = JSON.parse(captured.stdout || "{}");
+  } catch (error) {
+    return {
+      ok: false,
+      source: "chrome-accessibility-tree",
+      tree: {
+        schemaVersion: 1,
+        source: "chrome-accessibility-tree",
+        nodes: [],
+      },
+      capture: {
+        ...captured,
+        ok: false,
+        stderr: `Unable to parse Chrome accessibility tree: ${error?.message || error}`,
+      },
+    };
+  }
+
+  const nodes = Array.isArray(parsed.nodes) ? parsed.nodes : [];
+  const reducedNodes = nodes.map(reduceAccessibilityTreeNode);
+  return {
+    ok: true,
+    source: "chrome-accessibility-tree",
+    tree: {
+      schemaVersion: 1,
+      source: "chrome-accessibility-tree",
+      nodeCount: reducedNodes.length,
+      ignoredNodeCount: reducedNodes.filter((node) => node.ignored).length,
+      nodes: reducedNodes,
+    },
+    capture: captured,
+  };
+}
+
 async function getArtifactSourceHtml(target) {
   if (target.url) {
     const rendered = await captureRenderedSourceHtml(target);
@@ -2177,6 +2437,7 @@ function createAiRefinementInput({
   voiceOverOutput,
   reducedHtml,
   reducedHtmlStats,
+  accessibilityTreeStats,
 }) {
   const minVoiceOverAnnouncements = Number(
     target.refinement?.minVoiceOverAnnouncements || 1,
@@ -2217,6 +2478,7 @@ function createAiRefinementInput({
       "Only refine sr-engine when refinement.eligible is true.",
       "Use Chrome + VoiceOver output as the source-of-truth screen reader sequence for the captured page state.",
       "Use reducedHtml to reason about the DOM, native HTML semantics, ARIA, accessible names, and exposed text behind the VoiceOver output.",
+      "Use accessibility-tree.json to inspect Chrome's exposed accessibility tree for the captured page state.",
       "Do not add Safari-specific behavior to sr-engine; Safari + VoiceOver can be modeled as a separate profile later.",
       "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
@@ -2256,9 +2518,11 @@ function createAiRefinementInput({
     voiceOverOutput,
     reducedHtml,
     reducedHtmlStats,
+    accessibilityTreeStats,
     diagnostics: {
       sourceHtmlPath: "source.html",
       reducedHtmlPath: "rendered-html.html",
+      accessibilityTreePath: "accessibility-tree.json",
     },
   };
 }
@@ -2268,6 +2532,7 @@ function createScanDebugSummary({
   summary,
   voiceOverOutput,
   reducedHtmlStats,
+  accessibilityTreeStats,
 }) {
   return {
     schemaVersion: 1,
@@ -2293,6 +2558,9 @@ function createScanDebugSummary({
       htmlSource: summary.sourceHtmlCapture?.source || "",
       htmlPath: "rendered-html.html",
       htmlReduced: true,
+      accessibilityTreeSource: summary.accessibilityTreeCapture?.source || "",
+      accessibilityTreePath: "accessibility-tree.json",
+      accessibilityTreeStats,
     },
     setup: {
       launchChrome: summary.launchChrome,
@@ -2544,6 +2812,22 @@ async function scanTarget(target, index) {
     length: sourceHtml.length,
   };
   const reducedHtml = reduceHtmlForRefinement(sourceHtml, target);
+  const accessibilityTreeArtifact = await captureAccessibilityTree(target);
+  const accessibilityTree = accessibilityTreeArtifact.tree;
+  summary.accessibilityTreeCapture = {
+    source: accessibilityTreeArtifact.source,
+    ok: accessibilityTreeArtifact.capture.ok,
+    status: accessibilityTreeArtifact.capture.status,
+    signal: accessibilityTreeArtifact.capture.signal,
+    stderr: accessibilityTreeArtifact.capture.stderr,
+    error: accessibilityTreeArtifact.capture.error,
+    nodeCount: accessibilityTree.nodeCount || 0,
+    ignoredNodeCount: accessibilityTree.ignoredNodeCount || 0,
+  };
+  const accessibilityTreeStats = {
+    nodeCount: accessibilityTree.nodeCount || 0,
+    ignoredNodeCount: accessibilityTree.ignoredNodeCount || 0,
+  };
 
   writeJson(path.join(targetOutputDir, "raw.json"), {
     summary,
@@ -2552,6 +2836,10 @@ async function scanTarget(target, index) {
   });
   writeText(path.join(targetOutputDir, "source.html"), sourceHtml);
   writeText(path.join(targetOutputDir, "rendered-html.html"), reducedHtml.html);
+  writeJson(
+    path.join(targetOutputDir, "accessibility-tree.json"),
+    accessibilityTree,
+  );
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
@@ -2566,6 +2854,7 @@ async function scanTarget(target, index) {
       voiceOverOutput,
       reducedHtml: reducedHtml.html,
       reducedHtmlStats: reducedHtml.stats,
+      accessibilityTreeStats,
     }),
   );
   writeJson(
@@ -2575,6 +2864,7 @@ async function scanTarget(target, index) {
       summary,
       voiceOverOutput,
       reducedHtmlStats: reducedHtml.stats,
+      accessibilityTreeStats,
     }),
   );
   writeText(
