@@ -87,6 +87,7 @@ function getPayloads(artifactDir) {
         "accessibilityTree",
       );
       const scanDebugPath = resolveManifestFile(scanDir, manifest, "scanDebug");
+      const stepSnapshotsPath = resolveManifestFile(scanDir, manifest, "stepSnapshots");
       const missingFiles = [
         voiceOverPath,
         renderedHtmlPath,
@@ -123,6 +124,7 @@ function getPayloads(artifactDir) {
         renderedHtmlPath,
         accessibilityTreePath,
         scanDebugPath,
+        stepSnapshotsPath,
         voiceOverOutput,
         skipReasons,
         eligible: skipReasons.length === 0,
@@ -168,6 +170,38 @@ function summarizeAccessibilityTree(accessibilityTree) {
   };
 }
 
+function summarizeStepSnapshots(stepSnapshots) {
+  const snapshots = stepSnapshots.snapshots || [];
+  return {
+    source: stepSnapshots.source || "",
+    partial: Boolean(stepSnapshots.partial),
+    snapshotCount: snapshots.length,
+    snapshots: snapshots.slice(0, 300).map((snapshot) => ({
+      index: snapshot.index,
+      announcement: snapshot.announcement,
+      url: snapshot.pageState?.url || "",
+      scroll: snapshot.pageState?.scroll,
+      activeElement: snapshot.pageState?.activeElement
+        ? {
+            tagName: snapshot.pageState.activeElement.tagName,
+            attributes: snapshot.pageState.activeElement.attributes,
+            text: snapshot.pageState.activeElement.text,
+            computed: snapshot.pageState.activeElement.computed,
+            rect: snapshot.pageState.activeElement.rect,
+          }
+        : null,
+      matchedAccessibilityNodes:
+        snapshot.accessibility?.matchedNodes?.slice(0, 8).map((node) => ({
+          score: node.score,
+          role: node.role,
+          name: node.name,
+          properties: node.properties,
+          renderedHtmlSelector: node.renderedHtmlSelector,
+        })) || [],
+    })),
+  };
+}
+
 function createPrompt(entry) {
   const {
     name,
@@ -176,13 +210,18 @@ function createPrompt(entry) {
     voiceOverOutput,
     renderedHtmlPath,
     accessibilityTreePath,
+    stepSnapshotsPath,
   } = entry;
   const renderedHtml = readFileSync(renderedHtmlPath, "utf8");
   const accessibilityTree = readJson(accessibilityTreePath);
+  const stepSnapshots =
+    stepSnapshotsPath && existsSync(stepSnapshotsPath)
+      ? readJson(stepSnapshotsPath)
+      : null;
 
   return `# SR Engine Refinement Request
 
-Use this VoiceOver capture, rendered HTML, and Chrome accessibility tree to refine the SR Output Tool engine.
+Use this VoiceOver capture, rendered HTML, Chrome accessibility tree, and optional step snapshots to refine the SR Output Tool engine.
 
 ## Target
 
@@ -205,7 +244,11 @@ If \`Eligible\` is false, stop and do not change code.
 - Add or update only the relevant regression test.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
-- Reason from VoiceOver output, rendered HTML, and the Chrome accessibility tree.
+- Reason from VoiceOver output, rendered HTML, the Chrome accessibility tree, and step snapshots when present.
+- Treat \`voiceover-output.json\` as the expected screen reader output source of truth.
+- Treat \`rendered-html.html\` as the stable HTML fixture context, but not as proof that every VoiceOver-announced item was absent during the scan.
+- When VoiceOver output conflicts with rendered HTML, inspect the step snapshots. If a snapshot shows the announcement matched live Chrome AX/page state at that step, prefer the VoiceOver plus step-snapshot evidence over final rendered HTML.
+- If both rendered HTML and step snapshots lack evidence for an announcement, consider OCR/caption artifact or page drift before changing the engine.
 - Inspect the start of each VoiceOver announcement for obvious caption/OCR artifacts before creating expected test output.
 - Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, visual-recognition-only, or engine bug.
 - Do not treat punctuation-only or role-order differences as proof by themselves; inspect the source HTML and existing engine patterns first.
@@ -221,6 +264,12 @@ ${formatList(voiceOverOutput)}
 \`\`\`json
 ${JSON.stringify(summarizeAccessibilityTree(accessibilityTree), null, 2)}
 \`\`\`
+
+## Step Snapshot Summary
+
+${stepSnapshots ? `\`\`\`json
+${JSON.stringify(summarizeStepSnapshots(stepSnapshots), null, 2)}
+\`\`\`` : "No step-snapshots.json file was present in this artifact."}
 
 ## Rendered HTML
 

@@ -2798,6 +2798,7 @@ function createRefinementManifest({
       "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
       "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
       "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+      "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
     ],
     stats: {
       voiceOverAnnouncementCount: voiceOverOutput.length,

@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 
 const repoRoot = process.cwd();
 const defaultArtifactDir = path.join(repoRoot, "voiceover-scan-artifacts");
-const defaultWorkflow = "VoiceOver scan";
+const defaultWorkflow = "VoiceOver smoke";
 const defaultBranch = "main";
 
 function parseArgs(argv) {
@@ -51,7 +51,7 @@ function printHelp() {
 Options:
   --artifact-dir <path>   Diagnostics folder to inspect. Defaults to ./voiceover-scan-artifacts
   --download-latest       Download all artifacts from the latest successful VoiceOver scan run with gh
-  --workflow <name>       Workflow name for --download-latest. Defaults to "VoiceOver scan"
+  --workflow <name>       Workflow name for --download-latest. Defaults to "VoiceOver smoke"
   --branch <name>         Branch for --download-latest. Defaults to main
   --force                 Replace the artifact directory when downloading
   --json                  Print the refinement queue as JSON
@@ -196,6 +196,7 @@ function buildQueue(artifactDir) {
       "accessibilityTree",
     );
     const scanDebugPath = resolveManifestFile(scanDir, manifest, "scanDebug");
+    const stepSnapshotsPath = resolveManifestFile(scanDir, manifest, "stepSnapshots");
     const voiceOverOutput = existsSync(voiceOverPath)
       ? readJson(voiceOverPath).announcements || []
       : [];
@@ -234,6 +235,9 @@ function buildQueue(artifactDir) {
           path.relative(repoRoot, path.join(scanDir, filePath)),
         ]),
       ),
+      diagnostics: {
+        hasStepSnapshots: Boolean(stepSnapshotsPath && existsSync(stepSnapshotsPath)),
+      },
       eligible: skipReasons.length === 0,
       skipReasons,
       voiceOverCount: voiceOverOutput.length,
