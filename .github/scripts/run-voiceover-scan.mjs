@@ -2225,7 +2225,7 @@ function createAiRefinementInput({
     reducedHtmlStats,
     diagnostics: {
       sourceHtmlPath: "source.html",
-      reducedHtmlPath: "reduced-html.html",
+      reducedHtmlPath: "rendered-html.html",
     },
   };
 }
@@ -2257,6 +2257,9 @@ function createScanDebugSummary({
       firstVoiceOverAnnouncement: voiceOverOutput[0] || "",
       lastVoiceOverAnnouncement: voiceOverOutput.at(-1) || "",
       reducedHtmlStats,
+      htmlSource: summary.sourceHtmlCapture?.source || "",
+      htmlPath: "rendered-html.html",
+      htmlReduced: true,
     },
     setup: {
       launchChrome: summary.launchChrome,
@@ -2515,7 +2518,7 @@ async function scanTarget(target, index) {
     voiceOverSteps,
   });
   writeText(path.join(targetOutputDir, "source.html"), sourceHtml);
-  writeText(path.join(targetOutputDir, "reduced-html.html"), reducedHtml.html);
+  writeText(path.join(targetOutputDir, "rendered-html.html"), reducedHtml.html);
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",

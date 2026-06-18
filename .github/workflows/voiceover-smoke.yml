@@ -184,7 +184,7 @@ jobs:
           name: voiceover-scan-${{ matrix.name }}
           path: |
             voiceover-smoke/scans/**/voiceover-output.json
-            voiceover-smoke/scans/**/reduced-html.html
+            voiceover-smoke/scans/**/rendered-html.html
             voiceover-smoke/scans/**/scan-debug.json
             voiceover-smoke/recordings/voiceover-scan.mov
             voiceover-smoke/screen-recording.json
