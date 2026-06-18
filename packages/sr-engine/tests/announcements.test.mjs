@@ -16,7 +16,7 @@ test("generateAnnouncement formats interactive control states", () => {
       hasPopup: "menu",
       expanded: false,
     }),
-    "Filters, menu pop up, collapsed, button",
+    "Filters, menu pop up collapsed, button",
   );
 
   assert.equal(
@@ -64,7 +64,13 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
       role: "navigation",
       name: "Primary",
     }),
-    "end of Primary navigation",
+    "end of, Primary, navigation",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "banner",
+    }),
+    "end of, banner",
   );
   assert.equal(
     getContextEndAnnouncement({
@@ -103,5 +109,21 @@ test("generateAnnouncement matches VoiceOver phrasing for separators and disable
       disabled: true,
     }),
     "dimmed, link, Checkout",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "Skip to main content",
+    }),
+    "link, Skip to main content",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "list",
+      setSize: 2,
+    }),
+    "list 2 items",
   );
 });

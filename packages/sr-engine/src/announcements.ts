@@ -157,8 +157,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
       if (popupType && !isToggleButton) {
         if (el.expanded !== undefined) {
-          parts.push(popupType);
-          parts.push(el.expanded ? "expanded" : "collapsed");
+          parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
           parts.push("button");
         } else {
           parts.push(`${popupType} button`);
@@ -191,7 +190,6 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "link": {
       const popupType = formatPopupType(el.hasPopup);
-      const hasPopupState = popupType && el.expanded !== undefined;
       if (el.disabled) {
         parts.push("dimmed");
       }
@@ -209,17 +207,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push("link");
         parts.push("image");
         pushIfPresent(parts, label);
-      } else if (el.linkRoleFirst) {
+      } else {
         parts.push("link");
         pushIfPresent(parts, label);
-      } else {
-        if (hasPopupState) {
-          parts.push("link");
-          pushIfPresent(parts, label);
-        } else {
-          pushIfPresent(parts, label);
-          parts.push("link");
-        }
       }
       if (el.current) {
         parts.push(el.current === true ? "current" : `current ${el.current}`);
@@ -280,11 +270,19 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push("button");
       } else {
         pushIfPresent(parts, label);
+        const popupType = formatPopupType(el.hasPopup);
+        if (popupType && el.expanded !== undefined) {
+          parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+        }
         parts.push("combo box");
         pushIfPresent(parts, value);
-        pushAutocomplete(parts, el.autocomplete);
+        if (!popupType) {
+          pushAutocomplete(parts, el.autocomplete);
+        }
         if (el.expanded !== undefined) {
-          parts.push(el.expanded ? "expanded" : "collapsed");
+          if (!popupType) {
+            parts.push(el.expanded ? "expanded" : "collapsed");
+          }
         }
       }
       pushSupplementalText(parts, el);
@@ -340,7 +338,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "listitem": {
       pushIfPresent(parts, label);
-      parts.push("list item");
+      if (!el.positionInSet || !el.setSize) {
+        parts.push("list item");
+      }
       pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
       break;
@@ -368,13 +368,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "list": {
-      pushIfPresent(parts, el.name);
-      parts.push(el.roleDescription ?? "list");
-      if (el.setSize) {
-        parts.push(`${el.setSize} items`);
-      }
-      pushSupplementalText(parts, el);
-      break;
+      const listLabel = normalizeText(el.name);
+      const listRole = el.roleDescription ?? "list";
+      const listSize = el.setSize ? `${el.setSize} items` : undefined;
+      const listParts = [listLabel, listRole, listSize].filter(
+        (part): part is string => Boolean(part),
+      );
+      pushSupplementalText(listParts, el);
+      return listParts.join(" ");
     }
 
     case "listbox": {
@@ -607,7 +608,7 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "banner") {
-    return "end of banner";
+    return "end of, banner";
   }
 
   if (role === "contentinfo") {
@@ -618,7 +619,7 @@ export function getContextEndAnnouncement(
 
   if (role === "navigation") {
     return descriptor?.name
-      ? `end of ${descriptor.name} navigation`
+      ? `end of, ${descriptor.name}, navigation`
       : "end of navigation";
   }
 

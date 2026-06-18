@@ -163,8 +163,7 @@
             const isToggleButton = el.roleDescription === "toggle button";
             if (popupType && !isToggleButton) {
               if (el.expanded !== void 0) {
-                parts.push(popupType);
-                parts.push(el.expanded ? "expanded" : "collapsed");
+                parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
                 parts.push("button");
               } else {
                 parts.push(`${popupType} button`);
@@ -196,7 +195,6 @@
           }
           case "link": {
             const popupType = formatPopupType(el.hasPopup);
-            const hasPopupState = popupType && el.expanded !== void 0;
             if (el.disabled) {
               parts.push("dimmed");
             }
@@ -214,17 +212,9 @@
               parts.push("link");
               parts.push("image");
               pushIfPresent(parts, label);
-            } else if (el.linkRoleFirst) {
+            } else {
               parts.push("link");
               pushIfPresent(parts, label);
-            } else {
-              if (hasPopupState) {
-                parts.push("link");
-                pushIfPresent(parts, label);
-              } else {
-                pushIfPresent(parts, label);
-                parts.push("link");
-              }
             }
             if (el.current) {
               parts.push(el.current === true ? "current" : `current ${el.current}`);
@@ -279,11 +269,19 @@
               parts.push("button");
             } else {
               pushIfPresent(parts, label);
+              const popupType = formatPopupType(el.hasPopup);
+              if (popupType && el.expanded !== void 0) {
+                parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+              }
               parts.push("combo box");
               pushIfPresent(parts, value);
-              pushAutocomplete(parts, el.autocomplete);
+              if (!popupType) {
+                pushAutocomplete(parts, el.autocomplete);
+              }
               if (el.expanded !== void 0) {
-                parts.push(el.expanded ? "expanded" : "collapsed");
+                if (!popupType) {
+                  parts.push(el.expanded ? "expanded" : "collapsed");
+                }
               }
             }
             pushSupplementalText(parts, el);
@@ -334,7 +332,9 @@
           }
           case "listitem": {
             pushIfPresent(parts, label);
-            parts.push("list item");
+            if (!el.positionInSet || !el.setSize) {
+              parts.push("list item");
+            }
             pushCollectionPosition(parts, el);
             pushSupplementalText(parts, el);
             break;
@@ -358,13 +358,12 @@
             break;
           }
           case "list": {
-            pushIfPresent(parts, el.name);
-            parts.push(el.roleDescription ?? "list");
-            if (el.setSize) {
-              parts.push(`${el.setSize} items`);
-            }
-            pushSupplementalText(parts, el);
-            break;
+            const listLabel = normalizeText(el.name);
+            const listRole = el.roleDescription ?? "list";
+            const listSize = el.setSize ? `${el.setSize} items` : void 0;
+            const listParts = [listLabel, listRole, listSize].filter((part) => Boolean(part));
+            pushSupplementalText(listParts, el);
+            return listParts.join(" ");
           }
           case "listbox": {
             pushIfPresent(parts, el.name);
@@ -551,13 +550,13 @@
           return descriptor?.roleDescription === "definition list" ? "end of definition list" : "end of list";
         }
         if (role === "banner") {
-          return "end of banner";
+          return "end of, banner";
         }
         if (role === "contentinfo") {
           return descriptor?.name ? `end of ${descriptor.name} footer` : "end of, footer";
         }
         if (role === "navigation") {
-          return descriptor?.name ? `end of ${descriptor.name} navigation` : "end of navigation";
+          return descriptor?.name ? `end of, ${descriptor.name}, navigation` : "end of navigation";
         }
         if (role === "complementary") {
           return descriptor?.name ? `end of, ${descriptor.name}, complementary` : "end of, complementary";
@@ -635,6 +634,10 @@
           }
           const text = collectReadableText(el).replace(/\s+/g, " ").trim();
           return text || void 0;
+        }
+        function hasRenderedHiddenMarker(el) {
+          const hidden = el?.getAttribute?.("data-sr-computed-hidden");
+          return Boolean(hidden && hidden !== "false");
         }
         function getReadableTextIgnoringAriaHidden(el) {
           if (!el) {
@@ -2212,7 +2215,7 @@
             if (!el || el.nodeType !== Node.ELEMENT_NODE) {
               return;
             }
-            if (el.getAttribute("aria-hidden") === "true") {
+            if (el.getAttribute("aria-hidden") === "true" || hasRenderedHiddenMarker(el)) {
               return;
             }
             const style = getComputedStyle(el);

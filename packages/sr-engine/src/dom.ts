@@ -97,6 +97,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return text || undefined;
   }
 
+  function hasRenderedHiddenMarker(el: any): boolean {
+    const hidden = el?.getAttribute?.("data-sr-computed-hidden");
+    return Boolean(hidden && hidden !== "false");
+  }
+
   function getReadableTextIgnoringAriaHidden(el: any): string | undefined {
     if (!el) {
       return undefined;
@@ -2600,7 +2605,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return;
       }
 
-      if (el.getAttribute("aria-hidden") === "true") {
+      if (el.getAttribute("aria-hidden") === "true" || hasRenderedHiddenMarker(el)) {
         return;
       }
 
