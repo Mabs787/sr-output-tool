@@ -2599,6 +2599,7 @@ function createAiRefinementInput({
       "Use Chrome + VoiceOver output as the source-of-truth screen reader sequence for the captured page state.",
       "Use reducedHtml to reason about the DOM, native HTML semantics, ARIA, accessible names, and exposed text behind the VoiceOver output.",
       "Use accessibility-tree.json to inspect Chrome's exposed accessibility tree for the captured page state.",
+      "Before creating regression tests, review VoiceOver announcements for capture artifacts and refine obvious OCR/caption errors in the expected output.",
       "Do not add Safari-specific behavior to sr-engine; Safari + VoiceOver can be modeled as a separate profile later.",
       "Do not change sr-engine solely to match VoiceOver announcements that appear to come from visual image/text recognition unless equivalent text is exposed in reducedHtml through DOM text, alt text, aria-label, or related accessible markup.",
       "Update only necessary sr-engine logic.",
@@ -2607,6 +2608,7 @@ function createAiRefinementInput({
     ],
     knownLimitations: [
       "VoiceOver may announce visual text detected inside images or media, depending on macOS, browser behavior, VoiceOver Recognition, and downloaded recognition models.",
+      "VoiceOver caption OCR can occasionally add incorrect leading characters or punctuation at the start of an announcement.",
       "sr-engine operates on DOM and accessibility semantics. It is not expected to reproduce image-recognition-only announcements unless the page exposes equivalent accessible text in reducedHtml.",
       "Treat additional VoiceOver lines that look like visual OCR output as contextual evidence, not as an automatic sr-engine defect.",
     ],
@@ -2615,6 +2617,8 @@ function createAiRefinementInput({
         "If VoiceOver announces text that is visible in an image but absent from reducedHtml/accessibility markup, classify it as likely visual-recognition output and do not refine sr-engine to synthesize it.",
       actionableMismatch:
         "Refine sr-engine when the VoiceOver behavior can be explained by DOM, ARIA, native HTML semantics, focus/navigation context, or exposed accessible names/descriptions.",
+      captionCleanup:
+        "When building a test suite from this payload, inspect the start of each announcement for obvious caption/OCR artifacts such as stray punctuation or marker characters. Correct those expected strings only when the artifact is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
     },
     target: {
       name: target.name,
@@ -2731,6 +2735,11 @@ function createRefinementManifest({
       accessibilityTree: "accessibility-tree.json",
       scanDebug: "scan-debug.json",
     },
+    refinementNotes: [
+      "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
+      "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
+      "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    ],
     stats: {
       voiceOverAnnouncementCount: voiceOverOutput.length,
       reducedHtml: reducedHtmlStats,
