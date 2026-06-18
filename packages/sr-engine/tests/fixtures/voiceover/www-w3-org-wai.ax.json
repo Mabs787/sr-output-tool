@@ -1,0 +1,8175 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 743,
+  "ignoredNodeCount": 65,
+  "axMappedNodeCount": 255,
+  "domSnapshotMappedNodeCount": 309,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "1",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Home | Web Accessibility Initiative (WAI) | W3C",
+      "backendDOMNodeId": 1,
+      "childIds": [
+        "396"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://www.w3.org/WAI/"
+      }
+    },
+    {
+      "nodeId": "396",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 396,
+      "childIds": [
+        "424"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "424",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 424,
+      "childIds": [
+        "46",
+        "58",
+        "23",
+        "36",
+        "329"
+      ]
+    },
+    {
+      "nodeId": "46",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Skip Link and Language Selector",
+      "backendDOMNodeId": 46,
+      "domNodeId": "1",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
+      "tagName": "nav",
+      "childIds": [
+        "47"
+      ]
+    },
+    {
+      "nodeId": "58",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 58,
+      "domNodeId": "11",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
+      "tagName": "header",
+      "childIds": [
+        "442",
+        "464"
+      ]
+    },
+    {
+      "nodeId": "23",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Main",
+      "backendDOMNodeId": 23,
+      "domNodeId": "53",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"53\"]",
+      "tagName": "nav",
+      "childIds": [
+        "24"
+      ]
+    },
+    {
+      "nodeId": "36",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 36,
+      "domNodeId": "74",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"74\"]",
+      "tagName": "main",
+      "childIds": [
+        "81",
+        "83",
+        "490",
+        "523",
+        "326"
+      ]
+    },
+    {
+      "nodeId": "329",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "Site",
+      "backendDOMNodeId": 329,
+      "domNodeId": "257",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"257\"]",
+      "tagName": "footer",
+      "childIds": [
+        "530"
+      ]
+    },
+    {
+      "nodeId": "47",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 47,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "ul",
+      "childIds": [
+        "48",
+        "51",
+        "54"
+      ]
+    },
+    {
+      "nodeId": "442",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 442,
+      "domNodeId": "12",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"12\"]",
+      "tagName": "div",
+      "childIds": [
+        "10",
+        "12",
+        "456",
+        "462"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "10",
+      "ignored": false,
+      "role": "link",
+      "name": "W3C homepage",
+      "backendDOMNodeId": 10,
+      "domNodeId": "13",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"13\"]",
+      "tagName": "a",
+      "childIds": [
+        "11"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/"
+      }
+    },
+    {
+      "nodeId": "12",
+      "ignored": false,
+      "role": "link",
+      "name": "Web Accessibility Initiative (WAI) homepage",
+      "backendDOMNodeId": 12,
+      "domNodeId": "23",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"23\"]",
+      "tagName": "a",
+      "childIds": [
+        "13"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/"
+      }
+    },
+    {
+      "nodeId": "456",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 456,
+      "domNodeId": "30",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"30\"]",
+      "tagName": "div",
+      "childIds": [
+        "457"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "457",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 457,
+      "domNodeId": "31",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"31\"]",
+      "tagName": "span",
+      "childIds": [
+        "59"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "59",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Strategies, standards, resources to make the Web accessible to people with disabilities",
+      "backendDOMNodeId": 59,
+      "childIds": [
+        "-1000000006",
+        "-1000000007",
+        "-1000000008",
+        "-1000000009",
+        "-1000000010"
+      ]
+    },
+    {
+      "nodeId": "462",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 462,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "464",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 464,
+      "domNodeId": "36",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"36\"]",
+      "tagName": "div",
+      "childIds": [
+        "14"
+      ]
+    },
+    {
+      "nodeId": "24",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 24,
+      "domNodeId": "54",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"54\"]",
+      "tagName": "ul",
+      "childIds": [
+        "25",
+        "26",
+        "28",
+        "30",
+        "32",
+        "34"
+      ]
+    },
+    {
+      "nodeId": "81",
+      "ignored": false,
+      "role": "heading",
+      "name": "W3C Web Accessibility Initiative Home",
+      "backendDOMNodeId": 81,
+      "domNodeId": "75",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"75\"]",
+      "tagName": "h1",
+      "childIds": [
+        "82"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "83",
+      "ignored": false,
+      "role": "region",
+      "name": "Making the Web Accessible",
+      "backendDOMNodeId": 83,
+      "domNodeId": "76",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"76\"]",
+      "tagName": "section",
+      "childIds": [
+        "84",
+        "476",
+        "489"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "490",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 490,
+      "domNodeId": "99",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"99\"]",
+      "tagName": "div",
+      "childIds": [
+        "491",
+        "506"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "491",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 491,
+      "domNodeId": "100",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"100\"]",
+      "tagName": "div",
+      "childIds": [
+        "103"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "103",
+      "ignored": false,
+      "role": "region",
+      "name": "  News",
+      "backendDOMNodeId": 103,
+      "domNodeId": "101",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"101\"]",
+      "tagName": "section",
+      "childIds": [
+        "104",
+        "108",
+        "110",
+        "112",
+        "116",
+        "131",
+        "143",
+        "167",
+        "179",
+        "198",
+        "213",
+        "227",
+        "229"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "506",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 506,
+      "domNodeId": "174",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"174\"]",
+      "tagName": "div",
+      "childIds": [
+        "231",
+        "270",
+        "286",
+        "300"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "231",
+      "ignored": false,
+      "role": "region",
+      "name": "See what we have for you: Get Resources for…",
+      "backendDOMNodeId": 231,
+      "domNodeId": "175",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"175\"]",
+      "tagName": "section",
+      "childIds": [
+        "232",
+        "236"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "270",
+      "ignored": false,
+      "role": "region",
+      "name": "Training Course: Digital Accessibility Foundations",
+      "backendDOMNodeId": 270,
+      "domNodeId": "203",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"203\"]",
+      "tagName": "section",
+      "childIds": [
+        "271"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "286",
+      "ignored": false,
+      "role": "region",
+      "name": "Web Accessibility Perspectives: Video Captions",
+      "backendDOMNodeId": 286,
+      "domNodeId": "217",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"217\"]",
+      "tagName": "section",
+      "childIds": [
+        "287",
+        "515",
+        "292",
+        "294",
+        "516"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "300",
+      "ignored": false,
+      "role": "region",
+      "name": "Featured Resource: Making Audio and Video Media Accessible",
+      "backendDOMNodeId": 300,
+      "domNodeId": "231",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"231\"]",
+      "tagName": "section",
+      "childIds": [
+        "301"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "523",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 523,
+      "domNodeId": "241",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"241\"]",
+      "tagName": "div",
+      "childIds": [
+        "524"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "524",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 524,
+      "domNodeId": "242",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"242\"]",
+      "tagName": "div",
+      "childIds": [
+        "309",
+        "312",
+        "314",
+        "321"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "309",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 309,
+      "domNodeId": "243",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"243\"]",
+      "tagName": "header",
+      "childIds": [
+        "310"
+      ]
+    },
+    {
+      "nodeId": "312",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 312,
+      "domNodeId": "245",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"245\"]",
+      "tagName": "p",
+      "childIds": [
+        "313"
+      ]
+    },
+    {
+      "nodeId": "314",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 314,
+      "domNodeId": "246",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"246\"]",
+      "tagName": "ul",
+      "childIds": [
+        "315"
+      ]
+    },
+    {
+      "nodeId": "321",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 321,
+      "domNodeId": "251",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"251\"]",
+      "tagName": "p",
+      "childIds": [
+        "322",
+        "323",
+        "325"
+      ]
+    },
+    {
+      "nodeId": "326",
+      "ignored": false,
+      "role": "link",
+      "name": " Back to Top",
+      "backendDOMNodeId": 326,
+      "domNodeId": "253",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"253\"]",
+      "tagName": "a",
+      "childIds": [
+        "526"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/#top"
+      }
+    },
+    {
+      "nodeId": "530",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 530,
+      "domNodeId": "258",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"258\"]",
+      "tagName": "div",
+      "childIds": [
+        "531",
+        "534",
+        "373"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "531",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 531,
+      "domNodeId": "259",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"259\"]",
+      "tagName": "div",
+      "childIds": [
+        "532",
+        "533",
+        "333"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "532",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 532,
+      "domNodeId": "260",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"260\"]",
+      "tagName": "div",
+      "childIds": [
+        "330"
+      ]
+    },
+    {
+      "nodeId": "533",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 533,
+      "domNodeId": "262",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"262\"]",
+      "tagName": "div",
+      "childIds": [
+        "332"
+      ]
+    },
+    {
+      "nodeId": "333",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 333,
+      "domNodeId": "263",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"263\"]",
+      "tagName": "div",
+      "childIds": [
+        "334"
+      ]
+    },
+    {
+      "nodeId": "534",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 534,
+      "domNodeId": "277",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"277\"]",
+      "tagName": "div",
+      "childIds": [
+        "347"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "347",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 347,
+      "domNodeId": "278",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"278\"]",
+      "tagName": "div",
+      "childIds": [
+        "348"
+      ]
+    },
+    {
+      "nodeId": "373",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 373,
+      "domNodeId": "296",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"296\"]",
+      "tagName": "p",
+      "childIds": [
+        "374",
+        "375",
+        "377",
+        "535",
+        "536",
+        "537",
+        "564",
+        "380",
+        "382",
+        "383",
+        "385",
+        "386",
+        "388",
+        "389",
+        "391"
+      ]
+    },
+    {
+      "nodeId": "48",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 48,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "li",
+      "childIds": [
+        "49"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "51",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 51,
+      "domNodeId": "5",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
+      "tagName": "li",
+      "childIds": [
+        "52"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "54",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 54,
+      "domNodeId": "7",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"7\"]",
+      "tagName": "li",
+      "childIds": [
+        "55"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "11",
+      "ignored": false,
+      "role": "image",
+      "name": "W3C homepage",
+      "description": "W3C homepage",
+      "backendDOMNodeId": 11,
+      "domNodeId": "14",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"14\"]",
+      "tagName": "svg",
+      "childIds": [
+        "443"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "13",
+      "ignored": false,
+      "role": "image",
+      "name": "Web Accessibility Initiative (WAI) homepage",
+      "description": "Web Accessibility Initiative (WAI) homepage",
+      "backendDOMNodeId": 13,
+      "domNodeId": "24",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"24\"]",
+      "tagName": "svg",
+      "childIds": [
+        "451"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "-1000000006",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Strategies, "
+    },
+    {
+      "nodeId": "-1000000007",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "standards, resources "
+    },
+    {
+      "nodeId": "-1000000008",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "to make the Web "
+    },
+    {
+      "nodeId": "-1000000009",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessible to people "
+    },
+    {
+      "nodeId": "-1000000010",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "with disabilities"
+    },
+    {
+      "nodeId": "14",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Meta & Search",
+      "backendDOMNodeId": 14,
+      "domNodeId": "37",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"37\"]",
+      "tagName": "nav",
+      "childIds": [
+        "60"
+      ]
+    },
+    {
+      "nodeId": "25",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 25,
+      "domNodeId": "55",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"55\"]",
+      "tagName": "li",
+      "childIds": [
+        "68"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "26",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 26,
+      "domNodeId": "58",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"58\"]",
+      "tagName": "li",
+      "childIds": [
+        "70"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "28",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 28,
+      "domNodeId": "61",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"61\"]",
+      "tagName": "li",
+      "childIds": [
+        "72"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "30",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 30,
+      "domNodeId": "64",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"64\"]",
+      "tagName": "li",
+      "childIds": [
+        "74"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "32",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 32,
+      "domNodeId": "67",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"67\"]",
+      "tagName": "li",
+      "childIds": [
+        "76"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "34",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 34,
+      "domNodeId": "70",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"70\"]",
+      "tagName": "li",
+      "childIds": [
+        "78"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "82",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C Web Accessibility Initiative Home",
+      "backendDOMNodeId": 82,
+      "childIds": [
+        "-1000000024"
+      ]
+    },
+    {
+      "nodeId": "84",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 84,
+      "domNodeId": "77",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"77\"]",
+      "tagName": "header",
+      "childIds": [
+        "85",
+        "44"
+      ]
+    },
+    {
+      "nodeId": "476",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 476,
+      "domNodeId": "81",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"81\"]",
+      "tagName": "div",
+      "childIds": [
+        "477",
+        "481",
+        "485"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "477",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 477,
+      "domNodeId": "82",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"82\"]",
+      "tagName": "div",
+      "childIds": [
+        "88",
+        "91"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "88",
+      "ignored": false,
+      "role": "heading",
+      "name": "W3C",
+      "backendDOMNodeId": 88,
+      "domNodeId": "83",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"83\"]",
+      "tagName": "h3",
+      "childIds": [
+        "479",
+        "90"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "91",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 91,
+      "domNodeId": "86",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"86\"]",
+      "tagName": "p",
+      "childIds": [
+        "92"
+      ]
+    },
+    {
+      "nodeId": "481",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 481,
+      "domNodeId": "87",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"87\"]",
+      "tagName": "div",
+      "childIds": [
+        "93",
+        "45"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "93",
+      "ignored": false,
+      "role": "heading",
+      "name": "WAI",
+      "backendDOMNodeId": 93,
+      "domNodeId": "88",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"88\"]",
+      "tagName": "h3",
+      "childIds": [
+        "483",
+        "95"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "45",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 45,
+      "domNodeId": "91",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"91\"]",
+      "tagName": "p",
+      "childIds": [
+        "96"
+      ]
+    },
+    {
+      "nodeId": "485",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 485,
+      "domNodeId": "92",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"92\"]",
+      "tagName": "div",
+      "childIds": [
+        "97",
+        "100"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "97",
+      "ignored": false,
+      "role": "heading",
+      "name": "You",
+      "backendDOMNodeId": 97,
+      "domNodeId": "93",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"93\"]",
+      "tagName": "h3",
+      "childIds": [
+        "487",
+        "99"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "100",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 100,
+      "domNodeId": "96",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"96\"]",
+      "tagName": "p",
+      "childIds": [
+        "101"
+      ]
+    },
+    {
+      "nodeId": "489",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 489,
+      "domNodeId": "97",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"97\"]",
+      "tagName": "div",
+      "childIds": [
+        "37"
+      ]
+    },
+    {
+      "nodeId": "104",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 104,
+      "domNodeId": "102",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"102\"]",
+      "tagName": "header",
+      "childIds": [
+        "105"
+      ]
+    },
+    {
+      "nodeId": "108",
+      "ignored": false,
+      "role": "heading",
+      "name": "Current Work",
+      "backendDOMNodeId": 108,
+      "domNodeId": "106",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"106\"]",
+      "tagName": "h3",
+      "childIds": [
+        "109"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "110",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 110,
+      "domNodeId": "107",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"107\"]",
+      "tagName": "p",
+      "childIds": [
+        "111"
+      ]
+    },
+    {
+      "nodeId": "112",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 112,
+      "domNodeId": "109",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"109\"]",
+      "tagName": "p",
+      "childIds": [
+        "495"
+      ]
+    },
+    {
+      "nodeId": "116",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 116,
+      "domNodeId": "112",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"112\"]",
+      "tagName": "article",
+      "childIds": [
+        "117",
+        "119",
+        "121"
+      ]
+    },
+    {
+      "nodeId": "131",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 131,
+      "domNodeId": "120",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"120\"]",
+      "tagName": "article",
+      "childIds": [
+        "132",
+        "134",
+        "136"
+      ]
+    },
+    {
+      "nodeId": "143",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 143,
+      "domNodeId": "127",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"127\"]",
+      "tagName": "article",
+      "childIds": [
+        "144",
+        "146",
+        "148"
+      ]
+    },
+    {
+      "nodeId": "167",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 167,
+      "domNodeId": "138",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"138\"]",
+      "tagName": "article",
+      "childIds": [
+        "168",
+        "170",
+        "172"
+      ]
+    },
+    {
+      "nodeId": "179",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 179,
+      "domNodeId": "145",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"145\"]",
+      "tagName": "article",
+      "childIds": [
+        "180",
+        "182",
+        "184"
+      ]
+    },
+    {
+      "nodeId": "198",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 198,
+      "domNodeId": "154",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"154\"]",
+      "tagName": "article",
+      "childIds": [
+        "199",
+        "201",
+        "203"
+      ]
+    },
+    {
+      "nodeId": "213",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 213,
+      "domNodeId": "162",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"162\"]",
+      "tagName": "article",
+      "childIds": [
+        "214",
+        "216",
+        "218"
+      ]
+    },
+    {
+      "nodeId": "227",
+      "ignored": false,
+      "role": "link",
+      "name": "See All News",
+      "backendDOMNodeId": 227,
+      "domNodeId": "170",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"170\"]",
+      "tagName": "a",
+      "childIds": [
+        "504"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/news/"
+      }
+    },
+    {
+      "nodeId": "229",
+      "ignored": false,
+      "role": "link",
+      "name": "Subscribe to WAI News",
+      "backendDOMNodeId": 229,
+      "domNodeId": "172",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"172\"]",
+      "tagName": "a",
+      "childIds": [
+        "505"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/news/subscribe/"
+      }
+    },
+    {
+      "nodeId": "232",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 232,
+      "domNodeId": "176",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"176\"]",
+      "tagName": "header",
+      "childIds": [
+        "233"
+      ]
+    },
+    {
+      "nodeId": "236",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 236,
+      "domNodeId": "180",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"180\"]",
+      "tagName": "ul",
+      "childIds": [
+        "237",
+        "240",
+        "243",
+        "246",
+        "249",
+        "252",
+        "255",
+        "258",
+        "261",
+        "264",
+        "267"
+      ]
+    },
+    {
+      "nodeId": "271",
+      "ignored": false,
+      "role": "link",
+      "name": "The free \"Introduction to Web Accessibility\" online course provides the foundation you need to make your digital technology accessible. It's designed for: technical and non-technical learners developers, designers, ux, writers, managers, advocates professionals, instructors, students About the Free Online Course",
+      "backendDOMNodeId": 271,
+      "domNodeId": "204",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"204\"]",
+      "tagName": "a",
+      "childIds": [
+        "272",
+        "276",
+        "278",
+        "511"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/fundamentals/foundations-course/"
+      }
+    },
+    {
+      "nodeId": "287",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 287,
+      "domNodeId": "218",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"218\"]",
+      "tagName": "header",
+      "childIds": [
+        "288"
+      ]
+    },
+    {
+      "nodeId": "515",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 515,
+      "domNodeId": "222",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"222\"]",
+      "tagName": "div",
+      "childIds": [
+        "291"
+      ]
+    },
+    {
+      "nodeId": "292",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 292,
+      "domNodeId": "224",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"224\"]",
+      "tagName": "p",
+      "childIds": [
+        "293"
+      ]
+    },
+    {
+      "nodeId": "294",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 294,
+      "domNodeId": "225",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"225\"]",
+      "tagName": "p",
+      "childIds": [
+        "295"
+      ]
+    },
+    {
+      "nodeId": "516",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 516,
+      "domNodeId": "226",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
+      "tagName": "div",
+      "childIds": [
+        "296",
+        "298"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "296",
+      "ignored": false,
+      "role": "link",
+      "name": "More About Video Captions",
+      "backendDOMNodeId": 296,
+      "domNodeId": "227",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"227\"]",
+      "tagName": "a",
+      "childIds": [
+        "517"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/perspective-videos/captions/"
+      }
+    },
+    {
+      "nodeId": "298",
+      "ignored": false,
+      "role": "link",
+      "name": "See All Perspectives Videos",
+      "backendDOMNodeId": 298,
+      "domNodeId": "229",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"229\"]",
+      "tagName": "a",
+      "childIds": [
+        "518"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/perspective-videos/"
+      }
+    },
+    {
+      "nodeId": "301",
+      "ignored": false,
+      "role": "link",
+      "name": "This media resource helps you understand and create captions/subtitles, audio description of visual information, descriptive transcripts, and sign language for media. It introduces user experiences and benefits to organizations. Making Audio and Video Media Accessible",
+      "backendDOMNodeId": 301,
+      "domNodeId": "232",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"232\"]",
+      "tagName": "a",
+      "childIds": [
+        "302",
+        "306",
+        "521"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/media/av/"
+      }
+    },
+    {
+      "nodeId": "310",
+      "ignored": false,
+      "role": "heading",
+      "name": "Sponsors and Funders",
+      "backendDOMNodeId": 310,
+      "domNodeId": "244",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"244\"]",
+      "tagName": "h2",
+      "childIds": [
+        "311"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "313",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WAI is supported in part by the following organizations. Thank you!",
+      "backendDOMNodeId": 313,
+      "childIds": [
+        "-1000000261"
+      ]
+    },
+    {
+      "nodeId": "315",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 315,
+      "domNodeId": "247",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"247\"]",
+      "tagName": "li",
+      "childIds": [
+        "563",
+        "316",
+        "318",
+        "319"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "322",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WAI welcomes donations, sponsors, grants and other ",
+      "backendDOMNodeId": 322,
+      "childIds": [
+        "-1000000737"
+      ]
+    },
+    {
+      "nodeId": "323",
+      "ignored": false,
+      "role": "link",
+      "name": "financial support",
+      "backendDOMNodeId": 323,
+      "domNodeId": "252",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"252\"]",
+      "tagName": "a",
+      "childIds": [
+        "324"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/support/"
+      }
+    },
+    {
+      "nodeId": "325",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 325,
+      "childIds": [
+        "-1000000739"
+      ]
+    },
+    {
+      "nodeId": "526",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 526,
+      "domNodeId": "254",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"254\"]",
+      "tagName": "span",
+      "childIds": [
+        "528",
+        "328"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "528",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 528,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "328",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " Back to Top",
+      "backendDOMNodeId": 328,
+      "childIds": [
+        "-1000000269"
+      ]
+    },
+    {
+      "nodeId": "330",
+      "ignored": false,
+      "role": "link",
+      "name": "W3C Web Accessibility Initiative (WAI)",
+      "backendDOMNodeId": 330,
+      "domNodeId": "261",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"261\"]",
+      "tagName": "a",
+      "childIds": [
+        "331"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/"
+      }
+    },
+    {
+      "nodeId": "332",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Strategies, standards, resources to make the Web accessible to people with disabilities",
+      "backendDOMNodeId": 332,
+      "childIds": [
+        "-1000000271"
+      ]
+    },
+    {
+      "nodeId": "334",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 334,
+      "domNodeId": "264",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"264\"]",
+      "tagName": "ul",
+      "childIds": [
+        "335",
+        "338",
+        "341",
+        "344"
+      ]
+    },
+    {
+      "nodeId": "348",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 348,
+      "domNodeId": "279",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"279\"]",
+      "tagName": "ul",
+      "childIds": [
+        "349",
+        "352",
+        "355",
+        "358",
+        "361",
+        "364",
+        "367",
+        "370"
+      ]
+    },
+    {
+      "nodeId": "374",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Copyright © 2026 ",
+      "backendDOMNodeId": 374,
+      "childIds": [
+        "-1000000801"
+      ]
+    },
+    {
+      "nodeId": "375",
+      "ignored": false,
+      "role": "link",
+      "name": "World Wide Web Consortium",
+      "backendDOMNodeId": 375,
+      "domNodeId": "297",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"297\"]",
+      "tagName": "a",
+      "childIds": [
+        "376"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/"
+      }
+    },
+    {
+      "nodeId": "377",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 377,
+      "childIds": [
+        "-1000000803"
+      ]
+    },
+    {
+      "nodeId": "535",
+      "ignored": false,
+      "role": "LineBreak",
+      "name": "\n",
+      "backendDOMNodeId": 535,
+      "domNodeId": "298",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"298\"]",
+      "tagName": "br",
+      "childIds": [
+        "-1000000804"
+      ]
+    },
+    {
+      "nodeId": "536",
+      "ignored": false,
+      "role": "Abbr",
+      "name": "World Wide Web Consortium",
+      "backendDOMNodeId": 536,
+      "domNodeId": "299",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"299\"]",
+      "tagName": "abbr",
+      "childIds": [
+        "378"
+      ]
+    },
+    {
+      "nodeId": "537",
+      "ignored": false,
+      "role": "superscript",
+      "name": "",
+      "backendDOMNodeId": 537,
+      "domNodeId": "300",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"300\"]",
+      "tagName": "sup",
+      "childIds": [
+        "379"
+      ]
+    },
+    {
+      "nodeId": "564",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " ",
+      "backendDOMNodeId": 564,
+      "childIds": [
+        "-1000000807"
+      ]
+    },
+    {
+      "nodeId": "380",
+      "ignored": false,
+      "role": "link",
+      "name": "liability",
+      "backendDOMNodeId": 380,
+      "domNodeId": "301",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"301\"]",
+      "tagName": "a",
+      "childIds": [
+        "381"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/policies/#disclaimers"
+      }
+    },
+    {
+      "nodeId": "382",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", ",
+      "backendDOMNodeId": 382,
+      "childIds": [
+        "-1000000809"
+      ]
+    },
+    {
+      "nodeId": "383",
+      "ignored": false,
+      "role": "link",
+      "name": "trademark",
+      "backendDOMNodeId": 383,
+      "domNodeId": "302",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"302\"]",
+      "tagName": "a",
+      "childIds": [
+        "384"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/policies/#trademarks"
+      }
+    },
+    {
+      "nodeId": "385",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " and ",
+      "backendDOMNodeId": 385,
+      "childIds": [
+        "-1000000811"
+      ]
+    },
+    {
+      "nodeId": "386",
+      "ignored": false,
+      "role": "link",
+      "name": "permissive license",
+      "description": "W3C Software License",
+      "backendDOMNodeId": 386,
+      "domNodeId": "303",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"303\"]",
+      "tagName": "a",
+      "childIds": [
+        "387"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/copyright/software-license/"
+      }
+    },
+    {
+      "nodeId": "388",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " rules apply unless otherwise noted. See ",
+      "backendDOMNodeId": 388,
+      "childIds": [
+        "-1000000813"
+      ]
+    },
+    {
+      "nodeId": "389",
+      "ignored": false,
+      "role": "link",
+      "name": "Permission to Use WAI Material",
+      "backendDOMNodeId": 389,
+      "domNodeId": "304",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"304\"]",
+      "tagName": "a",
+      "childIds": [
+        "390"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/using-wai-material/"
+      }
+    },
+    {
+      "nodeId": "391",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 391,
+      "childIds": [
+        "-1000000815"
+      ]
+    },
+    {
+      "nodeId": "49",
+      "ignored": false,
+      "role": "link",
+      "name": "Skip to Content",
+      "backendDOMNodeId": 49,
+      "domNodeId": "4",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
+      "tagName": "a",
+      "childIds": [
+        "50"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/#main"
+      }
+    },
+    {
+      "nodeId": "52",
+      "ignored": false,
+      "role": "link",
+      "name": "Change Text Size or Colors",
+      "backendDOMNodeId": 52,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "a",
+      "childIds": [
+        "53"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/meta/customize/"
+      }
+    },
+    {
+      "nodeId": "55",
+      "ignored": false,
+      "role": "link",
+      "name": "All Translations ",
+      "backendDOMNodeId": 55,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "a",
+      "childIds": [
+        "56",
+        "427"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/translations/"
+      }
+    },
+    {
+      "nodeId": "443",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 443,
+      "domNodeId": "15",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"15\"]",
+      "tagName": "title",
+      "childIds": [
+        "545"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "545",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 545,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "451",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 451,
+      "domNodeId": "25",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"25\"]",
+      "tagName": "title",
+      "childIds": [
+        "546"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "546",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 546,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "60",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 60,
+      "domNodeId": "38",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"38\"]",
+      "tagName": "ul",
+      "childIds": [
+        "15",
+        "17",
+        "20"
+      ]
+    },
+    {
+      "nodeId": "68",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility Fundamentals",
+      "backendDOMNodeId": 68,
+      "domNodeId": "56",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"56\"]",
+      "tagName": "a",
+      "childIds": [
+        "474"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/fundamentals/"
+      }
+    },
+    {
+      "nodeId": "70",
+      "ignored": false,
+      "role": "link",
+      "name": "Planning & Policies",
+      "backendDOMNodeId": 70,
+      "domNodeId": "59",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"59\"]",
+      "tagName": "a",
+      "childIds": [
+        "27"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/planning/"
+      }
+    },
+    {
+      "nodeId": "72",
+      "ignored": false,
+      "role": "link",
+      "name": "Design & Develop",
+      "backendDOMNodeId": 72,
+      "domNodeId": "62",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"62\"]",
+      "tagName": "a",
+      "childIds": [
+        "29"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/design-develop/"
+      }
+    },
+    {
+      "nodeId": "74",
+      "ignored": false,
+      "role": "link",
+      "name": "Test & Evaluate",
+      "backendDOMNodeId": 74,
+      "domNodeId": "65",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"65\"]",
+      "tagName": "a",
+      "childIds": [
+        "31"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/test-evaluate/"
+      }
+    },
+    {
+      "nodeId": "76",
+      "ignored": false,
+      "role": "link",
+      "name": "Teach & Advocate",
+      "backendDOMNodeId": 76,
+      "domNodeId": "68",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"68\"]",
+      "tagName": "a",
+      "childIds": [
+        "33"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/teach-advocate/"
+      }
+    },
+    {
+      "nodeId": "78",
+      "ignored": false,
+      "role": "link",
+      "name": "Standards/ Guidelines",
+      "backendDOMNodeId": 78,
+      "domNodeId": "71",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"71\"]",
+      "tagName": "a",
+      "childIds": [
+        "35"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/"
+      }
+    },
+    {
+      "nodeId": "-1000000024",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C Web Accessibility Initiative Home"
+    },
+    {
+      "nodeId": "85",
+      "ignored": false,
+      "role": "heading",
+      "name": "Making the Web Accessible",
+      "backendDOMNodeId": 85,
+      "domNodeId": "78",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"78\"]",
+      "tagName": "h2",
+      "childIds": [
+        "392"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "44",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 44,
+      "domNodeId": "80",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"80\"]",
+      "tagName": "p",
+      "childIds": [
+        "87"
+      ]
+    },
+    {
+      "nodeId": "479",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 479,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "90",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C",
+      "backendDOMNodeId": 90,
+      "childIds": [
+        "-1000000028"
+      ]
+    },
+    {
+      "nodeId": "92",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The World Wide Web Consortium (W3C) develops international standards for the Web: HTML, CSS, and many more.",
+      "backendDOMNodeId": 92,
+      "childIds": [
+        "-1000000029",
+        "-1000000030",
+        "-1000000031",
+        "-1000000032",
+        "-1000000033"
+      ]
+    },
+    {
+      "nodeId": "483",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 483,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "95",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WAI",
+      "backendDOMNodeId": 95,
+      "childIds": [
+        "-1000000034"
+      ]
+    },
+    {
+      "nodeId": "96",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The W3C Web Accessibility Initiative (WAI) develops standards and support materials to help you understand and implement accessibility.",
+      "backendDOMNodeId": 96,
+      "childIds": [
+        "-1000000035",
+        "-1000000036",
+        "-1000000037",
+        "-1000000038",
+        "-1000000039",
+        "-1000000040"
+      ]
+    },
+    {
+      "nodeId": "487",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 487,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "99",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "You",
+      "backendDOMNodeId": 99,
+      "childIds": [
+        "-1000000041"
+      ]
+    },
+    {
+      "nodeId": "101",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "You can use W3C WAI resources to make your websites, applications, and other digital creations more accessible and usable to everyone.",
+      "backendDOMNodeId": 101,
+      "childIds": [
+        "-1000000042",
+        "-1000000043",
+        "-1000000044",
+        "-1000000045",
+        "-1000000046",
+        "-1000000047"
+      ]
+    },
+    {
+      "nodeId": "37",
+      "ignored": false,
+      "role": "button",
+      "name": "Hide Section –",
+      "backendDOMNodeId": 37,
+      "domNodeId": "98",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"98\"]",
+      "tagName": "button",
+      "childIds": [
+        "102",
+        "548"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": true
+      }
+    },
+    {
+      "nodeId": "105",
+      "ignored": false,
+      "role": "heading",
+      "name": "  News",
+      "backendDOMNodeId": 105,
+      "domNodeId": "103",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"103\"]",
+      "tagName": "h2",
+      "childIds": [
+        "106",
+        "493"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "109",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Current Work",
+      "backendDOMNodeId": 109,
+      "childIds": [
+        "-1000000053"
+      ]
+    },
+    {
+      "nodeId": "111",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(updated monthly)",
+      "backendDOMNodeId": 111,
+      "childIds": [
+        "-1000000054"
+      ]
+    },
+    {
+      "nodeId": "495",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 495,
+      "domNodeId": "110",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"110\"]",
+      "tagName": "strong",
+      "childIds": [
+        "113",
+        "114"
+      ]
+    },
+    {
+      "nodeId": "117",
+      "ignored": false,
+      "role": "heading",
+      "name": "For Review: WCAG 3 Working Draft – March 2026",
+      "backendDOMNodeId": 117,
+      "domNodeId": "113",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"113\"]",
+      "tagName": "h3",
+      "childIds": [
+        "118"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "119",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 119,
+      "domNodeId": "114",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"114\"]",
+      "tagName": "p",
+      "childIds": [
+        "120"
+      ]
+    },
+    {
+      "nodeId": "121",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 121,
+      "domNodeId": "116",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"116\"]",
+      "tagName": "p",
+      "childIds": [
+        "122",
+        "124",
+        "125",
+        "127",
+        "128",
+        "130"
+      ]
+    },
+    {
+      "nodeId": "132",
+      "ignored": false,
+      "role": "heading",
+      "name": "For Review: W3C Accessibility Guidelines Evaluation Methodology (WCAG-EM) 2.0 — First Draft Note",
+      "backendDOMNodeId": 132,
+      "domNodeId": "121",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"121\"]",
+      "tagName": "h3",
+      "childIds": [
+        "133"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "134",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 134,
+      "domNodeId": "122",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"122\"]",
+      "tagName": "p",
+      "childIds": [
+        "135"
+      ]
+    },
+    {
+      "nodeId": "136",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 136,
+      "domNodeId": "124",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"124\"]",
+      "tagName": "p",
+      "childIds": [
+        "137",
+        "139",
+        "140",
+        "142"
+      ]
+    },
+    {
+      "nodeId": "144",
+      "ignored": false,
+      "role": "heading",
+      "name": "For Review: Cognitive Accessibility Research Modules — First Draft Notes",
+      "backendDOMNodeId": 144,
+      "domNodeId": "128",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"128\"]",
+      "tagName": "h3",
+      "childIds": [
+        "145"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "146",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 146,
+      "domNodeId": "129",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"129\"]",
+      "tagName": "p",
+      "childIds": [
+        "147"
+      ]
+    },
+    {
+      "nodeId": "148",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 148,
+      "domNodeId": "131",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"131\"]",
+      "tagName": "p",
+      "childIds": [
+        "149",
+        "151",
+        "152",
+        "154",
+        "155",
+        "157",
+        "158",
+        "160",
+        "161",
+        "163",
+        "164",
+        "166"
+      ]
+    },
+    {
+      "nodeId": "168",
+      "ignored": false,
+      "role": "heading",
+      "name": "ACT Rules Format 1.1 is a Web Standard (W3C Recommendation)",
+      "backendDOMNodeId": 168,
+      "domNodeId": "139",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"139\"]",
+      "tagName": "h3",
+      "childIds": [
+        "169"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "170",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 170,
+      "domNodeId": "140",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"140\"]",
+      "tagName": "p",
+      "childIds": [
+        "171"
+      ]
+    },
+    {
+      "nodeId": "172",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 172,
+      "domNodeId": "142",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"142\"]",
+      "tagName": "p",
+      "childIds": [
+        "173",
+        "175",
+        "176",
+        "178"
+      ]
+    },
+    {
+      "nodeId": "180",
+      "ignored": false,
+      "role": "heading",
+      "name": "WCAG 2.2 Approved as an ISO Standard",
+      "backendDOMNodeId": 180,
+      "domNodeId": "146",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"146\"]",
+      "tagName": "h3",
+      "childIds": [
+        "181"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "182",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 182,
+      "domNodeId": "147",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"147\"]",
+      "tagName": "p",
+      "childIds": [
+        "183"
+      ]
+    },
+    {
+      "nodeId": "184",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 184,
+      "domNodeId": "149",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"149\"]",
+      "tagName": "p",
+      "childIds": [
+        "185",
+        "186",
+        "188",
+        "189",
+        "191",
+        "192",
+        "194",
+        "195",
+        "197"
+      ]
+    },
+    {
+      "nodeId": "199",
+      "ignored": false,
+      "role": "heading",
+      "name": "For Review: WCAG 3 Working Draft - September 2025",
+      "backendDOMNodeId": 199,
+      "domNodeId": "155",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"155\"]",
+      "tagName": "h3",
+      "childIds": [
+        "200"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "201",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 201,
+      "domNodeId": "156",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"156\"]",
+      "tagName": "p",
+      "childIds": [
+        "202"
+      ]
+    },
+    {
+      "nodeId": "203",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 203,
+      "domNodeId": "158",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"158\"]",
+      "tagName": "p",
+      "childIds": [
+        "204",
+        "206",
+        "207",
+        "209",
+        "210",
+        "212"
+      ]
+    },
+    {
+      "nodeId": "214",
+      "ignored": false,
+      "role": "heading",
+      "name": "For Wide Review: Accessibility Maturity Model — Updated Draft Note",
+      "backendDOMNodeId": 214,
+      "domNodeId": "163",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"163\"]",
+      "tagName": "h3",
+      "childIds": [
+        "215"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "216",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 216,
+      "domNodeId": "164",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"164\"]",
+      "tagName": "p",
+      "childIds": [
+        "217"
+      ]
+    },
+    {
+      "nodeId": "218",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 218,
+      "domNodeId": "166",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"166\"]",
+      "tagName": "p",
+      "childIds": [
+        "219",
+        "221",
+        "222",
+        "224",
+        "503",
+        "226"
+      ]
+    },
+    {
+      "nodeId": "504",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 504,
+      "domNodeId": "171",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"171\"]",
+      "tagName": "span",
+      "childIds": [
+        "228"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "228",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "See All News",
+      "backendDOMNodeId": 228,
+      "childIds": [
+        "-1000000168"
+      ]
+    },
+    {
+      "nodeId": "505",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 505,
+      "domNodeId": "173",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"173\"]",
+      "tagName": "span",
+      "childIds": [
+        "230"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "230",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Subscribe to WAI News",
+      "backendDOMNodeId": 230,
+      "childIds": [
+        "-1000000169"
+      ]
+    },
+    {
+      "nodeId": "233",
+      "ignored": false,
+      "role": "heading",
+      "name": "See what we have for you: Get Resources for…",
+      "backendDOMNodeId": 233,
+      "domNodeId": "177",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"177\"]",
+      "tagName": "h2",
+      "childIds": [
+        "234",
+        "508"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "237",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 237,
+      "domNodeId": "181",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"181\"]",
+      "tagName": "li",
+      "childIds": [
+        "549",
+        "238"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "240",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 240,
+      "domNodeId": "183",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"183\"]",
+      "tagName": "li",
+      "childIds": [
+        "550",
+        "241"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "243",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 243,
+      "domNodeId": "185",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"185\"]",
+      "tagName": "li",
+      "childIds": [
+        "551",
+        "244"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "246",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 246,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "li",
+      "childIds": [
+        "552",
+        "247"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "249",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 249,
+      "domNodeId": "189",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"189\"]",
+      "tagName": "li",
+      "childIds": [
+        "553",
+        "250"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "252",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 252,
+      "domNodeId": "191",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
+      "tagName": "li",
+      "childIds": [
+        "554",
+        "253"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "255",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 255,
+      "domNodeId": "193",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"193\"]",
+      "tagName": "li",
+      "childIds": [
+        "555",
+        "256"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "258",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 258,
+      "domNodeId": "195",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
+      "tagName": "li",
+      "childIds": [
+        "556",
+        "259"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "261",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 261,
+      "domNodeId": "197",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"197\"]",
+      "tagName": "li",
+      "childIds": [
+        "557",
+        "262"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "264",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 264,
+      "domNodeId": "199",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"199\"]",
+      "tagName": "li",
+      "childIds": [
+        "558",
+        "265"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "267",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 267,
+      "domNodeId": "201",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"201\"]",
+      "tagName": "li",
+      "childIds": [
+        "559",
+        "268"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "272",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 272,
+      "domNodeId": "205",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"205\"]",
+      "tagName": "header",
+      "childIds": [
+        "273"
+      ]
+    },
+    {
+      "nodeId": "276",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 276,
+      "domNodeId": "210",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"210\"]",
+      "tagName": "p",
+      "childIds": [
+        "277"
+      ]
+    },
+    {
+      "nodeId": "278",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 278,
+      "domNodeId": "211",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"211\"]",
+      "tagName": "ul",
+      "childIds": [
+        "279",
+        "281",
+        "283"
+      ]
+    },
+    {
+      "nodeId": "511",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 511,
+      "domNodeId": "215",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"215\"]",
+      "tagName": "div",
+      "childIds": [
+        "285"
+      ]
+    },
+    {
+      "nodeId": "288",
+      "ignored": false,
+      "role": "heading",
+      "name": "Web Accessibility Perspectives: Video Captions",
+      "backendDOMNodeId": 288,
+      "domNodeId": "219",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"219\"]",
+      "tagName": "h2",
+      "childIds": [
+        "289",
+        "514"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "291",
+      "ignored": false,
+      "role": "Iframe",
+      "name": "Video",
+      "backendDOMNodeId": 291,
+      "domNodeId": "223",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"223\"]",
+      "tagName": "iframe"
+    },
+    {
+      "nodeId": "293",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Captions are the audio information in text that is synchronized with the audio and visual content. Captions are called \"subtitles\" in some regions.",
+      "backendDOMNodeId": 293,
+      "childIds": [
+        "-1000000233",
+        "-1000000234",
+        "-1000000235",
+        "-1000000236",
+        "-1000000237",
+        "-1000000238"
+      ]
+    },
+    {
+      "nodeId": "295",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Video Captions are essential for people with disabilities and benefit everyone in a variety of situations.",
+      "backendDOMNodeId": 295,
+      "childIds": [
+        "-1000000239",
+        "-1000000240",
+        "-1000000241",
+        "-1000000242"
+      ]
+    },
+    {
+      "nodeId": "517",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 517,
+      "domNodeId": "228",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"228\"]",
+      "tagName": "span",
+      "childIds": [
+        "297"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "297",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "More About Video Captions",
+      "backendDOMNodeId": 297,
+      "childIds": [
+        "-1000000243"
+      ]
+    },
+    {
+      "nodeId": "518",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 518,
+      "domNodeId": "230",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"230\"]",
+      "tagName": "span",
+      "childIds": [
+        "299"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "299",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "See All Perspectives Videos",
+      "backendDOMNodeId": 299,
+      "childIds": [
+        "-1000000244"
+      ]
+    },
+    {
+      "nodeId": "302",
+      "ignored": false,
+      "role": "sectionheader",
+      "name": "",
+      "backendDOMNodeId": 302,
+      "domNodeId": "233",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"233\"]",
+      "tagName": "header",
+      "childIds": [
+        "303"
+      ]
+    },
+    {
+      "nodeId": "306",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 306,
+      "domNodeId": "238",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"238\"]",
+      "tagName": "p",
+      "childIds": [
+        "307"
+      ]
+    },
+    {
+      "nodeId": "521",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 521,
+      "domNodeId": "239",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"239\"]",
+      "tagName": "div",
+      "childIds": [
+        "308"
+      ]
+    },
+    {
+      "nodeId": "311",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sponsors and Funders",
+      "backendDOMNodeId": 311,
+      "childIds": [
+        "-1000000260"
+      ]
+    },
+    {
+      "nodeId": "-1000000261",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WAI is supported in part by the following organizations. Thank you!"
+    },
+    {
+      "nodeId": "563",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 563,
+      "childIds": [
+        "-1000000866"
+      ]
+    },
+    {
+      "nodeId": "316",
+      "ignored": false,
+      "role": "link",
+      "name": "Ford Foundation",
+      "backendDOMNodeId": 316,
+      "domNodeId": "249",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"249\"]",
+      "tagName": "a",
+      "childIds": [
+        "317"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.fordfoundation.org/"
+      }
+    },
+    {
+      "nodeId": "318",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", ",
+      "backendDOMNodeId": 318,
+      "childIds": [
+        "-1000000868"
+      ]
+    },
+    {
+      "nodeId": "319",
+      "ignored": false,
+      "role": "link",
+      "name": "Technology and Society Program",
+      "backendDOMNodeId": 319,
+      "domNodeId": "250",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"250\"]",
+      "tagName": "a",
+      "childIds": [
+        "320"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.fordfoundation.org/work/challenging-inequality/technology-and-society/"
+      }
+    },
+    {
+      "nodeId": "-1000000737",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WAI welcomes donations, sponsors, grants and other "
+    },
+    {
+      "nodeId": "324",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "financial support",
+      "backendDOMNodeId": 324,
+      "childIds": [
+        "-1000000738"
+      ]
+    },
+    {
+      "nodeId": "-1000000739",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000269",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " Back to Top"
+    },
+    {
+      "nodeId": "331",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C Web Accessibility Initiative (WAI)",
+      "backendDOMNodeId": 331,
+      "childIds": [
+        "-1000000740"
+      ]
+    },
+    {
+      "nodeId": "-1000000271",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Strategies, standards, resources to make the Web accessible to people with disabilities"
+    },
+    {
+      "nodeId": "335",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 335,
+      "domNodeId": "265",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"265\"]",
+      "tagName": "li",
+      "childIds": [
+        "336"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "338",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 338,
+      "domNodeId": "268",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"268\"]",
+      "tagName": "li",
+      "childIds": [
+        "339"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "341",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 341,
+      "domNodeId": "271",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"271\"]",
+      "tagName": "li",
+      "childIds": [
+        "342"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "344",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 344,
+      "domNodeId": "274",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"274\"]",
+      "tagName": "li",
+      "childIds": [
+        "345"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "349",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 349,
+      "domNodeId": "280",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"280\"]",
+      "tagName": "li",
+      "childIds": [
+        "350"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "352",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 352,
+      "domNodeId": "282",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"282\"]",
+      "tagName": "li",
+      "childIds": [
+        "353"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "355",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 355,
+      "domNodeId": "284",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"284\"]",
+      "tagName": "li",
+      "childIds": [
+        "356"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "358",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 358,
+      "domNodeId": "286",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"286\"]",
+      "tagName": "li",
+      "childIds": [
+        "359"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "361",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 361,
+      "domNodeId": "288",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"288\"]",
+      "tagName": "li",
+      "childIds": [
+        "362"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "364",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 364,
+      "domNodeId": "290",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"290\"]",
+      "tagName": "li",
+      "childIds": [
+        "365"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "367",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 367,
+      "domNodeId": "292",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"292\"]",
+      "tagName": "li",
+      "childIds": [
+        "368"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "370",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 370,
+      "domNodeId": "294",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"294\"]",
+      "tagName": "li",
+      "childIds": [
+        "371"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "-1000000801",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Copyright © 2026 "
+    },
+    {
+      "nodeId": "376",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "World Wide Web Consortium",
+      "backendDOMNodeId": 376,
+      "childIds": [
+        "-1000000802"
+      ]
+    },
+    {
+      "nodeId": "-1000000803",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000804",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "\n"
+    },
+    {
+      "nodeId": "378",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C",
+      "backendDOMNodeId": 378,
+      "childIds": [
+        "-1000000805"
+      ]
+    },
+    {
+      "nodeId": "379",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "®",
+      "backendDOMNodeId": 379,
+      "childIds": [
+        "-1000000806"
+      ]
+    },
+    {
+      "nodeId": "-1000000807",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " "
+    },
+    {
+      "nodeId": "381",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "liability",
+      "backendDOMNodeId": 381,
+      "childIds": [
+        "-1000000808"
+      ]
+    },
+    {
+      "nodeId": "-1000000809",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", "
+    },
+    {
+      "nodeId": "384",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "trademark",
+      "backendDOMNodeId": 384,
+      "childIds": [
+        "-1000000810"
+      ]
+    },
+    {
+      "nodeId": "-1000000811",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " and "
+    },
+    {
+      "nodeId": "387",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "permissive license",
+      "backendDOMNodeId": 387,
+      "childIds": [
+        "-1000000812"
+      ]
+    },
+    {
+      "nodeId": "-1000000813",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " rules apply unless otherwise noted. See "
+    },
+    {
+      "nodeId": "390",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Permission to Use WAI Material",
+      "backendDOMNodeId": 390,
+      "childIds": [
+        "-1000000814"
+      ]
+    },
+    {
+      "nodeId": "-1000000815",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "50",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Skip to Content",
+      "backendDOMNodeId": 50,
+      "childIds": [
+        "-1000000003"
+      ]
+    },
+    {
+      "nodeId": "53",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Change Text Size or Colors",
+      "backendDOMNodeId": 53,
+      "childIds": [
+        "-1000000004"
+      ]
+    },
+    {
+      "nodeId": "56",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "All Translations ",
+      "backendDOMNodeId": 56,
+      "childIds": [
+        "-1000000005"
+      ]
+    },
+    {
+      "nodeId": "427",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 427,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "15",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 15,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "li",
+      "childIds": [
+        "16"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "17",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 17,
+      "domNodeId": "41",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"41\"]",
+      "tagName": "li",
+      "childIds": [
+        "18"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 20,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "li",
+      "childIds": [
+        "8"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "474",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 474,
+      "domNodeId": "57",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"57\"]",
+      "tagName": "span",
+      "childIds": [
+        "69"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "69",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility Fundamentals",
+      "backendDOMNodeId": 69,
+      "childIds": [
+        "-1000000016",
+        "-1000000017"
+      ]
+    },
+    {
+      "nodeId": "27",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 27,
+      "domNodeId": "60",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"60\"]",
+      "tagName": "span",
+      "childIds": [
+        "71"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "71",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Planning & Policies",
+      "backendDOMNodeId": 71,
+      "childIds": [
+        "-1000000018"
+      ]
+    },
+    {
+      "nodeId": "29",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 29,
+      "domNodeId": "63",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"63\"]",
+      "tagName": "span",
+      "childIds": [
+        "73"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "73",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Design & Develop",
+      "backendDOMNodeId": 73,
+      "childIds": [
+        "-1000000019"
+      ]
+    },
+    {
+      "nodeId": "31",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 31,
+      "domNodeId": "66",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"66\"]",
+      "tagName": "span",
+      "childIds": [
+        "75"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "75",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Test & Evaluate",
+      "backendDOMNodeId": 75,
+      "childIds": [
+        "-1000000020"
+      ]
+    },
+    {
+      "nodeId": "33",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 33,
+      "domNodeId": "69",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"69\"]",
+      "tagName": "span",
+      "childIds": [
+        "77"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "77",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Teach & Advocate",
+      "backendDOMNodeId": 77,
+      "childIds": [
+        "-1000000021"
+      ]
+    },
+    {
+      "nodeId": "35",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 35,
+      "domNodeId": "72",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"72\"]",
+      "tagName": "span",
+      "childIds": [
+        "79",
+        "475",
+        "80"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "79",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Standards/",
+      "backendDOMNodeId": 79,
+      "childIds": [
+        "-1000000022"
+      ]
+    },
+    {
+      "nodeId": "475",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 475,
+      "domNodeId": "73",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"73\"]",
+      "tagName": "wbr",
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "80",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Guidelines",
+      "backendDOMNodeId": 80,
+      "childIds": [
+        "-1000000023"
+      ]
+    },
+    {
+      "nodeId": "392",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 392,
+      "domNodeId": "79",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"79\"]",
+      "tagName": "span",
+      "childIds": [
+        "86"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "86",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Making the Web Accessible",
+      "backendDOMNodeId": 86,
+      "childIds": [
+        "-1000000025"
+      ]
+    },
+    {
+      "nodeId": "87",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Strategies, standards, and supporting resources to help you make the Web more accessible to people with disabilities.",
+      "backendDOMNodeId": 87,
+      "childIds": [
+        "-1000000026",
+        "-1000000027"
+      ]
+    },
+    {
+      "nodeId": "-1000000028",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C"
+    },
+    {
+      "nodeId": "-1000000029",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The World Wide Web "
+    },
+    {
+      "nodeId": "-1000000030",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Consortium (W3C) develops "
+    },
+    {
+      "nodeId": "-1000000031",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "international standards for "
+    },
+    {
+      "nodeId": "-1000000032",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "the Web: HTML, CSS, and "
+    },
+    {
+      "nodeId": "-1000000033",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "many more."
+    },
+    {
+      "nodeId": "-1000000034",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WAI"
+    },
+    {
+      "nodeId": "-1000000035",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The W3C Web Accessibility "
+    },
+    {
+      "nodeId": "-1000000036",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Initiative (WAI) develops "
+    },
+    {
+      "nodeId": "-1000000037",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "standards and support "
+    },
+    {
+      "nodeId": "-1000000038",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "materials to help you "
+    },
+    {
+      "nodeId": "-1000000039",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "understand and implement "
+    },
+    {
+      "nodeId": "-1000000040",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessibility."
+    },
+    {
+      "nodeId": "-1000000041",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "You"
+    },
+    {
+      "nodeId": "-1000000042",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "You can use W3C WAI "
+    },
+    {
+      "nodeId": "-1000000043",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "resources to make your "
+    },
+    {
+      "nodeId": "-1000000044",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "websites, applications, and "
+    },
+    {
+      "nodeId": "-1000000045",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "other digital creations more "
+    },
+    {
+      "nodeId": "-1000000046",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessible and usable to "
+    },
+    {
+      "nodeId": "-1000000047",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "everyone."
+    },
+    {
+      "nodeId": "102",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Hide Section",
+      "backendDOMNodeId": 102,
+      "childIds": [
+        "-1000000818"
+      ]
+    },
+    {
+      "nodeId": "548",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 548,
+      "childIds": [
+        "-1000000819"
+      ]
+    },
+    {
+      "nodeId": "106",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " ",
+      "backendDOMNodeId": 106,
+      "childIds": [
+        "-1000000051"
+      ]
+    },
+    {
+      "nodeId": "493",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 493,
+      "domNodeId": "105",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"105\"]",
+      "tagName": "span",
+      "childIds": [
+        "107"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "107",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "News",
+      "backendDOMNodeId": 107,
+      "childIds": [
+        "-1000000052"
+      ]
+    },
+    {
+      "nodeId": "-1000000053",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Current Work"
+    },
+    {
+      "nodeId": "-1000000054",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(updated monthly)"
+    },
+    {
+      "nodeId": "113",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "See ",
+      "backendDOMNodeId": 113,
+      "childIds": [
+        "-1000000314"
+      ]
+    },
+    {
+      "nodeId": "114",
+      "ignored": false,
+      "role": "link",
+      "name": "What We're Working On – Accessibility Activities and Publications",
+      "backendDOMNodeId": 114,
+      "domNodeId": "111",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"111\"]",
+      "tagName": "a",
+      "childIds": [
+        "115"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/update/"
+      }
+    },
+    {
+      "nodeId": "118",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "For Review: WCAG 3 Working Draft – March 2026",
+      "backendDOMNodeId": 118,
+      "childIds": [
+        "-1000000058"
+      ]
+    },
+    {
+      "nodeId": "120",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2026-Mar-03)",
+      "backendDOMNodeId": 120,
+      "childIds": [
+        "-1000000059"
+      ]
+    },
+    {
+      "nodeId": "122",
+      "ignored": false,
+      "role": "link",
+      "name": "W3C Accessibility Guidelines (WCAG) 3.0 Working Draft ",
+      "backendDOMNodeId": 122,
+      "domNodeId": "117",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"117\"]",
+      "tagName": "a",
+      "childIds": [
+        "123"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/wcag-3.0/"
+      }
+    },
+    {
+      "nodeId": "124",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "is updated. The starting place for background, timeline, and up-to-date information is the ",
+      "backendDOMNodeId": 124,
+      "childIds": [
+        "-1000000338",
+        "-1000000339",
+        "-1000000340"
+      ]
+    },
+    {
+      "nodeId": "125",
+      "ignored": false,
+      "role": "link",
+      "name": "WCAG 3 Introduction",
+      "backendDOMNodeId": 125,
+      "domNodeId": "118",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"118\"]",
+      "tagName": "a",
+      "childIds": [
+        "126"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/wcag3-intro/"
+      }
+    },
+    {
+      "nodeId": "127",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ". For a list of changes in the March 2026 draft, see ",
+      "backendDOMNodeId": 127,
+      "childIds": [
+        "-1000000342",
+        "-1000000343"
+      ]
+    },
+    {
+      "nodeId": "128",
+      "ignored": false,
+      "role": "link",
+      "name": "Status: In-progress drafts",
+      "backendDOMNodeId": 128,
+      "domNodeId": "119",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"119\"]",
+      "tagName": "a",
+      "childIds": [
+        "129"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/wcag3-intro/#status-in-progress-drafts"
+      }
+    },
+    {
+      "nodeId": "130",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 130,
+      "childIds": [
+        "-1000000346"
+      ]
+    },
+    {
+      "nodeId": "133",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "For Review: W3C Accessibility Guidelines Evaluation Methodology (WCAG-EM) 2.0 — First Draft Note",
+      "backendDOMNodeId": 133,
+      "childIds": [
+        "-1000000070",
+        "-1000000071"
+      ]
+    },
+    {
+      "nodeId": "135",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2026-Feb-05)",
+      "backendDOMNodeId": 135,
+      "childIds": [
+        "-1000000072"
+      ]
+    },
+    {
+      "nodeId": "137",
+      "ignored": false,
+      "role": "link",
+      "name": "W3C Accessibility Guidelines Evaluation Methodology (WCAG-EM) 2.0",
+      "backendDOMNodeId": 137,
+      "domNodeId": "125",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"125\"]",
+      "tagName": "a",
+      "childIds": [
+        "138"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/wcag-em-2/"
+      }
+    },
+    {
+      "nodeId": "139",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " is available as a first Draft Note. WCAG-EM describes a methodology with a step-by-step process to evaluate how well digital products conform to Web Content Accessibility Guidelines (WCAG) 2. WCAG-EM 1 is specifically for testing websites and web pages. WCAG-EM 2 also applies to apps and other digital products. For an introduction to WCAG-EM and more information about the WCAG-EM 2 draft, see ",
+      "backendDOMNodeId": 139,
+      "childIds": [
+        "-1000000361",
+        "-1000000362",
+        "-1000000363",
+        "-1000000364",
+        "-1000000365",
+        "-1000000366",
+        "-1000000367"
+      ]
+    },
+    {
+      "nodeId": "140",
+      "ignored": false,
+      "role": "link",
+      "name": "WCAG-EM Overview",
+      "backendDOMNodeId": 140,
+      "domNodeId": "126",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"126\"]",
+      "tagName": "a",
+      "childIds": [
+        "141"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/test-evaluate/conformance/wcag-em/"
+      }
+    },
+    {
+      "nodeId": "142",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 142,
+      "childIds": [
+        "-1000000370"
+      ]
+    },
+    {
+      "nodeId": "145",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "For Review: Cognitive Accessibility Research Modules — First Draft Notes",
+      "backendDOMNodeId": 145,
+      "childIds": [
+        "-1000000085",
+        "-1000000086"
+      ]
+    },
+    {
+      "nodeId": "147",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2026-Feb-05)",
+      "backendDOMNodeId": 147,
+      "childIds": [
+        "-1000000087"
+      ]
+    },
+    {
+      "nodeId": "149",
+      "ignored": false,
+      "role": "link",
+      "name": "Cognitive Accessibility Research Modules",
+      "backendDOMNodeId": 149,
+      "domNodeId": "132",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"132\"]",
+      "tagName": "a",
+      "childIds": [
+        "150"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/coga-research-modules/"
+      }
+    },
+    {
+      "nodeId": "151",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " are available as first Draft Notes. The documents cover research on accessibility for people with cognitive and learning disabilities for ",
+      "backendDOMNodeId": 151,
+      "childIds": [
+        "-1000000487",
+        "-1000000488",
+        "-1000000489"
+      ]
+    },
+    {
+      "nodeId": "152",
+      "ignored": false,
+      "role": "link",
+      "name": "Voice Systems and Conversational Interfaces",
+      "backendDOMNodeId": 152,
+      "domNodeId": "133",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"133\"]",
+      "tagName": "a",
+      "childIds": [
+        "153"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/coga-voice/"
+      }
+    },
+    {
+      "nodeId": "154",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", ",
+      "backendDOMNodeId": 154,
+      "childIds": [
+        "-1000000492"
+      ]
+    },
+    {
+      "nodeId": "155",
+      "ignored": false,
+      "role": "link",
+      "name": "Technology Assisted Indoor Navigation / Wayfinding",
+      "backendDOMNodeId": 155,
+      "domNodeId": "134",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"134\"]",
+      "tagName": "a",
+      "childIds": [
+        "156"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/coga-wayfinding/"
+      }
+    },
+    {
+      "nodeId": "157",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", ",
+      "backendDOMNodeId": 157,
+      "childIds": [
+        "-1000000495"
+      ]
+    },
+    {
+      "nodeId": "158",
+      "ignored": false,
+      "role": "link",
+      "name": "Online Safety and Wellbeing (Algorithms and Data)",
+      "backendDOMNodeId": 158,
+      "domNodeId": "135",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"135\"]",
+      "tagName": "a",
+      "childIds": [
+        "159"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/coga-safety/"
+      }
+    },
+    {
+      "nodeId": "160",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", and ",
+      "backendDOMNodeId": 160,
+      "childIds": [
+        "-1000000498"
+      ]
+    },
+    {
+      "nodeId": "161",
+      "ignored": false,
+      "role": "link",
+      "name": "Supported Decision-Making Online",
+      "backendDOMNodeId": 161,
+      "domNodeId": "136",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"136\"]",
+      "tagName": "a",
+      "childIds": [
+        "162"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/coga-sdm/"
+      }
+    },
+    {
+      "nodeId": "163",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ". They address user needs, accessibility issues, directions for solutions, and areas for further research. We particularly seek input on what might be appropriate to add to these documents, including other relevant research, additional user needs, and the connection between research and priorities for new work in W3C groups. Information on related work is in ",
+      "backendDOMNodeId": 163,
+      "childIds": [
+        "-1000000500",
+        "-1000000501",
+        "-1000000502",
+        "-1000000503",
+        "-1000000504",
+        "-1000000505",
+        "-1000000506"
+      ]
+    },
+    {
+      "nodeId": "164",
+      "ignored": false,
+      "role": "link",
+      "name": "Cognitive Accessibility at W3C",
+      "backendDOMNodeId": 164,
+      "domNodeId": "137",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"137\"]",
+      "tagName": "a",
+      "childIds": [
+        "165"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/cognitive/"
+      }
+    },
+    {
+      "nodeId": "166",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 166,
+      "childIds": [
+        "-1000000508"
+      ]
+    },
+    {
+      "nodeId": "169",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "ACT Rules Format 1.1 is a Web Standard (W3C Recommendation)",
+      "backendDOMNodeId": 169,
+      "childIds": [
+        "-1000000111",
+        "-1000000112"
+      ]
+    },
+    {
+      "nodeId": "171",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2026-Feb-05)",
+      "backendDOMNodeId": 171,
+      "childIds": [
+        "-1000000113"
+      ]
+    },
+    {
+      "nodeId": "173",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility Conformance Testing (ACT) Rules Format 1.1",
+      "backendDOMNodeId": 173,
+      "domNodeId": "143",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"143\"]",
+      "tagName": "a",
+      "childIds": [
+        "174"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/act-rules-format/"
+      }
+    },
+    {
+      "nodeId": "175",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " is now a web standard (W3C Recommendation). ACT Rules Format defines a format for writing accessibility test rules. The test rules can be used for developing automated testing tools and manual testing methodologies. For an introduction to ACT Rules, see ",
+      "backendDOMNodeId": 175,
+      "childIds": [
+        "-1000000519",
+        "-1000000520",
+        "-1000000521",
+        "-1000000522",
+        "-1000000523",
+        "-1000000524"
+      ]
+    },
+    {
+      "nodeId": "176",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility Conformance Testing (ACT) Overview",
+      "backendDOMNodeId": 176,
+      "domNodeId": "144",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"144\"]",
+      "tagName": "a",
+      "childIds": [
+        "177"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/act/"
+      }
+    },
+    {
+      "nodeId": "178",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 178,
+      "childIds": [
+        "-1000000526"
+      ]
+    },
+    {
+      "nodeId": "181",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WCAG 2.2 Approved as an ISO Standard",
+      "backendDOMNodeId": 181,
+      "childIds": [
+        "-1000000123"
+      ]
+    },
+    {
+      "nodeId": "183",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2025-Oct-21)",
+      "backendDOMNodeId": 183,
+      "childIds": [
+        "-1000000124"
+      ]
+    },
+    {
+      "nodeId": "185",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Web Content Accessibility Guidelines (",
+      "backendDOMNodeId": 185,
+      "childIds": [
+        "-1000000578"
+      ]
+    },
+    {
+      "nodeId": "186",
+      "ignored": false,
+      "role": "link",
+      "name": "WCAG",
+      "backendDOMNodeId": 186,
+      "domNodeId": "150",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"150\"]",
+      "tagName": "a",
+      "childIds": [
+        "187"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/"
+      }
+    },
+    {
+      "nodeId": "188",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ") 2.2 is now an approved International Organization for Standardization (ISO) standard: ISO/IEC 40500:2025. It is available free from ",
+      "backendDOMNodeId": 188,
+      "childIds": [
+        "-1000000580",
+        "-1000000581",
+        "-1000000582"
+      ]
+    },
+    {
+      "nodeId": "189",
+      "ignored": false,
+      "role": "link",
+      "name": "ISO/IEC 40500:2025 - Information technology — W3C Web Content Accessibility Guidelines (WCAG) 2.2",
+      "backendDOMNodeId": 189,
+      "domNodeId": "151",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"151\"]",
+      "tagName": "a",
+      "childIds": [
+        "190"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.iso.org/standard/91029.html"
+      }
+    },
+    {
+      "nodeId": "191",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ". This standard enables more countries to formally adopt WCAG 2.2. Additional information is in the ",
+      "backendDOMNodeId": 191,
+      "childIds": [
+        "-1000000586",
+        "-1000000587",
+        "-1000000588"
+      ]
+    },
+    {
+      "nodeId": "192",
+      "ignored": false,
+      "role": "link",
+      "name": "W3C press release on WCAG 2.2 approved as ISO/IEC international standard",
+      "backendDOMNodeId": 192,
+      "domNodeId": "152",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"152\"]",
+      "tagName": "a",
+      "childIds": [
+        "193"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/press-releases/2025/wcag22-iso-pas/"
+      }
+    },
+    {
+      "nodeId": "194",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " and ",
+      "backendDOMNodeId": 194,
+      "childIds": [
+        "-1000000591"
+      ]
+    },
+    {
+      "nodeId": "195",
+      "ignored": false,
+      "role": "link",
+      "name": "‘ISO/IEC 40500, EAA, EN 301 549’ section of WCAG 2 Overview",
+      "backendDOMNodeId": 195,
+      "domNodeId": "153",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"153\"]",
+      "tagName": "a",
+      "childIds": [
+        "196"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/#iso"
+      }
+    },
+    {
+      "nodeId": "197",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 197,
+      "childIds": [
+        "-1000000594"
+      ]
+    },
+    {
+      "nodeId": "200",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "For Review: WCAG 3 Working Draft - September 2025",
+      "backendDOMNodeId": 200,
+      "childIds": [
+        "-1000000142"
+      ]
+    },
+    {
+      "nodeId": "202",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2025-Sep-04)",
+      "backendDOMNodeId": 202,
+      "childIds": [
+        "-1000000143"
+      ]
+    },
+    {
+      "nodeId": "204",
+      "ignored": false,
+      "role": "link",
+      "name": "W3C Accessibility Guidelines (WCAG) 3.0 Working Draft",
+      "backendDOMNodeId": 204,
+      "domNodeId": "159",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"159\"]",
+      "tagName": "a",
+      "childIds": [
+        "205"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/wcag-3.0/"
+      }
+    },
+    {
+      "nodeId": "206",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " is updated. For review questions and how to comment, please see the ",
+      "backendDOMNodeId": 206,
+      "childIds": [
+        "-1000000616",
+        "-1000000617",
+        "-1000000618"
+      ]
+    },
+    {
+      "nodeId": "207",
+      "ignored": false,
+      "role": "link",
+      "name": "WCAG 3 section ‘About this draft’",
+      "backendDOMNodeId": 207,
+      "domNodeId": "160",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"160\"]",
+      "tagName": "a",
+      "childIds": [
+        "208"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/wcag-3.0/#about-this-draft"
+      }
+    },
+    {
+      "nodeId": "209",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ". The starting place for background, timeline, and up-to-date information is the ",
+      "backendDOMNodeId": 209,
+      "childIds": [
+        "-1000000620",
+        "-1000000621"
+      ]
+    },
+    {
+      "nodeId": "210",
+      "ignored": false,
+      "role": "link",
+      "name": "WCAG 3 Introduction",
+      "backendDOMNodeId": 210,
+      "domNodeId": "161",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"161\"]",
+      "tagName": "a",
+      "childIds": [
+        "211"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/standards-guidelines/wcag/wcag3-intro/"
+      }
+    },
+    {
+      "nodeId": "212",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 212,
+      "childIds": [
+        "-1000000624"
+      ]
+    },
+    {
+      "nodeId": "215",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "For Wide Review: Accessibility Maturity Model — Updated Draft Note",
+      "backendDOMNodeId": 215,
+      "childIds": [
+        "-1000000154",
+        "-1000000155"
+      ]
+    },
+    {
+      "nodeId": "217",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "(2025-Sep-01)",
+      "backendDOMNodeId": 217,
+      "childIds": [
+        "-1000000156"
+      ]
+    },
+    {
+      "nodeId": "219",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility Maturity Model Updated Draft Note",
+      "backendDOMNodeId": 219,
+      "domNodeId": "167",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"167\"]",
+      "tagName": "a",
+      "childIds": [
+        "220"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/TR/maturity-model/"
+      }
+    },
+    {
+      "nodeId": "221",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " is ready for review. The Accessibility Maturity Model provides a framework to assess an organization’s policies and procedures to deliver accessible products and services. It can be used to measure current capabilities, identify gaps, and plan improvements. For more details, review questions and how to comment, see the ",
+      "backendDOMNodeId": 221,
+      "childIds": [
+        "-1000000637",
+        "-1000000638",
+        "-1000000639",
+        "-1000000640",
+        "-1000000641",
+        "-1000000642"
+      ]
+    },
+    {
+      "nodeId": "222",
+      "ignored": false,
+      "role": "link",
+      "name": "email announcing the Accessibility Maturity Model update",
+      "backendDOMNodeId": 222,
+      "domNodeId": "168",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"168\"]",
+      "tagName": "a",
+      "childIds": [
+        "223"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://lists.w3.org/Archives/Public/public-wai-announce/2025JulSep/0003.html"
+      }
+    },
+    {
+      "nodeId": "224",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ". ",
+      "backendDOMNodeId": 224,
+      "childIds": [
+        "-1000000644"
+      ]
+    },
+    {
+      "nodeId": "503",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 503,
+      "domNodeId": "169",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"169\"]",
+      "tagName": "strong",
+      "childIds": [
+        "225"
+      ]
+    },
+    {
+      "nodeId": "226",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 226,
+      "childIds": [
+        "-1000000646"
+      ]
+    },
+    {
+      "nodeId": "-1000000168",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "See All News"
+    },
+    {
+      "nodeId": "-1000000169",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Subscribe to WAI News"
+    },
+    {
+      "nodeId": "234",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "See what we have for you:",
+      "backendDOMNodeId": 234,
+      "childIds": [
+        "-1000000170"
+      ]
+    },
+    {
+      "nodeId": "508",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 508,
+      "domNodeId": "179",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"179\"]",
+      "tagName": "span",
+      "childIds": [
+        "235"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "235",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get Resources for…",
+      "backendDOMNodeId": 235,
+      "childIds": [
+        "-1000000171",
+        "-1000000172",
+        "-1000000173"
+      ]
+    },
+    {
+      "nodeId": "549",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 549,
+      "childIds": [
+        "-1000000821"
+      ]
+    },
+    {
+      "nodeId": "238",
+      "ignored": false,
+      "role": "link",
+      "name": "Getting Started",
+      "backendDOMNodeId": 238,
+      "domNodeId": "182",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"182\"]",
+      "tagName": "a",
+      "childIds": [
+        "239"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/new/"
+      }
+    },
+    {
+      "nodeId": "550",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 550,
+      "childIds": [
+        "-1000000824"
+      ]
+    },
+    {
+      "nodeId": "241",
+      "ignored": false,
+      "role": "link",
+      "name": "Content Writers",
+      "backendDOMNodeId": 241,
+      "domNodeId": "184",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"184\"]",
+      "tagName": "a",
+      "childIds": [
+        "242"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/writers/"
+      }
+    },
+    {
+      "nodeId": "551",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 551,
+      "childIds": [
+        "-1000000827"
+      ]
+    },
+    {
+      "nodeId": "244",
+      "ignored": false,
+      "role": "link",
+      "name": "Designers",
+      "backendDOMNodeId": 244,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "a",
+      "childIds": [
+        "245"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/designers/"
+      }
+    },
+    {
+      "nodeId": "552",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 552,
+      "childIds": [
+        "-1000000829"
+      ]
+    },
+    {
+      "nodeId": "247",
+      "ignored": false,
+      "role": "link",
+      "name": "Developers",
+      "backendDOMNodeId": 247,
+      "domNodeId": "188",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"188\"]",
+      "tagName": "a",
+      "childIds": [
+        "248"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/developers/"
+      }
+    },
+    {
+      "nodeId": "553",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 553,
+      "childIds": [
+        "-1000000831"
+      ]
+    },
+    {
+      "nodeId": "250",
+      "ignored": false,
+      "role": "link",
+      "name": "Evaluators, Testers",
+      "backendDOMNodeId": 250,
+      "domNodeId": "190",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
+      "tagName": "a",
+      "childIds": [
+        "251"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/testers/"
+      }
+    },
+    {
+      "nodeId": "554",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 554,
+      "childIds": [
+        "-1000000834"
+      ]
+    },
+    {
+      "nodeId": "253",
+      "ignored": false,
+      "role": "link",
+      "name": "Managers",
+      "backendDOMNodeId": 253,
+      "domNodeId": "192",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"192\"]",
+      "tagName": "a",
+      "childIds": [
+        "254"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/managers/"
+      }
+    },
+    {
+      "nodeId": "555",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 555,
+      "childIds": [
+        "-1000000836"
+      ]
+    },
+    {
+      "nodeId": "256",
+      "ignored": false,
+      "role": "link",
+      "name": "Policy Makers",
+      "backendDOMNodeId": 256,
+      "domNodeId": "194",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"194\"]",
+      "tagName": "a",
+      "childIds": [
+        "257"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/policy-makers/"
+      }
+    },
+    {
+      "nodeId": "556",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 556,
+      "childIds": [
+        "-1000000839"
+      ]
+    },
+    {
+      "nodeId": "259",
+      "ignored": false,
+      "role": "link",
+      "name": "Trainers, Educators",
+      "backendDOMNodeId": 259,
+      "domNodeId": "196",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"196\"]",
+      "tagName": "a",
+      "childIds": [
+        "260"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/trainers/"
+      }
+    },
+    {
+      "nodeId": "557",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 557,
+      "childIds": [
+        "-1000000842"
+      ]
+    },
+    {
+      "nodeId": "262",
+      "ignored": false,
+      "role": "link",
+      "name": "Web Users, People with Disabilities, Advocates",
+      "backendDOMNodeId": 262,
+      "domNodeId": "198",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"198\"]",
+      "tagName": "a",
+      "childIds": [
+        "263"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/users/"
+      }
+    },
+    {
+      "nodeId": "558",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 558,
+      "childIds": [
+        "-1000000849"
+      ]
+    },
+    {
+      "nodeId": "265",
+      "ignored": false,
+      "role": "link",
+      "name": "Everyone (All WAI Resources)",
+      "backendDOMNodeId": 265,
+      "domNodeId": "200",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"200\"]",
+      "tagName": "a",
+      "childIds": [
+        "266"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/resources/"
+      }
+    },
+    {
+      "nodeId": "559",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 559,
+      "childIds": [
+        "-1000000853"
+      ]
+    },
+    {
+      "nodeId": "268",
+      "ignored": false,
+      "role": "link",
+      "name": "Other Languages",
+      "backendDOMNodeId": 268,
+      "domNodeId": "202",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"202\"]",
+      "tagName": "a",
+      "childIds": [
+        "269"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/translations/"
+      }
+    },
+    {
+      "nodeId": "273",
+      "ignored": false,
+      "role": "heading",
+      "name": "Training Course: Digital Accessibility Foundations",
+      "backendDOMNodeId": 273,
+      "domNodeId": "206",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"206\"]",
+      "tagName": "h2",
+      "childIds": [
+        "274",
+        "510"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "277",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The free \"Introduction to Web Accessibility\" online course provides the foundation you need to make your digital technology accessible. It's designed for:",
+      "backendDOMNodeId": 277,
+      "childIds": [
+        "-1000000213",
+        "-1000000214",
+        "-1000000215",
+        "-1000000216",
+        "-1000000217",
+        "-1000000218"
+      ]
+    },
+    {
+      "nodeId": "279",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 279,
+      "domNodeId": "212",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"212\"]",
+      "tagName": "li",
+      "childIds": [
+        "560",
+        "280"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "281",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 281,
+      "domNodeId": "213",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"213\"]",
+      "tagName": "li",
+      "childIds": [
+        "561",
+        "282"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "283",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 283,
+      "domNodeId": "214",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"214\"]",
+      "tagName": "li",
+      "childIds": [
+        "562",
+        "284"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "285",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "About the Free Online Course",
+      "backendDOMNodeId": 285,
+      "childIds": [
+        "-1000000229"
+      ]
+    },
+    {
+      "nodeId": "289",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Web Accessibility Perspectives:",
+      "backendDOMNodeId": 289,
+      "childIds": [
+        "-1000000230"
+      ]
+    },
+    {
+      "nodeId": "514",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 514,
+      "domNodeId": "221",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"221\"]",
+      "tagName": "span",
+      "childIds": [
+        "290"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "290",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Video Captions",
+      "backendDOMNodeId": 290,
+      "childIds": [
+        "-1000000231",
+        "-1000000232"
+      ]
+    },
+    {
+      "nodeId": "-1000000233",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Captions are the audio "
+    },
+    {
+      "nodeId": "-1000000234",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "information in text that is "
+    },
+    {
+      "nodeId": "-1000000235",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "synchronized with the audio and "
+    },
+    {
+      "nodeId": "-1000000236",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "visual content. Captions are "
+    },
+    {
+      "nodeId": "-1000000237",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "called \"subtitles\" in some "
+    },
+    {
+      "nodeId": "-1000000238",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "regions."
+    },
+    {
+      "nodeId": "-1000000239",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Video Captions are essential for "
+    },
+    {
+      "nodeId": "-1000000240",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "people with disabilities and "
+    },
+    {
+      "nodeId": "-1000000241",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "benefit everyone in a variety of "
+    },
+    {
+      "nodeId": "-1000000242",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "situations."
+    },
+    {
+      "nodeId": "-1000000243",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "More About Video Captions"
+    },
+    {
+      "nodeId": "-1000000244",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "See All Perspectives Videos"
+    },
+    {
+      "nodeId": "303",
+      "ignored": false,
+      "role": "heading",
+      "name": "Featured Resource: Making Audio and Video Media Accessible",
+      "backendDOMNodeId": 303,
+      "domNodeId": "234",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"234\"]",
+      "tagName": "h2",
+      "childIds": [
+        "304",
+        "520"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "307",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "This media resource helps you understand and create captions/subtitles, audio description of visual information, descriptive transcripts, and sign language for media. It introduces user experiences and benefits to organizations.",
+      "backendDOMNodeId": 307,
+      "childIds": [
+        "-1000000250",
+        "-1000000251",
+        "-1000000252",
+        "-1000000253",
+        "-1000000254",
+        "-1000000255",
+        "-1000000256",
+        "-1000000257"
+      ]
+    },
+    {
+      "nodeId": "308",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Making Audio and Video Media Accessible",
+      "backendDOMNodeId": 308,
+      "childIds": [
+        "-1000000258",
+        "-1000000259"
+      ]
+    },
+    {
+      "nodeId": "-1000000260",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sponsors and Funders"
+    },
+    {
+      "nodeId": "-1000000866",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "317",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Ford Foundation",
+      "backendDOMNodeId": 317,
+      "childIds": [
+        "-1000000867"
+      ]
+    },
+    {
+      "nodeId": "-1000000868",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", "
+    },
+    {
+      "nodeId": "320",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Technology and Society Program",
+      "backendDOMNodeId": 320,
+      "childIds": [
+        "-1000000869"
+      ]
+    },
+    {
+      "nodeId": "-1000000738",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "financial support"
+    },
+    {
+      "nodeId": "-1000000740",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C Web Accessibility Initiative (WAI)"
+    },
+    {
+      "nodeId": "336",
+      "ignored": false,
+      "role": "link",
+      "name": "Get News in Email",
+      "backendDOMNodeId": 336,
+      "domNodeId": "267",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"267\"]",
+      "tagName": "a",
+      "childIds": [
+        "337"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/news/subscribe/"
+      }
+    },
+    {
+      "nodeId": "339",
+      "ignored": false,
+      "role": "link",
+      "name": "LinkedIn",
+      "backendDOMNodeId": 339,
+      "domNodeId": "270",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"270\"]",
+      "tagName": "a",
+      "childIds": [
+        "340"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.linkedin.com/company/w3c-wai/"
+      }
+    },
+    {
+      "nodeId": "342",
+      "ignored": false,
+      "role": "link",
+      "name": "Mastodon",
+      "backendDOMNodeId": 342,
+      "domNodeId": "273",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"273\"]",
+      "tagName": "a",
+      "childIds": [
+        "343"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://w3c.social/@wai"
+      }
+    },
+    {
+      "nodeId": "345",
+      "ignored": false,
+      "role": "link",
+      "name": "YouTube",
+      "backendDOMNodeId": 345,
+      "domNodeId": "276",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"276\"]",
+      "tagName": "a",
+      "childIds": [
+        "346"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.youtube.com/channel/UCU6ljj3m1fglIPjSjs2DpRA/playlists/"
+      }
+    },
+    {
+      "nodeId": "350",
+      "ignored": false,
+      "role": "link",
+      "name": "Home",
+      "backendDOMNodeId": 350,
+      "domNodeId": "281",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"281\"]",
+      "tagName": "a",
+      "childIds": [
+        "351"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/"
+      }
+    },
+    {
+      "nodeId": "353",
+      "ignored": false,
+      "role": "link",
+      "name": "Contact",
+      "backendDOMNodeId": 353,
+      "domNodeId": "283",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"283\"]",
+      "tagName": "a",
+      "childIds": [
+        "354"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/contacting/"
+      }
+    },
+    {
+      "nodeId": "356",
+      "ignored": false,
+      "role": "link",
+      "name": "Site map",
+      "backendDOMNodeId": 356,
+      "domNodeId": "285",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"285\"]",
+      "tagName": "a",
+      "childIds": [
+        "357"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/sitemap/"
+      }
+    },
+    {
+      "nodeId": "359",
+      "ignored": false,
+      "role": "link",
+      "name": "Support WAI",
+      "backendDOMNodeId": 359,
+      "domNodeId": "287",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"287\"]",
+      "tagName": "a",
+      "childIds": [
+        "360"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/support/"
+      }
+    },
+    {
+      "nodeId": "362",
+      "ignored": false,
+      "role": "link",
+      "name": "News",
+      "backendDOMNodeId": 362,
+      "domNodeId": "289",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"289\"]",
+      "tagName": "a",
+      "childIds": [
+        "363"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/news/"
+      }
+    },
+    {
+      "nodeId": "365",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility statement",
+      "backendDOMNodeId": 365,
+      "domNodeId": "291",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"291\"]",
+      "tagName": "a",
+      "childIds": [
+        "366"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/accessibility-statement/"
+      }
+    },
+    {
+      "nodeId": "368",
+      "ignored": false,
+      "role": "link",
+      "name": "All Translations",
+      "backendDOMNodeId": 368,
+      "domNodeId": "293",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"293\"]",
+      "tagName": "a",
+      "childIds": [
+        "369"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/translations/"
+      }
+    },
+    {
+      "nodeId": "371",
+      "ignored": false,
+      "role": "link",
+      "name": "Resources for roles",
+      "backendDOMNodeId": 371,
+      "domNodeId": "295",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"295\"]",
+      "tagName": "a",
+      "childIds": [
+        "372"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/roles/"
+      }
+    },
+    {
+      "nodeId": "-1000000802",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "World Wide Web Consortium"
+    },
+    {
+      "nodeId": "-1000000805",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C"
+    },
+    {
+      "nodeId": "-1000000806",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "®"
+    },
+    {
+      "nodeId": "-1000000808",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "liability"
+    },
+    {
+      "nodeId": "-1000000810",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "trademark"
+    },
+    {
+      "nodeId": "-1000000812",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "permissive license"
+    },
+    {
+      "nodeId": "-1000000814",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Permission to Use WAI Material"
+    },
+    {
+      "nodeId": "-1000000003",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Skip to Content"
+    },
+    {
+      "nodeId": "-1000000004",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Change Text Size or Colors"
+    },
+    {
+      "nodeId": "-1000000005",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "All Translations "
+    },
+    {
+      "nodeId": "16",
+      "ignored": false,
+      "role": "link",
+      "name": "Get Involved",
+      "backendDOMNodeId": 16,
+      "domNodeId": "40",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"40\"]",
+      "tagName": "a",
+      "childIds": [
+        "61"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/participating/"
+      }
+    },
+    {
+      "nodeId": "18",
+      "ignored": false,
+      "role": "link",
+      "name": "About W3C WAI",
+      "backendDOMNodeId": 18,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "a",
+      "childIds": [
+        "62"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.w3.org/WAI/about/"
+      }
+    },
+    {
+      "nodeId": "8",
+      "ignored": false,
+      "role": "search",
+      "name": "",
+      "backendDOMNodeId": 8,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "form",
+      "childIds": [
+        "465"
+      ]
+    },
+    {
+      "nodeId": "-1000000016",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility "
+    },
+    {
+      "nodeId": "-1000000017",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Fundamentals"
+    },
+    {
+      "nodeId": "-1000000018",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Planning & Policies"
+    },
+    {
+      "nodeId": "-1000000019",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Design & Develop"
+    },
+    {
+      "nodeId": "-1000000020",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Test & Evaluate"
+    },
+    {
+      "nodeId": "-1000000021",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Teach & Advocate"
+    },
+    {
+      "nodeId": "-1000000022",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Standards/"
+    },
+    {
+      "nodeId": "-1000000023",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Guidelines"
+    },
+    {
+      "nodeId": "-1000000025",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Making the Web Accessible"
+    },
+    {
+      "nodeId": "-1000000026",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Strategies, standards, and supporting resources to help you make the Web more accessible to people with "
+    },
+    {
+      "nodeId": "-1000000027",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "disabilities."
+    },
+    {
+      "nodeId": "-1000000818",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Hide Section"
+    },
+    {
+      "nodeId": "-1000000819",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "–",
+      "childIds": [
+        "-1000000820"
+      ]
+    },
+    {
+      "nodeId": "-1000000820",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "–"
+    },
+    {
+      "nodeId": "-1000000051",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " "
+    },
+    {
+      "nodeId": "-1000000052",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "News"
+    },
+    {
+      "nodeId": "-1000000314",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "See "
+    },
+    {
+      "nodeId": "115",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What We're Working On – Accessibility Activities and Publications",
+      "backendDOMNodeId": 115,
+      "childIds": [
+        "-1000000315",
+        "-1000000316"
+      ]
+    },
+    {
+      "nodeId": "-1000000058",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For Review: WCAG 3 Working Draft – March 2026"
+    },
+    {
+      "nodeId": "-1000000059",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2026-Mar-03)"
+    },
+    {
+      "nodeId": "123",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C Accessibility Guidelines (WCAG) 3.0 Working Draft ",
+      "backendDOMNodeId": 123,
+      "childIds": [
+        "-1000000337"
+      ]
+    },
+    {
+      "nodeId": "-1000000338",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "is "
+    },
+    {
+      "nodeId": "-1000000339",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "updated. The starting place for background, timeline, and up-"
+    },
+    {
+      "nodeId": "-1000000340",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "to-date information is the "
+    },
+    {
+      "nodeId": "126",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WCAG 3 Introduction",
+      "backendDOMNodeId": 126,
+      "childIds": [
+        "-1000000341"
+      ]
+    },
+    {
+      "nodeId": "-1000000342",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ". For a list of "
+    },
+    {
+      "nodeId": "-1000000343",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "changes in the March 2026 draft, see "
+    },
+    {
+      "nodeId": "129",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Status: In-progress drafts",
+      "backendDOMNodeId": 129,
+      "childIds": [
+        "-1000000344",
+        "-1000000345"
+      ]
+    },
+    {
+      "nodeId": "-1000000346",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000070",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For Review: W3C Accessibility Guidelines Evaluation "
+    },
+    {
+      "nodeId": "-1000000071",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Methodology (WCAG-EM) 2.0 — First Draft Note"
+    },
+    {
+      "nodeId": "-1000000072",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2026-Feb-05)"
+    },
+    {
+      "nodeId": "138",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C Accessibility Guidelines Evaluation Methodology (WCAG-EM) 2.0",
+      "backendDOMNodeId": 138,
+      "childIds": [
+        "-1000000359",
+        "-1000000360"
+      ]
+    },
+    {
+      "nodeId": "-1000000361",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " is available as a first Draft Note. WCAG-EM describes a "
+    },
+    {
+      "nodeId": "-1000000362",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "methodology with a step-by-step process to evaluate how well "
+    },
+    {
+      "nodeId": "-1000000363",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "digital products conform to Web Content Accessibility "
+    },
+    {
+      "nodeId": "-1000000364",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Guidelines (WCAG) 2. WCAG-EM 1 is specifically for testing "
+    },
+    {
+      "nodeId": "-1000000365",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "websites and web pages. WCAG-EM 2 also applies to apps and "
+    },
+    {
+      "nodeId": "-1000000366",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "other digital products. For an introduction to WCAG-EM and "
+    },
+    {
+      "nodeId": "-1000000367",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "more information about the WCAG-EM 2 draft, see "
+    },
+    {
+      "nodeId": "141",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WCAG-EM Overview",
+      "backendDOMNodeId": 141,
+      "childIds": [
+        "-1000000368",
+        "-1000000369"
+      ]
+    },
+    {
+      "nodeId": "-1000000370",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000085",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For Review: Cognitive Accessibility Research "
+    },
+    {
+      "nodeId": "-1000000086",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Modules — First Draft Notes"
+    },
+    {
+      "nodeId": "-1000000087",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2026-Feb-05)"
+    },
+    {
+      "nodeId": "150",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Cognitive Accessibility Research Modules",
+      "backendDOMNodeId": 150,
+      "childIds": [
+        "-1000000486"
+      ]
+    },
+    {
+      "nodeId": "-1000000487",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " are available as first "
+    },
+    {
+      "nodeId": "-1000000488",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Draft Notes. The documents cover research on accessibility for "
+    },
+    {
+      "nodeId": "-1000000489",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "people with cognitive and learning disabilities for "
+    },
+    {
+      "nodeId": "153",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Voice Systems and Conversational Interfaces",
+      "backendDOMNodeId": 153,
+      "childIds": [
+        "-1000000490",
+        "-1000000491"
+      ]
+    },
+    {
+      "nodeId": "-1000000492",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", "
+    },
+    {
+      "nodeId": "156",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Technology Assisted Indoor Navigation / Wayfinding",
+      "backendDOMNodeId": 156,
+      "childIds": [
+        "-1000000493",
+        "-1000000494"
+      ]
+    },
+    {
+      "nodeId": "-1000000495",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", "
+    },
+    {
+      "nodeId": "159",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Online Safety and Wellbeing (Algorithms and Data)",
+      "backendDOMNodeId": 159,
+      "childIds": [
+        "-1000000496",
+        "-1000000497"
+      ]
+    },
+    {
+      "nodeId": "-1000000498",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", and "
+    },
+    {
+      "nodeId": "162",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Supported Decision-Making Online",
+      "backendDOMNodeId": 162,
+      "childIds": [
+        "-1000000499"
+      ]
+    },
+    {
+      "nodeId": "-1000000500",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ". "
+    },
+    {
+      "nodeId": "-1000000501",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "They address user needs, accessibility issues, directions for "
+    },
+    {
+      "nodeId": "-1000000502",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "solutions, and areas for further research. We particularly seek "
+    },
+    {
+      "nodeId": "-1000000503",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "input on what might be appropriate to add to these "
+    },
+    {
+      "nodeId": "-1000000504",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "documents, including other relevant research, additional user "
+    },
+    {
+      "nodeId": "-1000000505",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "needs, and the connection between research and priorities for "
+    },
+    {
+      "nodeId": "-1000000506",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "new work in W3C groups. Information on related work is in "
+    },
+    {
+      "nodeId": "165",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Cognitive Accessibility at W3C",
+      "backendDOMNodeId": 165,
+      "childIds": [
+        "-1000000507"
+      ]
+    },
+    {
+      "nodeId": "-1000000508",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000111",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "ACT Rules Format 1.1 is a Web Standard (W3C "
+    },
+    {
+      "nodeId": "-1000000112",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Recommendation)"
+    },
+    {
+      "nodeId": "-1000000113",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2026-Feb-05)"
+    },
+    {
+      "nodeId": "174",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility Conformance Testing (ACT) Rules Format 1.1",
+      "backendDOMNodeId": 174,
+      "childIds": [
+        "-1000000518"
+      ]
+    },
+    {
+      "nodeId": "-1000000519",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " is "
+    },
+    {
+      "nodeId": "-1000000520",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "now a web standard (W3C Recommendation). ACT Rules "
+    },
+    {
+      "nodeId": "-1000000521",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Format defines a format for writing accessibility test rules. The "
+    },
+    {
+      "nodeId": "-1000000522",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "test rules can be used for developing automated testing tools "
+    },
+    {
+      "nodeId": "-1000000523",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "and manual testing methodologies. For an introduction to ACT "
+    },
+    {
+      "nodeId": "-1000000524",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Rules, see "
+    },
+    {
+      "nodeId": "177",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility Conformance Testing (ACT) Overview",
+      "backendDOMNodeId": 177,
+      "childIds": [
+        "-1000000525"
+      ]
+    },
+    {
+      "nodeId": "-1000000526",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000123",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WCAG 2.2 Approved as an ISO Standard"
+    },
+    {
+      "nodeId": "-1000000124",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2025-Oct-21)"
+    },
+    {
+      "nodeId": "-1000000578",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Web Content Accessibility Guidelines ("
+    },
+    {
+      "nodeId": "187",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WCAG",
+      "backendDOMNodeId": 187,
+      "childIds": [
+        "-1000000579"
+      ]
+    },
+    {
+      "nodeId": "-1000000580",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ") 2.2 is now an "
+    },
+    {
+      "nodeId": "-1000000581",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "approved International Organization for Standardization (ISO) "
+    },
+    {
+      "nodeId": "-1000000582",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "standard: ISO/IEC 40500:2025. It is available free from "
+    },
+    {
+      "nodeId": "190",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "ISO/IEC 40500:2025 - Information technology — W3C Web Content Accessibility Guidelines (WCAG) 2.2",
+      "backendDOMNodeId": 190,
+      "childIds": [
+        "-1000000583",
+        "-1000000584",
+        "-1000000585"
+      ]
+    },
+    {
+      "nodeId": "-1000000586",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ". This standard enables "
+    },
+    {
+      "nodeId": "-1000000587",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "more countries to formally adopt WCAG 2.2. Additional "
+    },
+    {
+      "nodeId": "-1000000588",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "information is in the "
+    },
+    {
+      "nodeId": "193",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C press release on WCAG 2.2 approved as ISO/IEC international standard",
+      "backendDOMNodeId": 193,
+      "childIds": [
+        "-1000000589",
+        "-1000000590"
+      ]
+    },
+    {
+      "nodeId": "-1000000591",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " and "
+    },
+    {
+      "nodeId": "196",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "‘ISO/IEC 40500, EAA, EN 301 549’ section of WCAG 2 Overview",
+      "backendDOMNodeId": 196,
+      "childIds": [
+        "-1000000592",
+        "-1000000593"
+      ]
+    },
+    {
+      "nodeId": "-1000000594",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000142",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For Review: WCAG 3 Working Draft - September 2025"
+    },
+    {
+      "nodeId": "-1000000143",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2025-Sep-04)"
+    },
+    {
+      "nodeId": "205",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "W3C Accessibility Guidelines (WCAG) 3.0 Working Draft",
+      "backendDOMNodeId": 205,
+      "childIds": [
+        "-1000000615"
+      ]
+    },
+    {
+      "nodeId": "-1000000616",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " is "
+    },
+    {
+      "nodeId": "-1000000617",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "updated. For review questions and how to comment, please "
+    },
+    {
+      "nodeId": "-1000000618",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "see the "
+    },
+    {
+      "nodeId": "208",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WCAG 3 section ‘About this draft’",
+      "backendDOMNodeId": 208,
+      "childIds": [
+        "-1000000619"
+      ]
+    },
+    {
+      "nodeId": "-1000000620",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ". The starting place for "
+    },
+    {
+      "nodeId": "-1000000621",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "background, timeline, and up-to-date information is the "
+    },
+    {
+      "nodeId": "211",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "WCAG 3 Introduction",
+      "backendDOMNodeId": 211,
+      "childIds": [
+        "-1000000622",
+        "-1000000623"
+      ]
+    },
+    {
+      "nodeId": "-1000000624",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000154",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For Wide Review: Accessibility Maturity Model — "
+    },
+    {
+      "nodeId": "-1000000155",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Updated Draft Note"
+    },
+    {
+      "nodeId": "-1000000156",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(2025-Sep-01)"
+    },
+    {
+      "nodeId": "220",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility Maturity Model Updated Draft Note",
+      "backendDOMNodeId": 220,
+      "childIds": [
+        "-1000000636"
+      ]
+    },
+    {
+      "nodeId": "-1000000637",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " is ready for "
+    },
+    {
+      "nodeId": "-1000000638",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "review. The Accessibility Maturity Model provides a framework "
+    },
+    {
+      "nodeId": "-1000000639",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "to assess an organization’s policies and procedures to deliver "
+    },
+    {
+      "nodeId": "-1000000640",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessible products and services. It can be used to measure "
+    },
+    {
+      "nodeId": "-1000000641",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "current capabilities, identify gaps, and plan improvements. For "
+    },
+    {
+      "nodeId": "-1000000642",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "more details, review questions and how to comment, see the "
+    },
+    {
+      "nodeId": "223",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "email announcing the Accessibility Maturity Model update",
+      "backendDOMNodeId": 223,
+      "childIds": [
+        "-1000000643"
+      ]
+    },
+    {
+      "nodeId": "-1000000644",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ". "
+    },
+    {
+      "nodeId": "225",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Please comment by 30 September 2025",
+      "backendDOMNodeId": 225,
+      "childIds": [
+        "-1000000645"
+      ]
+    },
+    {
+      "nodeId": "-1000000646",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000170",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "See what we have for you:"
+    },
+    {
+      "nodeId": "-1000000171",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get "
+    },
+    {
+      "nodeId": "-1000000172",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Resources "
+    },
+    {
+      "nodeId": "-1000000173",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "for…"
+    },
+    {
+      "nodeId": "-1000000821",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "239",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Getting Started",
+      "backendDOMNodeId": 239,
+      "childIds": [
+        "-1000000822",
+        "-1000000823"
+      ]
+    },
+    {
+      "nodeId": "-1000000824",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "242",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Content Writers",
+      "backendDOMNodeId": 242,
+      "childIds": [
+        "-1000000825",
+        "-1000000826"
+      ]
+    },
+    {
+      "nodeId": "-1000000827",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "245",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Designers",
+      "backendDOMNodeId": 245,
+      "childIds": [
+        "-1000000828"
+      ]
+    },
+    {
+      "nodeId": "-1000000829",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "248",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Developers",
+      "backendDOMNodeId": 248,
+      "childIds": [
+        "-1000000830"
+      ]
+    },
+    {
+      "nodeId": "-1000000831",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "251",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Evaluators, Testers",
+      "backendDOMNodeId": 251,
+      "childIds": [
+        "-1000000832",
+        "-1000000833"
+      ]
+    },
+    {
+      "nodeId": "-1000000834",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "254",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Managers",
+      "backendDOMNodeId": 254,
+      "childIds": [
+        "-1000000835"
+      ]
+    },
+    {
+      "nodeId": "-1000000836",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "257",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Policy Makers",
+      "backendDOMNodeId": 257,
+      "childIds": [
+        "-1000000837",
+        "-1000000838"
+      ]
+    },
+    {
+      "nodeId": "-1000000839",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "260",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Trainers, Educators",
+      "backendDOMNodeId": 260,
+      "childIds": [
+        "-1000000840",
+        "-1000000841"
+      ]
+    },
+    {
+      "nodeId": "-1000000842",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "263",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Web Users, People with Disabilities, Advocates",
+      "backendDOMNodeId": 263,
+      "childIds": [
+        "-1000000843",
+        "-1000000844",
+        "-1000000845",
+        "-1000000846",
+        "-1000000847",
+        "-1000000848"
+      ]
+    },
+    {
+      "nodeId": "-1000000849",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "266",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Everyone (All WAI Resources)",
+      "backendDOMNodeId": 266,
+      "childIds": [
+        "-1000000850",
+        "-1000000851",
+        "-1000000852"
+      ]
+    },
+    {
+      "nodeId": "-1000000853",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "269",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Other Languages",
+      "backendDOMNodeId": 269,
+      "childIds": [
+        "-1000000854",
+        "-1000000855"
+      ]
+    },
+    {
+      "nodeId": "274",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Training Course:",
+      "backendDOMNodeId": 274,
+      "childIds": [
+        "-1000000209"
+      ]
+    },
+    {
+      "nodeId": "510",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 510,
+      "domNodeId": "208",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"208\"]",
+      "tagName": "span",
+      "childIds": [
+        "275"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "275",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Digital Accessibility Foundations",
+      "backendDOMNodeId": 275,
+      "childIds": [
+        "-1000000210",
+        "-1000000211",
+        "-1000000212"
+      ]
+    },
+    {
+      "nodeId": "-1000000213",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The free \"Introduction to Web "
+    },
+    {
+      "nodeId": "-1000000214",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility\" online course "
+    },
+    {
+      "nodeId": "-1000000215",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "provides the foundation you "
+    },
+    {
+      "nodeId": "-1000000216",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "need to make your digital "
+    },
+    {
+      "nodeId": "-1000000217",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "technology accessible. It's "
+    },
+    {
+      "nodeId": "-1000000218",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "designed for:"
+    },
+    {
+      "nodeId": "560",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 560,
+      "childIds": [
+        "-1000000856"
+      ]
+    },
+    {
+      "nodeId": "280",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "technical and non-technical learners",
+      "backendDOMNodeId": 280,
+      "childIds": [
+        "-1000000857",
+        "-1000000858"
+      ]
+    },
+    {
+      "nodeId": "561",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 561,
+      "childIds": [
+        "-1000000859"
+      ]
+    },
+    {
+      "nodeId": "282",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "developers, designers, ux, writers, managers, advocates",
+      "backendDOMNodeId": 282,
+      "childIds": [
+        "-1000000860",
+        "-1000000861",
+        "-1000000862"
+      ]
+    },
+    {
+      "nodeId": "562",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 562,
+      "childIds": [
+        "-1000000863"
+      ]
+    },
+    {
+      "nodeId": "284",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "professionals, instructors, students",
+      "backendDOMNodeId": 284,
+      "childIds": [
+        "-1000000864",
+        "-1000000865"
+      ]
+    },
+    {
+      "nodeId": "-1000000229",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "About the Free Online Course"
+    },
+    {
+      "nodeId": "-1000000230",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Web Accessibility Perspectives:"
+    },
+    {
+      "nodeId": "-1000000231",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Video "
+    },
+    {
+      "nodeId": "-1000000232",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Captions"
+    },
+    {
+      "nodeId": "304",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Featured Resource:",
+      "backendDOMNodeId": 304,
+      "childIds": [
+        "-1000000245"
+      ]
+    },
+    {
+      "nodeId": "520",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 520,
+      "domNodeId": "236",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"236\"]",
+      "tagName": "span",
+      "childIds": [
+        "305"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "305",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Making Audio and Video Media Accessible",
+      "backendDOMNodeId": 305,
+      "childIds": [
+        "-1000000246",
+        "-1000000247",
+        "-1000000248",
+        "-1000000249"
+      ]
+    },
+    {
+      "nodeId": "-1000000250",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "This media resource helps you "
+    },
+    {
+      "nodeId": "-1000000251",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "understand and create "
+    },
+    {
+      "nodeId": "-1000000252",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "captions/subtitles, audio "
+    },
+    {
+      "nodeId": "-1000000253",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "description of visual information, "
+    },
+    {
+      "nodeId": "-1000000254",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "descriptive transcripts, and sign "
+    },
+    {
+      "nodeId": "-1000000255",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "language for media. It "
+    },
+    {
+      "nodeId": "-1000000256",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "introduces user experiences and "
+    },
+    {
+      "nodeId": "-1000000257",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "benefits to organizations."
+    },
+    {
+      "nodeId": "-1000000258",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Making Audio and Video Media "
+    },
+    {
+      "nodeId": "-1000000259",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessible"
+    },
+    {
+      "nodeId": "-1000000867",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Ford Foundation"
+    },
+    {
+      "nodeId": "-1000000869",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Technology and Society Program"
+    },
+    {
+      "nodeId": "337",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get News in Email",
+      "backendDOMNodeId": 337,
+      "childIds": [
+        "-1000000272"
+      ]
+    },
+    {
+      "nodeId": "340",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "LinkedIn",
+      "backendDOMNodeId": 340,
+      "childIds": [
+        "-1000000273"
+      ]
+    },
+    {
+      "nodeId": "343",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Mastodon",
+      "backendDOMNodeId": 343,
+      "childIds": [
+        "-1000000274"
+      ]
+    },
+    {
+      "nodeId": "346",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "YouTube",
+      "backendDOMNodeId": 346,
+      "childIds": [
+        "-1000000275"
+      ]
+    },
+    {
+      "nodeId": "351",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Home",
+      "backendDOMNodeId": 351,
+      "childIds": [
+        "-1000000276"
+      ]
+    },
+    {
+      "nodeId": "354",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact",
+      "backendDOMNodeId": 354,
+      "childIds": [
+        "-1000000277"
+      ]
+    },
+    {
+      "nodeId": "357",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Site map",
+      "backendDOMNodeId": 357,
+      "childIds": [
+        "-1000000278"
+      ]
+    },
+    {
+      "nodeId": "360",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Support WAI",
+      "backendDOMNodeId": 360,
+      "childIds": [
+        "-1000000279"
+      ]
+    },
+    {
+      "nodeId": "363",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "News",
+      "backendDOMNodeId": 363,
+      "childIds": [
+        "-1000000280"
+      ]
+    },
+    {
+      "nodeId": "366",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility statement",
+      "backendDOMNodeId": 366,
+      "childIds": [
+        "-1000000281"
+      ]
+    },
+    {
+      "nodeId": "369",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "All Translations",
+      "backendDOMNodeId": 369,
+      "childIds": [
+        "-1000000282"
+      ]
+    },
+    {
+      "nodeId": "372",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Resources for roles",
+      "backendDOMNodeId": 372,
+      "childIds": [
+        "-1000000283"
+      ]
+    },
+    {
+      "nodeId": "61",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get Involved",
+      "backendDOMNodeId": 61,
+      "childIds": [
+        "-1000000011",
+        "-1000000012"
+      ]
+    },
+    {
+      "nodeId": "62",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "About W3C WAI",
+      "backendDOMNodeId": 62,
+      "childIds": [
+        "-1000000816",
+        "-1000000817"
+      ]
+    },
+    {
+      "nodeId": "465",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 465,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "div",
+      "childIds": [
+        "466",
+        "67"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "466",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 466,
+      "domNodeId": "46",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"46\"]",
+      "tagName": "label",
+      "childIds": [
+        "63",
+        "9"
+      ]
+    },
+    {
+      "nodeId": "67",
+      "ignored": false,
+      "role": "button",
+      "name": "Submit Search",
+      "backendDOMNodeId": 67,
+      "domNodeId": "49",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"49\"]",
+      "tagName": "button",
+      "childIds": [
+        "22"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "-1000000820",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "–"
+    },
+    {
+      "nodeId": "-1000000315",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What We're Working On – Accessibility Activities and "
+    },
+    {
+      "nodeId": "-1000000316",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Publications"
+    },
+    {
+      "nodeId": "-1000000337",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C Accessibility Guidelines (WCAG) 3.0 Working Draft "
+    },
+    {
+      "nodeId": "-1000000341",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WCAG 3 Introduction"
+    },
+    {
+      "nodeId": "-1000000344",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Status: In-progress "
+    },
+    {
+      "nodeId": "-1000000345",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "drafts"
+    },
+    {
+      "nodeId": "-1000000359",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C Accessibility Guidelines Evaluation Methodology (WCAG-"
+    },
+    {
+      "nodeId": "-1000000360",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "EM) 2.0"
+    },
+    {
+      "nodeId": "-1000000368",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WCAG-EM "
+    },
+    {
+      "nodeId": "-1000000369",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Overview"
+    },
+    {
+      "nodeId": "-1000000486",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Cognitive Accessibility Research Modules"
+    },
+    {
+      "nodeId": "-1000000490",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Voice "
+    },
+    {
+      "nodeId": "-1000000491",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Systems and Conversational Interfaces"
+    },
+    {
+      "nodeId": "-1000000493",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Technology Assisted "
+    },
+    {
+      "nodeId": "-1000000494",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Indoor Navigation / Wayfinding"
+    },
+    {
+      "nodeId": "-1000000496",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Online Safety and Wellbeing "
+    },
+    {
+      "nodeId": "-1000000497",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(Algorithms and Data)"
+    },
+    {
+      "nodeId": "-1000000499",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Supported Decision-Making Online"
+    },
+    {
+      "nodeId": "-1000000507",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Cognitive Accessibility at W3C"
+    },
+    {
+      "nodeId": "-1000000518",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility Conformance Testing (ACT) Rules Format 1.1"
+    },
+    {
+      "nodeId": "-1000000525",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility Conformance Testing (ACT) Overview"
+    },
+    {
+      "nodeId": "-1000000579",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WCAG"
+    },
+    {
+      "nodeId": "-1000000583",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "ISO/IEC "
+    },
+    {
+      "nodeId": "-1000000584",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "40500:2025 - Information technology — W3C Web Content "
+    },
+    {
+      "nodeId": "-1000000585",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility Guidelines (WCAG) 2.2"
+    },
+    {
+      "nodeId": "-1000000589",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C press release on WCAG 2.2 approved "
+    },
+    {
+      "nodeId": "-1000000590",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "as ISO/IEC international standard"
+    },
+    {
+      "nodeId": "-1000000592",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "‘ISO/IEC 40500, EAA, EN "
+    },
+    {
+      "nodeId": "-1000000593",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "301 549’ section of WCAG 2 Overview"
+    },
+    {
+      "nodeId": "-1000000615",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "W3C Accessibility Guidelines (WCAG) 3.0 Working Draft"
+    },
+    {
+      "nodeId": "-1000000619",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WCAG 3 section ‘About this draft’"
+    },
+    {
+      "nodeId": "-1000000622",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WCAG "
+    },
+    {
+      "nodeId": "-1000000623",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "3 Introduction"
+    },
+    {
+      "nodeId": "-1000000636",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility Maturity Model Updated Draft Note"
+    },
+    {
+      "nodeId": "-1000000643",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "email announcing the Accessibility Maturity Model update"
+    },
+    {
+      "nodeId": "-1000000645",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Please comment by 30 September 2025"
+    },
+    {
+      "nodeId": "-1000000822",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Getting "
+    },
+    {
+      "nodeId": "-1000000823",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Started"
+    },
+    {
+      "nodeId": "-1000000825",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Content "
+    },
+    {
+      "nodeId": "-1000000826",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Writers"
+    },
+    {
+      "nodeId": "-1000000828",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Designers"
+    },
+    {
+      "nodeId": "-1000000830",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Developers"
+    },
+    {
+      "nodeId": "-1000000832",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Evaluators, "
+    },
+    {
+      "nodeId": "-1000000833",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Testers"
+    },
+    {
+      "nodeId": "-1000000835",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Managers"
+    },
+    {
+      "nodeId": "-1000000837",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Policy "
+    },
+    {
+      "nodeId": "-1000000838",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Makers"
+    },
+    {
+      "nodeId": "-1000000840",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Trainers, "
+    },
+    {
+      "nodeId": "-1000000841",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Educators"
+    },
+    {
+      "nodeId": "-1000000843",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Web "
+    },
+    {
+      "nodeId": "-1000000844",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Users, "
+    },
+    {
+      "nodeId": "-1000000845",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "People "
+    },
+    {
+      "nodeId": "-1000000846",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "with "
+    },
+    {
+      "nodeId": "-1000000847",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Disabilities, "
+    },
+    {
+      "nodeId": "-1000000848",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Advocates"
+    },
+    {
+      "nodeId": "-1000000850",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Everyone "
+    },
+    {
+      "nodeId": "-1000000851",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "(All WAI "
+    },
+    {
+      "nodeId": "-1000000852",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Resources)"
+    },
+    {
+      "nodeId": "-1000000854",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Other "
+    },
+    {
+      "nodeId": "-1000000855",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Languages"
+    },
+    {
+      "nodeId": "-1000000209",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Training Course:"
+    },
+    {
+      "nodeId": "-1000000210",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Digital "
+    },
+    {
+      "nodeId": "-1000000211",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility "
+    },
+    {
+      "nodeId": "-1000000212",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Foundations"
+    },
+    {
+      "nodeId": "-1000000856",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000857",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "technical and non-technical "
+    },
+    {
+      "nodeId": "-1000000858",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "learners"
+    },
+    {
+      "nodeId": "-1000000859",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000860",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "developers, designers, ux, "
+    },
+    {
+      "nodeId": "-1000000861",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "writers, managers, "
+    },
+    {
+      "nodeId": "-1000000862",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "advocates"
+    },
+    {
+      "nodeId": "-1000000863",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000864",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "professionals, instructors, "
+    },
+    {
+      "nodeId": "-1000000865",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "students"
+    },
+    {
+      "nodeId": "-1000000245",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Featured Resource:"
+    },
+    {
+      "nodeId": "-1000000246",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Making Audio "
+    },
+    {
+      "nodeId": "-1000000247",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "and Video "
+    },
+    {
+      "nodeId": "-1000000248",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Media "
+    },
+    {
+      "nodeId": "-1000000249",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessible"
+    },
+    {
+      "nodeId": "-1000000272",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get News in Email"
+    },
+    {
+      "nodeId": "-1000000273",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "LinkedIn"
+    },
+    {
+      "nodeId": "-1000000274",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Mastodon"
+    },
+    {
+      "nodeId": "-1000000275",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "YouTube"
+    },
+    {
+      "nodeId": "-1000000276",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Home"
+    },
+    {
+      "nodeId": "-1000000277",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact"
+    },
+    {
+      "nodeId": "-1000000278",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Site map"
+    },
+    {
+      "nodeId": "-1000000279",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Support WAI"
+    },
+    {
+      "nodeId": "-1000000280",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "News"
+    },
+    {
+      "nodeId": "-1000000281",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility statement"
+    },
+    {
+      "nodeId": "-1000000282",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "All Translations"
+    },
+    {
+      "nodeId": "-1000000283",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Resources for roles"
+    },
+    {
+      "nodeId": "-1000000011",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get "
+    },
+    {
+      "nodeId": "-1000000012",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Involved"
+    },
+    {
+      "nodeId": "-1000000816",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "About W3C "
+    },
+    {
+      "nodeId": "-1000000817",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WAI"
+    },
+    {
+      "nodeId": "63",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 63,
+      "domNodeId": "47",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"47\"]",
+      "tagName": "span",
+      "childIds": [
+        "64"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "64",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Search:",
+      "backendDOMNodeId": 64,
+      "childIds": [
+        "-1000000015"
+      ]
+    },
+    {
+      "nodeId": "9",
+      "ignored": false,
+      "role": "searchbox",
+      "name": "Search",
+      "backendDOMNodeId": 9,
+      "domNodeId": "48",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"48\"]",
+      "tagName": "input",
+      "childIds": [
+        "467",
+        "21"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true
+      }
+    },
+    {
+      "nodeId": "22",
+      "ignored": false,
+      "role": "image",
+      "name": "Submit Search",
+      "backendDOMNodeId": 22,
+      "domNodeId": "51",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"51\"]",
+      "tagName": "svg",
+      "childIds": [
+        "472"
+      ]
+    },
+    {
+      "nodeId": "-1000000015",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Search:"
+    },
+    {
+      "nodeId": "467",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 467
+    },
+    {
+      "nodeId": "21",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 21,
+      "childIds": [
+        "66"
+      ]
+    },
+    {
+      "nodeId": "66",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 66,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "472",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 472,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    }
+  ]
+}

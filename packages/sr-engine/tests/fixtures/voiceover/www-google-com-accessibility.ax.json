@@ -1,0 +1,7137 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 573,
+  "ignoredNodeCount": 131,
+  "axMappedNodeCount": 294,
+  "domSnapshotMappedNodeCount": 603,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "1",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Disability Innovation in the Workplace and Beyond — Google - Google Accessibility",
+      "backendDOMNodeId": 1,
+      "childIds": [
+        "219"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://accessibility.google/"
+      }
+    },
+    {
+      "nodeId": "219",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 219,
+      "childIds": [
+        "282"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "282",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 282,
+      "childIds": [
+        "18",
+        "27",
+        "145"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "18",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 18,
+      "domNodeId": "185",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"185\"]",
+      "tagName": "header",
+      "childIds": [
+        "19",
+        "468"
+      ]
+    },
+    {
+      "nodeId": "27",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 27,
+      "domNodeId": "210",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"210\"]",
+      "tagName": "main",
+      "childIds": [
+        "485"
+      ]
+    },
+    {
+      "nodeId": "145",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "",
+      "backendDOMNodeId": 145,
+      "domNodeId": "508",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
+      "tagName": "footer",
+      "childIds": [
+        "146",
+        "148",
+        "161",
+        "186"
+      ]
+    },
+    {
+      "nodeId": "19",
+      "ignored": false,
+      "role": "link",
+      "name": "Jump to Content",
+      "backendDOMNodeId": 19,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "a",
+      "childIds": [
+        "20"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://accessibility.google/#page-content"
+      }
+    },
+    {
+      "nodeId": "468",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 468,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "div",
+      "childIds": [
+        "469"
+      ]
+    },
+    {
+      "nodeId": "485",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 485,
+      "domNodeId": "211",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"211\"]",
+      "tagName": "div",
+      "childIds": [
+        "486",
+        "11",
+        "537",
+        "557",
+        "576",
+        "598",
+        "604",
+        "674",
+        "126",
+        "739"
+      ]
+    },
+    {
+      "nodeId": "146",
+      "ignored": false,
+      "role": "heading",
+      "name": "Footer links",
+      "backendDOMNodeId": 146,
+      "domNodeId": "509",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"509\"]",
+      "tagName": "h2",
+      "childIds": [
+        "147"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "148",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 148,
+      "domNodeId": "510",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"510\"]",
+      "tagName": "section",
+      "childIds": [
+        "750"
+      ]
+    },
+    {
+      "nodeId": "161",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 161,
+      "domNodeId": "527",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"527\"]",
+      "tagName": "nav",
+      "childIds": [
+        "760"
+      ]
+    },
+    {
+      "nodeId": "186",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 186,
+      "domNodeId": "551",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"551\"]",
+      "tagName": "section",
+      "childIds": [
+        "769",
+        "189",
+        "202"
+      ]
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Jump to Content",
+      "backendDOMNodeId": 20,
+      "childIds": [
+        "-1000000170"
+      ]
+    },
+    {
+      "nodeId": "469",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 469,
+      "domNodeId": "188",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"188\"]",
+      "tagName": "div",
+      "childIds": [
+        "470"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "470",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 470,
+      "domNodeId": "189",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"189\"]",
+      "tagName": "div",
+      "childIds": [
+        "471"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "471",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 471,
+      "domNodeId": "190",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
+      "tagName": "div",
+      "childIds": [
+        "472"
+      ]
+    },
+    {
+      "nodeId": "486",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 486,
+      "domNodeId": "212",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"212\"]",
+      "tagName": "div",
+      "childIds": [
+        "487"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "487",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 487,
+      "domNodeId": "213",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"213\"]",
+      "tagName": "div",
+      "childIds": [
+        "488",
+        "489",
+        "490"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "488",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 488,
+      "domNodeId": "214",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"214\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "489",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 489,
+      "domNodeId": "215",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"215\"]",
+      "tagName": "div",
+      "childIds": [
+        "17",
+        "9"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "17",
+      "ignored": false,
+      "role": "heading",
+      "name": "Making accessible technology with and for people with disabilities",
+      "backendDOMNodeId": 17,
+      "domNodeId": "216",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"216\"]",
+      "tagName": "h1",
+      "childIds": [
+        "8"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "9",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 9,
+      "domNodeId": "217",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"217\"]",
+      "tagName": "p",
+      "childIds": [
+        "10"
+      ]
+    },
+    {
+      "nodeId": "490",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 490,
+      "domNodeId": "218",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"218\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "11",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 11,
+      "domNodeId": "219",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"219\"]",
+      "tagName": "div",
+      "childIds": [
+        "491"
+      ]
+    },
+    {
+      "nodeId": "537",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 537,
+      "domNodeId": "267",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"267\"]",
+      "tagName": "div",
+      "childIds": [
+        "538"
+      ]
+    },
+    {
+      "nodeId": "557",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 557,
+      "domNodeId": "290",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"290\"]",
+      "tagName": "div",
+      "childIds": [
+        "558"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "558",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 558,
+      "domNodeId": "291",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"291\"]",
+      "tagName": "div",
+      "childIds": [
+        "559",
+        "560",
+        "575"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "559",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 559,
+      "domNodeId": "292",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"292\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "560",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 560,
+      "domNodeId": "293",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"293\"]",
+      "tagName": "div",
+      "childIds": [
+        "561"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "561",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 561,
+      "domNodeId": "294",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"294\"]",
+      "tagName": "div",
+      "childIds": [
+        "562",
+        "570"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "562",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 562,
+      "domNodeId": "295",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"295\"]",
+      "tagName": "div",
+      "childIds": [
+        "563"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "563",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 563,
+      "domNodeId": "296",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"296\"]",
+      "tagName": "picture",
+      "childIds": [
+        "13"
+      ]
+    },
+    {
+      "nodeId": "570",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 570,
+      "domNodeId": "304",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"304\"]",
+      "tagName": "div",
+      "childIds": [
+        "571"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "571",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 571,
+      "domNodeId": "305",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"305\"]",
+      "tagName": "div",
+      "childIds": [
+        "572",
+        "573",
+        "574"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "572",
+      "ignored": false,
+      "role": "blockquote",
+      "name": "",
+      "backendDOMNodeId": 572,
+      "domNodeId": "306",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"306\"]",
+      "tagName": "blockquote",
+      "childIds": [
+        "872",
+        "44",
+        "873"
+      ]
+    },
+    {
+      "nodeId": "573",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 573,
+      "domNodeId": "307",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"307\"]",
+      "tagName": "div",
+      "childIds": [
+        "45"
+      ]
+    },
+    {
+      "nodeId": "574",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 574,
+      "domNodeId": "308",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"308\"]",
+      "tagName": "div",
+      "childIds": [
+        "46"
+      ]
+    },
+    {
+      "nodeId": "575",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 575,
+      "domNodeId": "309",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"309\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "576",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 576,
+      "domNodeId": "310",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"310\"]",
+      "tagName": "div",
+      "childIds": [
+        "577"
+      ]
+    },
+    {
+      "nodeId": "598",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 598,
+      "domNodeId": "347",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"347\"]",
+      "tagName": "div",
+      "childIds": [
+        "599"
+      ]
+    },
+    {
+      "nodeId": "604",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 604,
+      "domNodeId": "354",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"354\"]",
+      "tagName": "div",
+      "childIds": [
+        "605"
+      ]
+    },
+    {
+      "nodeId": "674",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 674,
+      "domNodeId": "456",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"456\"]",
+      "tagName": "div",
+      "childIds": [
+        "675"
+      ]
+    },
+    {
+      "nodeId": "126",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 126,
+      "domNodeId": "468",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"468\"]",
+      "tagName": "section",
+      "childIds": [
+        "685",
+        "736"
+      ]
+    },
+    {
+      "nodeId": "739",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 739,
+      "domNodeId": "495",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"495\"]",
+      "tagName": "div",
+      "childIds": [
+        "740"
+      ]
+    },
+    {
+      "nodeId": "147",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Footer links",
+      "backendDOMNodeId": 147,
+      "childIds": [
+        "-1000000131",
+        "-1000000132",
+        "-1000000133",
+        "-1000000134",
+        "-1000000135",
+        "-1000000136",
+        "-1000000137",
+        "-1000000138",
+        "-1000000139",
+        "-1000000140",
+        "-1000000141"
+      ]
+    },
+    {
+      "nodeId": "750",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 750,
+      "domNodeId": "511",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"511\"]",
+      "tagName": "div",
+      "childIds": [
+        "149",
+        "151"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "149",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 149,
+      "domNodeId": "512",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"512\"]",
+      "tagName": "p",
+      "childIds": [
+        "150"
+      ]
+    },
+    {
+      "nodeId": "151",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 151,
+      "domNodeId": "513",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"513\"]",
+      "tagName": "section",
+      "childIds": [
+        "751"
+      ]
+    },
+    {
+      "nodeId": "760",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 760,
+      "domNodeId": "528",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"528\"]",
+      "tagName": "div",
+      "childIds": [
+        "761"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "761",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 761,
+      "domNodeId": "529",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"529\"]",
+      "tagName": "div",
+      "childIds": [
+        "162",
+        "768"
+      ]
+    },
+    {
+      "nodeId": "769",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 769,
+      "domNodeId": "552",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"552\"]",
+      "tagName": "div",
+      "childIds": [
+        "187"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "187",
+      "ignored": false,
+      "role": "link",
+      "name": "Google",
+      "backendDOMNodeId": 187,
+      "domNodeId": "553",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"553\"]",
+      "tagName": "a",
+      "childIds": [
+        "771"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://accessibility.google/"
+      }
+    },
+    {
+      "nodeId": "189",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 189,
+      "domNodeId": "556",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"556\"]",
+      "tagName": "ul",
+      "childIds": [
+        "190",
+        "193",
+        "196",
+        "199"
+      ]
+    },
+    {
+      "nodeId": "202",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 202,
+      "domNodeId": "567",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"567\"]",
+      "tagName": "ul",
+      "childIds": [
+        "204",
+        "5"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "204",
+      "ignored": false,
+      "role": "link",
+      "name": "Help",
+      "backendDOMNodeId": 204,
+      "domNodeId": "569",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"569\"]",
+      "tagName": "a",
+      "childIds": [
+        "776",
+        "206"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://support.google.com/"
+      }
+    },
+    {
+      "nodeId": "5",
+      "ignored": false,
+      "role": "combobox",
+      "name": "Change language or region",
+      "value": "English",
+      "backendDOMNodeId": 5,
+      "domNodeId": "573",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"573\"]",
+      "tagName": "select",
+      "childIds": [
+        "780"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "hasPopup": "menu",
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "-1000000170",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Jump to Content"
+    },
+    {
+      "nodeId": "472",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 472,
+      "domNodeId": "191",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
+      "tagName": "div",
+      "childIds": [
+        "21"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "21",
+      "ignored": false,
+      "role": "link",
+      "name": "google-logo Accessibility",
+      "description": "Google",
+      "backendDOMNodeId": 21,
+      "domNodeId": "192",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"192\"]",
+      "tagName": "a",
+      "childIds": [
+        "473",
+        "474"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://accessibility.google/"
+      }
+    },
+    {
+      "nodeId": "8",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Making accessible technology with and for people with disabilities",
+      "backendDOMNodeId": 8,
+      "childIds": [
+        "-1000000005",
+        "-1000000006",
+        "-1000000007"
+      ]
+    },
+    {
+      "nodeId": "10",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Despite progress in tech and society, people with disabilities still face barriers to accessible experiences — including hurdles to complete tasks, navigate the world, or reach their dreams. As creative technologists, we all have an opportunity and a responsibility to ensure what we're building works for everyone.",
+      "backendDOMNodeId": 10,
+      "childIds": [
+        "-1000000008",
+        "-1000000009",
+        "-1000000010",
+        "-1000000011"
+      ]
+    },
+    {
+      "nodeId": "491",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 491,
+      "domNodeId": "220",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"220\"]",
+      "tagName": "div",
+      "childIds": [
+        "492",
+        "493",
+        "531"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "492",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 492,
+      "domNodeId": "221",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"221\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "493",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 493,
+      "domNodeId": "222",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"222\"]",
+      "tagName": "div",
+      "childIds": [
+        "494"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "494",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 494,
+      "domNodeId": "223",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"223\"]",
+      "tagName": "div",
+      "childIds": [
+        "495",
+        "519"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "495",
+      "ignored": false,
+      "role": "button",
+      "name": "wniga-thumbnail-2026-ep12-update-opt-02.webp 07:43",
+      "backendDOMNodeId": 495,
+      "domNodeId": "224",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"224\"]",
+      "tagName": "div",
+      "childIds": [
+        "496"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "519",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 519,
+      "domNodeId": "248",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"248\"]",
+      "tagName": "div",
+      "childIds": [
+        "520"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "520",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 520,
+      "domNodeId": "249",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"249\"]",
+      "tagName": "div",
+      "childIds": [
+        "521",
+        "522",
+        "530"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "521",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 521,
+      "domNodeId": "250",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"250\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "522",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 522,
+      "domNodeId": "251",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"251\"]",
+      "tagName": "div",
+      "childIds": [
+        "523",
+        "33",
+        "525",
+        "526"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "523",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 523,
+      "domNodeId": "252",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"252\"]",
+      "tagName": "div",
+      "childIds": [
+        "32"
+      ]
+    },
+    {
+      "nodeId": "33",
+      "ignored": false,
+      "role": "heading",
+      "name": "What’s New in Google Accessibility",
+      "backendDOMNodeId": 33,
+      "domNodeId": "254",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"254\"]",
+      "tagName": "h2",
+      "childIds": [
+        "34"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "525",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 525,
+      "domNodeId": "255",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"255\"]",
+      "tagName": "div",
+      "childIds": [
+        "35"
+      ]
+    },
+    {
+      "nodeId": "526",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 526,
+      "domNodeId": "256",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"256\"]",
+      "tagName": "div",
+      "childIds": [
+        "36"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "36",
+      "ignored": false,
+      "role": "link",
+      "name": "View YouTube series",
+      "backendDOMNodeId": 36,
+      "domNodeId": "257",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"257\"]",
+      "tagName": "a",
+      "childIds": [
+        "37",
+        "528"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://g.co/a11y/playlist"
+      }
+    },
+    {
+      "nodeId": "530",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 530,
+      "domNodeId": "260",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"260\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "531",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 531,
+      "domNodeId": "261",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"261\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "538",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 538,
+      "domNodeId": "268",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"268\"]",
+      "tagName": "div",
+      "childIds": [
+        "539",
+        "540",
+        "556"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "539",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 539,
+      "domNodeId": "269",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"269\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "540",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 540,
+      "domNodeId": "270",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"270\"]",
+      "tagName": "div",
+      "childIds": [
+        "541"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "541",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 541,
+      "domNodeId": "271",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"271\"]",
+      "tagName": "div",
+      "childIds": [
+        "548"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "548",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 548,
+      "domNodeId": "278",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"278\"]",
+      "tagName": "div",
+      "childIds": [
+        "549",
+        "555"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "549",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 549,
+      "domNodeId": "279",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"279\"]",
+      "tagName": "div",
+      "childIds": [
+        "550",
+        "39",
+        "554"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "550",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 550,
+      "domNodeId": "280",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"280\"]",
+      "tagName": "div",
+      "childIds": [
+        "12"
+      ]
+    },
+    {
+      "nodeId": "39",
+      "ignored": false,
+      "role": "heading",
+      "name": "Explore our newsletters",
+      "backendDOMNodeId": 39,
+      "domNodeId": "285",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"285\"]",
+      "tagName": "h2",
+      "childIds": [
+        "40"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "554",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 554,
+      "domNodeId": "286",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"286\"]",
+      "tagName": "div",
+      "childIds": [
+        "41"
+      ]
+    },
+    {
+      "nodeId": "555",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 555,
+      "domNodeId": "287",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"287\"]",
+      "tagName": "div",
+      "childIds": [
+        "42"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "42",
+      "ignored": false,
+      "role": "link",
+      "name": "View newsletters",
+      "backendDOMNodeId": 42,
+      "domNodeId": "288",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"288\"]",
+      "tagName": "a",
+      "childIds": [
+        "43"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://accessibility.google/newsletter"
+      }
+    },
+    {
+      "nodeId": "556",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 556,
+      "domNodeId": "289",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"289\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "13",
+      "ignored": false,
+      "role": "image",
+      "name": "A smiling woman with long, curly dark hair leans against a black metal fence. She is wearing a white sleeveless knit top and a light blue skirt, with a soft-focus background of green trees and foliage.",
+      "backendDOMNodeId": 13,
+      "domNodeId": "303",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"303\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://www.gstatic.com/marketing-cms/assets/images/c0/a9/f01dafe74741be116478fe20538f/1-1.webp=s943-fcrop64=1,00000000ffffffff-rw"
+      }
+    },
+    {
+      "nodeId": "872",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 872,
+      "childIds": [
+        "-1000001146"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000001146",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "“ ",
+      "childIds": [
+        "-1000001147"
+      ]
+    },
+    {
+      "nodeId": "-1000001147",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "“ "
+    },
+    {
+      "nodeId": "44",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "As we work to integrate accessibility into our products and processes, we can help level the playing field, create meaningful opportunities, and change the trajectory of what's possible. ",
+      "backendDOMNodeId": 44,
+      "childIds": [
+        "-1000001148",
+        "-1000001149",
+        "-1000001150",
+        "-1000001151"
+      ]
+    },
+    {
+      "nodeId": "873",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 873,
+      "childIds": [
+        "-1000001152"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000001152",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "”",
+      "childIds": [
+        "-1000001153"
+      ]
+    },
+    {
+      "nodeId": "-1000001153",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "”"
+    },
+    {
+      "nodeId": "45",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "LAURA ALLEN",
+      "backendDOMNodeId": 45,
+      "childIds": [
+        "-1000000030"
+      ]
+    },
+    {
+      "nodeId": "46",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Director, Products for All",
+      "backendDOMNodeId": 46,
+      "childIds": [
+        "-1000000031"
+      ]
+    },
+    {
+      "nodeId": "577",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 577,
+      "domNodeId": "311",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"311\"]",
+      "tagName": "div",
+      "childIds": [
+        "578"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "578",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 578,
+      "domNodeId": "312",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"312\"]",
+      "tagName": "div",
+      "childIds": [
+        "579",
+        "49"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "579",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 579,
+      "domNodeId": "313",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"313\"]",
+      "tagName": "div",
+      "childIds": [
+        "580"
+      ]
+    },
+    {
+      "nodeId": "49",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 49,
+      "domNodeId": "320",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"320\"]",
+      "tagName": "section",
+      "childIds": [
+        "585"
+      ]
+    },
+    {
+      "nodeId": "599",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 599,
+      "domNodeId": "348",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"348\"]",
+      "tagName": "div",
+      "childIds": [
+        "600",
+        "601",
+        "603"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "600",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 600,
+      "domNodeId": "349",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"349\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "601",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 601,
+      "domNodeId": "350",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"350\"]",
+      "tagName": "div",
+      "childIds": [
+        "602"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "602",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 602,
+      "domNodeId": "351",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"351\"]",
+      "tagName": "div",
+      "childIds": [
+        "72"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "72",
+      "ignored": false,
+      "role": "heading",
+      "name": "Additional accessibility resources",
+      "backendDOMNodeId": 72,
+      "domNodeId": "352",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"352\"]",
+      "tagName": "h3",
+      "childIds": [
+        "73"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "603",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 603,
+      "domNodeId": "353",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"353\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "605",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 605,
+      "domNodeId": "355",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"355\"]",
+      "tagName": "div",
+      "childIds": [
+        "606"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "606",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 606,
+      "domNodeId": "356",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"356\"]",
+      "tagName": "div",
+      "childIds": [
+        "74"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "74",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 74,
+      "domNodeId": "357",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"357\"]",
+      "tagName": "section",
+      "childIds": [
+        "607"
+      ]
+    },
+    {
+      "nodeId": "675",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 675,
+      "domNodeId": "457",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"457\"]",
+      "tagName": "div",
+      "childIds": [
+        "676",
+        "677",
+        "684"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "676",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 676,
+      "domNodeId": "458",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"458\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "677",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 677,
+      "domNodeId": "459",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"459\"]",
+      "tagName": "div",
+      "childIds": [
+        "678"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "678",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 678,
+      "domNodeId": "460",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"460\"]",
+      "tagName": "div",
+      "childIds": [
+        "122",
+        "679"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "122",
+      "ignored": false,
+      "role": "heading",
+      "name": "Prioritizing accessible design to build a more useful world for everyone.",
+      "backendDOMNodeId": 122,
+      "domNodeId": "461",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"461\"]",
+      "tagName": "h3",
+      "childIds": [
+        "123"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "679",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 679,
+      "domNodeId": "462",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"462\"]",
+      "tagName": "div",
+      "childIds": [
+        "680",
+        "124",
+        "681",
+        "682",
+        "683",
+        "125"
+      ]
+    },
+    {
+      "nodeId": "684",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 684,
+      "domNodeId": "467",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"467\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "685",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 685,
+      "domNodeId": "469",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"469\"]",
+      "tagName": "div",
+      "childIds": [
+        "686"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "686",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 686,
+      "domNodeId": "470",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"470\"]",
+      "tagName": "div",
+      "childIds": [
+        "687",
+        "688",
+        "735"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "687",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 687,
+      "domNodeId": "471",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"471\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "688",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 688,
+      "domNodeId": "472",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"472\"]",
+      "tagName": "div",
+      "childIds": [
+        "689"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "689",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 689,
+      "domNodeId": "473",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"473\"]",
+      "tagName": "div",
+      "childIds": [
+        "690",
+        "128",
+        "692",
+        "131"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "690",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 690,
+      "domNodeId": "474",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"474\"]",
+      "tagName": "div",
+      "childIds": [
+        "127"
+      ]
+    },
+    {
+      "nodeId": "128",
+      "ignored": false,
+      "role": "heading",
+      "name": "Stay up to date on the latest from Google Accessibility",
+      "backendDOMNodeId": 128,
+      "domNodeId": "476",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
+      "tagName": "h2",
+      "childIds": [
+        "129"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "692",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 692,
+      "domNodeId": "477",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
+      "tagName": "div",
+      "childIds": [
+        "130"
+      ]
+    },
+    {
+      "nodeId": "131",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 131,
+      "domNodeId": "478",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"478\"]",
+      "tagName": "section",
+      "childIds": [
+        "697",
+        "4"
+      ]
+    },
+    {
+      "nodeId": "735",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 735,
+      "domNodeId": "490",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"490\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "736",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 736,
+      "domNodeId": "491",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"491\"]",
+      "tagName": "div",
+      "childIds": [
+        "737",
+        "138",
+        "738"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "737",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 737,
+      "domNodeId": "492",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"492\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "138",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 138,
+      "domNodeId": "493",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"493\"]",
+      "tagName": "p",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "738",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 738,
+      "domNodeId": "494",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"494\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "740",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 740,
+      "domNodeId": "496",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"496\"]",
+      "tagName": "div",
+      "childIds": [
+        "741",
+        "742",
+        "749"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "741",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 741,
+      "domNodeId": "497",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"497\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "742",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 742,
+      "domNodeId": "498",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"498\"]",
+      "tagName": "div",
+      "childIds": [
+        "743"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "743",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 743,
+      "domNodeId": "499",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"499\"]",
+      "tagName": "div",
+      "childIds": [
+        "744"
+      ]
+    },
+    {
+      "nodeId": "749",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 749,
+      "domNodeId": "507",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"507\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000131",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "F"
+    },
+    {
+      "nodeId": "-1000000132",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "o"
+    },
+    {
+      "nodeId": "-1000000133",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "o"
+    },
+    {
+      "nodeId": "-1000000134",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "t"
+    },
+    {
+      "nodeId": "-1000000135",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "e"
+    },
+    {
+      "nodeId": "-1000000136",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "r "
+    },
+    {
+      "nodeId": "-1000000137",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "l"
+    },
+    {
+      "nodeId": "-1000000138",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "i"
+    },
+    {
+      "nodeId": "-1000000139",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "n"
+    },
+    {
+      "nodeId": "-1000000140",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "k"
+    },
+    {
+      "nodeId": "-1000000141",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "s"
+    },
+    {
+      "nodeId": "150",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Social Module",
+      "backendDOMNodeId": 150,
+      "childIds": [
+        "-1000000142",
+        "-1000000143",
+        "-1000000144",
+        "-1000000145",
+        "-1000000146",
+        "-1000000147",
+        "-1000000148",
+        "-1000000149",
+        "-1000000150",
+        "-1000000151",
+        "-1000000152",
+        "-1000000153"
+      ]
+    },
+    {
+      "nodeId": "751",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 751,
+      "domNodeId": "514",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"514\"]",
+      "tagName": "div",
+      "childIds": [
+        "152",
+        "154"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "152",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 152,
+      "domNodeId": "515",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"515\"]",
+      "tagName": "p",
+      "childIds": [
+        "153"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "153",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Follow us",
+      "backendDOMNodeId": 153,
+      "childIds": [
+        "-1000000154"
+      ]
+    },
+    {
+      "nodeId": "154",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 154,
+      "domNodeId": "516",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"516\"]",
+      "tagName": "ul",
+      "childIds": [
+        "155",
+        "158"
+      ]
+    },
+    {
+      "nodeId": "162",
+      "ignored": false,
+      "role": "heading",
+      "name": "More about us",
+      "backendDOMNodeId": 162,
+      "domNodeId": "530",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"530\"]",
+      "tagName": "h3",
+      "childIds": [
+        "762"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "768",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 768,
+      "domNodeId": "535",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"535\"]",
+      "tagName": "div",
+      "childIds": [
+        "164"
+      ]
+    },
+    {
+      "nodeId": "771",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 771,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "190",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 190,
+      "domNodeId": "557",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"557\"]",
+      "tagName": "li",
+      "childIds": [
+        "191"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "193",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 193,
+      "domNodeId": "559",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"559\"]",
+      "tagName": "li",
+      "childIds": [
+        "194"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "196",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 196,
+      "domNodeId": "561",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"561\"]",
+      "tagName": "li",
+      "childIds": [
+        "197"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "199",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 199,
+      "domNodeId": "563",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"563\"]",
+      "tagName": "li",
+      "childIds": [
+        "200"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "776",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 776,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "206",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help",
+      "backendDOMNodeId": 206,
+      "childIds": [
+        "-1000001231"
+      ]
+    },
+    {
+      "nodeId": "780",
+      "ignored": false,
+      "role": "MenuListPopup",
+      "name": "",
+      "backendDOMNodeId": 780,
+      "childIds": [
+        "784",
+        "787",
+        "790",
+        "793",
+        "796",
+        "799",
+        "802",
+        "805",
+        "808",
+        "811",
+        "814",
+        "817",
+        "820",
+        "823",
+        "826",
+        "829",
+        "832",
+        "835",
+        "838",
+        "841",
+        "844",
+        "847",
+        "850",
+        "853",
+        "856",
+        "859",
+        "862"
+      ]
+    },
+    {
+      "nodeId": "473",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 473,
+      "domNodeId": "193",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"193\"]",
+      "tagName": "div",
+      "childIds": [
+        "2"
+      ]
+    },
+    {
+      "nodeId": "474",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 474,
+      "domNodeId": "195",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
+      "tagName": "span",
+      "childIds": [
+        "22"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "22",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility",
+      "backendDOMNodeId": 22,
+      "childIds": [
+        "-1000000004"
+      ]
+    },
+    {
+      "nodeId": "-1000000005",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Making accessible technology "
+    },
+    {
+      "nodeId": "-1000000006",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "with and for people with "
+    },
+    {
+      "nodeId": "-1000000007",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "disabilities"
+    },
+    {
+      "nodeId": "-1000000008",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Despite progress in tech and society, people with disabilities still face barriers to "
+    },
+    {
+      "nodeId": "-1000000009",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessible experiences — including hurdles to complete tasks, navigate the world, or "
+    },
+    {
+      "nodeId": "-1000000010",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "reach their dreams. As creative technologists, we all have an opportunity and a "
+    },
+    {
+      "nodeId": "-1000000011",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "responsibility to ensure what we're building works for everyone."
+    },
+    {
+      "nodeId": "496",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 496,
+      "domNodeId": "225",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"225\"]",
+      "tagName": "div",
+      "childIds": [
+        "497",
+        "498",
+        "518"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "497",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 497,
+      "domNodeId": "226",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "498",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 498,
+      "domNodeId": "227",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"227\"]",
+      "tagName": "div",
+      "childIds": [
+        "499"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "499",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 499,
+      "domNodeId": "228",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"228\"]",
+      "tagName": "div",
+      "childIds": [
+        "14",
+        "507"
+      ]
+    },
+    {
+      "nodeId": "518",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 518,
+      "domNodeId": "247",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"247\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "32",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "GOOGLE ACCESSIBILITY YOUTUBE SERIES",
+      "backendDOMNodeId": 32,
+      "childIds": [
+        "-1000000013"
+      ]
+    },
+    {
+      "nodeId": "34",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What’s New in Google Accessibility",
+      "backendDOMNodeId": 34,
+      "childIds": [
+        "-1000000014"
+      ]
+    },
+    {
+      "nodeId": "35",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tune in to learn about Google's latest accessibility updates.",
+      "backendDOMNodeId": 35,
+      "childIds": [
+        "-1000000015"
+      ]
+    },
+    {
+      "nodeId": "37",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "View YouTube series",
+      "backendDOMNodeId": 37,
+      "childIds": [
+        "-1000000258"
+      ]
+    },
+    {
+      "nodeId": "528",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 528,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "12",
+      "ignored": false,
+      "role": "image",
+      "name": "fa8cd03ac072bf1e1607d16cd429523587bf771c.webp",
+      "backendDOMNodeId": 12,
+      "domNodeId": "284",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"284\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://www.gstatic.com/marketing-cms/assets/images/96/da/edf5b8a54a428952ff774963e073/fa8cd03ac072bf1e1607d16cd429523587bf771c.webp=s64-fcrop64=1,00000000ffffffff-rw"
+      }
+    },
+    {
+      "nodeId": "40",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore our newsletters",
+      "backendDOMNodeId": 40,
+      "childIds": [
+        "-1000000017"
+      ]
+    },
+    {
+      "nodeId": "41",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "We regularly share news and highlights through our newsletters. You can view our latest edition and browse our archive to find additional updates on our progress.",
+      "backendDOMNodeId": 41,
+      "childIds": [
+        "-1000000018",
+        "-1000000019",
+        "-1000000020"
+      ]
+    },
+    {
+      "nodeId": "43",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "View newsletters",
+      "backendDOMNodeId": 43,
+      "childIds": [
+        "-1000000021"
+      ]
+    },
+    {
+      "nodeId": "-1000001147",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "“ "
+    },
+    {
+      "nodeId": "-1000001148",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "As we work to integrate accessibility into our products and "
+    },
+    {
+      "nodeId": "-1000001149",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "processes, we can help level the playing field, create "
+    },
+    {
+      "nodeId": "-1000001150",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "meaningful opportunities, and change the trajectory of "
+    },
+    {
+      "nodeId": "-1000001151",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "what's possible. "
+    },
+    {
+      "nodeId": "-1000001153",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "”"
+    },
+    {
+      "nodeId": "-1000000030",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "LAURA ALLEN"
+    },
+    {
+      "nodeId": "-1000000031",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Director, Products for All"
+    },
+    {
+      "nodeId": "580",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 580,
+      "domNodeId": "314",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"314\"]",
+      "tagName": "div",
+      "childIds": [
+        "581",
+        "582",
+        "584"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "581",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 581,
+      "domNodeId": "315",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"315\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "582",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 582,
+      "domNodeId": "316",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"316\"]",
+      "tagName": "div",
+      "childIds": [
+        "583"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "583",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 583,
+      "domNodeId": "317",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"317\"]",
+      "tagName": "div",
+      "childIds": [
+        "47"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "47",
+      "ignored": false,
+      "role": "heading",
+      "name": "With your help, we’ll get closer to building a truly accessible world.",
+      "backendDOMNodeId": 47,
+      "domNodeId": "318",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"318\"]",
+      "tagName": "h3",
+      "childIds": [
+        "48"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "584",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 584,
+      "domNodeId": "319",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"319\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "585",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 585,
+      "domNodeId": "321",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"321\"]",
+      "tagName": "div",
+      "childIds": [
+        "50"
+      ]
+    },
+    {
+      "nodeId": "73",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Additional accessibility resources",
+      "backendDOMNodeId": 73,
+      "childIds": [
+        "-1000000052"
+      ]
+    },
+    {
+      "nodeId": "607",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 607,
+      "domNodeId": "358",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"358\"]",
+      "tagName": "div",
+      "childIds": [
+        "75"
+      ]
+    },
+    {
+      "nodeId": "123",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Prioritizing accessible design to build a more useful world for everyone.",
+      "backendDOMNodeId": 123,
+      "childIds": [
+        "-1000000105",
+        "-1000000106"
+      ]
+    },
+    {
+      "nodeId": "680",
+      "ignored": false,
+      "role": "LineBreak",
+      "name": "\n",
+      "backendDOMNodeId": 680,
+      "domNodeId": "463",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"463\"]",
+      "tagName": "br",
+      "childIds": [
+        "-1000000107"
+      ]
+    },
+    {
+      "nodeId": "124",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google is committed to building more accessible and useful products and services, including by meeting the requirements of the European Accessibility Act (EAA). We continue to monitor the most recent developments in international standards and interpretations of relevant laws. Furthermore, we are engaged in policy conversations and contribute to the development of technical accessibility standards across the industry.",
+      "backendDOMNodeId": 124,
+      "childIds": [
+        "-1000000108",
+        "-1000000109",
+        "-1000000110",
+        "-1000000111",
+        "-1000000112"
+      ]
+    },
+    {
+      "nodeId": "681",
+      "ignored": false,
+      "role": "LineBreak",
+      "name": "\n",
+      "backendDOMNodeId": 681,
+      "domNodeId": "464",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"464\"]",
+      "tagName": "br",
+      "childIds": [
+        "-1000000113"
+      ]
+    },
+    {
+      "nodeId": "682",
+      "ignored": false,
+      "role": "LineBreak",
+      "name": "\n",
+      "backendDOMNodeId": 682,
+      "domNodeId": "465",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"465\"]",
+      "tagName": "br",
+      "childIds": [
+        "-1000000114"
+      ]
+    },
+    {
+      "nodeId": "683",
+      "ignored": false,
+      "role": "LineBreak",
+      "name": "\n",
+      "backendDOMNodeId": 683,
+      "domNodeId": "466",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"466\"]",
+      "tagName": "br",
+      "childIds": [
+        "-1000000115"
+      ]
+    },
+    {
+      "nodeId": "125",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "For many years, Google teams have incorporated accessibility into our products and services. We prioritize continuous education and promote accessibility knowledge across our teams. Our dedicated accessibility teams consult on design, development, and testing to ensure our employees are equipped to create accessible experiences. We also collaborate with the disability community to understand how our products and services can bridge gaps and foster a more accessible world. We are dedicated to ensuring continuous and effective access to our products for all people.",
+      "backendDOMNodeId": 125,
+      "childIds": [
+        "-1000000116",
+        "-1000000117",
+        "-1000000118",
+        "-1000000119",
+        "-1000000120",
+        "-1000000121"
+      ]
+    },
+    {
+      "nodeId": "127",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "ACCESSIBILITY NEWSLETTER",
+      "backendDOMNodeId": 127,
+      "childIds": [
+        "-1000000122"
+      ]
+    },
+    {
+      "nodeId": "129",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Stay up to date on the latest from Google Accessibility",
+      "backendDOMNodeId": 129,
+      "childIds": [
+        "-1000000123",
+        "-1000000124"
+      ]
+    },
+    {
+      "nodeId": "130",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign up for Google’s Accessibility Newsletter and get updates delivered to your inbox.",
+      "backendDOMNodeId": 130,
+      "childIds": [
+        "-1000000125"
+      ]
+    },
+    {
+      "nodeId": "697",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 697,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "4",
+      "ignored": false,
+      "role": "form",
+      "name": "",
+      "backendDOMNodeId": 4,
+      "domNodeId": "484",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"484\"]",
+      "tagName": "form",
+      "childIds": [
+        "700",
+        "734"
+      ]
+    },
+    {
+      "nodeId": "744",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 744,
+      "domNodeId": "500",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"500\"]",
+      "tagName": "div",
+      "childIds": [
+        "139"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "139",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 139,
+      "domNodeId": "501",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"501\"]",
+      "tagName": "p",
+      "childIds": [
+        "140",
+        "141",
+        "143"
+      ]
+    },
+    {
+      "nodeId": "-1000000142",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "S"
+    },
+    {
+      "nodeId": "-1000000143",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "o"
+    },
+    {
+      "nodeId": "-1000000144",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "c"
+    },
+    {
+      "nodeId": "-1000000145",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "i"
+    },
+    {
+      "nodeId": "-1000000146",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "a"
+    },
+    {
+      "nodeId": "-1000000147",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "l "
+    },
+    {
+      "nodeId": "-1000000148",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "M"
+    },
+    {
+      "nodeId": "-1000000149",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "o"
+    },
+    {
+      "nodeId": "-1000000150",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "d"
+    },
+    {
+      "nodeId": "-1000000151",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "u"
+    },
+    {
+      "nodeId": "-1000000152",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "l"
+    },
+    {
+      "nodeId": "-1000000153",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "e"
+    },
+    {
+      "nodeId": "-1000000154",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Follow us"
+    },
+    {
+      "nodeId": "155",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 155,
+      "domNodeId": "517",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"517\"]",
+      "tagName": "li",
+      "childIds": [
+        "156",
+        "755"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "158",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 158,
+      "domNodeId": "522",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
+      "tagName": "li",
+      "childIds": [
+        "159",
+        "759"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "762",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 762,
+      "domNodeId": "531",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"531\"]",
+      "tagName": "div",
+      "childIds": [
+        "163",
+        "766"
+      ]
+    },
+    {
+      "nodeId": "164",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 164,
+      "domNodeId": "536",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"536\"]",
+      "tagName": "ul",
+      "childIds": [
+        "165",
+        "168",
+        "171",
+        "174",
+        "177",
+        "180",
+        "183"
+      ]
+    },
+    {
+      "nodeId": "191",
+      "ignored": false,
+      "role": "link",
+      "name": "About Google link opens in new tab or window",
+      "backendDOMNodeId": 191,
+      "domNodeId": "558",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"558\"]",
+      "tagName": "a",
+      "childIds": [
+        "192"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://about.google/"
+      }
+    },
+    {
+      "nodeId": "194",
+      "ignored": false,
+      "role": "link",
+      "name": "Google products link opens in new tab or window",
+      "backendDOMNodeId": 194,
+      "domNodeId": "560",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"560\"]",
+      "tagName": "a",
+      "childIds": [
+        "195"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://about.google/products/"
+      }
+    },
+    {
+      "nodeId": "197",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy link opens in new tab or window",
+      "backendDOMNodeId": 197,
+      "domNodeId": "562",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"562\"]",
+      "tagName": "a",
+      "childIds": [
+        "198"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://policies.google.com/privacy"
+      }
+    },
+    {
+      "nodeId": "200",
+      "ignored": false,
+      "role": "link",
+      "name": "Terms link opens in new tab or window",
+      "backendDOMNodeId": 200,
+      "domNodeId": "564",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"564\"]",
+      "tagName": "a",
+      "childIds": [
+        "201"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://policies.google.com/terms"
+      }
+    },
+    {
+      "nodeId": "-1000001231",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help"
+    },
+    {
+      "nodeId": "784",
+      "ignored": false,
+      "role": "option",
+      "name": "English",
+      "backendDOMNodeId": 784,
+      "domNodeId": "574",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"574\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": true
+      }
+    },
+    {
+      "nodeId": "787",
+      "ignored": false,
+      "role": "option",
+      "name": "Bulgarian",
+      "backendDOMNodeId": 787,
+      "domNodeId": "575",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"575\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "790",
+      "ignored": false,
+      "role": "option",
+      "name": "Chinese",
+      "backendDOMNodeId": 790,
+      "domNodeId": "576",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"576\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "793",
+      "ignored": false,
+      "role": "option",
+      "name": "Croatian",
+      "backendDOMNodeId": 793,
+      "domNodeId": "577",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"577\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "796",
+      "ignored": false,
+      "role": "option",
+      "name": "Czech",
+      "backendDOMNodeId": 796,
+      "domNodeId": "578",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"578\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "799",
+      "ignored": false,
+      "role": "option",
+      "name": "Dutch",
+      "backendDOMNodeId": 799,
+      "domNodeId": "579",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"579\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "802",
+      "ignored": false,
+      "role": "option",
+      "name": "Dutch",
+      "backendDOMNodeId": 802,
+      "domNodeId": "580",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"580\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "805",
+      "ignored": false,
+      "role": "option",
+      "name": "Estonian",
+      "backendDOMNodeId": 805,
+      "domNodeId": "581",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"581\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "808",
+      "ignored": false,
+      "role": "option",
+      "name": "French",
+      "backendDOMNodeId": 808,
+      "domNodeId": "582",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"582\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "811",
+      "ignored": false,
+      "role": "option",
+      "name": "German",
+      "backendDOMNodeId": 811,
+      "domNodeId": "583",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"583\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "814",
+      "ignored": false,
+      "role": "option",
+      "name": "German",
+      "backendDOMNodeId": 814,
+      "domNodeId": "584",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"584\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "817",
+      "ignored": false,
+      "role": "option",
+      "name": "German",
+      "backendDOMNodeId": 817,
+      "domNodeId": "585",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"585\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "820",
+      "ignored": false,
+      "role": "option",
+      "name": "Greek",
+      "backendDOMNodeId": 820,
+      "domNodeId": "586",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"586\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "823",
+      "ignored": false,
+      "role": "option",
+      "name": "Hindi",
+      "backendDOMNodeId": 823,
+      "domNodeId": "587",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"587\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "826",
+      "ignored": false,
+      "role": "option",
+      "name": "Hungarian",
+      "backendDOMNodeId": 826,
+      "domNodeId": "588",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"588\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "829",
+      "ignored": false,
+      "role": "option",
+      "name": "Italian",
+      "backendDOMNodeId": 829,
+      "domNodeId": "589",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"589\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "832",
+      "ignored": false,
+      "role": "option",
+      "name": "Japanese",
+      "backendDOMNodeId": 832,
+      "domNodeId": "590",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"590\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "835",
+      "ignored": false,
+      "role": "option",
+      "name": "Latvian",
+      "backendDOMNodeId": 835,
+      "domNodeId": "591",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"591\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "838",
+      "ignored": false,
+      "role": "option",
+      "name": "Lithuanian",
+      "backendDOMNodeId": 838,
+      "domNodeId": "592",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"592\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "841",
+      "ignored": false,
+      "role": "option",
+      "name": "Polish",
+      "backendDOMNodeId": 841,
+      "domNodeId": "593",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"593\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "844",
+      "ignored": false,
+      "role": "option",
+      "name": "Portuguese",
+      "backendDOMNodeId": 844,
+      "domNodeId": "594",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"594\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "847",
+      "ignored": false,
+      "role": "option",
+      "name": "Portuguese",
+      "backendDOMNodeId": 847,
+      "domNodeId": "595",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"595\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "850",
+      "ignored": false,
+      "role": "option",
+      "name": "Romanian",
+      "backendDOMNodeId": 850,
+      "domNodeId": "596",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"596\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "853",
+      "ignored": false,
+      "role": "option",
+      "name": "Slovak",
+      "backendDOMNodeId": 853,
+      "domNodeId": "597",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"597\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "856",
+      "ignored": false,
+      "role": "option",
+      "name": "Slovenian",
+      "backendDOMNodeId": 856,
+      "domNodeId": "598",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"598\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "859",
+      "ignored": false,
+      "role": "option",
+      "name": "Spanish",
+      "backendDOMNodeId": 859,
+      "domNodeId": "599",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"599\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "862",
+      "ignored": false,
+      "role": "option",
+      "name": "Swedish",
+      "backendDOMNodeId": 862,
+      "domNodeId": "600",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"600\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "2",
+      "ignored": false,
+      "role": "image",
+      "name": "google-logo",
+      "backendDOMNodeId": 2,
+      "domNodeId": "194",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"194\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://www.gstatic.com/marketing-cms/assets/images/fe/34/b385577d418282e187d628fd669f/google-logo.svg"
+      }
+    },
+    {
+      "nodeId": "-1000000004",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility"
+    },
+    {
+      "nodeId": "14",
+      "ignored": false,
+      "role": "image",
+      "name": "wniga-thumbnail-2026-ep12-update-opt-02.webp",
+      "backendDOMNodeId": 14,
+      "domNodeId": "236",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"236\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://www.gstatic.com/marketing-cms/assets/images/e7/cc/facc47d143dc8ec6ffeb1ed65aea/wniga-thumbnail-2026-ep12-update-opt-02.webp=n-w943-h530-fcrop64=1,00000000ffffffc3-rw"
+      }
+    },
+    {
+      "nodeId": "507",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 507,
+      "domNodeId": "237",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"237\"]",
+      "tagName": "div",
+      "childIds": [
+        "509",
+        "511",
+        "512"
+      ]
+    },
+    {
+      "nodeId": "-1000000013",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "GOOGLE ACCESSIBILITY YOUTUBE SERIES"
+    },
+    {
+      "nodeId": "-1000000014",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What’s New in Google Accessibility"
+    },
+    {
+      "nodeId": "-1000000015",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tune in to learn about Google's latest accessibility updates."
+    },
+    {
+      "nodeId": "-1000000258",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "View YouTube series"
+    },
+    {
+      "nodeId": "-1000000017",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore our newsletters"
+    },
+    {
+      "nodeId": "-1000000018",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "We regularly share news and highlights through our newsletters. You can view "
+    },
+    {
+      "nodeId": "-1000000019",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "our latest edition and browse our archive to find additional updates on our "
+    },
+    {
+      "nodeId": "-1000000020",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "progress."
+    },
+    {
+      "nodeId": "-1000000021",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "View newsletters"
+    },
+    {
+      "nodeId": "48",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "With your help, we’ll get closer to building a truly accessible world.",
+      "backendDOMNodeId": 48,
+      "childIds": [
+        "-1000000032",
+        "-1000000033"
+      ]
+    },
+    {
+      "nodeId": "50",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 50,
+      "domNodeId": "322",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"322\"]",
+      "tagName": "ul",
+      "childIds": [
+        "51",
+        "58",
+        "65"
+      ]
+    },
+    {
+      "nodeId": "-1000000052",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Additional accessibility resources"
+    },
+    {
+      "nodeId": "75",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 75,
+      "domNodeId": "359",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"359\"]",
+      "tagName": "ul",
+      "childIds": [
+        "76",
+        "83",
+        "90",
+        "98",
+        "106",
+        "114"
+      ]
+    },
+    {
+      "nodeId": "-1000000105",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Prioritizing accessible design to build a "
+    },
+    {
+      "nodeId": "-1000000106",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "more useful world for everyone."
+    },
+    {
+      "nodeId": "-1000000107",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "\n"
+    },
+    {
+      "nodeId": "-1000000108",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google is committed to building more accessible and useful products and services, including by "
+    },
+    {
+      "nodeId": "-1000000109",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "meeting the requirements of the European Accessibility Act (EAA). We continue to monitor the most "
+    },
+    {
+      "nodeId": "-1000000110",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "recent developments in international standards and interpretations of relevant laws. Furthermore, "
+    },
+    {
+      "nodeId": "-1000000111",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "we are engaged in policy conversations and contribute to the development of technical "
+    },
+    {
+      "nodeId": "-1000000112",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessibility standards across the industry."
+    },
+    {
+      "nodeId": "-1000000113",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "\n"
+    },
+    {
+      "nodeId": "-1000000114",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "\n"
+    },
+    {
+      "nodeId": "-1000000115",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "\n"
+    },
+    {
+      "nodeId": "-1000000116",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For many years, Google teams have incorporated accessibility into our products and services. We "
+    },
+    {
+      "nodeId": "-1000000117",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "prioritize continuous education and promote accessibility knowledge across our teams. Our "
+    },
+    {
+      "nodeId": "-1000000118",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "dedicated accessibility teams consult on design, development, and testing to ensure our employees "
+    },
+    {
+      "nodeId": "-1000000119",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "are equipped to create accessible experiences. We also collaborate with the disability community "
+    },
+    {
+      "nodeId": "-1000000120",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "to understand how our products and services can bridge gaps and foster a more accessible world. "
+    },
+    {
+      "nodeId": "-1000000121",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "We are dedicated to ensuring continuous and effective access to our products for all people."
+    },
+    {
+      "nodeId": "-1000000122",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "ACCESSIBILITY NEWSLETTER"
+    },
+    {
+      "nodeId": "-1000000123",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Stay up to date on the latest from Google "
+    },
+    {
+      "nodeId": "-1000000124",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility"
+    },
+    {
+      "nodeId": "-1000000125",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign up for Google’s Accessibility Newsletter and get updates delivered to your inbox."
+    },
+    {
+      "nodeId": "700",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 700,
+      "domNodeId": "485",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"485\"]",
+      "tagName": "div",
+      "childIds": [
+        "701"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "701",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 701,
+      "domNodeId": "486",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"486\"]",
+      "tagName": "div",
+      "childIds": [
+        "703"
+      ]
+    },
+    {
+      "nodeId": "734",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 734,
+      "domNodeId": "488",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"488\"]",
+      "tagName": "div",
+      "childIds": [
+        "136"
+      ]
+    },
+    {
+      "nodeId": "140",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "I acknowledge that my information will be used in accordance with ",
+      "backendDOMNodeId": 140,
+      "childIds": [
+        "-1000001224"
+      ]
+    },
+    {
+      "nodeId": "141",
+      "ignored": false,
+      "role": "link",
+      "name": "Google's Privacy Policy",
+      "backendDOMNodeId": 141,
+      "domNodeId": "504",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"504\"]",
+      "tagName": "a",
+      "childIds": [
+        "142"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://policies.google.com/privacy"
+      }
+    },
+    {
+      "nodeId": "143",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 143,
+      "childIds": [
+        "-1000001226"
+      ]
+    },
+    {
+      "nodeId": "156",
+      "ignored": false,
+      "role": "link",
+      "name": "Follow us on X",
+      "backendDOMNodeId": 156,
+      "domNodeId": "518",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"518\"]",
+      "tagName": "a",
+      "childIds": [
+        "753"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://x.com/googleaccess"
+      }
+    },
+    {
+      "nodeId": "755",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 755,
+      "domNodeId": "521",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"521\"]",
+      "tagName": "span",
+      "childIds": [
+        "876"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "876",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 876,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "159",
+      "ignored": false,
+      "role": "link",
+      "name": "Follow us on YouTube",
+      "backendDOMNodeId": 159,
+      "domNodeId": "523",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"523\"]",
+      "tagName": "a",
+      "childIds": [
+        "757"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.youtube.com/playlist?list=PL590L5WQmH8ce6ZPBbh0v1XVptLJXmQ0K"
+      }
+    },
+    {
+      "nodeId": "759",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 759,
+      "domNodeId": "526",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"526\"]",
+      "tagName": "span",
+      "childIds": [
+        "877"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "877",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 877,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "163",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "More about us",
+      "backendDOMNodeId": 163,
+      "childIds": [
+        "-1000000155"
+      ]
+    },
+    {
+      "nodeId": "766",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 766,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "165",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 165,
+      "domNodeId": "537",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
+      "tagName": "li",
+      "childIds": [
+        "166"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "168",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 168,
+      "domNodeId": "539",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"539\"]",
+      "tagName": "li",
+      "childIds": [
+        "169"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "171",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 171,
+      "domNodeId": "541",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"541\"]",
+      "tagName": "li",
+      "childIds": [
+        "172"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "174",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 174,
+      "domNodeId": "543",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"543\"]",
+      "tagName": "li",
+      "childIds": [
+        "175"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "177",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 177,
+      "domNodeId": "545",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"545\"]",
+      "tagName": "li",
+      "childIds": [
+        "178"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "180",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 180,
+      "domNodeId": "547",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"547\"]",
+      "tagName": "li",
+      "childIds": [
+        "181"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "183",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 183,
+      "domNodeId": "549",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "tagName": "li",
+      "childIds": [
+        "184"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "192",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "About Google",
+      "backendDOMNodeId": 192,
+      "childIds": [
+        "-1000001227"
+      ]
+    },
+    {
+      "nodeId": "195",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google products",
+      "backendDOMNodeId": 195,
+      "childIds": [
+        "-1000001228"
+      ]
+    },
+    {
+      "nodeId": "198",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy",
+      "backendDOMNodeId": 198,
+      "childIds": [
+        "-1000001229"
+      ]
+    },
+    {
+      "nodeId": "201",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Terms",
+      "backendDOMNodeId": 201,
+      "childIds": [
+        "-1000001230"
+      ]
+    },
+    {
+      "nodeId": "509",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 509,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "511",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 511,
+      "domNodeId": "240",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"240\"]",
+      "tagName": "div",
+      "childIds": [
+        "29"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "29",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 29,
+      "domNodeId": "241",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"241\"]",
+      "tagName": "p",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "512",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 512,
+      "domNodeId": "242",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"242\"]",
+      "tagName": "div",
+      "childIds": [
+        "513"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "513",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 513,
+      "domNodeId": "243",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"243\"]",
+      "tagName": "span",
+      "childIds": [
+        "515",
+        "517"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "515",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 515,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "517",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 517,
+      "domNodeId": "246",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"246\"]",
+      "tagName": "span",
+      "childIds": [
+        "31"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "31",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "07:43",
+      "backendDOMNodeId": 31,
+      "childIds": [
+        "-1000000012"
+      ]
+    },
+    {
+      "nodeId": "-1000000032",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "With your help, we’ll get closer to building "
+    },
+    {
+      "nodeId": "-1000000033",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "a truly accessible world."
+    },
+    {
+      "nodeId": "51",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 51,
+      "domNodeId": "323",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"323\"]",
+      "tagName": "li",
+      "childIds": [
+        "52"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "58",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 58,
+      "domNodeId": "331",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"331\"]",
+      "tagName": "li",
+      "childIds": [
+        "59"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "65",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 65,
+      "domNodeId": "339",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"339\"]",
+      "tagName": "li",
+      "childIds": [
+        "66"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "76",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 76,
+      "domNodeId": "360",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"360\"]",
+      "tagName": "li",
+      "childIds": [
+        "77"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "83",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 83,
+      "domNodeId": "376",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"376\"]",
+      "tagName": "li",
+      "childIds": [
+        "84"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "90",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 90,
+      "domNodeId": "392",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"392\"]",
+      "tagName": "li",
+      "childIds": [
+        "91"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "98",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 98,
+      "domNodeId": "408",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"408\"]",
+      "tagName": "li",
+      "childIds": [
+        "99"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "106",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 106,
+      "domNodeId": "424",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"424\"]",
+      "tagName": "li",
+      "childIds": [
+        "107"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "114",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 114,
+      "domNodeId": "440",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"440\"]",
+      "tagName": "li",
+      "childIds": [
+        "115"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "703",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 703,
+      "childIds": [
+        "704"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "704",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 704,
+      "childIds": [
+        "705"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "705",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 705,
+      "childIds": [
+        "706"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "706",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 706,
+      "childIds": [
+        "708",
+        "716"
+      ]
+    },
+    {
+      "nodeId": "136",
+      "ignored": false,
+      "role": "button",
+      "name": "Subscribe",
+      "backendDOMNodeId": 136,
+      "domNodeId": "489",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"489\"]",
+      "tagName": "button",
+      "childIds": [
+        "137"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "-1000001224",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "I acknowledge that my information will be used in accordance with "
+    },
+    {
+      "nodeId": "142",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google's Privacy Policy",
+      "backendDOMNodeId": 142,
+      "childIds": [
+        "-1000001225"
+      ]
+    },
+    {
+      "nodeId": "-1000001226",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "753",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 753,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "757",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 757,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000155",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "More about us"
+    },
+    {
+      "nodeId": "166",
+      "ignored": false,
+      "role": "link",
+      "name": "Learning link opens in new tab or window",
+      "backendDOMNodeId": 166,
+      "domNodeId": "538",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"538\"]",
+      "tagName": "a",
+      "childIds": [
+        "167"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://learning.google/"
+      }
+    },
+    {
+      "nodeId": "169",
+      "ignored": false,
+      "role": "link",
+      "name": "Safety Center link opens in new tab or window",
+      "backendDOMNodeId": 169,
+      "domNodeId": "540",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"540\"]",
+      "tagName": "a",
+      "childIds": [
+        "170"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://safety.google/"
+      }
+    },
+    {
+      "nodeId": "172",
+      "ignored": false,
+      "role": "link",
+      "name": "Crisis Response link opens in new tab or window",
+      "backendDOMNodeId": 172,
+      "domNodeId": "542",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"542\"]",
+      "tagName": "a",
+      "childIds": [
+        "173"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://crisisresponse.google/"
+      }
+    },
+    {
+      "nodeId": "175",
+      "ignored": false,
+      "role": "link",
+      "name": "Sustainability link opens in new tab or window",
+      "backendDOMNodeId": 175,
+      "domNodeId": "544",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"544\"]",
+      "tagName": "a",
+      "childIds": [
+        "176"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://sustainability.google/"
+      }
+    },
+    {
+      "nodeId": "178",
+      "ignored": false,
+      "role": "link",
+      "name": "Careers link opens in new tab or window",
+      "backendDOMNodeId": 178,
+      "domNodeId": "546",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"546\"]",
+      "tagName": "a",
+      "childIds": [
+        "179"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.google.com/about/careers/applications/"
+      }
+    },
+    {
+      "nodeId": "181",
+      "ignored": false,
+      "role": "link",
+      "name": "Google Blog link opens in new tab or window",
+      "backendDOMNodeId": 181,
+      "domNodeId": "548",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"548\"]",
+      "tagName": "a",
+      "childIds": [
+        "182"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://blog.google/"
+      }
+    },
+    {
+      "nodeId": "184",
+      "ignored": false,
+      "role": "link",
+      "name": "Google.org link opens in new tab or window",
+      "backendDOMNodeId": 184,
+      "domNodeId": "550",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"550\"]",
+      "tagName": "a",
+      "childIds": [
+        "185"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.google.org/"
+      }
+    },
+    {
+      "nodeId": "-1000001227",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "About Google"
+    },
+    {
+      "nodeId": "-1000001228",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google products"
+    },
+    {
+      "nodeId": "-1000001229",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy"
+    },
+    {
+      "nodeId": "-1000001230",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Terms"
+    },
+    {
+      "nodeId": "-1000000012",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "07:43"
+    },
+    {
+      "nodeId": "52",
+      "ignored": false,
+      "role": "link",
+      "name": "Contact the Disability Support team Connect with a specialist for support on Accessibility Features, How Things Work, and Assistive Technology.    Get support",
+      "backendDOMNodeId": 52,
+      "domNodeId": "324",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"324\"]",
+      "tagName": "a",
+      "childIds": [
+        "586"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://support.google.com/accessibility/answer/7641084"
+      }
+    },
+    {
+      "nodeId": "59",
+      "ignored": false,
+      "role": "link",
+      "name": "Join the Build for All Panel Get involved in the product creation process by sharing your perspective. Help us create better experiences for everyone by joining the Build for All Panel. Available in the U.S., U.K., Japan, Brazil, India, and Germany. Join the panel",
+      "backendDOMNodeId": 59,
+      "domNodeId": "332",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"332\"]",
+      "tagName": "a",
+      "childIds": [
+        "590"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLSfkEOk_Am9QsLIaCM3VAjWXG9JRZ6uWfOWn9M4aGtucOT_b_w/viewform"
+      }
+    },
+    {
+      "nodeId": "66",
+      "ignored": false,
+      "role": "link",
+      "name": "Become an Accessibility User Research Panelist Want to test our products to ensure they are fully accessible? Join our Accessibility User Research Panel. Available in the U.S., Canada, and U.K. Join the program",
+      "backendDOMNodeId": 66,
+      "domNodeId": "340",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"340\"]",
+      "tagName": "a",
+      "childIds": [
+        "594"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://docs.google.com/forms/d/e/1FAIpQLSfcb-l0mCZ__09SSyFAuI_k2WBLR05URYbR_Stv9N42u7GTiw/viewform"
+      }
+    },
+    {
+      "nodeId": "77",
+      "ignored": false,
+      "role": "link",
+      "name": "Explore the Education site",
+      "backendDOMNodeId": 77,
+      "domNodeId": "361",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"361\"]",
+      "tagName": "a",
+      "childIds": [
+        "608"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://edu.google.com/our-values/accessibility/"
+      }
+    },
+    {
+      "nodeId": "84",
+      "ignored": false,
+      "role": "link",
+      "name": "Explore the Help site",
+      "backendDOMNodeId": 84,
+      "domNodeId": "377",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"377\"]",
+      "tagName": "a",
+      "childIds": [
+        "619"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://support.google.com/accessibility/"
+      }
+    },
+    {
+      "nodeId": "91",
+      "ignored": false,
+      "role": "link",
+      "name": "Explore the Android site",
+      "backendDOMNodeId": 91,
+      "domNodeId": "393",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"393\"]",
+      "tagName": "a",
+      "childIds": [
+        "630"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.android.com/accessibility/"
+      }
+    },
+    {
+      "nodeId": "99",
+      "ignored": false,
+      "role": "link",
+      "name": "Explore the Cloud site",
+      "backendDOMNodeId": 99,
+      "domNodeId": "409",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"409\"]",
+      "tagName": "a",
+      "childIds": [
+        "641"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://cloud.google.com/docs/accessibility"
+      }
+    },
+    {
+      "nodeId": "107",
+      "ignored": false,
+      "role": "link",
+      "name": "Explore the NAI site",
+      "backendDOMNodeId": 107,
+      "domNodeId": "425",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"425\"]",
+      "tagName": "a",
+      "childIds": [
+        "652"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://developers.google.com/natively-adaptive-interfaces"
+      }
+    },
+    {
+      "nodeId": "115",
+      "ignored": false,
+      "role": "link",
+      "name": "Explore the ACR site",
+      "backendDOMNodeId": 115,
+      "domNodeId": "441",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"441\"]",
+      "tagName": "a",
+      "childIds": [
+        "663"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://accessibility.google/accessibility-conformance-reports"
+      }
+    },
+    {
+      "nodeId": "708",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 708,
+      "childIds": [
+        "709",
+        "710",
+        "715"
+      ]
+    },
+    {
+      "nodeId": "716",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 716,
+      "childIds": [
+        "717",
+        "719",
+        "724"
+      ]
+    },
+    {
+      "nodeId": "137",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Subscribe",
+      "backendDOMNodeId": 137,
+      "childIds": [
+        "-1000000127"
+      ]
+    },
+    {
+      "nodeId": "-1000001225",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google's Privacy Policy"
+    },
+    {
+      "nodeId": "167",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Learning",
+      "backendDOMNodeId": 167,
+      "childIds": [
+        "-1000000156"
+      ]
+    },
+    {
+      "nodeId": "170",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Safety Center",
+      "backendDOMNodeId": 170,
+      "childIds": [
+        "-1000000157"
+      ]
+    },
+    {
+      "nodeId": "173",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Crisis Response",
+      "backendDOMNodeId": 173,
+      "childIds": [
+        "-1000000158"
+      ]
+    },
+    {
+      "nodeId": "176",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sustainability",
+      "backendDOMNodeId": 176,
+      "childIds": [
+        "-1000000159"
+      ]
+    },
+    {
+      "nodeId": "179",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Careers",
+      "backendDOMNodeId": 179,
+      "childIds": [
+        "-1000000160"
+      ]
+    },
+    {
+      "nodeId": "182",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google Blog",
+      "backendDOMNodeId": 182,
+      "childIds": [
+        "-1000000161"
+      ]
+    },
+    {
+      "nodeId": "185",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google.org",
+      "backendDOMNodeId": 185,
+      "childIds": [
+        "-1000000162"
+      ]
+    },
+    {
+      "nodeId": "586",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 586,
+      "domNodeId": "325",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"325\"]",
+      "tagName": "div",
+      "childIds": [
+        "587"
+      ]
+    },
+    {
+      "nodeId": "590",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 590,
+      "domNodeId": "333",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"333\"]",
+      "tagName": "div",
+      "childIds": [
+        "591"
+      ]
+    },
+    {
+      "nodeId": "594",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 594,
+      "domNodeId": "341",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"341\"]",
+      "tagName": "div",
+      "childIds": [
+        "595"
+      ]
+    },
+    {
+      "nodeId": "608",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 608,
+      "domNodeId": "362",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"362\"]",
+      "tagName": "div",
+      "childIds": [
+        "616"
+      ]
+    },
+    {
+      "nodeId": "619",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 619,
+      "domNodeId": "378",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"378\"]",
+      "tagName": "div",
+      "childIds": [
+        "627"
+      ]
+    },
+    {
+      "nodeId": "630",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 630,
+      "domNodeId": "394",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"394\"]",
+      "tagName": "div",
+      "childIds": [
+        "638"
+      ]
+    },
+    {
+      "nodeId": "641",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 641,
+      "domNodeId": "410",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"410\"]",
+      "tagName": "div",
+      "childIds": [
+        "649"
+      ]
+    },
+    {
+      "nodeId": "652",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 652,
+      "domNodeId": "426",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"426\"]",
+      "tagName": "div",
+      "childIds": [
+        "660"
+      ]
+    },
+    {
+      "nodeId": "663",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 663,
+      "domNodeId": "442",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"442\"]",
+      "tagName": "div",
+      "childIds": [
+        "671"
+      ]
+    },
+    {
+      "nodeId": "709",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 709
+    },
+    {
+      "nodeId": "710",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 710,
+      "childIds": [
+        "711",
+        "712",
+        "713"
+      ]
+    },
+    {
+      "nodeId": "715",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 715
+    },
+    {
+      "nodeId": "717",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 717,
+      "childIds": [
+        "726"
+      ]
+    },
+    {
+      "nodeId": "719",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 719,
+      "childIds": [
+        "720",
+        "722"
+      ]
+    },
+    {
+      "nodeId": "724",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 724,
+      "childIds": [
+        "730"
+      ]
+    },
+    {
+      "nodeId": "-1000000127",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Subscribe"
+    },
+    {
+      "nodeId": "-1000000156",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Learning"
+    },
+    {
+      "nodeId": "-1000000157",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Safety Center"
+    },
+    {
+      "nodeId": "-1000000158",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Crisis Response"
+    },
+    {
+      "nodeId": "-1000000159",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sustainability"
+    },
+    {
+      "nodeId": "-1000000160",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Careers"
+    },
+    {
+      "nodeId": "-1000000161",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google Blog"
+    },
+    {
+      "nodeId": "-1000000162",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google.org"
+    },
+    {
+      "nodeId": "587",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 587,
+      "domNodeId": "326",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"326\"]",
+      "tagName": "div",
+      "childIds": [
+        "53",
+        "55",
+        "588"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "53",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 53,
+      "domNodeId": "327",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"327\"]",
+      "tagName": "p",
+      "childIds": [
+        "54"
+      ]
+    },
+    {
+      "nodeId": "55",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 55,
+      "domNodeId": "328",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"328\"]",
+      "tagName": "p",
+      "childIds": [
+        "56"
+      ]
+    },
+    {
+      "nodeId": "588",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 588,
+      "domNodeId": "329",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"329\"]",
+      "tagName": "div",
+      "childIds": [
+        "589"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "589",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 589,
+      "domNodeId": "330",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"330\"]",
+      "tagName": "span",
+      "childIds": [
+        "57"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "591",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 591,
+      "domNodeId": "334",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"334\"]",
+      "tagName": "div",
+      "childIds": [
+        "60",
+        "62",
+        "592"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "60",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 60,
+      "domNodeId": "335",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"335\"]",
+      "tagName": "p",
+      "childIds": [
+        "61"
+      ]
+    },
+    {
+      "nodeId": "62",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 62,
+      "domNodeId": "336",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"336\"]",
+      "tagName": "p",
+      "childIds": [
+        "63"
+      ]
+    },
+    {
+      "nodeId": "592",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 592,
+      "domNodeId": "337",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"337\"]",
+      "tagName": "div",
+      "childIds": [
+        "593"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "593",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 593,
+      "domNodeId": "338",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"338\"]",
+      "tagName": "span",
+      "childIds": [
+        "64"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "595",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 595,
+      "domNodeId": "342",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"342\"]",
+      "tagName": "div",
+      "childIds": [
+        "67",
+        "69",
+        "596"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "67",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 67,
+      "domNodeId": "343",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"343\"]",
+      "tagName": "p",
+      "childIds": [
+        "68"
+      ]
+    },
+    {
+      "nodeId": "69",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 69,
+      "domNodeId": "344",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"344\"]",
+      "tagName": "p",
+      "childIds": [
+        "70"
+      ]
+    },
+    {
+      "nodeId": "596",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 596,
+      "domNodeId": "345",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"345\"]",
+      "tagName": "div",
+      "childIds": [
+        "597"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "597",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 597,
+      "domNodeId": "346",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"346\"]",
+      "tagName": "span",
+      "childIds": [
+        "71"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "616",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 616,
+      "domNodeId": "371",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"371\"]",
+      "tagName": "div",
+      "childIds": [
+        "78",
+        "80",
+        "617"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "78",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 78,
+      "domNodeId": "372",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"372\"]",
+      "tagName": "p",
+      "childIds": [
+        "79"
+      ]
+    },
+    {
+      "nodeId": "80",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 80,
+      "domNodeId": "373",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"373\"]",
+      "tagName": "p",
+      "childIds": [
+        "81"
+      ]
+    },
+    {
+      "nodeId": "617",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 617,
+      "domNodeId": "374",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"374\"]",
+      "tagName": "div",
+      "childIds": [
+        "618"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "618",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 618,
+      "domNodeId": "375",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"375\"]",
+      "tagName": "span",
+      "childIds": [
+        "82"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "627",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 627,
+      "domNodeId": "387",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"387\"]",
+      "tagName": "div",
+      "childIds": [
+        "85",
+        "87",
+        "628"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "85",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 85,
+      "domNodeId": "388",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"388\"]",
+      "tagName": "p",
+      "childIds": [
+        "86"
+      ]
+    },
+    {
+      "nodeId": "87",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 87,
+      "domNodeId": "389",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"389\"]",
+      "tagName": "p",
+      "childIds": [
+        "88"
+      ]
+    },
+    {
+      "nodeId": "628",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 628,
+      "domNodeId": "390",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"390\"]",
+      "tagName": "div",
+      "childIds": [
+        "629"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "629",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 629,
+      "domNodeId": "391",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"391\"]",
+      "tagName": "span",
+      "childIds": [
+        "89"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "638",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 638,
+      "domNodeId": "403",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"403\"]",
+      "tagName": "div",
+      "childIds": [
+        "93",
+        "95",
+        "639"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "93",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 93,
+      "domNodeId": "404",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"404\"]",
+      "tagName": "p",
+      "childIds": [
+        "94"
+      ]
+    },
+    {
+      "nodeId": "95",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 95,
+      "domNodeId": "405",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"405\"]",
+      "tagName": "p",
+      "childIds": [
+        "96"
+      ]
+    },
+    {
+      "nodeId": "639",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 639,
+      "domNodeId": "406",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"406\"]",
+      "tagName": "div",
+      "childIds": [
+        "640"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "640",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 640,
+      "domNodeId": "407",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"407\"]",
+      "tagName": "span",
+      "childIds": [
+        "97"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "649",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 649,
+      "domNodeId": "419",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"419\"]",
+      "tagName": "div",
+      "childIds": [
+        "101",
+        "103",
+        "650"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "101",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 101,
+      "domNodeId": "420",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"420\"]",
+      "tagName": "p",
+      "childIds": [
+        "102"
+      ]
+    },
+    {
+      "nodeId": "103",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 103,
+      "domNodeId": "421",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"421\"]",
+      "tagName": "p",
+      "childIds": [
+        "104"
+      ]
+    },
+    {
+      "nodeId": "650",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 650,
+      "domNodeId": "422",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"422\"]",
+      "tagName": "div",
+      "childIds": [
+        "651"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "651",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 651,
+      "domNodeId": "423",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"423\"]",
+      "tagName": "span",
+      "childIds": [
+        "105"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "660",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 660,
+      "domNodeId": "435",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"435\"]",
+      "tagName": "div",
+      "childIds": [
+        "109",
+        "111",
+        "661"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "109",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 109,
+      "domNodeId": "436",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"436\"]",
+      "tagName": "p",
+      "childIds": [
+        "110"
+      ]
+    },
+    {
+      "nodeId": "111",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 111,
+      "domNodeId": "437",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"437\"]",
+      "tagName": "p",
+      "childIds": [
+        "112"
+      ]
+    },
+    {
+      "nodeId": "661",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 661,
+      "domNodeId": "438",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"438\"]",
+      "tagName": "div",
+      "childIds": [
+        "662"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "662",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 662,
+      "domNodeId": "439",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"439\"]",
+      "tagName": "span",
+      "childIds": [
+        "113"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "671",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 671,
+      "domNodeId": "451",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"451\"]",
+      "tagName": "div",
+      "childIds": [
+        "117",
+        "119",
+        "672"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "117",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 117,
+      "domNodeId": "452",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"452\"]",
+      "tagName": "p",
+      "childIds": [
+        "118"
+      ]
+    },
+    {
+      "nodeId": "119",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 119,
+      "domNodeId": "453",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"453\"]",
+      "tagName": "p",
+      "childIds": [
+        "120"
+      ]
+    },
+    {
+      "nodeId": "672",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 672,
+      "domNodeId": "454",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"454\"]",
+      "tagName": "div",
+      "childIds": [
+        "673"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "673",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 673,
+      "domNodeId": "455",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"455\"]",
+      "tagName": "span",
+      "childIds": [
+        "121"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "711",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 711
+    },
+    {
+      "nodeId": "712",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 712
+    },
+    {
+      "nodeId": "713",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 713,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "726",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 726,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "720",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 720,
+      "childIds": [
+        "721"
+      ]
+    },
+    {
+      "nodeId": "722",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 722,
+      "childIds": [
+        "728"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "728",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 728,
+      "childIds": [
+        "7"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "7",
+      "ignored": false,
+      "role": "textbox",
+      "name": "email",
+      "backendDOMNodeId": 7,
+      "childIds": [
+        "729",
+        "135"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": true
+      }
+    },
+    {
+      "nodeId": "730",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 730,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "54",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact the Disability Support team",
+      "backendDOMNodeId": 54,
+      "childIds": [
+        "-1000001154"
+      ]
+    },
+    {
+      "nodeId": "56",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Connect with a specialist for support on Accessibility Features, How Things Work, and Assistive Technology.   ",
+      "backendDOMNodeId": 56,
+      "childIds": [
+        "-1000001155",
+        "-1000001156",
+        "-1000001157"
+      ]
+    },
+    {
+      "nodeId": "57",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get support",
+      "backendDOMNodeId": 57,
+      "childIds": [
+        "-1000001158"
+      ]
+    },
+    {
+      "nodeId": "61",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Join the Build for All Panel",
+      "backendDOMNodeId": 61,
+      "childIds": [
+        "-1000001159"
+      ]
+    },
+    {
+      "nodeId": "63",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get involved in the product creation process by sharing your perspective. Help us create better experiences for everyone by joining the Build for All Panel. Available in the U.S., U.K., Japan, Brazil, India, and Germany.",
+      "backendDOMNodeId": 63,
+      "childIds": [
+        "-1000001160",
+        "-1000001161",
+        "-1000001162",
+        "-1000001163",
+        "-1000001164"
+      ]
+    },
+    {
+      "nodeId": "64",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Join the panel",
+      "backendDOMNodeId": 64,
+      "childIds": [
+        "-1000001165"
+      ]
+    },
+    {
+      "nodeId": "68",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Become an Accessibility User Research Panelist",
+      "backendDOMNodeId": 68,
+      "childIds": [
+        "-1000001166",
+        "-1000001167"
+      ]
+    },
+    {
+      "nodeId": "70",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Want to test our products to ensure they are fully accessible? Join our Accessibility User Research Panel. Available in the U.S., Canada, and U.K.",
+      "backendDOMNodeId": 70,
+      "childIds": [
+        "-1000001168",
+        "-1000001169",
+        "-1000001170"
+      ]
+    },
+    {
+      "nodeId": "71",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Join the program",
+      "backendDOMNodeId": 71,
+      "childIds": [
+        "-1000001171"
+      ]
+    },
+    {
+      "nodeId": "79",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google for Education Accessibility Website",
+      "backendDOMNodeId": 79,
+      "childIds": [
+        "-1000001172",
+        "-1000001173"
+      ]
+    },
+    {
+      "nodeId": "81",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google for Education helps students and educators customize their learning tools and create more inclusive learning environments so they can study, teach, and collaborate with confidence. With accessibility features built directly into Chromebooks and the collaborative power of Google Workspace for Education, educators can create tailored learning experiences for every student.",
+      "backendDOMNodeId": 81,
+      "childIds": [
+        "-1000001174",
+        "-1000001175",
+        "-1000001176",
+        "-1000001177",
+        "-1000001178",
+        "-1000001179",
+        "-1000001180",
+        "-1000001181",
+        "-1000001182"
+      ]
+    },
+    {
+      "nodeId": "82",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the Education site",
+      "backendDOMNodeId": 82,
+      "childIds": [
+        "-1000001183"
+      ]
+    },
+    {
+      "nodeId": "86",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google Accessibility Help and Community",
+      "backendDOMNodeId": 86,
+      "childIds": [
+        "-1000001184",
+        "-1000001185"
+      ]
+    },
+    {
+      "nodeId": "88",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Find documentation and troubleshooting for using assistive technology with Google products and get support from the Community.     ",
+      "backendDOMNodeId": 88,
+      "childIds": [
+        "-1000001186",
+        "-1000001187",
+        "-1000001188"
+      ]
+    },
+    {
+      "nodeId": "89",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the Help site",
+      "backendDOMNodeId": 89,
+      "childIds": [
+        "-1000001189"
+      ]
+    },
+    {
+      "nodeId": "94",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Android Accessibility Website",
+      "backendDOMNodeId": 94,
+      "childIds": [
+        "-1000001190"
+      ]
+    },
+    {
+      "nodeId": "96",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Built with and for people with disabilities. Android’s accessibility features help you engage with your world, your way. Have conversations, get work done, be entertained, tick off daily tasks, and so much more.     ",
+      "backendDOMNodeId": 96,
+      "childIds": [
+        "-1000001191",
+        "-1000001192",
+        "-1000001193",
+        "-1000001194",
+        "-1000001195"
+      ]
+    },
+    {
+      "nodeId": "97",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the Android site",
+      "backendDOMNodeId": 97,
+      "childIds": [
+        "-1000001196"
+      ]
+    },
+    {
+      "nodeId": "102",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Cloud Accessibility Website",
+      "backendDOMNodeId": 102,
+      "childIds": [
+        "-1000001197"
+      ]
+    },
+    {
+      "nodeId": "104",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Built with and for people with disabilities, Google Cloud is committed to creating a more accessible enterprise experience. This site serves as a central hub for Google Cloud’s accessibility resources to empower all users — including the global community of 1 billion people with disabilities.    ",
+      "backendDOMNodeId": 104,
+      "childIds": [
+        "-1000001198",
+        "-1000001199",
+        "-1000001200",
+        "-1000001201",
+        "-1000001202",
+        "-1000001203"
+      ]
+    },
+    {
+      "nodeId": "105",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the Cloud site",
+      "backendDOMNodeId": 105,
+      "childIds": [
+        "-1000001204"
+      ]
+    },
+    {
+      "nodeId": "110",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Natively Adaptive Interfaces (NAI) Website",
+      "backendDOMNodeId": 110,
+      "childIds": [
+        "-1000001205",
+        "-1000001206"
+      ]
+    },
+    {
+      "nodeId": "112",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The Natively Adaptive Interfaces (NAI) research framework prioritizes user-centered design, embedding accessibility within multimodal AI tools to create interfaces that adapt to a wide range of user abilities and contexts.    ",
+      "backendDOMNodeId": 112,
+      "childIds": [
+        "-1000001207",
+        "-1000001208",
+        "-1000001209",
+        "-1000001210",
+        "-1000001211"
+      ]
+    },
+    {
+      "nodeId": "113",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the NAI site",
+      "backendDOMNodeId": 113,
+      "childIds": [
+        "-1000001212"
+      ]
+    },
+    {
+      "nodeId": "118",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google Accessibility Conformance Reports",
+      "backendDOMNodeId": 118,
+      "childIds": [
+        "-1000001213",
+        "-1000001214"
+      ]
+    },
+    {
+      "nodeId": "120",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "To make it easier for companies, educational institutions, and government agencies to verify alignment with accessibility standards, we provide transparent reports about how our products currently work for people with disabilities. We offer the following English-language Accessibility Conformance Reports (ACR) based on the ITI Voluntary Product Accessibility Template (VPAT®).",
+      "backendDOMNodeId": 120,
+      "childIds": [
+        "-1000001215",
+        "-1000001216",
+        "-1000001217",
+        "-1000001218",
+        "-1000001219",
+        "-1000001220",
+        "-1000001221",
+        "-1000001222"
+      ]
+    },
+    {
+      "nodeId": "121",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the ACR site",
+      "backendDOMNodeId": 121,
+      "childIds": [
+        "-1000001223"
+      ]
+    },
+    {
+      "nodeId": "721",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 721,
+      "childIds": [
+        "133"
+      ]
+    },
+    {
+      "nodeId": "729",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 729
+    },
+    {
+      "nodeId": "135",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 135,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "-1000001154",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact the Disability Support team"
+    },
+    {
+      "nodeId": "-1000001155",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Connect with a specialist for support on "
+    },
+    {
+      "nodeId": "-1000001156",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility Features, How Things Work, and "
+    },
+    {
+      "nodeId": "-1000001157",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Assistive Technology.   "
+    },
+    {
+      "nodeId": "-1000001158",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get support"
+    },
+    {
+      "nodeId": "-1000001159",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Join the Build for All Panel"
+    },
+    {
+      "nodeId": "-1000001160",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get involved in the product creation process by "
+    },
+    {
+      "nodeId": "-1000001161",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "sharing your perspective. Help us create better "
+    },
+    {
+      "nodeId": "-1000001162",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "experiences for everyone by joining the Build for "
+    },
+    {
+      "nodeId": "-1000001163",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "All Panel. Available in the U.S., U.K., Japan, Brazil, "
+    },
+    {
+      "nodeId": "-1000001164",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "India, and Germany."
+    },
+    {
+      "nodeId": "-1000001165",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Join the panel"
+    },
+    {
+      "nodeId": "-1000001166",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Become an Accessibility User Research "
+    },
+    {
+      "nodeId": "-1000001167",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Panelist"
+    },
+    {
+      "nodeId": "-1000001168",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Want to test our products to ensure they are fully "
+    },
+    {
+      "nodeId": "-1000001169",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessible? Join our Accessibility User Research "
+    },
+    {
+      "nodeId": "-1000001170",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Panel. Available in the U.S., Canada, and U.K."
+    },
+    {
+      "nodeId": "-1000001171",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Join the program"
+    },
+    {
+      "nodeId": "-1000001172",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google for Education Accessibility "
+    },
+    {
+      "nodeId": "-1000001173",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Website"
+    },
+    {
+      "nodeId": "-1000001174",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google for Education helps students and "
+    },
+    {
+      "nodeId": "-1000001175",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "educators customize their learning tools and "
+    },
+    {
+      "nodeId": "-1000001176",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "create more inclusive learning environments so "
+    },
+    {
+      "nodeId": "-1000001177",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "they can study, teach, and collaborate with "
+    },
+    {
+      "nodeId": "-1000001178",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "confidence. With accessibility features built "
+    },
+    {
+      "nodeId": "-1000001179",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "directly into Chromebooks and the collaborative "
+    },
+    {
+      "nodeId": "-1000001180",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "power of Google Workspace for Education, "
+    },
+    {
+      "nodeId": "-1000001181",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "educators can create tailored learning experiences "
+    },
+    {
+      "nodeId": "-1000001182",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "for every student."
+    },
+    {
+      "nodeId": "-1000001183",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore the Education site"
+    },
+    {
+      "nodeId": "-1000001184",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google Accessibility Help and "
+    },
+    {
+      "nodeId": "-1000001185",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Community"
+    },
+    {
+      "nodeId": "-1000001186",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Find documentation and troubleshooting for using "
+    },
+    {
+      "nodeId": "-1000001187",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "assistive technology with Google products and get "
+    },
+    {
+      "nodeId": "-1000001188",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "support from the Community.     "
+    },
+    {
+      "nodeId": "-1000001189",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore the Help site"
+    },
+    {
+      "nodeId": "-1000001190",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Android Accessibility Website"
+    },
+    {
+      "nodeId": "-1000001191",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Built with and for people with disabilities. Android’s "
+    },
+    {
+      "nodeId": "-1000001192",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "accessibility features help you engage with your "
+    },
+    {
+      "nodeId": "-1000001193",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "world, your way. Have conversations, get work "
+    },
+    {
+      "nodeId": "-1000001194",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "done, be entertained, tick off daily tasks, and so "
+    },
+    {
+      "nodeId": "-1000001195",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "much more.     "
+    },
+    {
+      "nodeId": "-1000001196",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore the Android site"
+    },
+    {
+      "nodeId": "-1000001197",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Cloud Accessibility Website"
+    },
+    {
+      "nodeId": "-1000001198",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Built with and for people with disabilities, Google "
+    },
+    {
+      "nodeId": "-1000001199",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Cloud is committed to creating a more accessible "
+    },
+    {
+      "nodeId": "-1000001200",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "enterprise experience. This site serves as a central "
+    },
+    {
+      "nodeId": "-1000001201",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "hub for Google Cloud’s accessibility resources to "
+    },
+    {
+      "nodeId": "-1000001202",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "empower all users — including the global "
+    },
+    {
+      "nodeId": "-1000001203",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "community of 1 billion people with disabilities.    "
+    },
+    {
+      "nodeId": "-1000001204",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore the Cloud site"
+    },
+    {
+      "nodeId": "-1000001205",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Natively Adaptive Interfaces (NAI) "
+    },
+    {
+      "nodeId": "-1000001206",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Website"
+    },
+    {
+      "nodeId": "-1000001207",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The Natively Adaptive Interfaces (NAI) research "
+    },
+    {
+      "nodeId": "-1000001208",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "framework prioritizes user-centered design, "
+    },
+    {
+      "nodeId": "-1000001209",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "embedding accessibility within multimodal AI tools "
+    },
+    {
+      "nodeId": "-1000001210",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "to create interfaces that adapt to a wide range of "
+    },
+    {
+      "nodeId": "-1000001211",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "user abilities and contexts.    "
+    },
+    {
+      "nodeId": "-1000001212",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore the NAI site"
+    },
+    {
+      "nodeId": "-1000001213",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Google Accessibility Conformance "
+    },
+    {
+      "nodeId": "-1000001214",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Reports"
+    },
+    {
+      "nodeId": "-1000001215",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "To make it easier for companies, educational "
+    },
+    {
+      "nodeId": "-1000001216",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "institutions, and government agencies to verify "
+    },
+    {
+      "nodeId": "-1000001217",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "alignment with accessibility standards, we provide "
+    },
+    {
+      "nodeId": "-1000001218",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "transparent reports about how our products "
+    },
+    {
+      "nodeId": "-1000001219",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "currently work for people with disabilities. We offer "
+    },
+    {
+      "nodeId": "-1000001220",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "the following English-language Accessibility "
+    },
+    {
+      "nodeId": "-1000001221",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Conformance Reports (ACR) based on the ITI "
+    },
+    {
+      "nodeId": "-1000001222",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Voluntary Product Accessibility Template (VPAT®)."
+    },
+    {
+      "nodeId": "-1000001223",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Explore the ACR site"
+    },
+    {
+      "nodeId": "133",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Your email*",
+      "backendDOMNodeId": 133,
+      "childIds": [
+        "-1000000690"
+      ]
+    },
+    {
+      "nodeId": "-1000000690",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Your email*"
+    }
+  ]
+}
