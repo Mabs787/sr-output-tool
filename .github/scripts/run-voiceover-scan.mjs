@@ -761,6 +761,7 @@ function cleanCaptionOcrText(value) {
     .replace(/^[x×]\s*/i, "")
     .replace(/^Google Chrome .+? window /, "")
     .replace(/\bvisited,\s+(?=link\b)/gi, "")
+    .replace(/^,\s+(?=end of\b)/i, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -1677,6 +1678,16 @@ async function captureRenderedSourceHtml(target) {
     "document",
     "  .querySelectorAll('[data-sr-voiceover-scan-boundary], [data-sr-voiceover-scan-end]')",
     "  .forEach((marker) => marker.remove());",
+    "const isHiddenFromAccessibility = (element) => {",
+    "  if (!(element instanceof Element)) return false;",
+    "  if (element.closest('[aria-hidden=\"true\"], [inert], [hidden]')) return true;",
+    "  const style = window.getComputedStyle(element);",
+    "  return style.display === 'none' || style.visibility === 'hidden' || style.visibility === 'collapse';",
+    "};",
+    "Array.from(document.body.querySelectorAll('*'))",
+    "  .reverse()",
+    "  .filter(isHiddenFromAccessibility)",
+    "  .forEach((element) => element.remove());",
     "return document.documentElement.outerHTML;",
     "})()",
   ].join(" ");
