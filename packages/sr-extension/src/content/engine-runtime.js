@@ -331,7 +331,11 @@
             break;
           }
           case "listitem": {
-            pushIfPresent(parts, label);
+            const listItemLabel = normalizeText(el.name);
+            if (!listItemLabel) {
+              return "";
+            }
+            parts.push(listItemLabel);
             if (!el.positionInSet || !el.setSize) {
               parts.push("list item");
             }
@@ -361,9 +365,22 @@
             const listLabel = normalizeText(el.name);
             const listRole = el.roleDescription ?? "list";
             const listSize = el.setSize ? `${el.setSize} items` : void 0;
+            const listLevel = el.level && el.level > 1 ? `level ${el.level}` : void 0;
+            const parentPosition = el.parentPositionInSet && el.parentSetSize ? `${el.parentPositionInSet} of ${el.parentSetSize}` : void 0;
             const listParts = [listLabel, listRole, listSize].filter((part) => Boolean(part));
-            pushSupplementalText(listParts, el);
-            return listParts.join(" ");
+            const supplementalParts = [];
+            if (listLevel && parentPosition) {
+              supplementalParts.push(`${listLevel} ${parentPosition}`);
+            } else {
+              if (listLevel) {
+                supplementalParts.push(listLevel);
+              }
+              if (parentPosition) {
+                supplementalParts.push(parentPosition);
+              }
+            }
+            pushSupplementalText(supplementalParts, el);
+            return [listParts.join(" "), ...supplementalParts].filter(Boolean).join(", ");
           }
           case "listbox": {
             pushIfPresent(parts, el.name);
@@ -1048,34 +1065,42 @@
             return void 0;
           }
           function getTextExcludingInteractiveContent() {
-            const clone = el.cloneNode(true);
-            for (const node of Array.from(clone.querySelectorAll("button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link']"))) {
-              node.remove();
+            function isEmbeddedStop(node) {
+              if (!node || node.nodeType !== Node.ELEMENT_NODE) {
+                return false;
+              }
+              const nodeTag = node.tagName.toLowerCase();
+              const nodeRole = node.getAttribute("role") || "";
+              return nodeTag === "button" || nodeTag === "a" && node.hasAttribute("href") || nodeTag === "input" && node.type !== "hidden" || nodeTag === "select" || nodeTag === "textarea" || ["ul", "ol", "dl"].includes(nodeTag) || ["button", "link", "list"].includes(nodeRole);
             }
-            for (const node of Array.from(clone.querySelectorAll("[aria-hidden='true']"))) {
-              node.remove();
-            }
-            function collectText(node) {
+            function collectLeadingText(node) {
               if (!node) {
-                return [];
+                return { parts: [], stopped: false };
               }
               if (node.nodeType === Node.TEXT_NODE) {
                 const value2 = node.textContent?.replace(/\s+/g, " ").trim();
-                return value2 ? [value2] : [];
+                return { parts: value2 ? [value2] : [], stopped: false };
               }
               if (node.nodeType !== Node.ELEMENT_NODE) {
-                return [];
+                return { parts: [], stopped: false };
               }
-              if (node.getAttribute("aria-hidden") === "true") {
-                return [];
+              if (isEmbeddedStop(node)) {
+                return { parts: [], stopped: true };
+              }
+              if (node.getAttribute("aria-hidden") === "true" || hasRenderedHiddenMarker(node)) {
+                return { parts: [], stopped: false };
               }
               const parts = [];
               for (const child of Array.from(node.childNodes)) {
-                parts.push(...collectText(child));
+                const result = collectLeadingText(child);
+                parts.push(...result.parts);
+                if (result.stopped) {
+                  return { parts, stopped: true };
+                }
               }
-              return parts;
+              return { parts, stopped: false };
             }
-            const text2 = collectText(clone).join(" ").replace(/\s+/g, " ").trim();
+            const text2 = collectLeadingText(el).parts.join(" ").replace(/\s+([.,;:!?])/g, "$1").replace(/\s+/g, " ").trim();
             return text2 || void 0;
           }
           function isStandaloneListItemButton() {
@@ -1458,15 +1483,15 @@
           if (!name && role === "group" && focusableTableGroupLabel) {
             name = focusableTableGroupLabel;
           }
+          if (!name && ["paragraph", "listitem", "blockquote"].includes(role)) {
+            name = getTextExcludingInteractiveContent() || getAccessibleText(el)?.slice(0, 200) || void 0;
+          }
           if (!name && [
             "button",
             "link",
             "heading",
             "menuitem",
             "tab",
-            "paragraph",
-            "listitem",
-            "blockquote",
             "cell",
             "gridcell",
             "rowheader",
@@ -1477,7 +1502,7 @@
           if (!name && role === "button") {
             name = el.getAttribute("title") || void 0;
           }
-          if (role === "listitem" && hasInteractiveDescendants()) {
+          if (role === "listitem") {
             name = getTextExcludingInteractiveContent();
           }
           const text = getReadableText(el);
@@ -1519,6 +1544,17 @@
           const ariaLevel = el.getAttribute("aria-level");
           if (ariaLevel)
             level = parseInt(ariaLevel, 10);
+          if (role === "list" && !level) {
+            let current2 = el.parentElement;
+            let depth = 1;
+            while (current2) {
+              if (["ul", "ol", "dl"].includes(current2.tagName?.toLowerCase()) || current2.getAttribute?.("role") === "list") {
+                depth += 1;
+              }
+              current2 = current2.parentElement;
+            }
+            level = depth > 1 ? depth : void 0;
+          }
           const headingButton = getHeadingButton();
           const headingLink = getHeadingLink();
           const headingFragments = role === "heading" && !headingButton && !headingLink ? getFragmentedHeadingText() || getPriceGuideHeadingFragments() : void 0;
@@ -1551,6 +1587,32 @@
           })() : void 0;
           const setSize = parsePositiveInt(el.getAttribute("aria-setsize")) || inferredSetSize;
           const positionInSet = parsePositiveInt(el.getAttribute("aria-posinset")) || getCollectionPosition();
+          const parentListItem = role === "list" ? el.parentElement?.closest("li,[role='listitem']") : null;
+          const firstNestedListForParent = parentListItem ? Array.from(parentListItem.querySelectorAll("ul, ol, dl, [role='list']")).find((list) => list.closest("li,[role='listitem']") === parentListItem) : null;
+          const parentListItemHasLeadingText = Boolean(parentListItem && Array.from(parentListItem.childNodes).some((child) => {
+            if (child === el || child.contains?.(el)) {
+              return false;
+            }
+            if (child.nodeType === Node.TEXT_NODE) {
+              return Boolean(child.textContent?.replace(/\s+/g, " ").trim());
+            }
+            if (child.nodeType !== Node.ELEMENT_NODE) {
+              return false;
+            }
+            if (child.getAttribute("aria-hidden") === "true" || hasRenderedHiddenMarker(child)) {
+              return false;
+            }
+            const childTag = child.tagName.toLowerCase();
+            const childRole = child.getAttribute("role") || "";
+            if (childTag === "button" || childTag === "a" && child.hasAttribute("href") || ["button", "link"].includes(childRole)) {
+              return false;
+            }
+            return Boolean(getReadableText(child));
+          }));
+          const parentList = parentListItem?.parentElement;
+          const parentSiblings = parentListItem && parentList ? Array.from(parentList.children).filter((child) => isSemanticListItemElement(child)) : [];
+          const parentPositionInSet = parentListItem && parentSiblings.length && !parentListItemHasLeadingText && firstNestedListForParent === el ? parentSiblings.indexOf(parentListItem) + 1 || void 0 : void 0;
+          const parentSetSize = parentPositionInSet ? parentSiblings.length || void 0 : void 0;
           const rowElement = el.closest("tr,[role='row']");
           const rowIndex = parsePositiveInt(el.getAttribute("aria-rowindex")) || (role === "rowheader" && !getColumnHeaderText(1) ? getRowIndex(rowElement) : void 0) || (role === "rowheader" ? getBodyRowIndex(rowElement) : void 0) || getRowIndex(rowElement);
           const columnIndex = parsePositiveInt(el.getAttribute("aria-colindex")) || getColumnIndex(rowElement);
@@ -1604,6 +1666,8 @@
             headingFragments,
             setSize,
             positionInSet,
+            parentSetSize,
+            parentPositionInSet,
             rowIndex,
             rowCount,
             columnIndex,
@@ -2156,6 +2220,9 @@
               return Boolean(el.parentElement?.querySelector("button"));
             }
             return Boolean(el.querySelector("label, select"));
+          }
+          if (tag === "p" || tag === "blockquote" || hasStandaloneTextStop(el)) {
+            return Boolean(el.querySelector("button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link']"));
           }
           if (tag === "li" || role === "listitem") {
             return Boolean(el.querySelector("button, a[href], input:not([type='hidden']), select, textarea, [role='button'], [role='link']"));

@@ -337,7 +337,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "listitem": {
-      pushIfPresent(parts, label);
+      const listItemLabel = normalizeText(el.name);
+      if (!listItemLabel) {
+        return "";
+      }
+      parts.push(listItemLabel);
       if (!el.positionInSet || !el.setSize) {
         parts.push("list item");
       }
@@ -371,11 +375,27 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       const listLabel = normalizeText(el.name);
       const listRole = el.roleDescription ?? "list";
       const listSize = el.setSize ? `${el.setSize} items` : undefined;
+      const listLevel = el.level && el.level > 1 ? `level ${el.level}` : undefined;
+      const parentPosition =
+        el.parentPositionInSet && el.parentSetSize
+          ? `${el.parentPositionInSet} of ${el.parentSetSize}`
+          : undefined;
       const listParts = [listLabel, listRole, listSize].filter(
         (part): part is string => Boolean(part),
       );
-      pushSupplementalText(listParts, el);
-      return listParts.join(" ");
+      const supplementalParts: string[] = [];
+      if (listLevel && parentPosition) {
+        supplementalParts.push(`${listLevel} ${parentPosition}`);
+      } else {
+        if (listLevel) {
+          supplementalParts.push(listLevel);
+        }
+        if (parentPosition) {
+          supplementalParts.push(parentPosition);
+        }
+      }
+      pushSupplementalText(supplementalParts, el);
+      return [listParts.join(" "), ...supplementalParts].filter(Boolean).join(", ");
     }
 
     case "listbox": {

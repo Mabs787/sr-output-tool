@@ -25,6 +25,8 @@ export interface ElementDescriptor {
   headingFragments?: string[];
   setSize?: number;
   positionInSet?: number;
+  parentSetSize?: number;
+  parentPositionInSet?: number;
   rowIndex?: number;
   rowCount?: number;
   columnIndex?: number;
