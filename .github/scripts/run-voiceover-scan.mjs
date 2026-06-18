@@ -1674,10 +1674,38 @@ async function captureRenderedSourceHtml(target) {
   }
 
   const script = [
-    "(() => {",
+    "(async () => {",
+    "await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));",
+    "if (document.fonts?.ready) {",
+    "  await Promise.race([document.fonts.ready, new Promise((resolve) => setTimeout(resolve, 3000))]);",
+    "}",
     "document",
     "  .querySelectorAll('[data-sr-voiceover-scan-boundary], [data-sr-voiceover-scan-end]')",
     "  .forEach((marker) => marker.remove());",
+    "document",
+    "  .querySelectorAll('[data-sr-rendered-viewport], [data-sr-computed-hidden], [data-sr-rendered-position]')",
+    "  .forEach((element) => {",
+    "    element.removeAttribute('data-sr-rendered-viewport');",
+    "    element.removeAttribute('data-sr-computed-hidden');",
+    "    element.removeAttribute('data-sr-rendered-position');",
+    "  });",
+    "document.body?.setAttribute('data-sr-rendered-viewport', `${window.innerWidth}x${window.innerHeight}`);",
+    "for (const element of Array.from(document.body?.querySelectorAll('*') || [])) {",
+    "  const style = window.getComputedStyle(element);",
+    "  const hiddenReasons = [];",
+    "  if (style.display === 'none') hiddenReasons.push('display:none');",
+    "  if (style.visibility === 'hidden' || style.visibility === 'collapse') hiddenReasons.push(`visibility:${style.visibility}`);",
+    "  if (Number(style.opacity) === 0 && element.matches('a, button, input, select, textarea, summary, [role], [tabindex]')) hiddenReasons.push('opacity:0');",
+    "  if (hiddenReasons.length) {",
+    "    element.setAttribute('data-sr-computed-hidden', hiddenReasons.join(' '));",
+    "    continue;",
+    "  }",
+    "  const rect = element.getBoundingClientRect();",
+    "  const hasRelevantContent = Boolean(element.textContent.trim() || element.getAttribute('aria-label') || element.getAttribute('alt') || element.matches('a, button, input, select, textarea, summary, [role]'));",
+    "  if (hasRelevantContent && (rect.right <= 0 || rect.bottom <= 0 || rect.left >= window.innerWidth || rect.top >= window.innerHeight)) {",
+    "    element.setAttribute('data-sr-rendered-position', 'offscreen');",
+    "  }",
+    "}",
     "return document.documentElement.outerHTML;",
     "})()",
   ].join(" ");
@@ -1760,6 +1788,10 @@ function shouldKeepAttribute(attribute, element, referencedIds) {
   }
 
   if (name === "role" || name.startsWith("aria-")) {
+    return true;
+  }
+
+  if (name.startsWith("data-sr-")) {
     return true;
   }
 
@@ -1881,7 +1913,7 @@ function reduceHtmlForRefinement(sourceHtml, target) {
   normalizeTextNodes(document);
   pruneEmptyElements(document);
 
-  const reducedHtml = document.body?.innerHTML.trim() || document.documentElement.outerHTML;
+  const reducedHtml = document.body?.outerHTML.trim() || document.documentElement.outerHTML;
   return {
     html: reducedHtml,
     stats: {
