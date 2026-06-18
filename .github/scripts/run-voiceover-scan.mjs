@@ -1849,12 +1849,8 @@ async function captureRenderedSourceHtml(target) {
     };
   }
 
-  const script = [
-    "(async () => {",
-    "await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));",
-    "if (document.fonts?.ready) {",
-    "  await Promise.race([document.fonts.ready, new Promise((resolve) => setTimeout(resolve, 3000))]);",
-    "}",
+  const annotationScript = [
+    "(() => {",
     "document",
     "  .querySelectorAll('[data-sr-voiceover-scan-boundary], [data-sr-voiceover-scan-end]')",
     "  .forEach((marker) => marker.remove());",
@@ -1884,12 +1880,32 @@ async function captureRenderedSourceHtml(target) {
     "    element.setAttribute('data-sr-rendered-position', 'offscreen');",
     "  }",
     "}",
-    "return document.documentElement.outerHTML;",
+    "return JSON.stringify({",
+    "  title: document.title,",
+    "  readyState: document.readyState,",
+    "  url: location.href,",
+    "  viewport: `${window.innerWidth}x${window.innerHeight}`,",
+    "  nodeCount: document.body?.querySelectorAll('*').length || 0,",
+    "});",
     "})()",
   ].join(" ");
 
+  const annotation = await evaluateJavaScriptInChrome(annotationScript, 30000);
+  if (!annotation.ok) {
+    return {
+      ...annotation,
+      source: "chrome-rendered-dom",
+    };
+  }
+
+  const html = await evaluateJavaScriptInChrome(
+    "document.documentElement.outerHTML",
+    30000,
+  );
+
   return {
-    ...(await evaluateJavaScriptInChrome(script, 30000)),
+    ...html,
+    annotation,
     source: "chrome-rendered-dom",
   };
 }
