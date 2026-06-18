@@ -760,7 +760,6 @@ function cleanCaptionOcrText(value) {
   return String(value || "")
     .replace(/^[x×]\s*/i, "")
     .replace(/^Google Chrome .+? window /, "")
-    .replace(/^[*•]\s*/, "")
     .replace(/\bvisited,\s+(?=link\b)/gi, "")
     .replace(/\s+/g, " ")
     .trim();
