@@ -143,7 +143,6 @@ jobs:
           VOICEOVER_SCAN_MANIFEST: voiceover-smoke/url-manifest.json
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ inputs.capture_step_screenshots && 'true' || '' }}
           VOICEOVER_CAPTURE_SCREEN_RECORDING: "true"
-          VOICEOVER_SCREEN_RECORDING_SECONDS: "1800"
           VOICEOVER_MAX_STEP_SECONDS: ${{ inputs.max_step_seconds }}
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
         run: node .github/scripts/run-voiceover-scan.mjs

@@ -26,14 +26,6 @@ const scanMarkerTexts = {
   start: "SR Output Tool VoiceOver scan start marker",
   end: "SR Output Tool VoiceOver scan end marker",
 };
-const requestedScreenRecordingSeconds = Number(
-  process.env.VOICEOVER_SCREEN_RECORDING_SECONDS || 180,
-);
-const screenRecordingSeconds =
-  Number.isFinite(requestedScreenRecordingSeconds) &&
-  requestedScreenRecordingSeconds > 0
-    ? Math.min(Math.floor(requestedScreenRecordingSeconds), 3600)
-    : 180;
 const navigationMode =
   process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
     ? "plain-right-arrow"
@@ -279,14 +271,10 @@ function startScreenRecording() {
   mkdirSync(recordingsDir, { recursive: true });
 
   const filePath = path.join(recordingsDir, "voiceover-scan.mov");
-  const child = spawn(
-    "screencapture",
-    ["-v", `-V${screenRecordingSeconds}`, filePath],
-    {
-      cwd: repoRoot,
-      stdio: ["ignore", "pipe", "pipe"],
-    },
-  );
+  const child = spawn("screencapture", ["-v", filePath], {
+    cwd: repoRoot,
+    stdio: ["ignore", "pipe", "pipe"],
+  });
 
   const recording = {
     filePath,
@@ -403,7 +391,7 @@ function stopScreenRecording(recording) {
         path: recording.relativePath,
         fileExists,
         fileSize,
-        seconds: screenRecordingSeconds,
+        mode: "manual-stop",
         startedAt: recording.startedAt,
         finishedAt: new Date().toISOString(),
         status: code,
@@ -420,12 +408,12 @@ function stopScreenRecording(recording) {
       return;
     }
 
-    // screencapture finalizes .mov files reliably when -V exits naturally.
+    recording.child.kill("SIGINT");
     forceStopTimer = setTimeout(() => {
       if (!settled && recording.child.exitCode === null) {
         recording.child.kill("SIGTERM");
       }
-    }, (screenRecordingSeconds + 30) * 1000);
+    }, 30000);
   });
 }
 
@@ -772,6 +760,8 @@ function cleanCaptionOcrText(value) {
   return String(value || "")
     .replace(/^[x×]\s*/i, "")
     .replace(/^Google Chrome .+? window /, "")
+    .replace(/^[*•]\s*/, "")
+    .replace(/\bvisited,\s+(?=link\b)/gi, "")
     .replace(/\s+/g, " ")
     .trim();
 }
