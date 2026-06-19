@@ -188,8 +188,34 @@ function summarizeStepSnapshots(stepSnapshots) {
             text: snapshot.pageState.activeElement.text,
             computed: snapshot.pageState.activeElement.computed,
             rect: snapshot.pageState.activeElement.rect,
+            html: snapshot.pageState.activeElement.html,
           }
         : null,
+      activeElementAncestors:
+        snapshot.pageState?.activeElementAncestors?.slice(0, 4).map((node) => ({
+          tagName: node.tagName,
+          attributes: node.attributes,
+          text: node.text,
+          computed: node.computed,
+          rect: node.rect,
+        })) || [],
+      matchedDomElements:
+        snapshot.pageState?.matchedDomElements?.slice(0, 8).map((node) => ({
+          score: node.score,
+          tagName: node.tagName,
+          attributes: node.attributes,
+          text: node.text,
+          computed: node.computed,
+          rect: node.rect,
+          html: node.html,
+          ancestors: node.ancestors?.slice(0, 4).map((ancestor) => ({
+            tagName: ancestor.tagName,
+            attributes: ancestor.attributes,
+            text: ancestor.text,
+            computed: ancestor.computed,
+            rect: ancestor.rect,
+          })),
+        })) || [],
       matchedAccessibilityNodes:
         snapshot.accessibility?.matchedNodes?.slice(0, 8).map((node) => ({
           score: node.score,

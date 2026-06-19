@@ -85,7 +85,7 @@ Remaining question:
 
 Status: `candidate`
 
-Current unresolved area:
+Current fixture-source issue:
 
 ```text
 expected: Enter a city, list box pop up collapsed, combo box
@@ -116,11 +116,18 @@ Already resolved:
 - The combobox should announce
   `Enter a city, list box pop up collapsed, combo box`.
 - The leading `•` before `Search, button` is a caption artifact.
+- Diagnostic run `27836096018` confirms `My locations` is inside the live search
+  traversal. VoiceOver announces `end of, search` only after the location panel
+  content and `Close location search, button`.
+- Final `rendered-html.html` is stale for this fixture: the location panel is
+  marked hidden there, while the step snapshot after focusing the combobox shows
+  the live AX tree with recent-location/search-panel nodes.
 
-Remaining question:
+Remaining action:
 
-1. In the rendered DOM/AX traversal for the live step, is `My locations` inside
-   the same search region as the location form, or after `end of, search`?
+1. Promote BBC Weather only after the corpus can use the relevant step snapshot
+   or an open-state fixture for the search panel. Do not change the engine to
+   read hidden final HTML just to make this pass.
 
 ## www-gov-uk
 

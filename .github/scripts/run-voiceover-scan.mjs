@@ -2323,8 +2323,12 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     return null;
   }
 
+  const stepSearchTokens = getSearchTokens(
+    getSnapshotSearchText({ announcement, focus }),
+  );
   const pageStateScript = [
     "(() => {",
+    `const searchTokens = ${JSON.stringify(stepSearchTokens)};`,
     "let nextNodeId = 1;",
     "for (const element of Array.from(document.body?.querySelectorAll('*') || [])) {",
     "  if (!element.hasAttribute('data-sr-dom-node-id')) {",
@@ -2337,6 +2341,17 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     "  const keep = new Set(['id', 'role', 'aria-label', 'aria-labelledby', 'aria-describedby', 'aria-expanded', 'aria-hidden', 'hidden', 'href', 'type', 'title', 'alt', 'data-sr-dom-node-id']);",
     "  return Object.fromEntries(Array.from(element.attributes).filter((attr) => keep.has(attr.name.toLowerCase())).map((attr) => [attr.name, attr.value]));",
     "}",
+    "function htmlSnippet(element) {",
+    "  if (!element?.cloneNode) return '';",
+    "  const clone = element.cloneNode(true);",
+    "  clone.querySelectorAll?.('script, style, link, meta, noscript, template').forEach((node) => node.remove());",
+    "  clone.querySelectorAll?.('svg').forEach((svg) => {",
+    "    const label = svg.getAttribute('aria-label') || svg.querySelector('title')?.textContent || '';",
+    "    svg.textContent = '';",
+    "    if (label && !svg.getAttribute('aria-label')) svg.setAttribute('aria-label', label.trim());",
+    "  });",
+    "  return clone.outerHTML.replace(/\\s+/g, ' ').trim().slice(0, 1600);",
+    "}",
     "function describe(element) {",
     "  if (!element) return null;",
     "  const style = window.getComputedStyle(element);",
@@ -2347,11 +2362,50 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     "    text: (element.innerText || element.textContent || element.value || '').replace(/\\s+/g, ' ').trim().slice(0, 500),",
     "    computed: { display: style.display, visibility: style.visibility, opacity: style.opacity },",
     "    rect: { x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height), top: Math.round(rect.top), left: Math.round(rect.left), bottom: Math.round(rect.bottom), right: Math.round(rect.right) }",
+    "    , html: htmlSnippet(element)",
     "  };",
+    "}",
+    "function describeAncestor(element) {",
+    "  if (!element) return null;",
+    "  const style = window.getComputedStyle(element);",
+    "  const rect = element.getBoundingClientRect();",
+    "  return {",
+    "    tagName: element.tagName?.toLowerCase() || '',",
+    "    attributes: attrs(element),",
+    "    text: (element.innerText || element.textContent || element.value || '').replace(/\\s+/g, ' ').trim().slice(0, 240),",
+    "    computed: { display: style.display, visibility: style.visibility, opacity: style.opacity },",
+    "    rect: { x: Math.round(rect.x), y: Math.round(rect.y), width: Math.round(rect.width), height: Math.round(rect.height), top: Math.round(rect.top), left: Math.round(rect.left), bottom: Math.round(rect.bottom), right: Math.round(rect.right) }",
+    "  };",
+    "}",
+    "function ancestors(element) {",
+    "  const result = [];",
+    "  for (let current = element?.parentElement; current && result.length < 6; current = current.parentElement) {",
+    "    result.push(describeAncestor(current));",
+    "  }",
+    "  return result;",
+    "}",
+    "function scoreElement(element) {",
+    "  if (!element || searchTokens.length === 0) return 0;",
+    "  const haystack = [",
+    "    element.tagName || '',",
+    "    element.getAttribute('role') || '',",
+    "    element.getAttribute('aria-label') || '',",
+    "    element.getAttribute('title') || '',",
+    "    element.getAttribute('alt') || '',",
+    "    element.getAttribute('placeholder') || '',",
+    "    element.innerText || element.textContent || element.value || '',",
+    "  ].join(' ').toLowerCase();",
+    "  return searchTokens.reduce((score, token) => score + (haystack.includes(token) ? 1 : 0), 0);",
     "}",
     "const active = document.activeElement;",
     "const center = active?.getBoundingClientRect ? active.getBoundingClientRect() : null;",
     "const pointElements = center ? document.elementsFromPoint(center.left + center.width / 2, center.top + center.height / 2).slice(0, 8).map(describe) : [];",
+    "const matchedDomElements = Array.from(document.body?.querySelectorAll('*') || [])",
+    "  .map((element) => ({ element, score: scoreElement(element) }))",
+    "  .filter((entry) => entry.score > 0)",
+    "  .sort((a, b) => b.score - a.score)",
+    "  .slice(0, 20)",
+    "  .map(({ element, score }) => ({ score, ...describe(element), ancestors: ancestors(element) }));",
     "return JSON.stringify({",
     "  title: document.title,",
     "  readyState: document.readyState,",
@@ -2359,7 +2413,9 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     "  viewport: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio },",
     "  scroll: { x: Math.round(window.scrollX), y: Math.round(window.scrollY) },",
     "  activeElement: describe(active),",
-    "  pointElements",
+    "  activeElementAncestors: ancestors(active),",
+    "  pointElements,",
+    "  matchedDomElements",
     "});",
     "})()",
   ].join(" ");
@@ -2398,9 +2454,7 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
       const nodes = Array.isArray(parsed.nodes)
         ? parsed.nodes.map((node) => reduceAccessibilityTreeNode(node, domNodeMap.map))
         : [];
-      const tokens = getSearchTokens(
-        getSnapshotSearchText({ announcement, focus }),
-      );
+      const tokens = stepSearchTokens;
       const matchedNodes = nodes
         .map((node) => ({ node, score: scoreAxSnapshotNode(node, tokens) }))
         .filter((entry) => entry.score > 0 && !entry.node.ignored)
