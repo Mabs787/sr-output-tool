@@ -226,7 +226,7 @@
     "heading level 2, Search for a location",
     "search",
     "Enter a city, list box pop up collapsed, combo box",
-    "• Search, button",
+    "Search, button",
     "My locations",
     "heading level 4, Remember the places that matter to you",
     "Add them to your locations to get relevant local info across the BBC. Sign in or Register to start adding.",
@@ -407,7 +407,8 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+    "User refinement: BBC Weather location combobox should announce `Enter a city, list box pop up collapsed, combo box`; leading `•` before `Search, button` is a caption artifact."
   ],
   "source": {
     "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-www-bbc-co-uk-weather/scans/www-bbc-co-uk-weather/refinement-manifest.json",

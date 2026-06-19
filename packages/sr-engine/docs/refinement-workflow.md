@@ -38,3 +38,34 @@ yarn test:unit
 ```
 
 Use [refinement-template.md](refinement-template.md) when preparing a new refinement request.
+
+For a full site-set workflow that starts with submitted URLs and ends with AI
+assisted corpus classification, questions, engine changes, and extension
+verification, use
+[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md).
+
+## Corpus Gating
+
+Imported VoiceOver site scans are classified in
+`tests/fixtures/voiceover/refinement-manifest.json` before they become exact
+engine contracts.
+
+Use these statuses:
+
+- `trusted`: exact gate; captured VoiceOver, rendered HTML, and AX context agree.
+- `refined`: exact gate after documented correction of capture noise.
+- `candidate`: useful for development, but not yet a hard pass/fail contract.
+- `partial`: useful only for documented regions or slices.
+- `skip`: excluded until manually reworked.
+
+Run only trusted/refined fixtures:
+
+```bash
+npm run test:voiceover -w packages/sr-engine
+```
+
+Include candidate fixtures while rebuilding/refining:
+
+```bash
+SR_VOICEOVER_CORPUS_CANDIDATES=true npm run test:voiceover -w packages/sr-engine
+```

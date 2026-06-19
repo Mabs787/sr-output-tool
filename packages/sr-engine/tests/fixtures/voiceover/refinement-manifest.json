@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Classify imported VoiceOver fixtures before using them as exact engine contracts.",
+  "statusDefinitions": {
+    "trusted": "Use as an exact corpus gate. VoiceOver output, rendered HTML, and AX context agree.",
+    "refined": "Use as an exact corpus gate after documented correction of capture noise.",
+    "candidate": "Useful for engine development, but not yet an exact gate.",
+    "partial": "Useful only for documented regions or slices.",
+    "skip": "Do not use for engine gating until manually reworked."
+  },
+  "defaultStatus": "candidate",
+  "cases": {
+    "developer-mozilla-org-en-us-docs-web-html": {
+      "status": "skip",
+      "reason": "VoiceOver captured dynamic advertising content absent from rendered HTML."
+    },
+    "developer-mozilla-org-en-us": {
+      "status": "skip",
+      "reason": "Severe OCR/caption artifacts and dynamic advertising content absent from rendered HTML."
+    },
+    "web-dev": {
+      "status": "candidate",
+      "reason": "High-value fixture. User confirmed the header logo should announce as `link, image, web.dev`, and refinedAnnouncements include that skipped runner item; later page output still needs full review before exact gating."
+    },
+    "www-apple-com-accessibility": {
+      "status": "candidate",
+      "reason": "Global nav is useful. User confirmed leading bullet markers are artifacts and forward traversal can include nested list parent position, but deeper Apple gallery/card output still needs full review before exact gating."
+    },
+    "www-bbc-co-uk-news": {
+      "status": "candidate",
+      "reason": "Article page is useful. User confirmed the leading marker before the h1 is an artifact; unnamed navigation and later article OCR noise still need refinement before exact gating."
+    },
+    "www-bbc-co-uk-weather": {
+      "status": "candidate",
+      "reason": "Strong fixture for hidden list counts and search regions. User confirmed the location combobox phrasing and Search button marker artifact; later page-depth coverage still needs review before exact gating."
+    },
+    "www-google-com-accessibility": {
+      "status": "candidate",
+      "reason": "Raw output appears truncated in long text and has leading caption marker artifacts around video/heading content."
+    },
+    "www-gov-uk-apply-blue-badge": {
+      "status": "candidate",
+      "reason": "Cookie banner start contains a stray group and link/text split mismatch that should be refined from rendered HTML/AX context."
+    },
+    "www-gov-uk": {
+      "status": "candidate",
+      "reason": "Cookie banner link/text split differs between capture and rendered DOM; refine before exact gating."
+    },
+    "www-microsoft-com-en-us-accessibility": {
+      "status": "candidate",
+      "reason": "Useful layout/nav fixture. Leading bullet caption artifacts were corrected where AX/rendered HTML showed normal links/buttons/headings, but later traversal/coverage mismatches still need refinement before exact gating."
+    },
+    "www-nhs-uk-conditions": {
+      "status": "skip",
+      "reason": "Severe OCR/caption artifacts; keep out of corpus gate until manually refined."
+    },
+    "www-nhs-uk": {
+      "status": "candidate",
+      "reason": "Useful search/nav fixture, but cookie sentence punctuation and search combobox phrasing need refinement."
+    },
+    "www-w3-org-wai-standards-guidelines-wcag": {
+      "status": "candidate",
+      "reason": "Useful nested language/list fixture, but casing/Japanese item and parent-position announcements need manual confirmation."
+    },
+    "www-w3-org-wai": {
+      "status": "skip",
+      "reason": "Severe OCR/caption artifacts; keep out of corpus gate until manually refined."
+    },
+    "www-wikipedia-org": {
+      "status": "candidate",
+      "reason": "Useful multilingual/navigation fixture, but expected language order/duplicates and heading item count need refinement."
+    }
+  }
+}

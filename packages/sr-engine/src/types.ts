@@ -60,6 +60,7 @@ export interface ElementDescriptor {
   headingButton?: boolean;
   headingLink?: boolean;
   iconOnlyLink?: boolean;
+  compositeText?: boolean;
   linkRoleFirst?: boolean;
   suppressContextEnd?: boolean;
   groupContext?: boolean;

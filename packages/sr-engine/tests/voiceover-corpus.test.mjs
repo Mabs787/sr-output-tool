@@ -15,7 +15,9 @@ const {
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixturesDir = path.join(testDir, "fixtures/voiceover");
+const refinementManifestPath = path.join(fixturesDir, "refinement-manifest.json");
 const shouldRun = process.env.SR_VOICEOVER_CORPUS_TESTS === "true";
+const includeCandidates = process.env.SR_VOICEOVER_CORPUS_CANDIDATES === "true";
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, "utf8"));
@@ -37,6 +39,32 @@ function getCases() {
     .filter((fileName) => fileName.endsWith(".expected.json"))
     .sort((left, right) => left.localeCompare(right))
     .map((fileName) => readJson(path.join(fixturesDir, fileName)));
+}
+
+function getRefinementManifest() {
+  if (!existsSync(refinementManifestPath)) {
+    return {
+      defaultStatus: "candidate",
+      cases: {},
+    };
+  }
+
+  return readJson(refinementManifestPath);
+}
+
+const refinementManifest = getRefinementManifest();
+
+function getRefinementStatus(fixture) {
+  return (
+    refinementManifest.cases?.[fixture.name] || {
+      status: refinementManifest.defaultStatus || "candidate",
+      reason: "No fixture-specific refinement status has been recorded.",
+    }
+  );
+}
+
+function isGateStatus(status) {
+  return status === "trusted" || status === "refined";
 }
 
 function scanHtml(html) {
@@ -140,11 +168,25 @@ test("VoiceOver corpus fixtures are present", () => {
   );
 });
 
-for (const fixture of cases) {
-  const runFixtureTest =
-    shouldRun && !fixture.skipCorpusReason ? test : test.skip;
+test("VoiceOver corpus refinement manifest covers every fixture", () => {
+  const missing = cases
+    .map((fixture) => fixture.name)
+    .filter((name) => !refinementManifest.cases?.[name]);
 
-  runFixtureTest(`VoiceOver corpus: ${fixture.name}`, () => {
+  assert.deepEqual(missing, []);
+});
+
+for (const fixture of cases) {
+  const refinement = getRefinementStatus(fixture);
+  const gateFixture =
+    !fixture.skipCorpusReason &&
+    (isGateStatus(refinement.status) ||
+      (includeCandidates && refinement.status === "candidate"));
+  const runFixtureTest = shouldRun && gateFixture ? test : test.skip;
+
+  runFixtureTest(
+    `VoiceOver corpus: ${fixture.name} [${refinement.status}]`,
+    () => {
     const html = readFileSync(path.join(fixturesDir, fixture.html), "utf8");
     const expected = getExpectedAnnouncements(fixture);
     let actual;
@@ -167,5 +209,6 @@ for (const fixture of cases) {
     }
 
     assertAnnouncementsMatch(actual, expected);
-  });
+    },
+  );
 }

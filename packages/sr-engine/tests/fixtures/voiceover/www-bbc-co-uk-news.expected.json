@@ -207,7 +207,7 @@
     "end of, banner",
     "main",
     "article",
-    "• heading level 1, What's in the US-Iran agreement?",
+    "heading level 1, What's in the US-Iran agreement?",
     "22 hours ago",
     "Share, button, group",
     "Save, button, group",
@@ -409,7 +409,8 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+    "User refinement: leading `•` before the BBC News h1 is a caption artifact and should not be part of expected VoiceOver output."
   ],
   "source": {
     "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-www-bbc-co-uk-news/scans/www-bbc-co-uk-news/refinement-manifest.json",

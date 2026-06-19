@@ -80,6 +80,16 @@ function pushAutocomplete(parts: string[], autocomplete?: string): void {
   parts.push(`${normalized} auto complete`);
 }
 
+function pushComboBoxAutocomplete(parts: string[], el: ElementDescriptor): void {
+  const autocomplete = normalizeText(el.autocomplete);
+  if (autocomplete === "list" && el.expanded !== undefined) {
+    parts.push(`list box pop up ${el.expanded ? "expanded" : "collapsed"}`);
+    return;
+  }
+
+  pushAutocomplete(parts, autocomplete);
+}
+
 function pushSortState(parts: string[], sort?: string): void {
   const normalized = normalizeText(sort);
   if (!normalized || normalized === "none") {
@@ -98,7 +108,19 @@ function pushSupplementalText(parts: string[], el: ElementDescriptor): void {
   }
 }
 
-function formatHeadingFragments(fragments?: string[]): string | undefined {
+function formatHeadingFragments(level: number, fragments?: string[]): string | undefined {
+  const normalizedFragments = fragments
+    ?.map((fragment) => normalizeText(fragment))
+    .filter((fragment): fragment is string => Boolean(fragment));
+
+  if (!normalizedFragments?.length) {
+    return undefined;
+  }
+
+  return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
+}
+
+function formatInteractiveHeadingFragments(fragments?: string[]): string | undefined {
   const normalizedFragments = fragments
     ?.map((fragment) => normalizeText(fragment))
     .filter((fragment): fragment is string => Boolean(fragment));
@@ -127,7 +149,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
   switch (role) {
     case "heading": {
       const level = el.level ?? 2;
-      const headingLabel = formatHeadingFragments(el.headingFragments) ?? label;
+      const headingWithFragments =
+        el.headingLink || el.headingButton
+          ? formatInteractiveHeadingFragments(el.headingFragments)
+          : formatHeadingFragments(level, el.headingFragments);
+      const headingLabel = headingWithFragments ?? label;
+      if (headingWithFragments && !el.headingLink && !el.headingButton) {
+        parts.push(headingWithFragments);
+        pushSupplementalText(parts, el);
+        break;
+      }
       parts.push(`heading level ${level}`);
       if (el.headingLink) {
         parts.push("link");
@@ -195,6 +226,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       }
       if (popupType && el.expanded !== undefined) {
         parts.push(popupType);
+        parts.push(el.expanded ? "expanded" : "collapsed");
+      }
+      if (!popupType && el.expanded !== undefined) {
         parts.push(el.expanded ? "expanded" : "collapsed");
       }
       if (el.disabled) {
@@ -273,15 +307,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         const popupType = formatPopupType(el.hasPopup);
         if (popupType && el.expanded !== undefined) {
           parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+        } else if (!popupType) {
+          pushComboBoxAutocomplete(parts, el);
         }
         parts.push("combo box");
         pushIfPresent(parts, value);
-        if (!popupType) {
-          pushAutocomplete(parts, el.autocomplete);
-        }
         if (el.expanded !== undefined) {
           if (!popupType) {
-            parts.push(el.expanded ? "expanded" : "collapsed");
+            if (normalizeText(el.autocomplete) !== "list") {
+              parts.push(el.expanded ? "expanded" : "collapsed");
+            }
           }
         }
       }
@@ -571,12 +606,19 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "search": {
+      pushIfPresent(parts, el.name);
+      parts.push("search");
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "banner":
     case "main":
     case "complementary":
     case "region": {
       pushIfPresent(parts, el.name);
-      parts.push(role);
+      parts.push(el.roleDescription ?? role);
       pushSupplementalText(parts, el);
       break;
     }
@@ -628,7 +670,9 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "banner") {
-    return "end of, banner";
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, banner`
+      : "end of, banner";
   }
 
   if (role === "contentinfo") {
@@ -640,7 +684,13 @@ export function getContextEndAnnouncement(
   if (role === "navigation") {
     return descriptor?.name
       ? `end of, ${descriptor.name}, navigation`
-      : "end of navigation";
+      : "end of, navigation";
+  }
+
+  if (role === "search") {
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, search`
+      : "end of, search";
   }
 
   if (role === "complementary") {

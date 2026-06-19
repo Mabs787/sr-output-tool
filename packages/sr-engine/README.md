@@ -8,7 +8,9 @@ It owns the rules that decide how DOM structure, roles, labels, states, grouping
 
 - [Engine architecture](docs/architecture.md)
 - [Refinement workflow](docs/refinement-workflow.md)
+- [AI corpus refinement workflow](docs/ai-corpus-refinement-workflow.md)
 - [Refinement prompt template](docs/refinement-template.md)
+- [Corpus refinement questions](docs/corpus-refinement-questions.md)
 
 ## Build
 
@@ -42,7 +44,10 @@ yarn workspace @sr-output/engine test:unit
 
 The most reliable way to improve the engine is to compare a small real DOM sample against actual Chrome + VoiceOver output, then lock the fix in with a regression test.
 
-Use [docs/refinement-workflow.md](docs/refinement-workflow.md) for the step-by-step process and [docs/refinement-template.md](docs/refinement-template.md) when preparing a new refinement request.
+Use [docs/refinement-workflow.md](docs/refinement-workflow.md) for the
+step-by-step process, [docs/ai-corpus-refinement-workflow.md](docs/ai-corpus-refinement-workflow.md)
+for the site-set-to-engine AI loop, and [docs/refinement-template.md](docs/refinement-template.md)
+when preparing a new refinement request.
 
 ## Notes
 

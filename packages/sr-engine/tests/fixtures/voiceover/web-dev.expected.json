@@ -185,6 +185,7 @@
   "refinedAnnouncements": [
     "link, Skip to main content",
     "banner",
+    "link, image, web.dev",
     "Upper tabs, navigation",
     "Dropdown menu for Extended Navigation, menu pop up collapsed, button",
     "end of, Upper tabs, navigation",
@@ -381,7 +382,8 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+    "User refinement: local VoiceOver check confirmed the web.dev logo is announced as `link, image, web.dev`; the runner capture skipped this focusable logo item."
   ],
   "source": {
     "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-web-dev/scans/web-dev/refinement-manifest.json",
