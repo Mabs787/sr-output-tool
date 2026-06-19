@@ -204,6 +204,7 @@ jobs:
             voiceover-smoke/scans/**/step-snapshots.json
             voiceover-smoke/scans/**/scan-debug.json
             voiceover-smoke/scans/**/refinement-manifest.json
+            voiceover-smoke/scans/**/runner-environment.json
             voiceover-smoke/recordings/voiceover-scan.mov
             voiceover-smoke/screen-recording.json
             voiceover-smoke/screen-recording-preflight.json

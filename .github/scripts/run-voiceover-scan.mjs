@@ -374,6 +374,163 @@ function writeText(filePath, value) {
   writeFileSync(filePath, `${String(value).trimEnd()}\n`);
 }
 
+function parseJson(value) {
+  try {
+    return JSON.parse(String(value || ""));
+  } catch {
+    return null;
+  }
+}
+
+function getEnvironmentValue(name) {
+  return process.env[name] || "";
+}
+
+async function fetchJsonWithTimeout(url, timeout = 5000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "sr-output-tool-voiceover-scan",
+      },
+      signal: controller.signal,
+    });
+    const text = await response.text();
+    const json = parseJson(text);
+    return {
+      ok: response.ok,
+      status: response.status,
+      url,
+      json,
+      error: response.ok ? "" : text.slice(0, 500),
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 0,
+      url,
+      json: null,
+      error:
+        error?.name === "AbortError"
+          ? "Request timed out."
+          : error?.message || String(error),
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function capturePublicNetworkEnvironment() {
+  const geo = await fetchJsonWithTimeout("https://ipapi.co/json/", 5000);
+  if (geo.ok && geo.json) {
+    return {
+      ok: true,
+      provider: "ipapi.co",
+      ip: geo.json.ip || "",
+      city: geo.json.city || "",
+      region: geo.json.region || "",
+      countryCode: geo.json.country_code || "",
+      countryName: geo.json.country_name || "",
+      timezone: geo.json.timezone || "",
+      org: geo.json.org || geo.json.asn || "",
+    };
+  }
+
+  const ip = await fetchJsonWithTimeout(
+    "https://api.ipify.org?format=json",
+    5000,
+  );
+  return {
+    ok: Boolean(ip.ok && ip.json?.ip),
+    provider: ip.ok ? "api.ipify.org" : "ipapi.co",
+    ip: ip.json?.ip || "",
+    city: "",
+    region: "",
+    countryCode: "",
+    countryName: "",
+    timezone: "",
+    org: "",
+    error: ip.ok ? geo.error || "" : ip.error || geo.error || "",
+  };
+}
+
+async function captureBrowserEnvironment() {
+  const expression = `JSON.stringify((() => ({
+    href: location.href,
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    languages: Array.from(navigator.languages || []),
+    platform: navigator.platform,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    locale: Intl.DateTimeFormat().resolvedOptions().locale,
+    viewport: {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      devicePixelRatio: window.devicePixelRatio
+    },
+    screen: {
+      width: window.screen.width,
+      height: window.screen.height,
+      availWidth: window.screen.availWidth,
+      availHeight: window.screen.availHeight
+    }
+  }))())`;
+  const capture = await evaluateJavaScriptInChrome(expression, 15000);
+  const value = capture.ok ? parseJson(capture.stdout) : null;
+
+  return {
+    ok: Boolean(capture.ok && value),
+    capture,
+    value,
+  };
+}
+
+async function captureRunnerEnvironment() {
+  let runtimeTimeZone = "";
+  let runtimeLocale = "";
+  try {
+    const resolvedOptions = Intl.DateTimeFormat().resolvedOptions();
+    runtimeTimeZone = resolvedOptions.timeZone || "";
+    runtimeLocale = resolvedOptions.locale || "";
+  } catch {
+    // Best effort only.
+  }
+
+  const publicNetwork = await capturePublicNetworkEnvironment();
+  const browser = await captureBrowserEnvironment();
+
+  return {
+    schemaVersion: 1,
+    capturedAt: new Date().toISOString(),
+    github: {
+      actions: getEnvironmentValue("GITHUB_ACTIONS"),
+      runnerName: getEnvironmentValue("RUNNER_NAME"),
+      runnerOs: getEnvironmentValue("RUNNER_OS"),
+      runnerArch: getEnvironmentValue("RUNNER_ARCH"),
+      runId: getEnvironmentValue("GITHUB_RUN_ID"),
+      runAttempt: getEnvironmentValue("GITHUB_RUN_ATTEMPT"),
+      repository: getEnvironmentValue("GITHUB_REPOSITORY"),
+      ref: getEnvironmentValue("GITHUB_REF"),
+      sha: getEnvironmentValue("GITHUB_SHA"),
+    },
+    host: {
+      hostname: os.hostname(),
+      platform: os.platform(),
+      release: os.release(),
+      arch: os.arch(),
+      node: process.version,
+      locale: runtimeLocale,
+      timeZone: runtimeTimeZone,
+      timezoneOffsetMinutes: new Date().getTimezoneOffset(),
+    },
+    publicNetwork,
+    browser,
+  };
+}
+
 function getMaxStepSeconds(target) {
   const value = Number(target.maxStepSeconds || defaultMaxStepSeconds);
   return Number.isFinite(value) && value > 0 ? value : 30;
@@ -2743,6 +2900,10 @@ function createScanDebugSummary({
         : "",
       accessibilityTreeStats,
     },
+    environment: {
+      runnerEnvironmentPath: "runner-environment.json",
+      runnerEnvironment: summary.runnerEnvironment,
+    },
     setup: {
       launchChrome: summary.launchChrome,
       launchVoiceOver: summary.launchVoiceOver,
@@ -2792,7 +2953,15 @@ function createRefinementManifest({
       renderedHtml: "rendered-html.html",
       accessibilityTree: "accessibility-tree.json",
       scanDebug: "scan-debug.json",
+      runnerEnvironment: "runner-environment.json",
       stepSnapshots: summary.stepSnapshots?.enabled ? "step-snapshots.json" : "",
+    },
+    environment: {
+      browser: summary.runnerEnvironment?.browser?.value || null,
+      publicNetwork: summary.runnerEnvironment?.publicNetwork || null,
+      runnerEnvironment: "runner-environment.json",
+      note:
+        "Use runner-environment.json when comparing scans with local pages; geography, locale, timezone, user agent, and viewport can change rendered content and VoiceOver output.",
     },
     refinementNotes: [
       "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
@@ -3039,6 +3208,7 @@ async function scanTarget(target, index) {
     enabled: captureStepSnapshots,
     capturedSteps: stepSnapshots.length,
   };
+  summary.runnerEnvironment = await captureRunnerEnvironment();
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
   const sourceHtmlArtifact = await getArtifactSourceHtml(target);
   const sourceHtml = sourceHtmlArtifact.html;
@@ -3082,6 +3252,10 @@ async function scanTarget(target, index) {
   writeJson(
     path.join(targetOutputDir, "accessibility-tree.json"),
     accessibilityTree,
+  );
+  writeJson(
+    path.join(targetOutputDir, "runner-environment.json"),
+    summary.runnerEnvironment,
   );
   writeStepSnapshotsFile(targetOutputDir, stepSnapshots, false);
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
