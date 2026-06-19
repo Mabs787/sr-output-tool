@@ -56,7 +56,8 @@ Output of this step:
 ## 3. Import And Sanitize Artifacts
 
 After artifacts are available, pull them locally and sanitize before using them
-as engine evidence.
+as engine evidence. Treat `step-snapshots.json` as the primary source when a
+specific VoiceOver announcement disagrees with final `rendered-html.html`.
 
 Keep:
 
@@ -85,6 +86,16 @@ Check for:
 - incomplete scans
 - dynamic content captured by VoiceOver but absent from HTML/AX evidence
 
+Evidence priority for each disputed announcement:
+
+1. Nearest `step-snapshots.json` entry for the VoiceOver step.
+2. Accessibility-tree evidence captured for the same page state.
+3. Final `rendered-html.html` for whole-page structure and context.
+4. Raw caption text, only after checking it is not truncated or polluted by OCR.
+
+If final HTML and the nearest step snapshot disagree, prefer the step snapshot
+for that announcement and record the conflict in the fixture notes.
+
 Output of this step:
 
 - Sanitized fixture input.
@@ -100,7 +111,8 @@ Use:
 - `trusted`: captured VoiceOver, rendered HTML, snapshots, and AX context agree.
 - `refined`: exact gate after documented correction of capture noise.
 - `candidate`: useful for development, but not yet an exact gate.
-- `partial`: useful only for documented slices.
+- `partial`: useful only for documented slices. These can be used as exact
+  gates when the fixture includes `partialAssertions`.
 - `skip`: not suitable until manually reworked.
 
 Classification rules:
@@ -108,13 +120,16 @@ Classification rules:
 - Do not promote a fixture just because the engine happens to pass it.
 - Do not block useful candidates just because later page regions are noisy.
 - Prefer `partial` when the header/search/list area is reliable but deeper page
-  content is dynamic or ambiguous.
+  content is dynamic or ambiguous. Add one `partialAssertions` entry per exact
+  slice, with a short reason and the expected announcement sequence.
 - Prefer `skip` for access denied pages, severe capture loss, or dynamic content
   absent from captured HTML and AX data.
 
 Output of this step:
 
 - Updated manifest status and reason for every fixture.
+- `partialAssertions` for any reliable slices promoted before whole-page
+  refinement is complete.
 
 ## 5. Generate AI Review Questions
 
@@ -158,16 +173,17 @@ Use the user's answers as the refinement spec.
 Apply answers in this order:
 
 1. Correct obvious fixture noise in `refinedAnnouncements`.
-2. Update manifest statuses and reasons.
-3. Identify remaining mismatches that point to reusable engine rules.
-4. Leave unresolved cases as `candidate`, `partial`, or `skip`.
+2. Add or update `partialAssertions` for reliable slices.
+3. Update manifest statuses and reasons.
+4. Identify remaining mismatches that point to reusable engine rules.
+5. Leave unresolved cases as `candidate`, `partial`, or `skip`.
 
 Never turn a site-shaped quirk into engine logic unless the evidence shows a
 general VoiceOver behavior.
 
 Output of this step:
 
-- Refined expected output.
+- Refined expected output and/or exact partial assertions.
 - Updated notes explaining each correction.
 - A short list of engine rules to implement.
 
@@ -207,10 +223,11 @@ Output of this step:
 
 ## 8. Add Or Update Tests
 
-Use two levels of tests:
+Use three levels of tests:
 
 - Unit tests for small reusable rules.
 - Corpus tests for refined/trusted real-site examples.
+- Partial corpus tests for reliable slices inside otherwise noisy fixtures.
 
 Candidate corpus is diagnostic:
 
@@ -227,10 +244,16 @@ npm run test:voiceover -w packages/sr-engine
 Do not promote a candidate fixture to `refined` until its expected output is
 trusted enough to be an exact contract.
 
+Do promote a fixture to `partial` when at least one documented slice is reliable
+enough to become an exact contract. This creates a ratchet: future engine
+changes must keep that slice passing while the rest of the page can remain in
+candidate refinement.
+
 Output of this step:
 
 - Unit tests for new rules where practical.
-- Refined/trusted corpus gates only for reliable fixtures.
+- Refined/trusted corpus gates for reliable full fixtures.
+- Partial corpus gates for reliable slices in otherwise unresolved fixtures.
 
 ## 9. Verify The Extension
 
@@ -267,4 +290,3 @@ The final AI response should clearly separate:
 Avoid saying the engine is fully rebuilt or reliable just because the normal
 gate passes. The normal gate only includes trusted/refined examples; candidate
 mode is the ongoing discovery surface.
-

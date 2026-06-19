@@ -67,6 +67,14 @@ function isGateStatus(status) {
   return status === "trusted" || status === "refined";
 }
 
+function isPartialGateStatus(fixture, status) {
+  return (
+    status === "partial" &&
+    Array.isArray(fixture.partialAssertions) &&
+    fixture.partialAssertions.length > 0
+  );
+}
+
 function scanHtml(html) {
   const dom = new JSDOM(html);
   const css = dom.window.CSS ?? {};
@@ -159,6 +167,36 @@ function assertAnnouncementsMatch(actual, expected) {
   );
 }
 
+function assertPartialAnnouncementsMatch(actual, partial) {
+  assert.ok(partial.name, "Partial corpus assertions must include a name.");
+  assert.ok(
+    Array.isArray(partial.expectedAnnouncements),
+    `Partial corpus assertion ${partial.name} must include expectedAnnouncements.`,
+  );
+
+  const startAt = partial.startAt ?? partial.expectedAnnouncements[0];
+  const startIndex = actual.indexOf(startAt);
+
+  assert.notEqual(
+    startIndex,
+    -1,
+    JSON.stringify(
+      {
+        partial: partial.name,
+        startAt,
+        actualPreview: actual.slice(0, 20),
+      },
+      null,
+      2,
+    ),
+  );
+
+  assertAnnouncementsMatch(
+    actual.slice(startIndex, startIndex + partial.expectedAnnouncements.length),
+    partial.expectedAnnouncements,
+  );
+}
+
 const cases = getCases();
 
 test("VoiceOver corpus fixtures are present", () => {
@@ -181,6 +219,7 @@ for (const fixture of cases) {
   const gateFixture =
     !fixture.skipCorpusReason &&
     (isGateStatus(refinement.status) ||
+      isPartialGateStatus(fixture, refinement.status) ||
       (includeCandidates && refinement.status === "candidate"));
   const runFixtureTest = shouldRun && gateFixture ? test : test.skip;
 
@@ -188,7 +227,6 @@ for (const fixture of cases) {
     `VoiceOver corpus: ${fixture.name} [${refinement.status}]`,
     () => {
     const html = readFileSync(path.join(fixturesDir, fixture.html), "utf8");
-    const expected = getExpectedAnnouncements(fixture);
     let actual;
     try {
       actual = scanHtml(html);
@@ -208,7 +246,14 @@ for (const fixture of cases) {
       );
     }
 
-    assertAnnouncementsMatch(actual, expected);
+    if (isPartialGateStatus(fixture, refinement.status)) {
+      for (const partial of fixture.partialAssertions) {
+        assertPartialAnnouncementsMatch(actual, partial);
+      }
+    } else {
+      const expected = getExpectedAnnouncements(fixture);
+      assertAnnouncementsMatch(actual, expected);
+    }
     },
   );
 }

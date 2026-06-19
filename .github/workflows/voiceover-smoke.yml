@@ -202,6 +202,7 @@ jobs:
             voiceover-smoke/scans/**/rendered-html.html
             voiceover-smoke/scans/**/accessibility-tree.json
             voiceover-smoke/scans/**/step-snapshots.json
+            voiceover-smoke/scans/**/screenshots/**/*.png
             voiceover-smoke/scans/**/scan-debug.json
             voiceover-smoke/scans/**/refinement-manifest.json
             voiceover-smoke/scans/**/runner-environment.json

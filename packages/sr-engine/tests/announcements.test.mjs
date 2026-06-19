@@ -28,6 +28,23 @@ test("generateAnnouncement formats interactive control states", () => {
     }),
     "Email alerts, check box, half checked, Choose at least one alert type",
   );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "button",
+      name: "Pause",
+      pressed: true,
+    }),
+    "Pause, selected, toggle button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "article",
+      text: "Long article body text should not become the article name.",
+    }),
+    "article",
+  );
 });
 
 test("generateAnnouncement formats headings, links, and table cells", () => {

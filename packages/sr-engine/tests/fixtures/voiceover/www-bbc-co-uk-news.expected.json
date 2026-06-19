@@ -436,5 +436,25 @@
       "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
       "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
-  }
+  },
+  "partialAssertions": [
+    {
+      "name": "header to article heading",
+      "reason": "Diagnostic run 27836096018 and local engine output agree through banner, main, article, and h1; article metadata/share controls remain candidate-only.",
+      "startAt": "link, Skip to content",
+      "expectedAnnouncements": [
+        "link, Skip to content",
+        "banner",
+        "Open menu, collapsed, button, group",
+        "link, Watch Live",
+        "link, image, British Broadcasting Corporation",
+        "Subscribe, button",
+        "link, Sign In",
+        "end of, banner",
+        "main",
+        "article",
+        "heading level 1, What's in the US-Iran agreement?"
+      ]
+    }
+  ]
 }

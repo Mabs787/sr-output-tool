@@ -181,7 +181,7 @@
           case "button": {
             pushIfPresent(parts, label);
             const popupType = formatPopupType(el.hasPopup);
-            const isToggleButton = el.roleDescription === "toggle button";
+            const isToggleButton = el.roleDescription === "toggle button" || el.pressed !== void 0;
             if (popupType && !isToggleButton) {
               if (el.expanded !== void 0) {
                 parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
@@ -204,7 +204,16 @@
               pushCollectionPosition(parts, el);
             }
             if (el.pressed === true) {
-              parts.push("pressed");
+              if (isToggleButton) {
+                const roleIndex = parts.lastIndexOf("button");
+                if (roleIndex >= 0) {
+                  parts.splice(roleIndex, 1, "selected", "toggle button");
+                } else {
+                  parts.push("selected");
+                }
+              } else {
+                parts.push("pressed");
+              }
             } else if (el.pressed === "mixed") {
               parts.push("mixed");
             }
@@ -560,6 +569,7 @@
           case "banner":
           case "main":
           case "complementary":
+          case "article":
           case "region": {
             pushIfPresent(parts, el.name);
             parts.push(el.roleDescription ?? role);
@@ -654,7 +664,8 @@
           "listbox",
           "table",
           "grid",
-          "tabpanel"
+          "tabpanel",
+          "article"
         ]);
         function normalize(value) {
           const normalized = value?.replace(/\s+/g, " ").trim();
@@ -801,7 +812,8 @@
             "list",
             "table",
             "grid",
-            "tabpanel"
+            "tabpanel",
+            "article"
           ].includes(role)) {
             return normalize(el.getAttribute("title"));
           }
@@ -857,6 +869,8 @@
             return "navigation";
           if (tag === "main")
             return "main";
+          if (tag === "article")
+            return "article";
           if (tag === "search")
             return "search";
           if (tag === "footer")
@@ -941,6 +955,14 @@
           const parentList = parentItem.parentElement;
           const siblings = listChildren(parentList);
           const index = siblings.indexOf(parentItem);
+          const earlierNestedListInSameItem = Array.from(parentItem.querySelectorAll("ul, ol, dl, [role='list']")).some((list) => list !== el && Boolean(list.compareDocumentPosition(el) & list.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING));
+          if (earlierNestedListInSameItem) {
+            return {};
+          }
+          const earlierSiblingHasNestedList = siblings.slice(0, Math.max(0, index)).some((sibling) => Boolean(sibling.querySelector("ul, ol, dl, [role='list']")));
+          if (earlierSiblingHasNestedList) {
+            return {};
+          }
           return index >= 0 ? {
             parentPositionInSet: index + 1,
             parentSetSize: siblings.length || void 0
@@ -1041,6 +1063,9 @@
             columnCount: cells.length || void 0,
             columnHeaderText: role !== "columnheader" && columnHeader ? accessibleName(columnHeader, "columnheader") : void 0
           };
+        }
+        function hasVisibleInteractiveDescendant(el) {
+          return Array.from(el.querySelectorAll(interactiveSelector)).some((candidate) => !isHidden(candidate));
         }
         function directHeadingFragments(el) {
           if (implicitRole(el) !== "heading")
@@ -1175,7 +1200,7 @@
           if (role === "listitem" && hasOnlyInteractiveListItemContent(el)) {
             return false;
           }
-          if (contextRoles.has(role) && !accessibleName(el, role) && !readableText(el) && !el.querySelector(interactiveSelector)) {
+          if (contextRoles.has(role) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el)) {
             return false;
           }
           if (role === "paragraph" && !readableText(el)) {
@@ -1212,7 +1237,8 @@
             "cell",
             "gridcell",
             "rowheader",
-            "columnheader"
+            "columnheader",
+            "article"
           ].includes(role) || ["caption", "figcaption"].includes(tag);
         }
         function shouldDescendIntoStop(el) {

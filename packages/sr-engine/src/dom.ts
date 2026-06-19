@@ -54,6 +54,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "table",
     "grid",
     "tabpanel",
+    "article",
   ]);
 
   function normalize(value?: string | null): string | undefined {
@@ -241,6 +242,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "table",
         "grid",
         "tabpanel",
+        "article",
       ].includes(role)
     ) {
       return normalize(el.getAttribute("title"));
@@ -290,6 +292,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "header") return "banner";
     if (tag === "nav") return "navigation";
     if (tag === "main") return "main";
+    if (tag === "article") return "article";
     if (tag === "search") return "search";
     if (tag === "footer") return "contentinfo";
     if (tag === "aside") return "complementary";
@@ -375,6 +378,27 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const parentList = parentItem.parentElement;
     const siblings = listChildren(parentList);
     const index = siblings.indexOf(parentItem);
+    const earlierNestedListInSameItem = Array.from(
+      parentItem.querySelectorAll("ul, ol, dl, [role='list']"),
+    ).some(
+      (list: any) =>
+        list !== el &&
+        Boolean(
+          list.compareDocumentPosition(el) &
+            list.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+        ),
+    );
+    if (earlierNestedListInSameItem) {
+      return {};
+    }
+    const earlierSiblingHasNestedList = siblings
+      .slice(0, Math.max(0, index))
+      .some((sibling: any) =>
+        Boolean(sibling.querySelector("ul, ol, dl, [role='list']")),
+      );
+    if (earlierSiblingHasNestedList) {
+      return {};
+    }
     return index >= 0
       ? {
           parentPositionInSet: index + 1,
@@ -499,6 +523,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       columnHeaderText:
         role !== "columnheader" && columnHeader ? accessibleName(columnHeader, "columnheader") : undefined,
     };
+  }
+
+  function hasVisibleInteractiveDescendant(el: any): boolean {
+    return Array.from(el.querySelectorAll(interactiveSelector)).some(
+      (candidate: any) => !isHidden(candidate),
+    );
   }
 
   function directHeadingFragments(el: any): string[] | undefined {
@@ -713,7 +743,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       contextRoles.has(role) &&
       !accessibleName(el, role) &&
       !readableText(el) &&
-      !el.querySelector(interactiveSelector)
+      !hasVisibleInteractiveDescendant(el)
     ) {
       return false;
     }
@@ -762,6 +792,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "gridcell",
         "rowheader",
         "columnheader",
+        "article",
       ].includes(role) ||
       ["caption", "figcaption"].includes(tag)
     );

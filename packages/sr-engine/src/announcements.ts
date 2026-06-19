@@ -184,7 +184,8 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "button": {
       pushIfPresent(parts, label);
       const popupType = formatPopupType(el.hasPopup);
-      const isToggleButton = el.roleDescription === "toggle button";
+      const isToggleButton =
+        el.roleDescription === "toggle button" || el.pressed !== undefined;
 
       if (popupType && !isToggleButton) {
         if (el.expanded !== undefined) {
@@ -208,7 +209,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushCollectionPosition(parts, el);
       }
       if (el.pressed === true) {
-        parts.push("pressed");
+        if (isToggleButton) {
+          const roleIndex = parts.lastIndexOf("button");
+          if (roleIndex >= 0) {
+            parts.splice(roleIndex, 1, "selected", "toggle button");
+          } else {
+            parts.push("selected");
+          }
+        } else {
+          parts.push("pressed");
+        }
       } else if (el.pressed === "mixed") {
         parts.push("mixed");
       }
@@ -616,6 +626,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "banner":
     case "main":
     case "complementary":
+    case "article":
     case "region": {
       pushIfPresent(parts, el.name);
       parts.push(el.roleDescription ?? role);

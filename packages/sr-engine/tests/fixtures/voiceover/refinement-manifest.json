@@ -23,12 +23,12 @@
       "reason": "High-value fixture. User confirmed the header logo should announce as `link, image, web.dev`, and refinedAnnouncements include that skipped runner item; later page output still needs full review before exact gating."
     },
     "www-apple-com-accessibility": {
-      "status": "candidate",
-      "reason": "Global nav is useful. User confirmed leading bullet markers are artifacts and forward traversal can include nested list parent position, but deeper Apple gallery/card output still needs full review before exact gating."
+      "status": "partial",
+      "reason": "Global nav is promoted as an exact partial gate. User confirmed leading bullet markers are artifacts and diagnostic evidence supports the nested-list parent-position behavior; deeper Apple local nav/main/gallery output still needs full review before full-page gating."
     },
     "www-bbc-co-uk-news": {
-      "status": "candidate",
-      "reason": "Article page is useful. User confirmed the leading marker before the h1 is an artifact; unnamed navigation and later article OCR noise still need refinement before exact gating."
+      "status": "partial",
+      "reason": "Header through main/article/h1 is promoted as an exact partial gate. Later timestamp/share/video/article body output still needs step-snapshot refinement before full-page gating."
     },
     "www-bbc-co-uk-weather": {
       "status": "candidate",
