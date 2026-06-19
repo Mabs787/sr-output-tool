@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "www-nhs-uk",
   "url": "https://www.nhs.uk/",
-  "sourceRunId": "27784643970",
+  "sourceRunId": "27794063976",
   "html": "www-nhs-uk.html",
   "accessibilityTree": "www-nhs-uk.ax.json",
   "expectedAnnouncements": [
@@ -124,7 +124,7 @@
   "stats": {
     "voiceOverAnnouncementCount": 110,
     "reducedHtml": {
-      "originalLength": 76891,
+      "originalLength": 76515,
       "reducedLength": 22396,
       "reductionPercent": 71
     },
@@ -138,13 +138,27 @@
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json."
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
   ],
   "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-set1-27784643970/voiceover-scan-www-nhs-uk/scans/www-nhs-uk/refinement-manifest.json",
+    "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-www-nhs-uk/scans/www-nhs-uk/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "Change your cookie settings at any time using our",
       "lastVoiceOverAnnouncement": "end of, content information"
     }
+  },
+  "sanitization": {
+    "status": "sanitized",
+    "changedAnnouncementCount": 0,
+    "warningCount": 0,
+    "severeIssueCount": 0,
+    "warnings": [],
+    "severeIssues": [],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
+    ]
   }
 }

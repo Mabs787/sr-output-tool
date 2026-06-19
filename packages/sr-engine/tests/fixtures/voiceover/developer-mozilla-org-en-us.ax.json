@@ -46,9 +46,9 @@
       "name": "",
       "backendDOMNodeId": 661,
       "childIds": [
-        "71",
+        "73",
         "663",
-        "85",
+        "87",
         "1093",
         "1275"
       ],
@@ -60,17 +60,17 @@
       ]
     },
     {
-      "nodeId": "71",
+      "nodeId": "73",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 71,
+      "backendDOMNodeId": 73,
       "domNodeId": "1",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
       "tagName": "ul",
       "childIds": [
-        "72",
-        "75"
+        "74",
+        "77"
       ]
     },
     {
@@ -118,7 +118,7 @@
       "name": "",
       "backendDOMNodeId": 665,
       "childIds": [
-        "78"
+        "80"
       ],
       "ignoredReasons": [
         {
@@ -128,11 +128,11 @@
       ]
     },
     {
-      "nodeId": "78",
+      "nodeId": "80",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 78,
+      "backendDOMNodeId": 80,
       "childIds": [
         "667",
         "669",
@@ -140,16 +140,16 @@
       ]
     },
     {
-      "nodeId": "85",
+      "nodeId": "87",
       "ignored": false,
       "role": "banner",
       "name": "",
-      "backendDOMNodeId": 85,
+      "backendDOMNodeId": 87,
       "domNodeId": "8",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
       "tagName": "header",
       "childIds": [
-        "86",
+        "88",
         "1014",
         "1029"
       ]
@@ -199,7 +199,7 @@
       "tagName": "div",
       "childIds": [
         "1222",
-        "63"
+        "64"
       ],
       "ignoredReasons": [
         {
@@ -234,7 +234,7 @@
       "name": "",
       "backendDOMNodeId": 1223,
       "childIds": [
-        "325"
+        "327"
       ],
       "ignoredReasons": [
         {
@@ -244,29 +244,29 @@
       ]
     },
     {
-      "nodeId": "325",
+      "nodeId": "327",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 325,
+      "backendDOMNodeId": 327,
       "childIds": [
-        "326",
+        "328",
         "1224"
       ]
     },
     {
-      "nodeId": "63",
+      "nodeId": "64",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 63,
+      "backendDOMNodeId": 64,
       "domNodeId": "464",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"464\"]",
       "tagName": "div",
       "childIds": [
-        "329",
-        "365",
-        "405"
+        "331",
+        "367",
+        "407"
       ],
       "ignoredReasons": [
         {
@@ -276,45 +276,45 @@
       ]
     },
     {
-      "nodeId": "329",
+      "nodeId": "331",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 329,
+      "backendDOMNodeId": 331,
       "domNodeId": "465",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"465\"]",
       "tagName": "section",
       "childIds": [
-        "330",
-        "332"
+        "332",
+        "334"
       ]
     },
     {
-      "nodeId": "365",
+      "nodeId": "367",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 365,
+      "backendDOMNodeId": 367,
       "domNodeId": "492",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"492\"]",
       "tagName": "section",
       "childIds": [
-        "366",
-        "368"
+        "368",
+        "370"
       ]
     },
     {
-      "nodeId": "405",
+      "nodeId": "407",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 405,
+      "backendDOMNodeId": 407,
       "domNodeId": "523",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"523\"]",
       "tagName": "section",
       "childIds": [
-        "406",
-        "408"
+        "408",
+        "410"
       ]
     },
     {
@@ -346,7 +346,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"587\"]",
       "tagName": "div",
       "childIds": [
-        "469"
+        "471"
       ],
       "ignoredReasons": [
         {
@@ -356,11 +356,11 @@
       ]
     },
     {
-      "nodeId": "469",
+      "nodeId": "471",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 469,
+      "backendDOMNodeId": 471,
       "domNodeId": "588",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"588\"]",
       "tagName": "section",
@@ -380,7 +380,7 @@
       "tagName": "div",
       "childIds": [
         "1277",
-        "483"
+        "484"
       ],
       "ignoredReasons": [
         {
@@ -396,7 +396,7 @@
       "name": "",
       "backendDOMNodeId": 1277,
       "childIds": [
-        "479"
+        "481"
       ],
       "ignoredReasons": [
         {
@@ -406,22 +406,22 @@
       ]
     },
     {
-      "nodeId": "479",
+      "nodeId": "481",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 479,
+      "backendDOMNodeId": 481,
       "childIds": [
-        "480",
+        "482",
         "1278"
       ]
     },
     {
-      "nodeId": "483",
+      "nodeId": "484",
       "ignored": false,
       "role": "contentinfo",
       "name": "",
-      "backendDOMNodeId": 483,
+      "backendDOMNodeId": 484,
       "domNodeId": "602",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"602\"]",
       "tagName": "footer",
@@ -441,32 +441,32 @@
       ]
     },
     {
-      "nodeId": "72",
+      "nodeId": "74",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 72,
+      "backendDOMNodeId": 74,
       "domNodeId": "2",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
       "tagName": "li",
       "childIds": [
-        "73"
+        "75"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "75",
+      "nodeId": "77",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 75,
+      "backendDOMNodeId": 77,
       "domNodeId": "4",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
       "tagName": "li",
       "childIds": [
-        "76"
+        "78"
       ],
       "properties": {
         "level": 1
@@ -480,10 +480,10 @@
       "backendDOMNodeId": 667,
       "childIds": [
         "668",
-        "65"
+        "69"
       ],
       "properties": {
-        "url": "https://developer.mozilla.org/pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1lDNkFENjJRTkNBQUxZS1FVRlQ3REM1M1VDQVNJRVozSkNBQUQ2MlFVQ1ZCSTZLN0tDNllJTEtKRUNBQkQ2NTNMRlRZSUUyM1VDRUJJNTJRTEhFWUk1NTNKRlRZSTY1M0VDVE5DWUJaNTJL.6Wo7zGs3Z06SAM2mtLQnyQHyPIaHwBrnL5rsVacUACo%3D&version=2"
+        "url": "https://developer.mozilla.org/pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1lDNkFEQzVRTUNXWUxZS1FVRlQ3REM1UUpDRVlJVFozSkNBQUQ2MlFOQ0FBREw1UUtDNjdJRUs3TENBQklMNTNFQ1dZRFZLNzdGVDdETEtRWUhFWUk1NTNKRlQ3REMySkVDVE5DWUJaNTJL.dmrILkG3QVVtNwnnXGgSIOdBwFctok8Ry%2Fvit9qJtgA%3D&version=2"
       }
     },
     {
@@ -493,7 +493,7 @@
       "name": "",
       "backendDOMNodeId": 669,
       "childIds": [
-        "81"
+        "83"
       ],
       "ignoredReasons": [
         {
@@ -503,13 +503,13 @@
       ]
     },
     {
-      "nodeId": "81",
+      "nodeId": "83",
       "ignored": false,
       "role": "link",
       "name": "AD",
-      "backendDOMNodeId": 81,
+      "backendDOMNodeId": 83,
       "childIds": [
-        "82"
+        "84"
       ],
       "properties": {
         "focusable": true,
@@ -523,22 +523,22 @@
       "name": "",
       "backendDOMNodeId": 670,
       "childIds": [
-        "83"
+        "85"
       ]
     },
     {
-      "nodeId": "86",
+      "nodeId": "88",
       "ignored": false,
       "role": "navigation",
       "name": "",
-      "backendDOMNodeId": 86,
+      "backendDOMNodeId": 88,
       "domNodeId": "9",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"9\"]",
       "tagName": "nav",
       "childIds": [
         "671",
         "676",
-        "91",
+        "93",
         "687",
         "688",
         "732",
@@ -582,7 +582,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"318\"]",
       "tagName": "div",
       "childIds": [
-        "92",
+        "94",
         "1032",
         "1048"
       ],
@@ -594,16 +594,16 @@
       ]
     },
     {
-      "nodeId": "92",
+      "nodeId": "94",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 92,
+      "backendDOMNodeId": 94,
       "domNodeId": "319",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"319\"]",
       "tagName": "ol",
       "childIds": [
-        "93"
+        "95"
       ]
     },
     {
@@ -678,7 +678,7 @@
       "childIds": [
         "1096",
         "1098",
-        "116"
+        "118"
       ],
       "ignoredReasons": [
         {
@@ -697,7 +697,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"329\"]",
       "tagName": "div",
       "childIds": [
-        "100"
+        "102"
       ],
       "ignoredReasons": [
         {
@@ -707,17 +707,17 @@
       ]
     },
     {
-      "nodeId": "100",
+      "nodeId": "102",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 100,
+      "backendDOMNodeId": 102,
       "domNodeId": "330",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"330\"]",
       "tagName": "section",
       "childIds": [
-        "69",
-        "103"
+        "66",
+        "105"
       ]
     },
     {
@@ -730,31 +730,31 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"337\"]",
       "tagName": "div",
       "childIds": [
-        "114"
+        "116"
       ]
     },
     {
-      "nodeId": "116",
+      "nodeId": "118",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 116,
+      "backendDOMNodeId": 118,
       "domNodeId": "339",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"339\"]",
       "tagName": "div"
     },
     {
-      "nodeId": "326",
+      "nodeId": "328",
       "ignored": false,
       "role": "link",
       "name": "Retool Homepage Banner",
-      "backendDOMNodeId": 326,
+      "backendDOMNodeId": 328,
       "childIds": [
-        "67"
+        "71"
       ],
       "properties": {
         "focusable": true,
-        "url": "https://developer.mozilla.org/pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1lDNkFENjI3N0NBQUxZS1FVRlQ3REM1M1VDQVNJS1ozSkNBQUQ2MlFVQ1lCSTQyN0tDNkJENks3RUNBN0RLS1FKQ0FCSVAySlVDWVNETDJKSkhFWUk1NTNKRlRZSTY1M0VDVE5DWUJaNTJL.AvQ6tz9ydPvNT4VDmC28XoctK3jtSYJb6FZFJb%2BFyHM%3D&version=2"
+        "url": "https://developer.mozilla.org/pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1lDNkFEVktRWUNXWUxZS1FVRlQ3REM1UUpDRVlERVozSkNBQUQ2MlFOQ0tTSUsyUUtDVlNEUDJRRUNZQUlDNVFVQ1ZCSUs1UUpDQVlJUFozSkNBQUQ0NTNMQ0tTRFRLM0sySldOQUJZ.akcDGFu6%2F26m1vJ0KnOD4zPzX7ElGBgbJO63LgMpiw4%3D&version=2"
       }
     },
     {
@@ -764,7 +764,7 @@
       "name": "",
       "backendDOMNodeId": 1224,
       "childIds": [
-        "327"
+        "329"
       ],
       "ignoredReasons": [
         {
@@ -774,13 +774,13 @@
       ]
     },
     {
-      "nodeId": "327",
+      "nodeId": "329",
       "ignored": false,
       "role": "link",
       "name": "AD",
-      "backendDOMNodeId": 327,
+      "backendDOMNodeId": 329,
       "childIds": [
-        "328"
+        "330"
       ],
       "properties": {
         "focusable": true,
@@ -788,27 +788,27 @@
       }
     },
     {
-      "nodeId": "330",
+      "nodeId": "332",
       "ignored": false,
       "role": "heading",
       "name": "Featured articles",
-      "backendDOMNodeId": 330,
+      "backendDOMNodeId": 332,
       "domNodeId": "466",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"466\"]",
       "tagName": "h2",
       "childIds": [
-        "331"
+        "333"
       ],
       "properties": {
         "level": 2
       }
     },
     {
-      "nodeId": "332",
+      "nodeId": "334",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 332,
+      "backendDOMNodeId": 334,
       "domNodeId": "467",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"467\"]",
       "tagName": "ul",
@@ -820,27 +820,27 @@
       ]
     },
     {
-      "nodeId": "366",
+      "nodeId": "368",
       "ignored": false,
       "role": "heading",
       "name": "Latest news",
-      "backendDOMNodeId": 366,
+      "backendDOMNodeId": 368,
       "domNodeId": "493",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"493\"]",
       "tagName": "h2",
       "childIds": [
-        "367"
+        "369"
       ],
       "properties": {
         "level": 2
       }
     },
     {
-      "nodeId": "368",
+      "nodeId": "370",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 368,
+      "backendDOMNodeId": 370,
       "domNodeId": "494",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"494\"]",
       "tagName": "ul",
@@ -852,41 +852,41 @@
       ]
     },
     {
-      "nodeId": "406",
+      "nodeId": "408",
       "ignored": false,
       "role": "heading",
       "name": "Recent contributions",
-      "backendDOMNodeId": 406,
+      "backendDOMNodeId": 408,
       "domNodeId": "524",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"524\"]",
       "tagName": "h2",
       "childIds": [
-        "407"
+        "409"
       ],
       "properties": {
         "level": 2
       }
     },
     {
-      "nodeId": "408",
+      "nodeId": "410",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 408,
+      "backendDOMNodeId": 410,
       "domNodeId": "525",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"525\"]",
       "tagName": "ul",
       "childIds": [
-        "409",
-        "415",
-        "421",
-        "427",
-        "433",
-        "439",
-        "445",
-        "451",
-        "457",
-        "463"
+        "411",
+        "417",
+        "423",
+        "429",
+        "435",
+        "441",
+        "447",
+        "453",
+        "459",
+        "465"
       ]
     },
     {
@@ -899,10 +899,10 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"589\"]",
       "tagName": "div",
       "childIds": [
-        "470",
         "472",
+        "474",
         "1270",
-        "475"
+        "477"
       ],
       "ignoredReasons": [
         {
@@ -912,32 +912,32 @@
       ]
     },
     {
-      "nodeId": "470",
+      "nodeId": "472",
       "ignored": false,
       "role": "heading",
       "name": "Contributor Spotlight",
-      "backendDOMNodeId": 470,
+      "backendDOMNodeId": 472,
       "domNodeId": "590",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"590\"]",
       "tagName": "h2",
       "childIds": [
-        "471"
+        "473"
       ],
       "properties": {
         "level": 2
       }
     },
     {
-      "nodeId": "472",
+      "nodeId": "474",
       "ignored": false,
       "role": "link",
       "name": "SHRINIVASS ARUNACHALAM BALASUBRAMANIAN",
-      "backendDOMNodeId": 472,
+      "backendDOMNodeId": 474,
       "domNodeId": "591",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"591\"]",
       "tagName": "a",
       "childIds": [
-        "473"
+        "475"
       ],
       "properties": {
         "focusable": true,
@@ -954,15 +954,15 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"592\"]",
       "tagName": "blockquote",
       "childIds": [
-        "474"
+        "476"
       ]
     },
     {
-      "nodeId": "475",
+      "nodeId": "477",
       "ignored": false,
       "role": "link",
       "name": "Get involved",
-      "backendDOMNodeId": 475,
+      "backendDOMNodeId": 477,
       "domNodeId": "593",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"593\"]",
       "tagName": "a",
@@ -985,21 +985,21 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"598\"]",
       "tagName": "figure",
       "childIds": [
-        "478"
+        "480"
       ]
     },
     {
-      "nodeId": "480",
+      "nodeId": "482",
       "ignored": false,
       "role": "link",
       "name": "Retool Homepage Takeover Footer",
-      "backendDOMNodeId": 480,
+      "backendDOMNodeId": 482,
       "childIds": [
-        "68"
+        "72"
       ],
       "properties": {
         "focusable": true,
-        "url": "https://developer.mozilla.org/pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1lDNkFENjI3N0ZUWTRZS1FVRlQ3REM1M1VDQVNJNVozSkNBQUQ2MlFVQ1ZCSTZLUUtDNlNJTDVRV0NXU0RQNVFOQ1ZCSUwySjdGNkJJTEtRTkhFWUk1NTNKRlRZSTY1M0VDVE5DWUJaNTJL.84hN%2Ft53dWhywbeNYFzKjdG1BhxalKEyimLcc%2FRr9B8%3D&version=2"
+        "url": "https://developer.mozilla.org/pong/click?code=aHR0cHM6Ly9zcnYuYnV5c2VsbGFkcy5jb20vYWRzL2NsaWNrL3gvR1RORDQyN1lDNkFEVktRWUNXNzRZS1FVRlQ3REM1UUpDRVlETFozSkNBQUQ2MlFOQ0FBREwyN0tDWTdJNks3TUY2N0RFNTNNRjZCSVZLN0VDVFNENUtRS0M2U0lFS1FZQ1Y3SUtLM0VISk5DTFNJWg%3D%3D.hJclhZ%2BPgEO9raigTkTJqehfbUFAEeNo6dckwuiHZv0%3D&version=2"
       }
     },
     {
@@ -1009,7 +1009,7 @@
       "name": "",
       "backendDOMNodeId": 1278,
       "childIds": [
-        "481"
+        "65"
       ],
       "ignoredReasons": [
         {
@@ -1019,13 +1019,13 @@
       ]
     },
     {
-      "nodeId": "481",
+      "nodeId": "65",
       "ignored": false,
       "role": "link",
       "name": "AD",
-      "backendDOMNodeId": 481,
+      "backendDOMNodeId": 65,
       "childIds": [
-        "482"
+        "483"
       ],
       "properties": {
         "focusable": true,
@@ -1043,10 +1043,10 @@
       "tagName": "div",
       "childIds": [
         "1280",
-        "488",
-        "499",
-        "520",
-        "538"
+        "489",
+        "500",
+        "521",
+        "539"
       ],
       "ignoredReasons": [
         {
@@ -1065,8 +1065,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"604\"]",
       "tagName": "div",
       "childIds": [
-        "484",
-        "486"
+        "485",
+        "487"
       ],
       "ignoredReasons": [
         {
@@ -1076,16 +1076,16 @@
       ]
     },
     {
-      "nodeId": "484",
+      "nodeId": "485",
       "ignored": false,
       "role": "link",
       "name": "MDN logo",
-      "backendDOMNodeId": 484,
+      "backendDOMNodeId": 485,
       "domNodeId": "605",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"605\"]",
       "tagName": "a",
       "childIds": [
-        "485"
+        "486"
       ],
       "properties": {
         "focusable": true,
@@ -1093,74 +1093,74 @@
       }
     },
     {
-      "nodeId": "486",
+      "nodeId": "487",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 486,
+      "backendDOMNodeId": 487,
       "domNodeId": "609",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"609\"]",
       "tagName": "p",
       "childIds": [
-        "487"
+        "488"
       ]
     },
     {
-      "nodeId": "488",
+      "nodeId": "489",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 488,
+      "backendDOMNodeId": 489,
       "domNodeId": "610",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"610\"]",
       "tagName": "ul",
       "childIds": [
-        "489",
-        "491",
-        "493",
-        "495",
-        "497"
+        "490",
+        "492",
+        "494",
+        "496",
+        "498"
       ]
     },
     {
-      "nodeId": "499",
+      "nodeId": "500",
       "ignored": false,
       "role": "DescriptionList",
       "name": "",
-      "backendDOMNodeId": 499,
+      "backendDOMNodeId": 500,
       "domNodeId": "621",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"621\"]",
       "tagName": "dl",
       "childIds": [
-        "500",
+        "501",
         "1283"
       ]
     },
     {
-      "nodeId": "520",
+      "nodeId": "521",
       "ignored": false,
       "role": "DescriptionList",
       "name": "",
-      "backendDOMNodeId": 520,
+      "backendDOMNodeId": 521,
       "domNodeId": "637",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"637\"]",
       "tagName": "dl",
       "childIds": [
-        "521",
+        "522",
         "1285"
       ]
     },
     {
-      "nodeId": "538",
+      "nodeId": "539",
       "ignored": false,
       "role": "DescriptionList",
       "name": "",
-      "backendDOMNodeId": 538,
+      "backendDOMNodeId": 539,
       "domNodeId": "651",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"651\"]",
       "tagName": "dl",
       "childIds": [
-        "539",
+        "540",
         "1287"
       ]
     },
@@ -1263,16 +1263,16 @@
       ]
     },
     {
-      "nodeId": "73",
+      "nodeId": "75",
       "ignored": false,
       "role": "link",
       "name": "Skip to main content",
-      "backendDOMNodeId": 73,
+      "backendDOMNodeId": 75,
       "domNodeId": "3",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
       "tagName": "a",
       "childIds": [
-        "74"
+        "76"
       ],
       "properties": {
         "focusable": true,
@@ -1280,16 +1280,16 @@
       }
     },
     {
-      "nodeId": "76",
+      "nodeId": "78",
       "ignored": false,
       "role": "link",
       "name": "Skip to search",
-      "backendDOMNodeId": 76,
+      "backendDOMNodeId": 78,
       "domNodeId": "5",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
       "tagName": "a",
       "childIds": [
-        "77"
+        "79"
       ],
       "properties": {
         "focusable": true,
@@ -1303,8 +1303,8 @@
       "name": "",
       "backendDOMNodeId": 668,
       "childIds": [
-        "66",
-        "64"
+        "70",
+        "68"
       ],
       "ignoredReasons": [
         {
@@ -1314,23 +1314,23 @@
       ]
     },
     {
-      "nodeId": "66",
+      "nodeId": "70",
       "ignored": false,
       "role": "image",
       "name": "Retool Top Bar",
-      "backendDOMNodeId": 66,
+      "backendDOMNodeId": 70,
       "properties": {
         "url": "https://developer.mozilla.org/pimg/aHR0cHM6Ly9zdGF0aWM0LmJ1eXNlbGxhZHMubmV0L3V1LzIvMTc2NDc2LzE3NzkzODQ4MzktTG9nby1MaWdodF8xMjgucG5n.pUeiq5jLeRajszb4RLbllc3if%2BHLQSeotjyxvKOyen0%3D"
       }
     },
     {
-      "nodeId": "64",
+      "nodeId": "68",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 64,
+      "backendDOMNodeId": 68,
       "childIds": [
-        "79"
+        "81"
       ],
       "ignoredReasons": [
         {
@@ -1340,59 +1340,59 @@
       ]
     },
     {
-      "nodeId": "79",
+      "nodeId": "81",
       "ignored": false,
       "role": "StaticText",
       "name": "Enterprise apps that are fun to build and safe to use",
-      "backendDOMNodeId": 79,
+      "backendDOMNodeId": 81,
       "childIds": [
         "-1000000005"
       ]
     },
     {
-      "nodeId": "65",
+      "nodeId": "69",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 65,
+      "backendDOMNodeId": 69,
       "childIds": [
-        "80"
+        "82"
       ],
       "ignoredReasons": [
         {
           "name": "uninteresting",
           "value": true
         }
-      ]
-    },
-    {
-      "nodeId": "80",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "Start building for free",
-      "backendDOMNodeId": 80,
-      "childIds": [
-        "-1000000006"
       ]
     },
     {
       "nodeId": "82",
       "ignored": false,
       "role": "StaticText",
-      "name": "AD",
+      "name": "Start building for free",
       "backendDOMNodeId": 82,
+      "childIds": [
+        "-1000000006"
+      ]
+    },
+    {
+      "nodeId": "84",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "AD",
+      "backendDOMNodeId": 84,
       "childIds": [
         "-1000000165"
       ]
     },
     {
-      "nodeId": "83",
+      "nodeId": "85",
       "ignored": false,
       "role": "link",
       "name": "Don't want to see ads?",
-      "backendDOMNodeId": 83,
+      "backendDOMNodeId": 85,
       "childIds": [
-        "84"
+        "86"
       ],
       "properties": {
         "focusable": true,
@@ -1409,7 +1409,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
       "tagName": "div",
       "childIds": [
-        "87"
+        "89"
       ],
       "ignoredReasons": [
         {
@@ -1419,16 +1419,16 @@
       ]
     },
     {
-      "nodeId": "87",
+      "nodeId": "89",
       "ignored": false,
       "role": "link",
       "name": "MDN",
-      "backendDOMNodeId": 87,
+      "backendDOMNodeId": 89,
       "domNodeId": "11",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
       "tagName": "a",
       "childIds": [
-        "88"
+        "90"
       ],
       "properties": {
         "focusable": true,
@@ -1445,15 +1445,15 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"17\"]",
       "tagName": "div",
       "childIds": [
-        "89"
+        "91"
       ]
     },
     {
-      "nodeId": "91",
+      "nodeId": "93",
       "ignored": false,
       "role": "button",
       "name": "Toggle navigation",
-      "backendDOMNodeId": 91,
+      "backendDOMNodeId": 93,
       "domNodeId": "19",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"19\"]",
       "tagName": "button",
@@ -2171,16 +2171,16 @@
       ]
     },
     {
-      "nodeId": "93",
+      "nodeId": "95",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 93,
+      "backendDOMNodeId": 95,
       "domNodeId": "320",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"320\"]",
       "tagName": "li",
       "childIds": [
-        "94"
+        "96"
       ],
       "properties": {
         "level": 1
@@ -2193,7 +2193,7 @@
       "name": "",
       "backendDOMNodeId": 1037,
       "childIds": [
-        "96"
+        "98"
       ]
     },
     {
@@ -2232,7 +2232,7 @@
       "name": "",
       "backendDOMNodeId": 1053,
       "childIds": [
-        "98"
+        "100"
       ]
     },
     {
@@ -2389,18 +2389,18 @@
       ]
     },
     {
-      "nodeId": "69",
+      "nodeId": "66",
       "ignored": false,
       "role": "heading",
       "name": "Resources for Developers, by Developers _",
-      "backendDOMNodeId": 69,
+      "backendDOMNodeId": 66,
       "domNodeId": "331",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"331\"]",
       "tagName": "h1",
       "childIds": [
-        "101",
+        "103",
         "1097",
-        "102",
+        "104",
         "1429"
       ],
       "properties": {
@@ -2408,33 +2408,33 @@
       }
     },
     {
-      "nodeId": "103",
+      "nodeId": "105",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 103,
+      "backendDOMNodeId": 105,
       "domNodeId": "333",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"333\"]",
       "tagName": "p",
       "childIds": [
-        "104",
-        "105",
+        "106",
         "107",
-        "108",
+        "109",
         "110",
-        "111",
-        "113"
+        "112",
+        "113",
+        "115"
       ]
     },
     {
-      "nodeId": "114",
+      "nodeId": "116",
       "ignored": false,
       "role": "button",
       "name": "Search",
       "description": "Search the site",
-      "backendDOMNodeId": 114,
+      "backendDOMNodeId": 116,
       "childIds": [
-        "115"
+        "117"
       ],
       "properties": {
         "invalid": "false",
@@ -2442,31 +2442,31 @@
       }
     },
     {
-      "nodeId": "67",
+      "nodeId": "71",
       "ignored": false,
       "role": "image",
       "name": "Retool Homepage Banner",
-      "backendDOMNodeId": 67,
+      "backendDOMNodeId": 71,
       "properties": {
         "url": "https://developer.mozilla.org/pimg/aHR0cHM6Ly9zdGF0aWM0LmJ1eXNlbGxhZHMubmV0L3V1LzIvMTc2NDc2LzE3ODA0MjAxNjQtUkVUT09MX01vemlsbGFIb21lcGFnZVRha2VvdmVyX01haW5WaXN1YWxfMTk0MHg1MDBweF8xXzFfLnBuZw%3D%3D.U0fJ2W7G0tWyHtJqzGa175yMyDFSeYPjbtvGOFdTqn8%3D"
       }
     },
     {
-      "nodeId": "328",
+      "nodeId": "330",
       "ignored": false,
       "role": "StaticText",
       "name": "AD",
-      "backendDOMNodeId": 328,
+      "backendDOMNodeId": 330,
       "childIds": [
         "-1000000197"
       ]
     },
     {
-      "nodeId": "331",
+      "nodeId": "333",
       "ignored": false,
       "role": "StaticText",
       "name": "Featured articles",
-      "backendDOMNodeId": 331,
+      "backendDOMNodeId": 333,
       "childIds": [
         "-1000000027"
       ]
@@ -2481,7 +2481,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"468\"]",
       "tagName": "li",
       "childIds": [
-        "333"
+        "335"
       ],
       "properties": {
         "level": 1
@@ -2497,7 +2497,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"474\"]",
       "tagName": "li",
       "childIds": [
-        "341"
+        "343"
       ],
       "properties": {
         "level": 1
@@ -2513,7 +2513,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"480\"]",
       "tagName": "li",
       "childIds": [
-        "349"
+        "351"
       ],
       "properties": {
         "level": 1
@@ -2529,18 +2529,18 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"486\"]",
       "tagName": "li",
       "childIds": [
-        "357"
+        "359"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "367",
+      "nodeId": "369",
       "ignored": false,
       "role": "StaticText",
       "name": "Latest news",
-      "backendDOMNodeId": 367,
+      "backendDOMNodeId": 369,
       "childIds": [
         "-1000000062"
       ]
@@ -2555,7 +2555,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"495\"]",
       "tagName": "li",
       "childIds": [
-        "369"
+        "371"
       ],
       "properties": {
         "level": 1
@@ -2571,7 +2571,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"502\"]",
       "tagName": "li",
       "childIds": [
-        "378"
+        "380"
       ],
       "properties": {
         "level": 1
@@ -2587,7 +2587,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"509\"]",
       "tagName": "li",
       "childIds": [
-        "387"
+        "389"
       ],
       "properties": {
         "level": 1
@@ -2603,28 +2603,28 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"516\"]",
       "tagName": "li",
       "childIds": [
-        "396"
+        "398"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "407",
+      "nodeId": "409",
       "ignored": false,
       "role": "StaticText",
       "name": "Recent contributions",
-      "backendDOMNodeId": 407,
+      "backendDOMNodeId": 409,
       "childIds": [
         "-1000000094"
       ]
     },
     {
-      "nodeId": "409",
+      "nodeId": "411",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 409,
+      "backendDOMNodeId": 411,
       "domNodeId": "526",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"526\"]",
       "tagName": "li",
@@ -2638,11 +2638,11 @@
       }
     },
     {
-      "nodeId": "415",
+      "nodeId": "417",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 415,
+      "backendDOMNodeId": 417,
       "domNodeId": "532",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"532\"]",
       "tagName": "li",
@@ -2656,11 +2656,11 @@
       }
     },
     {
-      "nodeId": "421",
+      "nodeId": "423",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 421,
+      "backendDOMNodeId": 423,
       "domNodeId": "538",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"538\"]",
       "tagName": "li",
@@ -2674,11 +2674,11 @@
       }
     },
     {
-      "nodeId": "427",
+      "nodeId": "429",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 427,
+      "backendDOMNodeId": 429,
       "domNodeId": "544",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"544\"]",
       "tagName": "li",
@@ -2692,11 +2692,11 @@
       }
     },
     {
-      "nodeId": "433",
+      "nodeId": "435",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 433,
+      "backendDOMNodeId": 435,
       "domNodeId": "550",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"550\"]",
       "tagName": "li",
@@ -2710,11 +2710,11 @@
       }
     },
     {
-      "nodeId": "439",
+      "nodeId": "441",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 439,
+      "backendDOMNodeId": 441,
       "domNodeId": "556",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"556\"]",
       "tagName": "li",
@@ -2728,11 +2728,11 @@
       }
     },
     {
-      "nodeId": "445",
+      "nodeId": "447",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 445,
+      "backendDOMNodeId": 447,
       "domNodeId": "562",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"562\"]",
       "tagName": "li",
@@ -2746,11 +2746,11 @@
       }
     },
     {
-      "nodeId": "451",
+      "nodeId": "453",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 451,
+      "backendDOMNodeId": 453,
       "domNodeId": "568",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"568\"]",
       "tagName": "li",
@@ -2764,11 +2764,11 @@
       }
     },
     {
-      "nodeId": "457",
+      "nodeId": "459",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 457,
+      "backendDOMNodeId": 459,
       "domNodeId": "574",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"574\"]",
       "tagName": "li",
@@ -2782,11 +2782,11 @@
       }
     },
     {
-      "nodeId": "463",
+      "nodeId": "465",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 463,
+      "backendDOMNodeId": 465,
       "domNodeId": "580",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"580\"]",
       "tagName": "li",
@@ -2800,32 +2800,32 @@
       }
     },
     {
-      "nodeId": "471",
+      "nodeId": "473",
       "ignored": false,
       "role": "StaticText",
       "name": "Contributor Spotlight",
-      "backendDOMNodeId": 471,
+      "backendDOMNodeId": 473,
       "childIds": [
         "-1000000126"
       ]
     },
     {
-      "nodeId": "473",
+      "nodeId": "475",
       "ignored": false,
       "role": "StaticText",
       "name": "SHRINIVASS ARUNACHALAM BALASUBRAMANIAN",
-      "backendDOMNodeId": 473,
+      "backendDOMNodeId": 475,
       "childIds": [
         "-1000000198",
         "-1000000199"
       ]
     },
     {
-      "nodeId": "474",
+      "nodeId": "476",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN closely follows W3C standards which helps me keep up with important topics. It's a complete package as it caters to everything; complex APIs, new browser functionalities, and best practices. MDN serves as a truly valuable resource and continues to assist me in my everyday development.",
-      "backendDOMNodeId": 474,
+      "backendDOMNodeId": 476,
       "childIds": [
         "-1000000200",
         "-1000000201",
@@ -2844,7 +2844,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"594\"]",
       "tagName": "span",
       "childIds": [
-        "476"
+        "478"
       ]
     },
     {
@@ -2857,7 +2857,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"595\"]",
       "tagName": "span",
       "childIds": [
-        "477"
+        "479"
       ],
       "ignoredReasons": [
         {
@@ -2867,21 +2867,21 @@
       ]
     },
     {
-      "nodeId": "477",
+      "nodeId": "479",
       "ignored": false,
       "role": "image",
       "name": "",
-      "backendDOMNodeId": 477,
+      "backendDOMNodeId": 479,
       "domNodeId": "596",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"596\"]",
       "tagName": "svg"
     },
     {
-      "nodeId": "478",
+      "nodeId": "480",
       "ignored": false,
       "role": "image",
       "name": "Tiled Mozilla Logo",
-      "backendDOMNodeId": 478,
+      "backendDOMNodeId": 480,
       "domNodeId": "599",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"599\"]",
       "tagName": "img",
@@ -2890,136 +2890,136 @@
       }
     },
     {
-      "nodeId": "68",
+      "nodeId": "72",
       "ignored": false,
       "role": "image",
       "name": "Retool Homepage Takeover Footer",
-      "backendDOMNodeId": 68,
+      "backendDOMNodeId": 72,
       "properties": {
         "url": "https://developer.mozilla.org/pimg/aHR0cHM6Ly9zdGF0aWM0LmJ1eXNlbGxhZHMubmV0L3V1LzIvMTc2NDc2LzE3NzkzODQ0NTgtUkVUT09MX01vemlsbGFIb21lcGFnZVRha2VvdmVyX0Zvb3Rlcl8xNDU2eDE4MHB4LnBuZw%3D%3D.Xm4UXYT2TcsMx%2BwUKTRPcl7GsqPBFTpUNH0J5Zt4P%2F0%3D"
       }
     },
     {
-      "nodeId": "482",
+      "nodeId": "483",
       "ignored": false,
       "role": "StaticText",
       "name": "AD",
-      "backendDOMNodeId": 482,
+      "backendDOMNodeId": 483,
       "childIds": [
         "-1000000248"
       ]
     },
     {
-      "nodeId": "485",
+      "nodeId": "486",
       "ignored": false,
       "role": "image",
       "name": "MDN",
-      "backendDOMNodeId": 485,
+      "backendDOMNodeId": 486,
       "domNodeId": "606",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"606\"]",
       "tagName": "svg"
     },
     {
-      "nodeId": "487",
+      "nodeId": "488",
       "ignored": false,
       "role": "StaticText",
       "name": "Your blueprint for a better internet.",
-      "backendDOMNodeId": 487,
+      "backendDOMNodeId": 488,
       "childIds": [
         "-1000000134"
       ]
     },
     {
-      "nodeId": "489",
+      "nodeId": "490",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 489,
+      "backendDOMNodeId": 490,
       "domNodeId": "611",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"611\"]",
       "tagName": "li",
       "childIds": [
-        "490"
+        "491"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "491",
+      "nodeId": "492",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 491,
+      "backendDOMNodeId": 492,
       "domNodeId": "613",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"613\"]",
       "tagName": "li",
       "childIds": [
-        "492"
+        "493"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "493",
+      "nodeId": "494",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 493,
+      "backendDOMNodeId": 494,
       "domNodeId": "615",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"615\"]",
       "tagName": "li",
       "childIds": [
-        "494"
+        "495"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "495",
+      "nodeId": "496",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 495,
+      "backendDOMNodeId": 496,
       "domNodeId": "617",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"617\"]",
       "tagName": "li",
       "childIds": [
-        "496"
+        "497"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "497",
+      "nodeId": "498",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 497,
+      "backendDOMNodeId": 498,
       "domNodeId": "619",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"619\"]",
       "tagName": "li",
       "childIds": [
-        "498"
+        "499"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "500",
+      "nodeId": "501",
       "ignored": false,
       "role": "term",
       "name": "MDN",
-      "backendDOMNodeId": 500,
+      "backendDOMNodeId": 501,
       "domNodeId": "622",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"622\"]",
       "tagName": "dt",
       "childIds": [
-        "501"
+        "502"
       ]
     },
     {
@@ -3036,16 +3036,16 @@
       ]
     },
     {
-      "nodeId": "521",
+      "nodeId": "522",
       "ignored": false,
       "role": "term",
       "name": "Contribute",
-      "backendDOMNodeId": 521,
+      "backendDOMNodeId": 522,
       "domNodeId": "638",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"638\"]",
       "tagName": "dt",
       "childIds": [
-        "522"
+        "523"
       ]
     },
     {
@@ -3062,16 +3062,16 @@
       ]
     },
     {
-      "nodeId": "539",
+      "nodeId": "540",
       "ignored": false,
       "role": "term",
       "name": "Developers",
-      "backendDOMNodeId": 539,
+      "backendDOMNodeId": 540,
       "domNodeId": "652",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"652\"]",
       "tagName": "dt",
       "childIds": [
-        "540"
+        "541"
       ]
     },
     {
@@ -3199,21 +3199,21 @@
       ]
     },
     {
-      "nodeId": "74",
+      "nodeId": "76",
       "ignored": false,
       "role": "StaticText",
       "name": "Skip to main content",
-      "backendDOMNodeId": 74,
+      "backendDOMNodeId": 76,
       "childIds": [
         "-1000000003"
       ]
     },
     {
-      "nodeId": "77",
+      "nodeId": "79",
       "ignored": false,
       "role": "StaticText",
       "name": "Skip to search",
-      "backendDOMNodeId": 77,
+      "backendDOMNodeId": 79,
       "childIds": [
         "-1000000004"
       ]
@@ -3237,33 +3237,33 @@
       "name": "AD"
     },
     {
-      "nodeId": "84",
+      "nodeId": "86",
       "ignored": false,
       "role": "StaticText",
       "name": "Don't want to see ads?",
-      "backendDOMNodeId": 84,
+      "backendDOMNodeId": 86,
       "childIds": [
         "-1000000008"
       ]
     },
     {
-      "nodeId": "88",
+      "nodeId": "90",
       "ignored": false,
       "role": "image",
       "name": "MDN",
-      "backendDOMNodeId": 88,
+      "backendDOMNodeId": 90,
       "domNodeId": "12",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"12\"]",
       "tagName": "svg"
     },
     {
-      "nodeId": "89",
+      "nodeId": "91",
       "ignored": false,
       "role": "button",
       "name": "Search the site",
-      "backendDOMNodeId": 89,
+      "backendDOMNodeId": 91,
       "childIds": [
-        "90"
+        "92"
       ],
       "properties": {
         "invalid": "false",
@@ -3271,16 +3271,16 @@
       }
     },
     {
-      "nodeId": "94",
+      "nodeId": "96",
       "ignored": false,
       "role": "link",
       "name": "MDN",
-      "backendDOMNodeId": 94,
+      "backendDOMNodeId": 96,
       "domNodeId": "321",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"321\"]",
       "tagName": "a",
       "childIds": [
-        "95"
+        "97"
       ],
       "properties": {
         "focusable": true,
@@ -3288,11 +3288,11 @@
       }
     },
     {
-      "nodeId": "96",
+      "nodeId": "98",
       "ignored": false,
       "role": "button",
       "name": "Switch color theme",
-      "backendDOMNodeId": 96,
+      "backendDOMNodeId": 98,
       "childIds": [
         "1039"
       ],
@@ -3303,11 +3303,11 @@
       }
     },
     {
-      "nodeId": "98",
+      "nodeId": "100",
       "ignored": false,
       "role": "button",
       "name": "English (US)",
-      "backendDOMNodeId": 98,
+      "backendDOMNodeId": 100,
       "childIds": [
         "1055"
       ],
@@ -3318,11 +3318,11 @@
       }
     },
     {
-      "nodeId": "101",
+      "nodeId": "103",
       "ignored": false,
       "role": "StaticText",
       "name": "Resources for Developers,",
-      "backendDOMNodeId": 101,
+      "backendDOMNodeId": 103,
       "childIds": [
         "-1000000012"
       ]
@@ -3341,11 +3341,11 @@
       ]
     },
     {
-      "nodeId": "102",
+      "nodeId": "104",
       "ignored": false,
       "role": "StaticText",
       "name": "by Developers ",
-      "backendDOMNodeId": 102,
+      "backendDOMNodeId": 104,
       "childIds": [
         "-1000000014"
       ]
@@ -3382,26 +3382,26 @@
       "name": "_"
     },
     {
-      "nodeId": "104",
+      "nodeId": "106",
       "ignored": false,
       "role": "StaticText",
       "name": "Documenting ",
-      "backendDOMNodeId": 104,
+      "backendDOMNodeId": 106,
       "childIds": [
         "-1000000186"
       ]
     },
     {
-      "nodeId": "105",
+      "nodeId": "107",
       "ignored": false,
       "role": "link",
       "name": "CSS",
-      "backendDOMNodeId": 105,
+      "backendDOMNodeId": 107,
       "domNodeId": "334",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"334\"]",
       "tagName": "a",
       "childIds": [
-        "106"
+        "108"
       ],
       "properties": {
         "focusable": true,
@@ -3409,26 +3409,26 @@
       }
     },
     {
-      "nodeId": "107",
+      "nodeId": "109",
       "ignored": false,
       "role": "StaticText",
       "name": ", ",
-      "backendDOMNodeId": 107,
+      "backendDOMNodeId": 109,
       "childIds": [
         "-1000000188"
       ]
     },
     {
-      "nodeId": "108",
+      "nodeId": "110",
       "ignored": false,
       "role": "link",
       "name": "HTML",
-      "backendDOMNodeId": 108,
+      "backendDOMNodeId": 110,
       "domNodeId": "335",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"335\"]",
       "tagName": "a",
       "childIds": [
-        "109"
+        "111"
       ],
       "properties": {
         "focusable": true,
@@ -3436,26 +3436,26 @@
       }
     },
     {
-      "nodeId": "110",
+      "nodeId": "112",
       "ignored": false,
       "role": "StaticText",
       "name": ", and ",
-      "backendDOMNodeId": 110,
+      "backendDOMNodeId": 112,
       "childIds": [
         "-1000000190"
       ]
     },
     {
-      "nodeId": "111",
+      "nodeId": "113",
       "ignored": false,
       "role": "link",
       "name": "JavaScript",
-      "backendDOMNodeId": 111,
+      "backendDOMNodeId": 113,
       "domNodeId": "336",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"336\"]",
       "tagName": "a",
       "childIds": [
-        "112"
+        "114"
       ],
       "properties": {
         "focusable": true,
@@ -3463,22 +3463,22 @@
       }
     },
     {
-      "nodeId": "113",
+      "nodeId": "115",
       "ignored": false,
       "role": "StaticText",
       "name": ", since 2005.",
-      "backendDOMNodeId": 113,
+      "backendDOMNodeId": 115,
       "childIds": [
         "-1000000192",
         "-1000000193"
       ]
     },
     {
-      "nodeId": "115",
+      "nodeId": "117",
       "ignored": false,
       "role": "StaticText",
       "name": "Search",
-      "backendDOMNodeId": 115,
+      "backendDOMNodeId": 117,
       "childIds": [
         "-1000000195"
       ]
@@ -3496,63 +3496,63 @@
       "name": "Featured articles"
     },
     {
-      "nodeId": "333",
+      "nodeId": "335",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 333,
+      "backendDOMNodeId": 335,
       "domNodeId": "469",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"469\"]",
       "tagName": "article",
       "childIds": [
-        "334",
         "336",
-        "339"
+        "338",
+        "341"
       ]
     },
     {
-      "nodeId": "341",
+      "nodeId": "343",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 341,
+      "backendDOMNodeId": 343,
       "domNodeId": "475",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"475\"]",
       "tagName": "article",
       "childIds": [
-        "342",
         "344",
-        "347"
+        "346",
+        "349"
       ]
     },
     {
-      "nodeId": "349",
+      "nodeId": "351",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 349,
+      "backendDOMNodeId": 351,
       "domNodeId": "481",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"481\"]",
       "tagName": "article",
       "childIds": [
-        "350",
         "352",
-        "355"
+        "354",
+        "357"
       ]
     },
     {
-      "nodeId": "357",
+      "nodeId": "359",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 357,
+      "backendDOMNodeId": 359,
       "domNodeId": "487",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"487\"]",
       "tagName": "article",
       "childIds": [
-        "358",
         "360",
-        "363"
+        "362",
+        "365"
       ]
     },
     {
@@ -3562,67 +3562,67 @@
       "name": "Latest news"
     },
     {
-      "nodeId": "369",
+      "nodeId": "371",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 369,
+      "backendDOMNodeId": 371,
       "domNodeId": "496",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"496\"]",
       "tagName": "article",
       "childIds": [
-        "370",
         "372",
+        "374",
         "1230",
-        "376"
+        "378"
       ]
     },
     {
-      "nodeId": "378",
+      "nodeId": "380",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 378,
+      "backendDOMNodeId": 380,
       "domNodeId": "503",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"503\"]",
       "tagName": "article",
       "childIds": [
-        "379",
         "381",
+        "383",
         "1232",
-        "385"
+        "387"
       ]
     },
     {
-      "nodeId": "387",
+      "nodeId": "389",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 387,
+      "backendDOMNodeId": 389,
       "domNodeId": "510",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"510\"]",
       "tagName": "article",
       "childIds": [
-        "388",
         "390",
+        "392",
         "1234",
-        "394"
+        "396"
       ]
     },
     {
-      "nodeId": "396",
+      "nodeId": "398",
       "ignored": false,
       "role": "article",
       "name": "",
-      "backendDOMNodeId": 396,
+      "backendDOMNodeId": 398,
       "domNodeId": "517",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"517\"]",
       "tagName": "article",
       "childIds": [
-        "397",
         "399",
+        "401",
         "1236",
-        "403"
+        "405"
       ]
     },
     {
@@ -3641,7 +3641,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"527\"]",
       "tagName": "span",
       "childIds": [
-        "410"
+        "412"
       ],
       "ignoredReasons": [
         {
@@ -3651,17 +3651,17 @@
       ]
     },
     {
-      "nodeId": "410",
+      "nodeId": "412",
       "ignored": false,
       "role": "link",
       "name": "mdn/translated-content (external)",
-      "backendDOMNodeId": 410,
+      "backendDOMNodeId": 412,
       "domNodeId": "528",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"528\"]",
       "tagName": "a",
       "childIds": [
-        "411",
-        "24"
+        "413",
+        "14"
       ],
       "properties": {
         "focusable": true,
@@ -3678,7 +3678,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"529\"]",
       "tagName": "time",
       "childIds": [
-        "412"
+        "414"
       ]
     },
     {
@@ -3691,7 +3691,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"530\"]",
       "tagName": "div",
       "childIds": [
-        "413"
+        "415"
       ]
     },
     {
@@ -3704,7 +3704,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"533\"]",
       "tagName": "span",
       "childIds": [
-        "416"
+        "418"
       ],
       "ignoredReasons": [
         {
@@ -3714,17 +3714,17 @@
       ]
     },
     {
-      "nodeId": "416",
+      "nodeId": "418",
       "ignored": false,
       "role": "link",
       "name": "mdn/translated-content (external)",
-      "backendDOMNodeId": 416,
+      "backendDOMNodeId": 418,
       "domNodeId": "534",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"534\"]",
       "tagName": "a",
       "childIds": [
-        "417",
-        "26"
+        "419",
+        "16"
       ],
       "properties": {
         "focusable": true,
@@ -3741,7 +3741,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"535\"]",
       "tagName": "time",
       "childIds": [
-        "418"
+        "420"
       ]
     },
     {
@@ -3754,7 +3754,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"536\"]",
       "tagName": "div",
       "childIds": [
-        "419"
+        "421"
       ]
     },
     {
@@ -3767,7 +3767,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"539\"]",
       "tagName": "span",
       "childIds": [
-        "422"
+        "424"
       ],
       "ignoredReasons": [
         {
@@ -3777,17 +3777,17 @@
       ]
     },
     {
-      "nodeId": "422",
+      "nodeId": "424",
       "ignored": false,
       "role": "link",
       "name": "mdn/content (external)",
-      "backendDOMNodeId": 422,
+      "backendDOMNodeId": 424,
       "domNodeId": "540",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"540\"]",
       "tagName": "a",
       "childIds": [
-        "423",
-        "28"
+        "425",
+        "18"
       ],
       "properties": {
         "focusable": true,
@@ -3804,7 +3804,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"541\"]",
       "tagName": "time",
       "childIds": [
-        "424"
+        "426"
       ]
     },
     {
@@ -3817,7 +3817,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"542\"]",
       "tagName": "div",
       "childIds": [
-        "425"
+        "427"
       ]
     },
     {
@@ -3830,7 +3830,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"545\"]",
       "tagName": "span",
       "childIds": [
-        "428"
+        "430"
       ],
       "ignoredReasons": [
         {
@@ -3840,17 +3840,17 @@
       ]
     },
     {
-      "nodeId": "428",
+      "nodeId": "430",
       "ignored": false,
       "role": "link",
       "name": "mdn/content (external)",
-      "backendDOMNodeId": 428,
+      "backendDOMNodeId": 430,
       "domNodeId": "546",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"546\"]",
       "tagName": "a",
       "childIds": [
-        "429",
-        "30"
+        "431",
+        "20"
       ],
       "properties": {
         "focusable": true,
@@ -3867,7 +3867,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"547\"]",
       "tagName": "time",
       "childIds": [
-        "430"
+        "432"
       ]
     },
     {
@@ -3880,7 +3880,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"548\"]",
       "tagName": "div",
       "childIds": [
-        "431"
+        "433"
       ]
     },
     {
@@ -3893,7 +3893,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"551\"]",
       "tagName": "span",
       "childIds": [
-        "434"
+        "436"
       ],
       "ignoredReasons": [
         {
@@ -3903,17 +3903,17 @@
       ]
     },
     {
-      "nodeId": "434",
+      "nodeId": "436",
       "ignored": false,
       "role": "link",
       "name": "mdn/translated-content (external)",
-      "backendDOMNodeId": 434,
+      "backendDOMNodeId": 436,
       "domNodeId": "552",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"552\"]",
       "tagName": "a",
       "childIds": [
-        "435",
-        "32"
+        "437",
+        "22"
       ],
       "properties": {
         "focusable": true,
@@ -3930,7 +3930,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"553\"]",
       "tagName": "time",
       "childIds": [
-        "436"
+        "438"
       ]
     },
     {
@@ -3943,7 +3943,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"554\"]",
       "tagName": "div",
       "childIds": [
-        "437"
+        "439"
       ]
     },
     {
@@ -3956,7 +3956,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"557\"]",
       "tagName": "span",
       "childIds": [
-        "440"
+        "442"
       ],
       "ignoredReasons": [
         {
@@ -3966,17 +3966,17 @@
       ]
     },
     {
-      "nodeId": "440",
+      "nodeId": "442",
       "ignored": false,
       "role": "link",
       "name": "mdn/translated-content (external)",
-      "backendDOMNodeId": 440,
+      "backendDOMNodeId": 442,
       "domNodeId": "558",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"558\"]",
       "tagName": "a",
       "childIds": [
-        "441",
-        "34"
+        "443",
+        "24"
       ],
       "properties": {
         "focusable": true,
@@ -3993,7 +3993,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"559\"]",
       "tagName": "time",
       "childIds": [
-        "442"
+        "444"
       ]
     },
     {
@@ -4006,7 +4006,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"560\"]",
       "tagName": "div",
       "childIds": [
-        "443"
+        "445"
       ]
     },
     {
@@ -4019,7 +4019,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"563\"]",
       "tagName": "span",
       "childIds": [
-        "446"
+        "448"
       ],
       "ignoredReasons": [
         {
@@ -4029,17 +4029,17 @@
       ]
     },
     {
-      "nodeId": "446",
+      "nodeId": "448",
       "ignored": false,
       "role": "link",
       "name": "mdn/translated-content (external)",
-      "backendDOMNodeId": 446,
+      "backendDOMNodeId": 448,
       "domNodeId": "564",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"564\"]",
       "tagName": "a",
       "childIds": [
-        "447",
-        "36"
+        "449",
+        "26"
       ],
       "properties": {
         "focusable": true,
@@ -4056,7 +4056,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"565\"]",
       "tagName": "time",
       "childIds": [
-        "448"
+        "450"
       ]
     },
     {
@@ -4069,7 +4069,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"566\"]",
       "tagName": "div",
       "childIds": [
-        "449"
+        "451"
       ]
     },
     {
@@ -4082,7 +4082,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"569\"]",
       "tagName": "span",
       "childIds": [
-        "452"
+        "454"
       ],
       "ignoredReasons": [
         {
@@ -4092,17 +4092,17 @@
       ]
     },
     {
-      "nodeId": "452",
+      "nodeId": "454",
       "ignored": false,
       "role": "link",
       "name": "mdn/content (external)",
-      "backendDOMNodeId": 452,
+      "backendDOMNodeId": 454,
       "domNodeId": "570",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"570\"]",
       "tagName": "a",
       "childIds": [
-        "453",
-        "38"
+        "455",
+        "28"
       ],
       "properties": {
         "focusable": true,
@@ -4119,7 +4119,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"571\"]",
       "tagName": "time",
       "childIds": [
-        "454"
+        "456"
       ]
     },
     {
@@ -4132,7 +4132,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"572\"]",
       "tagName": "div",
       "childIds": [
-        "455"
+        "457"
       ]
     },
     {
@@ -4145,7 +4145,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"575\"]",
       "tagName": "span",
       "childIds": [
-        "458"
+        "460"
       ],
       "ignoredReasons": [
         {
@@ -4155,17 +4155,17 @@
       ]
     },
     {
-      "nodeId": "458",
+      "nodeId": "460",
       "ignored": false,
       "role": "link",
       "name": "mdn/content (external)",
-      "backendDOMNodeId": 458,
+      "backendDOMNodeId": 460,
       "domNodeId": "576",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"576\"]",
       "tagName": "a",
       "childIds": [
-        "459",
-        "40"
+        "461",
+        "30"
       ],
       "properties": {
         "focusable": true,
@@ -4182,7 +4182,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"577\"]",
       "tagName": "time",
       "childIds": [
-        "460"
+        "462"
       ]
     },
     {
@@ -4195,7 +4195,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"578\"]",
       "tagName": "div",
       "childIds": [
-        "461"
+        "463"
       ]
     },
     {
@@ -4208,7 +4208,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"581\"]",
       "tagName": "span",
       "childIds": [
-        "464"
+        "466"
       ],
       "ignoredReasons": [
         {
@@ -4218,17 +4218,17 @@
       ]
     },
     {
-      "nodeId": "464",
+      "nodeId": "466",
       "ignored": false,
       "role": "link",
       "name": "mdn/content (external)",
-      "backendDOMNodeId": 464,
+      "backendDOMNodeId": 466,
       "domNodeId": "582",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"582\"]",
       "tagName": "a",
       "childIds": [
-        "465",
-        "42"
+        "467",
+        "32"
       ],
       "properties": {
         "focusable": true,
@@ -4245,7 +4245,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"583\"]",
       "tagName": "time",
       "childIds": [
-        "466"
+        "468"
       ]
     },
     {
@@ -4258,7 +4258,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"584\"]",
       "tagName": "div",
       "childIds": [
-        "467"
+        "469"
       ]
     },
     {
@@ -4310,11 +4310,11 @@
       "name": "everyday development."
     },
     {
-      "nodeId": "476",
+      "nodeId": "478",
       "ignored": false,
       "role": "StaticText",
       "name": "Get involved",
-      "backendDOMNodeId": 476,
+      "backendDOMNodeId": 478,
       "childIds": [
         "-1000000132"
       ]
@@ -4332,16 +4332,16 @@
       "name": "Your blueprint for a better internet."
     },
     {
-      "nodeId": "490",
+      "nodeId": "491",
       "ignored": false,
       "role": "link",
       "name": "MDN on GitHub",
-      "backendDOMNodeId": 490,
+      "backendDOMNodeId": 491,
       "domNodeId": "612",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"612\"]",
       "tagName": "a",
       "childIds": [
-        "45"
+        "37"
       ],
       "properties": {
         "focusable": true,
@@ -4349,16 +4349,16 @@
       }
     },
     {
-      "nodeId": "492",
+      "nodeId": "493",
       "ignored": false,
       "role": "link",
       "name": "MDN on Bluesky",
-      "backendDOMNodeId": 492,
+      "backendDOMNodeId": 493,
       "domNodeId": "614",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"614\"]",
       "tagName": "a",
       "childIds": [
-        "46"
+        "39"
       ],
       "properties": {
         "focusable": true,
@@ -4366,16 +4366,16 @@
       }
     },
     {
-      "nodeId": "494",
+      "nodeId": "495",
       "ignored": false,
       "role": "link",
       "name": "MDN on X",
-      "backendDOMNodeId": 494,
+      "backendDOMNodeId": 495,
       "domNodeId": "616",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"616\"]",
       "tagName": "a",
       "childIds": [
-        "47"
+        "41"
       ],
       "properties": {
         "focusable": true,
@@ -4383,16 +4383,16 @@
       }
     },
     {
-      "nodeId": "496",
+      "nodeId": "497",
       "ignored": false,
       "role": "link",
       "name": "MDN on Mastodon",
-      "backendDOMNodeId": 496,
+      "backendDOMNodeId": 497,
       "domNodeId": "618",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"618\"]",
       "tagName": "a",
       "childIds": [
-        "48"
+        "43"
       ],
       "properties": {
         "focusable": true,
@@ -4400,16 +4400,16 @@
       }
     },
     {
-      "nodeId": "498",
+      "nodeId": "499",
       "ignored": false,
       "role": "link",
       "name": "MDN blog RSS feed",
-      "backendDOMNodeId": 498,
+      "backendDOMNodeId": 499,
       "domNodeId": "620",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"620\"]",
       "tagName": "a",
       "childIds": [
-        "49"
+        "45"
       ],
       "properties": {
         "focusable": true,
@@ -4417,11 +4417,11 @@
       }
     },
     {
-      "nodeId": "501",
+      "nodeId": "502",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN",
-      "backendDOMNodeId": 501,
+      "backendDOMNodeId": 502,
       "childIds": [
         "-1000000135"
       ]
@@ -4436,20 +4436,20 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"624\"]",
       "tagName": "ul",
       "childIds": [
-        "502",
-        "505",
-        "508",
-        "511",
-        "514",
-        "517"
+        "503",
+        "506",
+        "509",
+        "512",
+        "515",
+        "518"
       ]
     },
     {
-      "nodeId": "522",
+      "nodeId": "523",
       "ignored": false,
       "role": "StaticText",
       "name": "Contribute",
-      "backendDOMNodeId": 522,
+      "backendDOMNodeId": 523,
       "childIds": [
         "-1000000142"
       ]
@@ -4464,19 +4464,19 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"640\"]",
       "tagName": "ul",
       "childIds": [
-        "523",
-        "526",
-        "529",
-        "532",
-        "535"
+        "524",
+        "527",
+        "530",
+        "533",
+        "536"
       ]
     },
     {
-      "nodeId": "540",
+      "nodeId": "541",
       "ignored": false,
       "role": "StaticText",
       "name": "Developers",
-      "backendDOMNodeId": 540,
+      "backendDOMNodeId": 541,
       "childIds": [
         "-1000000148"
       ]
@@ -4491,10 +4491,10 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"654\"]",
       "tagName": "ul",
       "childIds": [
-        "541",
-        "544",
-        "547",
-        "550",
+        "542",
+        "545",
+        "548",
+        "551",
         "553",
         "556"
       ]
@@ -4510,7 +4510,7 @@
       "tagName": "a",
       "childIds": [
         "564",
-        "55"
+        "51"
       ],
       "properties": {
         "focusable": true,
@@ -4528,7 +4528,7 @@
       "tagName": "a",
       "childIds": [
         "567",
-        "56"
+        "52"
       ],
       "properties": {
         "focusable": true,
@@ -4546,7 +4546,7 @@
       "tagName": "a",
       "childIds": [
         "570",
-        "57"
+        "53"
       ],
       "properties": {
         "focusable": true,
@@ -4564,7 +4564,7 @@
       "tagName": "a",
       "childIds": [
         "573",
-        "58"
+        "54"
       ],
       "properties": {
         "focusable": true,
@@ -4613,18 +4613,18 @@
       "name": "Don't want to see ads?"
     },
     {
-      "nodeId": "90",
+      "nodeId": "92",
       "ignored": false,
       "role": "image",
       "name": "",
-      "backendDOMNodeId": 90
+      "backendDOMNodeId": 92
     },
     {
-      "nodeId": "95",
+      "nodeId": "97",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN",
-      "backendDOMNodeId": 95,
+      "backendDOMNodeId": 97,
       "childIds": [
         "-1000000009"
       ]
@@ -4635,32 +4635,6 @@
       "role": "none",
       "name": "",
       "backendDOMNodeId": 1039,
-      "childIds": [
-        "97"
-      ],
-      "ignoredReasons": [
-        {
-          "name": "uninteresting",
-          "value": true
-        }
-      ]
-    },
-    {
-      "nodeId": "97",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "Theme",
-      "backendDOMNodeId": 97,
-      "childIds": [
-        "-1000000167"
-      ]
-    },
-    {
-      "nodeId": "1055",
-      "ignored": true,
-      "role": "none",
-      "name": "",
-      "backendDOMNodeId": 1055,
       "childIds": [
         "99"
       ],
@@ -4675,8 +4649,34 @@
       "nodeId": "99",
       "ignored": false,
       "role": "StaticText",
-      "name": "English (US)",
+      "name": "Theme",
       "backendDOMNodeId": 99,
+      "childIds": [
+        "-1000000167"
+      ]
+    },
+    {
+      "nodeId": "1055",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1055,
+      "childIds": [
+        "101"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "101",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "English (US)",
+      "backendDOMNodeId": 101,
       "childIds": [
         "-1000000169"
       ]
@@ -4712,11 +4712,11 @@
       "name": "Documenting "
     },
     {
-      "nodeId": "106",
+      "nodeId": "108",
       "ignored": false,
       "role": "StaticText",
       "name": "CSS",
-      "backendDOMNodeId": 106,
+      "backendDOMNodeId": 108,
       "childIds": [
         "-1000000187"
       ]
@@ -4728,11 +4728,11 @@
       "name": ", "
     },
     {
-      "nodeId": "109",
+      "nodeId": "111",
       "ignored": false,
       "role": "StaticText",
       "name": "HTML",
-      "backendDOMNodeId": 109,
+      "backendDOMNodeId": 111,
       "childIds": [
         "-1000000189"
       ]
@@ -4744,11 +4744,11 @@
       "name": ", and "
     },
     {
-      "nodeId": "112",
+      "nodeId": "114",
       "ignored": false,
       "role": "StaticText",
       "name": "JavaScript",
-      "backendDOMNodeId": 112,
+      "backendDOMNodeId": 114,
       "childIds": [
         "-1000000191"
       ]
@@ -4772,16 +4772,16 @@
       "name": "Search"
     },
     {
-      "nodeId": "334",
+      "nodeId": "336",
       "ignored": false,
       "role": "link",
       "name": "Blog",
-      "backendDOMNodeId": 334,
+      "backendDOMNodeId": 336,
       "domNodeId": "470",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"470\"]",
       "tagName": "a",
       "childIds": [
-        "335"
+        "337"
       ],
       "properties": {
         "focusable": true,
@@ -4789,91 +4789,45 @@
       }
     },
     {
-      "nodeId": "336",
+      "nodeId": "338",
       "ignored": false,
       "role": "heading",
       "name": "Celebrating 20 years of MDN",
-      "backendDOMNodeId": 336,
+      "backendDOMNodeId": 338,
       "domNodeId": "471",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"471\"]",
       "tagName": "h3",
       "childIds": [
-        "337"
+        "339"
       ],
       "properties": {
         "level": 3
       }
     },
     {
-      "nodeId": "339",
+      "nodeId": "341",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 339,
+      "backendDOMNodeId": 341,
       "domNodeId": "473",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"473\"]",
       "tagName": "p",
       "childIds": [
-        "340"
+        "342"
       ]
-    },
-    {
-      "nodeId": "342",
-      "ignored": false,
-      "role": "link",
-      "name": "Web APIs",
-      "backendDOMNodeId": 342,
-      "domNodeId": "476",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
-      "tagName": "a",
-      "childIds": [
-        "343"
-      ],
-      "properties": {
-        "focusable": true,
-        "url": "https://developer.mozilla.org/en-US/docs/Web/API"
-      }
     },
     {
       "nodeId": "344",
       "ignored": false,
-      "role": "heading",
-      "name": "Navigation API",
-      "backendDOMNodeId": 344,
-      "domNodeId": "477",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
-      "tagName": "h3",
-      "childIds": [
-        "345"
-      ],
-      "properties": {
-        "level": 3
-      }
-    },
-    {
-      "nodeId": "347",
-      "ignored": false,
-      "role": "paragraph",
-      "name": "",
-      "backendDOMNodeId": 347,
-      "domNodeId": "479",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"479\"]",
-      "tagName": "p",
-      "childIds": [
-        "348"
-      ]
-    },
-    {
-      "nodeId": "350",
-      "ignored": false,
       "role": "link",
       "name": "Web APIs",
-      "backendDOMNodeId": 350,
-      "domNodeId": "482",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"482\"]",
+      "backendDOMNodeId": 344,
+      "domNodeId": "476",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
       "tagName": "a",
       "childIds": [
-        "351"
+        "345"
       ],
       "properties": {
         "focusable": true,
@@ -4881,45 +4835,91 @@
       }
     },
     {
-      "nodeId": "352",
+      "nodeId": "346",
       "ignored": false,
       "role": "heading",
-      "name": "Trusted Types API",
-      "backendDOMNodeId": 352,
-      "domNodeId": "483",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"483\"]",
+      "name": "Navigation API",
+      "backendDOMNodeId": 346,
+      "domNodeId": "477",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
       "tagName": "h3",
       "childIds": [
-        "353"
+        "347"
       ],
       "properties": {
         "level": 3
       }
     },
     {
-      "nodeId": "355",
+      "nodeId": "349",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 355,
+      "backendDOMNodeId": 349,
+      "domNodeId": "479",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"479\"]",
+      "tagName": "p",
+      "childIds": [
+        "350"
+      ]
+    },
+    {
+      "nodeId": "352",
+      "ignored": false,
+      "role": "link",
+      "name": "Web APIs",
+      "backendDOMNodeId": 352,
+      "domNodeId": "482",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"482\"]",
+      "tagName": "a",
+      "childIds": [
+        "353"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API"
+      }
+    },
+    {
+      "nodeId": "354",
+      "ignored": false,
+      "role": "heading",
+      "name": "Trusted Types API",
+      "backendDOMNodeId": 354,
+      "domNodeId": "483",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"483\"]",
+      "tagName": "h3",
+      "childIds": [
+        "355"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "357",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 357,
       "domNodeId": "485",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"485\"]",
       "tagName": "p",
       "childIds": [
-        "356"
+        "358"
       ]
     },
     {
-      "nodeId": "358",
+      "nodeId": "360",
       "ignored": false,
       "role": "link",
       "name": "CSS",
-      "backendDOMNodeId": 358,
+      "backendDOMNodeId": 360,
       "domNodeId": "488",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"488\"]",
       "tagName": "a",
       "childIds": [
-        "359"
+        "361"
       ],
       "properties": {
         "focusable": true,
@@ -4927,45 +4927,45 @@
       }
     },
     {
-      "nodeId": "360",
+      "nodeId": "362",
       "ignored": false,
       "role": "heading",
       "name": "Using CSS anchor positioning",
-      "backendDOMNodeId": 360,
+      "backendDOMNodeId": 362,
       "domNodeId": "489",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"489\"]",
       "tagName": "h3",
       "childIds": [
-        "361"
+        "363"
       ],
       "properties": {
         "level": 3
       }
     },
     {
-      "nodeId": "363",
+      "nodeId": "365",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 363,
+      "backendDOMNodeId": 365,
       "domNodeId": "491",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"491\"]",
       "tagName": "p",
       "childIds": [
-        "364"
+        "366"
       ]
     },
     {
-      "nodeId": "370",
+      "nodeId": "372",
       "ignored": false,
       "role": "link",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 370,
+      "backendDOMNodeId": 372,
       "domNodeId": "497",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"497\"]",
       "tagName": "a",
       "childIds": [
-        "371"
+        "373"
       ],
       "properties": {
         "focusable": true,
@@ -4973,16 +4973,16 @@
       }
     },
     {
-      "nodeId": "372",
+      "nodeId": "374",
       "ignored": false,
       "role": "heading",
       "name": "Introducing the MDN MCP server",
-      "backendDOMNodeId": 372,
+      "backendDOMNodeId": 374,
       "domNodeId": "498",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"498\"]",
       "tagName": "h3",
       "childIds": [
-        "373"
+        "375"
       ],
       "properties": {
         "level": 3
@@ -4998,33 +4998,33 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"500\"]",
       "tagName": "time",
       "childIds": [
-        "375"
-      ]
-    },
-    {
-      "nodeId": "376",
-      "ignored": false,
-      "role": "paragraph",
-      "name": "",
-      "backendDOMNodeId": 376,
-      "domNodeId": "501",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"501\"]",
-      "tagName": "p",
-      "childIds": [
         "377"
       ]
     },
     {
-      "nodeId": "379",
+      "nodeId": "378",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 378,
+      "domNodeId": "501",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"501\"]",
+      "tagName": "p",
+      "childIds": [
+        "379"
+      ]
+    },
+    {
+      "nodeId": "381",
       "ignored": false,
       "role": "link",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 379,
+      "backendDOMNodeId": 381,
       "domNodeId": "504",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"504\"]",
       "tagName": "a",
       "childIds": [
-        "380"
+        "382"
       ],
       "properties": {
         "focusable": true,
@@ -5032,16 +5032,16 @@
       }
     },
     {
-      "nodeId": "381",
+      "nodeId": "383",
       "ignored": false,
       "role": "heading",
       "name": "Under the hood of MDN's new frontend",
-      "backendDOMNodeId": 381,
+      "backendDOMNodeId": 383,
       "domNodeId": "505",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"505\"]",
       "tagName": "h3",
       "childIds": [
-        "382"
+        "384"
       ],
       "properties": {
         "level": 3
@@ -5057,33 +5057,33 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"507\"]",
       "tagName": "time",
       "childIds": [
-        "384"
-      ]
-    },
-    {
-      "nodeId": "385",
-      "ignored": false,
-      "role": "paragraph",
-      "name": "",
-      "backendDOMNodeId": 385,
-      "domNodeId": "508",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
-      "tagName": "p",
-      "childIds": [
         "386"
       ]
     },
     {
-      "nodeId": "388",
+      "nodeId": "387",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 387,
+      "domNodeId": "508",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
+      "tagName": "p",
+      "childIds": [
+        "388"
+      ]
+    },
+    {
+      "nodeId": "390",
       "ignored": false,
       "role": "link",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 388,
+      "backendDOMNodeId": 390,
       "domNodeId": "511",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"511\"]",
       "tagName": "a",
       "childIds": [
-        "389"
+        "391"
       ],
       "properties": {
         "focusable": true,
@@ -5091,16 +5091,16 @@
       }
     },
     {
-      "nodeId": "390",
+      "nodeId": "392",
       "ignored": false,
       "role": "heading",
       "name": "Image formats: Codecs and compression tools",
-      "backendDOMNodeId": 390,
+      "backendDOMNodeId": 392,
       "domNodeId": "512",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"512\"]",
       "tagName": "h3",
       "childIds": [
-        "391"
+        "393"
       ],
       "properties": {
         "level": 3
@@ -5116,33 +5116,33 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"514\"]",
       "tagName": "time",
       "childIds": [
-        "393"
-      ]
-    },
-    {
-      "nodeId": "394",
-      "ignored": false,
-      "role": "paragraph",
-      "name": "",
-      "backendDOMNodeId": 394,
-      "domNodeId": "515",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"515\"]",
-      "tagName": "p",
-      "childIds": [
         "395"
       ]
     },
     {
-      "nodeId": "397",
+      "nodeId": "396",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 396,
+      "domNodeId": "515",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"515\"]",
+      "tagName": "p",
+      "childIds": [
+        "397"
+      ]
+    },
+    {
+      "nodeId": "399",
       "ignored": false,
       "role": "link",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 397,
+      "backendDOMNodeId": 399,
       "domNodeId": "518",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"518\"]",
       "tagName": "a",
       "childIds": [
-        "398"
+        "400"
       ],
       "properties": {
         "focusable": true,
@@ -5150,16 +5150,16 @@
       }
     },
     {
-      "nodeId": "399",
+      "nodeId": "401",
       "ignored": false,
       "role": "heading",
       "name": "A beginner-friendly guide to view transitions in CSS",
-      "backendDOMNodeId": 399,
+      "backendDOMNodeId": 401,
       "domNodeId": "519",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"519\"]",
       "tagName": "h3",
       "childIds": [
-        "400"
+        "402"
       ],
       "properties": {
         "level": 3
@@ -5175,30 +5175,255 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"521\"]",
       "tagName": "time",
       "childIds": [
-        "402"
-      ]
-    },
-    {
-      "nodeId": "403",
-      "ignored": false,
-      "role": "paragraph",
-      "name": "",
-      "backendDOMNodeId": 403,
-      "domNodeId": "522",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
-      "tagName": "p",
-      "childIds": [
         "404"
       ]
     },
     {
-      "nodeId": "411",
+      "nodeId": "405",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 405,
+      "domNodeId": "522",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
+      "tagName": "p",
+      "childIds": [
+        "406"
+      ]
+    },
+    {
+      "nodeId": "413",
       "ignored": false,
       "role": "StaticText",
       "name": "mdn/translated-content",
-      "backendDOMNodeId": 411,
+      "backendDOMNodeId": 413,
       "childIds": [
         "-1000000206"
+      ]
+    },
+    {
+      "nodeId": "14",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " (external)",
+      "backendDOMNodeId": 14
+    },
+    {
+      "nodeId": "414",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "1 day ago",
+      "backendDOMNodeId": 414,
+      "childIds": [
+        "-1000000096"
+      ]
+    },
+    {
+      "nodeId": "415",
+      "ignored": false,
+      "role": "link",
+      "name": "chore(fr): translation of `Learn_web_development/Core/Styling_basics/Home_color_scheme_search` (external)",
+      "backendDOMNodeId": 415,
+      "domNodeId": "531",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"531\"]",
+      "tagName": "a",
+      "childIds": [
+        "416",
+        "15"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/mdn/translated-content/pull/36584"
+      }
+    },
+    {
+      "nodeId": "419",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "mdn/translated-content",
+      "backendDOMNodeId": 419,
+      "childIds": [
+        "-1000000212"
+      ]
+    },
+    {
+      "nodeId": "16",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " (external)",
+      "backendDOMNodeId": 16
+    },
+    {
+      "nodeId": "420",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "1 day ago",
+      "backendDOMNodeId": 420,
+      "childIds": [
+        "-1000000100"
+      ]
+    },
+    {
+      "nodeId": "421",
+      "ignored": false,
+      "role": "link",
+      "name": "chore(fr): sync latest ff152 changes in notes (external)",
+      "backendDOMNodeId": 421,
+      "domNodeId": "537",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
+      "tagName": "a",
+      "childIds": [
+        "422",
+        "17"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/mdn/translated-content/pull/36585"
+      }
+    },
+    {
+      "nodeId": "425",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "mdn/content",
+      "backendDOMNodeId": 425,
+      "childIds": [
+        "-1000000216"
+      ]
+    },
+    {
+      "nodeId": "18",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " (external)",
+      "backendDOMNodeId": 18
+    },
+    {
+      "nodeId": "426",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "10 hours ago",
+      "backendDOMNodeId": 426,
+      "childIds": [
+        "-1000000103"
+      ]
+    },
+    {
+      "nodeId": "427",
+      "ignored": false,
+      "role": "link",
+      "name": "timeline-range-name defaults (external)",
+      "backendDOMNodeId": 427,
+      "domNodeId": "543",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"543\"]",
+      "tagName": "a",
+      "childIds": [
+        "428",
+        "19"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/mdn/content/pull/44353"
+      }
+    },
+    {
+      "nodeId": "431",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "mdn/content",
+      "backendDOMNodeId": 431,
+      "childIds": [
+        "-1000000220"
+      ]
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " (external)",
+      "backendDOMNodeId": 20
+    },
+    {
+      "nodeId": "432",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "10 hours ago",
+      "backendDOMNodeId": 432,
+      "childIds": [
+        "-1000000106"
+      ]
+    },
+    {
+      "nodeId": "433",
+      "ignored": false,
+      "role": "link",
+      "name": "New page: MathMLnonce (external)",
+      "backendDOMNodeId": 433,
+      "domNodeId": "549",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "tagName": "a",
+      "childIds": [
+        "434",
+        "21"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/mdn/content/pull/44354"
+      }
+    },
+    {
+      "nodeId": "437",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "mdn/translated-content",
+      "backendDOMNodeId": 437,
+      "childIds": [
+        "-1000000224"
+      ]
+    },
+    {
+      "nodeId": "22",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " (external)",
+      "backendDOMNodeId": 22
+    },
+    {
+      "nodeId": "438",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "10 hours ago",
+      "backendDOMNodeId": 438,
+      "childIds": [
+        "-1000000109"
+      ]
+    },
+    {
+      "nodeId": "439",
+      "ignored": false,
+      "role": "link",
+      "name": "[ja] 加算演算子の長整数と文字列の加算の説明を更新し、長整数と数値の混在に関する注意点を追加 (external)",
+      "backendDOMNodeId": 439,
+      "domNodeId": "555",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"555\"]",
+      "tagName": "a",
+      "childIds": [
+        "440",
+        "23"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/mdn/translated-content/pull/36499"
+      }
+    },
+    {
+      "nodeId": "443",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "mdn/translated-content",
+      "backendDOMNodeId": 443,
+      "childIds": [
+        "-1000000228"
       ]
     },
     {
@@ -5209,41 +5434,41 @@
       "backendDOMNodeId": 24
     },
     {
-      "nodeId": "412",
+      "nodeId": "444",
       "ignored": false,
       "role": "StaticText",
-      "name": "1 day ago",
-      "backendDOMNodeId": 412,
+      "name": "10 hours ago",
+      "backendDOMNodeId": 444,
       "childIds": [
-        "-1000000096"
+        "-1000000112"
       ]
     },
     {
-      "nodeId": "413",
+      "nodeId": "445",
       "ignored": false,
       "role": "link",
-      "name": "chore(fr): translation of `Learn_web_development/Core/Styling_basics/Home_color_scheme_search` (external)",
-      "backendDOMNodeId": 413,
-      "domNodeId": "531",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"531\"]",
+      "name": "Games/Techniques/3D_on_the_web/Building_up_a_basic_demo_with_A-Frame の更新 (external)",
+      "backendDOMNodeId": 445,
+      "domNodeId": "561",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"561\"]",
       "tagName": "a",
       "childIds": [
-        "414",
+        "446",
         "25"
       ],
       "properties": {
         "focusable": true,
-        "url": "https://github.com/mdn/translated-content/pull/36584"
+        "url": "https://github.com/mdn/translated-content/pull/36504"
       }
     },
     {
-      "nodeId": "417",
+      "nodeId": "449",
       "ignored": false,
       "role": "StaticText",
       "name": "mdn/translated-content",
-      "backendDOMNodeId": 417,
+      "backendDOMNodeId": 449,
       "childIds": [
-        "-1000000212"
+        "-1000000232"
       ]
     },
     {
@@ -5254,41 +5479,41 @@
       "backendDOMNodeId": 26
     },
     {
-      "nodeId": "418",
+      "nodeId": "450",
       "ignored": false,
       "role": "StaticText",
-      "name": "1 day ago",
-      "backendDOMNodeId": 418,
+      "name": "10 hours ago",
+      "backendDOMNodeId": 450,
       "childIds": [
-        "-1000000100"
+        "-1000000115"
       ]
     },
     {
-      "nodeId": "419",
+      "nodeId": "451",
       "ignored": false,
       "role": "link",
-      "name": "chore(fr): sync latest ff152 changes in notes (external)",
-      "backendDOMNodeId": 419,
-      "domNodeId": "537",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
+      "name": "2025/12/16 時点の英語版に基づき新規翻訳 (external)",
+      "backendDOMNodeId": 451,
+      "domNodeId": "567",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"567\"]",
       "tagName": "a",
       "childIds": [
-        "420",
+        "452",
         "27"
       ],
       "properties": {
         "focusable": true,
-        "url": "https://github.com/mdn/translated-content/pull/36585"
+        "url": "https://github.com/mdn/translated-content/pull/36519"
       }
     },
     {
-      "nodeId": "423",
+      "nodeId": "455",
       "ignored": false,
       "role": "StaticText",
       "name": "mdn/content",
-      "backendDOMNodeId": 423,
+      "backendDOMNodeId": 455,
       "childIds": [
-        "-1000000216"
+        "-1000000236"
       ]
     },
     {
@@ -5299,41 +5524,41 @@
       "backendDOMNodeId": 28
     },
     {
-      "nodeId": "424",
+      "nodeId": "456",
       "ignored": false,
       "role": "StaticText",
-      "name": "10 hours ago",
-      "backendDOMNodeId": 424,
+      "name": "8 hours ago",
+      "backendDOMNodeId": 456,
       "childIds": [
-        "-1000000103"
+        "-1000000118"
       ]
     },
     {
-      "nodeId": "425",
+      "nodeId": "457",
       "ignored": false,
       "role": "link",
-      "name": "timeline-range-name defaults (external)",
-      "backendDOMNodeId": 425,
-      "domNodeId": "543",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"543\"]",
+      "name": "BiDi docs: Update syntax blocks to include parameter examples (external)",
+      "backendDOMNodeId": 457,
+      "domNodeId": "573",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"573\"]",
       "tagName": "a",
       "childIds": [
-        "426",
+        "458",
         "29"
       ],
       "properties": {
         "focusable": true,
-        "url": "https://github.com/mdn/content/pull/44353"
+        "url": "https://github.com/mdn/content/pull/44402"
       }
     },
     {
-      "nodeId": "429",
+      "nodeId": "461",
       "ignored": false,
       "role": "StaticText",
       "name": "mdn/content",
-      "backendDOMNodeId": 429,
+      "backendDOMNodeId": 461,
       "childIds": [
-        "-1000000220"
+        "-1000000240"
       ]
     },
     {
@@ -5344,41 +5569,41 @@
       "backendDOMNodeId": 30
     },
     {
-      "nodeId": "430",
+      "nodeId": "462",
       "ignored": false,
       "role": "StaticText",
-      "name": "10 hours ago",
-      "backendDOMNodeId": 430,
+      "name": "7 hours ago",
+      "backendDOMNodeId": 462,
       "childIds": [
-        "-1000000106"
+        "-1000000121"
       ]
     },
     {
-      "nodeId": "431",
+      "nodeId": "463",
       "ignored": false,
       "role": "link",
-      "name": "New page: MathMLnonce (external)",
-      "backendDOMNodeId": 431,
-      "domNodeId": "549",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "name": "BiDi docs: Fix fields to be in alphabetical order (external)",
+      "backendDOMNodeId": 463,
+      "domNodeId": "579",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"579\"]",
       "tagName": "a",
       "childIds": [
-        "432",
+        "464",
         "31"
       ],
       "properties": {
         "focusable": true,
-        "url": "https://github.com/mdn/content/pull/44354"
+        "url": "https://github.com/mdn/content/pull/44378"
       }
     },
     {
-      "nodeId": "435",
+      "nodeId": "467",
       "ignored": false,
       "role": "StaticText",
-      "name": "mdn/translated-content",
-      "backendDOMNodeId": 435,
+      "name": "mdn/content",
+      "backendDOMNodeId": 467,
       "childIds": [
-        "-1000000224"
+        "-1000000244"
       ]
     },
     {
@@ -5389,252 +5614,27 @@
       "backendDOMNodeId": 32
     },
     {
-      "nodeId": "436",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "10 hours ago",
-      "backendDOMNodeId": 436,
-      "childIds": [
-        "-1000000109"
-      ]
-    },
-    {
-      "nodeId": "437",
-      "ignored": false,
-      "role": "link",
-      "name": "[ja] 加算演算子の長整数と文字列の加算の説明を更新し、長整数と数値の混在に関する注意点を追加 (external)",
-      "backendDOMNodeId": 437,
-      "domNodeId": "555",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"555\"]",
-      "tagName": "a",
-      "childIds": [
-        "438",
-        "33"
-      ],
-      "properties": {
-        "focusable": true,
-        "url": "https://github.com/mdn/translated-content/pull/36499"
-      }
-    },
-    {
-      "nodeId": "441",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "mdn/translated-content",
-      "backendDOMNodeId": 441,
-      "childIds": [
-        "-1000000228"
-      ]
-    },
-    {
-      "nodeId": "34",
-      "ignored": false,
-      "role": "StaticText",
-      "name": " (external)",
-      "backendDOMNodeId": 34
-    },
-    {
-      "nodeId": "442",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "10 hours ago",
-      "backendDOMNodeId": 442,
-      "childIds": [
-        "-1000000112"
-      ]
-    },
-    {
-      "nodeId": "443",
-      "ignored": false,
-      "role": "link",
-      "name": "Games/Techniques/3D_on_the_web/Building_up_a_basic_demo_with_A-Frame の更新 (external)",
-      "backendDOMNodeId": 443,
-      "domNodeId": "561",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"561\"]",
-      "tagName": "a",
-      "childIds": [
-        "444",
-        "35"
-      ],
-      "properties": {
-        "focusable": true,
-        "url": "https://github.com/mdn/translated-content/pull/36504"
-      }
-    },
-    {
-      "nodeId": "447",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "mdn/translated-content",
-      "backendDOMNodeId": 447,
-      "childIds": [
-        "-1000000232"
-      ]
-    },
-    {
-      "nodeId": "36",
-      "ignored": false,
-      "role": "StaticText",
-      "name": " (external)",
-      "backendDOMNodeId": 36
-    },
-    {
-      "nodeId": "448",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "10 hours ago",
-      "backendDOMNodeId": 448,
-      "childIds": [
-        "-1000000115"
-      ]
-    },
-    {
-      "nodeId": "449",
-      "ignored": false,
-      "role": "link",
-      "name": "2025/12/16 時点の英語版に基づき新規翻訳 (external)",
-      "backendDOMNodeId": 449,
-      "domNodeId": "567",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"567\"]",
-      "tagName": "a",
-      "childIds": [
-        "450",
-        "37"
-      ],
-      "properties": {
-        "focusable": true,
-        "url": "https://github.com/mdn/translated-content/pull/36519"
-      }
-    },
-    {
-      "nodeId": "453",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "mdn/content",
-      "backendDOMNodeId": 453,
-      "childIds": [
-        "-1000000236"
-      ]
-    },
-    {
-      "nodeId": "38",
-      "ignored": false,
-      "role": "StaticText",
-      "name": " (external)",
-      "backendDOMNodeId": 38
-    },
-    {
-      "nodeId": "454",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "8 hours ago",
-      "backendDOMNodeId": 454,
-      "childIds": [
-        "-1000000118"
-      ]
-    },
-    {
-      "nodeId": "455",
-      "ignored": false,
-      "role": "link",
-      "name": "BiDi docs: Update syntax blocks to include parameter examples (external)",
-      "backendDOMNodeId": 455,
-      "domNodeId": "573",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"573\"]",
-      "tagName": "a",
-      "childIds": [
-        "456",
-        "39"
-      ],
-      "properties": {
-        "focusable": true,
-        "url": "https://github.com/mdn/content/pull/44402"
-      }
-    },
-    {
-      "nodeId": "459",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "mdn/content",
-      "backendDOMNodeId": 459,
-      "childIds": [
-        "-1000000240"
-      ]
-    },
-    {
-      "nodeId": "40",
-      "ignored": false,
-      "role": "StaticText",
-      "name": " (external)",
-      "backendDOMNodeId": 40
-    },
-    {
-      "nodeId": "460",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "7 hours ago",
-      "backendDOMNodeId": 460,
-      "childIds": [
-        "-1000000121"
-      ]
-    },
-    {
-      "nodeId": "461",
-      "ignored": false,
-      "role": "link",
-      "name": "BiDi docs: Fix fields to be in alphabetical order (external)",
-      "backendDOMNodeId": 461,
-      "domNodeId": "579",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"579\"]",
-      "tagName": "a",
-      "childIds": [
-        "462",
-        "41"
-      ],
-      "properties": {
-        "focusable": true,
-        "url": "https://github.com/mdn/content/pull/44378"
-      }
-    },
-    {
-      "nodeId": "465",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "mdn/content",
-      "backendDOMNodeId": 465,
-      "childIds": [
-        "-1000000244"
-      ]
-    },
-    {
-      "nodeId": "42",
-      "ignored": false,
-      "role": "StaticText",
-      "name": " (external)",
-      "backendDOMNodeId": 42
-    },
-    {
-      "nodeId": "466",
+      "nodeId": "468",
       "ignored": false,
       "role": "StaticText",
       "name": "2 hours ago",
-      "backendDOMNodeId": 466,
+      "backendDOMNodeId": 468,
       "childIds": [
         "-1000000124"
       ]
     },
     {
-      "nodeId": "467",
+      "nodeId": "469",
       "ignored": false,
       "role": "link",
       "name": "Fix STIX Two installation instructions for MathML fonts (external)",
-      "backendDOMNodeId": 467,
+      "backendDOMNodeId": 469,
       "domNodeId": "585",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"585\"]",
       "tagName": "a",
       "childIds": [
-        "468",
-        "43"
+        "470",
+        "33"
       ],
       "properties": {
         "focusable": true,
@@ -5648,39 +5648,39 @@
       "name": "Get involved"
     },
     {
+      "nodeId": "37",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 37
+    },
+    {
+      "nodeId": "39",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 39
+    },
+    {
+      "nodeId": "41",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 41
+    },
+    {
+      "nodeId": "43",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 43
+    },
+    {
       "nodeId": "45",
       "ignored": false,
       "role": "generic",
       "name": "",
       "backendDOMNodeId": 45
-    },
-    {
-      "nodeId": "46",
-      "ignored": false,
-      "role": "generic",
-      "name": "",
-      "backendDOMNodeId": 46
-    },
-    {
-      "nodeId": "47",
-      "ignored": false,
-      "role": "generic",
-      "name": "",
-      "backendDOMNodeId": 47
-    },
-    {
-      "nodeId": "48",
-      "ignored": false,
-      "role": "generic",
-      "name": "",
-      "backendDOMNodeId": 48
-    },
-    {
-      "nodeId": "49",
-      "ignored": false,
-      "role": "generic",
-      "name": "",
-      "backendDOMNodeId": 49
     },
     {
       "nodeId": "-1000000135",
@@ -5689,96 +5689,96 @@
       "name": "MDN"
     },
     {
-      "nodeId": "502",
+      "nodeId": "503",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 502,
+      "backendDOMNodeId": 503,
       "domNodeId": "625",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"625\"]",
       "tagName": "li",
       "childIds": [
-        "503"
+        "504"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "505",
+      "nodeId": "506",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 505,
+      "backendDOMNodeId": 506,
       "domNodeId": "627",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"627\"]",
       "tagName": "li",
       "childIds": [
-        "506"
+        "507"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "508",
+      "nodeId": "509",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 508,
+      "backendDOMNodeId": 509,
       "domNodeId": "629",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"629\"]",
       "tagName": "li",
       "childIds": [
-        "509"
+        "510"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "511",
+      "nodeId": "512",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 511,
+      "backendDOMNodeId": 512,
       "domNodeId": "631",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"631\"]",
       "tagName": "li",
       "childIds": [
-        "512"
+        "513"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "514",
+      "nodeId": "515",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 514,
+      "backendDOMNodeId": 515,
       "domNodeId": "633",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"633\"]",
       "tagName": "li",
       "childIds": [
-        "515"
+        "516"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "517",
+      "nodeId": "518",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 517,
+      "backendDOMNodeId": 518,
       "domNodeId": "635",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"635\"]",
       "tagName": "li",
       "childIds": [
-        "518"
+        "519"
       ],
       "properties": {
         "level": 1
@@ -5791,80 +5791,80 @@
       "name": "Contribute"
     },
     {
-      "nodeId": "523",
+      "nodeId": "524",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 523,
+      "backendDOMNodeId": 524,
       "domNodeId": "641",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"641\"]",
       "tagName": "li",
       "childIds": [
-        "524"
+        "525"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "526",
+      "nodeId": "527",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 526,
+      "backendDOMNodeId": 527,
       "domNodeId": "643",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"643\"]",
       "tagName": "li",
       "childIds": [
-        "527"
+        "528"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "529",
+      "nodeId": "530",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 529,
+      "backendDOMNodeId": 530,
       "domNodeId": "645",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"645\"]",
       "tagName": "li",
       "childIds": [
-        "530"
+        "531"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "532",
+      "nodeId": "533",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 532,
+      "backendDOMNodeId": 533,
       "domNodeId": "647",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"647\"]",
       "tagName": "li",
       "childIds": [
-        "533"
+        "534"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "535",
+      "nodeId": "536",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 535,
+      "backendDOMNodeId": 536,
       "domNodeId": "649",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"649\"]",
       "tagName": "li",
       "childIds": [
-        "536"
+        "537"
       ],
       "properties": {
         "level": 1
@@ -5877,64 +5877,64 @@
       "name": "Developers"
     },
     {
-      "nodeId": "541",
+      "nodeId": "542",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 541,
+      "backendDOMNodeId": 542,
       "domNodeId": "655",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"655\"]",
       "tagName": "li",
       "childIds": [
-        "542"
+        "543"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "544",
+      "nodeId": "545",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 544,
+      "backendDOMNodeId": 545,
       "domNodeId": "657",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"657\"]",
       "tagName": "li",
       "childIds": [
-        "545"
+        "546"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "547",
+      "nodeId": "548",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 547,
+      "backendDOMNodeId": 548,
       "domNodeId": "659",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"659\"]",
       "tagName": "li",
       "childIds": [
-        "548"
+        "549"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "550",
+      "nodeId": "551",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 550,
+      "backendDOMNodeId": 551,
       "domNodeId": "661",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"661\"]",
       "tagName": "li",
       "childIds": [
-        "551"
+        "10"
       ],
       "properties": {
         "level": 1
@@ -5983,11 +5983,11 @@
       ]
     },
     {
-      "nodeId": "55",
+      "nodeId": "51",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 55
+      "backendDOMNodeId": 51
     },
     {
       "nodeId": "567",
@@ -6000,11 +6000,11 @@
       ]
     },
     {
-      "nodeId": "56",
+      "nodeId": "52",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 56
+      "backendDOMNodeId": 52
     },
     {
       "nodeId": "570",
@@ -6017,11 +6017,11 @@
       ]
     },
     {
-      "nodeId": "57",
+      "nodeId": "53",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 57
+      "backendDOMNodeId": 53
     },
     {
       "nodeId": "573",
@@ -6034,11 +6034,11 @@
       ]
     },
     {
-      "nodeId": "58",
+      "nodeId": "54",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 58
+      "backendDOMNodeId": 54
     },
     {
       "nodeId": "-1000000280",
@@ -6089,26 +6089,26 @@
       "name": "JavaScript"
     },
     {
-      "nodeId": "335",
+      "nodeId": "337",
       "ignored": false,
       "role": "StaticText",
       "name": "Blog",
-      "backendDOMNodeId": 335,
+      "backendDOMNodeId": 337,
       "childIds": [
         "-1000000028"
       ]
     },
     {
-      "nodeId": "337",
+      "nodeId": "339",
       "ignored": false,
       "role": "link",
       "name": "Celebrating 20 years of MDN",
-      "backendDOMNodeId": 337,
+      "backendDOMNodeId": 339,
       "domNodeId": "472",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"472\"]",
       "tagName": "a",
       "childIds": [
-        "338"
+        "340"
       ],
       "properties": {
         "focusable": true,
@@ -6116,11 +6116,11 @@
       }
     },
     {
-      "nodeId": "340",
+      "nodeId": "342",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN turns 20! Let's look at how we started, how MDN became the most trusted resource for web developers, the impact it's had on the open web, and yes, there's cake, too.",
-      "backendDOMNodeId": 340,
+      "backendDOMNodeId": 342,
       "childIds": [
         "-1000000030",
         "-1000000031",
@@ -6129,26 +6129,26 @@
       ]
     },
     {
-      "nodeId": "343",
+      "nodeId": "345",
       "ignored": false,
       "role": "StaticText",
       "name": "Web APIs",
-      "backendDOMNodeId": 343,
+      "backendDOMNodeId": 345,
       "childIds": [
         "-1000000034"
       ]
     },
     {
-      "nodeId": "345",
+      "nodeId": "347",
       "ignored": false,
       "role": "link",
       "name": "Navigation API",
-      "backendDOMNodeId": 345,
+      "backendDOMNodeId": 347,
       "domNodeId": "478",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"478\"]",
       "tagName": "a",
       "childIds": [
-        "346"
+        "348"
       ],
       "properties": {
         "focusable": true,
@@ -6156,11 +6156,11 @@
       }
     },
     {
-      "nodeId": "348",
+      "nodeId": "350",
       "ignored": false,
       "role": "StaticText",
       "name": "The Navigation API provides the ability to initiate, intercept, and manage browser navigation actions. It can also examine an application's history entries. This is a successor to previous web platform features such as the History API and window.location, which solves their shortcomings and is specifically aimed at the needs of single-page applications (SPAs).",
-      "backendDOMNodeId": 348,
+      "backendDOMNodeId": 350,
       "childIds": [
         "-1000000036",
         "-1000000037",
@@ -6172,26 +6172,26 @@
       ]
     },
     {
-      "nodeId": "351",
+      "nodeId": "353",
       "ignored": false,
       "role": "StaticText",
       "name": "Web APIs",
-      "backendDOMNodeId": 351,
+      "backendDOMNodeId": 353,
       "childIds": [
         "-1000000043"
       ]
     },
     {
-      "nodeId": "353",
+      "nodeId": "355",
       "ignored": false,
       "role": "link",
       "name": "Trusted Types API",
-      "backendDOMNodeId": 353,
+      "backendDOMNodeId": 355,
       "domNodeId": "484",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"484\"]",
       "tagName": "a",
       "childIds": [
-        "354"
+        "356"
       ],
       "properties": {
         "focusable": true,
@@ -6199,11 +6199,11 @@
       }
     },
     {
-      "nodeId": "356",
+      "nodeId": "358",
       "ignored": false,
       "role": "StaticText",
       "name": "The Trusted Types API gives web developers a way to ensure that input has been passed through a user-specified transformation function before being passed to an API that might execute that input. This can help to protect against client-side cross-site scripting (XSS) attacks. Most commonly the transformation function sanitizes the input.",
-      "backendDOMNodeId": 356,
+      "backendDOMNodeId": 358,
       "childIds": [
         "-1000000045",
         "-1000000046",
@@ -6215,26 +6215,26 @@
       ]
     },
     {
-      "nodeId": "359",
+      "nodeId": "361",
       "ignored": false,
       "role": "StaticText",
       "name": "CSS",
-      "backendDOMNodeId": 359,
+      "backendDOMNodeId": 361,
       "childIds": [
         "-1000000052"
       ]
     },
     {
-      "nodeId": "361",
+      "nodeId": "363",
       "ignored": false,
       "role": "link",
       "name": "Using CSS anchor positioning",
-      "backendDOMNodeId": 361,
+      "backendDOMNodeId": 363,
       "domNodeId": "490",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"490\"]",
       "tagName": "a",
       "childIds": [
-        "362"
+        "364"
       ],
       "properties": {
         "focusable": true,
@@ -6242,11 +6242,11 @@
       }
     },
     {
-      "nodeId": "364",
+      "nodeId": "366",
       "ignored": false,
       "role": "StaticText",
       "name": "The CSS anchor positioning module defines features that allow you to tether elements together. Elements can be defined as anchor elements and anchor-positioned elements. Anchor-positioned elements can be bound to anchor elements. The anchor-positioned elements can then have their size and position set relative to the size and location of the anchor elements to which they are bound.",
-      "backendDOMNodeId": 364,
+      "backendDOMNodeId": 366,
       "childIds": [
         "-1000000054",
         "-1000000055",
@@ -6259,26 +6259,26 @@
       ]
     },
     {
-      "nodeId": "371",
+      "nodeId": "373",
       "ignored": false,
       "role": "StaticText",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 371,
+      "backendDOMNodeId": 373,
       "childIds": [
         "-1000000063"
       ]
     },
     {
-      "nodeId": "373",
+      "nodeId": "375",
       "ignored": false,
       "role": "link",
       "name": "Introducing the MDN MCP server",
-      "backendDOMNodeId": 373,
+      "backendDOMNodeId": 375,
       "domNodeId": "499",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"499\"]",
       "tagName": "a",
       "childIds": [
-        "374"
+        "376"
       ],
       "properties": {
         "focusable": true,
@@ -6286,21 +6286,21 @@
       }
     },
     {
-      "nodeId": "375",
+      "nodeId": "377",
       "ignored": false,
       "role": "StaticText",
       "name": "3 days ago",
-      "backendDOMNodeId": 375,
+      "backendDOMNodeId": 377,
       "childIds": [
         "-1000000065"
       ]
     },
     {
-      "nodeId": "377",
+      "nodeId": "379",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN's MCP server brings MDN's documentation and browser compatibility data directly into your editor or IDE, giving your LLM or coding agent access to accurate, up-to-date web platform information.",
-      "backendDOMNodeId": 377,
+      "backendDOMNodeId": 379,
       "childIds": [
         "-1000000066",
         "-1000000067",
@@ -6309,26 +6309,26 @@
       ]
     },
     {
-      "nodeId": "380",
+      "nodeId": "382",
       "ignored": false,
       "role": "StaticText",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 380,
+      "backendDOMNodeId": 382,
       "childIds": [
         "-1000000070"
       ]
     },
     {
-      "nodeId": "382",
+      "nodeId": "384",
       "ignored": false,
       "role": "link",
       "name": "Under the hood of MDN's new frontend",
-      "backendDOMNodeId": 382,
+      "backendDOMNodeId": 384,
       "domNodeId": "506",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"506\"]",
       "tagName": "a",
       "childIds": [
-        "383"
+        "385"
       ],
       "properties": {
         "focusable": true,
@@ -6336,21 +6336,21 @@
       }
     },
     {
-      "nodeId": "384",
+      "nodeId": "386",
       "ignored": false,
       "role": "StaticText",
       "name": "2 months ago",
-      "backendDOMNodeId": 384,
+      "backendDOMNodeId": 386,
       "childIds": [
         "-1000000072"
       ]
     },
     {
-      "nodeId": "386",
+      "nodeId": "388",
       "ignored": false,
       "role": "StaticText",
       "name": "You may have spotted that MDN has a new frontend. There's plenty happening under the surface, so let's unpack the technologies we chose, the architectural decisions we made, and why we did a rebuild at all.",
-      "backendDOMNodeId": 386,
+      "backendDOMNodeId": 388,
       "childIds": [
         "-1000000073",
         "-1000000074",
@@ -6359,26 +6359,26 @@
       ]
     },
     {
-      "nodeId": "389",
+      "nodeId": "391",
       "ignored": false,
       "role": "StaticText",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 389,
+      "backendDOMNodeId": 391,
       "childIds": [
         "-1000000077"
       ]
     },
     {
-      "nodeId": "391",
+      "nodeId": "393",
       "ignored": false,
       "role": "link",
       "name": "Image formats: Codecs and compression tools",
-      "backendDOMNodeId": 391,
+      "backendDOMNodeId": 393,
       "domNodeId": "513",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"513\"]",
       "tagName": "a",
       "childIds": [
-        "392"
+        "394"
       ],
       "properties": {
         "focusable": true,
@@ -6386,21 +6386,21 @@
       }
     },
     {
-      "nodeId": "393",
+      "nodeId": "395",
       "ignored": false,
       "role": "StaticText",
       "name": "7 months ago",
-      "backendDOMNodeId": 393,
+      "backendDOMNodeId": 395,
       "childIds": [
         "-1000000080"
       ]
     },
     {
-      "nodeId": "395",
+      "nodeId": "397",
       "ignored": false,
       "role": "StaticText",
       "name": "Image compression involves countless trade-offs between quality, size, and speed. In this final part of the series, we experiment with codecs, metrics, and tools to find practical ways to balance efficiency and visual fidelity.",
-      "backendDOMNodeId": 395,
+      "backendDOMNodeId": 397,
       "childIds": [
         "-1000000081",
         "-1000000082",
@@ -6410,26 +6410,26 @@
       ]
     },
     {
-      "nodeId": "398",
+      "nodeId": "400",
       "ignored": false,
       "role": "StaticText",
       "name": "developer.mozilla.org",
-      "backendDOMNodeId": 398,
+      "backendDOMNodeId": 400,
       "childIds": [
         "-1000000086"
       ]
     },
     {
-      "nodeId": "400",
+      "nodeId": "402",
       "ignored": false,
       "role": "link",
       "name": "A beginner-friendly guide to view transitions in CSS",
-      "backendDOMNodeId": 400,
+      "backendDOMNodeId": 402,
       "domNodeId": "520",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"520\"]",
       "tagName": "a",
       "childIds": [
-        "401"
+        "403"
       ],
       "properties": {
         "focusable": true,
@@ -6437,21 +6437,21 @@
       }
     },
     {
-      "nodeId": "402",
+      "nodeId": "404",
       "ignored": false,
       "role": "StaticText",
       "name": "8 months ago",
-      "backendDOMNodeId": 402,
+      "backendDOMNodeId": 404,
       "childIds": [
         "-1000000089"
       ]
     },
     {
-      "nodeId": "404",
+      "nodeId": "406",
       "ignored": false,
       "role": "StaticText",
       "name": "Learn how to bring smooth, animated navigation to multi-page apps with view transitions. With just one line of CSS, you can enable seamless transitions between pages.",
-      "backendDOMNodeId": 404,
+      "backendDOMNodeId": 406,
       "childIds": [
         "-1000000090",
         "-1000000091",
@@ -6472,22 +6472,22 @@
       "name": "1 day ago"
     },
     {
-      "nodeId": "414",
+      "nodeId": "416",
       "ignored": false,
       "role": "StaticText",
       "name": "chore(fr): translation of `Learn_web_development/Core/Styling_basics/Home_color_scheme_search`",
-      "backendDOMNodeId": 414,
+      "backendDOMNodeId": 416,
       "childIds": [
         "-1000000209",
         "-1000000210"
       ]
     },
     {
-      "nodeId": "25",
+      "nodeId": "15",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 25
+      "backendDOMNodeId": 15
     },
     {
       "nodeId": "-1000000212",
@@ -6502,21 +6502,21 @@
       "name": "1 day ago"
     },
     {
-      "nodeId": "420",
+      "nodeId": "422",
       "ignored": false,
       "role": "StaticText",
       "name": "chore(fr): sync latest ff152 changes in notes",
-      "backendDOMNodeId": 420,
+      "backendDOMNodeId": 422,
       "childIds": [
         "-1000000214"
       ]
     },
     {
-      "nodeId": "27",
+      "nodeId": "17",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 27
+      "backendDOMNodeId": 17
     },
     {
       "nodeId": "-1000000216",
@@ -6531,21 +6531,21 @@
       "name": "10 hours ago"
     },
     {
-      "nodeId": "426",
+      "nodeId": "428",
       "ignored": false,
       "role": "StaticText",
       "name": "timeline-range-name defaults",
-      "backendDOMNodeId": 426,
+      "backendDOMNodeId": 428,
       "childIds": [
         "-1000000218"
       ]
     },
     {
-      "nodeId": "29",
+      "nodeId": "19",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 29
+      "backendDOMNodeId": 19
     },
     {
       "nodeId": "-1000000220",
@@ -6560,21 +6560,21 @@
       "name": "10 hours ago"
     },
     {
-      "nodeId": "432",
+      "nodeId": "434",
       "ignored": false,
       "role": "StaticText",
       "name": "New page: MathMLnonce",
-      "backendDOMNodeId": 432,
+      "backendDOMNodeId": 434,
       "childIds": [
         "-1000000222"
       ]
     },
     {
-      "nodeId": "31",
+      "nodeId": "21",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 31
+      "backendDOMNodeId": 21
     },
     {
       "nodeId": "-1000000224",
@@ -6589,21 +6589,21 @@
       "name": "10 hours ago"
     },
     {
-      "nodeId": "438",
+      "nodeId": "440",
       "ignored": false,
       "role": "StaticText",
       "name": "[ja] 加算演算子の長整数と文字列の加算の説明を更新し、長整数と数値の混在に関する注意点を追加",
-      "backendDOMNodeId": 438,
+      "backendDOMNodeId": 440,
       "childIds": [
         "-1000000226"
       ]
     },
     {
-      "nodeId": "33",
+      "nodeId": "23",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 33
+      "backendDOMNodeId": 23
     },
     {
       "nodeId": "-1000000228",
@@ -6618,21 +6618,21 @@
       "name": "10 hours ago"
     },
     {
-      "nodeId": "444",
+      "nodeId": "446",
       "ignored": false,
       "role": "StaticText",
       "name": "Games/Techniques/3D_on_the_web/Building_up_a_basic_demo_with_A-Frame の更新",
-      "backendDOMNodeId": 444,
+      "backendDOMNodeId": 446,
       "childIds": [
         "-1000000230"
       ]
     },
     {
-      "nodeId": "35",
+      "nodeId": "25",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 35
+      "backendDOMNodeId": 25
     },
     {
       "nodeId": "-1000000232",
@@ -6647,21 +6647,21 @@
       "name": "10 hours ago"
     },
     {
-      "nodeId": "450",
+      "nodeId": "452",
       "ignored": false,
       "role": "StaticText",
       "name": "2025/12/16 時点の英語版に基づき新規翻訳",
-      "backendDOMNodeId": 450,
+      "backendDOMNodeId": 452,
       "childIds": [
         "-1000000234"
       ]
     },
     {
-      "nodeId": "37",
+      "nodeId": "27",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 37
+      "backendDOMNodeId": 27
     },
     {
       "nodeId": "-1000000236",
@@ -6676,21 +6676,21 @@
       "name": "8 hours ago"
     },
     {
-      "nodeId": "456",
+      "nodeId": "458",
       "ignored": false,
       "role": "StaticText",
       "name": "BiDi docs: Update syntax blocks to include parameter examples",
-      "backendDOMNodeId": 456,
+      "backendDOMNodeId": 458,
       "childIds": [
         "-1000000238"
       ]
     },
     {
-      "nodeId": "39",
+      "nodeId": "29",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 39
+      "backendDOMNodeId": 29
     },
     {
       "nodeId": "-1000000240",
@@ -6705,21 +6705,21 @@
       "name": "7 hours ago"
     },
     {
-      "nodeId": "462",
+      "nodeId": "464",
       "ignored": false,
       "role": "StaticText",
       "name": "BiDi docs: Fix fields to be in alphabetical order",
-      "backendDOMNodeId": 462,
+      "backendDOMNodeId": 464,
       "childIds": [
         "-1000000242"
       ]
     },
     {
-      "nodeId": "41",
+      "nodeId": "31",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 41
+      "backendDOMNodeId": 31
     },
     {
       "nodeId": "-1000000244",
@@ -6734,33 +6734,33 @@
       "name": "2 hours ago"
     },
     {
-      "nodeId": "468",
+      "nodeId": "470",
       "ignored": false,
       "role": "StaticText",
       "name": "Fix STIX Two installation instructions for MathML fonts",
-      "backendDOMNodeId": 468,
+      "backendDOMNodeId": 470,
       "childIds": [
         "-1000000246"
       ]
     },
     {
-      "nodeId": "43",
+      "nodeId": "33",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 43
+      "backendDOMNodeId": 33
     },
     {
-      "nodeId": "503",
+      "nodeId": "504",
       "ignored": false,
       "role": "link",
       "name": "About",
-      "backendDOMNodeId": 503,
+      "backendDOMNodeId": 504,
       "domNodeId": "626",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"626\"]",
       "tagName": "a",
       "childIds": [
-        "504"
+        "505"
       ],
       "properties": {
         "focusable": true,
@@ -6768,16 +6768,16 @@
       }
     },
     {
-      "nodeId": "506",
+      "nodeId": "507",
       "ignored": false,
       "role": "link",
       "name": "Blog",
-      "backendDOMNodeId": 506,
+      "backendDOMNodeId": 507,
       "domNodeId": "628",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"628\"]",
       "tagName": "a",
       "childIds": [
-        "507"
+        "508"
       ],
       "properties": {
         "focusable": true,
@@ -6785,17 +6785,17 @@
       }
     },
     {
-      "nodeId": "509",
+      "nodeId": "510",
       "ignored": false,
       "role": "link",
       "name": "Mozilla careers (external)",
-      "backendDOMNodeId": 509,
+      "backendDOMNodeId": 510,
       "domNodeId": "630",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"630\"]",
       "tagName": "a",
       "childIds": [
-        "510",
-        "50"
+        "511",
+        "46"
       ],
       "properties": {
         "focusable": true,
@@ -6803,16 +6803,16 @@
       }
     },
     {
-      "nodeId": "512",
+      "nodeId": "513",
       "ignored": false,
       "role": "link",
       "name": "Advertise with us",
-      "backendDOMNodeId": 512,
+      "backendDOMNodeId": 513,
       "domNodeId": "632",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"632\"]",
       "tagName": "a",
       "childIds": [
-        "513"
+        "514"
       ],
       "properties": {
         "focusable": true,
@@ -6820,16 +6820,16 @@
       }
     },
     {
-      "nodeId": "515",
+      "nodeId": "516",
       "ignored": false,
       "role": "link",
       "name": "MDN Plus",
-      "backendDOMNodeId": 515,
+      "backendDOMNodeId": 516,
       "domNodeId": "634",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"634\"]",
       "tagName": "a",
       "childIds": [
-        "516"
+        "517"
       ],
       "properties": {
         "focusable": true,
@@ -6837,17 +6837,17 @@
       }
     },
     {
-      "nodeId": "518",
+      "nodeId": "519",
       "ignored": false,
       "role": "link",
       "name": "Product help (external)",
-      "backendDOMNodeId": 518,
+      "backendDOMNodeId": 519,
       "domNodeId": "636",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"636\"]",
       "tagName": "a",
       "childIds": [
-        "519",
-        "51"
+        "520",
+        "47"
       ],
       "properties": {
         "focusable": true,
@@ -6855,16 +6855,16 @@
       }
     },
     {
-      "nodeId": "524",
+      "nodeId": "525",
       "ignored": false,
       "role": "link",
       "name": "MDN Community",
-      "backendDOMNodeId": 524,
+      "backendDOMNodeId": 525,
       "domNodeId": "642",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"642\"]",
       "tagName": "a",
       "childIds": [
-        "525"
+        "526"
       ],
       "properties": {
         "focusable": true,
@@ -6872,16 +6872,16 @@
       }
     },
     {
-      "nodeId": "527",
+      "nodeId": "528",
       "ignored": false,
       "role": "link",
       "name": "Community resources",
-      "backendDOMNodeId": 527,
+      "backendDOMNodeId": 528,
       "domNodeId": "644",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"644\"]",
       "tagName": "a",
       "childIds": [
-        "528"
+        "529"
       ],
       "properties": {
         "focusable": true,
@@ -6889,16 +6889,16 @@
       }
     },
     {
-      "nodeId": "530",
+      "nodeId": "531",
       "ignored": false,
       "role": "link",
       "name": "Writing guidelines",
-      "backendDOMNodeId": 530,
+      "backendDOMNodeId": 531,
       "domNodeId": "646",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"646\"]",
       "tagName": "a",
       "childIds": [
-        "531"
+        "532"
       ],
       "properties": {
         "focusable": true,
@@ -6906,17 +6906,17 @@
       }
     },
     {
-      "nodeId": "533",
+      "nodeId": "534",
       "ignored": false,
       "role": "link",
       "name": "MDN Discord (external)",
-      "backendDOMNodeId": 533,
+      "backendDOMNodeId": 534,
       "domNodeId": "648",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"648\"]",
       "tagName": "a",
       "childIds": [
-        "534",
-        "52"
+        "535",
+        "48"
       ],
       "properties": {
         "focusable": true,
@@ -6924,17 +6924,17 @@
       }
     },
     {
-      "nodeId": "536",
+      "nodeId": "537",
       "ignored": false,
       "role": "link",
       "name": "MDN on GitHub (external)",
-      "backendDOMNodeId": 536,
+      "backendDOMNodeId": 537,
       "domNodeId": "650",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"650\"]",
       "tagName": "a",
       "childIds": [
-        "537",
-        "53"
+        "538",
+        "49"
       ],
       "properties": {
         "focusable": true,
@@ -6942,16 +6942,16 @@
       }
     },
     {
-      "nodeId": "542",
+      "nodeId": "543",
       "ignored": false,
       "role": "link",
       "name": "Web technologies",
-      "backendDOMNodeId": 542,
+      "backendDOMNodeId": 543,
       "domNodeId": "656",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"656\"]",
       "tagName": "a",
       "childIds": [
-        "543"
+        "544"
       ],
       "properties": {
         "focusable": true,
@@ -6959,16 +6959,16 @@
       }
     },
     {
-      "nodeId": "545",
+      "nodeId": "546",
       "ignored": false,
       "role": "link",
       "name": "Learn web development",
-      "backendDOMNodeId": 545,
+      "backendDOMNodeId": 546,
       "domNodeId": "658",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"658\"]",
       "tagName": "a",
       "childIds": [
-        "546"
+        "547"
       ],
       "properties": {
         "focusable": true,
@@ -6976,16 +6976,16 @@
       }
     },
     {
-      "nodeId": "548",
+      "nodeId": "549",
       "ignored": false,
       "role": "link",
       "name": "Guides",
-      "backendDOMNodeId": 548,
+      "backendDOMNodeId": 549,
       "domNodeId": "660",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"660\"]",
       "tagName": "a",
       "childIds": [
-        "549"
+        "550"
       ],
       "properties": {
         "focusable": true,
@@ -6993,11 +6993,11 @@
       }
     },
     {
-      "nodeId": "551",
+      "nodeId": "10",
       "ignored": false,
       "role": "link",
       "name": "Tutorials",
-      "backendDOMNodeId": 551,
+      "backendDOMNodeId": 10,
       "domNodeId": "662",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"662\"]",
       "tagName": "a",
@@ -7037,7 +7037,7 @@
       "tagName": "a",
       "childIds": [
         "558",
-        "54"
+        "50"
       ],
       "properties": {
         "focusable": true,
@@ -7075,11 +7075,11 @@
       "name": "Blog"
     },
     {
-      "nodeId": "338",
+      "nodeId": "340",
       "ignored": false,
       "role": "StaticText",
       "name": "Celebrating 20 years of MDN",
-      "backendDOMNodeId": 338,
+      "backendDOMNodeId": 340,
       "childIds": [
         "-1000000029"
       ]
@@ -7115,11 +7115,11 @@
       "name": "Web APIs"
     },
     {
-      "nodeId": "346",
+      "nodeId": "348",
       "ignored": false,
       "role": "StaticText",
       "name": "Navigation API",
-      "backendDOMNodeId": 346,
+      "backendDOMNodeId": 348,
       "childIds": [
         "-1000000035"
       ]
@@ -7173,11 +7173,11 @@
       "name": "Web APIs"
     },
     {
-      "nodeId": "354",
+      "nodeId": "356",
       "ignored": false,
       "role": "StaticText",
       "name": "Trusted Types API",
-      "backendDOMNodeId": 354,
+      "backendDOMNodeId": 356,
       "childIds": [
         "-1000000044"
       ]
@@ -7231,11 +7231,11 @@
       "name": "CSS"
     },
     {
-      "nodeId": "362",
+      "nodeId": "364",
       "ignored": false,
       "role": "StaticText",
       "name": "Using CSS anchor positioning",
-      "backendDOMNodeId": 362,
+      "backendDOMNodeId": 364,
       "childIds": [
         "-1000000053"
       ]
@@ -7295,11 +7295,11 @@
       "name": "developer.mozilla.org"
     },
     {
-      "nodeId": "374",
+      "nodeId": "376",
       "ignored": false,
       "role": "StaticText",
       "name": "Introducing the MDN MCP server",
-      "backendDOMNodeId": 374,
+      "backendDOMNodeId": 376,
       "childIds": [
         "-1000000064"
       ]
@@ -7341,11 +7341,11 @@
       "name": "developer.mozilla.org"
     },
     {
-      "nodeId": "383",
+      "nodeId": "385",
       "ignored": false,
       "role": "StaticText",
       "name": "Under the hood of MDN's new frontend",
-      "backendDOMNodeId": 383,
+      "backendDOMNodeId": 385,
       "childIds": [
         "-1000000071"
       ]
@@ -7387,11 +7387,11 @@
       "name": "developer.mozilla.org"
     },
     {
-      "nodeId": "392",
+      "nodeId": "394",
       "ignored": false,
       "role": "StaticText",
       "name": "Image formats: Codecs and compression tools",
-      "backendDOMNodeId": 392,
+      "backendDOMNodeId": 394,
       "childIds": [
         "-1000000078",
         "-1000000079"
@@ -7440,11 +7440,11 @@
       "name": "developer.mozilla.org"
     },
     {
-      "nodeId": "401",
+      "nodeId": "403",
       "ignored": false,
       "role": "StaticText",
       "name": "A beginner-friendly guide to view transitions in CSS",
-      "backendDOMNodeId": 401,
+      "backendDOMNodeId": 403,
       "childIds": [
         "-1000000087",
         "-1000000088"
@@ -7547,169 +7547,169 @@
       "name": "Fix STIX Two installation instructions for MathML fonts"
     },
     {
-      "nodeId": "504",
+      "nodeId": "505",
       "ignored": false,
       "role": "StaticText",
       "name": "About",
-      "backendDOMNodeId": 504,
+      "backendDOMNodeId": 505,
       "childIds": [
         "-1000000249"
       ]
     },
     {
-      "nodeId": "507",
+      "nodeId": "508",
       "ignored": false,
       "role": "StaticText",
       "name": "Blog",
-      "backendDOMNodeId": 507,
+      "backendDOMNodeId": 508,
       "childIds": [
         "-1000000250"
       ]
     },
     {
-      "nodeId": "510",
+      "nodeId": "511",
       "ignored": false,
       "role": "StaticText",
       "name": "Mozilla careers ",
-      "backendDOMNodeId": 510,
+      "backendDOMNodeId": 511,
       "childIds": [
         "-1000000252"
       ]
     },
     {
-      "nodeId": "50",
+      "nodeId": "46",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 50
+      "backendDOMNodeId": 46
     },
     {
-      "nodeId": "513",
+      "nodeId": "514",
       "ignored": false,
       "role": "StaticText",
       "name": "Advertise with us",
-      "backendDOMNodeId": 513,
+      "backendDOMNodeId": 514,
       "childIds": [
         "-1000000253"
       ]
     },
     {
-      "nodeId": "516",
+      "nodeId": "517",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN Plus",
-      "backendDOMNodeId": 516,
+      "backendDOMNodeId": 517,
       "childIds": [
         "-1000000254"
       ]
     },
     {
-      "nodeId": "519",
+      "nodeId": "520",
       "ignored": false,
       "role": "StaticText",
       "name": "Product help ",
-      "backendDOMNodeId": 519,
+      "backendDOMNodeId": 520,
       "childIds": [
         "-1000000256"
       ]
     },
     {
-      "nodeId": "51",
+      "nodeId": "47",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 51
+      "backendDOMNodeId": 47
     },
     {
-      "nodeId": "525",
+      "nodeId": "526",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN Community",
-      "backendDOMNodeId": 525,
+      "backendDOMNodeId": 526,
       "childIds": [
         "-1000000257"
       ]
     },
     {
-      "nodeId": "528",
+      "nodeId": "529",
       "ignored": false,
       "role": "StaticText",
       "name": "Community resources",
-      "backendDOMNodeId": 528,
+      "backendDOMNodeId": 529,
       "childIds": [
         "-1000000258"
       ]
     },
     {
-      "nodeId": "531",
+      "nodeId": "532",
       "ignored": false,
       "role": "StaticText",
       "name": "Writing guidelines",
-      "backendDOMNodeId": 531,
+      "backendDOMNodeId": 532,
       "childIds": [
         "-1000000259"
       ]
     },
     {
-      "nodeId": "534",
+      "nodeId": "535",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN Discord ",
-      "backendDOMNodeId": 534,
+      "backendDOMNodeId": 535,
       "childIds": [
         "-1000000261"
       ]
     },
     {
-      "nodeId": "52",
+      "nodeId": "48",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 52
+      "backendDOMNodeId": 48
     },
     {
-      "nodeId": "537",
+      "nodeId": "538",
       "ignored": false,
       "role": "StaticText",
       "name": "MDN on GitHub ",
-      "backendDOMNodeId": 537,
+      "backendDOMNodeId": 538,
       "childIds": [
         "-1000000263"
       ]
     },
     {
-      "nodeId": "53",
+      "nodeId": "49",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 53
+      "backendDOMNodeId": 49
     },
     {
-      "nodeId": "543",
+      "nodeId": "544",
       "ignored": false,
       "role": "StaticText",
       "name": "Web technologies",
-      "backendDOMNodeId": 543,
+      "backendDOMNodeId": 544,
       "childIds": [
         "-1000000264"
       ]
     },
     {
-      "nodeId": "546",
+      "nodeId": "547",
       "ignored": false,
       "role": "StaticText",
       "name": "Learn web development",
-      "backendDOMNodeId": 546,
+      "backendDOMNodeId": 547,
       "childIds": [
         "-1000000265"
       ]
     },
     {
-      "nodeId": "549",
+      "nodeId": "550",
       "ignored": false,
       "role": "StaticText",
       "name": "Guides",
-      "backendDOMNodeId": 549,
+      "backendDOMNodeId": 550,
       "childIds": [
         "-1000000266"
       ]
@@ -7745,11 +7745,11 @@
       ]
     },
     {
-      "nodeId": "54",
+      "nodeId": "50",
       "ignored": false,
       "role": "StaticText",
       "name": " (external)",
-      "backendDOMNodeId": 54
+      "backendDOMNodeId": 50
     },
     {
       "nodeId": "-1000000029",

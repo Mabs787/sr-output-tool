@@ -14,7 +14,7 @@
       "name": "Disability Innovation in the Workplace and Beyond — Google - Google Accessibility",
       "backendDOMNodeId": 1,
       "childIds": [
-        "219"
+        "222"
       ],
       "properties": {
         "focusable": true,
@@ -23,13 +23,13 @@
       }
     },
     {
-      "nodeId": "219",
+      "nodeId": "222",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 219,
+      "backendDOMNodeId": 222,
       "childIds": [
-        "282"
+        "285"
       ],
       "ignoredReasons": [
         {
@@ -39,15 +39,15 @@
       ]
     },
     {
-      "nodeId": "282",
+      "nodeId": "285",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 282,
+      "backendDOMNodeId": 285,
       "childIds": [
-        "18",
-        "27",
-        "145"
+        "21",
+        "30",
+        "148"
       ],
       "ignoredReasons": [
         {
@@ -57,59 +57,59 @@
       ]
     },
     {
-      "nodeId": "18",
+      "nodeId": "21",
       "ignored": false,
       "role": "banner",
       "name": "",
-      "backendDOMNodeId": 18,
+      "backendDOMNodeId": 21,
       "domNodeId": "185",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"185\"]",
       "tagName": "header",
       "childIds": [
-        "19",
-        "468"
+        "22",
+        "471"
       ]
     },
     {
-      "nodeId": "27",
+      "nodeId": "30",
       "ignored": false,
       "role": "main",
       "name": "",
-      "backendDOMNodeId": 27,
+      "backendDOMNodeId": 30,
       "domNodeId": "210",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"210\"]",
       "tagName": "main",
       "childIds": [
-        "485"
+        "488"
       ]
     },
     {
-      "nodeId": "145",
+      "nodeId": "148",
       "ignored": false,
       "role": "contentinfo",
       "name": "",
-      "backendDOMNodeId": 145,
+      "backendDOMNodeId": 148,
       "domNodeId": "508",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
       "tagName": "footer",
       "childIds": [
-        "146",
-        "148",
-        "161",
-        "186"
+        "149",
+        "151",
+        "164",
+        "189"
       ]
     },
     {
-      "nodeId": "19",
+      "nodeId": "22",
       "ignored": false,
       "role": "link",
       "name": "Jump to Content",
-      "backendDOMNodeId": 19,
+      "backendDOMNodeId": 22,
       "domNodeId": "186",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
       "tagName": "a",
       "childIds": [
-        "20"
+        "23"
       ],
       "properties": {
         "focusable": true,
@@ -117,62 +117,62 @@
       }
     },
     {
-      "nodeId": "468",
+      "nodeId": "471",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 468,
+      "backendDOMNodeId": 471,
       "domNodeId": "187",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
       "tagName": "div",
       "childIds": [
-        "469"
+        "472"
       ]
     },
     {
-      "nodeId": "485",
+      "nodeId": "488",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 485,
+      "backendDOMNodeId": 488,
       "domNodeId": "211",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"211\"]",
       "tagName": "div",
       "childIds": [
-        "486",
-        "11",
+        "489",
+        "14",
         "537",
         "557",
         "576",
         "598",
         "604",
         "674",
-        "126",
+        "129",
         "739"
       ]
     },
     {
-      "nodeId": "146",
+      "nodeId": "149",
       "ignored": false,
       "role": "heading",
       "name": "Footer links",
-      "backendDOMNodeId": 146,
+      "backendDOMNodeId": 149,
       "domNodeId": "509",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"509\"]",
       "tagName": "h2",
       "childIds": [
-        "147"
+        "150"
       ],
       "properties": {
         "level": 2
       }
     },
     {
-      "nodeId": "148",
+      "nodeId": "151",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 148,
+      "backendDOMNodeId": 151,
       "domNodeId": "510",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"510\"]",
       "tagName": "section",
@@ -181,11 +181,11 @@
       ]
     },
     {
-      "nodeId": "161",
+      "nodeId": "164",
       "ignored": false,
       "role": "navigation",
       "name": "",
-      "backendDOMNodeId": 161,
+      "backendDOMNodeId": 164,
       "domNodeId": "527",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"527\"]",
       "tagName": "nav",
@@ -194,41 +194,41 @@
       ]
     },
     {
-      "nodeId": "186",
+      "nodeId": "189",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 186,
+      "backendDOMNodeId": 189,
       "domNodeId": "551",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"551\"]",
       "tagName": "section",
       "childIds": [
         "769",
-        "189",
-        "202"
+        "192",
+        "205"
       ]
     },
     {
-      "nodeId": "20",
+      "nodeId": "23",
       "ignored": false,
       "role": "StaticText",
       "name": "Jump to Content",
-      "backendDOMNodeId": 20,
+      "backendDOMNodeId": 23,
       "childIds": [
-        "-1000000170"
+        "-1000000172"
       ]
     },
     {
-      "nodeId": "469",
+      "nodeId": "472",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 469,
+      "backendDOMNodeId": 472,
       "domNodeId": "188",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"188\"]",
       "tagName": "div",
       "childIds": [
-        "470"
+        "473"
       ],
       "ignoredReasons": [
         {
@@ -238,16 +238,16 @@
       ]
     },
     {
-      "nodeId": "470",
+      "nodeId": "473",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 470,
+      "backendDOMNodeId": 473,
       "domNodeId": "189",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"189\"]",
       "tagName": "div",
       "childIds": [
-        "471"
+        "474"
       ],
       "ignoredReasons": [
         {
@@ -257,49 +257,28 @@
       ]
     },
     {
-      "nodeId": "471",
+      "nodeId": "474",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 471,
+      "backendDOMNodeId": 474,
       "domNodeId": "190",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
       "tagName": "div",
       "childIds": [
-        "472"
+        "475"
       ]
     },
     {
-      "nodeId": "486",
+      "nodeId": "489",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 486,
+      "backendDOMNodeId": 489,
       "domNodeId": "212",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"212\"]",
       "tagName": "div",
       "childIds": [
-        "487"
-      ],
-      "ignoredReasons": [
-        {
-          "name": "uninteresting",
-          "value": true
-        }
-      ]
-    },
-    {
-      "nodeId": "487",
-      "ignored": true,
-      "role": "none",
-      "name": "",
-      "backendDOMNodeId": 487,
-      "domNodeId": "213",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"213\"]",
-      "tagName": "div",
-      "childIds": [
-        "488",
-        "489",
         "490"
       ],
       "ignoredReasons": [
@@ -310,11 +289,32 @@
       ]
     },
     {
-      "nodeId": "488",
+      "nodeId": "490",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 488,
+      "backendDOMNodeId": 490,
+      "domNodeId": "213",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"213\"]",
+      "tagName": "div",
+      "childIds": [
+        "491",
+        "492",
+        "493"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "491",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 491,
       "domNodeId": "214",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"214\"]",
       "tagName": "div",
@@ -326,17 +326,17 @@
       ]
     },
     {
-      "nodeId": "489",
+      "nodeId": "492",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 489,
+      "backendDOMNodeId": 492,
       "domNodeId": "215",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"215\"]",
       "tagName": "div",
       "childIds": [
-        "17",
-        "9"
+        "20",
+        "12"
       ],
       "ignoredReasons": [
         {
@@ -346,40 +346,40 @@
       ]
     },
     {
-      "nodeId": "17",
+      "nodeId": "20",
       "ignored": false,
       "role": "heading",
       "name": "Making accessible technology with and for people with disabilities",
-      "backendDOMNodeId": 17,
+      "backendDOMNodeId": 20,
       "domNodeId": "216",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"216\"]",
       "tagName": "h1",
       "childIds": [
-        "8"
+        "11"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "9",
+      "nodeId": "12",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 9,
+      "backendDOMNodeId": 12,
       "domNodeId": "217",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"217\"]",
       "tagName": "p",
       "childIds": [
-        "10"
+        "13"
       ]
     },
     {
-      "nodeId": "490",
+      "nodeId": "493",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 490,
+      "backendDOMNodeId": 493,
       "domNodeId": "218",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"218\"]",
       "tagName": "div",
@@ -391,16 +391,16 @@
       ]
     },
     {
-      "nodeId": "11",
+      "nodeId": "14",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 11,
+      "backendDOMNodeId": 14,
       "domNodeId": "219",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"219\"]",
       "tagName": "div",
       "childIds": [
-        "491"
+        "494"
       ]
     },
     {
@@ -540,7 +540,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"296\"]",
       "tagName": "picture",
       "childIds": [
-        "13"
+        "19"
       ]
     },
     {
@@ -594,7 +594,7 @@
       "tagName": "blockquote",
       "childIds": [
         "872",
-        "44",
+        "47",
         "873"
       ]
     },
@@ -608,7 +608,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"307\"]",
       "tagName": "div",
       "childIds": [
-        "45"
+        "48"
       ]
     },
     {
@@ -621,7 +621,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"308\"]",
       "tagName": "div",
       "childIds": [
-        "46"
+        "49"
       ]
     },
     {
@@ -693,11 +693,11 @@
       ]
     },
     {
-      "nodeId": "126",
+      "nodeId": "129",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 126,
+      "backendDOMNodeId": 129,
       "domNodeId": "468",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"468\"]",
       "tagName": "section",
@@ -720,11 +720,11 @@
       ]
     },
     {
-      "nodeId": "147",
+      "nodeId": "150",
       "ignored": false,
       "role": "StaticText",
       "name": "Footer links",
-      "backendDOMNodeId": 147,
+      "backendDOMNodeId": 150,
       "childIds": [
         "-1000000131",
         "-1000000132",
@@ -749,8 +749,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"511\"]",
       "tagName": "div",
       "childIds": [
-        "149",
-        "151"
+        "152",
+        "154"
       ],
       "ignoredReasons": [
         {
@@ -760,24 +760,24 @@
       ]
     },
     {
-      "nodeId": "149",
+      "nodeId": "152",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 149,
+      "backendDOMNodeId": 152,
       "domNodeId": "512",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"512\"]",
       "tagName": "p",
       "childIds": [
-        "150"
+        "153"
       ]
     },
     {
-      "nodeId": "151",
+      "nodeId": "154",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 151,
+      "backendDOMNodeId": 154,
       "domNodeId": "513",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"513\"]",
       "tagName": "section",
@@ -814,7 +814,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"529\"]",
       "tagName": "div",
       "childIds": [
-        "162",
+        "165",
         "768"
       ]
     },
@@ -828,7 +828,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"552\"]",
       "tagName": "div",
       "childIds": [
-        "187"
+        "190"
       ],
       "ignoredReasons": [
         {
@@ -838,11 +838,11 @@
       ]
     },
     {
-      "nodeId": "187",
+      "nodeId": "190",
       "ignored": false,
       "role": "link",
       "name": "Google",
-      "backendDOMNodeId": 187,
+      "backendDOMNodeId": 190,
       "domNodeId": "553",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"553\"]",
       "tagName": "a",
@@ -855,33 +855,33 @@
       }
     },
     {
-      "nodeId": "189",
+      "nodeId": "192",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 189,
+      "backendDOMNodeId": 192,
       "domNodeId": "556",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"556\"]",
       "tagName": "ul",
       "childIds": [
-        "190",
         "193",
         "196",
-        "199"
+        "199",
+        "202"
       ]
     },
     {
-      "nodeId": "202",
+      "nodeId": "205",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 202,
+      "backendDOMNodeId": 205,
       "domNodeId": "567",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"567\"]",
       "tagName": "ul",
       "childIds": [
-        "204",
-        "5"
+        "207",
+        "9"
       ],
       "ignoredReasons": [
         {
@@ -891,17 +891,17 @@
       ]
     },
     {
-      "nodeId": "204",
+      "nodeId": "207",
       "ignored": false,
       "role": "link",
       "name": "Help",
-      "backendDOMNodeId": 204,
+      "backendDOMNodeId": 207,
       "domNodeId": "569",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"569\"]",
       "tagName": "a",
       "childIds": [
         "776",
-        "206"
+        "209"
       ],
       "properties": {
         "focusable": true,
@@ -909,12 +909,12 @@
       }
     },
     {
-      "nodeId": "5",
+      "nodeId": "9",
       "ignored": false,
       "role": "combobox",
       "name": "Change language or region",
       "value": "English",
-      "backendDOMNodeId": 5,
+      "backendDOMNodeId": 9,
       "domNodeId": "573",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"573\"]",
       "tagName": "select",
@@ -929,22 +929,22 @@
       }
     },
     {
-      "nodeId": "-1000000170",
+      "nodeId": "-1000000172",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Jump to Content"
     },
     {
-      "nodeId": "472",
+      "nodeId": "475",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 472,
+      "backendDOMNodeId": 475,
       "domNodeId": "191",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
       "tagName": "div",
       "childIds": [
-        "21"
+        "24"
       ],
       "ignoredReasons": [
         {
@@ -954,18 +954,18 @@
       ]
     },
     {
-      "nodeId": "21",
+      "nodeId": "24",
       "ignored": false,
       "role": "link",
       "name": "google-logo Accessibility",
       "description": "Google",
-      "backendDOMNodeId": 21,
+      "backendDOMNodeId": 24,
       "domNodeId": "192",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"192\"]",
       "tagName": "a",
       "childIds": [
-        "473",
-        "474"
+        "476",
+        "477"
       ],
       "properties": {
         "focusable": true,
@@ -973,11 +973,11 @@
       }
     },
     {
-      "nodeId": "8",
+      "nodeId": "11",
       "ignored": false,
       "role": "StaticText",
       "name": "Making accessible technology with and for people with disabilities",
-      "backendDOMNodeId": 8,
+      "backendDOMNodeId": 11,
       "childIds": [
         "-1000000005",
         "-1000000006",
@@ -985,11 +985,11 @@
       ]
     },
     {
-      "nodeId": "10",
+      "nodeId": "13",
       "ignored": false,
       "role": "StaticText",
       "name": "Despite progress in tech and society, people with disabilities still face barriers to accessible experiences — including hurdles to complete tasks, navigate the world, or reach their dreams. As creative technologists, we all have an opportunity and a responsibility to ensure what we're building works for everyone.",
-      "backendDOMNodeId": 10,
+      "backendDOMNodeId": 13,
       "childIds": [
         "-1000000008",
         "-1000000009",
@@ -998,17 +998,17 @@
       ]
     },
     {
-      "nodeId": "491",
+      "nodeId": "494",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 491,
+      "backendDOMNodeId": 494,
       "domNodeId": "220",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"220\"]",
       "tagName": "div",
       "childIds": [
-        "492",
-        "493",
+        "495",
+        "496",
         "531"
       ],
       "ignoredReasons": [
@@ -1019,11 +1019,11 @@
       ]
     },
     {
-      "nodeId": "492",
+      "nodeId": "495",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 492,
+      "backendDOMNodeId": 495,
       "domNodeId": "221",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"221\"]",
       "tagName": "div",
@@ -1035,16 +1035,16 @@
       ]
     },
     {
-      "nodeId": "493",
+      "nodeId": "496",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 493,
+      "backendDOMNodeId": 496,
       "domNodeId": "222",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"222\"]",
       "tagName": "div",
       "childIds": [
-        "494"
+        "497"
       ],
       "ignoredReasons": [
         {
@@ -1054,16 +1054,16 @@
       ]
     },
     {
-      "nodeId": "494",
+      "nodeId": "497",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 494,
+      "backendDOMNodeId": 497,
       "domNodeId": "223",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"223\"]",
       "tagName": "div",
       "childIds": [
-        "495",
+        "15",
         "519"
       ],
       "ignoredReasons": [
@@ -1074,16 +1074,16 @@
       ]
     },
     {
-      "nodeId": "495",
+      "nodeId": "15",
       "ignored": false,
       "role": "button",
       "name": "wniga-thumbnail-2026-ep12-update-opt-02.webp 07:43",
-      "backendDOMNodeId": 495,
+      "backendDOMNodeId": 15,
       "domNodeId": "224",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"224\"]",
       "tagName": "div",
       "childIds": [
-        "496"
+        "498"
       ],
       "properties": {
         "focusable": true
@@ -1156,7 +1156,7 @@
       "tagName": "div",
       "childIds": [
         "523",
-        "33",
+        "36",
         "525",
         "526"
       ],
@@ -1177,20 +1177,20 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"252\"]",
       "tagName": "div",
       "childIds": [
-        "32"
+        "35"
       ]
     },
     {
-      "nodeId": "33",
+      "nodeId": "36",
       "ignored": false,
       "role": "heading",
       "name": "What’s New in Google Accessibility",
-      "backendDOMNodeId": 33,
+      "backendDOMNodeId": 36,
       "domNodeId": "254",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"254\"]",
       "tagName": "h2",
       "childIds": [
-        "34"
+        "37"
       ],
       "properties": {
         "level": 2
@@ -1206,7 +1206,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"255\"]",
       "tagName": "div",
       "childIds": [
-        "35"
+        "38"
       ]
     },
     {
@@ -1219,7 +1219,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"256\"]",
       "tagName": "div",
       "childIds": [
-        "36"
+        "39"
       ],
       "ignoredReasons": [
         {
@@ -1229,16 +1229,16 @@
       ]
     },
     {
-      "nodeId": "36",
+      "nodeId": "39",
       "ignored": false,
       "role": "link",
       "name": "View YouTube series",
-      "backendDOMNodeId": 36,
+      "backendDOMNodeId": 39,
       "domNodeId": "257",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"257\"]",
       "tagName": "a",
       "childIds": [
-        "37",
+        "40",
         "528"
       ],
       "properties": {
@@ -1384,7 +1384,7 @@
       "tagName": "div",
       "childIds": [
         "550",
-        "39",
+        "42",
         "554"
       ],
       "ignoredReasons": [
@@ -1404,20 +1404,20 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"280\"]",
       "tagName": "div",
       "childIds": [
-        "12"
+        "18"
       ]
     },
     {
-      "nodeId": "39",
+      "nodeId": "42",
       "ignored": false,
       "role": "heading",
       "name": "Explore our newsletters",
-      "backendDOMNodeId": 39,
+      "backendDOMNodeId": 42,
       "domNodeId": "285",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"285\"]",
       "tagName": "h2",
       "childIds": [
-        "40"
+        "43"
       ],
       "properties": {
         "level": 2
@@ -1433,7 +1433,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"286\"]",
       "tagName": "div",
       "childIds": [
-        "41"
+        "44"
       ]
     },
     {
@@ -1446,7 +1446,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"287\"]",
       "tagName": "div",
       "childIds": [
-        "42"
+        "45"
       ],
       "ignoredReasons": [
         {
@@ -1456,16 +1456,16 @@
       ]
     },
     {
-      "nodeId": "42",
+      "nodeId": "45",
       "ignored": false,
       "role": "link",
       "name": "View newsletters",
-      "backendDOMNodeId": 42,
+      "backendDOMNodeId": 45,
       "domNodeId": "288",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"288\"]",
       "tagName": "a",
       "childIds": [
-        "43"
+        "46"
       ],
       "properties": {
         "focusable": true,
@@ -1489,11 +1489,11 @@
       ]
     },
     {
-      "nodeId": "13",
+      "nodeId": "19",
       "ignored": false,
       "role": "image",
       "name": "A smiling woman with long, curly dark hair leans against a black metal fence. She is wearing a white sleeveless knit top and a light blue skirt, with a soft-focus background of green trees and foliage.",
-      "backendDOMNodeId": 13,
+      "backendDOMNodeId": 19,
       "domNodeId": "303",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"303\"]",
       "tagName": "img",
@@ -1508,7 +1508,7 @@
       "name": "",
       "backendDOMNodeId": 872,
       "childIds": [
-        "-1000001146"
+        "-1000001143"
       ],
       "ignoredReasons": [
         {
@@ -1518,31 +1518,31 @@
       ]
     },
     {
-      "nodeId": "-1000001146",
+      "nodeId": "-1000001143",
       "ignored": false,
       "role": "StaticText",
       "name": "“ ",
       "childIds": [
-        "-1000001147"
+        "-1000001144"
       ]
     },
     {
-      "nodeId": "-1000001147",
+      "nodeId": "-1000001144",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "“ "
     },
     {
-      "nodeId": "44",
+      "nodeId": "47",
       "ignored": false,
       "role": "StaticText",
       "name": "As we work to integrate accessibility into our products and processes, we can help level the playing field, create meaningful opportunities, and change the trajectory of what's possible. ",
-      "backendDOMNodeId": 44,
+      "backendDOMNodeId": 47,
       "childIds": [
-        "-1000001148",
-        "-1000001149",
-        "-1000001150",
-        "-1000001151"
+        "-1000001145",
+        "-1000001146",
+        "-1000001147",
+        "-1000001148"
       ]
     },
     {
@@ -1552,7 +1552,7 @@
       "name": "",
       "backendDOMNodeId": 873,
       "childIds": [
-        "-1000001152"
+        "-1000001149"
       ],
       "ignoredReasons": [
         {
@@ -1562,36 +1562,36 @@
       ]
     },
     {
-      "nodeId": "-1000001152",
+      "nodeId": "-1000001149",
       "ignored": false,
       "role": "StaticText",
       "name": "”",
       "childIds": [
-        "-1000001153"
+        "-1000001150"
       ]
     },
     {
-      "nodeId": "-1000001153",
+      "nodeId": "-1000001150",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "”"
     },
     {
-      "nodeId": "45",
+      "nodeId": "48",
       "ignored": false,
       "role": "StaticText",
       "name": "LAURA ALLEN",
-      "backendDOMNodeId": 45,
+      "backendDOMNodeId": 48,
       "childIds": [
         "-1000000030"
       ]
     },
     {
-      "nodeId": "46",
+      "nodeId": "49",
       "ignored": false,
       "role": "StaticText",
       "name": "Director, Products for All",
-      "backendDOMNodeId": 46,
+      "backendDOMNodeId": 49,
       "childIds": [
         "-1000000031"
       ]
@@ -1626,7 +1626,7 @@
       "tagName": "div",
       "childIds": [
         "579",
-        "49"
+        "52"
       ],
       "ignoredReasons": [
         {
@@ -1649,11 +1649,11 @@
       ]
     },
     {
-      "nodeId": "49",
+      "nodeId": "52",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 49,
+      "backendDOMNodeId": 52,
       "domNodeId": "320",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"320\"]",
       "tagName": "section",
@@ -1727,7 +1727,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"351\"]",
       "tagName": "div",
       "childIds": [
-        "72"
+        "75"
       ],
       "ignoredReasons": [
         {
@@ -1737,16 +1737,16 @@
       ]
     },
     {
-      "nodeId": "72",
+      "nodeId": "75",
       "ignored": false,
       "role": "heading",
       "name": "Additional accessibility resources",
-      "backendDOMNodeId": 72,
+      "backendDOMNodeId": 75,
       "domNodeId": "352",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"352\"]",
       "tagName": "h3",
       "childIds": [
-        "73"
+        "76"
       ],
       "properties": {
         "level": 3
@@ -1797,7 +1797,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"356\"]",
       "tagName": "div",
       "childIds": [
-        "74"
+        "77"
       ],
       "ignoredReasons": [
         {
@@ -1807,11 +1807,11 @@
       ]
     },
     {
-      "nodeId": "74",
+      "nodeId": "77",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 74,
+      "backendDOMNodeId": 77,
       "domNodeId": "357",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"357\"]",
       "tagName": "section",
@@ -1885,7 +1885,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"460\"]",
       "tagName": "div",
       "childIds": [
-        "122",
+        "125",
         "679"
       ],
       "ignoredReasons": [
@@ -1896,16 +1896,16 @@
       ]
     },
     {
-      "nodeId": "122",
+      "nodeId": "125",
       "ignored": false,
       "role": "heading",
       "name": "Prioritizing accessible design to build a more useful world for everyone.",
-      "backendDOMNodeId": 122,
+      "backendDOMNodeId": 125,
       "domNodeId": "461",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"461\"]",
       "tagName": "h3",
       "childIds": [
-        "123"
+        "126"
       ],
       "properties": {
         "level": 3
@@ -1922,11 +1922,11 @@
       "tagName": "div",
       "childIds": [
         "680",
-        "124",
+        "127",
         "681",
         "682",
         "683",
-        "125"
+        "128"
       ]
     },
     {
@@ -2031,9 +2031,9 @@
       "tagName": "div",
       "childIds": [
         "690",
-        "128",
+        "131",
         "692",
-        "131"
+        "134"
       ],
       "ignoredReasons": [
         {
@@ -2052,20 +2052,20 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"474\"]",
       "tagName": "div",
       "childIds": [
-        "127"
+        "130"
       ]
     },
     {
-      "nodeId": "128",
+      "nodeId": "131",
       "ignored": false,
       "role": "heading",
       "name": "Stay up to date on the latest from Google Accessibility",
-      "backendDOMNodeId": 128,
+      "backendDOMNodeId": 131,
       "domNodeId": "476",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
       "tagName": "h2",
       "childIds": [
-        "129"
+        "132"
       ],
       "properties": {
         "level": 2
@@ -2081,21 +2081,21 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
       "tagName": "div",
       "childIds": [
-        "130"
+        "133"
       ]
     },
     {
-      "nodeId": "131",
+      "nodeId": "134",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 131,
+      "backendDOMNodeId": 134,
       "domNodeId": "478",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"478\"]",
       "tagName": "section",
       "childIds": [
         "697",
-        "4"
+        "8"
       ]
     },
     {
@@ -2125,7 +2125,7 @@
       "tagName": "div",
       "childIds": [
         "737",
-        "138",
+        "141",
         "738"
       ],
       "ignoredReasons": [
@@ -2152,11 +2152,11 @@
       ]
     },
     {
-      "nodeId": "138",
+      "nodeId": "141",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 138,
+      "backendDOMNodeId": 141,
       "domNodeId": "493",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"493\"]",
       "tagName": "p",
@@ -2335,11 +2335,11 @@
       "name": "s"
     },
     {
-      "nodeId": "150",
+      "nodeId": "153",
       "ignored": false,
       "role": "StaticText",
       "name": "Social Module",
-      "backendDOMNodeId": 150,
+      "backendDOMNodeId": 153,
       "childIds": [
         "-1000000142",
         "-1000000143",
@@ -2365,8 +2365,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"514\"]",
       "tagName": "div",
       "childIds": [
-        "152",
-        "154"
+        "155",
+        "157"
       ],
       "ignoredReasons": [
         {
@@ -2376,16 +2376,16 @@
       ]
     },
     {
-      "nodeId": "152",
+      "nodeId": "155",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 152,
+      "backendDOMNodeId": 155,
       "domNodeId": "515",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"515\"]",
       "tagName": "p",
       "childIds": [
-        "153"
+        "156"
       ],
       "ignoredReasons": [
         {
@@ -2395,35 +2395,35 @@
       ]
     },
     {
-      "nodeId": "153",
+      "nodeId": "156",
       "ignored": false,
       "role": "StaticText",
       "name": "Follow us",
-      "backendDOMNodeId": 153,
+      "backendDOMNodeId": 156,
       "childIds": [
         "-1000000154"
       ]
     },
     {
-      "nodeId": "154",
+      "nodeId": "157",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 154,
+      "backendDOMNodeId": 157,
       "domNodeId": "516",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"516\"]",
       "tagName": "ul",
       "childIds": [
-        "155",
-        "158"
+        "158",
+        "161"
       ]
     },
     {
-      "nodeId": "162",
+      "nodeId": "165",
       "ignored": false,
       "role": "heading",
       "name": "More about us",
-      "backendDOMNodeId": 162,
+      "backendDOMNodeId": 165,
       "domNodeId": "530",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"530\"]",
       "tagName": "h3",
@@ -2444,7 +2444,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"535\"]",
       "tagName": "div",
       "childIds": [
-        "164"
+        "167"
       ]
     },
     {
@@ -2461,29 +2461,13 @@
       ]
     },
     {
-      "nodeId": "190",
-      "ignored": false,
-      "role": "listitem",
-      "name": "",
-      "backendDOMNodeId": 190,
-      "domNodeId": "557",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"557\"]",
-      "tagName": "li",
-      "childIds": [
-        "191"
-      ],
-      "properties": {
-        "level": 1
-      }
-    },
-    {
       "nodeId": "193",
       "ignored": false,
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 193,
-      "domNodeId": "559",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"559\"]",
+      "domNodeId": "557",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"557\"]",
       "tagName": "li",
       "childIds": [
         "194"
@@ -2498,8 +2482,8 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 196,
-      "domNodeId": "561",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"561\"]",
+      "domNodeId": "559",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"559\"]",
       "tagName": "li",
       "childIds": [
         "197"
@@ -2514,11 +2498,27 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 199,
+      "domNodeId": "561",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"561\"]",
+      "tagName": "li",
+      "childIds": [
+        "200"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "202",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 202,
       "domNodeId": "563",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"563\"]",
       "tagName": "li",
       "childIds": [
-        "200"
+        "203"
       ],
       "properties": {
         "level": 1
@@ -2538,13 +2538,13 @@
       ]
     },
     {
-      "nodeId": "206",
+      "nodeId": "209",
       "ignored": false,
       "role": "StaticText",
       "name": "Help",
-      "backendDOMNodeId": 206,
+      "backendDOMNodeId": 209,
       "childIds": [
-        "-1000001231"
+        "-1000001228"
       ]
     },
     {
@@ -2584,11 +2584,11 @@
       ]
     },
     {
-      "nodeId": "473",
+      "nodeId": "476",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 473,
+      "backendDOMNodeId": 476,
       "domNodeId": "193",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"193\"]",
       "tagName": "div",
@@ -2597,16 +2597,16 @@
       ]
     },
     {
-      "nodeId": "474",
+      "nodeId": "477",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 474,
+      "backendDOMNodeId": 477,
       "domNodeId": "195",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
       "tagName": "span",
       "childIds": [
-        "22"
+        "25"
       ],
       "ignoredReasons": [
         {
@@ -2616,11 +2616,11 @@
       ]
     },
     {
-      "nodeId": "22",
+      "nodeId": "25",
       "ignored": false,
       "role": "StaticText",
       "name": "Accessibility",
-      "backendDOMNodeId": 22,
+      "backendDOMNodeId": 25,
       "childIds": [
         "-1000000004"
       ]
@@ -2668,17 +2668,17 @@
       "name": "responsibility to ensure what we're building works for everyone."
     },
     {
-      "nodeId": "496",
+      "nodeId": "498",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 496,
+      "backendDOMNodeId": 498,
       "domNodeId": "225",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"225\"]",
       "tagName": "div",
       "childIds": [
-        "497",
-        "498",
+        "499",
+        "500",
         "518"
       ],
       "ignoredReasons": [
@@ -2689,11 +2689,11 @@
       ]
     },
     {
-      "nodeId": "497",
+      "nodeId": "499",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 497,
+      "backendDOMNodeId": 499,
       "domNodeId": "226",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
       "tagName": "div",
@@ -2705,16 +2705,16 @@
       ]
     },
     {
-      "nodeId": "498",
+      "nodeId": "500",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 498,
+      "backendDOMNodeId": 500,
       "domNodeId": "227",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"227\"]",
       "tagName": "div",
       "childIds": [
-        "499"
+        "16"
       ],
       "ignoredReasons": [
         {
@@ -2724,17 +2724,17 @@
       ]
     },
     {
-      "nodeId": "499",
+      "nodeId": "16",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 499,
+      "backendDOMNodeId": 16,
       "domNodeId": "228",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"228\"]",
       "tagName": "div",
       "childIds": [
-        "14",
-        "507"
+        "5",
+        "17"
       ]
     },
     {
@@ -2754,43 +2754,43 @@
       ]
     },
     {
-      "nodeId": "32",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "GOOGLE ACCESSIBILITY YOUTUBE SERIES",
-      "backendDOMNodeId": 32,
-      "childIds": [
-        "-1000000013"
-      ]
-    },
-    {
-      "nodeId": "34",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "What’s New in Google Accessibility",
-      "backendDOMNodeId": 34,
-      "childIds": [
-        "-1000000014"
-      ]
-    },
-    {
       "nodeId": "35",
       "ignored": false,
       "role": "StaticText",
-      "name": "Tune in to learn about Google's latest accessibility updates.",
+      "name": "GOOGLE ACCESSIBILITY YOUTUBE SERIES",
       "backendDOMNodeId": 35,
       "childIds": [
-        "-1000000015"
+        "-1000000013"
       ]
     },
     {
       "nodeId": "37",
       "ignored": false,
       "role": "StaticText",
-      "name": "View YouTube series",
+      "name": "What’s New in Google Accessibility",
       "backendDOMNodeId": 37,
       "childIds": [
-        "-1000000258"
+        "-1000000014"
+      ]
+    },
+    {
+      "nodeId": "38",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tune in to learn about Google's latest accessibility updates.",
+      "backendDOMNodeId": 38,
+      "childIds": [
+        "-1000000015"
+      ]
+    },
+    {
+      "nodeId": "40",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "View YouTube series",
+      "backendDOMNodeId": 40,
+      "childIds": [
+        "-1000000260"
       ]
     },
     {
@@ -2807,11 +2807,11 @@
       ]
     },
     {
-      "nodeId": "12",
+      "nodeId": "18",
       "ignored": false,
       "role": "image",
       "name": "fa8cd03ac072bf1e1607d16cd429523587bf771c.webp",
-      "backendDOMNodeId": 12,
+      "backendDOMNodeId": 18,
       "domNodeId": "284",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"284\"]",
       "tagName": "img",
@@ -2820,21 +2820,21 @@
       }
     },
     {
-      "nodeId": "40",
+      "nodeId": "43",
       "ignored": false,
       "role": "StaticText",
       "name": "Explore our newsletters",
-      "backendDOMNodeId": 40,
+      "backendDOMNodeId": 43,
       "childIds": [
         "-1000000017"
       ]
     },
     {
-      "nodeId": "41",
+      "nodeId": "44",
       "ignored": false,
       "role": "StaticText",
       "name": "We regularly share news and highlights through our newsletters. You can view our latest edition and browse our archive to find additional updates on our progress.",
-      "backendDOMNodeId": 41,
+      "backendDOMNodeId": 44,
       "childIds": [
         "-1000000018",
         "-1000000019",
@@ -2842,47 +2842,47 @@
       ]
     },
     {
-      "nodeId": "43",
+      "nodeId": "46",
       "ignored": false,
       "role": "StaticText",
       "name": "View newsletters",
-      "backendDOMNodeId": 43,
+      "backendDOMNodeId": 46,
       "childIds": [
         "-1000000021"
       ]
     },
     {
-      "nodeId": "-1000001147",
+      "nodeId": "-1000001144",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "“ "
     },
     {
-      "nodeId": "-1000001148",
+      "nodeId": "-1000001145",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "As we work to integrate accessibility into our products and "
     },
     {
-      "nodeId": "-1000001149",
+      "nodeId": "-1000001146",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "processes, we can help level the playing field, create "
     },
     {
-      "nodeId": "-1000001150",
+      "nodeId": "-1000001147",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "meaningful opportunities, and change the trajectory of "
     },
     {
-      "nodeId": "-1000001151",
+      "nodeId": "-1000001148",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "what's possible. "
     },
     {
-      "nodeId": "-1000001153",
+      "nodeId": "-1000001150",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "”"
@@ -2965,7 +2965,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"317\"]",
       "tagName": "div",
       "childIds": [
-        "47"
+        "50"
       ],
       "ignoredReasons": [
         {
@@ -2975,16 +2975,16 @@
       ]
     },
     {
-      "nodeId": "47",
+      "nodeId": "50",
       "ignored": false,
       "role": "heading",
       "name": "With your help, we’ll get closer to building a truly accessible world.",
-      "backendDOMNodeId": 47,
+      "backendDOMNodeId": 50,
       "domNodeId": "318",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"318\"]",
       "tagName": "h3",
       "childIds": [
-        "48"
+        "51"
       ],
       "properties": {
         "level": 3
@@ -3016,15 +3016,15 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"321\"]",
       "tagName": "div",
       "childIds": [
-        "50"
+        "53"
       ]
     },
     {
-      "nodeId": "73",
+      "nodeId": "76",
       "ignored": false,
       "role": "StaticText",
       "name": "Additional accessibility resources",
-      "backendDOMNodeId": 73,
+      "backendDOMNodeId": 76,
       "childIds": [
         "-1000000052"
       ]
@@ -3039,15 +3039,15 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"358\"]",
       "tagName": "div",
       "childIds": [
-        "75"
+        "78"
       ]
     },
     {
-      "nodeId": "123",
+      "nodeId": "126",
       "ignored": false,
       "role": "StaticText",
       "name": "Prioritizing accessible design to build a more useful world for everyone.",
-      "backendDOMNodeId": 123,
+      "backendDOMNodeId": 126,
       "childIds": [
         "-1000000105",
         "-1000000106"
@@ -3067,11 +3067,11 @@
       ]
     },
     {
-      "nodeId": "124",
+      "nodeId": "127",
       "ignored": false,
       "role": "StaticText",
       "name": "Google is committed to building more accessible and useful products and services, including by meeting the requirements of the European Accessibility Act (EAA). We continue to monitor the most recent developments in international standards and interpretations of relevant laws. Furthermore, we are engaged in policy conversations and contribute to the development of technical accessibility standards across the industry.",
-      "backendDOMNodeId": 124,
+      "backendDOMNodeId": 127,
       "childIds": [
         "-1000000108",
         "-1000000109",
@@ -3120,11 +3120,11 @@
       ]
     },
     {
-      "nodeId": "125",
+      "nodeId": "128",
       "ignored": false,
       "role": "StaticText",
       "name": "For many years, Google teams have incorporated accessibility into our products and services. We prioritize continuous education and promote accessibility knowledge across our teams. Our dedicated accessibility teams consult on design, development, and testing to ensure our employees are equipped to create accessible experiences. We also collaborate with the disability community to understand how our products and services can bridge gaps and foster a more accessible world. We are dedicated to ensuring continuous and effective access to our products for all people.",
-      "backendDOMNodeId": 125,
+      "backendDOMNodeId": 128,
       "childIds": [
         "-1000000116",
         "-1000000117",
@@ -3135,32 +3135,32 @@
       ]
     },
     {
-      "nodeId": "127",
+      "nodeId": "130",
       "ignored": false,
       "role": "StaticText",
       "name": "ACCESSIBILITY NEWSLETTER",
-      "backendDOMNodeId": 127,
+      "backendDOMNodeId": 130,
       "childIds": [
         "-1000000122"
       ]
     },
     {
-      "nodeId": "129",
+      "nodeId": "132",
       "ignored": false,
       "role": "StaticText",
       "name": "Stay up to date on the latest from Google Accessibility",
-      "backendDOMNodeId": 129,
+      "backendDOMNodeId": 132,
       "childIds": [
         "-1000000123",
         "-1000000124"
       ]
     },
     {
-      "nodeId": "130",
+      "nodeId": "133",
       "ignored": false,
       "role": "StaticText",
       "name": "Sign up for Google’s Accessibility Newsletter and get updates delivered to your inbox.",
-      "backendDOMNodeId": 130,
+      "backendDOMNodeId": 133,
       "childIds": [
         "-1000000125"
       ]
@@ -3179,11 +3179,11 @@
       ]
     },
     {
-      "nodeId": "4",
+      "nodeId": "8",
       "ignored": false,
       "role": "form",
       "name": "",
-      "backendDOMNodeId": 4,
+      "backendDOMNodeId": 8,
       "domNodeId": "484",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"484\"]",
       "tagName": "form",
@@ -3202,7 +3202,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"500\"]",
       "tagName": "div",
       "childIds": [
-        "139"
+        "142"
       ],
       "ignoredReasons": [
         {
@@ -3212,18 +3212,18 @@
       ]
     },
     {
-      "nodeId": "139",
+      "nodeId": "142",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 139,
+      "backendDOMNodeId": 142,
       "domNodeId": "501",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"501\"]",
       "tagName": "p",
       "childIds": [
-        "140",
-        "141",
-        "143"
+        "143",
+        "144",
+        "146"
       ]
     },
     {
@@ -3305,16 +3305,16 @@
       "name": "Follow us"
     },
     {
-      "nodeId": "155",
+      "nodeId": "158",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 155,
+      "backendDOMNodeId": 158,
       "domNodeId": "517",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"517\"]",
       "tagName": "li",
       "childIds": [
-        "156",
+        "159",
         "755"
       ],
       "properties": {
@@ -3322,16 +3322,16 @@
       }
     },
     {
-      "nodeId": "158",
+      "nodeId": "161",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 158,
+      "backendDOMNodeId": 161,
       "domNodeId": "522",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
       "tagName": "li",
       "childIds": [
-        "159",
+        "162",
         "759"
       ],
       "properties": {
@@ -3348,40 +3348,40 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"531\"]",
       "tagName": "div",
       "childIds": [
-        "163",
+        "166",
         "766"
       ]
     },
     {
-      "nodeId": "164",
+      "nodeId": "167",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 164,
+      "backendDOMNodeId": 167,
       "domNodeId": "536",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"536\"]",
       "tagName": "ul",
       "childIds": [
-        "165",
         "168",
         "171",
         "174",
         "177",
         "180",
-        "183"
+        "183",
+        "186"
       ]
     },
     {
-      "nodeId": "191",
+      "nodeId": "194",
       "ignored": false,
       "role": "link",
       "name": "About Google link opens in new tab or window",
-      "backendDOMNodeId": 191,
+      "backendDOMNodeId": 194,
       "domNodeId": "558",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"558\"]",
       "tagName": "a",
       "childIds": [
-        "192"
+        "195"
       ],
       "properties": {
         "focusable": true,
@@ -3389,16 +3389,16 @@
       }
     },
     {
-      "nodeId": "194",
+      "nodeId": "197",
       "ignored": false,
       "role": "link",
       "name": "Google products link opens in new tab or window",
-      "backendDOMNodeId": 194,
+      "backendDOMNodeId": 197,
       "domNodeId": "560",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"560\"]",
       "tagName": "a",
       "childIds": [
-        "195"
+        "198"
       ],
       "properties": {
         "focusable": true,
@@ -3406,16 +3406,16 @@
       }
     },
     {
-      "nodeId": "197",
+      "nodeId": "200",
       "ignored": false,
       "role": "link",
       "name": "Privacy link opens in new tab or window",
-      "backendDOMNodeId": 197,
+      "backendDOMNodeId": 200,
       "domNodeId": "562",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"562\"]",
       "tagName": "a",
       "childIds": [
-        "198"
+        "201"
       ],
       "properties": {
         "focusable": true,
@@ -3423,16 +3423,16 @@
       }
     },
     {
-      "nodeId": "200",
+      "nodeId": "203",
       "ignored": false,
       "role": "link",
       "name": "Terms link opens in new tab or window",
-      "backendDOMNodeId": 200,
+      "backendDOMNodeId": 203,
       "domNodeId": "564",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"564\"]",
       "tagName": "a",
       "childIds": [
-        "201"
+        "204"
       ],
       "properties": {
         "focusable": true,
@@ -3440,7 +3440,7 @@
       }
     },
     {
-      "nodeId": "-1000001231",
+      "nodeId": "-1000001228",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Help"
@@ -3843,11 +3843,11 @@
       "name": "Accessibility"
     },
     {
-      "nodeId": "14",
+      "nodeId": "5",
       "ignored": false,
       "role": "image",
       "name": "wniga-thumbnail-2026-ep12-update-opt-02.webp",
-      "backendDOMNodeId": 14,
+      "backendDOMNodeId": 5,
       "domNodeId": "236",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"236\"]",
       "tagName": "img",
@@ -3856,11 +3856,11 @@
       }
     },
     {
-      "nodeId": "507",
+      "nodeId": "17",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 507,
+      "backendDOMNodeId": 17,
       "domNodeId": "237",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"237\"]",
       "tagName": "div",
@@ -3889,7 +3889,7 @@
       "name": "Tune in to learn about Google's latest accessibility updates."
     },
     {
-      "nodeId": "-1000000258",
+      "nodeId": "-1000000260",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "View YouTube series"
@@ -3925,29 +3925,29 @@
       "name": "View newsletters"
     },
     {
-      "nodeId": "48",
+      "nodeId": "51",
       "ignored": false,
       "role": "StaticText",
       "name": "With your help, we’ll get closer to building a truly accessible world.",
-      "backendDOMNodeId": 48,
+      "backendDOMNodeId": 51,
       "childIds": [
         "-1000000032",
         "-1000000033"
       ]
     },
     {
-      "nodeId": "50",
+      "nodeId": "53",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 50,
+      "backendDOMNodeId": 53,
       "domNodeId": "322",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"322\"]",
       "tagName": "ul",
       "childIds": [
-        "51",
-        "58",
-        "65"
+        "54",
+        "61",
+        "68"
       ]
     },
     {
@@ -3957,21 +3957,21 @@
       "name": "Additional accessibility resources"
     },
     {
-      "nodeId": "75",
+      "nodeId": "78",
       "ignored": false,
       "role": "list",
       "name": "",
-      "backendDOMNodeId": 75,
+      "backendDOMNodeId": 78,
       "domNodeId": "359",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"359\"]",
       "tagName": "ul",
       "childIds": [
-        "76",
-        "83",
-        "90",
-        "98",
-        "106",
-        "114"
+        "79",
+        "86",
+        "93",
+        "101",
+        "109",
+        "117"
       ]
     },
     {
@@ -4142,30 +4142,30 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"488\"]",
       "tagName": "div",
       "childIds": [
-        "136"
+        "139"
       ]
     },
     {
-      "nodeId": "140",
+      "nodeId": "143",
       "ignored": false,
       "role": "StaticText",
       "name": "I acknowledge that my information will be used in accordance with ",
-      "backendDOMNodeId": 140,
+      "backendDOMNodeId": 143,
       "childIds": [
-        "-1000001224"
+        "-1000001221"
       ]
     },
     {
-      "nodeId": "141",
+      "nodeId": "144",
       "ignored": false,
       "role": "link",
       "name": "Google's Privacy Policy",
-      "backendDOMNodeId": 141,
+      "backendDOMNodeId": 144,
       "domNodeId": "504",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"504\"]",
       "tagName": "a",
       "childIds": [
-        "142"
+        "145"
       ],
       "properties": {
         "focusable": true,
@@ -4173,21 +4173,21 @@
       }
     },
     {
-      "nodeId": "143",
+      "nodeId": "146",
       "ignored": false,
       "role": "StaticText",
       "name": ".",
-      "backendDOMNodeId": 143,
+      "backendDOMNodeId": 146,
       "childIds": [
-        "-1000001226"
+        "-1000001223"
       ]
     },
     {
-      "nodeId": "156",
+      "nodeId": "159",
       "ignored": false,
       "role": "link",
       "name": "Follow us on X",
-      "backendDOMNodeId": 156,
+      "backendDOMNodeId": 159,
       "domNodeId": "518",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"518\"]",
       "tagName": "a",
@@ -4232,11 +4232,11 @@
       ]
     },
     {
-      "nodeId": "159",
+      "nodeId": "162",
       "ignored": false,
       "role": "link",
       "name": "Follow us on YouTube",
-      "backendDOMNodeId": 159,
+      "backendDOMNodeId": 162,
       "domNodeId": "523",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"523\"]",
       "tagName": "a",
@@ -4281,11 +4281,11 @@
       ]
     },
     {
-      "nodeId": "163",
+      "nodeId": "166",
       "ignored": false,
       "role": "StaticText",
       "name": "More about us",
-      "backendDOMNodeId": 163,
+      "backendDOMNodeId": 166,
       "childIds": [
         "-1000000155"
       ]
@@ -4304,29 +4304,13 @@
       ]
     },
     {
-      "nodeId": "165",
-      "ignored": false,
-      "role": "listitem",
-      "name": "",
-      "backendDOMNodeId": 165,
-      "domNodeId": "537",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
-      "tagName": "li",
-      "childIds": [
-        "166"
-      ],
-      "properties": {
-        "level": 1
-      }
-    },
-    {
       "nodeId": "168",
       "ignored": false,
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 168,
-      "domNodeId": "539",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"539\"]",
+      "domNodeId": "537",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
       "tagName": "li",
       "childIds": [
         "169"
@@ -4341,8 +4325,8 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 171,
-      "domNodeId": "541",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"541\"]",
+      "domNodeId": "539",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"539\"]",
       "tagName": "li",
       "childIds": [
         "172"
@@ -4357,8 +4341,8 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 174,
-      "domNodeId": "543",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"543\"]",
+      "domNodeId": "541",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"541\"]",
       "tagName": "li",
       "childIds": [
         "175"
@@ -4373,8 +4357,8 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 177,
-      "domNodeId": "545",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"545\"]",
+      "domNodeId": "543",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"543\"]",
       "tagName": "li",
       "childIds": [
         "178"
@@ -4389,8 +4373,8 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 180,
-      "domNodeId": "547",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"547\"]",
+      "domNodeId": "545",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"545\"]",
       "tagName": "li",
       "childIds": [
         "181"
@@ -4405,8 +4389,8 @@
       "role": "listitem",
       "name": "",
       "backendDOMNodeId": 183,
-      "domNodeId": "549",
-      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "domNodeId": "547",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"547\"]",
       "tagName": "li",
       "childIds": [
         "184"
@@ -4416,43 +4400,59 @@
       }
     },
     {
-      "nodeId": "192",
+      "nodeId": "186",
       "ignored": false,
-      "role": "StaticText",
-      "name": "About Google",
-      "backendDOMNodeId": 192,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 186,
+      "domNodeId": "549",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "tagName": "li",
       "childIds": [
-        "-1000001227"
-      ]
+        "187"
+      ],
+      "properties": {
+        "level": 1
+      }
     },
     {
       "nodeId": "195",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google products",
+      "name": "About Google",
       "backendDOMNodeId": 195,
       "childIds": [
-        "-1000001228"
+        "-1000001224"
       ]
     },
     {
       "nodeId": "198",
       "ignored": false,
       "role": "StaticText",
-      "name": "Privacy",
+      "name": "Google products",
       "backendDOMNodeId": 198,
       "childIds": [
-        "-1000001229"
+        "-1000001225"
       ]
     },
     {
       "nodeId": "201",
       "ignored": false,
       "role": "StaticText",
-      "name": "Terms",
+      "name": "Privacy",
       "backendDOMNodeId": 201,
       "childIds": [
-        "-1000001230"
+        "-1000001226"
+      ]
+    },
+    {
+      "nodeId": "204",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Terms",
+      "backendDOMNodeId": 204,
+      "childIds": [
+        "-1000001227"
       ]
     },
     {
@@ -4478,7 +4478,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"240\"]",
       "tagName": "div",
       "childIds": [
-        "29"
+        "32"
       ],
       "ignoredReasons": [
         {
@@ -4488,11 +4488,11 @@
       ]
     },
     {
-      "nodeId": "29",
+      "nodeId": "32",
       "ignored": true,
       "role": "none",
       "name": "",
-      "backendDOMNodeId": 29,
+      "backendDOMNodeId": 32,
       "domNodeId": "241",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"241\"]",
       "tagName": "p",
@@ -4565,7 +4565,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"246\"]",
       "tagName": "span",
       "childIds": [
-        "31"
+        "34"
       ],
       "ignoredReasons": [
         {
@@ -4575,11 +4575,11 @@
       ]
     },
     {
-      "nodeId": "31",
+      "nodeId": "34",
       "ignored": false,
       "role": "StaticText",
       "name": "07:43",
-      "backendDOMNodeId": 31,
+      "backendDOMNodeId": 34,
       "childIds": [
         "-1000000012"
       ]
@@ -4597,144 +4597,144 @@
       "name": "a truly accessible world."
     },
     {
-      "nodeId": "51",
+      "nodeId": "54",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 51,
+      "backendDOMNodeId": 54,
       "domNodeId": "323",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"323\"]",
       "tagName": "li",
       "childIds": [
-        "52"
+        "55"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "58",
+      "nodeId": "61",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 58,
+      "backendDOMNodeId": 61,
       "domNodeId": "331",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"331\"]",
       "tagName": "li",
       "childIds": [
-        "59"
+        "62"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "65",
+      "nodeId": "68",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 65,
+      "backendDOMNodeId": 68,
       "domNodeId": "339",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"339\"]",
       "tagName": "li",
       "childIds": [
-        "66"
+        "69"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "76",
+      "nodeId": "79",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 76,
+      "backendDOMNodeId": 79,
       "domNodeId": "360",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"360\"]",
       "tagName": "li",
       "childIds": [
-        "77"
+        "80"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "83",
+      "nodeId": "86",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 83,
+      "backendDOMNodeId": 86,
       "domNodeId": "376",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"376\"]",
       "tagName": "li",
       "childIds": [
-        "84"
+        "87"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "90",
+      "nodeId": "93",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 90,
+      "backendDOMNodeId": 93,
       "domNodeId": "392",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"392\"]",
       "tagName": "li",
       "childIds": [
-        "91"
+        "94"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "98",
+      "nodeId": "101",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 98,
+      "backendDOMNodeId": 101,
       "domNodeId": "408",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"408\"]",
       "tagName": "li",
       "childIds": [
-        "99"
+        "102"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "106",
+      "nodeId": "109",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 106,
+      "backendDOMNodeId": 109,
       "domNodeId": "424",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"424\"]",
       "tagName": "li",
       "childIds": [
-        "107"
+        "110"
       ],
       "properties": {
         "level": 1
       }
     },
     {
-      "nodeId": "114",
+      "nodeId": "117",
       "ignored": false,
       "role": "listitem",
       "name": "",
-      "backendDOMNodeId": 114,
+      "backendDOMNodeId": 117,
       "domNodeId": "440",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"440\"]",
       "tagName": "li",
       "childIds": [
-        "115"
+        "118"
       ],
       "properties": {
         "level": 1
@@ -4800,16 +4800,16 @@
       ]
     },
     {
-      "nodeId": "136",
+      "nodeId": "139",
       "ignored": false,
       "role": "button",
       "name": "Subscribe",
-      "backendDOMNodeId": 136,
+      "backendDOMNodeId": 139,
       "domNodeId": "489",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"489\"]",
       "tagName": "button",
       "childIds": [
-        "137"
+        "140"
       ],
       "properties": {
         "invalid": "false",
@@ -4817,23 +4817,23 @@
       }
     },
     {
-      "nodeId": "-1000001224",
+      "nodeId": "-1000001221",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "I acknowledge that my information will be used in accordance with "
     },
     {
-      "nodeId": "142",
+      "nodeId": "145",
       "ignored": false,
       "role": "StaticText",
       "name": "Google's Privacy Policy",
-      "backendDOMNodeId": 142,
+      "backendDOMNodeId": 145,
       "childIds": [
-        "-1000001225"
+        "-1000001222"
       ]
     },
     {
-      "nodeId": "-1000001226",
+      "nodeId": "-1000001223",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "."
@@ -4871,16 +4871,16 @@
       "name": "More about us"
     },
     {
-      "nodeId": "166",
+      "nodeId": "169",
       "ignored": false,
       "role": "link",
       "name": "Learning link opens in new tab or window",
-      "backendDOMNodeId": 166,
+      "backendDOMNodeId": 169,
       "domNodeId": "538",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"538\"]",
       "tagName": "a",
       "childIds": [
-        "167"
+        "170"
       ],
       "properties": {
         "focusable": true,
@@ -4888,16 +4888,16 @@
       }
     },
     {
-      "nodeId": "169",
+      "nodeId": "172",
       "ignored": false,
       "role": "link",
       "name": "Safety Center link opens in new tab or window",
-      "backendDOMNodeId": 169,
+      "backendDOMNodeId": 172,
       "domNodeId": "540",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"540\"]",
       "tagName": "a",
       "childIds": [
-        "170"
+        "173"
       ],
       "properties": {
         "focusable": true,
@@ -4905,16 +4905,16 @@
       }
     },
     {
-      "nodeId": "172",
+      "nodeId": "175",
       "ignored": false,
       "role": "link",
       "name": "Crisis Response link opens in new tab or window",
-      "backendDOMNodeId": 172,
+      "backendDOMNodeId": 175,
       "domNodeId": "542",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"542\"]",
       "tagName": "a",
       "childIds": [
-        "173"
+        "176"
       ],
       "properties": {
         "focusable": true,
@@ -4922,16 +4922,16 @@
       }
     },
     {
-      "nodeId": "175",
+      "nodeId": "178",
       "ignored": false,
       "role": "link",
       "name": "Sustainability link opens in new tab or window",
-      "backendDOMNodeId": 175,
+      "backendDOMNodeId": 178,
       "domNodeId": "544",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"544\"]",
       "tagName": "a",
       "childIds": [
-        "176"
+        "179"
       ],
       "properties": {
         "focusable": true,
@@ -4939,16 +4939,16 @@
       }
     },
     {
-      "nodeId": "178",
+      "nodeId": "181",
       "ignored": false,
       "role": "link",
       "name": "Careers link opens in new tab or window",
-      "backendDOMNodeId": 178,
+      "backendDOMNodeId": 181,
       "domNodeId": "546",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"546\"]",
       "tagName": "a",
       "childIds": [
-        "179"
+        "182"
       ],
       "properties": {
         "focusable": true,
@@ -4956,16 +4956,16 @@
       }
     },
     {
-      "nodeId": "181",
+      "nodeId": "184",
       "ignored": false,
       "role": "link",
       "name": "Google Blog link opens in new tab or window",
-      "backendDOMNodeId": 181,
+      "backendDOMNodeId": 184,
       "domNodeId": "548",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"548\"]",
       "tagName": "a",
       "childIds": [
-        "182"
+        "185"
       ],
       "properties": {
         "focusable": true,
@@ -4973,16 +4973,16 @@
       }
     },
     {
-      "nodeId": "184",
+      "nodeId": "187",
       "ignored": false,
       "role": "link",
       "name": "Google.org link opens in new tab or window",
-      "backendDOMNodeId": 184,
+      "backendDOMNodeId": 187,
       "domNodeId": "550",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"550\"]",
       "tagName": "a",
       "childIds": [
-        "185"
+        "188"
       ],
       "properties": {
         "focusable": true,
@@ -4990,25 +4990,25 @@
       }
     },
     {
-      "nodeId": "-1000001227",
+      "nodeId": "-1000001224",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "About Google"
     },
     {
-      "nodeId": "-1000001228",
+      "nodeId": "-1000001225",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Google products"
     },
     {
-      "nodeId": "-1000001229",
+      "nodeId": "-1000001226",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Privacy"
     },
     {
-      "nodeId": "-1000001230",
+      "nodeId": "-1000001227",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Terms"
@@ -5020,11 +5020,11 @@
       "name": "07:43"
     },
     {
-      "nodeId": "52",
+      "nodeId": "55",
       "ignored": false,
       "role": "link",
       "name": "Contact the Disability Support team Connect with a specialist for support on Accessibility Features, How Things Work, and Assistive Technology.    Get support",
-      "backendDOMNodeId": 52,
+      "backendDOMNodeId": 55,
       "domNodeId": "324",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"324\"]",
       "tagName": "a",
@@ -5037,11 +5037,11 @@
       }
     },
     {
-      "nodeId": "59",
+      "nodeId": "62",
       "ignored": false,
       "role": "link",
       "name": "Join the Build for All Panel Get involved in the product creation process by sharing your perspective. Help us create better experiences for everyone by joining the Build for All Panel. Available in the U.S., U.K., Japan, Brazil, India, and Germany. Join the panel",
-      "backendDOMNodeId": 59,
+      "backendDOMNodeId": 62,
       "domNodeId": "332",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"332\"]",
       "tagName": "a",
@@ -5054,11 +5054,11 @@
       }
     },
     {
-      "nodeId": "66",
+      "nodeId": "69",
       "ignored": false,
       "role": "link",
       "name": "Become an Accessibility User Research Panelist Want to test our products to ensure they are fully accessible? Join our Accessibility User Research Panel. Available in the U.S., Canada, and U.K. Join the program",
-      "backendDOMNodeId": 66,
+      "backendDOMNodeId": 69,
       "domNodeId": "340",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"340\"]",
       "tagName": "a",
@@ -5071,11 +5071,11 @@
       }
     },
     {
-      "nodeId": "77",
+      "nodeId": "80",
       "ignored": false,
       "role": "link",
       "name": "Explore the Education site",
-      "backendDOMNodeId": 77,
+      "backendDOMNodeId": 80,
       "domNodeId": "361",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"361\"]",
       "tagName": "a",
@@ -5088,11 +5088,11 @@
       }
     },
     {
-      "nodeId": "84",
+      "nodeId": "87",
       "ignored": false,
       "role": "link",
       "name": "Explore the Help site",
-      "backendDOMNodeId": 84,
+      "backendDOMNodeId": 87,
       "domNodeId": "377",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"377\"]",
       "tagName": "a",
@@ -5105,11 +5105,11 @@
       }
     },
     {
-      "nodeId": "91",
+      "nodeId": "94",
       "ignored": false,
       "role": "link",
       "name": "Explore the Android site",
-      "backendDOMNodeId": 91,
+      "backendDOMNodeId": 94,
       "domNodeId": "393",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"393\"]",
       "tagName": "a",
@@ -5122,11 +5122,11 @@
       }
     },
     {
-      "nodeId": "99",
+      "nodeId": "102",
       "ignored": false,
       "role": "link",
       "name": "Explore the Cloud site",
-      "backendDOMNodeId": 99,
+      "backendDOMNodeId": 102,
       "domNodeId": "409",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"409\"]",
       "tagName": "a",
@@ -5139,11 +5139,11 @@
       }
     },
     {
-      "nodeId": "107",
+      "nodeId": "110",
       "ignored": false,
       "role": "link",
       "name": "Explore the NAI site",
-      "backendDOMNodeId": 107,
+      "backendDOMNodeId": 110,
       "domNodeId": "425",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"425\"]",
       "tagName": "a",
@@ -5156,11 +5156,11 @@
       }
     },
     {
-      "nodeId": "115",
+      "nodeId": "118",
       "ignored": false,
       "role": "link",
       "name": "Explore the ACR site",
-      "backendDOMNodeId": 115,
+      "backendDOMNodeId": 118,
       "domNodeId": "441",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"441\"]",
       "tagName": "a",
@@ -5197,87 +5197,87 @@
       ]
     },
     {
-      "nodeId": "137",
+      "nodeId": "140",
       "ignored": false,
       "role": "StaticText",
       "name": "Subscribe",
-      "backendDOMNodeId": 137,
+      "backendDOMNodeId": 140,
       "childIds": [
         "-1000000127"
       ]
     },
     {
-      "nodeId": "-1000001225",
+      "nodeId": "-1000001222",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Google's Privacy Policy"
     },
     {
-      "nodeId": "167",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "Learning",
-      "backendDOMNodeId": 167,
-      "childIds": [
-        "-1000000156"
-      ]
-    },
-    {
       "nodeId": "170",
       "ignored": false,
       "role": "StaticText",
-      "name": "Safety Center",
+      "name": "Learning",
       "backendDOMNodeId": 170,
       "childIds": [
-        "-1000000157"
+        "-1000000156"
       ]
     },
     {
       "nodeId": "173",
       "ignored": false,
       "role": "StaticText",
-      "name": "Crisis Response",
+      "name": "Safety Center",
       "backendDOMNodeId": 173,
       "childIds": [
-        "-1000000158"
+        "-1000000157"
       ]
     },
     {
       "nodeId": "176",
       "ignored": false,
       "role": "StaticText",
-      "name": "Sustainability",
+      "name": "Crisis Response",
       "backendDOMNodeId": 176,
       "childIds": [
-        "-1000000159"
+        "-1000000158"
       ]
     },
     {
       "nodeId": "179",
       "ignored": false,
       "role": "StaticText",
-      "name": "Careers",
+      "name": "Sustainability",
       "backendDOMNodeId": 179,
       "childIds": [
-        "-1000000160"
+        "-1000000159"
       ]
     },
     {
       "nodeId": "182",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google Blog",
+      "name": "Careers",
       "backendDOMNodeId": 182,
       "childIds": [
-        "-1000000161"
+        "-1000000160"
       ]
     },
     {
       "nodeId": "185",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google.org",
+      "name": "Google Blog",
       "backendDOMNodeId": 185,
+      "childIds": [
+        "-1000000161"
+      ]
+    },
+    {
+      "nodeId": "188",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Google.org",
+      "backendDOMNodeId": 188,
       "childIds": [
         "-1000000162"
       ]
@@ -5514,8 +5514,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"326\"]",
       "tagName": "div",
       "childIds": [
-        "53",
-        "55",
+        "56",
+        "58",
         "588"
       ],
       "ignoredReasons": [
@@ -5526,29 +5526,29 @@
       ]
     },
     {
-      "nodeId": "53",
+      "nodeId": "56",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 53,
+      "backendDOMNodeId": 56,
       "domNodeId": "327",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"327\"]",
       "tagName": "p",
       "childIds": [
-        "54"
+        "57"
       ]
     },
     {
-      "nodeId": "55",
+      "nodeId": "58",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 55,
+      "backendDOMNodeId": 58,
       "domNodeId": "328",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"328\"]",
       "tagName": "p",
       "childIds": [
-        "56"
+        "59"
       ]
     },
     {
@@ -5580,7 +5580,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"330\"]",
       "tagName": "span",
       "childIds": [
-        "57"
+        "60"
       ],
       "properties": {
         "focusable": true
@@ -5596,8 +5596,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"334\"]",
       "tagName": "div",
       "childIds": [
-        "60",
-        "62",
+        "63",
+        "65",
         "592"
       ],
       "ignoredReasons": [
@@ -5608,29 +5608,29 @@
       ]
     },
     {
-      "nodeId": "60",
+      "nodeId": "63",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 60,
+      "backendDOMNodeId": 63,
       "domNodeId": "335",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"335\"]",
       "tagName": "p",
       "childIds": [
-        "61"
+        "64"
       ]
     },
     {
-      "nodeId": "62",
+      "nodeId": "65",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 62,
+      "backendDOMNodeId": 65,
       "domNodeId": "336",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"336\"]",
       "tagName": "p",
       "childIds": [
-        "63"
+        "66"
       ]
     },
     {
@@ -5662,7 +5662,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"338\"]",
       "tagName": "span",
       "childIds": [
-        "64"
+        "67"
       ],
       "properties": {
         "focusable": true
@@ -5678,8 +5678,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"342\"]",
       "tagName": "div",
       "childIds": [
-        "67",
-        "69",
+        "70",
+        "72",
         "596"
       ],
       "ignoredReasons": [
@@ -5690,29 +5690,29 @@
       ]
     },
     {
-      "nodeId": "67",
+      "nodeId": "70",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 67,
+      "backendDOMNodeId": 70,
       "domNodeId": "343",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"343\"]",
       "tagName": "p",
       "childIds": [
-        "68"
+        "71"
       ]
     },
     {
-      "nodeId": "69",
+      "nodeId": "72",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 69,
+      "backendDOMNodeId": 72,
       "domNodeId": "344",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"344\"]",
       "tagName": "p",
       "childIds": [
-        "70"
+        "73"
       ]
     },
     {
@@ -5744,7 +5744,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"346\"]",
       "tagName": "span",
       "childIds": [
-        "71"
+        "74"
       ],
       "properties": {
         "focusable": true
@@ -5760,8 +5760,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"371\"]",
       "tagName": "div",
       "childIds": [
-        "78",
-        "80",
+        "81",
+        "83",
         "617"
       ],
       "ignoredReasons": [
@@ -5772,29 +5772,29 @@
       ]
     },
     {
-      "nodeId": "78",
+      "nodeId": "81",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 78,
+      "backendDOMNodeId": 81,
       "domNodeId": "372",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"372\"]",
       "tagName": "p",
       "childIds": [
-        "79"
+        "82"
       ]
     },
     {
-      "nodeId": "80",
+      "nodeId": "83",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 80,
+      "backendDOMNodeId": 83,
       "domNodeId": "373",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"373\"]",
       "tagName": "p",
       "childIds": [
-        "81"
+        "84"
       ]
     },
     {
@@ -5826,7 +5826,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"375\"]",
       "tagName": "span",
       "childIds": [
-        "82"
+        "85"
       ],
       "properties": {
         "focusable": true
@@ -5842,8 +5842,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"387\"]",
       "tagName": "div",
       "childIds": [
-        "85",
-        "87",
+        "88",
+        "90",
         "628"
       ],
       "ignoredReasons": [
@@ -5854,29 +5854,29 @@
       ]
     },
     {
-      "nodeId": "85",
+      "nodeId": "88",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 85,
+      "backendDOMNodeId": 88,
       "domNodeId": "388",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"388\"]",
       "tagName": "p",
       "childIds": [
-        "86"
+        "89"
       ]
     },
     {
-      "nodeId": "87",
+      "nodeId": "90",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 87,
+      "backendDOMNodeId": 90,
       "domNodeId": "389",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"389\"]",
       "tagName": "p",
       "childIds": [
-        "88"
+        "91"
       ]
     },
     {
@@ -5908,7 +5908,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"391\"]",
       "tagName": "span",
       "childIds": [
-        "89"
+        "92"
       ],
       "properties": {
         "focusable": true
@@ -5924,8 +5924,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"403\"]",
       "tagName": "div",
       "childIds": [
-        "93",
-        "95",
+        "96",
+        "98",
         "639"
       ],
       "ignoredReasons": [
@@ -5936,29 +5936,29 @@
       ]
     },
     {
-      "nodeId": "93",
+      "nodeId": "96",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 93,
+      "backendDOMNodeId": 96,
       "domNodeId": "404",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"404\"]",
       "tagName": "p",
       "childIds": [
-        "94"
+        "97"
       ]
     },
     {
-      "nodeId": "95",
+      "nodeId": "98",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 95,
+      "backendDOMNodeId": 98,
       "domNodeId": "405",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"405\"]",
       "tagName": "p",
       "childIds": [
-        "96"
+        "99"
       ]
     },
     {
@@ -5990,7 +5990,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"407\"]",
       "tagName": "span",
       "childIds": [
-        "97"
+        "100"
       ],
       "properties": {
         "focusable": true
@@ -6006,8 +6006,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"419\"]",
       "tagName": "div",
       "childIds": [
-        "101",
-        "103",
+        "104",
+        "106",
         "650"
       ],
       "ignoredReasons": [
@@ -6018,29 +6018,29 @@
       ]
     },
     {
-      "nodeId": "101",
+      "nodeId": "104",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 101,
+      "backendDOMNodeId": 104,
       "domNodeId": "420",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"420\"]",
       "tagName": "p",
       "childIds": [
-        "102"
+        "105"
       ]
     },
     {
-      "nodeId": "103",
+      "nodeId": "106",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 103,
+      "backendDOMNodeId": 106,
       "domNodeId": "421",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"421\"]",
       "tagName": "p",
       "childIds": [
-        "104"
+        "107"
       ]
     },
     {
@@ -6072,7 +6072,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"423\"]",
       "tagName": "span",
       "childIds": [
-        "105"
+        "108"
       ],
       "properties": {
         "focusable": true
@@ -6088,8 +6088,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"435\"]",
       "tagName": "div",
       "childIds": [
-        "109",
-        "111",
+        "112",
+        "114",
         "661"
       ],
       "ignoredReasons": [
@@ -6100,29 +6100,29 @@
       ]
     },
     {
-      "nodeId": "109",
+      "nodeId": "112",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 109,
+      "backendDOMNodeId": 112,
       "domNodeId": "436",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"436\"]",
       "tagName": "p",
       "childIds": [
-        "110"
+        "113"
       ]
     },
     {
-      "nodeId": "111",
+      "nodeId": "114",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 111,
+      "backendDOMNodeId": 114,
       "domNodeId": "437",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"437\"]",
       "tagName": "p",
       "childIds": [
-        "112"
+        "115"
       ]
     },
     {
@@ -6154,7 +6154,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"439\"]",
       "tagName": "span",
       "childIds": [
-        "113"
+        "116"
       ],
       "properties": {
         "focusable": true
@@ -6170,8 +6170,8 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"451\"]",
       "tagName": "div",
       "childIds": [
-        "117",
-        "119",
+        "120",
+        "122",
         "672"
       ],
       "ignoredReasons": [
@@ -6182,29 +6182,29 @@
       ]
     },
     {
-      "nodeId": "117",
+      "nodeId": "120",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 117,
+      "backendDOMNodeId": 120,
       "domNodeId": "452",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"452\"]",
       "tagName": "p",
       "childIds": [
-        "118"
+        "121"
       ]
     },
     {
-      "nodeId": "119",
+      "nodeId": "122",
       "ignored": false,
       "role": "paragraph",
       "name": "",
-      "backendDOMNodeId": 119,
+      "backendDOMNodeId": 122,
       "domNodeId": "453",
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"453\"]",
       "tagName": "p",
       "childIds": [
-        "120"
+        "123"
       ]
     },
     {
@@ -6236,7 +6236,7 @@
       "renderedHtmlSelector": "[data-sr-dom-node-id=\"455\"]",
       "tagName": "span",
       "childIds": [
-        "121"
+        "124"
       ],
       "properties": {
         "focusable": true
@@ -6315,7 +6315,7 @@
       "name": "",
       "backendDOMNodeId": 728,
       "childIds": [
-        "7"
+        "10"
       ],
       "ignoredReasons": [
         {
@@ -6325,14 +6325,14 @@
       ]
     },
     {
-      "nodeId": "7",
+      "nodeId": "10",
       "ignored": false,
       "role": "textbox",
       "name": "email",
-      "backendDOMNodeId": 7,
+      "backendDOMNodeId": 10,
       "childIds": [
         "729",
-        "135"
+        "138"
       ],
       "properties": {
         "invalid": "false",
@@ -6358,316 +6358,316 @@
       ]
     },
     {
-      "nodeId": "54",
+      "nodeId": "57",
       "ignored": false,
       "role": "StaticText",
       "name": "Contact the Disability Support team",
-      "backendDOMNodeId": 54,
+      "backendDOMNodeId": 57,
       "childIds": [
+        "-1000001151"
+      ]
+    },
+    {
+      "nodeId": "59",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Connect with a specialist for support on Accessibility Features, How Things Work, and Assistive Technology.   ",
+      "backendDOMNodeId": 59,
+      "childIds": [
+        "-1000001152",
+        "-1000001153",
         "-1000001154"
       ]
     },
     {
-      "nodeId": "56",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "Connect with a specialist for support on Accessibility Features, How Things Work, and Assistive Technology.   ",
-      "backendDOMNodeId": 56,
-      "childIds": [
-        "-1000001155",
-        "-1000001156",
-        "-1000001157"
-      ]
-    },
-    {
-      "nodeId": "57",
+      "nodeId": "60",
       "ignored": false,
       "role": "StaticText",
       "name": "Get support",
-      "backendDOMNodeId": 57,
+      "backendDOMNodeId": 60,
       "childIds": [
-        "-1000001158"
-      ]
-    },
-    {
-      "nodeId": "61",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "Join the Build for All Panel",
-      "backendDOMNodeId": 61,
-      "childIds": [
-        "-1000001159"
-      ]
-    },
-    {
-      "nodeId": "63",
-      "ignored": false,
-      "role": "StaticText",
-      "name": "Get involved in the product creation process by sharing your perspective. Help us create better experiences for everyone by joining the Build for All Panel. Available in the U.S., U.K., Japan, Brazil, India, and Germany.",
-      "backendDOMNodeId": 63,
-      "childIds": [
-        "-1000001160",
-        "-1000001161",
-        "-1000001162",
-        "-1000001163",
-        "-1000001164"
+        "-1000001155"
       ]
     },
     {
       "nodeId": "64",
       "ignored": false,
       "role": "StaticText",
-      "name": "Join the panel",
+      "name": "Join the Build for All Panel",
       "backendDOMNodeId": 64,
       "childIds": [
-        "-1000001165"
+        "-1000001156"
       ]
     },
     {
-      "nodeId": "68",
+      "nodeId": "66",
       "ignored": false,
       "role": "StaticText",
-      "name": "Become an Accessibility User Research Panelist",
-      "backendDOMNodeId": 68,
+      "name": "Get involved in the product creation process by sharing your perspective. Help us create better experiences for everyone by joining the Build for All Panel. Available in the U.S., U.K., Japan, Brazil, India, and Germany.",
+      "backendDOMNodeId": 66,
       "childIds": [
-        "-1000001166",
-        "-1000001167"
+        "-1000001157",
+        "-1000001158",
+        "-1000001159",
+        "-1000001160",
+        "-1000001161"
       ]
     },
     {
-      "nodeId": "70",
+      "nodeId": "67",
       "ignored": false,
       "role": "StaticText",
-      "name": "Want to test our products to ensure they are fully accessible? Join our Accessibility User Research Panel. Available in the U.S., Canada, and U.K.",
-      "backendDOMNodeId": 70,
+      "name": "Join the panel",
+      "backendDOMNodeId": 67,
       "childIds": [
-        "-1000001168",
-        "-1000001169",
-        "-1000001170"
+        "-1000001162"
       ]
     },
     {
       "nodeId": "71",
       "ignored": false,
       "role": "StaticText",
-      "name": "Join the program",
+      "name": "Become an Accessibility User Research Panelist",
       "backendDOMNodeId": 71,
       "childIds": [
-        "-1000001171"
+        "-1000001163",
+        "-1000001164"
       ]
     },
     {
-      "nodeId": "79",
+      "nodeId": "73",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google for Education Accessibility Website",
-      "backendDOMNodeId": 79,
+      "name": "Want to test our products to ensure they are fully accessible? Join our Accessibility User Research Panel. Available in the U.S., Canada, and U.K.",
+      "backendDOMNodeId": 73,
       "childIds": [
-        "-1000001172",
-        "-1000001173"
+        "-1000001165",
+        "-1000001166",
+        "-1000001167"
       ]
     },
     {
-      "nodeId": "81",
+      "nodeId": "74",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google for Education helps students and educators customize their learning tools and create more inclusive learning environments so they can study, teach, and collaborate with confidence. With accessibility features built directly into Chromebooks and the collaborative power of Google Workspace for Education, educators can create tailored learning experiences for every student.",
-      "backendDOMNodeId": 81,
+      "name": "Join the program",
+      "backendDOMNodeId": 74,
       "childIds": [
-        "-1000001174",
-        "-1000001175",
-        "-1000001176",
-        "-1000001177",
-        "-1000001178",
-        "-1000001179",
-        "-1000001180",
-        "-1000001181",
-        "-1000001182"
+        "-1000001168"
       ]
     },
     {
       "nodeId": "82",
       "ignored": false,
       "role": "StaticText",
-      "name": "Explore the Education site",
+      "name": "Google for Education Accessibility Website",
       "backendDOMNodeId": 82,
       "childIds": [
-        "-1000001183"
+        "-1000001169",
+        "-1000001170"
       ]
     },
     {
-      "nodeId": "86",
+      "nodeId": "84",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google Accessibility Help and Community",
-      "backendDOMNodeId": 86,
+      "name": "Google for Education helps students and educators customize their learning tools and create more inclusive learning environments so they can study, teach, and collaborate with confidence. With accessibility features built directly into Chromebooks and the collaborative power of Google Workspace for Education, educators can create tailored learning experiences for every student.",
+      "backendDOMNodeId": 84,
       "childIds": [
-        "-1000001184",
-        "-1000001185"
+        "-1000001171",
+        "-1000001172",
+        "-1000001173",
+        "-1000001174",
+        "-1000001175",
+        "-1000001176",
+        "-1000001177",
+        "-1000001178",
+        "-1000001179"
       ]
     },
     {
-      "nodeId": "88",
+      "nodeId": "85",
       "ignored": false,
       "role": "StaticText",
-      "name": "Find documentation and troubleshooting for using assistive technology with Google products and get support from the Community.     ",
-      "backendDOMNodeId": 88,
+      "name": "Explore the Education site",
+      "backendDOMNodeId": 85,
       "childIds": [
-        "-1000001186",
-        "-1000001187",
-        "-1000001188"
+        "-1000001180"
       ]
     },
     {
       "nodeId": "89",
       "ignored": false,
       "role": "StaticText",
-      "name": "Explore the Help site",
+      "name": "Google Accessibility Help and Community",
       "backendDOMNodeId": 89,
       "childIds": [
-        "-1000001189"
+        "-1000001181",
+        "-1000001182"
       ]
     },
     {
-      "nodeId": "94",
+      "nodeId": "91",
       "ignored": false,
       "role": "StaticText",
-      "name": "Android Accessibility Website",
-      "backendDOMNodeId": 94,
+      "name": "Find documentation and troubleshooting for using assistive technology with Google products and get support from the Community.     ",
+      "backendDOMNodeId": 91,
       "childIds": [
-        "-1000001190"
+        "-1000001183",
+        "-1000001184",
+        "-1000001185"
       ]
     },
     {
-      "nodeId": "96",
+      "nodeId": "92",
       "ignored": false,
       "role": "StaticText",
-      "name": "Built with and for people with disabilities. Android’s accessibility features help you engage with your world, your way. Have conversations, get work done, be entertained, tick off daily tasks, and so much more.     ",
-      "backendDOMNodeId": 96,
+      "name": "Explore the Help site",
+      "backendDOMNodeId": 92,
       "childIds": [
-        "-1000001191",
-        "-1000001192",
-        "-1000001193",
-        "-1000001194",
-        "-1000001195"
+        "-1000001186"
       ]
     },
     {
       "nodeId": "97",
       "ignored": false,
       "role": "StaticText",
-      "name": "Explore the Android site",
+      "name": "Android Accessibility Website",
       "backendDOMNodeId": 97,
       "childIds": [
-        "-1000001196"
+        "-1000001187"
       ]
     },
     {
-      "nodeId": "102",
+      "nodeId": "99",
       "ignored": false,
       "role": "StaticText",
-      "name": "Cloud Accessibility Website",
-      "backendDOMNodeId": 102,
+      "name": "Built with and for people with disabilities. Android’s accessibility features help you engage with your world, your way. Have conversations, get work done, be entertained, tick off daily tasks, and so much more.     ",
+      "backendDOMNodeId": 99,
       "childIds": [
-        "-1000001197"
+        "-1000001188",
+        "-1000001189",
+        "-1000001190",
+        "-1000001191",
+        "-1000001192"
       ]
     },
     {
-      "nodeId": "104",
+      "nodeId": "100",
       "ignored": false,
       "role": "StaticText",
-      "name": "Built with and for people with disabilities, Google Cloud is committed to creating a more accessible enterprise experience. This site serves as a central hub for Google Cloud’s accessibility resources to empower all users — including the global community of 1 billion people with disabilities.    ",
-      "backendDOMNodeId": 104,
+      "name": "Explore the Android site",
+      "backendDOMNodeId": 100,
       "childIds": [
-        "-1000001198",
-        "-1000001199",
-        "-1000001200",
-        "-1000001201",
-        "-1000001202",
-        "-1000001203"
+        "-1000001193"
       ]
     },
     {
       "nodeId": "105",
       "ignored": false,
       "role": "StaticText",
-      "name": "Explore the Cloud site",
+      "name": "Cloud Accessibility Website",
       "backendDOMNodeId": 105,
       "childIds": [
-        "-1000001204"
+        "-1000001194"
       ]
     },
     {
-      "nodeId": "110",
+      "nodeId": "107",
       "ignored": false,
       "role": "StaticText",
-      "name": "Natively Adaptive Interfaces (NAI) Website",
-      "backendDOMNodeId": 110,
+      "name": "Built with and for people with disabilities, Google Cloud is committed to creating a more accessible enterprise experience. This site serves as a central hub for Google Cloud’s accessibility resources to empower all users — including the global community of 1 billion people with disabilities.    ",
+      "backendDOMNodeId": 107,
       "childIds": [
-        "-1000001205",
-        "-1000001206"
+        "-1000001195",
+        "-1000001196",
+        "-1000001197",
+        "-1000001198",
+        "-1000001199",
+        "-1000001200"
       ]
     },
     {
-      "nodeId": "112",
+      "nodeId": "108",
       "ignored": false,
       "role": "StaticText",
-      "name": "The Natively Adaptive Interfaces (NAI) research framework prioritizes user-centered design, embedding accessibility within multimodal AI tools to create interfaces that adapt to a wide range of user abilities and contexts.    ",
-      "backendDOMNodeId": 112,
+      "name": "Explore the Cloud site",
+      "backendDOMNodeId": 108,
       "childIds": [
-        "-1000001207",
-        "-1000001208",
-        "-1000001209",
-        "-1000001210",
-        "-1000001211"
+        "-1000001201"
       ]
     },
     {
       "nodeId": "113",
       "ignored": false,
       "role": "StaticText",
-      "name": "Explore the NAI site",
+      "name": "Natively Adaptive Interfaces (NAI) Website",
       "backendDOMNodeId": 113,
       "childIds": [
-        "-1000001212"
+        "-1000001202",
+        "-1000001203"
       ]
     },
     {
-      "nodeId": "118",
+      "nodeId": "115",
       "ignored": false,
       "role": "StaticText",
-      "name": "Google Accessibility Conformance Reports",
-      "backendDOMNodeId": 118,
+      "name": "The Natively Adaptive Interfaces (NAI) research framework prioritizes user-centered design, embedding accessibility within multimodal AI tools to create interfaces that adapt to a wide range of user abilities and contexts.    ",
+      "backendDOMNodeId": 115,
       "childIds": [
-        "-1000001213",
-        "-1000001214"
+        "-1000001204",
+        "-1000001205",
+        "-1000001206",
+        "-1000001207",
+        "-1000001208"
       ]
     },
     {
-      "nodeId": "120",
+      "nodeId": "116",
       "ignored": false,
       "role": "StaticText",
-      "name": "To make it easier for companies, educational institutions, and government agencies to verify alignment with accessibility standards, we provide transparent reports about how our products currently work for people with disabilities. We offer the following English-language Accessibility Conformance Reports (ACR) based on the ITI Voluntary Product Accessibility Template (VPAT®).",
-      "backendDOMNodeId": 120,
+      "name": "Explore the NAI site",
+      "backendDOMNodeId": 116,
       "childIds": [
-        "-1000001215",
-        "-1000001216",
-        "-1000001217",
-        "-1000001218",
-        "-1000001219",
-        "-1000001220",
-        "-1000001221",
-        "-1000001222"
+        "-1000001209"
       ]
     },
     {
       "nodeId": "121",
       "ignored": false,
       "role": "StaticText",
-      "name": "Explore the ACR site",
+      "name": "Google Accessibility Conformance Reports",
       "backendDOMNodeId": 121,
       "childIds": [
-        "-1000001223"
+        "-1000001210",
+        "-1000001211"
+      ]
+    },
+    {
+      "nodeId": "123",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "To make it easier for companies, educational institutions, and government agencies to verify alignment with accessibility standards, we provide transparent reports about how our products currently work for people with disabilities. We offer the following English-language Accessibility Conformance Reports (ACR) based on the ITI Voluntary Product Accessibility Template (VPAT®).",
+      "backendDOMNodeId": 123,
+      "childIds": [
+        "-1000001212",
+        "-1000001213",
+        "-1000001214",
+        "-1000001215",
+        "-1000001216",
+        "-1000001217",
+        "-1000001218",
+        "-1000001219"
+      ]
+    },
+    {
+      "nodeId": "124",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Explore the ACR site",
+      "backendDOMNodeId": 124,
+      "childIds": [
+        "-1000001220"
       ]
     },
     {
@@ -6677,7 +6677,7 @@
       "name": "",
       "backendDOMNodeId": 721,
       "childIds": [
-        "133"
+        "136"
       ]
     },
     {
@@ -6688,447 +6688,447 @@
       "backendDOMNodeId": 729
     },
     {
-      "nodeId": "135",
+      "nodeId": "138",
       "ignored": false,
       "role": "generic",
       "name": "",
-      "backendDOMNodeId": 135,
+      "backendDOMNodeId": 138,
       "properties": {
         "editable": "plaintext"
       }
     },
     {
-      "nodeId": "-1000001154",
+      "nodeId": "-1000001151",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Contact the Disability Support team"
     },
     {
-      "nodeId": "-1000001155",
+      "nodeId": "-1000001152",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Connect with a specialist for support on "
     },
     {
-      "nodeId": "-1000001156",
+      "nodeId": "-1000001153",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Accessibility Features, How Things Work, and "
     },
     {
-      "nodeId": "-1000001157",
+      "nodeId": "-1000001154",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Assistive Technology.   "
     },
     {
-      "nodeId": "-1000001158",
+      "nodeId": "-1000001155",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Get support"
     },
     {
-      "nodeId": "-1000001159",
+      "nodeId": "-1000001156",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Join the Build for All Panel"
     },
     {
-      "nodeId": "-1000001160",
+      "nodeId": "-1000001157",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Get involved in the product creation process by "
     },
     {
-      "nodeId": "-1000001161",
+      "nodeId": "-1000001158",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "sharing your perspective. Help us create better "
     },
     {
-      "nodeId": "-1000001162",
+      "nodeId": "-1000001159",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "experiences for everyone by joining the Build for "
     },
     {
-      "nodeId": "-1000001163",
+      "nodeId": "-1000001160",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "All Panel. Available in the U.S., U.K., Japan, Brazil, "
     },
     {
-      "nodeId": "-1000001164",
+      "nodeId": "-1000001161",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "India, and Germany."
     },
     {
-      "nodeId": "-1000001165",
+      "nodeId": "-1000001162",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Join the panel"
     },
     {
-      "nodeId": "-1000001166",
+      "nodeId": "-1000001163",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Become an Accessibility User Research "
     },
     {
-      "nodeId": "-1000001167",
+      "nodeId": "-1000001164",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Panelist"
     },
     {
-      "nodeId": "-1000001168",
+      "nodeId": "-1000001165",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Want to test our products to ensure they are fully "
     },
     {
-      "nodeId": "-1000001169",
+      "nodeId": "-1000001166",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "accessible? Join our Accessibility User Research "
     },
     {
-      "nodeId": "-1000001170",
+      "nodeId": "-1000001167",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Panel. Available in the U.S., Canada, and U.K."
     },
     {
-      "nodeId": "-1000001171",
+      "nodeId": "-1000001168",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Join the program"
     },
     {
-      "nodeId": "-1000001172",
+      "nodeId": "-1000001169",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Google for Education Accessibility "
     },
     {
-      "nodeId": "-1000001173",
+      "nodeId": "-1000001170",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Website"
     },
     {
-      "nodeId": "-1000001174",
+      "nodeId": "-1000001171",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Google for Education helps students and "
     },
     {
-      "nodeId": "-1000001175",
+      "nodeId": "-1000001172",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "educators customize their learning tools and "
     },
     {
-      "nodeId": "-1000001176",
+      "nodeId": "-1000001173",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "create more inclusive learning environments so "
     },
     {
-      "nodeId": "-1000001177",
+      "nodeId": "-1000001174",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "they can study, teach, and collaborate with "
     },
     {
-      "nodeId": "-1000001178",
+      "nodeId": "-1000001175",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "confidence. With accessibility features built "
     },
     {
-      "nodeId": "-1000001179",
+      "nodeId": "-1000001176",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "directly into Chromebooks and the collaborative "
     },
     {
-      "nodeId": "-1000001180",
+      "nodeId": "-1000001177",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "power of Google Workspace for Education, "
     },
     {
-      "nodeId": "-1000001181",
+      "nodeId": "-1000001178",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "educators can create tailored learning experiences "
     },
     {
-      "nodeId": "-1000001182",
+      "nodeId": "-1000001179",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "for every student."
     },
     {
-      "nodeId": "-1000001183",
+      "nodeId": "-1000001180",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Explore the Education site"
     },
     {
-      "nodeId": "-1000001184",
+      "nodeId": "-1000001181",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Google Accessibility Help and "
     },
     {
-      "nodeId": "-1000001185",
+      "nodeId": "-1000001182",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Community"
     },
     {
-      "nodeId": "-1000001186",
+      "nodeId": "-1000001183",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Find documentation and troubleshooting for using "
     },
     {
-      "nodeId": "-1000001187",
+      "nodeId": "-1000001184",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "assistive technology with Google products and get "
     },
     {
-      "nodeId": "-1000001188",
+      "nodeId": "-1000001185",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "support from the Community.     "
     },
     {
-      "nodeId": "-1000001189",
+      "nodeId": "-1000001186",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Explore the Help site"
     },
     {
-      "nodeId": "-1000001190",
+      "nodeId": "-1000001187",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Android Accessibility Website"
     },
     {
-      "nodeId": "-1000001191",
+      "nodeId": "-1000001188",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Built with and for people with disabilities. Android’s "
     },
     {
-      "nodeId": "-1000001192",
+      "nodeId": "-1000001189",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "accessibility features help you engage with your "
     },
     {
-      "nodeId": "-1000001193",
+      "nodeId": "-1000001190",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "world, your way. Have conversations, get work "
     },
     {
-      "nodeId": "-1000001194",
+      "nodeId": "-1000001191",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "done, be entertained, tick off daily tasks, and so "
     },
     {
-      "nodeId": "-1000001195",
+      "nodeId": "-1000001192",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "much more.     "
     },
     {
-      "nodeId": "-1000001196",
+      "nodeId": "-1000001193",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Explore the Android site"
     },
     {
-      "nodeId": "-1000001197",
+      "nodeId": "-1000001194",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Cloud Accessibility Website"
     },
     {
-      "nodeId": "-1000001198",
+      "nodeId": "-1000001195",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Built with and for people with disabilities, Google "
     },
     {
-      "nodeId": "-1000001199",
+      "nodeId": "-1000001196",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Cloud is committed to creating a more accessible "
     },
     {
-      "nodeId": "-1000001200",
+      "nodeId": "-1000001197",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "enterprise experience. This site serves as a central "
     },
     {
-      "nodeId": "-1000001201",
+      "nodeId": "-1000001198",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "hub for Google Cloud’s accessibility resources to "
     },
     {
-      "nodeId": "-1000001202",
+      "nodeId": "-1000001199",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "empower all users — including the global "
     },
     {
-      "nodeId": "-1000001203",
+      "nodeId": "-1000001200",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "community of 1 billion people with disabilities.    "
     },
     {
-      "nodeId": "-1000001204",
+      "nodeId": "-1000001201",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Explore the Cloud site"
     },
     {
-      "nodeId": "-1000001205",
+      "nodeId": "-1000001202",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Natively Adaptive Interfaces (NAI) "
     },
     {
-      "nodeId": "-1000001206",
+      "nodeId": "-1000001203",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Website"
     },
     {
-      "nodeId": "-1000001207",
+      "nodeId": "-1000001204",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "The Natively Adaptive Interfaces (NAI) research "
     },
     {
-      "nodeId": "-1000001208",
+      "nodeId": "-1000001205",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "framework prioritizes user-centered design, "
     },
     {
-      "nodeId": "-1000001209",
+      "nodeId": "-1000001206",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "embedding accessibility within multimodal AI tools "
     },
     {
-      "nodeId": "-1000001210",
+      "nodeId": "-1000001207",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "to create interfaces that adapt to a wide range of "
     },
     {
-      "nodeId": "-1000001211",
+      "nodeId": "-1000001208",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "user abilities and contexts.    "
     },
     {
-      "nodeId": "-1000001212",
+      "nodeId": "-1000001209",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Explore the NAI site"
     },
     {
-      "nodeId": "-1000001213",
+      "nodeId": "-1000001210",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Google Accessibility Conformance "
     },
     {
-      "nodeId": "-1000001214",
+      "nodeId": "-1000001211",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Reports"
     },
     {
-      "nodeId": "-1000001215",
+      "nodeId": "-1000001212",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "To make it easier for companies, educational "
     },
     {
-      "nodeId": "-1000001216",
+      "nodeId": "-1000001213",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "institutions, and government agencies to verify "
     },
     {
-      "nodeId": "-1000001217",
+      "nodeId": "-1000001214",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "alignment with accessibility standards, we provide "
     },
     {
-      "nodeId": "-1000001218",
+      "nodeId": "-1000001215",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "transparent reports about how our products "
     },
     {
-      "nodeId": "-1000001219",
+      "nodeId": "-1000001216",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "currently work for people with disabilities. We offer "
     },
     {
-      "nodeId": "-1000001220",
+      "nodeId": "-1000001217",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "the following English-language Accessibility "
     },
     {
-      "nodeId": "-1000001221",
+      "nodeId": "-1000001218",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Conformance Reports (ACR) based on the ITI "
     },
     {
-      "nodeId": "-1000001222",
+      "nodeId": "-1000001219",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Voluntary Product Accessibility Template (VPAT®)."
     },
     {
-      "nodeId": "-1000001223",
+      "nodeId": "-1000001220",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Explore the ACR site"
     },
     {
-      "nodeId": "133",
+      "nodeId": "136",
       "ignored": false,
       "role": "StaticText",
       "name": "Your email*",
-      "backendDOMNodeId": 133,
+      "backendDOMNodeId": 136,
       "childIds": [
-        "-1000000690"
+        "-1000000687"
       ]
     },
     {
-      "nodeId": "-1000000690",
+      "nodeId": "-1000000687",
       "ignored": false,
       "role": "InlineTextBox",
       "name": "Your email*"

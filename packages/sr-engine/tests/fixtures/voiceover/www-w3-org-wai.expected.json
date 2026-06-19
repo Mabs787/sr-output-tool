@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "www-w3-org-wai",
   "url": "https://www.w3.org/WAI/",
-  "sourceRunId": "27784643970",
+  "sourceRunId": "27794063976",
   "html": "www-w3-org-wai.html",
   "accessibilityTree": "www-w3-org-wai.ax.json",
   "expectedAnnouncements": [
@@ -79,7 +79,7 @@
     "(2026-Feb-05)",
     "link, Cognitive Accessibility Research Modules",
     "are available as first Draft Notes. The documents cover research on accessibility for people with cognitive and learning disabilities for",
-    "iLilido. ak 1A190 X link, Voice Systems and Conversational Interfaces",
+    "-iLilido. ad 1A1D0 X link, Voice Systems and Conversational Interfaces",
     "link, Technology Assisted Indoor Navigation/Wayfinding",
     "aililido.. × link, Online Safety and Wellbeing (Algorithms and Data)",
     ", and",
@@ -213,6 +213,7 @@
     "link, Permission to Use WAI Material",
     "end of, Site, footer"
   ],
+  "skipCorpusReason": "Skipped for corpus gating: Contains 2 severe OCR/caption artifact(s) requiring manual refinement.",
   "scan": {
     "stopReason": "scan-end-marker",
     "capturedSteps": 223
@@ -234,13 +235,36 @@
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json."
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
   ],
   "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-set1-27784643970/voiceover-scan-www-w3-org-wai/scans/www-w3-org-wai/refinement-manifest.json",
+    "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-www-w3-org-wai/scans/www-w3-org-wai/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "Skip Link and Language Selector, navigation",
       "lastVoiceOverAnnouncement": "end of, Site, footer"
     }
+  },
+  "sanitization": {
+    "status": "needs-manual-refinement",
+    "changedAnnouncementCount": 0,
+    "warningCount": 0,
+    "severeIssueCount": 2,
+    "warnings": [],
+    "severeIssues": [
+      {
+        "index": 73,
+        "announcement": "-iLilido. ad 1A1D0 X link, Voice Systems and Conversational Interfaces"
+      },
+      {
+        "index": 77,
+        "announcement": "-iL:L1A1C × link, Supported Decision-Making Online"
+      }
+    ],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
+    ]
   }
 }

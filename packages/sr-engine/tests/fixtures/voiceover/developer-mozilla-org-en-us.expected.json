@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "name": "developer-mozilla-org-en-us",
   "url": "https://developer.mozilla.org/en-US/",
-  "sourceRunId": "27784643970",
+  "sourceRunId": "27794063976",
   "html": "developer-mozilla-org-en-us.html",
   "accessibilityTree": "developer-mozilla-org-en-us.ax.json",
   "expectedAnnouncements": [
     "list 2 items",
-    "link, Skip to main content, 1 of 2",
+    "Skip to main content, link",
     "link, Skip to search, 2 of 2",
     "end of list",
     "link, Retool Top Bar Enterprise apps that are fun to build and safe to use Start building for free",
@@ -25,7 +25,7 @@
     "Switch color theme, collapsed, button",
     "English (US), collapsed, button",
     "end of, banner",
-    "heading level 1 Resources for Developers, by Developers , 3 items",
+    "heading level 1 Resources for Developers, by Developers -, 3 items",
     "Documenting",
     "link, CSS",
     "link, HTML",
@@ -90,7 +90,7 @@
     "list 10 items",
     "link, mdn/translated-content (external), 1 of 10",
     "1 day ago",
-    "link, chore(fr): translation of 'Learn_web_development/ Core/Styling_basics/Home_color_scheme_search' (external)",
+    "link, chore(fr): translation of 'Learn_web_development/ Core/Styling_basics/Home_color_scheme_search\" (external)",
     "link, mdn/translated-content (external), 2 of 10",
     "1 day ago",
     "link, chore(fr): sync latest ff152 changes in notes (external)",
@@ -103,7 +103,7 @@
     "link, mdn/translated-content (external), 5 of 10",
     "10 hours ago",
     "Х línk, [2} $*$·06·™Č™™æ™… жL.£·#Ł™®©ŒŒKM3Жœ#≤ì (external)",
-    "(external)",
+    "link, mdn/translated-content (external), 6 of 10",
     "10 hours ago",
     "link, Games/Techniques/3D_on_the_web/ Building_up_a_basic_demo_with_A-Frame ФJЕЖT (external)",
     "link, mdn/translated-content (external), 7 of 10",
@@ -159,7 +159,7 @@
     "end of definition list",
     ", definition list 2 items",
     "Developers, empty term, (1 of 2), 1 of 2",
-    "list 6 items, level 2 2 of 2",
+    "list 6 items, level 22 of 2",
     "link, Web technologies, 1 of 6",
     "link, Learn web development, 2 of 6",
     "link, Guides, 3 of 6",
@@ -179,6 +179,7 @@
     "link, a Creative Commons license",
     "end of, footer"
   ],
+  "skipCorpusReason": "Skipped for corpus gating: Contains 3 severe OCR/caption artifact(s) requiring manual refinement. VoiceOver captured dynamic advertising content that is absent from rendered HTML.",
   "scan": {
     "stopReason": "scan-end-marker",
     "capturedSteps": 176
@@ -201,21 +202,39 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "Skipped for corpus gating: captured VoiceOver includes Retool ad/OCR announcements that are absent from rendered-html.html.",
-    "Recapture this page with rendered HTML and VoiceOver output from the same ad/cookie state before using it as a regression gate."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
   ],
   "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-set1-27784643970/voiceover-scan-developer-mozilla-org-en-us/scans/developer-mozilla-org-en-us/refinement-manifest.json",
+    "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-developer-mozilla-org-en-us/scans/developer-mozilla-org-en-us/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "list 2 items",
       "lastVoiceOverAnnouncement": "end of, footer"
     }
   },
-  "skipCorpusReason": "Skipped for corpus gating: captured VoiceOver includes Retool ad/OCR announcements that are absent from rendered-html.html.",
-  "refinement": {
-    "status": "needs-recapture",
-    "rawAnnouncementCount": 172,
-    "updatedAt": "2026-06-18",
-    "reviewedBy": "codex"
+  "sanitization": {
+    "status": "needs-manual-refinement",
+    "changedAnnouncementCount": 0,
+    "warningCount": 0,
+    "severeIssueCount": 3,
+    "warnings": [],
+    "severeIssues": [
+      {
+        "index": 96,
+        "announcement": "Х línk, [2} $*$·06·™Č™™æ™… жL.£·#Ł™®©ŒŒKM3Жœ#≤ì (external)"
+      },
+      {
+        "index": 99,
+        "announcement": "link, Games/Techniques/3D_on_the_web/ Building_up_a_basic_demo_with_A-Frame ФJЕЖT (external)"
+      },
+      {
+        "index": 102,
+        "announcement": "Хlink, 2025/2/6 (external)"
+      }
+    ],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
+    ]
   }
 }

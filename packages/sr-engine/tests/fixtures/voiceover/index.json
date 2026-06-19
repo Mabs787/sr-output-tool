@@ -1,115 +1,136 @@
 {
   "schemaVersion": 1,
-  "sourceRunId": "27784643970",
-  "importedAt": "2026-06-18T21:16:06.967Z",
+  "sourceRunId": "27794063976",
+  "importedAt": "2026-06-19T08:36:49.247Z",
   "cases": [
     {
       "name": "developer-mozilla-org-en-us-docs-web-html",
       "expected": "developer-mozilla-org-en-us-docs-web-html.expected.json",
       "html": "developer-mozilla-org-en-us-docs-web-html.html",
       "accessibilityTree": "developer-mozilla-org-en-us-docs-web-html.ax.json",
-      "voiceOverAnnouncementCount": 326
+      "voiceOverAnnouncementCount": 352,
+      "sanitizationStatus": "needs-manual-refinement"
     },
     {
       "name": "developer-mozilla-org-en-us",
       "expected": "developer-mozilla-org-en-us.expected.json",
       "html": "developer-mozilla-org-en-us.html",
       "accessibilityTree": "developer-mozilla-org-en-us.ax.json",
-      "voiceOverAnnouncementCount": 172
+      "voiceOverAnnouncementCount": 172,
+      "sanitizationStatus": "needs-manual-refinement"
     },
     {
       "name": "web-dev",
       "expected": "web-dev.expected.json",
       "html": "web-dev.html",
       "accessibilityTree": "web-dev.ax.json",
-      "voiceOverAnnouncementCount": 177
+      "voiceOverAnnouncementCount": 175,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-apple-com-accessibility",
       "expected": "www-apple-com-accessibility.expected.json",
       "html": "www-apple-com-accessibility.html",
       "accessibilityTree": "www-apple-com-accessibility.ax.json",
-      "voiceOverAnnouncementCount": 378
+      "voiceOverAnnouncementCount": 374,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-bbc-co-uk-news",
       "expected": "www-bbc-co-uk-news.expected.json",
       "html": "www-bbc-co-uk-news.html",
       "accessibilityTree": "www-bbc-co-uk-news.ax.json",
-      "voiceOverAnnouncementCount": 134
+      "voiceOverAnnouncementCount": 189,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-bbc-co-uk-weather",
       "expected": "www-bbc-co-uk-weather.expected.json",
       "html": "www-bbc-co-uk-weather.html",
       "accessibilityTree": "www-bbc-co-uk-weather.ax.json",
-      "voiceOverAnnouncementCount": 188
+      "voiceOverAnnouncementCount": 188,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-google-com-accessibility",
       "expected": "www-google-com-accessibility.expected.json",
       "html": "www-google-com-accessibility.html",
       "accessibilityTree": "www-google-com-accessibility.ax.json",
-      "voiceOverAnnouncementCount": 78
+      "voiceOverAnnouncementCount": 79,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-gov-uk-apply-blue-badge",
       "expected": "www-gov-uk-apply-blue-badge.expected.json",
       "html": "www-gov-uk-apply-blue-badge.html",
       "accessibilityTree": "www-gov-uk-apply-blue-badge.ax.json",
-      "voiceOverAnnouncementCount": 131
+      "voiceOverAnnouncementCount": 131,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-gov-uk",
       "expected": "www-gov-uk.expected.json",
       "html": "www-gov-uk.html",
       "accessibilityTree": "www-gov-uk.ax.json",
-      "voiceOverAnnouncementCount": 157
+      "voiceOverAnnouncementCount": 156,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-microsoft-com-en-us-accessibility",
       "expected": "www-microsoft-com-en-us-accessibility.expected.json",
       "html": "www-microsoft-com-en-us-accessibility.html",
       "accessibilityTree": "www-microsoft-com-en-us-accessibility.ax.json",
-      "voiceOverAnnouncementCount": 191
+      "voiceOverAnnouncementCount": 191,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-nhs-uk-conditions",
+      "expected": "www-nhs-uk-conditions.expected.json",
+      "html": "www-nhs-uk-conditions.html",
+      "accessibilityTree": "www-nhs-uk-conditions.ax.json",
+      "voiceOverAnnouncementCount": 1040,
+      "sanitizationStatus": "needs-manual-refinement"
     },
     {
       "name": "www-nhs-uk",
       "expected": "www-nhs-uk.expected.json",
       "html": "www-nhs-uk.html",
       "accessibilityTree": "www-nhs-uk.ax.json",
-      "voiceOverAnnouncementCount": 110
+      "voiceOverAnnouncementCount": 110,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-w3-org-wai-standards-guidelines-wcag",
       "expected": "www-w3-org-wai-standards-guidelines-wcag.expected.json",
       "html": "www-w3-org-wai-standards-guidelines-wcag.html",
       "accessibilityTree": "www-w3-org-wai-standards-guidelines-wcag.ax.json",
-      "voiceOverAnnouncementCount": 321
+      "voiceOverAnnouncementCount": 319,
+      "sanitizationStatus": "sanitized"
     },
     {
       "name": "www-w3-org-wai",
       "expected": "www-w3-org-wai.expected.json",
       "html": "www-w3-org-wai.html",
       "accessibilityTree": "www-w3-org-wai.ax.json",
-      "voiceOverAnnouncementCount": 206
+      "voiceOverAnnouncementCount": 206,
+      "sanitizationStatus": "needs-manual-refinement"
     },
     {
       "name": "www-wikipedia-org",
       "expected": "www-wikipedia-org.expected.json",
       "html": "www-wikipedia-org.html",
       "accessibilityTree": "www-wikipedia-org.ax.json",
-      "voiceOverAnnouncementCount": 56
+      "voiceOverAnnouncementCount": 57,
+      "sanitizationStatus": "sanitized"
     }
   ],
   "skipped": [],
-  "refinement": {
-    "status": "partially-refined",
-    "updatedAt": "2026-06-18",
-    "reviewedBy": "codex",
+  "sanitization": {
+    "status": "import-sanitized",
     "notes": [
-      "Raw expectedAnnouncements are preserved in each fixture. Tests prefer refinedAnnouncements when present.",
-      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until recaptured."
+      "Raw expectedAnnouncements are preserved in each fixture.",
+      "Tests prefer refinedAnnouncements when present.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
   }
 }

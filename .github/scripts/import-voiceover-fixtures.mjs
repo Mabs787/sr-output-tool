@@ -85,6 +85,133 @@ function resolveManifestFile(scanDir, manifest, key) {
   return relativePath ? path.join(scanDir, relativePath) : "";
 }
 
+function sanitizeAnnouncement(announcement) {
+  return String(announcement || "")
+    .replace(/^link, inside of web content, (.+) link$/i, "link, $1")
+    .replace(/^Chrome, Wikipedia - Google Chrome, window, link, /, "link, ")
+    .replace(/^I banner$/, "banner")
+    .replace(/^I (?=heading level \d+\b)/, "")
+    .replace(/^I 6 days ago$/, "6 days ago")
+    .replace(/^AII BBC destinations menu\b/, "All BBC destinations menu")
+    .replace(/\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/g, "AI ")
+    .replace(/\bfor responsible Al\b/g, "for responsible AI")
+    .replace(/\bAl Skills\b/g, "AI Skills")
+    .replace(/\bAl and accessibility\b/g, "AI and accessibility")
+    .replace(/\bAl skilling\b/g, "AI skilling")
+    .replace(/^Products , menu pop up collapsed, button$/, "Products, menu pop up collapsed, button")
+    .replace(/^All Microsoft , menu pop up collapsed, button$/, "All Microsoft, menu pop up collapsed, button")
+    .replace(/^More B, menu pop up collapsed, button$/, "More, menu pop up collapsed, button")
+    .replace(/^, endof list$/, "end of list");
+}
+
+function findSanitizationIssues(announcements) {
+  const severePatterns = [
+    /[ХЖ≤™ŒŁФ]/,
+    /-iL/i,
+    /^[-:]*1l/i,
+    /^AIIIA\b/,
+  ];
+  const warningPatterns = [
+    /^AII\b/,
+    /\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/,
+    /^I (?=(banner|heading level \d+|6 days ago)\b)/,
+    /^Chrome, .+ Google Chrome, window,/,
+    /^link, inside of web content,/,
+    /^Products ,/,
+    /^All Microsoft ,/,
+    /^More B,/,
+  ];
+
+  const severe = [];
+  const warnings = [];
+  for (const [index, announcement] of announcements.entries()) {
+    if (severePatterns.some((pattern) => pattern.test(announcement))) {
+      severe.push({ index, announcement });
+    } else if (warningPatterns.some((pattern) => pattern.test(announcement))) {
+      warnings.push({ index, announcement });
+    }
+  }
+
+  return {
+    severe,
+    warnings,
+  };
+}
+
+function createSanitizedOutput({
+  announcements,
+  manifest,
+  scanDebug,
+  stepSnapshotsPath,
+  renderedHtml,
+}) {
+  const refinedAnnouncements = announcements.map(sanitizeAnnouncement);
+  const changedCount = refinedAnnouncements.filter(
+    (announcement, index) => announcement !== announcements[index],
+  ).length;
+  const issues = findSanitizationIssues(announcements);
+  const skipReasons = [];
+
+  if (manifest.scan?.stopReason !== "scan-end-marker") {
+    skipReasons.push(
+      `Scan stop reason was ${manifest.scan?.stopReason || "unknown"}.`,
+    );
+  }
+  if (!announcements.length) {
+    skipReasons.push("VoiceOver output is empty.");
+  }
+  if (!stepSnapshotsPath || !existsSync(stepSnapshotsPath)) {
+    skipReasons.push("Missing step-snapshots.json diagnostics.");
+  }
+  if (issues.severe.length) {
+    skipReasons.push(
+      `Contains ${issues.severe.length} severe OCR/caption artifact(s) requiring manual refinement.`,
+    );
+  }
+  if ((manifest.stats?.reducedHtml?.reducedLength || 0) < 1000) {
+    skipReasons.push("Rendered HTML is empty or too small to be a useful fixture.");
+  }
+  if (
+    scanDebug.output?.htmlSource === "chrome-rendered-dom" &&
+    scanDebug.setup?.sourceHtmlCapture?.ok === false
+  ) {
+    skipReasons.push("Rendered HTML capture failed.");
+  }
+  if (
+    announcements.some((announcement) =>
+      /Mechanize is hiring|^link, AD$|Don['’]t want to see ads/i.test(
+        announcement,
+      ),
+    ) &&
+    !/Mechanize is hiring|>\s*AD\s*<|Don['’]t want to see ads/i.test(renderedHtml)
+  ) {
+    skipReasons.push(
+      "VoiceOver captured dynamic advertising content that is absent from rendered HTML.",
+    );
+  }
+
+  return {
+    refinedAnnouncements:
+      changedCount > 0 ? refinedAnnouncements : undefined,
+    skipCorpusReason: skipReasons.length
+      ? `Skipped for corpus gating: ${skipReasons.join(" ")}`
+      : "",
+    sanitization: {
+      status: skipReasons.length ? "needs-manual-refinement" : "sanitized",
+      changedAnnouncementCount: changedCount,
+      warningCount: issues.warnings.length,
+      severeIssueCount: issues.severe.length,
+      warnings: issues.warnings.slice(0, 20),
+      severeIssues: issues.severe.slice(0, 20),
+      notes: [
+        "Raw expectedAnnouncements are preserved.",
+        "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+        "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
+      ],
+    },
+  };
+}
+
 function prepareOutputDir(outputDir, force) {
   if (existsSync(outputDir)) {
     if (!force) {
@@ -110,6 +237,7 @@ function importFixture({ manifestPath, outputDir, runId }) {
     "accessibilityTree",
   );
   const scanDebugPath = resolveManifestFile(scanDir, manifest, "scanDebug");
+  const stepSnapshotsPath = resolveManifestFile(scanDir, manifest, "stepSnapshots");
   const requiredFiles = [
     voiceOverPath,
     renderedHtmlPath,
@@ -139,6 +267,14 @@ function importFixture({ manifestPath, outputDir, runId }) {
   const voiceOver = readJson(voiceOverPath);
   const accessibilityTree = readJson(accessibilityTreePath);
   const scanDebug = readJson(scanDebugPath);
+  const renderedHtml = readFileSync(renderedHtmlPath, "utf8");
+  const sanitized = createSanitizedOutput({
+    announcements: voiceOver.announcements || [],
+    manifest,
+    scanDebug,
+    stepSnapshotsPath,
+    renderedHtml,
+  });
   const htmlFileName = `${name}.html`;
   const axFileName = `${name}.ax.json`;
   const expectedFileName = `${name}.expected.json`;
@@ -153,6 +289,12 @@ function importFixture({ manifestPath, outputDir, runId }) {
     html: htmlFileName,
     accessibilityTree: axFileName,
     expectedAnnouncements: voiceOver.announcements || [],
+    ...(sanitized.refinedAnnouncements
+      ? { refinedAnnouncements: sanitized.refinedAnnouncements }
+      : {}),
+    ...(sanitized.skipCorpusReason
+      ? { skipCorpusReason: sanitized.skipCorpusReason }
+      : {}),
     scan: {
       stopReason: manifest.scan?.stopReason || "",
       capturedSteps: manifest.scan?.capturedSteps || 0,
@@ -171,6 +313,7 @@ function importFixture({ manifestPath, outputDir, runId }) {
         lastVoiceOverAnnouncement: scanDebug.output?.lastVoiceOverAnnouncement || "",
       },
     },
+    sanitization: sanitized.sanitization,
   });
 
   return {
@@ -180,6 +323,7 @@ function importFixture({ manifestPath, outputDir, runId }) {
     html: htmlFileName,
     accessibilityTree: axFileName,
     count: voiceOver.announcements?.length || 0,
+    sanitizedStatus: sanitized.sanitization.status,
   };
 }
 
@@ -229,8 +373,17 @@ function main() {
       html: result.html,
       accessibilityTree: result.accessibilityTree,
       voiceOverAnnouncementCount: result.count,
+      sanitizationStatus: result.sanitizedStatus,
     })),
     skipped,
+    sanitization: {
+      status: "import-sanitized",
+      notes: [
+        "Raw expectedAnnouncements are preserved in each fixture.",
+        "Tests prefer refinedAnnouncements when present.",
+        "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
+      ],
+    },
   });
 
   console.log(

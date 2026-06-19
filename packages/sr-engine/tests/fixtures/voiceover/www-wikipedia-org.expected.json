@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "www-wikipedia-org",
   "url": "https://www.wikipedia.org/",
-  "sourceRunId": "27784643970",
+  "sourceRunId": "27794063976",
   "html": "www-wikipedia-org.html",
   "accessibilityTree": "www-wikipedia-org.ax.json",
   "expectedAnnouncements": [
@@ -10,7 +10,7 @@
     "heading level 1 Wikipedia The Free Encyclopedia, 2 items",
     "Top languages, navigation",
     "link, English 7,189,000+ articles",
-    "English - Wikipedia - The Free Encyclopedia, You are currently on a link. To click this link, press Control- Option-Space.",
+    "Chrome, Wikipedia - Google Chrome, window, link, English 7,189,000+ articles",
     "link, Deutsch 3.125.000+ Artikel",
     "link, Русский 2 103 000+ статей",
     "link, Français 2761000+ articles",
@@ -18,9 +18,69 @@
     "link, ** 1,537,000+ *E/1*E",
     "link, Italiano 1.971.000+ voci",
     "link, Polski 1 696 000+ haset",
-    "Polski - Wikipedia - Wolna encyklopedia, You are currently on a link. To click this link, press Control- Option-Space.",
-    "end of, Top languages, navigation",
+    "link, Português 1.173.000+ artigos",
+    "link, Português 1.173.000+ artigos",
     "search",
+    "Search Wikipedia",
+    "Search Wikipedia, search text field",
+    "EN",
+    "English, EN, menu pop up collapsed, button",
+    "group",
+    "group",
+    "Search, button, group",
+    "•end of, search",
+    "All languages, navigation",
+    "Read Wikipedia in your language, collapsed, button, group",
+    "end of, All languages, navigation",
+    "horizontal splitter",
+    "end of, main",
+    "footer",
+    "Wikipedia is hosted by the Wikimedia Foundation, a non-profit organization that also hosts a range of other projects.",
+    "link, You can support our work with a donation.",
+    "link, Download Wikipedia for Android or ioS",
+    "Save your favorite articles to read offline, sync your reading lists across devices and customize your reading experience with the official Wikipedia app.",
+    "list 2 items",
+    "link, Google Play Store, 1 of 2",
+    "link, Apple App Store, 2 of 2",
+    "end of list",
+    "Other projects, navigation",
+    "link, Commons Free media collection",
+    "link, Wikivoyage Free travel guide",
+    "link, Wiktionary Free dictionary",
+    "link, Wikibooks Free textbooks",
+    "link, Wikidata Free knowledge base",
+    "link, Wikiversity Free learning resources",
+    "link, Wikiquote Free quote compendium",
+    "link, MediaWiki Free & open wiki software",
+    "link, Wikisource Free content library",
+    "link, Wikispecies Free species directory",
+    "link, Wikifunctions Free function library",
+    "link, Meta-Wiki Community coordination & documentation",
+    "end of, Other projects, navigation",
+    "horizontal splitter",
+    "This page is available under the",
+    "link, Creative Commons Attribution-ShareAlike License",
+    "link, Terms of Use",
+    "link, Privacy Policy",
+    "end of, footer"
+  ],
+  "refinedAnnouncements": [
+    "main",
+    "heading level 1 Wikipedia The Free Encyclopedia, 2 items",
+    "Top languages, navigation",
+    "link, English 7,189,000+ articles",
+    "link, English 7,189,000+ articles",
+    "link, Deutsch 3.125.000+ Artikel",
+    "link, Русский 2 103 000+ статей",
+    "link, Français 2761000+ articles",
+    "link, Español 2.116.000+ artículos",
+    "link, ** 1,537,000+ *E/1*E",
+    "link, Italiano 1.971.000+ voci",
+    "link, Polski 1 696 000+ haset",
+    "link, Português 1.173.000+ artigos",
+    "link, Português 1.173.000+ artigos",
+    "search",
+    "Search Wikipedia",
     "Search Wikipedia, search text field",
     "EN",
     "English, EN, menu pop up collapsed, button",
@@ -68,7 +128,7 @@
     "capturedSteps": 61
   },
   "stats": {
-    "voiceOverAnnouncementCount": 56,
+    "voiceOverAnnouncementCount": 57,
     "reducedHtml": {
       "originalLength": 187233,
       "reducedLength": 97920,
@@ -84,13 +144,32 @@
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json."
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
   ],
   "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-set1-27784643970/voiceover-scan-www-wikipedia-org/scans/www-wikipedia-org/refinement-manifest.json",
+    "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-www-wikipedia-org/scans/www-wikipedia-org/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "main",
       "lastVoiceOverAnnouncement": "end of, footer"
     }
+  },
+  "sanitization": {
+    "status": "sanitized",
+    "changedAnnouncementCount": 1,
+    "warningCount": 1,
+    "severeIssueCount": 0,
+    "warnings": [
+      {
+        "index": 4,
+        "announcement": "Chrome, Wikipedia - Google Chrome, window, link, English 7,189,000+ articles"
+      }
+    ],
+    "severeIssues": [],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
+    ]
   }
 }
