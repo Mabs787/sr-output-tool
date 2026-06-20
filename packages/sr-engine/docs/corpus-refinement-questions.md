@@ -30,13 +30,18 @@ Already resolved:
 
 - Expected output should include `link, image, web.dev` after `banner`.
 - The skipped logo was capture loss, not expected VoiceOver behavior.
+- Rerun `27849923217` confirms VoiceOver announces:
+  `Appearance: Light theme, menu pop up, button`,
+  `Select your language preference., group`, and
+  `Language, menu pop up, button`.
+- The same rerun confirms final `rendered-html.html` still does not expose the
+  Appearance/Language controls, but step snapshots include live DOM/AX evidence
+  for them.
 
-Remaining question:
+Remaining action:
 
-1. The latest diagnostic evidence shows VoiceOver reads Appearance/Language
-   controls after the search combobox, but final rendered HTML does not expose
-   the same subtree. Should this fixture become `partial` around the reliable
-   header controls, or stay `candidate` until richer step-snapshot import exists?
+1. Promote a web.dev header partial only after the corpus can use step snapshot
+   DOM/AX evidence for controls missing from final HTML.
 
 ## www-apple-com-accessibility
 
@@ -64,22 +69,16 @@ Status: `partial`
 Already promoted:
 
 - Header through `main`, `article`, and the article h1 is an exact partial gate.
+- Rerun `27849923217` confirms the timestamp is present in live DOM/AX and
+  VoiceOver announces it before article actions.
+- Rerun `27849923217` confirms article actions are:
+  `Share, button, group` and `Save, button, group`.
 
-Next mismatch:
+Remaining action:
 
-```text
-expected: 22 hours ago
-actual:   Share, button
-
-expected after that: Share, button, group / Save, button, group
-actual after that:   Share, button / Save, button
-```
-
-Remaining question:
-
-1. Using nearest step snapshots, was the timestamp present in the live
-   accessibility tree at this point, and should the Share/Save buttons carry
-   the `group` suffix?
+1. Promote the BBC News article header/action slice once either the current
+   fixture is refreshed from the rerun or the existing fixture is corrected
+   with step-snapshot-backed expected output.
 
 ## www-bbc-co-uk-weather
 
@@ -172,11 +171,14 @@ Remaining question:
 
 Status: `candidate`
 
-Current unresolved area:
+Confirmed by rerun `27849923217`:
 
 ```text
-expected: Search Microsoft.com, button, group
-actual:   Search Microsoft.com, button
+Search Microsoft.com, button, group
+Featured stories and announcements slideshow: navigate using the slide tabs, slideshow
+Pause, selected, toggle button
+Previous B, button, group
+Next B, button, group
 ```
 
 Relevant HTML:
@@ -193,13 +195,13 @@ Already resolved:
 
 - `Pause, selected, toggle button` is now modeled for pressed toggle buttons.
 - The slideshow should use its accessible label plus `slideshow`.
+- The `B` in `Previous B` / `Next B` is confirmed in the live VoiceOver caption.
+- Header search and slideshow controls carry the `group` suffix in this fixture.
 
-Remaining questions:
+Remaining action:
 
-1. What DOM/AX condition causes this standalone search button to receive
-   `group`?
-2. Is this Microsoft-specific header behavior, or a general VoiceOver rule for
-   icon/search buttons?
+1. Implement or document a general `group` suffix rule for buttons inside
+   grouped/custom/header/slideshow controls. Do not special-case Microsoft.
 
 ## www-nhs-uk
 
@@ -272,14 +274,13 @@ Remaining question:
 
 Status: `candidate`
 
-Current unresolved area:
+Confirmed by rerun `27849923217`:
 
 ```text
-expected: heading level 1 Wikipedia The Free Encyclopedia, 2 items
-actual:   heading level 1, Wikipedia The Free Encyclopedia
-
-expected later: duplicate English top-language link
-actual later:   Japanese follows English
+heading level 1 Wikipedia The Free Encyclopedia, 2 items
+link, English 7,189,000+ articles
+English - Wikipedia - The Free Encyclopedia, You are currently on a link. To click this link, press Control- Option-Space.
+link, Deutsch 3.125.000+ Artikel
 ```
 
 Relevant HTML:
@@ -296,12 +297,20 @@ Relevant HTML:
 </nav>
 ```
 
-Remaining questions:
+Already resolved:
 
-1. What are the two items VoiceOver is counting in the h1?
-2. Is duplicate English in expected output a capture artifact?
-3. Should multilingual links follow rendered DOM order, starting English then
-   Japanese?
+- The extra English line is a VoiceOver help/title announcement after the
+  English link, not a duplicate English link.
+- Top-language traversal does not simply follow DOM order: Japanese is skipped
+  in this run even though DOM/AX includes it.
+- Chinese is present in the VoiceOver sequence but caption text is corrupted;
+  refine from DOM/AX as `中文 1,537,000+ 条目 / 條目`.
+- VoiceOver announces `end of, Top languages, navigation` before `search`.
+
+Remaining action:
+
+1. Implement the h1 item-count rule only if it can be generalized beyond the
+   Wikipedia logo heading. Otherwise keep it as refined fixture evidence.
 
 ## Cross-Fixture
 
