@@ -398,7 +398,7 @@
     },
     {
       "name": "services linked heading cards",
-      "reason": "Runs 27867338006 and 27873674442 agree on the start of the GOV.UK services card list. This slice gates the reusable linked-heading card phrasing without promoting the full page.",
+      "reason": "Runs 27867338006, 27873674442, and 27874509774 agree on the GOV.UK services card list. This slice gates reusable linked-heading card phrasing without promoting the full page; `Business and self-employed` uses rendered HTML/AX-supported spacing rather than the captured `self- employed` caption split.",
       "startAt": "heading level 2, Services and information",
       "expectedAnnouncements": [
         "heading level 2, Services and information",
@@ -408,7 +408,57 @@
         "heading level 3, level 2, link, Births, deaths, marriages and care, 2 of 16",
         "Parenting, civil partnerships, divorce and Lasting Power of Attorney",
         "heading level 3, level 2, link, Business and self-employed, 3 of 16",
-        "Tools and guidance for businesses"
+        "Tools and guidance for businesses",
+        "heading level 3, level 2, link, Childcare and parenting, 4 of 16",
+        "Includes giving birth, fostering, adopting, benefits for children, childcare and schools",
+        "heading level 3, level 2, link, Citizenship and living in the UK, 5 of 16",
+        "Voting, community participation, life in the UK, international projects",
+        "heading level 3, level 2, link, Crime, justice and the law, 6 of 16",
+        "Legal processes, courts and the police",
+        "heading level 3, level 2, link, Disabled people, 7 of 16",
+        "Includes carers, your rights, benefits and the Equality Act",
+        "heading level 3, level 2, link, Driving and transport, 8 of 16",
+        "Includes vehicle tax, MOT and driving licences",
+        "heading level 3, level 2, link, Education and learning, 9 of 16",
+        "Includes student loans, admissions and apprenticeships",
+        "heading level 3, level 2, link, Employing people, 10 of 16",
+        "Includes pay, contracts, hiring and redundancies",
+        "heading level 3, level 2, link, Environment and countryside, 11 of 16",
+        "Includes flooding, recycling, farming and wildlife",
+        "heading level 3, level 2, link, Housing and local services, 12 of 16",
+        "Owning or renting and council services",
+        "heading level 3, level 2, link, Money and tax, 13 of 16",
+        "Includes debt and Self Assessment",
+        "heading level 3, level 2, link, Passports, travel and living abroad, 14 of 16",
+        "Includes renewing passports and travel advice by country",
+        "heading level 3, level 2, link, Visas and immigration, 15 of 16",
+        "Apply to visit, work, study, settle or seek asylum in the UK",
+        "heading level 3, level 2, link, Working, jobs and pensions, 16 of 16",
+        "Includes holidays, finding a job and redundancy",
+        "end of list"
+      ]
+    },
+    {
+      "name": "government activity linked heading cards",
+      "reason": "Runs 27867338006, 27873674442, and 27874509774 agree on the GOV.UK government activity card list. This extends the reusable linked-heading card gate to a second six-item card list; the captured leading bullet before Research and statistics is treated as caption noise because rendered HTML and the accessibility tree do not support it.",
+      "startAt": "heading level 2, Government activity",
+      "expectedAnnouncements": [
+        "heading level 2, Government activity",
+        "Find out what the government is doing",
+        "list 6 items",
+        "heading level 3, level 2, link, Departments, 1 of 6",
+        "Departments, agencies and public bodies",
+        "heading level 3, level 2, link, News, 2 of 6",
+        "News stories, speeches, letters and notices",
+        "heading level 3, level 2, link, Guidance and regulation, 3 of 6",
+        "Detailed guidance, regulations and rules",
+        "heading level 3, level 2, link, Research and statistics, 4 of 6",
+        "Reports, analysis and official statistics",
+        "heading level 3, level 2, link, Policy papers and consultations, 5 of 6",
+        "Consultations and strategy",
+        "heading level 3, level 2, link, Transparency documents, 6 of 6",
+        "Data, Freedom of Information releases and corporate reports",
+        "end of list"
       ]
     }
   ]

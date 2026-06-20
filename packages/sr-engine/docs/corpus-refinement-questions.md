@@ -135,50 +135,40 @@ Remaining action:
 
 Status: `partial`
 
-Current unresolved area:
-
-```text
-expected: You have accepted additional cookies. You can
-actual:   You have accepted additional cookies. You can at any time.
-
-expected next: Hide cookie message, button
-actual next:   link, change your cookie settings
-```
-
-Relevant HTML:
-
-```html
-<p>
-  You have accepted additional cookies.
-  <span>
-    You can
-    <a href="/help/cookies">change your cookie settings</a>
-    at any time.
-  </span>
-</p>
-```
-
 Already resolved:
 
 - The first diagnostic announcement `Open System Settings, button` is startup
   noise.
-- Runs `27794063976` and `27864902217` omitted
+- Runs `27794063976`, `27864902217`, `27867338006`, `27873674442`, and
+  `27874509774` omitted
   `link, change your cookie settings` despite the link being present in rendered
   HTML.
-- Cookie banner through the homepage h1 is now an exact partial gate.
+- The inline-link cookie paragraph is now handled by reusable embedded-inline
+  link logic, not a GOV-specific rule.
+- The described-autocomplete search shape is now handled by reusable split
+  helper-text logic.
+- The linked-heading card phrasing is now handled by reusable heading-link
+  logic.
+- Cookie banner through the homepage main search is now an exact partial gate.
+- The full 16-item services card list is now an exact partial gate, using
+  rendered HTML/AX-supported `self-employed` spacing rather than the captured
+  `self- employed` caption split.
+- The 6-item government activity card list is now an exact partial gate, with
+  the captured leading bullet before `Research and statistics` treated as
+  caption noise.
 
 Remaining action:
 
-1. Decide whether the omitted cookie-settings link is a general inline-link
-   VoiceOver behavior or GOV-specific cookie-banner focus/caption behavior
-   before promoting deeper GOV.UK output.
-2. Reconcile the post-main search shape before promoting the GOV.UK main search
-   slice; VoiceOver announces separate label/group/helper-text steps while the
-   DOM engine currently emits one collapsed combobox announcement.
-3. Reconcile GOV.UK linked-card heading phrasing before full-page promotion; the
-   engine now traverses linked headings and card descriptions in order, but
-   VoiceOver captures these as `heading level 3, level 2, link, ...` while the
-   engine emits `heading level 3, link, ...`.
+1. Do not model the odd captured `heading level 2 space, level 1 Navigation
+   menu...` header caption until step snapshots prove it is real VoiceOver
+   behavior rather than OCR/caption noise.
+2. Consider footer promotion only after a focused pass resolves why the captured
+   footer `Government activity` list says `list 8 items` but starts at
+   `link, News, 2 of 8`, omitting `Departments, 1 of 8` even though rendered
+   HTML, the accessibility tree, and the engine all include it.
+3. Do not model the footer support heading as
+   `heading level 2 space, level 1 Support links...` unless step snapshots prove
+   that phrasing is real VoiceOver behavior rather than caption expansion noise.
 
 ## www-microsoft-com-en-us-accessibility
 
@@ -219,32 +209,29 @@ Remaining action:
 
 ## www-nhs-uk
 
-Status: `candidate`
+Status: `partial`
 
-Current unresolved area:
+Already resolved:
 
-```text
-expected: Change your cookie settings at any time using our
-actual:   Change your cookie settings at any time using our .
-```
+- The cookie paragraph/link split at the start is stable and preserved as
+  captured.
+- The described-autocomplete header search shape is now handled by reusable
+  split helper-text logic.
+- Account and primary navigation are now exact partial gates.
+- The homepage linked-heading card intro is now an exact partial gate.
+- Featured card linked-heading phrasing is confirmed by runs `27867338006`,
+  `27873674442`, and `27874509774`, but remains outside the active gate because
+  nearby body content still has repeated caption variability.
 
-Relevant HTML:
+Remaining action:
 
-```html
-<p>
-  Change your cookie settings at any time using our
-  <a href="/our-policies/choose-your-cookie-settings/">
-    cookie settings page
-  </a>.
-</p>
-```
-
-Remaining questions:
-
-1. Should text before a link strip punctuation if the punctuation belongs after
-   the link?
-2. Is this a general inline-text-with-link rule we should apply to GOV/NHS
-   cookie banners?
+1. Do not promote the exact helper text suffix until the caption truncation
+   around `Touch device users, explore by touch or...` is resolved or sanitized
+   with enough evidence.
+2. Treat the leading `•` before `end of, Primary navigation` as caption noise
+   unless step snapshots prove otherwise.
+3. Promote deeper body sections only after resolving the repeated truncation in
+   `Appointments and bookings at your GP surgery, 3 of`.
 
 ## www-w3-org-wai-standards-guidelines-wcag
 
