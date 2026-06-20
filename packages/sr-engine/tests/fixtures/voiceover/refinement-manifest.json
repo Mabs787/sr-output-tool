@@ -27,36 +27,36 @@
       "reason": "Global nav is promoted as an exact partial gate. User confirmed leading bullet markers are artifacts and diagnostic evidence supports the nested-list parent-position behavior; deeper Apple local nav/main/gallery output still needs full review before full-page gating."
     },
     "www-bbc-co-uk-news": {
-      "status": "partial",
-      "reason": "Header through article h1, timestamp, and article action controls is promoted as an exact partial gate. Later video/article body output still needs step-snapshot refinement before full-page gating."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
     "www-bbc-co-uk-weather": {
       "status": "partial",
       "reason": "Header through weather location search button is promoted as an exact partial gate. The opened search-panel content is confirmed by step snapshots but absent from final rendered HTML, so that deeper slice remains candidate-only."
     },
     "www-google-com-accessibility": {
-      "status": "candidate",
-      "reason": "Raw output appears truncated in long text and has leading caption marker artifacts around video/heading content."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
     "www-gov-uk-apply-blue-badge": {
-      "status": "candidate",
-      "reason": "Cookie banner start contains a stray group and link/text split mismatch that should be refined from rendered HTML/AX context."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
     "www-gov-uk": {
-      "status": "partial",
-      "reason": "Cookie banner through homepage main search and the first services card slice are promoted as exact partial gates. Repeat scans confirm the accepted-cookie banner omits the inline cookie-settings link, and reusable engine logic now covers described-autocomplete search and linked-heading card phrasing."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
     "www-microsoft-com-en-us-accessibility": {
-      "status": "partial",
-      "reason": "Header through slideshow pause control is promoted as an exact partial gate. Previous/Next controls include AX-only glyph text in VoiceOver output, and later traversal/coverage mismatches still need refinement before full-page gating."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
     "www-nhs-uk-conditions": {
-      "status": "skip",
-      "reason": "Severe OCR/caption artifacts; keep out of corpus gate until manually refined."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after manual HTML-backed OCR and truncation cleanup."
     },
     "www-nhs-uk": {
-      "status": "partial",
-      "reason": "Header search, account navigation, primary navigation, and the homepage linked-heading card intro are promoted as exact partial gates from repeated scans. Later body/footer variability remains candidate-only."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
     "www-w3-org-wai-standards-guidelines-wcag": {
       "status": "candidate",
@@ -67,8 +67,8 @@
       "reason": "Severe OCR/caption artifacts; keep out of corpus gate until manually refined."
     },
     "www-wikipedia-org": {
-      "status": "candidate",
-      "reason": "Useful multilingual/navigation fixture, but expected language order/duplicates and heading item count need refinement."
+      "status": "refined",
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     }
   }
 }

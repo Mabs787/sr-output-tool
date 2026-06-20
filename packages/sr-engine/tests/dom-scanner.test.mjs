@@ -145,3 +145,24 @@ test("scanSubtree splits described autocomplete search inputs", () => {
     ],
   );
 });
+
+test("scanSubtree traverses declarative shadow root controls", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <custom-appearance>
+        <template shadowrootmode="open">
+          <button type="button" aria-haspopup="menu" aria-label="Appearance: Light theme"></button>
+        </template>
+      </custom-appearance>
+      <custom-language>
+        <template shadowrootmode="open">
+          <button type="button" aria-haspopup="menu">Language</button>
+        </template>
+      </custom-language>
+    `),
+    [
+      "Appearance: Light theme, menu pop up button",
+      "Language, menu pop up button",
+    ],
+  );
+});

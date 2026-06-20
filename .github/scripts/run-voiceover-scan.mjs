@@ -2056,7 +2056,27 @@ async function captureRenderedSourceHtml(target) {
   }
 
   const html = await evaluateJavaScriptInChrome(
-    "document.documentElement.outerHTML",
+    [
+      "(() => {",
+      "function serializeNodeWithShadowRoots(node) {",
+      "  const clone = node.cloneNode(false);",
+      "  if (node.shadowRoot) {",
+      "    const template = document.createElement('template');",
+      "    template.setAttribute('shadowrootmode', node.shadowRoot.mode || 'open');",
+      "    for (const child of Array.from(node.shadowRoot.childNodes)) {",
+      "      template.content.appendChild(serializeNodeWithShadowRoots(child));",
+      "    }",
+      "    clone.appendChild(template);",
+      "  }",
+      "  for (const child of Array.from(node.childNodes)) {",
+      "    clone.appendChild(serializeNodeWithShadowRoots(child));",
+      "  }",
+      "  return clone;",
+      "}",
+      "const serialized = serializeNodeWithShadowRoots(document.documentElement);",
+      "return '<!doctype html>\\n' + serialized.outerHTML;",
+      "})()",
+    ].join(" "),
     30000,
   );
 
@@ -2343,8 +2363,23 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     "}",
     "function htmlSnippet(element) {",
     "  if (!element?.cloneNode) return '';",
-    "  const clone = element.cloneNode(true);",
-    "  clone.querySelectorAll?.('script, style, link, meta, noscript, template').forEach((node) => node.remove());",
+    "  function serializeNodeWithShadowRoots(node) {",
+    "    const clone = node.cloneNode(false);",
+    "    if (node.shadowRoot) {",
+    "      const template = document.createElement('template');",
+    "      template.setAttribute('shadowrootmode', node.shadowRoot.mode || 'open');",
+    "      for (const child of Array.from(node.shadowRoot.childNodes)) {",
+    "        template.content.appendChild(serializeNodeWithShadowRoots(child));",
+    "      }",
+    "      clone.appendChild(template);",
+    "    }",
+    "    for (const child of Array.from(node.childNodes)) {",
+    "      clone.appendChild(serializeNodeWithShadowRoots(child));",
+    "    }",
+    "    return clone;",
+    "  }",
+    "  const clone = serializeNodeWithShadowRoots(element);",
+    "  clone.querySelectorAll?.('script, style, link, meta, noscript, template:not([shadowrootmode])').forEach((node) => node.remove());",
     "  clone.querySelectorAll?.('svg').forEach((svg) => {",
     "    const label = svg.getAttribute('aria-label') || svg.querySelector('title')?.textContent || '';",
     "    svg.textContent = '';",
@@ -2575,6 +2610,10 @@ function shouldKeepAttribute(attribute, element, referencedIds) {
     return true;
   }
 
+  if (element.tagName === "TEMPLATE" && name === "shadowrootmode") {
+    return true;
+  }
+
   return [
     "alt",
     "checked",
@@ -2666,7 +2705,7 @@ function reduceHtmlForRefinement(sourceHtml, target) {
   const referencedIds = getReferencedIds(document);
 
   document
-    .querySelectorAll("script, style, link, meta, noscript, template")
+    .querySelectorAll("script, style, link, meta, noscript, template:not([shadowrootmode])")
     .forEach((element) => element.remove());
 
   document.querySelectorAll("svg").forEach((element) => {

@@ -240,6 +240,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (el.disabled) {
         parts.push("dimmed");
       }
+      if (el.current) {
+        parts.push(el.current === true ? "current item" : `current ${el.current}`);
+      }
       if (popupType && el.expanded !== undefined) {
         parts.push(popupType);
         parts.push(el.expanded ? "expanded" : "collapsed");
@@ -260,9 +263,6 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       } else {
         parts.push("link");
         pushIfPresent(parts, label);
-      }
-      if (el.current) {
-        parts.push(el.current === true ? "current" : `current ${el.current}`);
       }
       pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
