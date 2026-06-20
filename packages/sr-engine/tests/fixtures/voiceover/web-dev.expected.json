@@ -145,7 +145,7 @@
     "Get the latest news, techniques and updates straight to your inbox.",
     "web.dev, frame",
     "end of, article",
-    "> end of, main",
+    "end of, main",
     "Footer links, navigation",
     "list 4 items",
     "list 1 item, level 21 of 4",
@@ -176,11 +176,11 @@
     "list 2 items",
     "link, Terms, 1 of 2",
     "link, Privacy, 2 of 2",
-    "• end of list",
+    "end of list",
     "Select your language preference., group",
     "Language, menu pop up, button",
     "end of, Select your language preference., group",
-    "• end of, Utility links, navigation"
+    "end of, Utility links, navigation"
   ],
   "refinedAnnouncements": [
     "link, Skip to main content",
@@ -323,7 +323,7 @@
     "Get the latest news, techniques and updates straight to your inbox.",
     "web.dev, frame",
     "end of, article",
-    "> end of, main",
+    "end of, main",
     "Footer links, navigation",
     "list 4 items",
     "list 1 item, level 21 of 4",
@@ -354,11 +354,11 @@
     "list 2 items",
     "link, Terms, 1 of 2",
     "link, Privacy, 2 of 2",
-    "• end of list",
+    "end of list",
     "Select your language preference., group",
     "Language, menu pop up, button",
     "end of, Select your language preference., group",
-    "• end of, Utility links, navigation"
+    "end of, Utility links, navigation"
   ],
   "scan": {
     "stopReason": "scan-end-marker",
@@ -389,7 +389,7 @@
     "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-web-dev/scans/web-dev/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "link, Skip to main content",
-      "lastVoiceOverAnnouncement": "• end of, Utility links, navigation"
+      "lastVoiceOverAnnouncement": "end of, Utility links, navigation"
     }
   },
   "sanitization": {

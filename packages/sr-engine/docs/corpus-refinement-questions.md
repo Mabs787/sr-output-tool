@@ -231,13 +231,12 @@ Remaining action:
 1. Do not promote the exact helper text suffix until the caption truncation
    around `Touch device users, explore by touch or...` is resolved or sanitized
    with enough evidence.
-2. Treat the leading `•` before `end of, Primary navigation` as caption noise
-   unless step snapshots prove otherwise.
+2. Prefixes before `end of...` announcements are treated as caption noise and
+   stripped from fixtures.
 3. Keep the NHS 111 block out of active gates until the `Go to` / `Or` paragraph
    grouping is verified against step snapshots.
-4. Keep the footer support heading/list endings out of active gates until
-   caption prefixes like `heading level 2 space...`, `> end of, main`, and
-   `• end of list` are resolved or sanitized with enough evidence.
+4. Keep the footer support heading out of active gates until caption expansion
+   like `heading level 2 space...` is resolved or sanitized with enough evidence.
 
 ## www-w3-org-wai-standards-guidelines-wcag
 
