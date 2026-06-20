@@ -191,7 +191,7 @@ function sanitizeAnnouncement(announcement) {
     .replace(/^I banner$/, "banner")
     .replace(/^I (?=heading level \d+\b)/, "")
     .replace(/^I 6 days ago$/, "6 days ago")
-    .replace(/^AII BBC destinations menu\b/, "All BBC destinations menu")
+    .replace(/^(?:AII|AlI) BBC destinations menu\b/, "All BBC destinations menu")
     .replace(/\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/g, "AI ")
     .replace(/\bfor responsible Al\b/g, "for responsible AI")
     .replace(/\bAl Skills\b/g, "AI Skills")

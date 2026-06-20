@@ -24,7 +24,7 @@ output is wrong.
 
 ## web-dev
 
-Status: `candidate`
+Status: `partial`
 
 Already resolved:
 
@@ -37,15 +37,16 @@ Already resolved:
 - The same rerun confirms final `rendered-html.html` still does not expose the
   Appearance/Language controls, but step snapshots include live DOM/AX evidence
   for them.
+- Header through the search combobox is now an exact partial gate.
 
 Remaining action:
 
-1. Promote a web.dev header partial only after the corpus can use step snapshot
-   DOM/AX evidence for controls missing from final HTML.
+1. Promote the Appearance/Language controls only after using step-snapshot DOM/AX
+   evidence, because final rendered HTML still omits those controls.
 
 ## www-apple-com-accessibility
 
-Status: `candidate`
+Status: `partial`
 
 Already promoted:
 
@@ -118,19 +119,21 @@ Already resolved:
 - Diagnostic run `27836096018` confirms `My locations` is inside the live search
   traversal. VoiceOver announces `end of, search` only after the location panel
   content and `Close location search, button`.
+- Rerun `27864902217` repeats the same opened search-panel VoiceOver sequence.
 - Final `rendered-html.html` is stale for this fixture: the location panel is
   marked hidden there, while the step snapshot after focusing the combobox shows
   the live AX tree with recent-location/search-panel nodes.
+- Header through the location search button is now an exact partial gate.
 
 Remaining action:
 
-1. Promote BBC Weather only after the corpus can use the relevant step snapshot
-   or an open-state fixture for the search panel. Do not change the engine to
-   read hidden final HTML just to make this pass.
+1. Promote the opened location-panel content only after using the relevant step
+   snapshot or an open-state fixture. Do not change the engine to read hidden
+   final HTML just to make this pass.
 
 ## www-gov-uk
 
-Status: `candidate`
+Status: `partial`
 
 Current unresolved area:
 
@@ -159,13 +162,21 @@ Already resolved:
 
 - The first diagnostic announcement `Open System Settings, button` is startup
   noise.
-- Latest runner output omitted `link, change your cookie settings` despite the
-  link being present in rendered HTML.
+- Runs `27794063976` and `27864902217` omitted
+  `link, change your cookie settings` despite the link being present in rendered
+  HTML.
+- Cookie banner through the homepage h1 is now an exact partial gate.
 
-Remaining question:
+Remaining action:
 
-1. Is the omitted cookie-settings link caused by a general inline-link
-   VoiceOver behavior, or by GOV-specific cookie-banner focus/caption behavior?
+1. Decide whether the omitted cookie-settings link is a general inline-link
+   VoiceOver behavior or GOV-specific cookie-banner focus/caption behavior
+   before promoting deeper GOV.UK output.
+2. Reconcile the post-main search shape before promoting the GOV.UK main search
+   slice; VoiceOver announces separate label/group/helper-text steps while the
+   DOM engine currently emits one collapsed combobox announcement.
+3. Reconcile GOV.UK list-card traversal before full-page promotion; the engine
+   currently skips the linked h3 announcements and positions the paragraph text.
 
 ## www-microsoft-com-en-us-accessibility
 

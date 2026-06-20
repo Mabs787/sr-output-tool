@@ -409,5 +409,21 @@
       "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
       "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
-  }
+  },
+  "partialAssertions": [
+    {
+      "name": "header through search",
+      "reason": "Runs 27794063976 and 27864902217 agree through logo, upper-tabs navigation, and search combobox. Appearance/language controls are live in step snapshots but absent from final rendered HTML, so this gate stops before them.",
+      "startAt": "link, Skip to main content",
+      "expectedAnnouncements": [
+        "link, Skip to main content",
+        "banner",
+        "link, image, web.dev",
+        "Upper tabs, navigation",
+        "Dropdown menu for Extended Navigation, menu pop up collapsed, button",
+        "end of, Upper tabs, navigation",
+        "Search, list box pop up collapsed, combo box"
+      ]
+    }
+  ]
 }

@@ -366,5 +366,29 @@
     ", except where otherwise stated",
     "link, Crown copyright",
     "end of, footer"
+  ],
+  "partialAssertions": [
+    {
+      "name": "cookie banner through homepage h1",
+      "reason": "Runs 27794063976 and 27864902217 agree that the accepted-cookie banner omits the inline cookie-settings link and proceeds to Hide cookie message. The gate continues through the stable GOV.UK header and homepage h1; main search remains candidate-only because VoiceOver and the DOM engine currently differ on combobox/helper-text traversal.",
+      "startAt": "Cookies on GOV.UK, region",
+      "expectedAnnouncements": [
+        "Cookies on GOV.UK, region",
+        "You have accepted additional cookies. You can",
+        "Hide cookie message, button",
+        "end of, Cookies on GOV.UK, region",
+        "link, Skip to main content",
+        "banner",
+        "Navigation menu, navigation",
+        "link, image, Go to the GOV.UK homepage",
+        "heading level 2, Navigation menu",
+        "Show navigation menu, collapsed, button, group",
+        "Show search menu, collapsed, button, group",
+        "end of, Navigation menu, navigation",
+        "end of, banner",
+        "main",
+        "heading level 1, The best place to find government services and information"
+      ]
+    }
   ]
 }

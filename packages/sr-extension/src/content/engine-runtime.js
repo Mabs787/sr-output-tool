@@ -882,8 +882,9 @@
               return "button";
             return "textbox";
           }
-          if (tag === "header")
-            return "banner";
+          if (tag === "header") {
+            return el.closest("main, article, aside, nav, section") ? "" : "banner";
+          }
           if (tag === "nav")
             return "navigation";
           if (tag === "main")
@@ -892,8 +893,9 @@
             return "article";
           if (tag === "search")
             return "search";
-          if (tag === "footer")
-            return "contentinfo";
+          if (tag === "footer") {
+            return el.closest("main, article, aside, nav, section") ? "" : "contentinfo";
+          }
           if (tag === "aside")
             return "complementary";
           if (tag === "form" && explicit === "search")

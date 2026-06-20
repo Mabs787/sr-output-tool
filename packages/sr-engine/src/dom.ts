@@ -315,12 +315,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (["button", "submit", "reset"].includes(type)) return "button";
       return "textbox";
     }
-    if (tag === "header") return "banner";
+    if (tag === "header") {
+      return el.closest("main, article, aside, nav, section") ? "" : "banner";
+    }
     if (tag === "nav") return "navigation";
     if (tag === "main") return "main";
     if (tag === "article") return "article";
     if (tag === "search") return "search";
-    if (tag === "footer") return "contentinfo";
+    if (tag === "footer") {
+      return el.closest("main, article, aside, nav, section") ? "" : "contentinfo";
+    }
     if (tag === "aside") return "complementary";
     if (tag === "form" && explicit === "search") return "search";
     if (tag === "ul" || tag === "ol" || tag === "dl") return "list";

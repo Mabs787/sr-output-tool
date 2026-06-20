@@ -438,5 +438,45 @@
       "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
       "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
-  }
+  },
+  "partialAssertions": [
+    {
+      "name": "header through location search button",
+      "reason": "Runs 27794063976 and 27864902217 agree through the BBC-wide header and location search combobox/button after sanitizing caption artifacts. The opened location panel is confirmed by step snapshots but absent from final rendered HTML, so this gate stops before My locations.",
+      "startAt": "BBC-wide, banner",
+      "expectedAnnouncements": [
+        "BBC-wide, banner",
+        "link, Homepage",
+        "heading level 2, Accessibility links",
+        "list 2 items",
+        "link, Skip to content, 1 of 2",
+        "link, Accessibility Help, 2 of 2",
+        "end of list",
+        "link, Sign in",
+        "navigation",
+        "list 7 items",
+        "link, Home, 1 of 7",
+        "link, News, 2 of 7",
+        "link, Sport, 3 of 7",
+        "link, Business, 4 of 7",
+        "link, Technology, 5 of 7",
+        "link, Health, 6 of 7",
+        "link, Culture, 7 of 7",
+        "end of list",
+        "end of, navigation",
+        "All BBC destinations menu, collapsed, button, group",
+        "search",
+        "collapsed, link, Search BBC",
+        "end of, search",
+        "end of, BBC-wide, banner",
+        "main",
+        "heading level 1, BBC Weather",
+        "link, BBC Weather",
+        "heading level 2, Search for a location",
+        "search",
+        "Enter a city, list box pop up collapsed, combo box",
+        "Search, button"
+      ]
+    }
+  ]
 }

@@ -19,8 +19,8 @@
       "reason": "Severe OCR/caption artifacts and dynamic advertising content absent from rendered HTML."
     },
     "web-dev": {
-      "status": "candidate",
-      "reason": "High-value fixture. User confirmed the header logo should announce as `link, image, web.dev`, and refinedAnnouncements include that skipped runner item; later page output still needs full review before exact gating."
+      "status": "partial",
+      "reason": "Header through search combobox is promoted as an exact partial gate. Appearance/language controls are confirmed by step snapshots but are absent from final rendered HTML, so that deeper header slice remains candidate-only until snapshot-backed fixtures are promoted."
     },
     "www-apple-com-accessibility": {
       "status": "partial",
@@ -31,8 +31,8 @@
       "reason": "Header through article h1, timestamp, and article action controls is promoted as an exact partial gate. Later video/article body output still needs step-snapshot refinement before full-page gating."
     },
     "www-bbc-co-uk-weather": {
-      "status": "candidate",
-      "reason": "Strong fixture for hidden list counts and search regions. User confirmed the location combobox phrasing and Search button marker artifact; later page-depth coverage still needs review before exact gating."
+      "status": "partial",
+      "reason": "Header through weather location search button is promoted as an exact partial gate. The opened search-panel content is confirmed by step snapshots but absent from final rendered HTML, so that deeper slice remains candidate-only."
     },
     "www-google-com-accessibility": {
       "status": "candidate",
@@ -43,8 +43,8 @@
       "reason": "Cookie banner start contains a stray group and link/text split mismatch that should be refined from rendered HTML/AX context."
     },
     "www-gov-uk": {
-      "status": "candidate",
-      "reason": "Cookie banner link/text split differs between capture and rendered DOM; refine before exact gating."
+      "status": "partial",
+      "reason": "Cookie banner through homepage h1 is promoted as an exact partial gate. Repeat scans confirm the accepted-cookie banner omits the inline cookie-settings link in VoiceOver output; main search remains candidate-only because the engine still differs on combobox/helper-text traversal."
     },
     "www-microsoft-com-en-us-accessibility": {
       "status": "partial",
