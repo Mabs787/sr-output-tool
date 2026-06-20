@@ -462,7 +462,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return index >= 0 ? index + 1 : undefined;
     }
 
-    if (["link", "button", "heading", "paragraph", "listitem", "image", "group"].includes(role)) {
+    if (["link", "button", "heading", "listitem", "image", "group"].includes(role)) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
@@ -490,7 +490,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ).filter((tab: any) => !isHidden(tab)).length || undefined
       );
     }
-    if (["link", "button", "heading", "paragraph", "listitem", "image", "group"].includes(role)) {
+    if (["link", "button", "heading", "listitem", "image", "group"].includes(role)) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
@@ -501,6 +501,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!isListItem(el)) return false;
     if (!el.querySelector(interactiveSelector)) return false;
     return !textWithoutInteractive(el);
+  }
+
+  function hasStructuredListItemContent(el: any): boolean {
+    if (!isListItem(el)) return false;
+    const linkedHeading = el.querySelector(
+      "h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]",
+    );
+    return Boolean(linkedHeading && textWithoutInteractive(el));
   }
 
   function isIconOnlyLink(el: any): boolean {
@@ -776,6 +784,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (role === "listitem" && hasStructuredListItemContent(el)) {
+      return false;
+    }
+
     if (
       contextRoles.has(role) &&
       !accessibleName(el, role) &&
@@ -839,7 +851,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const role = implicitRole(el);
     if (contextRoles.has(role)) return true;
     if (role === "heading") {
-      return Boolean(el.querySelector("button, [role='button'], a[href]"));
+      return Boolean(el.querySelector("button, [role='button']"));
     }
     if (role === "listitem") {
       return (

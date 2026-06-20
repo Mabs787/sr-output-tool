@@ -175,8 +175,10 @@ Remaining action:
 2. Reconcile the post-main search shape before promoting the GOV.UK main search
    slice; VoiceOver announces separate label/group/helper-text steps while the
    DOM engine currently emits one collapsed combobox announcement.
-3. Reconcile GOV.UK list-card traversal before full-page promotion; the engine
-   currently skips the linked h3 announcements and positions the paragraph text.
+3. Reconcile GOV.UK linked-card heading phrasing before full-page promotion; the
+   engine now traverses linked headings and card descriptions in order, but
+   VoiceOver captures these as `heading level 3, level 2, link, ...` while the
+   engine emits `heading level 3, link, ...`.
 
 ## www-microsoft-com-en-us-accessibility
 

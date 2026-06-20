@@ -1003,7 +1003,7 @@
             const index = tabs.indexOf(el);
             return index >= 0 ? index + 1 : void 0;
           }
-          if (["link", "button", "heading", "paragraph", "listitem", "image", "group"].includes(role)) {
+          if (["link", "button", "heading", "listitem", "image", "group"].includes(role)) {
             const { listItem, siblings } = semanticListContext(el);
             const index = siblings.indexOf(listItem);
             return index >= 0 ? index + 1 : void 0;
@@ -1022,7 +1022,7 @@
           if (role === "tab") {
             return Array.from(el.closest("[role='tablist']")?.querySelectorAll("[role='tab']") || []).filter((tab) => !isHidden(tab)).length || void 0;
           }
-          if (["link", "button", "heading", "paragraph", "listitem", "image", "group"].includes(role)) {
+          if (["link", "button", "heading", "listitem", "image", "group"].includes(role)) {
             const { siblings } = semanticListContext(el);
             return siblings.length || void 0;
           }
@@ -1034,6 +1034,12 @@
           if (!el.querySelector(interactiveSelector))
             return false;
           return !textWithoutInteractive(el);
+        }
+        function hasStructuredListItemContent(el) {
+          if (!isListItem(el))
+            return false;
+          const linkedHeading = el.querySelector("h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]");
+          return Boolean(linkedHeading && textWithoutInteractive(el));
         }
         function isIconOnlyLink(el) {
           if (implicitRole(el) !== "link")
@@ -1221,6 +1227,9 @@
           if (role === "listitem" && hasOnlyInteractiveListItemContent(el)) {
             return false;
           }
+          if (role === "listitem" && hasStructuredListItemContent(el)) {
+            return false;
+          }
           if (contextRoles.has(role) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el)) {
             return false;
           }
@@ -1267,7 +1276,7 @@
           if (contextRoles.has(role))
             return true;
           if (role === "heading") {
-            return Boolean(el.querySelector("button, [role='button'], a[href]"));
+            return Boolean(el.querySelector("button, [role='button']"));
           }
           if (role === "listitem") {
             return hasOnlyInteractiveListItemContent(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
