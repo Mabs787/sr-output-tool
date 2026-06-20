@@ -219,9 +219,9 @@ Already resolved:
   split helper-text logic.
 - Account and primary navigation are now exact partial gates.
 - The homepage linked-heading card intro is now an exact partial gate.
-- Featured card linked-heading phrasing is confirmed by runs `27867338006`,
-  `27873674442`, and `27874509774`, but remains outside the active gate because
-  nearby body content still has repeated caption variability.
+- Featured card linked-heading phrasing is now an exact partial gate.
+- More information and advice linked-heading phrasing is now an exact partial
+  gate.
 
 Remaining action:
 
@@ -230,8 +230,11 @@ Remaining action:
    with enough evidence.
 2. Treat the leading `•` before `end of, Primary navigation` as caption noise
    unless step snapshots prove otherwise.
-3. Promote deeper body sections only after resolving the repeated truncation in
+3. Promote the Manage your health list only after resolving the repeated
+   truncation in
    `Appointments and bookings at your GP surgery, 3 of`.
+4. Keep the NHS 111 block out of active gates until the `Go to` / `Or` paragraph
+   grouping is verified against step snapshots.
 
 ## www-w3-org-wai-standards-guidelines-wcag
 

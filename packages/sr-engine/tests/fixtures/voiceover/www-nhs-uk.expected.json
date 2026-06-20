@@ -318,6 +318,42 @@
         "heading level 2, level 1, link, NHS services",
         "Find out about NHS services including GPs, pharmacies, prescriptions, hospitals and dentists"
       ]
+    },
+    {
+      "name": "featured linked heading cards",
+      "reason": "Runs 27794063976, 27867338006, 27873674442, and 27874509774 agree on the NHS Featured card list. This promotes another reusable linked-heading card list while avoiding the preceding Manage your health truncation.",
+      "startAt": "heading level 2, Featured",
+      "expectedAnnouncements": [
+        "heading level 2, Featured",
+        "list 3 items",
+        "heading level 3, level 2, link, Book a COVID-19 vaccination appointment, 1 of 3",
+        "If you're eligible for the spring COVID-19 vaccine, you can book a vaccination appointment now",
+        "heading level 3, level 2, link, Get healthcare cover abroad with a UK GHIC or EHIC, 2 of 3",
+        "Get or renew your health insurance card to help you get healthcare in the EU and some other countries",
+        "heading level 3, level 2, link, Refer yourself for help for back and joint problems, 3 of 3",
+        "Get NHS help from community musculoskeletal (MSK) services, like physiotherapy, for back and joint problems",
+        "end of list"
+      ]
+    },
+    {
+      "name": "more information linked heading cards",
+      "reason": "Runs 27794063976, 27867338006, 27873674442, and 27874509774 agree on the NHS More information and advice card list. This extends the reusable linked-heading card gate to same-level heading links.",
+      "startAt": "heading level 2, More information and advice",
+      "expectedAnnouncements": [
+        "heading level 2, More information and advice",
+        "list 5 items",
+        "heading level 2, level 1, link, Vaccinations, 1 of 5",
+        "Information about vaccinations for babies, children and adults, including why they're important and how to get them",
+        "heading level 2, level 1, link, COVID-19, 2 of 5",
+        "Advice about COVID-19, including symptoms, treatments and how to avoid catching and spreading it.",
+        "heading level 2, level 1, link, Baby, 3 of 5",
+        "A guide to everything you need to know about caring for a baby",
+        "heading level 2, level 1, link, Women's health, 4 of 5",
+        "Information and support on health, wellbeing, conditions and screening",
+        "heading level 2, level 1, link, Contraception, 5 of 5",
+        "Information about different types of contraception, including where to get them and how well they work",
+        "end of list"
+      ]
     }
   ]
 }
