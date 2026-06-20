@@ -219,6 +219,9 @@ Already resolved:
   split helper-text logic.
 - Account and primary navigation are now exact partial gates.
 - The homepage linked-heading card intro is now an exact partial gate.
+- The Manage your health list is now an exact partial gate; run `27875389537`
+  step snapshots show the appointment link inside a five-item list, so the
+  captured `3 of` caption is sanitized to `3 of 5`.
 - Featured card linked-heading phrasing is now an exact partial gate.
 - More information and advice linked-heading phrasing is now an exact partial
   gate.
@@ -230,11 +233,11 @@ Remaining action:
    with enough evidence.
 2. Treat the leading `•` before `end of, Primary navigation` as caption noise
    unless step snapshots prove otherwise.
-3. Promote the Manage your health list only after resolving the repeated
-   truncation in
-   `Appointments and bookings at your GP surgery, 3 of`.
-4. Keep the NHS 111 block out of active gates until the `Go to` / `Or` paragraph
+3. Keep the NHS 111 block out of active gates until the `Go to` / `Or` paragraph
    grouping is verified against step snapshots.
+4. Keep the footer support heading/list endings out of active gates until
+   caption prefixes like `heading level 2 space...`, `> end of, main`, and
+   `• end of list` are resolved or sanitized with enough evidence.
 
 ## www-w3-org-wai-standards-guidelines-wcag
 

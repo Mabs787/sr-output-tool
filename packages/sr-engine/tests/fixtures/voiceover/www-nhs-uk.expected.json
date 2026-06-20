@@ -320,6 +320,21 @@
       ]
     },
     {
+      "name": "manage your health links",
+      "reason": "Runs 27794063976 and 27875389537 both capture the Manage your health list. The appointment link is sanitized to `3 of 5` because run 27875389537 step snapshots show the focused link inside a five-item list, while the caption truncates after `3 of`.",
+      "startAt": "heading level 2, Manage your health",
+      "expectedAnnouncements": [
+        "heading level 2, Manage your health",
+        "list 5 items",
+        "link, Order a repeat prescription, 1 of 5",
+        "link, View your test results, 2 of 5",
+        "link, Appointments and bookings at your GP surgery, 3 of 5",
+        "link, How to register with a GP surgery, 4 of 5",
+        "link, Find your NHS number, 5 of 5",
+        "end of list"
+      ]
+    },
+    {
       "name": "featured linked heading cards",
       "reason": "Runs 27794063976, 27867338006, 27873674442, and 27874509774 agree on the NHS Featured card list. This promotes another reusable linked-heading card list while avoiding the preceding Manage your health truncation.",
       "startAt": "heading level 2, Featured",
