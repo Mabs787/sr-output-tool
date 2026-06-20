@@ -44,7 +44,7 @@
     },
     "www-gov-uk": {
       "status": "partial",
-      "reason": "Cookie banner through homepage h1 is promoted as an exact partial gate. Repeat scans confirm the accepted-cookie banner omits the inline cookie-settings link in VoiceOver output; main search remains candidate-only because the engine still differs on combobox/helper-text traversal."
+      "reason": "Cookie banner through homepage main search and the first services card slice are promoted as exact partial gates. Repeat scans confirm the accepted-cookie banner omits the inline cookie-settings link, and reusable engine logic now covers described-autocomplete search and linked-heading card phrasing."
     },
     "www-microsoft-com-en-us-accessibility": {
       "status": "partial",
@@ -56,7 +56,7 @@
     },
     "www-nhs-uk": {
       "status": "partial",
-      "reason": "Account and primary navigation are promoted as an exact partial gate from repeated scans. Search combobox/helper text and later body/footer variability remain candidate-only."
+      "reason": "Header search, account navigation, primary navigation, and the homepage linked-heading card intro are promoted as exact partial gates from repeated scans. Later body/footer variability remains candidate-only."
     },
     "www-w3-org-wai-standards-guidelines-wcag": {
       "status": "candidate",

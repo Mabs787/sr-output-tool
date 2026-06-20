@@ -276,10 +276,19 @@
   ],
   "partialAssertions": [
     {
-      "name": "account and primary navigation",
-      "reason": "Runs 27794063976 and 27866774018 agree on the account and primary navigation region. Search remains candidate-only because VoiceOver splits the combobox label/helper text differently from the current DOM engine, and later main content has repeat-scan variability.",
-      "startAt": "Account, navigation",
+      "name": "header search and navigation",
+      "reason": "Runs 27794063976, 27866774018, 27867338006, and 27873674442 agree on the header search, account navigation, and primary navigation after promoting the reusable described-autocomplete split rule. Later main content remains candidate-only because repeated scans still show caption truncation and body variability.",
+      "startAt": "banner",
       "expectedAnnouncements": [
+        "banner",
+        "link, image, NHS homepage",
+        "search",
+        "search",
+        "Search the NHS website",
+        "Search the NHS website When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
+        "Search, button, group",
+        "end of, search",
+        "end of, search",
         "Account, navigation",
         "list 1 item",
         "link, My account",
@@ -292,7 +301,22 @@
         "link, Healthy living, 3 of 5",
         "link, Mental health, 4 of 5",
         "link, Care and support, 5 of 5",
-        "end of list"
+        "end of list",
+        "end of, Primary navigation, navigation",
+        "end of, banner"
+      ]
+    },
+    {
+      "name": "homepage linked heading cards",
+      "reason": "Runs 27867338006 and 27873674442 agree on the NHS homepage card intro. This slice gates the reusable linked-heading card phrasing without promoting later noisy body content.",
+      "startAt": "main",
+      "expectedAnnouncements": [
+        "main",
+        "heading level 1 NHS website for England Find information and services to help you manage your health, 2 items",
+        "heading level 2, level 1, link, Health A to Z",
+        "Find out about conditions, symptoms, medicines, tests and treatments, including when to get help",
+        "heading level 2, level 1, link, NHS services",
+        "Find out about NHS services including GPs, pharmacies, prescriptions, hospitals and dentists"
       ]
     }
   ]

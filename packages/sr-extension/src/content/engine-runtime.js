@@ -162,6 +162,9 @@
             }
             parts.push(`heading level ${level}`);
             if (el.headingLink) {
+              if (!headingWithFragments && level > 1) {
+                parts.push(`level ${level - 1}`);
+              }
               parts.push("link");
               pushIfPresent(parts, headingLabel);
               pushCollectionPosition(parts, el);

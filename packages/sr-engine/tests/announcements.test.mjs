@@ -62,6 +62,18 @@ test("generateAnnouncement formats headings, links, and table cells", () => {
 
   assert.equal(
     generateAnnouncement({
+      role: "heading",
+      level: 3,
+      name: "Benefits",
+      headingLink: true,
+      positionInSet: 1,
+      setSize: 16,
+    }),
+    "heading level 3, level 2, link, Benefits, 1 of 16",
+  );
+
+  assert.equal(
+    generateAnnouncement({
       role: "cell",
       name: "£99",
       columnHeaderText: "Price",

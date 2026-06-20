@@ -370,7 +370,7 @@
   "partialAssertions": [
     {
       "name": "cookie banner through homepage h1",
-      "reason": "Runs 27794063976 and 27864902217 agree that the accepted-cookie banner omits the inline cookie-settings link and proceeds to Hide cookie message. The gate continues through the stable GOV.UK header and homepage h1; main search remains candidate-only because VoiceOver and the DOM engine currently differ on combobox/helper-text traversal.",
+      "reason": "Runs 27794063976, 27864902217, 27867338006, and 27873674442 agree that the accepted-cookie banner omits the inline cookie-settings link and proceeds to Hide cookie message. The gate continues through the stable header, homepage h1, and described-autocomplete main search after promoting the reusable split-helper-text rule.",
       "startAt": "Cookies on GOV.UK, region",
       "expectedAnnouncements": [
         "Cookies on GOV.UK, region",
@@ -387,7 +387,28 @@
         "end of, Navigation menu, navigation",
         "end of, banner",
         "main",
-        "heading level 1, The best place to find government services and information"
+        "heading level 1, The best place to find government services and information",
+        "search",
+        "Search",
+        "group",
+        "Search When search suggestions are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
+        "Search GOV.UK, button",
+        "end of, search"
+      ]
+    },
+    {
+      "name": "services linked heading cards",
+      "reason": "Runs 27867338006 and 27873674442 agree on the start of the GOV.UK services card list. This slice gates the reusable linked-heading card phrasing without promoting the full page.",
+      "startAt": "heading level 2, Services and information",
+      "expectedAnnouncements": [
+        "heading level 2, Services and information",
+        "list 16 items",
+        "heading level 3, level 2, link, Benefits, 1 of 16",
+        "Includes eligibility, appeals, tax credits and Universal Credit",
+        "heading level 3, level 2, link, Births, deaths, marriages and care, 2 of 16",
+        "Parenting, civil partnerships, divorce and Lasting Power of Attorney",
+        "heading level 3, level 2, link, Business and self-employed, 3 of 16",
+        "Tools and guidance for businesses"
       ]
     }
   ]
