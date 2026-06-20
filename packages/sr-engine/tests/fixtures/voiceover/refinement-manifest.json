@@ -28,7 +28,7 @@
     },
     "www-bbc-co-uk-news": {
       "status": "partial",
-      "reason": "Header through main/article/h1 is promoted as an exact partial gate. Later timestamp/share/video/article body output still needs step-snapshot refinement before full-page gating."
+      "reason": "Header through article h1, timestamp, and article action controls is promoted as an exact partial gate. Later video/article body output still needs step-snapshot refinement before full-page gating."
     },
     "www-bbc-co-uk-weather": {
       "status": "candidate",
@@ -47,8 +47,8 @@
       "reason": "Cookie banner link/text split differs between capture and rendered DOM; refine before exact gating."
     },
     "www-microsoft-com-en-us-accessibility": {
-      "status": "candidate",
-      "reason": "Useful layout/nav fixture. Leading bullet caption artifacts were corrected where AX/rendered HTML showed normal links/buttons/headings, but later traversal/coverage mismatches still need refinement before exact gating."
+      "status": "partial",
+      "reason": "Header through slideshow pause control is promoted as an exact partial gate. Previous/Next controls include AX-only glyph text in VoiceOver output, and later traversal/coverage mismatches still need refinement before full-page gating."
     },
     "www-nhs-uk-conditions": {
       "status": "skip",

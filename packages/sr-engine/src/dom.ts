@@ -221,6 +221,32 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return null;
   }
 
+  function isLabeledIconActionButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (!el.hasAttribute("aria-label")) return false;
+    if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
+    return Boolean(el.querySelector("svg, [role='img'], img"));
+  }
+
+  function isSlideshowNavigationButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (el.hasAttribute("aria-pressed")) return false;
+
+    const label = normalize(
+      el.getAttribute("aria-label") ||
+        el.getAttribute("title") ||
+        textWithoutInteractive(el) ||
+        readableText(el),
+    );
+    if (!/^(previous|next)(\b|,)/i.test(label || "")) return false;
+
+    return Boolean(
+      el.closest(
+        "[aria-roledescription='slideshow'], [aria-roledescription='carousel']",
+      ),
+    );
+  }
+
   function accessibleName(el: any, role: string): string | undefined {
     const ariaLabel = normalize(el.getAttribute("aria-label"));
     if (ariaLabel !== undefined) return ariaLabel;
@@ -306,7 +332,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "td") return "cell";
     if (tag === "img") return "image";
     if (tag === "dialog") return "dialog";
-    if (tag === "p" || tag === "blockquote" || tag === "figcaption") {
+    if (
+      tag === "p" ||
+      tag === "blockquote" ||
+      tag === "figcaption" ||
+      tag === "time"
+    ) {
       return "paragraph";
     }
     if (
@@ -693,6 +724,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           el.hasAttribute("aria-expanded") &&
           !normalizedPopup(el) &&
           !position) ||
+        (role === "button" && isLabeledIconActionButton(el)) ||
+        (role === "button" && isSlideshowNavigationButton(el)) ||
         undefined,
       ...table,
       boundingBox: {

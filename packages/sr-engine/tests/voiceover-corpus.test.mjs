@@ -132,6 +132,68 @@ function scanHtml(html) {
   }
 }
 
+function selectSnapshotElement(snapshot, source) {
+  const pageState = snapshot.pageState || {};
+  const selector = source.element || "activeElement";
+
+  if (selector === "activeElement") {
+    return pageState.activeElement;
+  }
+
+  if (selector === "activeElementAncestor") {
+    const ancestors = pageState.activeElementAncestors || [];
+    if (source.matchText) {
+      return ancestors.find((element) => element.text?.includes(source.matchText));
+    }
+    return ancestors[source.elementIndex ?? 0];
+  }
+
+  if (selector === "matchedDomElement") {
+    const matches = pageState.matchedDomElements || [];
+    if (source.matchText) {
+      return matches.find(
+        (element) =>
+          element.text?.includes(source.matchText) ||
+          element.html?.includes(source.matchText),
+      );
+    }
+    return matches[source.elementIndex ?? 0];
+  }
+
+  throw new Error(`Unsupported step snapshot element selector: ${selector}`);
+}
+
+function getPartialHtml(fixture, partial, defaultHtml) {
+  const source = partial.htmlSource?.stepSnapshot;
+  if (!source) return defaultHtml;
+
+  assert.ok(
+    fixture.stepSnapshots,
+    `Partial corpus assertion ${partial.name} requested a step snapshot, but fixture ${fixture.name} has no stepSnapshots file.`,
+  );
+
+  const stepSnapshots = readJson(path.join(fixturesDir, fixture.stepSnapshots));
+  const snapshot =
+    source.index !== undefined
+      ? stepSnapshots.snapshots?.find((candidate) => candidate.index === source.index)
+      : stepSnapshots.snapshots?.find(
+          (candidate) => candidate.announcement === source.announcement,
+        );
+
+  assert.ok(
+    snapshot,
+    `Partial corpus assertion ${partial.name} could not find requested step snapshot.`,
+  );
+
+  const element = selectSnapshotElement(snapshot, source);
+  assert.ok(
+    element?.html,
+    `Partial corpus assertion ${partial.name} selected a step snapshot element without HTML.`,
+  );
+
+  return element.html;
+}
+
 function getExpectedAnnouncements(fixture) {
   return fixture.refinedAnnouncements || fixture.expectedAnnouncements;
 }
@@ -248,7 +310,9 @@ for (const fixture of cases) {
 
     if (isPartialGateStatus(fixture, refinement.status)) {
       for (const partial of fixture.partialAssertions) {
-        assertPartialAnnouncementsMatch(actual, partial);
+        const partialHtml = getPartialHtml(fixture, partial, html);
+        const partialActual = partialHtml === html ? actual : scanHtml(partialHtml);
+        assertPartialAnnouncementsMatch(partialActual, partial);
       }
     } else {
       const expected = getExpectedAnnouncements(fixture);

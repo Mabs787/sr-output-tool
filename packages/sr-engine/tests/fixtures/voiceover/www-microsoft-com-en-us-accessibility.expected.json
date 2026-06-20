@@ -465,5 +465,35 @@
       "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
       "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
-  }
+  },
+  "partialAssertions": [
+    {
+      "name": "header to slideshow controls",
+      "reason": "Rerun 27849923217 confirms the header search button, slideshow label, skip link, and pause toggle. Previous/Next include AX glyph text that is not represented in the rendered HTML, so the gate stops before those controls.",
+      "startAt": "link, Skip to main content",
+      "expectedAnnouncements": [
+        "link, Skip to main content",
+        "banner",
+        "link, image, Microsoft",
+        "link, Accessibility",
+        "Contextual menu, navigation",
+        "Products, menu pop up collapsed, button",
+        "link, AI skilling and resources",
+        "More, menu pop up collapsed, button",
+        "end of, Contextual menu, navigation",
+        "All Microsoft menu, navigation",
+        "All Microsoft, menu pop up collapsed, button",
+        "end of, All Microsoft menu, navigation",
+        "Search Microsoft.com, button, group",
+        "link, Cart",
+        "ME, button",
+        "end of, banner",
+        "main",
+        "Featured stories and announcements slideshow: navigate using the slide tabs, slideshow",
+        "Slide 1 of 2. Accessibility at Microsoft",
+        "link, Skip Featured stories and announcements slideshow: navigate using the slide tabs",
+        "Pause, selected, toggle button"
+      ]
+    }
+  ]
 }

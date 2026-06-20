@@ -439,8 +439,8 @@
   },
   "partialAssertions": [
     {
-      "name": "header to article heading",
-      "reason": "Diagnostic run 27836096018 and local engine output agree through banner, main, article, and h1; article metadata/share controls remain candidate-only.",
+      "name": "header to article actions",
+      "reason": "Diagnostic runs 27836096018 and 27849923217 agree through banner, article h1, timestamp, and article action controls. Later article/video/body output remains candidate-only.",
       "startAt": "link, Skip to content",
       "expectedAnnouncements": [
         "link, Skip to content",
@@ -453,7 +453,11 @@
         "end of, banner",
         "main",
         "article",
-        "heading level 1, What's in the US-Iran agreement?"
+        "heading level 1, What's in the US-Iran agreement?",
+        "22 hours ago",
+        "Share, button, group",
+        "Save, button, group",
+        "link, Add as preferred on Google"
       ]
     }
   ]

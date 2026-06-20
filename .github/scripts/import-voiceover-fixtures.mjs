@@ -20,6 +20,7 @@ function parseArgs(argv) {
     artifactDir: "",
     outputDir: defaultOutputDir,
     force: false,
+    includeStepSnapshots: false,
     runId: "",
   };
 
@@ -34,6 +35,8 @@ function parseArgs(argv) {
     } else if (arg === "--run-id") {
       options.runId = argv[index + 1] || "";
       index += 1;
+    } else if (arg === "--include-step-snapshots") {
+      options.includeStepSnapshots = true;
     } else if (arg === "--force") {
       options.force = true;
     } else if (arg === "--help" || arg === "-h") {
@@ -54,6 +57,8 @@ Options:
   --artifact-dir <path>   Downloaded VoiceOver scan artifact directory.
   --output-dir <path>     Fixture output directory. Defaults to packages/sr-engine/tests/fixtures/voiceover
   --run-id <id>           Optional workflow run id to record in the fixture index.
+  --include-step-snapshots
+                          Also write reduced *.step-snapshots.json fixtures for partial gates that need live per-step DOM evidence.
   --force                 Replace existing generated fixtures.
   --help                  Show this help
 `);
@@ -65,6 +70,11 @@ function readJson(filePath) {
 
 function writeJson(filePath, value) {
   writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function truncate(value, maxLength = 4000) {
+  const text = String(value || "");
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 }
 
 function collectFiles(dir, fileName, results = []) {
@@ -83,6 +93,95 @@ function collectFiles(dir, fileName, results = []) {
 function resolveManifestFile(scanDir, manifest, key) {
   const relativePath = manifest.files?.[key] || "";
   return relativePath ? path.join(scanDir, relativePath) : "";
+}
+
+function reduceElementEvidence(element) {
+  if (!element) return undefined;
+
+  return {
+    ...(element.score !== undefined ? { score: element.score } : {}),
+    tagName: element.tagName || "",
+    attributes: element.attributes || {},
+    text: truncate(element.text, 300),
+    computed: element.computed || {},
+    rect: element.rect || undefined,
+    ...(element.html ? { html: truncate(element.html) } : {}),
+    ...(Array.isArray(element.ancestors)
+      ? {
+          ancestors: element.ancestors.slice(0, 2).map((ancestor) => ({
+            tagName: ancestor.tagName || "",
+            attributes: ancestor.attributes || {},
+            text: truncate(ancestor.text, 300),
+            computed: ancestor.computed || {},
+            rect: ancestor.rect || undefined,
+            ...(ancestor.html ? { html: truncate(ancestor.html) } : {}),
+          })),
+        }
+      : {}),
+  };
+}
+
+function reduceStepSnapshots(stepSnapshots) {
+  return {
+    schemaVersion: 1,
+    source: stepSnapshots.source || "",
+    description:
+      "Reduced per-step evidence for refining fixtures when final rendered HTML differs from the live DOM/AX state at the VoiceOver step.",
+    partial: Boolean(stepSnapshots.partial),
+    snapshots: (stepSnapshots.snapshots || []).map((snapshot) => ({
+      index: snapshot.index,
+      capturedAt: snapshot.capturedAt || "",
+      announcement: snapshot.announcement || "",
+      focus: snapshot.focus || {},
+      pageStateCapture: snapshot.pageStateCapture
+        ? {
+            ok: Boolean(snapshot.pageStateCapture.ok),
+            status: snapshot.pageStateCapture.status ?? null,
+            error: snapshot.pageStateCapture.error || "",
+          }
+        : undefined,
+      pageState: snapshot.pageState
+        ? {
+            title: snapshot.pageState.title || "",
+            readyState: snapshot.pageState.readyState || "",
+            url: snapshot.pageState.url || "",
+            viewport: snapshot.pageState.viewport || {},
+            scroll: snapshot.pageState.scroll || {},
+            activeElement: reduceElementEvidence(snapshot.pageState.activeElement),
+            activeElementAncestors: (snapshot.pageState.activeElementAncestors || [])
+              .slice(0, 2)
+              .map(reduceElementEvidence)
+              .filter(Boolean),
+            matchedDomElements: (snapshot.pageState.matchedDomElements || [])
+              .slice(0, 5)
+              .map(reduceElementEvidence)
+              .filter(Boolean),
+          }
+        : undefined,
+      accessibility: snapshot.accessibility
+        ? {
+            ok: Boolean(snapshot.accessibility.ok),
+            nodeCount: snapshot.accessibility.nodeCount || 0,
+            ignoredNodeCount: snapshot.accessibility.ignoredNodeCount || 0,
+            domSnapshotMappedNodeCount:
+              snapshot.accessibility.domSnapshotMappedNodeCount || 0,
+            tokens: snapshot.accessibility.tokens || [],
+            matchedNodes: (snapshot.accessibility.matchedNodes || [])
+              .slice(0, 8)
+              .map((node) => ({
+                score: node.score,
+                role: node.role || "",
+                name: truncate(node.name, 300),
+                ignored: Boolean(node.ignored),
+                domNodeId: node.domNodeId || "",
+                renderedHtmlSelector: node.renderedHtmlSelector || "",
+                tagName: node.tagName || "",
+                properties: node.properties || undefined,
+              })),
+          }
+        : undefined,
+    })),
+  };
 }
 
 function sanitizeAnnouncement(announcement) {
@@ -225,7 +324,7 @@ function prepareOutputDir(outputDir, force) {
   mkdirSync(outputDir, { recursive: true });
 }
 
-function importFixture({ manifestPath, outputDir, runId }) {
+function importFixture({ manifestPath, outputDir, runId, includeStepSnapshots }) {
   const scanDir = path.dirname(manifestPath);
   const manifest = readJson(manifestPath);
   const name = path.basename(scanDir);
@@ -277,10 +376,20 @@ function importFixture({ manifestPath, outputDir, runId }) {
   });
   const htmlFileName = `${name}.html`;
   const axFileName = `${name}.ax.json`;
+  const stepSnapshotsFileName = `${name}.step-snapshots.json`;
   const expectedFileName = `${name}.expected.json`;
+  const hasStepSnapshots = Boolean(
+    includeStepSnapshots && stepSnapshotsPath && existsSync(stepSnapshotsPath),
+  );
 
   copyFileSync(renderedHtmlPath, path.join(outputDir, htmlFileName));
   writeJson(path.join(outputDir, axFileName), accessibilityTree);
+  if (hasStepSnapshots) {
+    writeJson(
+      path.join(outputDir, stepSnapshotsFileName),
+      reduceStepSnapshots(readJson(stepSnapshotsPath)),
+    );
+  }
   writeJson(path.join(outputDir, expectedFileName), {
     schemaVersion: 1,
     name,
@@ -288,6 +397,7 @@ function importFixture({ manifestPath, outputDir, runId }) {
     sourceRunId: runId,
     html: htmlFileName,
     accessibilityTree: axFileName,
+    ...(hasStepSnapshots ? { stepSnapshots: stepSnapshotsFileName } : {}),
     expectedAnnouncements: voiceOver.announcements || [],
     ...(sanitized.refinedAnnouncements
       ? { refinedAnnouncements: sanitized.refinedAnnouncements }
@@ -322,6 +432,7 @@ function importFixture({ manifestPath, outputDir, runId }) {
     expected: expectedFileName,
     html: htmlFileName,
     accessibilityTree: axFileName,
+    stepSnapshots: hasStepSnapshots ? stepSnapshotsFileName : "",
     count: voiceOver.announcements?.length || 0,
     sanitizedStatus: sanitized.sanitization.status,
   };
@@ -358,6 +469,7 @@ function main() {
       manifestPath,
       outputDir: options.outputDir,
       runId: options.runId,
+      includeStepSnapshots: options.includeStepSnapshots,
     }),
   );
   const imported = results.filter((result) => result.imported);
@@ -372,6 +484,7 @@ function main() {
       expected: result.expected,
       html: result.html,
       accessibilityTree: result.accessibilityTree,
+      ...(result.stepSnapshots ? { stepSnapshots: result.stepSnapshots } : {}),
       voiceOverAnnouncementCount: result.count,
       sanitizationStatus: result.sanitizedStatus,
     })),
@@ -382,6 +495,7 @@ function main() {
         "Raw expectedAnnouncements are preserved in each fixture.",
         "Tests prefer refinedAnnouncements when present.",
         "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
+        "Reduced step-snapshot fixtures are included only when import is run with --include-step-snapshots.",
       ],
     },
   });

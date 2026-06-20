@@ -45,7 +45,7 @@ Remaining action:
 
 ## www-apple-com-accessibility
 
-Status: `partial`
+Status: `candidate`
 
 Already promoted:
 
@@ -68,7 +68,8 @@ Status: `partial`
 
 Already promoted:
 
-- Header through `main`, `article`, and the article h1 is an exact partial gate.
+- Header through `main`, `article`, the article h1, timestamp, and article
+  action controls is an exact partial gate.
 - Rerun `27849923217` confirms the timestamp is present in live DOM/AX and
   VoiceOver announces it before article actions.
 - Rerun `27849923217` confirms article actions are:
@@ -76,9 +77,8 @@ Already promoted:
 
 Remaining action:
 
-1. Promote the BBC News article header/action slice once either the current
-   fixture is refreshed from the rerun or the existing fixture is corrected
-   with step-snapshot-backed expected output.
+1. Review the later video/article body output with step snapshots before
+   promoting any deeper BBC News gate.
 
 ## www-bbc-co-uk-weather
 
@@ -169,7 +169,7 @@ Remaining question:
 
 ## www-microsoft-com-en-us-accessibility
 
-Status: `candidate`
+Status: `partial`
 
 Confirmed by rerun `27849923217`:
 
@@ -197,11 +197,12 @@ Already resolved:
 - The slideshow should use its accessible label plus `slideshow`.
 - The `B` in `Previous B` / `Next B` is confirmed in the live VoiceOver caption.
 - Header search and slideshow controls carry the `group` suffix in this fixture.
+- Header through the slideshow pause control is now an exact partial gate.
 
 Remaining action:
 
-1. Implement or document a general `group` suffix rule for buttons inside
-   grouped/custom/header/slideshow controls. Do not special-case Microsoft.
+1. Decide whether AX-only glyph text such as `Previous B` / `Next B` should be
+   modeled by the engine, or kept outside DOM-only gates.
 
 ## www-nhs-uk
 

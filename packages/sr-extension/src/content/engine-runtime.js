@@ -793,6 +793,25 @@
           }
           return null;
         }
+        function isLabeledIconActionButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (!el.hasAttribute("aria-label"))
+            return false;
+          if (normalizedPopup(el) || el.hasAttribute("aria-expanded"))
+            return false;
+          return Boolean(el.querySelector("svg, [role='img'], img"));
+        }
+        function isSlideshowNavigationButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (el.hasAttribute("aria-pressed"))
+            return false;
+          const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
+          if (!/^(previous|next)(\b|,)/i.test(label || ""))
+            return false;
+          return Boolean(el.closest("[aria-roledescription='slideshow'], [aria-roledescription='carousel']"));
+        }
         function accessibleName(el, role) {
           const ariaLabel = normalize(el.getAttribute("aria-label"));
           if (ariaLabel !== void 0)
@@ -897,7 +916,7 @@
             return "image";
           if (tag === "dialog")
             return "dialog";
-          if (tag === "p" || tag === "blockquote" || tag === "figcaption") {
+          if (tag === "p" || tag === "blockquote" || tag === "figcaption" || tag === "time") {
             return "paragraph";
           }
           if (["section", "div", "form"].includes(tag) && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))) {
@@ -1165,7 +1184,7 @@
             headingFragments: directHeadingFragments(el),
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && readableText(el)) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position || void 0,
+            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position || role === "button" && isLabeledIconActionButton(el) || role === "button" && isSlideshowNavigationButton(el) || void 0,
             ...table,
             boundingBox: {
               x: Math.round(rect.x),
