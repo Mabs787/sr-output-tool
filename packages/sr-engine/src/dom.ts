@@ -167,7 +167,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalize(
       value
         .split(/\s+/)
-        .map((id) => readableText(resolveIdRef(id)) || "")
+        .map((id) => normalize(resolveIdRef(id)?.textContent) || "")
         .filter(Boolean)
         .join(" "),
     );
@@ -226,6 +226,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!el.hasAttribute("aria-label")) return false;
     if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
     return Boolean(el.querySelector("svg, [role='img'], img"));
+  }
+
+  function isIconFirstTextButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (!readableText(el)) return false;
+    if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
+
+    for (const child of Array.from(el.childNodes)) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        if (normalize(child.textContent)) return false;
+        continue;
+      }
+      if (child.nodeType !== Node.ELEMENT_NODE) {
+        continue;
+      }
+      const marker = renderedHiddenValue(child);
+      const style = getComputedStyle(child);
+      if ((marker && marker !== "false") || style.display === "none") continue;
+      const selector = "svg, img, [role='img']";
+      return child.matches(selector) || Boolean(child.querySelector(selector));
+    }
+
+    return false;
   }
 
   function isSlideshowNavigationButton(el: any): boolean {
@@ -592,37 +615,88 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments.length > 1 ? fragments : undefined;
   }
 
-  function govUkCookiePreferenceParagraph(el: any): boolean {
-    if (implicitRole(el) !== "paragraph") return false;
-    const region = el.closest("[role='region'][aria-label='Cookies on GOV.UK']");
-    if (!region) return false;
-    const text = readableText(el) || "";
-    return /^You have (accepted|rejected) additional cookies\./.test(text);
-  }
-
-  function govUkCookiePreferenceText(el: any): string | undefined {
+  function textBeforeFirstInlineInteractive(el: any): string | undefined {
     const fragments: string[] = [];
-    for (const child of Array.from(el.childNodes)) {
-      if (child.nodeType === Node.TEXT_NODE) {
-        const text = normalize(child.textContent);
+
+    function collect(node: any): boolean {
+      if (!node) return false;
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = normalize(node.textContent);
         if (text) fragments.push(text);
-        continue;
+        return false;
       }
-      if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) continue;
-      if (child.matches(interactiveSelector)) break;
-      for (const nested of Array.from(child.childNodes)) {
-        if (nested.nodeType === Node.TEXT_NODE) {
-          const text = normalize(nested.textContent);
-          if (text) fragments.push(text);
-        } else if (
-          nested.nodeType === Node.ELEMENT_NODE &&
-          nested.matches?.(interactiveSelector)
-        ) {
-          break;
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) {
+        return false;
+      }
+      if (node.matches(interactiveSelector)) {
+        return true;
+      }
+
+      for (const child of Array.from(node.childNodes)) {
+        if (collect(child)) {
+          return true;
         }
       }
+      return false;
     }
+
+    collect(el);
     return normalize(fragments.join(" "));
+  }
+
+  function hasInlineInteractiveEmbeddedInText(el: any): boolean {
+    if (implicitRole(el) !== "paragraph") return false;
+    const interactiveDescendants = Array.from(
+      el.querySelectorAll(interactiveSelector),
+    ).filter((candidate: any) => !isHidden(candidate));
+    if (interactiveDescendants.length !== 1) return false;
+
+    const tokens: string[] = [];
+    const textBeforeInteractive: string[] = [];
+    let sawInteractive = false;
+
+    function collectTokens(node: any): void {
+      if (!node) return;
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = normalize(node.textContent);
+        if (text) {
+          tokens.push("text");
+          if (!sawInteractive) {
+            textBeforeInteractive.push(text);
+          }
+        }
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node.matches(interactiveSelector)) {
+        tokens.push("interactive");
+        sawInteractive = true;
+        return;
+      }
+
+      for (const child of Array.from(node.childNodes)) {
+        collectTokens(child);
+      }
+    }
+
+    collectTokens(el);
+    const interactiveIndex = tokens.indexOf("interactive");
+    if (interactiveIndex < 0) return false;
+
+    return (
+      tokens.slice(0, interactiveIndex).includes("text") &&
+      tokens.slice(interactiveIndex + 1).includes("text") &&
+      /[.!?]/.test(textBeforeInteractive.join(" "))
+    );
+  }
+
+  function shouldSplitDescribedAutocomplete(el: any, role: string): boolean {
+    if (role !== "combobox") return false;
+    if (el.tagName.toLowerCase() !== "input") return false;
+    if (el.getAttribute("aria-autocomplete") !== "list") return false;
+    if (!el.hasAttribute("aria-describedby")) return false;
+    if (el.hasAttribute("aria-description")) return false;
+    return Boolean(accessibleName(el, role) && textFromIdRefs(el.getAttribute("aria-describedby")));
   }
 
   function captureElement(el: any): CapturedElementDescriptor | null {
@@ -737,8 +811,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           !normalizedPopup(el) &&
           !position) ||
         (role === "button" && isLabeledIconActionButton(el)) ||
+        (role === "button" && isIconFirstTextButton(el)) ||
         (role === "button" && isSlideshowNavigationButton(el)) ||
         undefined,
+      splitDescribedAutocomplete:
+        shouldSplitDescribedAutocomplete(el, role) || undefined,
+      searchInputGroup:
+        (role === "combobox" &&
+          tag === "input" &&
+          (el.getAttribute("type") || "").toLowerCase() === "search") ||
+          undefined,
       ...table,
       boundingBox: {
         x: Math.round(rect.x),
@@ -754,8 +836,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "paragraph") {
-      descriptor.name = govUkCookiePreferenceParagraph(el)
-        ? govUkCookiePreferenceText(el)
+      descriptor.name = hasInlineInteractiveEmbeddedInText(el)
+        ? textBeforeFirstInlineInteractive(el)
         : textWithoutInteractive(el) || text;
     }
 
@@ -861,7 +943,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (role === "paragraph") {
       return (
-        !govUkCookiePreferenceParagraph(el) &&
+        !hasInlineInteractiveEmbeddedInText(el) &&
         Boolean(el.querySelector(interactiveSelector))
       );
     }
@@ -894,6 +976,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
+  function splitDescribedAutocompleteAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.splitDescribedAutocomplete) return undefined;
+
+    const label = normalize(descriptor.name || descriptor.text);
+    const details = normalize(descriptor.details);
+    const announcements = [label];
+    if (descriptor.searchInputGroup) {
+      announcements.push("group");
+    }
+    announcements.push(normalize([label, details].filter(Boolean).join(" ")));
+
+    return announcements.filter((announcement): announcement is string =>
+      Boolean(announcement),
+    );
+  }
+
   function scanSubtree(root: any): ScanLogEntry[] {
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
@@ -909,8 +1009,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
         const descriptor = captureElement(el);
         if (descriptor) {
-          const announcement = generateAnnouncement(descriptor);
-          if (announcement) {
+          const announcements =
+            splitDescribedAutocompleteAnnouncements(descriptor) ||
+            [generateAnnouncement(descriptor)];
+          for (const announcement of announcements) {
+            if (!announcement) continue;
             const rect = el.getBoundingClientRect();
             log.push({
               index: log.length,
