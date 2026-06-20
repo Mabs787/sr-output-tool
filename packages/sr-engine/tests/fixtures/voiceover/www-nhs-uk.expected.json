@@ -273,5 +273,27 @@
     "end of list",
     "Crown copyright",
     "end of, content information"
+  ],
+  "partialAssertions": [
+    {
+      "name": "account and primary navigation",
+      "reason": "Runs 27794063976 and 27866774018 agree on the account and primary navigation region. Search remains candidate-only because VoiceOver splits the combobox label/helper text differently from the current DOM engine, and later main content has repeat-scan variability.",
+      "startAt": "Account, navigation",
+      "expectedAnnouncements": [
+        "Account, navigation",
+        "list 1 item",
+        "link, My account",
+        "end of list",
+        "end of, Account, navigation",
+        "Primary navigation, navigation",
+        "list 5 items",
+        "link, Health A to Z, 1 of 5",
+        "link, NHS services, 2 of 5",
+        "link, Healthy living, 3 of 5",
+        "link, Mental health, 4 of 5",
+        "link, Care and support, 5 of 5",
+        "end of list"
+      ]
+    }
   ]
 }

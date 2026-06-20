@@ -45,6 +45,9 @@
         }
       }
       function pushCollectionPosition(parts, el) {
+        if (el.setSize === 1) {
+          return;
+        }
         if (el.positionInSet && el.setSize) {
           parts.push(`${el.positionInSet} of ${el.setSize}`);
         }
@@ -398,7 +401,7 @@
           case "list": {
             const listLabel = normalizeText(el.name);
             const listRole = el.roleDescription ?? "list";
-            const listSize = el.setSize ? `${el.setSize} items` : void 0;
+            const listSize = el.setSize ? `${el.setSize} ${el.setSize === 1 ? "item" : "items"}` : void 0;
             const listLevel = el.level && el.level > 1 ? `level ${el.level}` : void 0;
             const parentPosition = el.parentPositionInSet && el.parentSetSize ? `${el.parentPositionInSet} of ${el.parentSetSize}` : void 0;
             const listParts = [listLabel, listRole, listSize].filter((part) => Boolean(part));

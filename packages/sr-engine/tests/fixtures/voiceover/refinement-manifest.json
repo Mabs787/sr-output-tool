@@ -55,8 +55,8 @@
       "reason": "Severe OCR/caption artifacts; keep out of corpus gate until manually refined."
     },
     "www-nhs-uk": {
-      "status": "candidate",
-      "reason": "Useful search/nav fixture, but cookie sentence punctuation and search combobox phrasing need refinement."
+      "status": "partial",
+      "reason": "Account and primary navigation are promoted as an exact partial gate from repeated scans. Search combobox/helper text and later body/footer variability remain candidate-only."
     },
     "www-w3-org-wai-standards-guidelines-wcag": {
       "status": "candidate",

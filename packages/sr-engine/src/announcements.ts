@@ -13,6 +13,9 @@ function pushIfPresent(parts: string[], value?: string): void {
 }
 
 function pushCollectionPosition(parts: string[], el: ElementDescriptor): void {
+  if (el.setSize === 1) {
+    return;
+  }
   if (el.positionInSet && el.setSize) {
     parts.push(`${el.positionInSet} of ${el.setSize}`);
   }
@@ -419,7 +422,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "list": {
       const listLabel = normalizeText(el.name);
       const listRole = el.roleDescription ?? "list";
-      const listSize = el.setSize ? `${el.setSize} items` : undefined;
+      const listSize = el.setSize
+        ? `${el.setSize} ${el.setSize === 1 ? "item" : "items"}`
+        : undefined;
       const listLevel = el.level && el.level > 1 ? `level ${el.level}` : undefined;
       const parentPosition =
         el.parentPositionInSet && el.parentSetSize
