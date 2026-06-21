@@ -2781,7 +2781,6 @@ function getComparisonVoiceOverText(step) {
 function getCaptionVoiceOverText(step) {
   const captionCandidates = [
     step.voiceOver?.captionText,
-    step.voiceOver?.captionOcrText,
   ];
 
   for (const candidate of captionCandidates) {
@@ -2916,7 +2915,7 @@ function writeVoiceOverProgressFiles({
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "caption-source-system-noise-filtered",
+    normalization: "caption-window-system-noise-filtered",
     partial: true,
   });
 }
@@ -3335,7 +3334,7 @@ async function scanTarget(target, index) {
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "caption-source-system-noise-filtered",
+    normalization: "caption-window-system-noise-filtered",
   });
   writeJson(
     path.join(targetOutputDir, "scan-debug.json"),
