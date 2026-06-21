@@ -789,7 +789,111 @@ function captureScreenshot(targetOutputDir, stepIndex, label, options = {}) {
 }
 
 let captionOcrTool = null;
+let captionAxTool = null;
 let pageConsentOcrTool = null;
+
+function getCaptionAxTool() {
+  if (captionAxTool) {
+    return captionAxTool;
+  }
+
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-vo-ax-tool-"));
+  const scriptPath = path.join(tempDir, "read-voiceover-caption-ax.swift");
+  const binaryPath = path.join(tempDir, "read-voiceover-caption-ax");
+  writeFileSync(
+    scriptPath,
+    `
+import AppKit
+import ApplicationServices
+import Foundation
+
+func attr(_ element: AXUIElement, _ name: CFString) -> Any? {
+  var value: CFTypeRef?
+  let error = AXUIElementCopyAttributeValue(element, name, &value)
+  if error != .success {
+    return nil
+  }
+  return value
+}
+
+func stringAttr(_ element: AXUIElement, _ name: CFString) -> String {
+  if let value = attr(element, name) {
+    return String(describing: value)
+      .replacingOccurrences(of: "\\n", with: " ")
+      .replacingOccurrences(of: "\\r", with: " ")
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+  return ""
+}
+
+func children(_ element: AXUIElement) -> [AXUIElement] {
+  return attr(element, kAXChildrenAttribute as CFString) as? [AXUIElement] ?? []
+}
+
+func collectText(_ element: AXUIElement, depth: Int, lines: inout [String], debug: inout [String]) {
+  if depth > 8 {
+    return
+  }
+
+  let role = stringAttr(element, kAXRoleAttribute as CFString)
+  let subrole = stringAttr(element, kAXSubroleAttribute as CFString)
+  let title = stringAttr(element, kAXTitleAttribute as CFString)
+  let value = stringAttr(element, kAXValueAttribute as CFString)
+  let description = stringAttr(element, kAXDescriptionAttribute as CFString)
+  let text = [value, title, description]
+    .first(where: { !$0.isEmpty && $0 != "Close" && $0 != "close button" }) ?? ""
+
+  if !role.isEmpty || !text.isEmpty {
+    debug.append("\\(String(repeating: ">", count: depth))role:\\(role) subrole:\\(subrole) title:\\(title) value:\\(value) description:\\(description)")
+  }
+
+  if !text.isEmpty && (role.contains("StaticText") || role.contains("Text") || role.contains("Group")) {
+    lines.append(text)
+  }
+
+  for child in children(element) {
+    collectText(child, depth: depth + 1, lines: &lines, debug: &debug)
+  }
+}
+
+let apps = NSWorkspace.shared.runningApplications.filter {
+  ($0.localizedName ?? "").contains("VoiceOver") || ($0.bundleIdentifier ?? "").contains("VoiceOver")
+}
+
+var allLines: [String] = []
+var allDebug: [String] = []
+
+for app in apps {
+  let appElement = AXUIElementCreateApplication(app.processIdentifier)
+  allDebug.append("app:\\(app.localizedName ?? "") pid:\\(app.processIdentifier) bundle:\\(app.bundleIdentifier ?? "")")
+  let windows = attr(appElement, kAXWindowsAttribute as CFString) as? [AXUIElement] ?? []
+  allDebug.append("windows:\\(windows.count)")
+  for window in windows {
+    collectText(window, depth: 0, lines: &allLines, debug: &allDebug)
+  }
+}
+
+let uniqueLines = allLines.reduce(into: [String]()) { result, line in
+  if !line.isEmpty && !result.contains(line) {
+    result.append(line)
+  }
+}
+
+print("captionAxText=\\(uniqueLines.joined(separator: " "))")
+print("captionAxDebug=\\(allDebug.joined(separator: " | "))")
+`,
+  );
+
+  const compile = toCommandResult(
+    run("swiftc", [scriptPath, "-o", binaryPath], { timeout: 60000 }),
+  );
+  captionAxTool = {
+    ok: compile.ok,
+    path: binaryPath,
+    compile,
+  };
+  return captionAxTool;
+}
 
 function getCaptionOcrTool() {
   if (captionOcrTool) {
@@ -1081,6 +1185,30 @@ function captureVoiceOverCaptionOcrState(targetOutputDir, stepIndex) {
     screenshot,
     ocr,
     parsed: parseVoiceOverText(ocr.stdout || ""),
+    tool: {
+      ok: tool.ok,
+      path: tool.path,
+      compile: tool.compile,
+    },
+  };
+}
+
+function captureVoiceOverCaptionAxState() {
+  const tool = getCaptionAxTool();
+  if (!tool.ok) {
+    return {
+      ok: false,
+      status: tool.compile.status,
+      signal: tool.compile.signal,
+      stdout: "",
+      stderr: tool.compile.stderr,
+      error: tool.compile.error || "Unable to compile VoiceOver AX caption helper",
+      tool,
+    };
+  }
+
+  return {
+    ...toCommandResult(run(tool.path, [], { timeout: 10000 })),
     tool: {
       ok: tool.ok,
       path: tool.path,
@@ -2763,6 +2891,7 @@ function getCaptureText(step) {
     step.voiceOver?.captionOcrText || "",
     step.voiceOver?.captionUiText || "",
     step.voiceOver?.captionText || "",
+    step.voiceOver?.captionAxText || "",
     step.voiceOver?.lastPhrase || "",
     step.voiceOver?.voCursorText || "",
     step.focus?.role || "",
@@ -2781,6 +2910,8 @@ function getComparisonVoiceOverText(step) {
 function getCaptionVoiceOverText(step) {
   const captionCandidates = [
     step.voiceOver?.captionText,
+    step.voiceOver?.captionAxText,
+    step.voiceOver?.captionUiText,
   ];
 
   for (const candidate of captionCandidates) {
@@ -2906,17 +3037,42 @@ function getNormalizedVoiceOverOutput(voiceOverSteps) {
   return announcements;
 }
 
+function getVoiceOverSourceDebug(voiceOverSteps) {
+  return voiceOverSteps.map((step) => ({
+    index: step.index,
+    chosenAnnouncement: getComparisonVoiceOverText(step),
+    captionText: cleanCaptionOcrText(step.voiceOver?.captionText),
+    captionAxText: cleanCaptionOcrText(step.voiceOver?.captionAxText),
+    captionUiText: cleanCaptionOcrText(step.voiceOver?.captionUiText),
+    captionOcrText: cleanCaptionOcrText(step.voiceOver?.captionOcrText),
+    captionWindowEnabled: step.voiceOver?.captionWindowEnabled || "",
+    lastPhrase: cleanCaptionOcrText(step.voiceOver?.lastPhrase),
+    voCursorText: cleanCaptionOcrText(step.voiceOver?.voCursorText),
+    focus: step.focus || {},
+    captionAxDebug: step.voiceOver?.captionAxDebug || "",
+    captionUiDebug: step.voiceOver?.captionUiDebug || "",
+    captionOcrDebug: step.voiceOver?.captionOcrDebug || "",
+  }));
+}
+
 function writeVoiceOverProgressFiles({
   targetOutputDir,
   voiceOverSteps,
 }) {
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
+  const sourceDebug = getVoiceOverSourceDebug(voiceOverSteps);
 
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "caption-window-system-noise-filtered",
+    normalization: "caption-window-ax-system-noise-filtered",
     partial: true,
+  });
+  writeJson(path.join(targetOutputDir, "voiceover-sources.json"), {
+    schemaVersion: 1,
+    source: "voiceover-caption-source-debug",
+    partial: true,
+    steps: sourceDebug,
   });
 }
 
@@ -2962,6 +3118,7 @@ function createScanDebugSummary({
       voiceOverAnnouncementCount: voiceOverOutput.length,
       firstVoiceOverAnnouncement: voiceOverOutput[0] || "",
       lastVoiceOverAnnouncement: voiceOverOutput.at(-1) || "",
+      voiceOverSourcesPath: "voiceover-sources.json",
       reducedHtmlStats,
       htmlSource: summary.sourceHtmlCapture?.source || "",
       htmlPath: "rendered-html.html",
@@ -3023,6 +3180,7 @@ function createRefinementManifest({
     },
     files: {
       voiceOverOutput: "voiceover-output.json",
+      voiceOverSources: "voiceover-sources.json",
       renderedHtml: "rendered-html.html",
       accessibilityTree: "accessibility-tree.json",
       scanDebug: "scan-debug.json",
@@ -3123,11 +3281,13 @@ async function scanTarget(target, index) {
     0,
   );
   const initialVoiceOverRaw = initialVoiceOverCapture.voiceOverRaw;
+  const initialCaptionAxRaw = captureVoiceOverCaptionAxState();
   const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
   const initialFocusRaw = captureChromeFocus();
   const initialFocus = parseVoiceOverText(initialFocusRaw.stdout || "");
   const initialVoiceOver = {
     ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
+    ...parseVoiceOverText(initialCaptionAxRaw.stdout || ""),
     ...parseVoiceOverText(initialCaptionUiRaw.stdout || ""),
     ...initialCaptionOcr.parsed,
   };
@@ -3151,6 +3311,7 @@ async function scanTarget(target, index) {
     },
     dismissSystemAfterNavigation: initialDismissSystem,
     voiceOverRaw: initialVoiceOverRaw,
+    captionAxRaw: initialCaptionAxRaw,
     captionUiRaw: initialCaptionUiRaw,
     captionOcrRaw: initialCaptionOcr.ocr,
     captionOcrAttempts: initialCaptionOcr.attempts,
@@ -3188,11 +3349,13 @@ async function scanTarget(target, index) {
       stepNumber,
     );
     const voiceOverRaw = voiceOverCapture.voiceOverRaw;
+    const captionAxRaw = captureVoiceOverCaptionAxState();
     const captionUiRaw = captureVoiceOverCaptionUiState();
     const focusRaw = captureChromeFocus();
     const focus = parseVoiceOverText(focusRaw.stdout || "");
     const voiceOver = {
       ...parseVoiceOverText(voiceOverRaw.stdout || ""),
+      ...parseVoiceOverText(captionAxRaw.stdout || ""),
       ...parseVoiceOverText(captionUiRaw.stdout || ""),
       ...captionOcr.parsed,
     };
@@ -3210,6 +3373,7 @@ async function scanTarget(target, index) {
       navigation,
       dismissSystemAfterNavigation,
       voiceOverRaw,
+      captionAxRaw,
       captionUiRaw,
       captionOcrRaw: captionOcr.ocr,
       captionOcrAttempts: captionOcr.attempts,
@@ -3334,7 +3498,13 @@ async function scanTarget(target, index) {
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "caption-window-system-noise-filtered",
+    normalization: "caption-window-ax-system-noise-filtered",
+  });
+  writeJson(path.join(targetOutputDir, "voiceover-sources.json"), {
+    schemaVersion: 1,
+    source: "voiceover-caption-source-debug",
+    partial: false,
+    steps: getVoiceOverSourceDebug(voiceOverSteps),
   });
   writeJson(
     path.join(targetOutputDir, "scan-debug.json"),
