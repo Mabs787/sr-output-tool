@@ -11,6 +11,7 @@ test("pick button starts and cancels page selection", async () => {
 
   assert.equal(selectBtn.textContent, "Cancel Picking");
   assert.equal(selectBtn.classList.contains("active"), true);
+  assert.equal(document.querySelector("#clear-btn").disabled, true);
   assert.deepEqual(toPlain(calls.sessionSet.at(-1)), {
     sr_selecting: true,
     sr_log: [],
@@ -29,10 +30,44 @@ test("pick button starts and cancels page selection", async () => {
 
   assert.equal(selectBtn.textContent, "Pick On Page");
   assert.equal(selectBtn.classList.contains("active"), false);
+  assert.equal(document.querySelector("#clear-btn").disabled, true);
+  assert.equal(
+    document.querySelector("#log-container").classList.contains("hidden"),
+    true,
+  );
   assert.deepEqual(toPlain(calls.sessionSet.at(-1)), { sr_selecting: false });
   assert.deepEqual(toPlain(calls.tabsSendMessage.at(-1)), {
     tabId: 123,
     message: { type: "SR_CANCEL_SELECTION" },
+  });
+});
+
+test("scan page button scans the full page", async () => {
+  const { document, calls } = await loadPopup({
+    sessionData: {
+      sr_log: [{ announcement: "Old output" }],
+      sr_selected_element: "main",
+      sr_selecting: true,
+    },
+  });
+
+  document.querySelector("#scan-page-btn").click();
+  await flushAsyncWork();
+
+  assert.equal(document.querySelector("#select-btn").textContent, "Pick On Page");
+  assert.equal(document.querySelector("#select-btn").classList.contains("active"), false);
+  assert.equal(
+    document.querySelector("#status").textContent,
+    "Scanning the full page...",
+  );
+  assert.deepEqual(toPlain(calls.sessionSet.at(-1)), {
+    sr_selecting: false,
+    sr_log: [],
+    sr_selected_element: "",
+  });
+  assert.deepEqual(toPlain(calls.tabsSendMessage.at(-1)), {
+    tabId: 123,
+    message: { type: "SR_SCAN_PAGE" },
   });
 });
 

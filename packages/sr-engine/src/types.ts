@@ -64,8 +64,10 @@ export interface ElementDescriptor {
   linkRoleFirst?: boolean;
   suppressContextEnd?: boolean;
   groupContext?: boolean;
+  groupedCollectionPosition?: boolean;
   splitDescribedAutocomplete?: boolean;
   searchInputGroup?: boolean;
+  splitLabelStop?: boolean;
 }
 
 /** Types of screen reader events. */

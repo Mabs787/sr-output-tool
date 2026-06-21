@@ -1,4 +1,5 @@
 const selectBtn = document.getElementById("select-btn");
+const scanPageBtn = document.getElementById("scan-page-btn");
 const copyBtn = document.getElementById("copy-btn");
 const clearBtn = document.getElementById("clear-btn");
 const feedbackBtn = document.getElementById("feedback-btn");
@@ -86,6 +87,13 @@ function setStatus(text) {
   statusEl.classList.toggle("hidden", !text);
 }
 
+function hideOutput() {
+  currentLog = [];
+  logList.innerHTML = "";
+  logContainer.classList.add("hidden");
+  updateOutputActionState();
+}
+
 function hasTargetTab() {
   return Number.isInteger(targetTabId) && targetTabId > 0;
 }
@@ -138,6 +146,13 @@ function updateSelectionState(selecting) {
   isSelecting = selecting;
   selectBtn.textContent = selecting ? "Cancel Picking" : "Pick On Page";
   selectBtn.classList.toggle("active", selecting);
+  updateOutputActionState();
+}
+
+function updateOutputActionState() {
+  const hasRenderedOutput = !logContainer.classList.contains("hidden");
+  clearBtn.disabled = isSelecting || !hasRenderedOutput;
+  copyBtn.disabled = isSelecting || currentLog.length === 0;
 }
 
 function setSettingsMenuOpen(open) {
@@ -253,13 +268,32 @@ selectBtn.addEventListener("click", async () => {
   }
 
   await chrome.storage.session.set({ sr_selecting: true, sr_log: [] });
+  currentSelectedElement = "";
+  renderSelectedElement();
+  hideOutput();
+  updateSelectionState(true);
+  setStatus("Click any element on the page to scan its screen reader output.");
+  await sendToContentScript({ type: "SR_START_SELECTION" });
+});
+
+scanPageBtn.addEventListener("click", async () => {
+  const injected = await ensureContentScript();
+  if (!injected) {
+    return;
+  }
+
+  await chrome.storage.session.set({
+    sr_selecting: false,
+    sr_log: [],
+    sr_selected_element: "",
+  });
   currentLog = [];
   currentSelectedElement = "";
   renderSelectedElement();
   renderLog();
-  updateSelectionState(true);
-  setStatus("Click any element on the page to scan its screen reader output.");
-  await sendToContentScript({ type: "SR_START_SELECTION" });
+  updateSelectionState(false);
+  setStatus("Scanning the full page...");
+  await sendToContentScript({ type: "SR_SCAN_PAGE" });
 });
 
 copyBtn.addEventListener("click", async () => {
@@ -372,11 +406,14 @@ chrome.runtime.onMessage.addListener((msg) => {
 
 function renderLog() {
   logList.innerHTML = "";
+  logList.style.setProperty(
+    "--log-index-digits",
+    String(Math.max(2, String(Math.max(currentLog.length, 1)).length)),
+  );
 
   if (currentLog.length === 0) {
     logContainer.classList.remove("hidden");
-    clearBtn.disabled = false;
-    copyBtn.disabled = true;
+    updateOutputActionState();
 
     const li = document.createElement("li");
     li.className = "empty-output";
@@ -392,8 +429,7 @@ function renderLog() {
   }
 
   logContainer.classList.remove("hidden");
-  clearBtn.disabled = false;
-  copyBtn.disabled = false;
+  updateOutputActionState();
   setStatus("");
 
   currentLog.forEach((entry) => {

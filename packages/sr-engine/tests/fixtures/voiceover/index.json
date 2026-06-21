@@ -24,8 +24,9 @@
       "expected": "web-dev.expected.json",
       "html": "web-dev.html",
       "accessibilityTree": "web-dev.ax.json",
-      "voiceOverAnnouncementCount": 175,
-      "sanitizationStatus": "sanitized"
+      "voiceOverAnnouncementCount": 176,
+      "sanitizationStatus": "sanitized",
+      "stepSnapshots": "web-dev.step-snapshots.json"
     },
     {
       "name": "www-apple-com-accessibility",

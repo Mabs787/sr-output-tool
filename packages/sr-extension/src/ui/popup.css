@@ -31,6 +31,8 @@
   --status-text: #664d03;
   --row-border: #eeeeee;
   --counter-text: #999999;
+  --role-tag-bg: #dfeaff;
+  --role-tag-text: #004ec2;
   --settings-shadow: 0 14px 32px rgba(20, 36, 52, 0.18);
   --theme-control-border: #0094ff;
   --theme-selected-bg: #b7d2ff;
@@ -67,6 +69,8 @@ body[data-theme="dark"] {
   --status-text: #ffd978;
   --row-border: #26313d;
   --counter-text: #7d8fa1;
+  --role-tag-bg: #d7e7ff;
+  --role-tag-text: #10284a;
   --settings-shadow: 0 14px 34px rgba(0, 0, 0, 0.48);
   --theme-control-border: #27a8ff;
   --theme-selected-bg: #a9c9ff;
@@ -107,6 +111,8 @@ html[data-theme="dark"] body {
   --status-text: #ffd978;
   --row-border: #26313d;
   --counter-text: #7d8fa1;
+  --role-tag-bg: #d7e7ff;
+  --role-tag-text: #10284a;
   --settings-shadow: 0 14px 34px rgba(0, 0, 0, 0.48);
   --theme-control-border: #27a8ff;
   --theme-selected-bg: #a9c9ff;
@@ -310,8 +316,8 @@ body {
 #controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 h1 {
@@ -378,8 +384,8 @@ h2 {
 
 .btn {
   min-width: 44px;
-  min-height: 44px;
-  padding: 8px 16px;
+  min-height: 38px;
+  padding: 7px 13px;
   border: none;
   border-radius: 6px;
   font-size: 12px;
@@ -401,6 +407,7 @@ h2 {
   box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--primary);
 }
 
+#scan-page-btn,
 #copy-btn,
 #clear-btn {
   white-space: nowrap;
@@ -470,6 +477,15 @@ h2 {
   background: var(--button-secondary-hover);
 }
 
+#scan-page-btn {
+  background: var(--primary);
+  color: var(--primary-text);
+}
+
+#scan-page-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
 .status {
   padding: 8px 10px;
   border-radius: 6px;
@@ -528,6 +544,8 @@ h2 {
 #log-list {
   list-style: none;
   counter-reset: log-counter;
+  --log-index-width: max(16px, calc(var(--log-index-digits, 2) * 6px));
+  --log-index-gutter: calc(var(--log-index-width) + 16px);
 }
 
 #log-list li {
@@ -536,7 +554,7 @@ h2 {
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  padding: 10px 10px 10px 32px;
+  padding: 10px 10px 10px var(--log-index-gutter);
   border-bottom: 1px solid var(--row-border);
   cursor: pointer;
   position: relative;
@@ -554,7 +572,8 @@ h2 {
   font-weight: 700;
   line-height: 1;
   color: var(--counter-text);
-  min-width: 16px;
+  width: var(--log-index-width);
+  text-align: right;
 }
 
 #log-list li:hover {
@@ -584,8 +603,8 @@ h2 {
   display: inline-block;
   font-size: 10px;
   font-weight: 600;
-  color: var(--primary);
-  background: var(--primary-soft);
+  color: var(--role-tag-text);
+  background: var(--role-tag-bg);
   padding: 1px 5px;
   border-radius: 3px;
   margin-left: 0;

@@ -172,6 +172,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushCollectionPosition(parts, el);
       } else {
         pushIfPresent(parts, headingLabel);
+        pushCollectionPosition(parts, el);
       }
       if (el.headingButton) {
         if (el.expanded !== undefined) {
@@ -198,7 +199,8 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
           parts.push("button");
         } else {
-          parts.push(`${popupType} button`);
+          parts.push(popupType);
+          parts.push("button");
         }
       } else {
         if (el.expanded !== undefined) {
@@ -207,10 +209,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (isToggleButton && el.disabled) {
           parts.push("dimmed");
         }
+        if (el.disabled && el.groupContext && !isToggleButton) {
+          parts.push("dimmed");
+        }
         parts.push(el.roleDescription ?? "button");
       }
       if (el.groupContext) {
         parts.push("group");
+        if (el.groupedCollectionPosition) {
+          pushCollectionPosition(parts, el);
+        }
       } else {
         pushCollectionPosition(parts, el);
       }
@@ -228,7 +236,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       } else if (el.pressed === "mixed") {
         parts.push("mixed");
       }
-      if (el.disabled && !isToggleButton) {
+      if (el.disabled && !isToggleButton && !(el.groupContext && role === "button")) {
         parts.push("dimmed");
       }
       pushSupplementalText(parts, el);
@@ -237,11 +245,17 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "link": {
       const popupType = formatPopupType(el.hasPopup);
-      if (el.disabled) {
-        parts.push("dimmed");
-      }
-      if (el.current) {
-        parts.push(el.current === true ? "current item" : `current ${el.current}`);
+      if (el.disabled && el.current) {
+        parts.push(
+          `dimmed ${el.current === true ? "current item" : `current ${el.current}`}`,
+        );
+      } else {
+        if (el.disabled) {
+          parts.push("dimmed");
+        }
+        if (el.current) {
+          parts.push(el.current === true ? "current item" : `current ${el.current}`);
+        }
       }
       if (popupType && el.expanded !== undefined) {
         parts.push(popupType);
@@ -413,6 +427,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       pushIfPresent(parts, label);
       pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
+      if (el.roleDescription === "empty group") {
+        parts.push("empty group");
+      }
       break;
     }
 
@@ -433,7 +450,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         el.parentPositionInSet && el.parentSetSize
           ? `${el.parentPositionInSet} of ${el.parentSetSize}`
           : undefined;
-      const listParts = [listLabel, listRole, listSize].filter(
+      const listParts =
+        listLabel && listRole === "list"
+          ? [listRole, listLabel, listSize]
+          : [listLabel, listRole, listSize];
+      const normalizedListParts = listParts.filter(
         (part): part is string => Boolean(part),
       );
       const supplementalParts: string[] = [];
@@ -448,7 +469,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
       }
       pushSupplementalText(supplementalParts, el);
-      return [listParts.join(" "), ...supplementalParts].filter(Boolean).join(", ");
+      return [normalizedListParts.join(" "), ...supplementalParts]
+        .filter(Boolean)
+        .join(", ");
     }
 
     case "listbox": {
@@ -627,6 +650,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "search": {
       pushIfPresent(parts, el.name);
       parts.push("search");
+      pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
       break;
     }

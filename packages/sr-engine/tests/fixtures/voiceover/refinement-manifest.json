@@ -20,11 +20,11 @@
     },
     "web-dev": {
       "status": "partial",
-      "reason": "Header through search combobox is promoted as an exact partial gate. Appearance/language controls are confirmed by step snapshots but are absent from final rendered HTML, so that deeper header slice remains candidate-only until snapshot-backed fixtures are promoted."
+      "reason": "Rendered header through the appearance/language shadow controls is promoted as an exact partial gate. The full page remains partial because the latest raw VoiceOver stream skipped the logo link while rendered HTML and earlier runs include it, and later page content still contains caption/OCR cleanup candidates."
     },
     "www-apple-com-accessibility": {
       "status": "partial",
-      "reason": "Global nav is promoted as an exact partial gate. User confirmed leading bullet markers are artifacts and diagnostic evidence supports the nested-list parent-position behavior; deeper Apple local nav/main/gallery output still needs full review before full-page gating."
+      "reason": "Global nav, the visible local navigation tray, first accessibility features gallery, and accessibility resources gallery are promoted as an exact partial gate. Supplied gallery HTML confirms structured card decomposition; later lower-page sections still need review before full-page gating."
     },
     "www-bbc-co-uk-news": {
       "status": "refined",

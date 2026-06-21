@@ -68,6 +68,46 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree skips paragraph wrappers that only contain interactive content", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <h2>Must-know features.</h2>
+        <p><a href="/features/"><span>Browse all features</span><span aria-hidden="true">›</span></a></p>
+      </div>
+    `),
+    [
+      "heading level 2, Must-know features.",
+      "link, Browse all features",
+    ],
+  );
+});
+
+test("scanSubtree falls back to link URL slugs when links have no readable label", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <nav>
+        <a href="https://web.dev/html"></a>
+        <a href="https://web.dev/css"></a>
+        <a href="https://web.dev/explore/ai"></a>
+        <a href="#main-content"></a>
+        <a href="mailto:hello@example.com"></a>
+        <a href="/has-title" title="Explicit title"></a>
+      </nav>
+    `),
+    [
+      "navigation",
+      "link, HTML",
+      "link, CSS",
+      "link, AI",
+      "link",
+      "link",
+      "link, Explicit title",
+      "end of, navigation",
+    ],
+  );
+});
+
 test("scanSubtree splits described autocomplete search inputs", () => {
   assert.deepEqual(
     scanHtml(`
@@ -161,8 +201,54 @@ test("scanSubtree traverses declarative shadow root controls", () => {
       </custom-language>
     `),
     [
-      "Appearance: Light theme, menu pop up button",
-      "Language, menu pop up button",
+      "group",
+      "Appearance: Light theme, menu pop up, button",
+      "group",
+      "Language, menu pop up, button",
+    ],
+  );
+});
+
+test("scanSubtree treats labelled custom element shadow controls as a group", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <custom-language aria-label="Select your language preference.">
+        <template shadowrootmode="open">
+          <button type="button" aria-haspopup="menu">Language</button>
+        </template>
+      </custom-language>
+    `),
+    [
+      "Select your language preference., group",
+      "Language, menu pop up, button",
+      "end of, Select your language preference., group",
+    ],
+  );
+});
+
+test("scanSubtree scans visible controlled content when paired controllers disagree", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <nav aria-label="Local">
+        <a href="/accessibility/">Accessibility</a>
+        <a href="#menu-state" role="button" aria-controls="local-menu" aria-expanded="false" data-sr-computed-hidden="display:none">Local Nav Menu</a>
+        <a href="#" role="button" aria-controls="local-menu" aria-expanded="true" data-sr-computed-hidden="display:none">Local Nav Menu</a>
+        <div id="local-menu">
+          <ul>
+            <li><span role="link" aria-disabled="true" aria-current="page">Overview</span></li>
+            <li><a href="/features/">Features</a></li>
+          </ul>
+        </div>
+      </nav>
+    `),
+    [
+      "Local, navigation",
+      "link, Accessibility",
+      "list 2 items",
+      "dimmed current page, link, Overview, 1 of 2",
+      "link, Features, 2 of 2",
+      "end of list",
+      "end of, Local, navigation",
     ],
   );
 });

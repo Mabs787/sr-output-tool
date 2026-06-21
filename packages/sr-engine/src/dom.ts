@@ -57,6 +57,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "article",
   ]);
 
+  const listPositionedRoles = new Set([
+    "link",
+    "button",
+    "heading",
+    "listitem",
+    "image",
+    "group",
+    "search",
+    "navigation",
+    "region",
+    "article",
+  ]);
+
   function normalize(value?: string | null): string | undefined {
     const normalized = value?.replace(/\s+/g, " ").trim();
     return normalized || undefined;
@@ -204,6 +217,60 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalize([imageLabel, text].filter(Boolean).join(" "));
   }
 
+  function hrefSlugLabel(el: any): string | undefined {
+    if (el?.tagName?.toLowerCase() !== "a") return undefined;
+    const href = normalize(el.getAttribute("href"));
+    if (!href || href.startsWith("#")) return undefined;
+
+    let url: URL;
+    try {
+      url = new URL(href, document.baseURI);
+    } catch {
+      return undefined;
+    }
+
+    if (!["http:", "https:"].includes(url.protocol)) return undefined;
+
+    const segments = url.pathname
+      .split("/")
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+    const lastSegment = segments.at(-1);
+    if (!lastSegment) return undefined;
+
+    const decoded = decodeURIComponent(lastSegment)
+      .replace(/\.[a-z0-9]+$/i, "")
+      .replace(/[-_]+/g, " ");
+    const acronymWords = new Set([
+      "ai",
+      "api",
+      "apis",
+      "css",
+      "dom",
+      "html",
+      "http",
+      "https",
+      "js",
+      "pwa",
+      "svg",
+      "ui",
+      "url",
+      "wai",
+      "wcag",
+    ]);
+
+    return normalize(
+      decoded
+        .split(/\s+/)
+        .map((word) => {
+          const lower = word.toLowerCase();
+          if (acronymWords.has(lower)) return lower.toUpperCase();
+          return word;
+        })
+        .join(" "),
+    );
+  }
+
   function buttonContentName(el: any): string | undefined {
     const imageLabel = nestedImageLabel(el);
     const text = readableText(el);
@@ -219,6 +286,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (isCustomElement(current)) return current;
     }
     return null;
+  }
+
+  function hasShadowRootContent(el: any): boolean {
+    return Boolean(
+      el?.shadowRoot ||
+        Array.from(el?.children || []).some(
+          (child: any) =>
+            child.tagName?.toLowerCase() === "template" &&
+            child.getAttribute("shadowrootmode"),
+        ),
+    );
   }
 
   function isLabeledIconActionButton(el: any): boolean {
@@ -271,13 +349,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function accessibleName(el: any, role: string): string | undefined {
+    const tag = el.tagName.toLowerCase();
     const ariaLabel = normalize(el.getAttribute("aria-label"));
-    if (ariaLabel !== undefined) return ariaLabel;
-
     const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
+    const nativeLabel = ["input", "select", "textarea"].includes(tag)
+      ? labelForControl(el)
+      : undefined;
+
+    if (nativeLabel) return nativeLabel;
+    if (ariaLabel !== undefined) return ariaLabel;
     if (labelledBy) return labelledBy;
 
-    const tag = el.tagName.toLowerCase();
     if (
       [
         "banner",
@@ -302,12 +384,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (tag === "img") return normalize(el.getAttribute("alt"));
-    if (["input", "select", "textarea"].includes(tag)) {
-      return labelForControl(el);
-    }
+    if (["input", "select", "textarea"].includes(tag)) return nativeLabel;
 
     if (role === "link") {
-      return linkContentName(el) || normalize(el.getAttribute("title"));
+      return (
+        linkContentName(el) ||
+        normalize(el.getAttribute("title")) ||
+        hrefSlugLabel(el)
+      );
     }
 
     if (role === "button") {
@@ -358,6 +442,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "th") return "columnheader";
     if (tag === "td") return "cell";
     if (tag === "img") return "image";
+    if (tag === "svg") return "image";
     if (tag === "dialog") return "dialog";
     if (
       tag === "p" ||
@@ -372,6 +457,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))
     ) {
       return tag === "section" ? "region" : "group";
+    }
+    if (
+      isCustomElement(el) &&
+      ((el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) ||
+        hasShadowRootContent(el)) &&
+      hasVisibleInteractiveDescendant(el)
+    ) {
+      return "group";
     }
     if (["span", "div"].includes(tag) &&
       directOwnText(el) &&
@@ -485,7 +578,33 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return index >= 0 ? index + 1 : undefined;
     }
 
-    if (["link", "button", "heading", "listitem", "image", "group"].includes(role)) {
+    if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+      const listItem = el.closest("li,[role='listitem']");
+      const firstHeading = listItem?.querySelector(
+        "h1, h2, h3, h4, h5, h6, [role='heading']",
+      );
+      if (
+        firstHeading &&
+        Boolean(
+          el.compareDocumentPosition(firstHeading) &
+            el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+        )
+      ) {
+        const { siblings } = semanticListContext(el);
+        const index = siblings.indexOf(listItem);
+        return index >= 0 ? index + 1 : undefined;
+      }
+      return undefined;
+    }
+
+    if (
+      ["heading", "link"].includes(role) &&
+      structuredListItemHasPreHeadingImage(el.closest("li,[role='listitem']"))
+    ) {
+      return undefined;
+    }
+
+    if (listPositionedRoles.has(role)) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
@@ -513,11 +632,27 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ).filter((tab: any) => !isHidden(tab)).length || undefined
       );
     }
-    if (["link", "button", "heading", "listitem", "image", "group"].includes(role)) {
+    if (listPositionedRoles.has(role)) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
     return undefined;
+  }
+
+  function directSemanticChildren(el: any): any[] {
+    return walkChildren(el).filter((child: any) => {
+      if (isHidden(child)) return false;
+      const role = implicitRole(child);
+      return Boolean(role && role !== "none" && role !== "presentation");
+    });
+  }
+
+  function hasDirectNonSemanticTextChild(el: any): boolean {
+    return walkChildren(el).some((child: any) => {
+      if (isHidden(child)) return false;
+      const role = implicitRole(child);
+      return !role && Boolean(readableText(child));
+    });
   }
 
   function hasOnlyInteractiveListItemContent(el: any): boolean {
@@ -526,12 +661,49 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return !textWithoutInteractive(el);
   }
 
+  function hasSingleSemanticListItemChild(el: any): boolean {
+    if (!isListItem(el)) return false;
+    if (directOwnText(el)) return false;
+    if (hasDirectNonSemanticTextChild(el)) return false;
+    const children = directSemanticChildren(el);
+    if (children.length !== 1) return false;
+    const role = implicitRole(children[0]);
+    return contextRoles.has(role) || role === "group";
+  }
+
   function hasStructuredListItemContent(el: any): boolean {
     if (!isListItem(el)) return false;
+    const heading = el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']");
+    if (
+      heading &&
+      (el.querySelector("p, [role='group'], img, [role='img'], svg[aria-label]") ||
+        el.querySelector("button, [role='button'], a[href], [role='link']"))
+    ) {
+      return true;
+    }
+
     const linkedHeading = el.querySelector(
       "h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]",
     );
     return Boolean(linkedHeading && textWithoutInteractive(el));
+  }
+
+  function structuredListItemHasPreHeadingImage(el: any): boolean {
+    if (!hasStructuredListItemContent(el)) return false;
+    const firstHeading = el.querySelector(
+      "h1, h2, h3, h4, h5, h6, [role='heading']",
+    );
+    if (!firstHeading) return false;
+
+    const firstImage = Array.from(
+      el.querySelectorAll("img, svg, [role='img']"),
+    ).find((image: any) => !isHidden(image));
+    if (!firstImage) return false;
+
+    return Boolean(
+      firstImage.compareDocumentPosition(firstHeading) &
+        firstImage.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   }
 
   function isIconOnlyLink(el: any): boolean {
@@ -592,8 +764,27 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function hasVisibleInteractiveDescendant(el: any): boolean {
-    return Array.from(el.querySelectorAll(interactiveSelector)).some(
-      (candidate: any) => !isHidden(candidate),
+    function collect(node: any): boolean {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) {
+        return false;
+      }
+      if (node !== el && node.matches(interactiveSelector)) {
+        return true;
+      }
+      return walkChildren(node).some((child: any) => collect(child));
+    }
+
+    return collect(el);
+  }
+
+  function hasOnlyLinkContent(el: any): boolean {
+    const interactiveDescendants = Array.from(
+      el.querySelectorAll(interactiveSelector),
+    ).filter((candidate: any) => !isHidden(candidate));
+    return Boolean(
+      interactiveDescendants.length > 0 &&
+        interactiveDescendants.every((candidate: any) => implicitRole(candidate) === "link") &&
+        !textWithoutInteractive(el),
     );
   }
 
@@ -741,7 +932,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       roleDescription:
         role === "list" && tag === "dl"
           ? "definition list"
-          : normalize(el.getAttribute("aria-roledescription")),
+          : role === "paragraph" &&
+              el.getAttribute("tabindex") === "-1" &&
+              hasStructuredListItemContent(el.closest("li,[role='listitem']"))
+            ? "empty group"
+            : normalize(el.getAttribute("aria-roledescription")),
       level:
         role === "heading"
           ? Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2
@@ -814,6 +1009,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "button" && isIconFirstTextButton(el)) ||
         (role === "button" && isSlideshowNavigationButton(el)) ||
         undefined,
+      groupedCollectionPosition:
+        role === "button" &&
+          hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) ||
+        undefined,
       splitDescribedAutocomplete:
         shouldSplitDescribedAutocomplete(el, role) || undefined,
       searchInputGroup:
@@ -821,6 +1020,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           tag === "input" &&
           (el.getAttribute("type") || "").toLowerCase() === "search") ||
           undefined,
+      splitLabelStop:
+        ["searchbox", "textbox"].includes(role) &&
+        tag === "input" &&
+        Boolean(name?.endsWith(":"))
+          ? true
+          : undefined,
+      suppressContextEnd:
+        role === "group" &&
+        isCustomElement(el) &&
+        hasShadowRootContent(el) &&
+        !accessibleName(el, role)
+          ? true
+          : undefined,
       ...table,
       boundingBox: {
         x: Math.round(rect.x),
@@ -870,6 +1082,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (role === "listitem" && hasSingleSemanticListItemChild(el)) {
+      return false;
+    }
+
     if (
       contextRoles.has(role) &&
       !accessibleName(el, role) &&
@@ -879,18 +1095,26 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
-    if (role === "paragraph" && !readableText(el)) {
+    if (
+      role === "paragraph" &&
+      (!readableText(el) || hasOnlyLinkContent(el))
+    ) {
       return false;
     }
 
-    if (role === "image" && !accessibleName(el, role)) {
+    if (
+      role === "image" &&
+      !accessibleName(el, role) &&
+      !hasStructuredListItemContent(el.closest("li,[role='listitem']"))
+    ) {
       return false;
     }
 
     if (
       role === "group" &&
       !accessibleName(el, role) &&
-      !el.matches(interactiveSelector)
+      !el.matches(interactiveSelector) &&
+      !(isCustomElement(el) && hasShadowRootContent(el))
     ) {
       return false;
     }
@@ -938,6 +1162,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "listitem") {
       return (
         hasOnlyInteractiveListItemContent(el) ||
+        hasStructuredListItemContent(el) ||
+        hasSingleSemanticListItemChild(el) ||
         Boolean(el.querySelector("ul, ol, dl, [role='list']"))
       );
     }
@@ -963,10 +1189,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function collapsedPopupController(container: any): any {
     if (!container?.id) return null;
-    const controller = document.querySelector(
-      `[aria-controls="${cssEscape(container.id)}"][aria-expanded="false"]`,
+    const controlledBy = Array.from(
+      document.querySelectorAll(`[aria-controls="${cssEscape(container.id)}"]`),
+    ).filter((controller: any) => !container.contains(controller));
+    if (
+      controlledBy.some(
+        (controller: any) => controller.getAttribute("aria-expanded") === "true",
+      )
+    ) {
+      return null;
+    }
+
+    return (
+      controlledBy.find(
+        (controller: any) => controller.getAttribute("aria-expanded") === "false",
+      ) || null
     );
-    return controller && !container.contains(controller) ? controller : null;
   }
 
   function isInsideCollapsedPopup(el: any): boolean {
@@ -994,6 +1232,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function splitLabelStopAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.splitLabelStop) return undefined;
+
+    const label = normalize(descriptor.name || descriptor.text);
+    const announcement = generateAnnouncement(descriptor);
+    return [label, announcement].filter((entry): entry is string => Boolean(entry));
+  }
+
   function scanSubtree(root: any): ScanLogEntry[] {
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
@@ -1011,6 +1259,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         if (descriptor) {
           const announcements =
             splitDescribedAutocompleteAnnouncements(descriptor) ||
+            splitLabelStopAnnouncements(descriptor) ||
             [generateAnnouncement(descriptor)];
           for (const announcement of announcements) {
             if (!announcement) continue;

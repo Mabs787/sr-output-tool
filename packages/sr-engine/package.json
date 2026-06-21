@@ -8,6 +8,7 @@
     "build": "tsc",
     "test:unit": "node --test tests/*.test.mjs",
     "test:voiceover": "SR_VOICEOVER_CORPUS_TESTS=true node --test tests/voiceover-corpus.test.mjs",
+    "voiceover:compare": "node tests/compare-voiceover-fixture.mjs",
     "watch": "tsc --watch"
   },
   "files": [

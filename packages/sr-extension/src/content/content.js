@@ -690,6 +690,20 @@
     });
   }
 
+  function scanPage() {
+    exitSelectionMode({ notify: false });
+    clearCandidateIds();
+    clearSrIds();
+    selectedScanRoot = document.body;
+
+    const log = scanSubtree(document.body);
+    chrome.runtime.sendMessage({
+      type: "SR_SCAN_RESULT",
+      log,
+      selectedElement: "Full page",
+    });
+  }
+
   window.__sr_extension_test__ = {
     getScanRoot,
     getSelectableTarget,
@@ -701,6 +715,7 @@
     highlightElement,
     clearSrIds,
     getEventElement,
+    scanPage,
   };
 
   // ── Highlight a specific element by its sr-id ──
@@ -950,6 +965,11 @@
 
       case "SR_SCAN_ELEMENT":
         scanElement(getCandidateElement(msg.candidateId));
+        sendResponse({ ok: true });
+        break;
+
+      case "SR_SCAN_PAGE":
+        scanPage();
         sendResponse({ ok: true });
         break;
 

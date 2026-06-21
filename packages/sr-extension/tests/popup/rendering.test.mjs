@@ -21,6 +21,7 @@ test("popup initializes from stored log and selected element", async () => {
     document.querySelector("#selected-element").classList.contains("hidden"),
     false,
   );
+  assert.equal(document.querySelector("#scan-page-btn").textContent, "Scan Page");
   assert.equal(
     document.querySelector("#selected-element-text").textContent,
     "button#submit",
