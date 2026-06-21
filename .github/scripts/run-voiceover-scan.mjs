@@ -790,6 +790,7 @@ function captureScreenshot(targetOutputDir, stepIndex, label, options = {}) {
 
 let captionOcrTool = null;
 let captionAxTool = null;
+let chromeFocusAxTool = null;
 let pageConsentOcrTool = null;
 
 function getCaptionAxTool() {
@@ -917,6 +918,98 @@ print("captionCgDebug=\\(cgDebug.joined(separator: " | "))")
     compile,
   };
   return captionAxTool;
+}
+
+function getChromeFocusAxTool() {
+  if (chromeFocusAxTool) {
+    return chromeFocusAxTool;
+  }
+
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-chrome-ax-tool-"));
+  const scriptPath = path.join(tempDir, "read-chrome-focused-ax.swift");
+  const binaryPath = path.join(tempDir, "read-chrome-focused-ax");
+  writeFileSync(
+    scriptPath,
+    `
+import AppKit
+import ApplicationServices
+import Foundation
+
+func clean(_ value: String) -> String {
+  return value
+    .replacingOccurrences(of: "\\n", with: " ")
+    .replacingOccurrences(of: "\\r", with: " ")
+    .trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+func attr(_ element: AXUIElement, _ name: CFString) -> Any? {
+  var value: CFTypeRef?
+  let error = AXUIElementCopyAttributeValue(element, name, &value)
+  if error != .success {
+    return nil
+  }
+  return value
+}
+
+func stringAttr(_ element: AXUIElement, _ name: CFString) -> String {
+  if let value = attr(element, name) {
+    return clean(String(describing: value))
+  }
+  return ""
+}
+
+let apps = NSWorkspace.shared.runningApplications.filter {
+  ($0.localizedName ?? "") == "Google Chrome" || ($0.bundleIdentifier ?? "") == "com.google.Chrome"
+}
+
+var debug: [String] = []
+var role = ""
+var subrole = ""
+var title = ""
+var value = ""
+var description = ""
+var help = ""
+
+for app in apps {
+  debug.append("app:\\(app.localizedName ?? "") pid:\\(app.processIdentifier) bundle:\\(app.bundleIdentifier ?? "")")
+  let appElement = AXUIElementCreateApplication(app.processIdentifier)
+  guard let focused = attr(appElement, kAXFocusedUIElementAttribute as CFString) else {
+    debug.append("focused:missing")
+    continue
+  }
+
+  let focusedElement = focused as! AXUIElement
+  role = stringAttr(focusedElement, kAXRoleAttribute as CFString)
+  subrole = stringAttr(focusedElement, kAXSubroleAttribute as CFString)
+  title = stringAttr(focusedElement, kAXTitleAttribute as CFString)
+  value = stringAttr(focusedElement, kAXValueAttribute as CFString)
+  description = stringAttr(focusedElement, kAXDescriptionAttribute as CFString)
+  help = stringAttr(focusedElement, kAXHelpAttribute as CFString)
+  debug.append("focused:role=\\(role) subrole=\\(subrole) title=\\(title) value=\\(value) description=\\(description) help=\\(help)")
+  break
+}
+
+let text = [value, title, description, help].first(where: { !$0.isEmpty }) ?? ""
+print("chromeAxRole=\\(role)")
+print("chromeAxSubrole=\\(subrole)")
+print("chromeAxTitle=\\(title)")
+print("chromeAxValue=\\(value)")
+print("chromeAxDescription=\\(description)")
+print("chromeAxHelp=\\(help)")
+print("chromeAxText=\\(text)")
+print("chromeAxDebug=\\(debug.joined(separator: " | "))")
+`,
+  );
+
+  const compile = toCommandResult(
+    run("swiftc", [scriptPath, "-o", binaryPath], { timeout: 60000 }),
+  );
+  chromeFocusAxTool = {
+    ok: compile.ok,
+    path: binaryPath,
+    compile,
+  };
+  return chromeFocusAxTool;
 }
 
 function getCaptionOcrTool() {
@@ -1241,6 +1334,30 @@ function captureVoiceOverCaptionAxState() {
   };
 }
 
+function captureChromeFocusAxState() {
+  const tool = getChromeFocusAxTool();
+  if (!tool.ok) {
+    return {
+      ok: false,
+      status: tool.compile.status,
+      signal: tool.compile.signal,
+      stdout: "",
+      stderr: tool.compile.stderr,
+      error: tool.compile.error || "Unable to compile Chrome AX focus helper",
+      tool,
+    };
+  }
+
+  return {
+    ...toCommandResult(run(tool.path, [], { timeout: 10000 })),
+    tool: {
+      ok: tool.ok,
+      path: tool.path,
+      compile: tool.compile,
+    },
+  };
+}
+
 function cleanCaptionOcrText(value) {
   return String(value || "")
     .replace(/^[x×]\s*/i, "")
@@ -1355,6 +1472,7 @@ end tell
         "--remote-allow-origins=*",
         `--user-data-dir=${chromeUserDataDir}`,
         "--no-first-run",
+        "--force-renderer-accessibility",
       ],
       { timeout: 15000 },
     ),
@@ -2935,6 +3053,11 @@ function getCaptureText(step) {
     step.focus?.role || "",
     step.focus?.name || "",
     step.focus?.value || "",
+    step.chromeAx?.chromeAxRole || "",
+    step.chromeAx?.chromeAxText || "",
+    step.chromeAx?.chromeAxTitle || "",
+    step.chromeAx?.chromeAxValue || "",
+    step.chromeAx?.chromeAxDescription || "",
   ]
     .filter(Boolean)
     .join(" ")
@@ -3092,6 +3215,7 @@ function getVoiceOverSourceDebug(voiceOverSteps) {
     lastPhrase: cleanCaptionOcrText(step.voiceOver?.lastPhrase),
     voCursorText: cleanCaptionOcrText(step.voiceOver?.voCursorText),
     focus: step.focus || {},
+    chromeAx: step.chromeAx || {},
     captionAxDebug: step.voiceOver?.captionAxDebug || "",
     captionCgDebug: step.voiceOver?.captionCgDebug || "",
     captionUiDebug: step.voiceOver?.captionUiDebug || "",
@@ -3328,7 +3452,9 @@ async function scanTarget(target, index) {
   const initialCaptionAxRaw = captureVoiceOverCaptionAxState();
   const initialCaptionUiRaw = captureVoiceOverCaptionUiState();
   const initialFocusRaw = captureChromeFocus();
+  const initialChromeAxRaw = captureChromeFocusAxState();
   const initialFocus = parseVoiceOverText(initialFocusRaw.stdout || "");
+  const initialChromeAx = parseVoiceOverText(initialChromeAxRaw.stdout || "");
   const initialVoiceOver = {
     ...parseVoiceOverText(initialVoiceOverRaw.stdout || ""),
     ...parseVoiceOverText(initialCaptionAxRaw.stdout || ""),
@@ -3360,6 +3486,8 @@ async function scanTarget(target, index) {
     captionOcrRaw: initialCaptionOcr.ocr,
     captionOcrAttempts: initialCaptionOcr.attempts,
     voiceOver: initialVoiceOver,
+    chromeAxRaw: initialChromeAxRaw,
+    chromeAx: initialChromeAx,
     focusRaw: initialFocusRaw,
     focus: initialFocus,
     recovery: null,
@@ -3396,7 +3524,9 @@ async function scanTarget(target, index) {
     const captionAxRaw = captureVoiceOverCaptionAxState();
     const captionUiRaw = captureVoiceOverCaptionUiState();
     const focusRaw = captureChromeFocus();
+    const chromeAxRaw = captureChromeFocusAxState();
     const focus = parseVoiceOverText(focusRaw.stdout || "");
+    const chromeAx = parseVoiceOverText(chromeAxRaw.stdout || "");
     const voiceOver = {
       ...parseVoiceOverText(voiceOverRaw.stdout || ""),
       ...parseVoiceOverText(captionAxRaw.stdout || ""),
@@ -3422,6 +3552,8 @@ async function scanTarget(target, index) {
       captionOcrRaw: captionOcr.ocr,
       captionOcrAttempts: captionOcr.attempts,
       voiceOver,
+      chromeAxRaw,
+      chromeAx,
       focusRaw,
       focus,
       recovery: null,
