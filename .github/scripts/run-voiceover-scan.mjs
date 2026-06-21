@@ -2775,42 +2775,23 @@ function getCaptureText(step) {
 }
 
 function getComparisonVoiceOverText(step) {
-  const captionCandidate =
-    step.voiceOver?.captionOcrText ||
-    step.voiceOver?.captionUiText ||
-    step.voiceOver?.captionText ||
-    "";
-  const caption = isSystemNoise(cleanCaptionOcrText(captionCandidate))
-    ? ""
-    : captionCandidate;
-  const phrase = step.voiceOver?.lastPhrase || "";
-  const cursor = step.voiceOver?.voCursorText || "";
-  let comparisonText = caption || phrase || cursor;
+  return getCaptionVoiceOverText(step);
+}
 
-  if (!caption && cursor && phrase.startsWith("You are currently on a ")) {
-    const role = phrase
-      .replace(/^You are currently on an? /, "")
-      .replace(/\..*$/, "")
-      .trim();
-    const lowerCursor = cursor.toLowerCase();
-    const lowerRole = role.toLowerCase();
-    if (role && lowerCursor.endsWith(` ${lowerRole}`)) {
-      const name = cursor.slice(0, -role.length).trim();
-      comparisonText = lowerRole.startsWith("heading level")
-        ? `${role}, ${name}`
-        : `${name}, ${role}`;
-    } else if (role) {
-      comparisonText = `${role}, ${cursor}`;
+function getCaptionVoiceOverText(step) {
+  const captionCandidates = [
+    step.voiceOver?.captionText,
+    step.voiceOver?.captionOcrText,
+  ];
+
+  for (const candidate of captionCandidates) {
+    const caption = cleanCaptionOcrText(candidate);
+    if (caption && !isSystemNoise(caption)) {
+      return caption;
     }
-  } else if (
-    !caption &&
-    cursor &&
-    (phrase.includes(" To click this ") || phrase.includes(" To exit this "))
-  ) {
-    comparisonText = cursor;
   }
 
-  return cleanCaptionOcrText(comparisonText);
+  return "";
 }
 
 function isSystemNoise(announcement) {
@@ -2935,7 +2916,7 @@ function writeVoiceOverProgressFiles({
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "system-noise-filtered",
+    normalization: "caption-source-system-noise-filtered",
     partial: true,
   });
 }
@@ -3354,7 +3335,7 @@ async function scanTarget(target, index) {
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
-    normalization: "system-noise-filtered",
+    normalization: "caption-source-system-noise-filtered",
   });
   writeJson(
     path.join(targetOutputDir, "scan-debug.json"),
