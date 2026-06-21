@@ -58,6 +58,10 @@
       "status": "refined",
       "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
     },
+    "www-sky-com": {
+      "status": "partial",
+      "reason": "Imported from Chrome/VoiceOver run 27919053170 and re-baselined with the VO-first refinement workflow. The engine now matches the reliable page flow through end of main, including page-authored `undefined page link`, nested product-card heading phrasing, legal accordion heading/button collapse, slide buttons, and native select wording. Keep the footer landmark wording and final post-footer group traversal out of exact gating until a fresh run confirms those tail announcements."
+    },
     "www-w3-org-wai-standards-guidelines-wcag": {
       "status": "candidate",
       "reason": "Useful nested language/list fixture, but casing/Japanese item and parent-position announcements need manual confirmation."

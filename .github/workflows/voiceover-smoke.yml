@@ -40,6 +40,16 @@ on:
         required: false
         default: "120"
         type: string
+      viewport_width:
+        description: "Chrome viewport/window width for each scan"
+        required: false
+        default: "1200"
+        type: string
+      viewport_height:
+        description: "Chrome viewport/window height for each scan"
+        required: false
+        default: "543"
+        type: string
 
 permissions:
   contents: read
@@ -160,6 +170,8 @@ jobs:
           VOICEOVER_CAPTURE_STEP_SNAPSHOTS: ${{ inputs.capture_step_snapshots && 'true' || '' }}
           VOICEOVER_MAX_STEP_SECONDS: ${{ inputs.max_step_seconds }}
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
+          VOICEOVER_VIEWPORT_WIDTH: ${{ inputs.viewport_width }}
+          VOICEOVER_VIEWPORT_HEIGHT: ${{ inputs.viewport_height }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
       - name: Capture diagnostics

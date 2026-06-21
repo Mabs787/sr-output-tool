@@ -12,7 +12,7 @@ When answering, use:
 
 ## Runner Context
 
-Treat runner output as a US, `en-US`, UTC, 980px-wide Chrome page state unless a
+Treat runner output as a US, `en-US`, UTC, 1200px-wide Chrome page state unless a
 newer fixture-specific `runner-environment.json` says otherwise.
 
 UK-local manual checks can differ because of geo, locale, timezone, cookie

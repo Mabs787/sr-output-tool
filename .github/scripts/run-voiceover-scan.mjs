@@ -38,6 +38,19 @@ const defaultMaxStepSeconds = Number(
 const chromeDebuggingPort = Number(
   process.env.CHROME_REMOTE_DEBUGGING_PORT || 9222,
 );
+const chromeViewportWidth = parsePositiveInteger(
+  process.env.VOICEOVER_VIEWPORT_WIDTH,
+  1200,
+);
+const chromeViewportHeight = parsePositiveInteger(
+  process.env.VOICEOVER_VIEWPORT_HEIGHT,
+  543,
+);
+
+function parsePositiveInteger(value, fallback) {
+  const parsed = Number.parseInt(String(value || ""), 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
 
 function run(command, args, options = {}) {
   return spawnSync(command, args, {
@@ -1488,18 +1501,36 @@ end tell
         `--user-data-dir=${chromeUserDataDir}`,
         "--no-first-run",
         "--force-renderer-accessibility",
+        `--window-size=${chromeViewportWidth},${chromeViewportHeight}`,
       ],
       { timeout: 15000 },
     ),
   );
   const activateResult = activateChrome();
+  const windowBoundsResult = runAppleScript(`
+tell application "System Events"
+  if exists process "Google Chrome" then
+    tell process "Google Chrome"
+      if exists window 1 then
+        set position of window 1 to {0, 0}
+        set size of window 1 to {${chromeViewportWidth}, ${chromeViewportHeight}}
+      end if
+    end tell
+  end if
+end tell
+`, 8000);
 
   return {
     ...openResult,
     chromeDebuggingPort,
     chromeUserDataDir,
+    requestedViewport: {
+      width: chromeViewportWidth,
+      height: chromeViewportHeight,
+    },
     stopChrome: stopChromeResult,
     activateChrome: activateResult,
+    windowBounds: windowBoundsResult,
   };
 }
 

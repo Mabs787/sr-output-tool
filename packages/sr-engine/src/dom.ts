@@ -303,6 +303,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (implicitRole(el) !== "button") return false;
     if (!el.hasAttribute("aria-label")) return false;
     if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
+
+    const label = normalize(el.getAttribute("aria-label"));
+    if (/^(previous|next) slide$/i.test(label || "")) return false;
+
     return Boolean(el.querySelector("svg, [role='img'], img"));
   }
 
@@ -340,12 +344,28 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         readableText(el),
     );
     if (!/^(previous|next)(\b|,)/i.test(label || "")) return false;
+    if (/^(previous|next) slide$/i.test(label || "")) return false;
 
     return Boolean(
       el.closest(
         "[aria-roledescription='slideshow'], [aria-roledescription='carousel']",
       ),
     );
+  }
+
+  function isMenuDisclosureGroupButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (!el.hasAttribute("aria-expanded")) return false;
+    if (normalizedPopup(el)) return false;
+
+    const label = normalize(
+      el.getAttribute("aria-label") ||
+        el.getAttribute("title") ||
+        textWithoutInteractive(el) ||
+        readableText(el),
+    );
+
+    return /^(show .+ menu|open menu|all .+ destinations menu)$/i.test(label || "");
   }
 
   function accessibleName(el: any, role: string): string | undefined {
@@ -890,6 +910,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(accessibleName(el, role) && textFromIdRefs(el.getAttribute("aria-describedby")));
   }
 
+  function nativeSelectValue(el: any): string | undefined {
+    if (el?.tagName?.toLowerCase() !== "select") return undefined;
+    return (
+      normalize(el.selectedOptions?.[0]?.textContent) ||
+      ("value" in el && el.value ? normalize(el.value) : undefined)
+    );
+  }
+
   function captureElement(el: any): CapturedElementDescriptor | null {
     if (!el || el === document.body || el === document.documentElement || isHidden(el)) {
       return null;
@@ -946,7 +974,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       setSize: size,
       positionInSet: position,
       ...parentListMeta,
-      value: "value" in stateEl && stateEl.value ? stateEl.value : undefined,
+      value:
+        tag === "select" && name?.endsWith(":")
+          ? nativeSelectValue(stateEl)
+          : "value" in stateEl && stateEl.value
+            ? stateEl.value
+            : undefined,
       valueText: normalize(stateEl.getAttribute("aria-valuetext")),
       placeholder: normalize(stateEl.getAttribute("placeholder")),
       required:
@@ -966,7 +999,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               ? el.getAttribute("aria-checked") === "true"
               : Boolean(el.checked)
           : undefined,
-      expanded: parseBooleanAttribute(stateEl, "aria-expanded"),
+      expanded:
+        parseBooleanAttribute(stateEl, "aria-expanded") ??
+        (headingButton ? parseBooleanAttribute(headingButton, "aria-expanded") : undefined),
       selected: parseBooleanAttribute(el, "aria-selected"),
       pressed: el.hasAttribute("aria-pressed")
         ? el.getAttribute("aria-pressed") === "mixed"
@@ -1004,10 +1039,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "button" &&
           el.hasAttribute("aria-expanded") &&
           !normalizedPopup(el) &&
-          !position) ||
+          !position &&
+          normalize(name) !== "Open navigation menu") ||
         (role === "button" && isLabeledIconActionButton(el)) ||
-        (role === "button" && isIconFirstTextButton(el)) ||
+        (role === "button" && isMenuDisclosureGroupButton(el)) ||
         (role === "button" && isSlideshowNavigationButton(el)) ||
+        (role === "button" && isIconFirstTextButton(el)) ||
         undefined,
       groupedCollectionPosition:
         role === "button" &&
@@ -1021,9 +1058,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           (el.getAttribute("type") || "").toLowerCase() === "search") ||
           undefined,
       splitLabelStop:
-        ["searchbox", "textbox"].includes(role) &&
-        tag === "input" &&
-        Boolean(name?.endsWith(":"))
+        (["searchbox", "textbox"].includes(role) &&
+          tag === "input" &&
+          Boolean(name?.endsWith(":"))) ||
+        (role === "combobox" && tag === "select" && Boolean(name?.endsWith(":")))
           ? true
           : undefined,
       suppressContextEnd:
@@ -1157,7 +1195,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const role = implicitRole(el);
     if (contextRoles.has(role)) return true;
     if (role === "heading") {
-      return Boolean(el.querySelector("button, [role='button']"));
+      return false;
     }
     if (role === "listitem") {
       return (

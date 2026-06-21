@@ -56,8 +56,11 @@ Output of this step:
 ## 3. Import And Sanitize Artifacts
 
 After artifacts are available, pull them locally and sanitize before using them
-as engine evidence. Treat `step-snapshots.json` as the primary source when a
-specific VoiceOver announcement disagrees with final `rendered-html.html`.
+as engine evidence. Treat the VoiceOver announcement stream as the primary
+evidence for what Chrome + VoiceOver announced. Use `step-snapshots.json`,
+`voiceover-sources.json`, rendered HTML, and the accessibility tree to explain
+surprising output or repair clear capture noise, not to override valid
+VoiceOver output with current engine expectations.
 
 The target loop is AI-led:
 
@@ -65,15 +68,34 @@ The target loop is AI-led:
 2. Import the artifact into a fixture workspace with raw output preserved.
 3. Generate an AI refinement prompt for the scan target.
 4. Use AI to create or update `refinedAnnouncements` from the raw VoiceOver
-   output, `voiceover-sources.json`, rendered HTML, AX tree, and step
-   snapshots.
+   output, keeping VoiceOver wording by default and changing it only for clear
+   capture corruption backed by `voiceover-sources.json`, rendered HTML, AX
+   tree, or step snapshots.
 5. Compare the engine against `refinedAnnouncements`.
 6. Change the engine only for reusable behavior gaps.
 7. Leave notes for ambiguous fixture/scanner issues.
 
-Raw scan output is evidence. The refined output is the test oracle.
+Raw VoiceOver output is the default source of truth. The refined output is the
+test oracle after removing capture noise, not after reshaping VoiceOver output
+to match the current engine.
 
 Useful commands after downloading artifacts:
+
+```bash
+npm run voiceover:refine-artifact -- \
+  --run-id 123456789 \
+  --target www-example-com-page \
+  --work-dir /tmp/voiceover-refinement \
+  --promote none
+```
+
+This is the preferred local entrypoint. It downloads or reads the artifact,
+imports the fixture into a staging workspace, creates the AI prompt, writes a
+Markdown evidence report, compares the current engine against
+`refinedAnnouncements`, and only copies files into the corpus when `--promote`
+is explicitly set to `candidate` or `refined`.
+
+Use the lower-level commands when you need to debug one step:
 
 ```bash
 npm run voiceover:import-fixtures -- \
@@ -117,8 +139,8 @@ Check for:
 
 Evidence priority for each disputed announcement:
 
-1. `voiceover-sources.json` for the same step, especially `voCursorText`,
-   focused AX role/name, and caption source errors.
+1. Raw VoiceOver announcement plus `voiceover-sources.json` for the same step,
+   especially `voCursorText`, focused AX role/name, and caption source errors.
 2. Nearest `step-snapshots.json` entry for the VoiceOver step.
 3. Accessibility-tree evidence captured for the same page state.
 4. Final `rendered-html.html` for whole-page structure and context.
@@ -126,6 +148,13 @@ Evidence priority for each disputed announcement:
 
 If final HTML and the nearest step snapshot disagree, prefer the step snapshot
 for that announcement and record the conflict in the fixture notes.
+
+Question the fixture only when there is positive evidence of capture noise:
+OCR drift, truncation, duplicated captions, missing caption text, system UI
+noise, or scan boundary artifacts. Otherwise, treat the mismatch as an engine
+gap first. Preserve surprising output when live page evidence supports it; for
+example, `link, undefined page link` is valid expected output if the focused
+element has `aria-label="undefined page link"`.
 
 Output of this step:
 

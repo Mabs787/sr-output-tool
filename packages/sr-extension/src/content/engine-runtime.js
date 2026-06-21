@@ -131,7 +131,15 @@
         if (!normalizedFragments?.length) {
           return void 0;
         }
-        return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
+        if (level < 3) {
+          return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
+        }
+        const [firstFragment, ...nestedFragments] = normalizedFragments;
+        return [
+          `heading level ${level} ${firstFragment}`,
+          ...nestedFragments.map((fragment) => `level 2 ${fragment}`),
+          `level 2, ${normalizedFragments.length} items`
+        ].join(", ");
       }
       function formatInteractiveHeadingFragments(fragments) {
         const normalizedFragments = fragments?.map((fragment) => normalizeText(fragment)).filter((fragment) => Boolean(fragment));
@@ -315,8 +323,12 @@
               if (selectLabel && selectLabel !== value) {
                 pushIfPresent(parts, selectLabel);
               }
-              parts.push("menu pop up");
-              parts.push(el.expanded ? "expanded" : "collapsed");
+              if (selectLabel?.endsWith(":")) {
+                parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
+              } else {
+                parts.push("menu pop up");
+                parts.push(el.expanded ? "expanded" : "collapsed");
+              }
               parts.push("button");
             } else {
               pushIfPresent(parts, label);
@@ -884,6 +896,9 @@
             return false;
           if (normalizedPopup(el) || el.hasAttribute("aria-expanded"))
             return false;
+          const label = normalize(el.getAttribute("aria-label"));
+          if (/^(previous|next) slide$/i.test(label || ""))
+            return false;
           return Boolean(el.querySelector("svg, [role='img'], img"));
         }
         function isIconFirstTextButton(el) {
@@ -919,7 +934,19 @@
           const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
           if (!/^(previous|next)(\b|,)/i.test(label || ""))
             return false;
+          if (/^(previous|next) slide$/i.test(label || ""))
+            return false;
           return Boolean(el.closest("[aria-roledescription='slideshow'], [aria-roledescription='carousel']"));
+        }
+        function isMenuDisclosureGroupButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (!el.hasAttribute("aria-expanded"))
+            return false;
+          if (normalizedPopup(el))
+            return false;
+          const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
+          return /^(show .+ menu|open menu|all .+ destinations menu)$/i.test(label || "");
         }
         function accessibleName(el, role) {
           const tag = el.tagName.toLowerCase();
@@ -1370,6 +1397,11 @@
             return false;
           return Boolean(accessibleName(el, role) && textFromIdRefs(el.getAttribute("aria-describedby")));
         }
+        function nativeSelectValue(el) {
+          if (el?.tagName?.toLowerCase() !== "select")
+            return void 0;
+          return normalize(el.selectedOptions?.[0]?.textContent) || ("value" in el && el.value ? normalize(el.value) : void 0);
+        }
         function captureElement(el) {
           if (!el || el === document.body || el === document.documentElement || isHidden(el)) {
             return null;
@@ -1401,13 +1433,13 @@
             setSize: size,
             positionInSet: position,
             ...parentListMeta,
-            value: "value" in stateEl && stateEl.value ? stateEl.value : void 0,
+            value: tag === "select" && name?.endsWith(":") ? nativeSelectValue(stateEl) : "value" in stateEl && stateEl.value ? stateEl.value : void 0,
             valueText: normalize(stateEl.getAttribute("aria-valuetext")),
             placeholder: normalize(stateEl.getAttribute("placeholder")),
             required: stateEl.required || stateEl.getAttribute("aria-required") === "true" || void 0,
             invalid: stateEl.getAttribute("aria-invalid") && stateEl.getAttribute("aria-invalid") !== "false" ? stateEl.getAttribute("aria-invalid") === "true" ? true : stateEl.getAttribute("aria-invalid") : void 0,
             checked: role === "checkbox" || role === "radio" ? el.getAttribute("aria-checked") === "mixed" ? "mixed" : el.getAttribute("aria-checked") ? el.getAttribute("aria-checked") === "true" : Boolean(el.checked) : void 0,
-            expanded: parseBooleanAttribute(stateEl, "aria-expanded"),
+            expanded: parseBooleanAttribute(stateEl, "aria-expanded") ?? (headingButton ? parseBooleanAttribute(headingButton, "aria-expanded") : void 0),
             selected: parseBooleanAttribute(el, "aria-selected"),
             pressed: el.hasAttribute("aria-pressed") ? el.getAttribute("aria-pressed") === "mixed" ? "mixed" : el.getAttribute("aria-pressed") === "true" : void 0,
             disabled: el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || void 0,
@@ -1423,11 +1455,11 @@
             headingFragments: directHeadingFragments(el),
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && readableText(el)) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position || role === "button" && isLabeledIconActionButton(el) || role === "button" && isIconFirstTextButton(el) || role === "button" && isSlideshowNavigationButton(el) || void 0,
+            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isIconFirstTextButton(el) || void 0,
             groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || void 0,
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
-            splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":")) ? true : void 0,
+            splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":")) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":")) ? true : void 0,
             suppressContextEnd: role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             boundingBox: {
@@ -1515,7 +1547,7 @@
           if (contextRoles.has(role))
             return true;
           if (role === "heading") {
-            return Boolean(el.querySelector("button, [role='button']"));
+            return false;
           }
           if (role === "listitem") {
             return hasOnlyInteractiveListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));

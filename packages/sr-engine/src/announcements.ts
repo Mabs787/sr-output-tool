@@ -120,7 +120,16 @@ function formatHeadingFragments(level: number, fragments?: string[]): string | u
     return undefined;
   }
 
-  return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
+  if (level < 3) {
+    return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
+  }
+
+  const [firstFragment, ...nestedFragments] = normalizedFragments;
+  return [
+    `heading level ${level} ${firstFragment}`,
+    ...nestedFragments.map((fragment) => `level 2 ${fragment}`),
+    `level 2, ${normalizedFragments.length} items`,
+  ].join(", ");
 }
 
 function formatInteractiveHeadingFragments(fragments?: string[]): string | undefined {
@@ -329,8 +338,12 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (selectLabel && selectLabel !== value) {
           pushIfPresent(parts, selectLabel);
         }
-        parts.push("menu pop up");
-        parts.push(el.expanded ? "expanded" : "collapsed");
+        if (selectLabel?.endsWith(":")) {
+          parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
+        } else {
+          parts.push("menu pop up");
+          parts.push(el.expanded ? "expanded" : "collapsed");
+        }
         parts.push("button");
       } else {
         pushIfPresent(parts, label);

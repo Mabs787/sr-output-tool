@@ -300,12 +300,14 @@ If \`Eligible\` is false, stop and do not change code.
 
 ## Constraints
 
-- Treat raw \`voiceover-output.json\` as capture evidence, not as an unquestionable oracle.
+- Treat raw \`voiceover-output.json\` as the primary VoiceOver evidence and the default source of truth for what VoiceOver announced.
 - First create or update fixture \`refinedAnnouncements\` from raw VoiceOver plus \`voiceover-sources.json\`, rendered HTML, AX tree, and step snapshots.
 - Preserve raw \`expectedAnnouncements\`; put corrected output in \`refinedAnnouncements\`.
-- Every refined change should be backed by nearby evidence: \`voCursorText\`, focused AX role/name, matched AX node, step snapshot DOM, or rendered HTML.
+- Keep raw VoiceOver wording unless there is clear capture corruption such as OCR text drift, truncation, system noise, duplicated captions, or a scan boundary artifact.
+- Use \`voCursorText\`, focused AX role/name, matched AX node, step snapshot DOM, and rendered HTML to explain or repair capture noise, not to replace valid VoiceOver output with what the engine currently expects.
 - Prefer step-snapshot evidence over final rendered HTML when the page state differs at the moment VoiceOver announced an element.
-- If a correction is not evidence-backed, mark it as ambiguous instead of changing the fixture.
+- If VoiceOver announces surprising but page-backed text, keep it and treat it as engine/page evidence. For example, an announcement like \`link, undefined page link\` should be preserved when live ARIA evidence shows \`aria-label="undefined page link"\`.
+- If a correction is not backed by clear capture-noise evidence, mark it as an engine gap or page-authored output instead of changing the fixture.
 - After fixture refinement, compare the current engine output with \`refinedAnnouncements\`.
 - Update only the necessary \`sr-engine\` logic for reusable VoiceOver behavior gaps.
 - Prefer the smallest defensible change.
@@ -315,7 +317,7 @@ If \`Eligible\` is false, stop and do not change code.
 - Reason from VoiceOver output, rendered HTML, the Chrome accessibility tree, and step snapshots when present.
 - Treat \`rendered-html.html\` as the stable HTML fixture context, but not as proof that every VoiceOver-announced item was absent during the scan.
 - When VoiceOver output conflicts with rendered HTML, inspect the step snapshots. If a snapshot shows the announcement matched live Chrome AX/page state at that step, prefer the VoiceOver plus step-snapshot evidence over final rendered HTML.
-- If both rendered HTML and step snapshots lack evidence for an announcement, consider OCR/caption artifact or page drift before changing the engine.
+- If both rendered HTML and step snapshots lack evidence for an announcement, consider OCR/caption artifact or page drift before changing the fixture. Do not change the engine to match missing evidence until the VoiceOver capture is understood.
 - Inspect the start of each VoiceOver announcement for obvious caption/OCR artifacts before creating expected test output.
 - Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, visual-recognition-only, or engine bug.
 - Do not treat punctuation-only or role-order differences as proof by themselves; inspect the source HTML and existing engine patterns first.

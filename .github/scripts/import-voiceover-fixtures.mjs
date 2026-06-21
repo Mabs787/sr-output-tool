@@ -257,6 +257,7 @@ function shouldTrustEvidenceName(rawName, evidenceName, options = {}) {
   if (!evidenceName || evidenceName === "missing value") return false;
   if (options.hadLeadingMarker && rawName === evidenceName) return true;
   if (rawName === evidenceName) return false;
+  if (hasOnlyTrustedPunctuationDifference(rawName, evidenceName)) return true;
 
   if (
     rawName.startsWith("image, ") &&
@@ -288,6 +289,31 @@ function shouldTrustEvidenceName(rawName, evidenceName, options = {}) {
     /[^\u0000-\u007f]/.test(evidenceName) ||
     /\s+[A-Z®]$/.test(rawName)
   );
+}
+
+function comparablePunctuationText(value) {
+  return normalizeEvidenceName(value)
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/[|/]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function hasOnlyTrustedPunctuationDifference(rawName, evidenceName) {
+  if (!rawName || !evidenceName || rawName === evidenceName) return false;
+  if (!/[’‘“”|/]/.test(`${rawName}${evidenceName}`)) return false;
+  return comparablePunctuationText(rawName) === comparablePunctuationText(evidenceName);
+}
+
+function evidenceStaticText(sourceStep) {
+  const cursor = normalizeEvidenceName(sourceStep?.voCursorText);
+  if (!cursor) return "";
+  if (/\b(?:link|button|heading level [1-6]|group|navigation|footer|main)$/i.test(cursor)) {
+    return "";
+  }
+  return cursor;
 }
 
 function sanitizeAnnouncementWithEvidence(announcement, sourceStep) {
@@ -333,6 +359,13 @@ function sanitizeAnnouncementWithEvidence(announcement, sourceStep) {
       sanitized = `${evidenceName}${buttonMatch.groups.state || ""}, button${
         buttonMatch.groups.suffix || ""
       }`;
+    }
+  }
+
+  if (sanitized === announcement) {
+    const evidenceName = evidenceStaticText(sourceStep);
+    if (hasOnlyTrustedPunctuationDifference(sanitized, evidenceName)) {
+      sanitized = evidenceName;
     }
   }
 
@@ -465,8 +498,7 @@ function createSanitizedOutput({
   }
 
   return {
-    refinedAnnouncements:
-      changedCount > 0 ? refinedAnnouncements : undefined,
+    refinedAnnouncements,
     skipCorpusReason: skipReasons.length
       ? `Skipped for corpus gating: ${skipReasons.join(" ")}`
       : "",
@@ -479,7 +511,9 @@ function createSanitizedOutput({
       severeIssues: issues.severe.slice(0, 20),
       notes: [
         "Raw expectedAnnouncements are preserved.",
-        "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+        changedCount > 0
+          ? "refinedAnnouncements contain only high-confidence OCR/system-caption corrections."
+          : "refinedAnnouncements currently match raw expectedAnnouncements and are ready for AI refinement.",
         "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
       ],
     },
