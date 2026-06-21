@@ -805,7 +805,15 @@ function getCaptionAxTool() {
     `
 import AppKit
 import ApplicationServices
+import CoreGraphics
 import Foundation
+
+func clean(_ value: String) -> String {
+  return value
+    .replacingOccurrences(of: "\\n", with: " ")
+    .replacingOccurrences(of: "\\r", with: " ")
+    .trimmingCharacters(in: .whitespacesAndNewlines)
+}
 
 func attr(_ element: AXUIElement, _ name: CFString) -> Any? {
   var value: CFTypeRef?
@@ -818,10 +826,7 @@ func attr(_ element: AXUIElement, _ name: CFString) -> Any? {
 
 func stringAttr(_ element: AXUIElement, _ name: CFString) -> String {
   if let value = attr(element, name) {
-    return String(describing: value)
-      .replacingOccurrences(of: "\\n", with: " ")
-      .replacingOccurrences(of: "\\r", with: " ")
-      .trimmingCharacters(in: .whitespacesAndNewlines)
+    return clean(String(describing: value))
   }
   return ""
 }
@@ -862,6 +867,24 @@ let apps = NSWorkspace.shared.runningApplications.filter {
 
 var allLines: [String] = []
 var allDebug: [String] = []
+var cgDebug: [String] = []
+
+let cgWindows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+for window in cgWindows {
+  let owner = window[kCGWindowOwnerName as String] as? String ?? ""
+  let ownerPid = window[kCGWindowOwnerPID as String] as? Int ?? 0
+  let name = window[kCGWindowName as String] as? String ?? ""
+  if owner.contains("VoiceOver") || name.contains("VoiceOver") {
+    let layer = window[kCGWindowLayer as String] as? Int ?? 0
+    let alpha = window[kCGWindowAlpha as String] as? Double ?? 0
+    let bounds = window[kCGWindowBounds as String] as? [String: Any] ?? [:]
+    let x = bounds["X"] ?? ""
+    let y = bounds["Y"] ?? ""
+    let width = bounds["Width"] ?? ""
+    let height = bounds["Height"] ?? ""
+    cgDebug.append("owner:\\(clean(owner)) pid:\\(ownerPid) name:\\(clean(name)) layer:\\(layer) alpha:\\(alpha) bounds:\\(x),\\(y),\\(width),\\(height)")
+  }
+}
 
 for app in apps {
   let appElement = AXUIElementCreateApplication(app.processIdentifier)
@@ -881,6 +904,7 @@ let uniqueLines = allLines.reduce(into: [String]()) { result, line in
 
 print("captionAxText=\\(uniqueLines.joined(separator: " "))")
 print("captionAxDebug=\\(allDebug.joined(separator: " | "))")
+print("captionCgDebug=\\(cgDebug.joined(separator: " | "))")
 `,
   );
 
@@ -1512,16 +1536,29 @@ end safeText
 
 tell application "VoiceOver"
   set captionState to false
+  set captionWindowEnabledError to ""
   try
     set captionState to enabled of caption window
+  on error errorMessage number errorNumber
+    set captionWindowEnabledError to "error=" & errorNumber & " " & errorMessage
   end try
   set captionText to ""
+  set captionWindowContentError to ""
   try
     set captionText to my safeText(content of caption window)
+  on error errorMessage number errorNumber
+    set captionWindowContentError to "error=" & errorNumber & " " & errorMessage
+  end try
+  set captionContentText to ""
+  set captionContentError to ""
+  try
+    set captionContentText to my safeText(content of caption)
+  on error errorMessage number errorNumber
+    set captionContentError to "error=" & errorNumber & " " & errorMessage
   end try
   set phraseText to my safeText(content of last phrase)
   set cursorText to my safeText(text under cursor of vo cursor)
-  return "captionWindowEnabled=" & (captionState as text) & linefeed & "captionText=" & captionText & linefeed & "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
+  return "captionWindowEnabled=" & (captionState as text) & linefeed & "captionWindowEnabledError=" & captionWindowEnabledError & linefeed & "captionText=" & captionText & linefeed & "captionWindowContentError=" & captionWindowContentError & linefeed & "captionContentText=" & captionContentText & linefeed & "captionContentError=" & captionContentError & linefeed & "lastPhrase=" & phraseText & linefeed & "voCursorText=" & cursorText
 end tell
 `, 8000);
 }
@@ -2891,6 +2928,7 @@ function getCaptureText(step) {
     step.voiceOver?.captionOcrText || "",
     step.voiceOver?.captionUiText || "",
     step.voiceOver?.captionText || "",
+    step.voiceOver?.captionContentText || "",
     step.voiceOver?.captionAxText || "",
     step.voiceOver?.lastPhrase || "",
     step.voiceOver?.voCursorText || "",
@@ -2910,6 +2948,7 @@ function getComparisonVoiceOverText(step) {
 function getCaptionVoiceOverText(step) {
   const captionCandidates = [
     step.voiceOver?.captionText,
+    step.voiceOver?.captionContentText,
     step.voiceOver?.captionAxText,
     step.voiceOver?.captionUiText,
   ];
@@ -3042,14 +3081,19 @@ function getVoiceOverSourceDebug(voiceOverSteps) {
     index: step.index,
     chosenAnnouncement: getComparisonVoiceOverText(step),
     captionText: cleanCaptionOcrText(step.voiceOver?.captionText),
+    captionContentText: cleanCaptionOcrText(step.voiceOver?.captionContentText),
     captionAxText: cleanCaptionOcrText(step.voiceOver?.captionAxText),
     captionUiText: cleanCaptionOcrText(step.voiceOver?.captionUiText),
     captionOcrText: cleanCaptionOcrText(step.voiceOver?.captionOcrText),
     captionWindowEnabled: step.voiceOver?.captionWindowEnabled || "",
+    captionWindowEnabledError: step.voiceOver?.captionWindowEnabledError || "",
+    captionWindowContentError: step.voiceOver?.captionWindowContentError || "",
+    captionContentError: step.voiceOver?.captionContentError || "",
     lastPhrase: cleanCaptionOcrText(step.voiceOver?.lastPhrase),
     voCursorText: cleanCaptionOcrText(step.voiceOver?.voCursorText),
     focus: step.focus || {},
     captionAxDebug: step.voiceOver?.captionAxDebug || "",
+    captionCgDebug: step.voiceOver?.captionCgDebug || "",
     captionUiDebug: step.voiceOver?.captionUiDebug || "",
     captionOcrDebug: step.voiceOver?.captionOcrDebug || "",
   }));
