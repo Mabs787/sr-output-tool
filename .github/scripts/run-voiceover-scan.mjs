@@ -1534,6 +1534,33 @@ end tell
   };
 }
 
+async function applyChromeViewportOverride() {
+  const result = await sendChromeDevToolsCommand(
+    "Emulation.setDeviceMetricsOverride",
+    {
+      width: chromeViewportWidth,
+      height: chromeViewportHeight,
+      deviceScaleFactor: 1,
+      mobile: false,
+      screenWidth: chromeViewportWidth,
+      screenHeight: chromeViewportHeight,
+      positionX: 0,
+      positionY: 0,
+    },
+    15000,
+  );
+  const browserEnvironment = await captureBrowserEnvironment();
+
+  return {
+    requestedViewport: {
+      width: chromeViewportWidth,
+      height: chromeViewportHeight,
+    },
+    devtools: result,
+    browserEnvironment,
+  };
+}
+
 function launchVoiceOver() {
   const stopQuickBefore = toCommandResult(
     run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 }),
@@ -3474,6 +3501,7 @@ async function scanTarget(target, index) {
 
   const launchChromeResult = launchChrome(url);
   run("sleep", ["5"], { timeout: 7000 });
+  const chromeViewportOverride = await applyChromeViewportOverride();
   const dismissBrowserBlockingOverlaysBeforeVoiceOver =
     await dismissBrowserBlockingOverlays(target, targetOutputDir);
   const lastOverlayAttempt =
@@ -3669,6 +3697,7 @@ async function scanTarget(target, index) {
   summary.capturedSteps = voiceOverSteps.length;
   summary.screenRecording = screenRecordingResult;
   summary.launchChrome = launchChromeResult;
+  summary.chromeViewportOverride = chromeViewportOverride;
   summary.dismissChromeBeforeVoiceOver = dismissChromeBeforeVoiceOver;
   summary.dismissSystemBeforeVoiceOver = dismissSystemBeforeVoiceOver;
   summary.dismissBrowserBlockingOverlaysBeforeVoiceOver =
