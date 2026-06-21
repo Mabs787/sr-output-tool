@@ -240,7 +240,8 @@
     "heading level 2, level 1, link, Contraception, 5 of 5",
     "Information about different types of contraception, including where to get them and how well they work",
     "end of list",
-    "footer",
+    "end of, main",
+    "content information",
     "heading level 2, Support links",
     "list 7 items",
     "link, Home, 1 of 7",
@@ -270,7 +271,7 @@
     "link, Cookies, 5 of 5",
     "end of list",
     "© Crown copyright",
-    "end of, footer"
+    "end of, content information"
   ],
   "partialAssertions": [
     {

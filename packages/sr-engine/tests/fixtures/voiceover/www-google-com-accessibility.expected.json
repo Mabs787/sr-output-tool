@@ -175,7 +175,8 @@
     "Subscribe, button",
     "I acknowledge that my information will be used in accordance with",
     "link, Google's Privacy Policy",
-    "footer",
+    "end of, main",
+    "content information",
     "heading level 2, Footer links",
     "Social Module",
     "Follow us",
@@ -206,6 +207,6 @@
     "link, Help, 1 of 2",
     "https://accessibility.google/, Change language or region, menu pop up, collapsed, button",
     "end of list",
-    "end of, footer"
+    "end of, content information"
   ]
 }

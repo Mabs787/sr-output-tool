@@ -203,6 +203,177 @@ function sanitizeAnnouncement(announcement) {
     .replace(/^, endof list$/, "end of list");
 }
 
+function normalizeEvidenceName(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .replace(/[]+/g, "")
+    .trim();
+}
+
+function stripRepeatedEvidenceName(value) {
+  const text = normalizeEvidenceName(value);
+  if (!text) return "";
+
+  const words = text.split(" ");
+  if (words.length % 2 !== 0) return text;
+
+  const midpoint = words.length / 2;
+  const left = words.slice(0, midpoint).join(" ");
+  const right = words.slice(midpoint).join(" ");
+  return left === right ? left : text;
+}
+
+function evidenceLinkName(sourceStep) {
+  const cursor = normalizeEvidenceName(sourceStep?.voCursorText);
+  const match = cursor.match(/^(.+)\s+link$/i);
+  if (!match) return "";
+
+  let name = stripRepeatedEvidenceName(match[1]);
+  if (name.includes("  ")) {
+    name = normalizeEvidenceName(name.split("  ").at(-1));
+  }
+  return name;
+}
+
+function evidenceHeading(sourceStep) {
+  const cursor = normalizeEvidenceName(sourceStep?.voCursorText);
+  const match = cursor.match(/^(.+)\s+heading level\s+([1-6])$/i);
+  if (!match) return null;
+  return {
+    name: normalizeEvidenceName(match[1]),
+    level: match[2],
+  };
+}
+
+function evidenceButtonName(sourceStep) {
+  const role = String(sourceStep?.focus?.role || "").toLowerCase();
+  if (role !== "axbutton") return "";
+
+  const name = normalizeEvidenceName(sourceStep?.focus?.name);
+  return name && name !== "missing value" ? name : "";
+}
+
+function shouldTrustEvidenceName(rawName, evidenceName, options = {}) {
+  if (!evidenceName || evidenceName === "missing value") return false;
+  if (options.hadLeadingMarker && rawName === evidenceName) return true;
+  if (rawName === evidenceName) return false;
+
+  if (
+    rawName.startsWith("image, ") &&
+    !evidenceName.startsWith("image, ")
+  ) {
+    return false;
+  }
+  if (
+    rawName.startsWith("heading level ") &&
+    !evidenceName.startsWith("heading level ")
+  ) {
+    return false;
+  }
+
+  const rawLooksSeverelyCorrupt =
+    /[A-Z][a-z]*[0-9][A-Z0-9]*|E4iE|E\*#|Signiime|(?:\s|^)Al(?:\s|$)/.test(
+      rawName,
+    ) || /\s+[A-Z®]$/.test(rawName);
+  if (
+    evidenceName.length > Math.max(24, rawName.length * 1.4) &&
+    !rawLooksSeverelyCorrupt
+  ) {
+    return false;
+  }
+
+  return (
+    options.hadLeadingMarker ||
+    rawLooksSeverelyCorrupt ||
+    /[^\u0000-\u007f]/.test(evidenceName) ||
+    /\s+[A-Z®]$/.test(rawName)
+  );
+}
+
+function sanitizeAnnouncementWithEvidence(announcement, sourceStep) {
+  let sanitized = sanitizeAnnouncement(announcement);
+
+  const linkMatch = sanitized.match(
+    /^(?<prefix>[*•]\s*)?link, (?<name>.+?)(?<position>, \d+ of \d+)?$/,
+  );
+  if (linkMatch?.groups) {
+    const rawName = normalizeEvidenceName(linkMatch.groups.name);
+    const evidenceName = evidenceLinkName(sourceStep);
+    if (
+      shouldTrustEvidenceName(rawName, evidenceName, {
+        hadLeadingMarker: Boolean(linkMatch.groups.prefix),
+      })
+    ) {
+      sanitized = `link, ${evidenceName}${linkMatch.groups.position || ""}`;
+    }
+  }
+
+  const headingMatch = sanitized.match(
+    /^heading level (?<level>[1-6]), (?<name>.+)$/,
+  );
+  if (headingMatch?.groups) {
+    const heading = evidenceHeading(sourceStep);
+    const rawName = normalizeEvidenceName(headingMatch.groups.name);
+    if (
+      heading &&
+      heading.level === headingMatch.groups.level &&
+      shouldTrustEvidenceName(rawName, heading.name)
+    ) {
+      sanitized = `heading level ${heading.level}, ${heading.name}`;
+    }
+  }
+
+  const buttonMatch = sanitized.match(
+    /^(?<name>.+?)(?<state>, (?:collapsed|expanded))?, button(?<suffix>.*)$/,
+  );
+  if (buttonMatch?.groups) {
+    const rawName = normalizeEvidenceName(buttonMatch.groups.name);
+    const evidenceName = evidenceButtonName(sourceStep);
+    if (shouldTrustEvidenceName(rawName, evidenceName)) {
+      sanitized = `${evidenceName}${buttonMatch.groups.state || ""}, button${
+        buttonMatch.groups.suffix || ""
+      }`;
+    }
+  }
+
+  return sanitized;
+}
+
+function isScanBoundaryAnnouncement(announcement) {
+  return /SR Output Tool VoiceOver scan (?:start|end) marker/.test(
+    String(announcement || ""),
+  );
+}
+
+function createSourceEvidence(announcements, voiceOverSources) {
+  const steps = Array.isArray(voiceOverSources?.steps) ? voiceOverSources.steps : [];
+  if (!steps.length) return [];
+
+  const filteredSteps = steps.filter(
+    (step) => !isScanBoundaryAnnouncement(step.chosenAnnouncement),
+  );
+  if (filteredSteps.length === announcements.length) {
+    return filteredSteps;
+  }
+
+  const evidence = [];
+  let cursor = 0;
+  for (const announcement of announcements) {
+    const matchIndex = filteredSteps.findIndex(
+      (step, index) =>
+        index >= cursor && sanitizeAnnouncement(step.chosenAnnouncement) === announcement,
+    );
+    if (matchIndex >= 0) {
+      evidence.push(filteredSteps[matchIndex]);
+      cursor = matchIndex + 1;
+    } else {
+      evidence.push(filteredSteps[evidence.length]);
+    }
+  }
+
+  return evidence;
+}
+
 function findSanitizationIssues(announcements) {
   const severePatterns = [
     /[ХЖ≤™ŒŁФ]/,
@@ -239,12 +410,16 @@ function findSanitizationIssues(announcements) {
 
 function createSanitizedOutput({
   announcements,
+  voiceOverSources,
   manifest,
   scanDebug,
   stepSnapshotsPath,
   renderedHtml,
 }) {
-  const refinedAnnouncements = announcements.map(sanitizeAnnouncement);
+  const sourceEvidence = createSourceEvidence(announcements, voiceOverSources);
+  const refinedAnnouncements = announcements.map((announcement, index) =>
+    sanitizeAnnouncementWithEvidence(announcement, sourceEvidence[index]),
+  );
   const changedCount = refinedAnnouncements.filter(
     (announcement, index) => announcement !== announcements[index],
   ).length;
@@ -329,6 +504,11 @@ function importFixture({ manifestPath, outputDir, runId, includeStepSnapshots })
   const manifest = readJson(manifestPath);
   const name = path.basename(scanDir);
   const voiceOverPath = resolveManifestFile(scanDir, manifest, "voiceOverOutput");
+  const voiceOverSourcesPath = resolveManifestFile(
+    scanDir,
+    manifest,
+    "voiceOverSources",
+  );
   const renderedHtmlPath = resolveManifestFile(scanDir, manifest, "renderedHtml");
   const accessibilityTreePath = resolveManifestFile(
     scanDir,
@@ -364,11 +544,16 @@ function importFixture({ manifestPath, outputDir, runId, includeStepSnapshots })
   }
 
   const voiceOver = readJson(voiceOverPath);
+  const voiceOverSources =
+    voiceOverSourcesPath && existsSync(voiceOverSourcesPath)
+      ? readJson(voiceOverSourcesPath)
+      : {};
   const accessibilityTree = readJson(accessibilityTreePath);
   const scanDebug = readJson(scanDebugPath);
   const renderedHtml = readFileSync(renderedHtmlPath, "utf8");
   const sanitized = createSanitizedOutput({
     announcements: voiceOver.announcements || [],
+    voiceOverSources,
     manifest,
     scanDebug,
     stepSnapshotsPath,

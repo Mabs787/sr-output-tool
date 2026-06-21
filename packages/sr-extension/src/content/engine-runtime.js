@@ -601,7 +601,7 @@
           }
           case "contentinfo": {
             pushIfPresent(parts, el.name);
-            parts.push("footer");
+            parts.push("content information");
             pushSupplementalText(parts, el);
             break;
           }
@@ -634,7 +634,10 @@
           return descriptor?.name ? `end of, ${descriptor.name}, banner` : "end of, banner";
         }
         if (role === "contentinfo") {
-          return descriptor?.name ? `end of ${descriptor.name} footer` : "end of, footer";
+          return descriptor?.name ? `end of, ${descriptor.name}, content information` : "end of, content information";
+        }
+        if (role === "main") {
+          return descriptor?.name ? `end of, ${descriptor.name}, main` : "end of, main";
         }
         if (role === "navigation") {
           return descriptor?.name ? `end of, ${descriptor.name}, navigation` : "end of, navigation";

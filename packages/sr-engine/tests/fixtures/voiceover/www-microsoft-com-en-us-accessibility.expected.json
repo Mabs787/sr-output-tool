@@ -280,7 +280,8 @@
     "Support icon., image, 4 of 4",
     "end of list",
     "end of, Link navigation jumps to additional accessibility resources: navigate using the link titles or icons, navigation",
-    "footer",
+    "end of, main",
+    "content information",
     "Footer Resource links, navigation",
     "heading level 2, What's new",
     "list 8 items",
@@ -361,7 +362,7 @@
     "© Microsoft 2026, 6 of 6",
     "end of list",
     "end of, Microsoft corporate links, navigation",
-    "end of, footer"
+    "end of, content information"
   ],
   "scan": {
     "stopReason": "scan-end-marker",

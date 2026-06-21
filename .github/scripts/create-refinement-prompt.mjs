@@ -87,6 +87,11 @@ function getPayloads(artifactDir) {
         "accessibilityTree",
       );
       const scanDebugPath = resolveManifestFile(scanDir, manifest, "scanDebug");
+      const voiceOverSourcesPath = resolveManifestFile(
+        scanDir,
+        manifest,
+        "voiceOverSources",
+      );
       const stepSnapshotsPath = resolveManifestFile(scanDir, manifest, "stepSnapshots");
       const missingFiles = [
         voiceOverPath,
@@ -124,6 +129,7 @@ function getPayloads(artifactDir) {
         renderedHtmlPath,
         accessibilityTreePath,
         scanDebugPath,
+        voiceOverSourcesPath,
         stepSnapshotsPath,
         voiceOverOutput,
         skipReasons,
@@ -167,6 +173,30 @@ function summarizeAccessibilityTree(accessibilityTree) {
     ignoredNodeCount: accessibilityTree.ignoredNodeCount,
     axMappedNodeCount: accessibilityTree.axMappedNodeCount,
     nodes: interestingNodes,
+  };
+}
+
+function summarizeVoiceOverSources(voiceOverSources) {
+  const steps = voiceOverSources.steps || [];
+  return {
+    source: voiceOverSources.source || "",
+    partial: Boolean(voiceOverSources.partial),
+    stepCount: steps.length,
+    steps: steps.slice(0, 350).map((step) => ({
+      index: step.index,
+      chosenAnnouncement: step.chosenAnnouncement,
+      captionText: step.captionText,
+      captionContentText: step.captionContentText,
+      captionAxText: step.captionAxText,
+      captionUiText: step.captionUiText,
+      captionOcrText: step.captionOcrText,
+      voCursorText: step.voCursorText,
+      lastPhrase: step.lastPhrase,
+      focus: step.focus,
+      captionWindowSource: step.captionWindowSource,
+      captionWindowContentError: step.captionWindowContentError,
+      captionContentError: step.captionContentError,
+    })),
   };
 }
 
@@ -236,10 +266,15 @@ function createPrompt(entry) {
     voiceOverOutput,
     renderedHtmlPath,
     accessibilityTreePath,
+    voiceOverSourcesPath,
     stepSnapshotsPath,
   } = entry;
   const renderedHtml = readFileSync(renderedHtmlPath, "utf8");
   const accessibilityTree = readJson(accessibilityTreePath);
+  const voiceOverSources =
+    voiceOverSourcesPath && existsSync(voiceOverSourcesPath)
+      ? readJson(voiceOverSourcesPath)
+      : null;
   const stepSnapshots =
     stepSnapshotsPath && existsSync(stepSnapshotsPath)
       ? readJson(stepSnapshotsPath)
@@ -247,7 +282,7 @@ function createPrompt(entry) {
 
   return `# SR Engine Refinement Request
 
-Use this VoiceOver capture, rendered HTML, Chrome accessibility tree, and optional step snapshots to refine the SR Output Tool engine.
+Use this VoiceOver capture, VoiceOver source diagnostics, rendered HTML, Chrome accessibility tree, and optional step snapshots to first refine the expected VoiceOver output, then refine the SR Output Tool engine.
 
 ## Target
 
@@ -265,13 +300,19 @@ If \`Eligible\` is false, stop and do not change code.
 
 ## Constraints
 
-- Update only the necessary \`sr-engine\` logic.
+- Treat raw \`voiceover-output.json\` as capture evidence, not as an unquestionable oracle.
+- First create or update fixture \`refinedAnnouncements\` from raw VoiceOver plus \`voiceover-sources.json\`, rendered HTML, AX tree, and step snapshots.
+- Preserve raw \`expectedAnnouncements\`; put corrected output in \`refinedAnnouncements\`.
+- Every refined change should be backed by nearby evidence: \`voCursorText\`, focused AX role/name, matched AX node, step snapshot DOM, or rendered HTML.
+- Prefer step-snapshot evidence over final rendered HTML when the page state differs at the moment VoiceOver announced an element.
+- If a correction is not evidence-backed, mark it as ambiguous instead of changing the fixture.
+- After fixture refinement, compare the current engine output with \`refinedAnnouncements\`.
+- Update only the necessary \`sr-engine\` logic for reusable VoiceOver behavior gaps.
 - Prefer the smallest defensible change.
 - Add or update only the relevant regression test.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
 - Reason from VoiceOver output, rendered HTML, the Chrome accessibility tree, and step snapshots when present.
-- Treat \`voiceover-output.json\` as the expected screen reader output source of truth.
 - Treat \`rendered-html.html\` as the stable HTML fixture context, but not as proof that every VoiceOver-announced item was absent during the scan.
 - When VoiceOver output conflicts with rendered HTML, inspect the step snapshots. If a snapshot shows the announcement matched live Chrome AX/page state at that step, prefer the VoiceOver plus step-snapshot evidence over final rendered HTML.
 - If both rendered HTML and step snapshots lack evidence for an announcement, consider OCR/caption artifact or page drift before changing the engine.
@@ -281,9 +322,36 @@ If \`Eligible\` is false, stop and do not change code.
 - If no engine change is justified, stop and report that decision.
 - Run the relevant unit tests and report the result.
 
+## Required Output Shape
+
+When editing files, leave the fixture in this shape:
+
+\`\`\`json
+{
+  "expectedAnnouncements": ["raw scan output is preserved"],
+  "refinedAnnouncements": ["AI-refined output used as the test oracle"],
+  "refinementNotes": [
+    "Explain high-confidence cleanup and remaining ambiguous areas."
+  ]
+}
+\`\`\`
+
+In your final report, include:
+
+- refined fixture changes
+- reusable engine changes
+- ambiguous scan/fixture gaps left for review
+- test commands run
+
 ## VoiceOver Output
 
 ${formatList(voiceOverOutput)}
+
+## VoiceOver Source Diagnostics
+
+${voiceOverSources ? `\`\`\`json
+${JSON.stringify(summarizeVoiceOverSources(voiceOverSources), null, 2)}
+\`\`\`` : "No voiceover-sources.json file was present in this artifact."}
 
 ## Chrome Accessibility Tree Summary
 

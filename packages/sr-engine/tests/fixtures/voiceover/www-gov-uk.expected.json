@@ -313,13 +313,14 @@
     "link, Self Assessment tax returns, 9 of 10",
     "link, Apply for a passport, 10 of 10",
     "end of list",
+    "end of, main",
     "heading level 2, Is this page useful?",
     "list 2 items",
     "Yes this page is useful, button, 1 of 2",
     "No this page is not useful, button, 2 of 2",
     "end of list",
     "Report a problem with this page, button",
-    "footer",
+    "content information",
     "heading level 2, Services and information",
     "list 16 items",
     "link, Benefits, 1 of 16",
@@ -363,7 +364,7 @@
     "end of list",
     "link, Open Government Licence v3.0",
     "link, © Crown copyright",
-    "end of, footer"
+    "end of, content information"
   ],
   "partialAssertions": [
     {

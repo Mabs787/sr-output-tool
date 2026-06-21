@@ -126,6 +126,32 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
     "end of, complementary",
   );
   assert.equal(
+    generateAnnouncement({
+      role: "contentinfo",
+      name: "Apple Footer",
+    }),
+    "Apple Footer, content information",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "contentinfo",
+      name: "Apple Footer",
+    }),
+    "end of, Apple Footer, content information",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "contentinfo",
+    }),
+    "end of, content information",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "main",
+    }),
+    "end of, main",
+  );
+  assert.equal(
     getContextEndAnnouncement({
       role: "group",
       suppressContextEnd: true,

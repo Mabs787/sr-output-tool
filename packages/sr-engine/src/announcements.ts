@@ -668,7 +668,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "contentinfo": {
       pushIfPresent(parts, el.name);
-      parts.push("footer");
+      parts.push("content information");
       pushSupplementalText(parts, el);
       break;
     }
@@ -720,8 +720,12 @@ export function getContextEndAnnouncement(
 
   if (role === "contentinfo") {
     return descriptor?.name
-      ? `end of ${descriptor.name} footer`
-      : "end of, footer";
+      ? `end of, ${descriptor.name}, content information`
+      : "end of, content information";
+  }
+
+  if (role === "main") {
+    return descriptor?.name ? `end of, ${descriptor.name}, main` : "end of, main";
   }
 
   if (role === "navigation") {

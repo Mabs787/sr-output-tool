@@ -2057,7 +2057,8 @@
     "link, Zika virus",
     "end of list",
     "link, Back to top",
-    "footer",
+    "end of, main",
+    "content information",
     "heading level 2, Support links",
     "list 7 items",
     "link, Home, 1 of 7",
@@ -2087,7 +2088,7 @@
     "link, Cookies, 5 of 5",
     "end of list",
     "© Crown copyright",
-    "end of, footer"
+    "end of, content information"
   ],
   "scan": {
     "stopReason": "scan-end-marker",

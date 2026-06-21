@@ -108,6 +108,27 @@ test("scanSubtree falls back to link URL slugs when links have no readable label
   );
 });
 
+test("scanSubtree closes main before entering a following contentinfo landmark", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>Page title</h1>
+      </main>
+      <footer role="contentinfo" aria-label="Apple Footer">
+        <h2>Apple Footer</h2>
+      </footer>
+    `),
+    [
+      "main",
+      "heading level 1, Page title",
+      "end of, main",
+      "Apple Footer, content information",
+      "heading level 2, Apple Footer",
+      "end of, Apple Footer, content information",
+    ],
+  );
+});
+
 test("scanSubtree splits described autocomplete search inputs", () => {
   assert.deepEqual(
     scanHtml(`

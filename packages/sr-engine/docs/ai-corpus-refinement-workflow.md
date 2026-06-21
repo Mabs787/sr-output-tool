@@ -59,6 +59,35 @@ After artifacts are available, pull them locally and sanitize before using them
 as engine evidence. Treat `step-snapshots.json` as the primary source when a
 specific VoiceOver announcement disagrees with final `rendered-html.html`.
 
+The target loop is AI-led:
+
+1. Download the completed workflow artifact.
+2. Import the artifact into a fixture workspace with raw output preserved.
+3. Generate an AI refinement prompt for the scan target.
+4. Use AI to create or update `refinedAnnouncements` from the raw VoiceOver
+   output, `voiceover-sources.json`, rendered HTML, AX tree, and step
+   snapshots.
+5. Compare the engine against `refinedAnnouncements`.
+6. Change the engine only for reusable behavior gaps.
+7. Leave notes for ambiguous fixture/scanner issues.
+
+Raw scan output is evidence. The refined output is the test oracle.
+
+Useful commands after downloading artifacts:
+
+```bash
+npm run voiceover:import-fixtures -- \
+  --artifact-dir /tmp/voiceover-artifacts \
+  --output-dir /tmp/voiceover-fixture-workspace \
+  --include-step-snapshots \
+  --force
+
+npm run voiceover:create-refinement-prompt -- \
+  --artifact-dir /tmp/voiceover-artifacts \
+  --target www-example-com-page \
+  --output-dir /tmp/voiceover-refinement-prompts
+```
+
 Keep:
 
 - `vo-output.json`
@@ -88,10 +117,12 @@ Check for:
 
 Evidence priority for each disputed announcement:
 
-1. Nearest `step-snapshots.json` entry for the VoiceOver step.
-2. Accessibility-tree evidence captured for the same page state.
-3. Final `rendered-html.html` for whole-page structure and context.
-4. Raw caption text, only after checking it is not truncated or polluted by OCR.
+1. `voiceover-sources.json` for the same step, especially `voCursorText`,
+   focused AX role/name, and caption source errors.
+2. Nearest `step-snapshots.json` entry for the VoiceOver step.
+3. Accessibility-tree evidence captured for the same page state.
+4. Final `rendered-html.html` for whole-page structure and context.
+5. Raw caption text, only after checking it is not truncated or polluted by OCR.
 
 If final HTML and the nearest step snapshot disagree, prefer the step snapshot
 for that announcement and record the conflict in the fixture notes.
@@ -99,6 +130,8 @@ for that announcement and record the conflict in the fixture notes.
 Output of this step:
 
 - Sanitized fixture input.
+- AI-refined `refinedAnnouncements` with raw `expectedAnnouncements`
+  preserved.
 - Notes about artifact reliability.
 
 ## 4. Classify Each Site
@@ -135,14 +168,16 @@ Output of this step:
 
 For each candidate/refined fixture, compare:
 
+- raw VoiceOver output
+- `voiceover-sources.json`
 - refined VoiceOver output
 - rendered HTML
 - step snapshot at the relevant announcement
 - accessibility tree
 - current engine output
 
-Create questions only for decisions that change the expected output or engine
-rules.
+Create questions only for decisions that the AI cannot resolve with captured
+evidence and that would change the expected output or engine rules.
 
 Good questions include:
 
@@ -164,7 +199,7 @@ Questions should include enough context to answer without reopening artifacts:
 
 Output of this step:
 
-- Updated `docs/corpus-refinement-questions.md`.
+- Updated `docs/corpus-refinement-questions.md`, only for unresolved decisions.
 
 ## 6. Apply User Answers
 
