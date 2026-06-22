@@ -627,7 +627,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "alert": {
-      parts.push("alert");
+      parts.push(el.roleDescription === "group" ? "group" : "alert");
       pushIfPresent(parts, label);
       pushSupplementalText(parts, el);
       break;
@@ -646,7 +646,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "dialog": {
       pushIfPresent(parts, label);
       parts.push("dialog");
-      if (el.modal) {
+      if (el.modal && label) {
         parts.push("modal");
       }
       pushSupplementalText(parts, el);
@@ -681,7 +681,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "contentinfo": {
       pushIfPresent(parts, el.name);
-      parts.push("content information");
+      parts.push(el.roleDescription ?? "content information");
       pushSupplementalText(parts, el);
       break;
     }
@@ -732,6 +732,9 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "contentinfo") {
+    if (descriptor?.roleDescription === "footer") {
+      return descriptor?.name ? `end of, ${descriptor.name}, footer` : "end of, footer";
+    }
     return descriptor?.name
       ? `end of, ${descriptor.name}, content information`
       : "end of, content information";

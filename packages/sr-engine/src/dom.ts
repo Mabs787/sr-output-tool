@@ -357,6 +357,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (implicitRole(el) !== "button") return false;
     if (!el.hasAttribute("aria-expanded")) return false;
     if (normalizedPopup(el)) return false;
+    if (buttonSharesListItemWithLink(el)) return false;
 
     const label = normalize(
       el.getAttribute("aria-label") ||
@@ -366,6 +367,55 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
 
     return /^(show .+ menu|open menu|all .+ destinations menu)$/i.test(label || "");
+  }
+
+  function buttonSharesListItemWithLink(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    const listItem = semanticListContext(el).listItem;
+    if (!listItem) return false;
+    return Array.from(listItem.querySelectorAll("a[href], [role='link']")).some(
+      (link: any) => !isHidden(link) && !link.contains(el) && !el.contains(link),
+    );
+  }
+
+  function isPlainUtilityDisclosureButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (!el.hasAttribute("aria-expanded")) return false;
+    if (normalizedPopup(el)) return false;
+
+    const label = normalize(
+      el.getAttribute("aria-label") ||
+        el.getAttribute("title") ||
+        textWithoutInteractive(el) ||
+        readableText(el),
+    );
+
+    return /^(open search|open alerts\b.*|open help menu)$/i.test(label || "");
+  }
+
+  function isSimpleNativeFooter(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "footer") return false;
+    if (el.hasAttribute("role")) return false;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+    return !el.querySelector(
+      "h1, h2, h3, h4, h5, h6, p, nav, [role='heading'], [role='navigation']",
+    );
+  }
+
+  function isEmptyAlertBeforeDialog(el: any): boolean {
+    if (implicitRole(el) !== "alert") return false;
+    if (readableText(el)) return false;
+
+    for (let current = el.parentElement; current; current = current.parentElement) {
+      for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+        if (isHidden(sibling)) continue;
+        return implicitRole(sibling) === "dialog";
+      }
+    }
+
+    return false;
   }
 
   function accessibleName(el: any, role: string): string | undefined {
@@ -626,6 +676,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     if (listPositionedRoles.has(role)) {
       const { listItem, siblings } = semanticListContext(el);
+      if (
+        role === "button" &&
+        listItem &&
+        Array.from(listItem.querySelectorAll("a[href], [role='link']")).some(
+          (link: any) => !isHidden(link) && !link.contains(el) && !el.contains(link),
+        )
+      ) {
+        return undefined;
+      }
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
     }
@@ -960,6 +1019,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       roleDescription:
         role === "list" && tag === "dl"
           ? "definition list"
+          : role === "contentinfo" && isSimpleNativeFooter(el)
+            ? "footer"
+          : role === "alert" && isEmptyAlertBeforeDialog(el)
+            ? "group"
           : role === "paragraph" &&
               el.getAttribute("tabindex") === "-1" &&
               hasStructuredListItemContent(el.closest("li,[role='listitem']"))
@@ -1035,11 +1098,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "button" &&
           Boolean(closestCustomElement(el)) &&
           !normalizedPopup(el) &&
+          !isPlainUtilityDisclosureButton(el) &&
           el.hasAttribute("aria-label")) ||
         (role === "button" &&
           el.hasAttribute("aria-expanded") &&
           !normalizedPopup(el) &&
           !position &&
+          !buttonSharesListItemWithLink(el) &&
+          !isPlainUtilityDisclosureButton(el) &&
           normalize(name) !== "Open navigation menu") ||
         (role === "button" && isLabeledIconActionButton(el)) ||
         (role === "button" && isMenuDisclosureGroupButton(el)) ||
@@ -1229,7 +1295,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!container?.id) return null;
     const controlledBy = Array.from(
       document.querySelectorAll(`[aria-controls="${cssEscape(container.id)}"]`),
-    ).filter((controller: any) => !container.contains(controller));
+    ).filter(
+      (controller: any) => !container.contains(controller) && !isHidden(controller),
+    );
     if (
       controlledBy.some(
         (controller: any) => controller.getAttribute("aria-expanded") === "true",

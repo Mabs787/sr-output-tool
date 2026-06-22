@@ -565,7 +565,7 @@
             break;
           }
           case "alert": {
-            parts.push("alert");
+            parts.push(el.roleDescription === "group" ? "group" : "alert");
             pushIfPresent(parts, label);
             pushSupplementalText(parts, el);
             break;
@@ -582,7 +582,7 @@
           case "dialog": {
             pushIfPresent(parts, label);
             parts.push("dialog");
-            if (el.modal) {
+            if (el.modal && label) {
               parts.push("modal");
             }
             pushSupplementalText(parts, el);
@@ -613,7 +613,7 @@
           }
           case "contentinfo": {
             pushIfPresent(parts, el.name);
-            parts.push("content information");
+            parts.push(el.roleDescription ?? "content information");
             pushSupplementalText(parts, el);
             break;
           }
@@ -646,6 +646,9 @@
           return descriptor?.name ? `end of, ${descriptor.name}, banner` : "end of, banner";
         }
         if (role === "contentinfo") {
+          if (descriptor?.roleDescription === "footer") {
+            return descriptor?.name ? `end of, ${descriptor.name}, footer` : "end of, footer";
+          }
           return descriptor?.name ? `end of, ${descriptor.name}, content information` : "end of, content information";
         }
         if (role === "main") {
@@ -945,8 +948,52 @@
             return false;
           if (normalizedPopup(el))
             return false;
+          if (buttonSharesListItemWithLink(el))
+            return false;
           const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
           return /^(show .+ menu|open menu|all .+ destinations menu)$/i.test(label || "");
+        }
+        function buttonSharesListItemWithLink(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          const listItem = semanticListContext(el).listItem;
+          if (!listItem)
+            return false;
+          return Array.from(listItem.querySelectorAll("a[href], [role='link']")).some((link) => !isHidden(link) && !link.contains(el) && !el.contains(link));
+        }
+        function isPlainUtilityDisclosureButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (!el.hasAttribute("aria-expanded"))
+            return false;
+          if (normalizedPopup(el))
+            return false;
+          const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
+          return /^(open search|open alerts\b.*|open help menu)$/i.test(label || "");
+        }
+        function isSimpleNativeFooter(el) {
+          if (el?.tagName?.toLowerCase() !== "footer")
+            return false;
+          if (el.hasAttribute("role"))
+            return false;
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+            return false;
+          }
+          return !el.querySelector("h1, h2, h3, h4, h5, h6, p, nav, [role='heading'], [role='navigation']");
+        }
+        function isEmptyAlertBeforeDialog(el) {
+          if (implicitRole(el) !== "alert")
+            return false;
+          if (readableText(el))
+            return false;
+          for (let current = el.parentElement; current; current = current.parentElement) {
+            for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+              if (isHidden(sibling))
+                continue;
+              return implicitRole(sibling) === "dialog";
+            }
+          }
+          return false;
         }
         function accessibleName(el, role) {
           const tag = el.tagName.toLowerCase();
@@ -1161,6 +1208,9 @@
           }
           if (listPositionedRoles.has(role)) {
             const { listItem, siblings } = semanticListContext(el);
+            if (role === "button" && listItem && Array.from(listItem.querySelectorAll("a[href], [role='link']")).some((link) => !isHidden(link) && !link.contains(el) && !el.contains(link))) {
+              return void 0;
+            }
             const index = siblings.indexOf(listItem);
             return index >= 0 ? index + 1 : void 0;
           }
@@ -1428,7 +1478,7 @@
             description: normalize(stateEl.getAttribute("aria-description") ?? el.getAttribute("aria-description")),
             details: textFromIdRefs(stateEl.getAttribute("aria-describedby") ?? el.getAttribute("aria-describedby")),
             errorMessage: textFromIdRefs(stateEl.getAttribute("aria-errormessage") ?? el.getAttribute("aria-errormessage")),
-            roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
+            roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "contentinfo" && isSimpleNativeFooter(el) ? "footer" : role === "alert" && isEmptyAlertBeforeDialog(el) ? "group" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
             level: role === "heading" ? Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2 : role === "list" ? listLevel(el) : void 0,
             setSize: size,
             positionInSet: position,
@@ -1455,7 +1505,7 @@
             headingFragments: directHeadingFragments(el),
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && readableText(el)) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isIconFirstTextButton(el) || void 0,
+            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isIconFirstTextButton(el) || void 0,
             groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || void 0,
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
@@ -1568,7 +1618,7 @@
         function collapsedPopupController(container) {
           if (!container?.id)
             return null;
-          const controlledBy = Array.from(document.querySelectorAll(`[aria-controls="${cssEscape(container.id)}"]`)).filter((controller) => !container.contains(controller));
+          const controlledBy = Array.from(document.querySelectorAll(`[aria-controls="${cssEscape(container.id)}"]`)).filter((controller) => !container.contains(controller) && !isHidden(controller));
           if (controlledBy.some((controller) => controller.getAttribute("aria-expanded") === "true")) {
             return null;
           }
