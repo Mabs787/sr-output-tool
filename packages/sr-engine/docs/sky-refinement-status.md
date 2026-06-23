@@ -28,6 +28,12 @@ snapshots still support grouped hero/postcode traversal, carousel group/region
 phrasing, grouped support text, reminder-section grouping, and footer group
 noise that need reusable engine or scanner decisions before exact gating.
 
+`www-sky-com-smart-home` has had an AI refinement pass and remains
+`candidate`. Clear OCR/caption noise was corrected for image alt text, FAQ
+heading casing/state, and legal accordion state; remaining gaps include hero
+heading/price fragments, rail image/list decomposition, grouped card text, FAQ
+wrapper grouping, footer group noise, and an extra trailing alert.
+
 ## Remaining Sky Candidates
 
 These Sky fixtures are imported but still need page-by-page AI/manual refinement before promotion:
@@ -48,10 +54,9 @@ These Sky fixtures are imported but still need page-by-page AI/manual refinement
 
 Recommended next targets by current mismatch size are:
 
-1. `www-sky-com-smart-home`
-2. `www-sky-com-broadband`
-3. `www-sky-com-watch`
-4. `www-sky-com-watch-what-to-watch-this-week`
+1. `www-sky-com-broadband`
+2. `www-sky-com-watch`
+3. `www-sky-com-watch-what-to-watch-this-week`
 
 ## Fresh Context Prompt
 
