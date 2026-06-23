@@ -26,8 +26,8 @@ This guide is for installing the extension from a downloaded release zip file.
 
 1. Open the webpage you want to inspect.
 2. Click the **SR Output Tool** extension icon in the Chrome toolbar.
-3. Click **Pick On Page**.
-4. Click the part of the page you want to inspect.
+3. Click **Pick On Page** to select one element/subtree, or click **Scan Page** to scan the full page.
+4. If picking, click the part of the page you want to inspect.
 5. Review the generated screen reader output in the panel.
 6. Hover over an output row to highlight the matching element on the page.
 7. Click **Copy Output** if you want to copy the announcements as plain text.

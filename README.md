@@ -10,11 +10,14 @@ The repo uses Yarn as the source-of-truth package manager.
 
 ```text
 packages/
-  sr-engine/      shared screen-reader rules, announcement logic, and DOM scanning
-    tests/        direct engine unit coverage
-  sr-extension/   browser extension shell built on top of the engine
-    tests/        extension-facing regression and popup coverage
-test-app/         optional local fixture for manual checks
+  sr-engine/       Chrome + VoiceOver-focused announcement engine and DOM scanner
+    docs/          engine architecture, refinement, and corpus workflow notes
+    tests/         unit tests plus imported VoiceOver corpus fixtures
+  sr-extension/    Chrome extension UI built on top of the generated engine runtime
+    docs/          install, development, architecture, and release notes
+    tests/         extension-facing and popup coverage
+test-app/          optional local fixture for manual checks
+.github/scripts/   VoiceOver scan, artifact import, and refinement helpers
 ```
 
 ## Package Docs
@@ -43,9 +46,18 @@ GitHub Actions runs on pushes and pull requests to `main`. The CI workflow has s
 
 The build job archives the compiled engine, generated extension runtime, and unpacked extension build for the downstream test and package jobs.
 
-The `VoiceOver scan` workflow runs manually on hosted macOS and captures real VoiceOver output for pasted page URLs. Each URL runs in its own job and uploads a refinement artifact with `refinement-manifest.json`, `voiceover-output.json`, `rendered-html.html`, `accessibility-tree.json`, and `scan-debug.json`.
+The `VoiceOver scan` workflow runs manually on hosted macOS and captures real Chrome + VoiceOver output for pasted page URLs. Each URL runs in its own macOS job and uploads a refinement artifact with:
 
-In GitHub Actions, run `VoiceOver scan` with the `urls` input set to one or more page URLs. No element selector is required; URL targets default to scanning the full `body`. Screenshots and screen recordings are disabled by default and should only be enabled for debugging.
+- `voiceover-output.json`
+- `voiceover-sources.json`
+- `rendered-html.html`
+- `accessibility-tree.json`
+- optional `step-snapshots.json`
+- optional screenshots
+- `scan-debug.json`
+- `refinement-manifest.json`
+
+In GitHub Actions, run `VoiceOver scan` with the `urls` input set to one or more page URLs. No element selector is required; URL targets default to scanning the full `body`. The default scan viewport is `1200x543`. Step snapshots should be enabled for corpus/refinement runs; screenshots and screen recordings are disabled by default and should only be enabled for debugging scan behavior.
 
 To create the same URL manifest locally:
 
@@ -53,26 +65,29 @@ To create the same URL manifest locally:
 yarn voiceover:create-url-manifest --urls "https://example.com/page"
 ```
 
-After downloading a `voiceover-scan-*` artifact, prepare the refinement queue with:
+After downloading a `voiceover-scan-*` artifact, the preferred one-target refinement entrypoint is:
 
 ```bash
-yarn voiceover:refinement
+yarn voiceover:refine-artifact -- --artifact-dir /tmp/voiceover-artifacts --target www-example-com
 ```
 
-To download the latest successful artifact from `main` with the GitHub CLI:
+To download from a GitHub Actions run directly:
+
+```bash
+yarn voiceover:refine-artifact -- --run-id 123456789 --target www-example-com --force
+```
+
+That command downloads or reads the artifact, imports a fixture workspace, creates an AI prompt, writes a Markdown evidence report, and compares the current engine with `refinedAnnouncements`. It does not promote files into the checked-in corpus unless `--promote candidate` or `--promote refined` is passed.
+
+Use the lower-level queue/prompt commands when debugging:
 
 ```bash
 yarn voiceover:refinement --download-latest --force
-```
-
-To create a controlled AI handoff prompt for one eligible scan:
-
-```bash
 yarn voiceover:create-refinement-prompt --list
 yarn voiceover:create-refinement-prompt --target www-example-com-page
 ```
 
-The refinement queue and prompt use VoiceOver output plus reduced HTML as the source material. Engine output is intentionally omitted from live-site scan artifacts while the project builds a broader real-world example set.
+The refinement workflow treats the raw VoiceOver stream as the primary evidence. Rendered HTML, step snapshots, AX tree data, computed style evidence, and source diagnostics explain surprising output or repair clear capture noise; they should not be used to reshape valid VoiceOver output to match the current engine.
 
 ## Architecture Overview
 
@@ -86,6 +101,7 @@ The refinement queue and prompt use VoiceOver output plus reduced HTML as the so
 
 - in-page overlay UI
 - element selection and highlighting
+- full-page scan command
 - background messaging and clipboard flow
 - packaging the engine runtime for browser injection
 
@@ -103,6 +119,9 @@ yarn package:extension
 
 # Optional local page for manual checks
 yarn test-app
+
+# Compare one imported VoiceOver fixture against the engine
+yarn workspace @sr-output/engine voiceover:compare www-sky-com
 ```
 
 ## Releases

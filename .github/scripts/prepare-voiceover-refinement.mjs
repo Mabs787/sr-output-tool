@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 
 const repoRoot = process.cwd();
 const defaultArtifactDir = path.join(repoRoot, "voiceover-scan-artifacts");
-const defaultWorkflow = "VoiceOver smoke";
+const defaultWorkflow = "VoiceOver scan";
 const defaultBranch = "main";
 
 function parseArgs(argv) {
@@ -51,7 +51,7 @@ function printHelp() {
 Options:
   --artifact-dir <path>   Diagnostics folder to inspect. Defaults to ./voiceover-scan-artifacts
   --download-latest       Download all artifacts from the latest successful VoiceOver scan run with gh
-  --workflow <name>       Workflow name for --download-latest. Defaults to "VoiceOver smoke"
+  --workflow <name>       Workflow name for --download-latest. Defaults to "VoiceOver scan"
   --branch <name>         Branch for --download-latest. Defaults to main
   --force                 Replace the artifact directory when downloading
   --json                  Print the refinement queue as JSON

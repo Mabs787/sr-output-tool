@@ -6,6 +6,8 @@ The main goal of the tool is to make screen reader output easier to inspect whil
 
 The shared engine behind the extension is modeled around Chrome + VoiceOver output and interaction patterns. This extension is useful for quick feedback, but it should not replace testing important flows with real assistive technology.
 
+The extension can scan either a picked element/subtree or the full page. Engine logic lives in `@sr-output/engine`; the extension uses the generated `src/content/engine-runtime.js` bundle, so rebuild the runtime after engine changes.
+
 ## Install And Use
 
 If you downloaded `sr-extension-chrome.zip` from a GitHub Release, use the non-technical guide:

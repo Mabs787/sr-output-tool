@@ -44,6 +44,14 @@ Run the VoiceOver workflow with:
 - accessibility tree capture
 - screen recording only when debugging scan behavior
 
+Current scan defaults:
+
+- workflow name: `VoiceOver scan`
+- browser/AT target: Chrome + VoiceOver
+- viewport: `1200x543`
+- navigation: `voiceover-right-arrow`
+- timeout: 120 minutes per page
+
 Prefer no recording for normal corpus collection so artifacts stay small. Use
 recording only when investigating whether VoiceOver was enabled, whether focus
 moved as expected, or whether a modal/overlay blocked traversal.
@@ -112,7 +120,8 @@ npm run voiceover:create-refinement-prompt -- \
 
 Keep:
 
-- `vo-output.json`
+- `voiceover-output.json`
+- `voiceover-sources.json`
 - `rendered-html.html`
 - `step-snapshots.json`
 - `accessibility-tree.json`
@@ -228,7 +237,8 @@ Questions should include enough context to answer without reopening artifacts:
 
 Output of this step:
 
-- Updated `docs/corpus-refinement-questions.md`, only for unresolved decisions.
+- Updated refinement report notes for unresolved decisions, with enough context
+  for the next pass to continue without reopening the full artifact.
 
 ## 6. Apply User Answers
 
@@ -277,7 +287,7 @@ Prefer changes in:
 After changing the engine, regenerate the extension runtime:
 
 ```bash
-npm run build:runtime -w packages/sr-extension
+npm run build:extension-runtime
 ```
 
 Output of this step:
@@ -329,7 +339,7 @@ Run:
 npm run build -w packages/sr-engine
 npm run test:unit -w packages/sr-engine
 npm run test:voiceover -w packages/sr-engine
-npm run build:runtime -w packages/sr-extension
+npm run build:extension-runtime
 npm run test:unit -w packages/sr-extension
 ```
 

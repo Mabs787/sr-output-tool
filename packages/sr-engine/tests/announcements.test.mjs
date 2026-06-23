@@ -179,6 +179,15 @@ test("generateAnnouncement matches VoiceOver phrasing for separators and disable
 
   assert.equal(
     generateAnnouncement({
+      role: "button",
+      name: "Previous slide",
+      disabled: true,
+    }),
+    "Previous slide, dimmed, button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
       role: "link",
       name: "Skip to main content",
     }),

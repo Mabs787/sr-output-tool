@@ -1,8 +1,12 @@
-# Refinement Workflow
+# Engine Refinement Workflow
 
-The most reliable way to improve the engine is to compare a small real DOM sample against actual VoiceOver output, then lock the fix in with a regression test.
+The most reliable way to improve the engine is to compare actual Chrome + VoiceOver output against rendered DOM, AX, and per-step evidence, then lock reusable behavior into tests.
 
-## Recommended Workflow
+Use this workflow for small local examples. Use
+[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md) when the
+input is a live-site scan artifact.
+
+## Small Example Workflow
 
 1. Isolate the smallest possible example.
    Copy the relevant element or subtree into a minimal test page or reduced HTML snippet. Keep only the structure needed to reproduce the mismatch.
@@ -28,21 +32,40 @@ The most reliable way to improve the engine is to compare a small real DOM sampl
    In practice this is usually in the announcement formatter or DOM scanner logic rather than extension UI code.
 
 7. Add or update a regression test.
-   Put the reduced example into the extension-facing regression suite so the VoiceOver-aligned behavior stays locked in.
+   Put small reusable rules in engine unit tests. Use extension-facing tests only when the extension workflow or UI behavior changes.
 
 8. Rebuild and rerun tests.
 
 ```bash
-yarn build
+yarn build:engine
 yarn test:unit
+yarn workspace @sr-output/engine test:voiceover
+yarn build:extension-runtime
 ```
 
 Use [refinement-template.md](refinement-template.md) when preparing a new refinement request.
 
-For a full site-set workflow that starts with submitted URLs and ends with AI
-assisted corpus classification, questions, engine changes, and extension
-verification, use
-[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md).
+## Artifact Workflow
+
+For a completed `VoiceOver scan` artifact, prefer:
+
+```bash
+npm run voiceover:refine-artifact -- \
+  --artifact-dir /tmp/voiceover-artifacts \
+  --target www-example-com \
+  --work-dir /tmp/voiceover-refinement \
+  --promote none
+```
+
+This creates a staging fixture, AI prompt, evidence report, and engine
+comparison. Promote only after the refined output is trusted:
+
+```bash
+npm run voiceover:refine-artifact -- \
+  --artifact-dir /tmp/voiceover-artifacts \
+  --target www-example-com \
+  --promote candidate
+```
 
 ## Corpus Gating
 
@@ -68,4 +91,10 @@ Include candidate fixtures while rebuilding/refining:
 
 ```bash
 SR_VOICEOVER_CORPUS_CANDIDATES=true npm run test:voiceover -w packages/sr-engine
+```
+
+Compare one fixture directly:
+
+```bash
+npm run voiceover:compare -w packages/sr-engine -- www-sky-com
 ```

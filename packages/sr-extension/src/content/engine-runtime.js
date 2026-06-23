@@ -212,7 +212,7 @@
               if (isToggleButton && el.disabled) {
                 parts.push("dimmed");
               }
-              if (el.disabled && el.groupContext && !isToggleButton) {
+              if (el.disabled && !isToggleButton) {
                 parts.push("dimmed");
               }
               parts.push(el.roleDescription ?? "button");
@@ -238,9 +238,6 @@
               }
             } else if (el.pressed === "mixed") {
               parts.push("mixed");
-            }
-            if (el.disabled && !isToggleButton && !(el.groupContext && role === "button")) {
-              parts.push("dimmed");
             }
             pushSupplementalText(parts, el);
             break;
@@ -1471,6 +1468,7 @@
           const parentListMeta = parentListPosition(el);
           const headingButton = role === "heading" ? el.querySelector("button, [role='button']") : null;
           const headingLink = role === "heading" ? el.querySelector("a[href]") : null;
+          const suppressPositionedChoiceGroup = role === "button" && Boolean(position) && !el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !isSlideshowNavigationButton(el) && (isIconFirstTextButton(el) || el.hasAttribute("aria-label") && !readableText(el));
           const descriptor = {
             role,
             name,
@@ -1494,7 +1492,7 @@
             pressed: el.hasAttribute("aria-pressed") ? el.getAttribute("aria-pressed") === "mixed" ? "mixed" : el.getAttribute("aria-pressed") === "true" : void 0,
             disabled: el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || void 0,
             readOnly: el.readOnly || el.getAttribute("aria-readonly") === "true" || void 0,
-            current: el.hasAttribute("aria-current") ? el.getAttribute("aria-current") === "true" ? true : el.getAttribute("aria-current") : void 0,
+            current: el.hasAttribute("aria-current") ? el.getAttribute("aria-current") === "false" ? void 0 : el.getAttribute("aria-current") === "true" ? true : el.getAttribute("aria-current") : void 0,
             hasPopup: normalizedPopup(stateEl) ?? normalizedPopup(el),
             autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
             modal: el.getAttribute("aria-modal") === "true" || void 0,
@@ -1505,7 +1503,7 @@
             headingFragments: directHeadingFragments(el),
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && readableText(el)) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isIconFirstTextButton(el) || void 0,
+            groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || void 0,
             groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || void 0,
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,

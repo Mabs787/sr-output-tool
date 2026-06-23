@@ -1,6 +1,8 @@
 # SR Engine Refinement Prompt
 
-Use this template when refining `sr-engine` output against real VoiceOver output.
+Use this template for a manual reduced example. For live-site artifacts, prefer
+`npm run voiceover:refine-artifact`, which generates an evidence prompt from
+the artifact payload.
 
 ```text
 I want to refine the SR Output Tool engine using this VoiceOver comparison.
@@ -36,6 +38,8 @@ Desired behavior:
 
 Constraints:
 - Keep the change focused on the mismatch above.
+- Trust actual Chrome + VoiceOver output unless there is concrete capture corruption.
+- Prefer reusable DOM/AX behavior over site-specific logic.
 - Do not update unrelated tests.
 - Rebuild the extension runtime if engine logic changes.
 - Run the relevant unit tests and report the result.

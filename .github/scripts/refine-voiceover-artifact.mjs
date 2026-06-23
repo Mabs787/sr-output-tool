@@ -15,7 +15,7 @@ import { JSDOM } from "jsdom";
 const require = createRequire(import.meta.url);
 const repoRoot = process.cwd();
 const defaultWorkDir = path.join(repoRoot, "voiceover-smoke/refinement-workspace");
-const defaultWorkflow = "VoiceOver smoke";
+const defaultWorkflow = "VoiceOver scan";
 
 function parseArgs(argv) {
   const options = {
@@ -73,7 +73,7 @@ Options:
   --artifact-dir <path>   Use an existing artifact directory instead of downloading.
   --target <name>         Target fixture name, for example www-sky-com.
   --work-dir <path>       Workspace for imported fixture, prompt, and report.
-  --workflow <name>       Workflow name for diagnostics. Defaults to "VoiceOver smoke".
+  --workflow <name>       Workflow name for diagnostics. Defaults to "VoiceOver scan".
   --promote <mode>        none, candidate, or refined. Defaults to none.
   --no-compare            Skip local engine comparison.
   --force                 Replace work/artifact directories if present.

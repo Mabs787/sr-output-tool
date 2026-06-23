@@ -19,6 +19,12 @@ yarn build
 
 If you change engine logic, rerun `yarn build` before reloading the extension in the browser.
 
+For a quicker runtime-only rebuild after engine changes:
+
+```bash
+yarn build:extension-runtime
+```
+
 ## Load A Local Development Build
 
 1. Open Chrome and go to `chrome://extensions/`.

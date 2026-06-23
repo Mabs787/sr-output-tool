@@ -1002,6 +1002,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ? el.querySelector("button, [role='button']")
       : null;
     const headingLink = role === "heading" ? el.querySelector("a[href]") : null;
+    const suppressPositionedChoiceGroup =
+      role === "button" &&
+      Boolean(position) &&
+      !el.hasAttribute("aria-expanded") &&
+      !normalizedPopup(el) &&
+      !isSlideshowNavigationButton(el) &&
+      (isIconFirstTextButton(el) ||
+        (el.hasAttribute("aria-label") && !readableText(el)));
 
     const descriptor: CapturedElementDescriptor = {
       role,
@@ -1075,7 +1083,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || undefined,
       readOnly: el.readOnly || el.getAttribute("aria-readonly") === "true" || undefined,
       current: el.hasAttribute("aria-current")
-        ? el.getAttribute("aria-current") === "true"
+        ? el.getAttribute("aria-current") === "false"
+          ? undefined
+          : el.getAttribute("aria-current") === "true"
           ? true
           : el.getAttribute("aria-current")
         : undefined,
@@ -1094,11 +1104,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         undefined,
       groupContext:
         Boolean(headingButton) ||
-        (role === "button" && Boolean(nestedImageLabel(el))) ||
+        (role === "button" &&
+          !suppressPositionedChoiceGroup &&
+          Boolean(nestedImageLabel(el))) ||
         (role === "button" &&
           Boolean(closestCustomElement(el)) &&
           !normalizedPopup(el) &&
           !isPlainUtilityDisclosureButton(el) &&
+          !suppressPositionedChoiceGroup &&
           el.hasAttribute("aria-label")) ||
         (role === "button" &&
           el.hasAttribute("aria-expanded") &&
@@ -1110,7 +1123,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "button" && isLabeledIconActionButton(el)) ||
         (role === "button" && isMenuDisclosureGroupButton(el)) ||
         (role === "button" && isSlideshowNavigationButton(el)) ||
-        (role === "button" && isIconFirstTextButton(el)) ||
+        (role === "button" &&
+          !suppressPositionedChoiceGroup &&
+          isIconFirstTextButton(el)) ||
         undefined,
       groupedCollectionPosition:
         role === "button" &&

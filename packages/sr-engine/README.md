@@ -10,7 +10,6 @@ It owns the rules that decide how DOM structure, roles, labels, states, grouping
 - [Refinement workflow](docs/refinement-workflow.md)
 - [AI corpus refinement workflow](docs/ai-corpus-refinement-workflow.md)
 - [Refinement prompt template](docs/refinement-template.md)
-- [Corpus refinement questions](docs/corpus-refinement-questions.md)
 
 ## Build
 
@@ -40,9 +39,21 @@ Or from this package:
 yarn workspace @sr-output/engine test:unit
 ```
 
+The imported Chrome + VoiceOver corpus is gated separately:
+
+```bash
+yarn workspace @sr-output/engine test:voiceover
+```
+
+To compare one fixture and inspect mismatch windows:
+
+```bash
+yarn workspace @sr-output/engine voiceover:compare www-sky-com
+```
+
 ## Refining The Engine
 
-The most reliable way to improve the engine is to compare a small real DOM sample against actual Chrome + VoiceOver output, then lock the fix in with a regression test.
+The most reliable way to improve the engine is to compare actual Chrome + VoiceOver output against rendered DOM/AX evidence, then lock reusable behavior into unit tests and corpus fixtures.
 
 Use [docs/refinement-workflow.md](docs/refinement-workflow.md) for the
 step-by-step process, [docs/ai-corpus-refinement-workflow.md](docs/ai-corpus-refinement-workflow.md)
@@ -54,4 +65,4 @@ when preparing a new refinement request.
 - The goal is to get closer to real assistive technology behavior, not to create a fake universal standard.
 - Chrome + VoiceOver is the primary reference model right now.
 - Safari + VoiceOver may become a separate engine profile later; do not mix Safari-only behavior into the Chrome-focused engine.
-- Every meaningful refinement should end with a reproducible reduced case and a regression test.
+- Every meaningful refinement should end with a reproducible rule, a targeted test where practical, and passing corpus gates.

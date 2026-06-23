@@ -1,11 +1,12 @@
 # Extension Architecture
 
-The browser extension opens an inspector overlay inside the current page, lets the user select a DOM subtree, and displays simulated screen reader output from the shared engine.
+The browser extension opens an inspector overlay inside the current page, lets the user select a DOM subtree or scan the full page, and displays simulated screen reader output from the shared engine.
 
 ## Main Pieces
 
 - **In-page inspector overlay**: Clicking the extension action toggles a fixed overlay inside the current tab, so status stays visible during scanning.
 - **DOM selection**: A crosshair overlay lets the user pick any element directly on the page. The selected subtree is scanned.
+- **Full-page scan**: The **Scan Page** control scans `document.body` without entering selection mode.
 - **Copy output**: The overlay can copy the current announcement list directly to the clipboard.
 - **SR Engine**: Uses `@sr-output/engine`, with announcements currently tuned most closely to Chrome + VoiceOver output.
 - **Element highlighting**: Each scanned element is tagged with a `data-sr-id` attribute. Hovering a log entry highlights the matching element on the page.

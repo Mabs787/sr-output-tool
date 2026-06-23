@@ -218,7 +218,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (isToggleButton && el.disabled) {
           parts.push("dimmed");
         }
-        if (el.disabled && el.groupContext && !isToggleButton) {
+        if (el.disabled && !isToggleButton) {
           parts.push("dimmed");
         }
         parts.push(el.roleDescription ?? "button");
@@ -244,9 +244,6 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
       } else if (el.pressed === "mixed") {
         parts.push("mixed");
-      }
-      if (el.disabled && !isToggleButton && !(el.groupContext && role === "button")) {
-        parts.push("dimmed");
       }
       pushSupplementalText(parts, el);
       break;

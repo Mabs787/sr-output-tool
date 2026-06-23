@@ -273,3 +273,39 @@ test("scanSubtree scans visible controlled content when paired controllers disag
     ],
   );
 });
+
+test("scanSubtree ignores false current state and keeps choice buttons ungrouped", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <nav aria-label="Breadcrumbs">
+        <ol>
+          <li><a href="/" aria-current="false">Home</a></li>
+          <li><a href="/current" aria-current="page">Current</a></li>
+        </ol>
+      </nav>
+    `),
+    [
+      "Breadcrumbs, navigation",
+      "list 2 items",
+      "link, Home, 1 of 2",
+      "current page, link, Current, 2 of 2",
+      "end of list",
+      "end of, Breadcrumbs, navigation",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li><button><svg aria-hidden="true"></svg>All</button></li>
+        <li><button><svg aria-hidden="true"></svg>Streaming</button></li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "All, button, 1 of 2",
+      "Streaming, button, 2 of 2",
+      "end of list",
+    ],
+  );
+});

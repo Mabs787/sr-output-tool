@@ -1,6 +1,6 @@
 # VoiceOver Corpus Baseline
 
-Last refreshed: 2026-06-21
+Last refreshed: 2026-06-22
 
 This baseline uses the VO-first refinement workflow:
 
@@ -20,6 +20,7 @@ These fixtures currently match the engine exactly against `refinedAnnouncements`
 - `www-microsoft-com-en-us-accessibility`
 - `www-nhs-uk-conditions`
 - `www-nhs-uk`
+- `www-sky-com`
 - `www-wikipedia-org`
 
 ## Active Partial Fixtures
@@ -29,7 +30,6 @@ These fixtures protect reliable slices while leaving unresolved regions out of e
 - `web-dev`: header through appearance/language shadow controls.
 - `www-apple-com-accessibility`: global/local navigation and the reviewed gallery slices.
 - `www-bbc-co-uk-weather`: BBC-wide header through location search button.
-- `www-sky-com`: full page through `end of, main`; footer tail remains ambiguous.
 
 ## Candidate / Needs Fresh Evidence
 
@@ -40,12 +40,8 @@ These fixtures should be rescanned with current scanner evidence before promotio
 - `developer-mozilla-org-en-us-docs-web-html`
 - `www-w3-org-wai`
 
-## Current Sky Tail Gap
+## Latest Sky Artifact Note
 
-`www-sky-com` now matches through the reliable main page flow. Remaining ungated tail differences:
-
-- VO fixture says `footer`; engine emits `content information`.
-- VO fixture includes two generic `group` announcements after the country selector before `link, back to top`.
-- VO fixture closes with `end of, footer` and a final `group`; engine closes with `end of, content information` and `alert`.
-
-Treat these as scan/engine investigation items, not fixture cleanup, until a fresh run confirms the same tail sequence.
+The current engine matched the latest 1200px Sky artifact with zero mismatch
+windows in the staging refinement report. The checked-in `www-sky-com` fixture
+has been replaced from that artifact and promoted to `refined`.

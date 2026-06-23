@@ -101,15 +101,6 @@
       "sanitizationStatus": "sanitized"
     },
     {
-      "name": "www-sky-com",
-      "expected": "www-sky-com.expected.json",
-      "html": "www-sky-com.html",
-      "accessibilityTree": "www-sky-com.ax.json",
-      "stepSnapshots": "www-sky-com.step-snapshots.json",
-      "voiceOverAnnouncementCount": 71,
-      "sanitizationStatus": "ai-refined-partial"
-    },
-    {
       "name": "www-w3-org-wai-standards-guidelines-wcag",
       "expected": "www-w3-org-wai-standards-guidelines-wcag.expected.json",
       "html": "www-w3-org-wai-standards-guidelines-wcag.html",
@@ -131,6 +122,15 @@
       "html": "www-wikipedia-org.html",
       "accessibilityTree": "www-wikipedia-org.ax.json",
       "voiceOverAnnouncementCount": 57,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com",
+      "expected": "www-sky-com.expected.json",
+      "html": "www-sky-com.html",
+      "accessibilityTree": "www-sky-com.ax.json",
+      "stepSnapshots": "www-sky-com.step-snapshots.json",
+      "voiceOverAnnouncementCount": 93,
       "sanitizationStatus": "sanitized"
     }
   ],

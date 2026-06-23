@@ -2,18 +2,41 @@
   "schemaVersion": 1,
   "name": "www-sky-com",
   "url": "https://www.sky.com/",
-  "sourceRunId": "27919053170",
+  "sourceRunId": "",
   "html": "www-sky-com.html",
   "accessibilityTree": "www-sky-com.ax.json",
   "stepSnapshots": "www-sky-com.step-snapshots.json",
   "expectedAnnouncements": [
-    "list 2 items",
-    "link, skip to content, 1 of 2",
-    "link, skip to footer, 2 of 2",
+    "list 4 items",
+    "link, skip to search, 1 of 4",
+    "link, skip to alerts, 2 of 4",
+    "link, skip to content, 3 of 4",
+    "link, skip to footer, 4 of 4",
     "end of list",
     "banner",
     "link, Sky home page",
-    "Open navigation menu, collapsed, button",
+    "primary, navigation",
+    "list 9 items",
+    "link, Watch, 1 of 9",
+    "Open Watch menu, collapsed, button",
+    "link, TV, 2 of 9",
+    "Open TV menu, collapsed, button",
+    "link, Glass, 3 of 9",
+    "Open Glass menu, collapsed, button",
+    "link, Broadband, 4 of 9",
+    "Open Broadband menu, collapsed, button",
+    "link, Mobile, 5 of 9",
+    "Open Mobile menu, collapsed, button",
+    "link, Insurance, 6 of 9",
+    "link, Smart Home, 7 of 9",
+    "link, Business, 8 of 9",
+    "link, Deals, 9 of 9",
+    "end of list",
+    "end of, primary, navigation",
+    "Open Search, collapsed, button",
+    "Open alerts, you have no alerts, collapsed, button",
+    "link, Help",
+    "Open Help menu, collapsed, button",
     "link, Sign in",
     "end of, banner",
     "main",
@@ -73,70 +96,42 @@
     "end of list",
     "Country:",
     "United Kingdom, Country:, menu pop up collapsed, button",
-    "group",
-    "group",
     "link, back to top",
     "end of, footer",
-    "group"
+    "group",
+    "dialog"
   ],
-  "scan": {
-    "stopReason": "scan-end-marker",
-    "capturedSteps": 73
-  },
-  "stats": {
-    "voiceOverAnnouncementCount": 71,
-    "reducedHtml": {
-      "originalLength": 331084,
-      "reducedLength": 75121,
-      "reductionPercent": 77
-    },
-    "accessibilityTree": {
-      "nodeCount": 513,
-      "ignoredNodeCount": 216,
-      "axMappedNodeCount": 292,
-      "domSnapshotMappedNodeCount": 793
-    }
-  },
-  "refinementNotes": [
-    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
-    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
-    "AI refinement pass from run 27919053170: raw expectedAnnouncements are preserved; refinedAnnouncements only apply high-confidence text cleanup backed by voCursorText/rendered HTML.",
-    "Changed hero link OCR slash to the rendered/voCursor separator: \"Sky TV. All your entertainment in one place | See all deals\".",
-    "Changed straight apostrophe in the hero paragraph to rendered HTML text: \"UK’s\".",
-    "Preserved \"undefined page link\" carousel items because VoiceOver announced them and step snapshots/Chrome AX show aria-label=\"undefined page link\" on those links; treat this as page-authored output, not capture noise.",
-    "Candidate gaps left for generic engine refinement: grouped icon-button suffixes, nested product-card heading phrasing, legal accordion heading/button collapse, native select value/name wording, and the final post-footer group/alert tail."
-  ],
-  "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-sky-ai-27919053170/voiceover-scan-www-sky-com/scans/www-sky-com/refinement-manifest.json",
-    "scanDebug": {
-      "firstVoiceOverAnnouncement": "list 2 items",
-      "lastVoiceOverAnnouncement": "group"
-    }
-  },
-  "sanitization": {
-    "status": "ai-refined-candidate",
-    "changedAnnouncementCount": 2,
-    "warningCount": 0,
-    "severeIssueCount": 0,
-    "warnings": [],
-    "severeIssues": [],
-    "notes": [
-      "Raw expectedAnnouncements are preserved.",
-      "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
-      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
-      "AI candidate refinement created refinedAnnouncements while preserving raw expectedAnnouncements."
-    ]
-  },
   "refinedAnnouncements": [
-    "list 2 items",
-    "link, skip to content, 1 of 2",
-    "link, skip to footer, 2 of 2",
+    "list 4 items",
+    "link, skip to search, 1 of 4",
+    "link, skip to alerts, 2 of 4",
+    "link, skip to content, 3 of 4",
+    "link, skip to footer, 4 of 4",
     "end of list",
     "banner",
     "link, Sky home page",
-    "Open navigation menu, collapsed, button",
+    "primary, navigation",
+    "list 9 items",
+    "link, Watch, 1 of 9",
+    "Open Watch menu, collapsed, button",
+    "link, TV, 2 of 9",
+    "Open TV menu, collapsed, button",
+    "link, Glass, 3 of 9",
+    "Open Glass menu, collapsed, button",
+    "link, Broadband, 4 of 9",
+    "Open Broadband menu, collapsed, button",
+    "link, Mobile, 5 of 9",
+    "Open Mobile menu, collapsed, button",
+    "link, Insurance, 6 of 9",
+    "link, Smart Home, 7 of 9",
+    "link, Business, 8 of 9",
+    "link, Deals, 9 of 9",
+    "end of list",
+    "end of, primary, navigation",
+    "Open Search, collapsed, button",
+    "Open alerts, you have no alerts, collapsed, button",
+    "link, Help",
+    "Open Help menu, collapsed, button",
     "link, Sign in",
     "end of, banner",
     "main",
@@ -196,69 +191,53 @@
     "end of list",
     "Country:",
     "United Kingdom, Country:, menu pop up collapsed, button",
-    "group",
-    "group",
     "link, back to top",
     "end of, footer",
-    "group"
+    "group",
+    "dialog"
   ],
-  "partialAssertions": [
-    {
-      "name": "full page through main content",
-      "reason": "The refreshed VO-first workflow and step snapshots support the page flow through the main landmark. The remaining footer landmark wording and trailing generic group traversal are kept in refinedAnnouncements but not promoted as exact until another run confirms them.",
-      "startAt": "list 2 items",
-      "expectedAnnouncements": [
-        "list 2 items",
-        "link, skip to content, 1 of 2",
-        "link, skip to footer, 2 of 2",
-        "end of list",
-        "banner",
-        "link, Sky home page",
-        "Open navigation menu, collapsed, button",
-        "link, Sign in",
-        "end of, banner",
-        "main",
-        "link, Sky TV. All your entertainment in one place | See all deals",
-        "Hide offers banner, button",
-        "heading level 1, Does your broadband give you all this?",
-        "Get Sky TV, Netflix, Disney+, HBO Max and Hayu, powered by the UK’s fastest broadband provider for seamless streaming.",
-        "link, Buy now",
-        "link, See all deals",
-        "heading level 2, Sky Products",
-        "heading level 3 Endless entertainment, level 2 Sky Ultimate TV, level 2, 2 items",
-        "Streaming sorted for less than £1 a day. Get Sky, Netflix, Disney+, HBO Max, Hayu and discovery+ all in one TV package with Ultimate TV.",
-        "link, Buy now",
-        "link, Learn more",
-        "heading level 3, Sky Glass Air TV",
-        "The smarter TV range just got better.",
-        "link, Learn more",
-        "link, Buy now",
-        "heading level 3 Sky Mobile, level 2 iPhone Air, level 2, 2 items",
-        "From £27 a month. Pair with Unlimited Data for £22 extra a month.",
-        "link, See more",
-        "link, Buy now",
-        "heading level 3 Sky Broadband, level 2 Full Fibre broadband, level 2, 2 items",
-        "On the UK's most reliable broadband technology. Switch and claim up to £200 towards leaving fees.",
-        "link, Learn more",
-        "link, Buy now",
-        "heading level 3 Sky Sports, level 2 The New Era of F1 Continues, level 2, 2 items",
-        "Watch every practice, qualifier and race live on Sky Sports. Get Sky TV, Netflix and Sky Sports.",
-        "link, See all deals",
-        "link, Buy now",
-        "heading level 2, Sky Entertainment",
-        "list 6 items",
-        "link, undefined page link, 1 of 6",
-        "link, undefined page link, 2 of 6",
-        "link, undefined page link, 3 of 6",
-        "link, undefined page link, 4 of 6",
-        "link, undefined page link, 5 of 6",
-        "link, undefined page link, 6 of 6",
-        "end of list",
-        "Previous slide, button",
-        "Next slide, button",
-        "heading level 2, Here's the legal bit, collapsed, button, group",
-        "end of, main"
-      ]
+  "scan": {
+    "stopReason": "scan-end-marker",
+    "capturedSteps": 95
+  },
+  "stats": {
+    "voiceOverAnnouncementCount": 93,
+    "reducedHtml": {
+      "originalLength": 328305,
+      "reducedLength": 77681,
+      "reductionPercent": 76
+    },
+    "accessibilityTree": {
+      "nodeCount": 592,
+      "ignoredNodeCount": 241,
+      "axMappedNodeCount": 348,
+      "domSnapshotMappedNodeCount": 829
     }
-  ]
+  },
+  "refinementNotes": [
+    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
+    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+  ],
+  "source": {
+    "manifestPath": "../../../../../tmp/sr-vo-latest-27963923991/voiceover-scan-www-sky-com/scans/www-sky-com/refinement-manifest.json",
+    "scanDebug": {
+      "firstVoiceOverAnnouncement": "list 4 items",
+      "lastVoiceOverAnnouncement": "dialog"
+    }
+  },
+  "sanitization": {
+    "status": "sanitized",
+    "changedAnnouncementCount": 2,
+    "warningCount": 0,
+    "severeIssueCount": 0,
+    "warnings": [],
+    "severeIssues": [],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
+    ]
+  }
 }
