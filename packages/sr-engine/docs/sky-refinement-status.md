@@ -16,16 +16,17 @@ The `voiceover-smoke/` workspace is local scratch/debug output and is ignored by
 These Sky fixtures are promoted to `refined` in `refinement-manifest.json` and pass the exact VoiceOver corpus gate:
 
 - `www-sky-com`
+- `www-sky-com-broadband-gaming`
 - `www-sky-com-tv-stream`
 
 `www-sky-com-tv-stream` was refined after reusable engine changes for ARIA tabs, focusable image-card groups, level-2 heading fragments, paragraph-block list items, native select values, and extension runtime rebuild.
+`www-sky-com-broadband-gaming` was refined with fixture-only cleanup for product-card spacing, four-item carousel position noise, and a truncated list position; no engine changes were needed.
 
 ## Remaining Sky Candidates
 
 These Sky fixtures are imported but still need page-by-page AI/manual refinement before promotion:
 
 - `business-sky-com-s`
-- `www-sky-com-broadband-gaming`
 - `www-sky-com-broadband`
 - `www-sky-com-deals`
 - `www-sky-com-glass-43-inch`
@@ -41,12 +42,11 @@ These Sky fixtures are imported but still need page-by-page AI/manual refinement
 
 Recommended next targets by current mismatch size are:
 
-1. `www-sky-com-broadband-gaming`
-2. `www-sky-com-protect`
-3. `www-sky-com-smart-home`
-4. `www-sky-com-broadband`
-5. `www-sky-com-watch`
-6. `www-sky-com-watch-what-to-watch-this-week`
+1. `www-sky-com-protect`
+2. `www-sky-com-smart-home`
+3. `www-sky-com-broadband`
+4. `www-sky-com-watch`
+5. `www-sky-com-watch-what-to-watch-this-week`
 
 ## Fresh Context Prompt
 

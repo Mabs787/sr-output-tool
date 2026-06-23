@@ -24,7 +24,12 @@ When the user says an artifact is ready, do this:
    or `skip`, and why.
 6. Apply reusable engine changes as they are discovered, then rerun the relevant
    tests before moving on when practical.
-7. Finish with a summary of refined fixtures, candidate backlog, engine changes,
+7. When the target outcome is recorded and tests pass, commit and push the
+   refinement changes before starting another target.
+8. After pushing, check whether more submitted sites or imported candidates
+   still need scanning or refinement. If they do, start the next scan or target
+   loop immediately unless the user asked to stop.
+9. Finish with a summary of refined fixtures, candidate backlog, engine changes,
    test results, and unresolved questions.
 
 ## 1. Intake The Site Set
@@ -242,6 +247,13 @@ outcomes:
 - `candidate`: useful evidence remains, but exact output or engine behavior is
   not resolved yet.
 - `skip`: evidence is too broken or irrelevant to use.
+
+After recording that outcome, run the relevant tests, update the manifest and
+baseline/handover docs, then commit and push all refinement changes for that
+site. Once the push succeeds, check the submitted site list and current
+candidate backlog. If more sites need scanning or refinement, continue with the
+next recommended site immediately; do not wait for a fresh prompt unless the
+user explicitly asked to stop after one site.
 
 ## 4. Classify Each Site
 

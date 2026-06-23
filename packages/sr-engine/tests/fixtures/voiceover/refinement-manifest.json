@@ -79,8 +79,8 @@
       "reason": "Latest Sky scan imported as candidate. Engine comparison shows extensive open navigation/menu state and grouped submenu traversal mismatches; keep as evidence but do not gate until dynamic menu snapshots are refined."
     },
     "www-sky-com-broadband-gaming": {
-      "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps are sort/select state, product-card text decomposition, and button/group ordering; useful for engine refinement but not exact yet."
+      "status": "refined",
+      "reason": "Rendered HTML, AX tree, and step snapshots confirm cleanup of product-card spacing, four-item carousel position noise, and a truncated list position; refinedAnnouncements now match the engine exactly."
     },
     "www-sky-com-broadband": {
       "status": "candidate",

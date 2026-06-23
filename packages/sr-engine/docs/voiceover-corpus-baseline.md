@@ -21,6 +21,7 @@ These fixtures currently match the engine exactly against `refinedAnnouncements`
 - `www-nhs-uk-conditions`
 - `www-nhs-uk`
 - `www-sky-com`
+- `www-sky-com-broadband-gaming`
 - `www-sky-com-tv-stream`
 - `www-wikipedia-org`
 
@@ -38,7 +39,6 @@ These fixtures should be rescanned with current scanner evidence before promotio
 
 - `business-sky-com-s`: latest Sky batch candidate; open navigation/menu state and grouped submenu traversal still diverge from the engine.
 - `www-w3-org-wai-standards-guidelines-wcag`: useful W3C language/list/marker evidence, but current engine comparison has large list/structure divergence from the stored fixture.
-- `www-sky-com-broadband-gaming`: latest Sky batch candidate; remaining gaps include sort/select state, product-card text decomposition, and button/group ordering.
 - `www-sky-com-broadband`: latest Sky batch candidate; remaining gaps include postcode text-field phrasing, CTA/card grouping, and text cleanup.
 - `www-sky-com-deals`: latest Sky batch candidate; remaining gaps include listbox selected-state phrasing, result-count decomposition, and deal-card grouping.
 - `www-sky-com-glass-43-inch`: latest Sky batch candidate; remaining gaps include bullet/list decomposition, hero/product grouping, and button/group phrasing.
@@ -58,7 +58,8 @@ These fixtures should be rescanned with current scanner evidence before promotio
 ## Latest Sky Artifact Note
 
 The latest 1200px Sky batch from run/artifact `27963923991` has been imported
-into the corpus. `www-sky-com` and `www-sky-com-tv-stream` match the current
-engine exactly and are promoted to `refined`; the other 14 Sky pages are
-checked in as `candidate` fixtures with step snapshots. See
+into the corpus. `www-sky-com`, `www-sky-com-broadband-gaming`, and
+`www-sky-com-tv-stream` match the current engine exactly and are promoted to
+`refined`; the other 13 Sky pages are checked in as `candidate` fixtures with
+step snapshots. See
 `sky-refinement-status.md` for the current handover list.
