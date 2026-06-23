@@ -22,6 +22,12 @@ These Sky fixtures are promoted to `refined` in `refinement-manifest.json` and p
 `www-sky-com-tv-stream` was refined after reusable engine changes for ARIA tabs, focusable image-card groups, level-2 heading fragments, paragraph-block list items, native select values, and extension runtime rebuild.
 `www-sky-com-broadband-gaming` was refined with fixture-only cleanup for product-card spacing, four-item carousel position noise, and a truncated list position; no engine changes were needed.
 
+`www-sky-com-protect` has had an AI refinement pass and remains `candidate`.
+Clear caption spacing/truncation was corrected, but raw VoiceOver and step
+snapshots still support grouped hero/postcode traversal, carousel group/region
+phrasing, grouped support text, reminder-section grouping, and footer group
+noise that need reusable engine or scanner decisions before exact gating.
+
 ## Remaining Sky Candidates
 
 These Sky fixtures are imported but still need page-by-page AI/manual refinement before promotion:
@@ -42,11 +48,10 @@ These Sky fixtures are imported but still need page-by-page AI/manual refinement
 
 Recommended next targets by current mismatch size are:
 
-1. `www-sky-com-protect`
-2. `www-sky-com-smart-home`
-3. `www-sky-com-broadband`
-4. `www-sky-com-watch`
-5. `www-sky-com-watch-what-to-watch-this-week`
+1. `www-sky-com-smart-home`
+2. `www-sky-com-broadband`
+3. `www-sky-com-watch`
+4. `www-sky-com-watch-what-to-watch-this-week`
 
 ## Fresh Context Prompt
 

@@ -44,7 +44,7 @@ These fixtures should be rescanned with current scanner evidence before promotio
 - `www-sky-com-glass-43-inch`: latest Sky batch candidate; remaining gaps include bullet/list decomposition, hero/product grouping, and button/group phrasing.
 - `www-sky-com-glass-air`: latest Sky batch candidate; remaining gaps include grouped hero headings, price text cleanup, native controls, and repeated card/button groups.
 - `www-sky-com-glass`: latest Sky batch candidate; remaining gaps include hero group announcements, heading/card decomposition, and button/group phrasing.
-- `www-sky-com-protect`: latest Sky batch candidate; remaining gaps include grouped hero heading semantics, postcode group/text-field phrasing, and accordion/button grouping.
+- `www-sky-com-protect`: AI refinement pass corrected clear caption spacing/truncation, but grouped hero/postcode traversal, carousel group/region phrasing, grouped support text, reminder-section grouping, and footer group noise still need reusable engine or scanner decisions.
 - `www-sky-com-shop-mobile`: latest Sky batch candidate; remaining gaps include carousel dynamic state, slide button grouping, and heading/card decomposition.
 - `www-sky-com-smart-home`: latest Sky batch candidate; remaining gaps include grouped hero heading/price decomposition and CTA/card grouping.
 - `www-sky-com-tv`: latest Sky batch candidate; remaining gaps include skip-link capture/order, native controls, and repeated button/group card differences.

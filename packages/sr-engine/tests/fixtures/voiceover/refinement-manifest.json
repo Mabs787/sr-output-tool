@@ -104,7 +104,7 @@
     },
     "www-sky-com-protect": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include grouped hero heading semantics, postcode group/text-field phrasing, and accordion/button grouping; not exact yet."
+      "reason": "AI refinement pass corrected clear caption spacing/truncation, but raw VoiceOver and step snapshots still support grouped hero/postcode traversal, carousel group/region phrasing, grouped support text, reminder-section grouping, and footer group noise that need reusable engine or scanner decisions before exact gating."
     },
     "www-sky-com-shop-mobile": {
       "status": "candidate",
