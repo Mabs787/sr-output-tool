@@ -7,6 +7,26 @@ The goal is not to make every raw scan pass immediately. The goal is to turn
 messy real-site captures into trusted examples, extract reusable VoiceOver
 rules, and only then change the engine.
 
+Use this as the canonical workflow for live-site scan artifacts. If the input
+is a reduced local HTML example, use
+[refinement-workflow.md](refinement-workflow.md) instead.
+
+## Start Here When Artifacts Are Ready
+
+When the user says an artifact is ready, do this:
+
+1. Download or locate the completed artifact.
+2. List every scan target in the artifact.
+3. For a single target, run the full target loop in section 3.
+4. For multiple targets, run the loop one target at a time. Do not merely import
+   all targets and stop.
+5. After each target, record whether it is `refined`, `partial`, `candidate`,
+   or `skip`, and why.
+6. Apply reusable engine changes as they are discovered, then rerun the relevant
+   tests before moving on when practical.
+7. Finish with a summary of refined fixtures, candidate backlog, engine changes,
+   test results, and unresolved questions.
+
 ## 1. Intake The Site Set
 
 Before triggering a scan, sense check the submitted URLs.
@@ -61,7 +81,7 @@ Output of this step:
 - One scan artifact per site.
 - Manifest describing environment, URL, scan settings, and available payload.
 
-## 3. Import And Sanitize Artifacts
+## 3. Run The Full Target Refinement Loop
 
 After artifacts are available, pull them locally and sanitize before using them
 as engine evidence. Treat the VoiceOver announcement stream as the primary
@@ -70,24 +90,37 @@ evidence for what Chrome + VoiceOver announced. Use `step-snapshots.json`,
 surprising output or repair clear capture noise, not to override valid
 VoiceOver output with current engine expectations.
 
-The target loop is AI-led:
+When a user says to run the refinement workflow for an artifact, complete the
+whole loop below. Do not stop after import/preprocessing unless the user
+explicitly asks for that only.
+
+The target loop is AI-led and has two phases. For a batch of scan artifacts,
+repeat both phases for each target before calling the batch refined.
+
+Batch rule:
+
+- Process targets one at a time.
+- Prefer the smallest or cleanest candidate first so reusable engine gaps are
+  discovered early.
+- If a reusable engine change affects earlier targets, rerun their comparison
+  before final classification.
+- It is acceptable to import all targets into the corpus as `candidate` for
+  visibility, but that is not the same as completing refinement for the batch.
+
+### Phase A: Stage And Preprocess
 
 1. Download the completed workflow artifact.
 2. Import the artifact into a fixture workspace with raw output preserved.
-3. Generate an AI refinement prompt for the scan target.
-4. Use AI to create or update `refinedAnnouncements` from the raw VoiceOver
-   output, keeping VoiceOver wording by default and changing it only for clear
-   capture corruption backed by `voiceover-sources.json`, rendered HTML, AX
-   tree, or step snapshots.
-5. Compare the engine against `refinedAnnouncements`.
-6. Change the engine only for reusable behavior gaps.
-7. Leave notes for ambiguous fixture/scanner issues.
+3. Create `expectedAnnouncements` from the raw scan output.
+4. Create initial `refinedAnnouncements`.
+5. Apply deterministic cleanup where it is safe, such as quote/apostrophe
+   normalization or obvious caption-source cleanup backed by evidence.
+6. Store rendered HTML, AX tree, step snapshots, VoiceOver sources, and scan
+   metadata.
+7. Generate an AI refinement prompt for the scan target.
+8. Write a Markdown evidence/comparison report.
 
-Raw VoiceOver output is the default source of truth. The refined output is the
-test oracle after removing capture noise, not after reshaping VoiceOver output
-to match the current engine.
-
-Useful commands after downloading artifacts:
+Use:
 
 ```bash
 npm run voiceover:refine-artifact -- \
@@ -97,11 +130,40 @@ npm run voiceover:refine-artifact -- \
   --promote none
 ```
 
-This is the preferred local entrypoint. It downloads or reads the artifact,
-imports the fixture into a staging workspace, creates the AI prompt, writes a
-Markdown evidence report, compares the current engine against
-`refinedAnnouncements`, and only copies files into the corpus when `--promote`
-is explicitly set to `candidate` or `refined`.
+This command performs Phase A. It downloads or reads the artifact, imports the
+fixture into a staging workspace, creates the AI prompt, writes a Markdown
+evidence report, compares the current engine against `refinedAnnouncements`,
+and only copies files into the corpus when `--promote` is explicitly set to
+`candidate` or `refined`.
+
+### Phase B: AI/Manual Refinement
+
+After Phase A, the AI agent must use the generated prompt/report plus the
+captured evidence to finish the target:
+
+1. Review raw `expectedAnnouncements`, initial `refinedAnnouncements`,
+   `voiceover-sources.json`, rendered HTML, step snapshots, AX tree, and the
+   current engine diff.
+2. Update `refinedAnnouncements` from the raw VoiceOver
+   output, keeping VoiceOver wording by default and changing it only for clear
+   capture corruption backed by `voiceover-sources.json`, rendered HTML, AX
+   tree, or step snapshots.
+3. Split, merge, or restore announcements only when captured evidence shows the
+   scanner/OCR/caption source missed the page-backed VoiceOver output.
+4. Compare the engine against the updated `refinedAnnouncements`.
+5. Decide for each mismatch whether it is fixture cleanup, a reusable engine
+   gap, a scanner evidence gap, or genuinely ambiguous.
+6. Change the engine only for reusable behavior gaps.
+7. Promote the fixture as `refined` only when the full page is a reliable exact
+   gate. Otherwise promote it as `candidate`, `partial`, or `skip` with a
+   specific reason.
+8. Leave notes for ambiguous fixture/scanner issues.
+9. Update the engine for any confirmed reusable gaps, rebuild the extension
+   runtime when engine output changes, and rerun the relevant tests.
+
+Raw VoiceOver output is the default source of truth. The refined output is the
+test oracle after removing capture noise, not after reshaping VoiceOver output
+to match the current engine.
 
 Use the lower-level commands when you need to debug one step:
 
@@ -171,6 +233,15 @@ Output of this step:
 - AI-refined `refinedAnnouncements` with raw `expectedAnnouncements`
   preserved.
 - Notes about artifact reliability.
+
+Do not move to the next target until the current target has one of these
+outcomes:
+
+- `refined`: full page is a reliable exact gate and passes the engine.
+- `partial`: at least one reliable slice is encoded as `partialAssertions`.
+- `candidate`: useful evidence remains, but exact output or engine behavior is
+  not resolved yet.
+- `skip`: evidence is too broken or irrelevant to use.
 
 ## 4. Classify Each Site
 

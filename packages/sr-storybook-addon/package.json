@@ -1,0 +1,51 @@
+{
+  "name": "@sr-output/storybook-addon",
+  "version": "0.1.0",
+  "description": "Storybook addon that shows VoiceOver-style SR output for stories",
+  "keywords": ["storybook-addons", "accessibility", "screen-reader", "voiceover"],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./manager": "./dist/manager.mjs",
+    "./preview": "./dist/preview.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch"
+  },
+  "files": [
+    "dist"
+  ],
+  "storybook": {
+    "displayName": "SR Output",
+    "unsupportedFrameworks": ["react-native"]
+  },
+  "bundler": {
+    "exportEntries": ["./src/index.ts"],
+    "managerEntries": ["./src/manager.tsx"],
+    "previewEntries": ["./src/preview.ts"]
+  },
+  "dependencies": {
+    "@sr-output/engine": "*"
+  },
+  "peerDependencies": {
+    "storybook": ">=10.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "storybook": "^10.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}

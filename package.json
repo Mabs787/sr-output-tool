@@ -5,10 +5,11 @@
   "packageManager": "yarn@1.22.22",
   "description": "Screen Reader Outcome Engine — shared screen reader logic for the browser extension",
   "workspaces": [
-    "packages/sr-engine",
-    "packages/sr-extension"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
+    "storybook": "turbo run build --filter=@sr-output/storybook-addon... && yarn workspace storybook-app storybook",
     "build": "turbo run build",
     "build:engine": "npm run build -w packages/sr-engine",
     "build:extension-runtime": "turbo run build:runtime --filter=@sr-output/extension",

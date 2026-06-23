@@ -1,8 +1,10 @@
 # SR Engine Refinement Prompt
 
-Use this template for a manual reduced example. For live-site artifacts, prefer
-`npm run voiceover:refine-artifact`, which generates an evidence prompt from
-the artifact payload.
+Use this template only for a manual reduced example. For live-site artifacts or
+batches of scanned sites, use
+[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md). That
+workflow starts with `voiceover:refine-artifact`, then continues through the
+AI/manual fixture refinement and engine update loop.
 
 ```text
 I want to refine the SR Output Tool engine using this VoiceOver comparison.

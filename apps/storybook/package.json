@@ -1,0 +1,22 @@
+{
+  "name": "storybook-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@sr-output/storybook-addon": "*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@storybook/react-vite": "^10.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "storybook": "^10.0.0",
+    "typescript": "^5.4.0",
+    "vite": "^6.0.0"
+  }
+}

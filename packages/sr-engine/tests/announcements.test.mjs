@@ -188,6 +188,20 @@ test("generateAnnouncement matches VoiceOver phrasing for separators and disable
 
   assert.equal(
     generateAnnouncement({
+      role: "heading",
+      name: "What broadband speed do I need for gaming?",
+      level: 3,
+      headingButton: true,
+      expanded: false,
+      groupContext: true,
+      positionInSet: 1,
+      setSize: 5,
+    }),
+    "heading level 3, What broadband speed do I need for gaming?, collapsed, button, group, 1 of 5",
+  );
+
+  assert.equal(
+    generateAnnouncement({
       role: "link",
       name: "Skip to main content",
     }),

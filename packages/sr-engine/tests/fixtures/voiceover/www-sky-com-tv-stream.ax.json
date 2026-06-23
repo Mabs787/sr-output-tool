@@ -1,0 +1,8582 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 605,
+  "ignoredNodeCount": 247,
+  "axMappedNodeCount": 366,
+  "domSnapshotMappedNodeCount": 925,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "79",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Stream TV Shows, Movies & Live Sports with Sky Stream",
+      "backendDOMNodeId": 79,
+      "childIds": [
+        "84"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://www.sky.com/tv/stream"
+      }
+    },
+    {
+      "nodeId": "84",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 84,
+      "childIds": [
+        "160"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "160",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 160,
+      "childIds": [
+        "162",
+        "1391",
+        "1946",
+        "1989",
+        "2000"
+      ]
+    },
+    {
+      "nodeId": "162",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 162,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "div",
+      "childIds": [
+        "163",
+        "467",
+        "994",
+        "1397"
+      ]
+    },
+    {
+      "nodeId": "1391",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1391,
+      "domNodeId": "888",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"888\"]",
+      "tagName": "next-route-announcer",
+      "childIds": [
+        "1477"
+      ]
+    },
+    {
+      "nodeId": "1946",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1946,
+      "domNodeId": "896",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"896\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "1989",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1989,
+      "domNodeId": "909",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"909\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "2000",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2000,
+      "domNodeId": "912",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"912\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "163",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 163,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "div",
+      "childIds": [
+        "166"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "166",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 166,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "div",
+      "childIds": [
+        "167",
+        "168",
+        "466"
+      ]
+    },
+    {
+      "nodeId": "467",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 467,
+      "domNodeId": "303",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"303\"]",
+      "tagName": "main",
+      "childIds": [
+        "468",
+        "474",
+        "475",
+        "493",
+        "536",
+        "604",
+        "629",
+        "657",
+        "739",
+        "973"
+      ]
+    },
+    {
+      "nodeId": "994",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 994,
+      "domNodeId": "831",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"831\"]",
+      "tagName": "div",
+      "childIds": [
+        "995"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "995",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 995,
+      "domNodeId": "832",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"832\"]",
+      "tagName": "div",
+      "childIds": [
+        "996",
+        "997"
+      ]
+    },
+    {
+      "nodeId": "1397",
+      "ignored": false,
+      "role": "Video",
+      "name": "",
+      "backendDOMNodeId": 1397,
+      "domNodeId": "873",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"873\"]",
+      "tagName": "video",
+      "childIds": [
+        "1476"
+      ]
+    },
+    {
+      "nodeId": "1477",
+      "ignored": false,
+      "role": "alert",
+      "name": "",
+      "backendDOMNodeId": 1477,
+      "domNodeId": "889",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"889\"]",
+      "tagName": "p",
+      "properties": {
+        "live": "assertive",
+        "atomic": true,
+        "relevant": "additions text"
+      }
+    },
+    {
+      "nodeId": "167",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 167,
+      "domNodeId": "7",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"7\"]",
+      "tagName": "span"
+    },
+    {
+      "nodeId": "168",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 168,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "div",
+      "childIds": [
+        "169"
+      ]
+    },
+    {
+      "nodeId": "466",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 466,
+      "domNodeId": "302",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"302\"]",
+      "tagName": "span"
+    },
+    {
+      "nodeId": "468",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 468,
+      "domNodeId": "304",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"304\"]",
+      "tagName": "section",
+      "childIds": [
+        "469"
+      ]
+    },
+    {
+      "nodeId": "474",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 474,
+      "domNodeId": "310",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"310\"]",
+      "tagName": "section"
+    },
+    {
+      "nodeId": "475",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 475,
+      "domNodeId": "311",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"311\"]",
+      "tagName": "section",
+      "childIds": [
+        "476"
+      ]
+    },
+    {
+      "nodeId": "493",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 493,
+      "domNodeId": "330",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"330\"]",
+      "tagName": "section",
+      "childIds": [
+        "494"
+      ]
+    },
+    {
+      "nodeId": "536",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 536,
+      "domNodeId": "373",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"373\"]",
+      "tagName": "section",
+      "childIds": [
+        "537"
+      ]
+    },
+    {
+      "nodeId": "604",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 604,
+      "domNodeId": "441",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"441\"]",
+      "tagName": "section",
+      "childIds": [
+        "605"
+      ]
+    },
+    {
+      "nodeId": "629",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 629,
+      "domNodeId": "466",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"466\"]",
+      "tagName": "section",
+      "childIds": [
+        "630"
+      ]
+    },
+    {
+      "nodeId": "657",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 657,
+      "domNodeId": "494",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"494\"]",
+      "tagName": "section",
+      "childIds": [
+        "658"
+      ]
+    },
+    {
+      "nodeId": "739",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 739,
+      "domNodeId": "576",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"576\"]",
+      "tagName": "section",
+      "childIds": [
+        "740"
+      ]
+    },
+    {
+      "nodeId": "973",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 973,
+      "domNodeId": "810",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"810\"]",
+      "tagName": "section",
+      "childIds": [
+        "974"
+      ]
+    },
+    {
+      "nodeId": "996",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 996,
+      "domNodeId": "833",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"833\"]",
+      "tagName": "span"
+    },
+    {
+      "nodeId": "997",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "",
+      "backendDOMNodeId": 997,
+      "domNodeId": "834",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"834\"]",
+      "tagName": "footer",
+      "childIds": [
+        "998",
+        "1045"
+      ]
+    },
+    {
+      "nodeId": "1476",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1476,
+      "childIds": [
+        "1398",
+        "1400",
+        "1427",
+        "1428",
+        "1429",
+        "1430",
+        "1431",
+        "1432"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1398",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1398,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1400",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1400,
+      "childIds": [
+        "1399"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1399",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1399,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1427",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1427,
+      "childIds": [
+        "1426"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1426",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1426,
+      "childIds": [
+        "1411",
+        "1412",
+        "1417"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1411",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1411,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1412",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1412,
+      "childIds": [
+        "1413",
+        "1416",
+        "1420",
+        "1421",
+        "1422"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1413",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1413,
+      "childIds": [
+        "1423"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1423",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1423,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1416",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1416,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1420",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1420,
+      "childIds": [
+        "1404",
+        "1418",
+        "1419"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1404",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1404,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1418",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1418,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1419",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1419,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1421",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1421,
+      "childIds": [
+        "1424"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1424",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1424,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1422",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1422,
+      "childIds": [
+        "1425"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1425",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1425,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1417",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1417,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1428",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1428,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1429",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1429,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1430",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1430,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1431",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1431,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1432",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1432,
+      "childIds": [
+        "1436",
+        "1440",
+        "1444",
+        "1448",
+        "1452",
+        "1456",
+        "1460",
+        "1464",
+        "1468",
+        "1472"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1436",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1436,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1440",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1440,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1444",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1444,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1448",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1448,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1452",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1452,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1456",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1456,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1460",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1460,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1464",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1464,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1468",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1468,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1472",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1472,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "169",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 169,
+      "domNodeId": "9",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"9\"]",
+      "tagName": "div",
+      "childIds": [
+        "170",
+        "181"
+      ]
+    },
+    {
+      "nodeId": "469",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 469,
+      "domNodeId": "305",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"305\"]",
+      "tagName": "div",
+      "childIds": [
+        "470"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "470",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 470,
+      "domNodeId": "306",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"306\"]",
+      "tagName": "div",
+      "childIds": [
+        "471"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "471",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 471,
+      "domNodeId": "307",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"307\"]",
+      "tagName": "div",
+      "childIds": [
+        "472",
+        "473"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "472",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 472,
+      "domNodeId": "308",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"308\"]",
+      "tagName": "span",
+      "childIds": [
+        "25"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "25",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "From just £15/month",
+      "backendDOMNodeId": 25,
+      "childIds": [
+        "-1000000768"
+      ]
+    },
+    {
+      "nodeId": "473",
+      "ignored": false,
+      "role": "link",
+      "name": "Get Sky Stream",
+      "backendDOMNodeId": 473,
+      "domNodeId": "309",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"309\"]",
+      "tagName": "a",
+      "childIds": [
+        "26"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/glass/buy/stream/base-pack?sc=stream-essential-tv-v2&irct=web-tv_stream-sticky-gbr-stream-all-acq"
+      }
+    },
+    {
+      "nodeId": "476",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 476,
+      "domNodeId": "312",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"312\"]",
+      "tagName": "div",
+      "childIds": [
+        "477"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "477",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 477,
+      "domNodeId": "313",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"313\"]",
+      "tagName": "section",
+      "childIds": [
+        "478",
+        "479",
+        "480"
+      ]
+    },
+    {
+      "nodeId": "494",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 494,
+      "domNodeId": "331",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"331\"]",
+      "tagName": "div",
+      "childIds": [
+        "495"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "495",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 495,
+      "domNodeId": "332",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"332\"]",
+      "tagName": "div",
+      "childIds": [
+        "496"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "496",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 496,
+      "domNodeId": "333",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"333\"]",
+      "tagName": "div",
+      "childIds": [
+        "497",
+        "503"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "497",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 497,
+      "domNodeId": "334",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"334\"]",
+      "tagName": "div",
+      "childIds": [
+        "498"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "498",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 498,
+      "domNodeId": "335",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"335\"]",
+      "tagName": "div",
+      "childIds": [
+        "499"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "499",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 499,
+      "domNodeId": "336",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"336\"]",
+      "tagName": "div",
+      "childIds": [
+        "500"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "500",
+      "ignored": false,
+      "role": "heading",
+      "name": "Stream over WiFi. No dish needed. What makes Sky Stream the best entertainment experience?",
+      "backendDOMNodeId": 500,
+      "domNodeId": "337",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"337\"]",
+      "tagName": "h2",
+      "childIds": [
+        "501",
+        "502"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "503",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 503,
+      "domNodeId": "340",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"340\"]",
+      "tagName": "div",
+      "childIds": [
+        "504",
+        "512",
+        "520",
+        "528"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "504",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 504,
+      "domNodeId": "341",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"341\"]",
+      "tagName": "div",
+      "childIds": [
+        "505",
+        "506"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "505",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 505,
+      "domNodeId": "342",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"342\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "506",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 506,
+      "domNodeId": "343",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"343\"]",
+      "tagName": "div",
+      "childIds": [
+        "507"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "507",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 507,
+      "domNodeId": "344",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"344\"]",
+      "tagName": "div",
+      "childIds": [
+        "508"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "508",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 508,
+      "domNodeId": "345",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"345\"]",
+      "tagName": "div",
+      "childIds": [
+        "509",
+        "510"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "509",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 509,
+      "domNodeId": "346",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"346\"]",
+      "tagName": "p",
+      "childIds": [
+        "32"
+      ]
+    },
+    {
+      "nodeId": "510",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 510,
+      "domNodeId": "347",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"347\"]",
+      "tagName": "div",
+      "childIds": [
+        "511"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "511",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 511,
+      "domNodeId": "348",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"348\"]",
+      "tagName": "p",
+      "childIds": [
+        "33"
+      ]
+    },
+    {
+      "nodeId": "512",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 512,
+      "domNodeId": "349",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"349\"]",
+      "tagName": "div",
+      "childIds": [
+        "513",
+        "514"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "513",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 513,
+      "domNodeId": "350",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"350\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "514",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 514,
+      "domNodeId": "351",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"351\"]",
+      "tagName": "div",
+      "childIds": [
+        "515"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "515",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 515,
+      "domNodeId": "352",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"352\"]",
+      "tagName": "div",
+      "childIds": [
+        "516"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "516",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 516,
+      "domNodeId": "353",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"353\"]",
+      "tagName": "div",
+      "childIds": [
+        "517",
+        "518"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "517",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 517,
+      "domNodeId": "354",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"354\"]",
+      "tagName": "p",
+      "childIds": [
+        "34"
+      ]
+    },
+    {
+      "nodeId": "518",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 518,
+      "domNodeId": "355",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"355\"]",
+      "tagName": "div",
+      "childIds": [
+        "519"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "519",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 519,
+      "domNodeId": "356",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"356\"]",
+      "tagName": "p",
+      "childIds": [
+        "35"
+      ]
+    },
+    {
+      "nodeId": "520",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 520,
+      "domNodeId": "357",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"357\"]",
+      "tagName": "div",
+      "childIds": [
+        "521",
+        "522"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "521",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 521,
+      "domNodeId": "358",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"358\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "522",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 522,
+      "domNodeId": "359",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"359\"]",
+      "tagName": "div",
+      "childIds": [
+        "523"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "523",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 523,
+      "domNodeId": "360",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"360\"]",
+      "tagName": "div",
+      "childIds": [
+        "524"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "524",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 524,
+      "domNodeId": "361",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"361\"]",
+      "tagName": "div",
+      "childIds": [
+        "525",
+        "526"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "525",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 525,
+      "domNodeId": "362",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"362\"]",
+      "tagName": "p",
+      "childIds": [
+        "36"
+      ]
+    },
+    {
+      "nodeId": "526",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 526,
+      "domNodeId": "363",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"363\"]",
+      "tagName": "div",
+      "childIds": [
+        "527"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "527",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 527,
+      "domNodeId": "364",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"364\"]",
+      "tagName": "p",
+      "childIds": [
+        "37"
+      ]
+    },
+    {
+      "nodeId": "528",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 528,
+      "domNodeId": "365",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"365\"]",
+      "tagName": "div",
+      "childIds": [
+        "529",
+        "530"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "529",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 529,
+      "domNodeId": "366",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"366\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "530",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 530,
+      "domNodeId": "367",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"367\"]",
+      "tagName": "div",
+      "childIds": [
+        "531"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "531",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 531,
+      "domNodeId": "368",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"368\"]",
+      "tagName": "div",
+      "childIds": [
+        "532"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "532",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 532,
+      "domNodeId": "369",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"369\"]",
+      "tagName": "div",
+      "childIds": [
+        "533",
+        "534"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "533",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 533,
+      "domNodeId": "370",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"370\"]",
+      "tagName": "p",
+      "childIds": [
+        "38"
+      ]
+    },
+    {
+      "nodeId": "534",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 534,
+      "domNodeId": "371",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"371\"]",
+      "tagName": "div",
+      "childIds": [
+        "535"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "535",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 535,
+      "domNodeId": "372",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"372\"]",
+      "tagName": "p",
+      "childIds": [
+        "39"
+      ]
+    },
+    {
+      "nodeId": "537",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 537,
+      "domNodeId": "374",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"374\"]",
+      "tagName": "section",
+      "childIds": [
+        "538",
+        "559",
+        "597"
+      ]
+    },
+    {
+      "nodeId": "605",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 605,
+      "domNodeId": "442",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"442\"]",
+      "tagName": "div",
+      "childIds": [
+        "606"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "606",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 606,
+      "domNodeId": "443",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"443\"]",
+      "tagName": "div",
+      "childIds": [
+        "607"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "607",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 607,
+      "domNodeId": "444",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"444\"]",
+      "tagName": "div",
+      "childIds": [
+        "608"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "608",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 608,
+      "domNodeId": "445",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"445\"]",
+      "tagName": "div",
+      "childIds": [
+        "609"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "609",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 609,
+      "domNodeId": "446",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"446\"]",
+      "tagName": "div",
+      "childIds": [
+        "610"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "610",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 610,
+      "domNodeId": "447",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"447\"]",
+      "tagName": "ul",
+      "childIds": [
+        "611",
+        "617",
+        "623"
+      ]
+    },
+    {
+      "nodeId": "630",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 630,
+      "domNodeId": "467",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"467\"]",
+      "tagName": "div",
+      "childIds": [
+        "631"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "631",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 631,
+      "domNodeId": "468",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"468\"]",
+      "tagName": "div",
+      "childIds": [
+        "632"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "632",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 632,
+      "domNodeId": "469",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"469\"]",
+      "tagName": "div",
+      "childIds": [
+        "633",
+        "638"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "633",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 633,
+      "domNodeId": "470",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"470\"]",
+      "tagName": "div",
+      "childIds": [
+        "634"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "634",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 634,
+      "domNodeId": "471",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"471\"]",
+      "tagName": "div",
+      "childIds": [
+        "635"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "635",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 635,
+      "domNodeId": "472",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"472\"]",
+      "tagName": "div",
+      "childIds": [
+        "636"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "636",
+      "ignored": false,
+      "role": "heading",
+      "name": "Why Sky?",
+      "backendDOMNodeId": 636,
+      "domNodeId": "473",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"473\"]",
+      "tagName": "h2",
+      "childIds": [
+        "637"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "638",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 638,
+      "domNodeId": "475",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"475\"]",
+      "tagName": "div",
+      "childIds": [
+        "639"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "639",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 639,
+      "domNodeId": "476",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
+      "tagName": "div",
+      "childIds": [
+        "640"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "640",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 640,
+      "domNodeId": "477",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
+      "tagName": "ul",
+      "childIds": [
+        "641",
+        "649"
+      ]
+    },
+    {
+      "nodeId": "658",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 658,
+      "domNodeId": "495",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"495\"]",
+      "tagName": "div",
+      "childIds": [
+        "659"
+      ]
+    },
+    {
+      "nodeId": "740",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 740,
+      "domNodeId": "577",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"577\"]",
+      "tagName": "div",
+      "childIds": [
+        "741"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "741",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 741,
+      "domNodeId": "578",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"578\"]",
+      "tagName": "div",
+      "childIds": [
+        "742"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "742",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 742,
+      "domNodeId": "579",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"579\"]",
+      "tagName": "div",
+      "childIds": [
+        "743"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "743",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 743,
+      "domNodeId": "580",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"580\"]",
+      "tagName": "div",
+      "childIds": [
+        "744",
+        "813",
+        "828",
+        "832",
+        "875",
+        "876",
+        "880",
+        "881",
+        "888",
+        "909",
+        "919",
+        "922",
+        "926",
+        "930",
+        "950",
+        "972"
+      ]
+    },
+    {
+      "nodeId": "974",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 974,
+      "domNodeId": "811",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"811\"]",
+      "tagName": "div",
+      "childIds": [
+        "975"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "975",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 975,
+      "domNodeId": "812",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"812\"]",
+      "tagName": "div",
+      "childIds": [
+        "976"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "976",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 976,
+      "domNodeId": "813",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"813\"]",
+      "tagName": "div",
+      "childIds": [
+        "977"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "977",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Breadcrumbs",
+      "backendDOMNodeId": 977,
+      "domNodeId": "814",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"814\"]",
+      "tagName": "nav",
+      "childIds": [
+        "978"
+      ]
+    },
+    {
+      "nodeId": "998",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 998,
+      "domNodeId": "835",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"835\"]",
+      "tagName": "div",
+      "childIds": [
+        "999",
+        "1003",
+        "1023"
+      ]
+    },
+    {
+      "nodeId": "1045",
+      "ignored": false,
+      "role": "link",
+      "name": "back to top",
+      "backendDOMNodeId": 1045,
+      "domNodeId": "872",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"872\"]",
+      "tagName": "a",
+      "childIds": [
+        "77"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream#page-top"
+      }
+    },
+    {
+      "nodeId": "170",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 170,
+      "domNodeId": "10",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
+      "tagName": "ul",
+      "childIds": [
+        "171",
+        "173",
+        "175",
+        "177",
+        "180"
+      ]
+    },
+    {
+      "nodeId": "181",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 181,
+      "domNodeId": "21",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"21\"]",
+      "tagName": "header",
+      "childIds": [
+        "182",
+        "184",
+        "192",
+        "464"
+      ]
+    },
+    {
+      "nodeId": "-1000000768",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "From just £15/month"
+    },
+    {
+      "nodeId": "26",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get Sky Stream",
+      "backendDOMNodeId": 26,
+      "childIds": [
+        "-1000000769"
+      ]
+    },
+    {
+      "nodeId": "478",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 478,
+      "domNodeId": "314",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"314\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "479",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 479,
+      "domNodeId": "315",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"315\"]",
+      "tagName": "div",
+      "childIds": [
+        "81"
+      ]
+    },
+    {
+      "nodeId": "480",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 480,
+      "domNodeId": "317",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"317\"]",
+      "tagName": "div",
+      "childIds": [
+        "481"
+      ]
+    },
+    {
+      "nodeId": "501",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 501,
+      "domNodeId": "338",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"338\"]",
+      "tagName": "span",
+      "childIds": [
+        "30"
+      ]
+    },
+    {
+      "nodeId": "502",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 502,
+      "domNodeId": "339",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"339\"]",
+      "tagName": "span",
+      "childIds": [
+        "31"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "31",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What makes Sky Stream the best entertainment experience?",
+      "backendDOMNodeId": 31,
+      "childIds": [
+        "-1000000777",
+        "-1000000778"
+      ]
+    },
+    {
+      "nodeId": "32",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get unmissable shows",
+      "backendDOMNodeId": 32,
+      "childIds": [
+        "-1000000779"
+      ]
+    },
+    {
+      "nodeId": "33",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Enjoy more of the UK's highest rated shows from Sky, Netflix and discovery+ in one simple subscription.",
+      "backendDOMNodeId": 33,
+      "childIds": [
+        "-1000000780",
+        "-1000000781"
+      ]
+    },
+    {
+      "nodeId": "34",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Feel powerful with voice control",
+      "backendDOMNodeId": 34,
+      "childIds": [
+        "-1000000782"
+      ]
+    },
+    {
+      "nodeId": "35",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get to the content you love even faster. Use your voice to search shows, genres and even actors.",
+      "backendDOMNodeId": 35,
+      "childIds": [
+        "-1000000783",
+        "-1000000784"
+      ]
+    },
+    {
+      "nodeId": "36",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Forget the app hopping",
+      "backendDOMNodeId": 36,
+      "childIds": [
+        "-1000000785"
+      ]
+    },
+    {
+      "nodeId": "37",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Search across all your apps in one place. Spend less time app hopping and more time watching.",
+      "backendDOMNodeId": 37,
+      "childIds": [
+        "-1000000786",
+        "-1000000787"
+      ]
+    },
+    {
+      "nodeId": "38",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Start watching straight away",
+      "backendDOMNodeId": 38,
+      "childIds": [
+        "-1000000788"
+      ]
+    },
+    {
+      "nodeId": "39",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Ready to just plug and play. No dish, No fuss. With next day delivery.",
+      "backendDOMNodeId": 39,
+      "childIds": [
+        "-1000000789"
+      ]
+    },
+    {
+      "nodeId": "538",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 538,
+      "domNodeId": "375",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"375\"]",
+      "tagName": "div",
+      "childIds": [
+        "539"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "539",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 539,
+      "domNodeId": "376",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"376\"]",
+      "tagName": "div",
+      "childIds": [
+        "540"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "540",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 540,
+      "domNodeId": "377",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"377\"]",
+      "tagName": "div",
+      "childIds": [
+        "541",
+        "552"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "541",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 541,
+      "domNodeId": "378",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"378\"]",
+      "tagName": "div",
+      "childIds": [
+        "542"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "542",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 542,
+      "domNodeId": "379",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"379\"]",
+      "tagName": "div",
+      "childIds": [
+        "543"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "543",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 543,
+      "domNodeId": "380",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"380\"]",
+      "tagName": "div",
+      "childIds": [
+        "544",
+        "547"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "544",
+      "ignored": false,
+      "role": "heading",
+      "name": "Sky Entertainment & Netflix Made for the biggest shows",
+      "backendDOMNodeId": 544,
+      "domNodeId": "381",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"381\"]",
+      "tagName": "h2",
+      "childIds": [
+        "545",
+        "546"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "547",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 547,
+      "domNodeId": "384",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"384\"]",
+      "tagName": "div",
+      "childIds": [
+        "548"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "548",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 548,
+      "domNodeId": "385",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"385\"]",
+      "tagName": "div",
+      "childIds": [
+        "549"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "549",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 549,
+      "domNodeId": "386",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"386\"]",
+      "tagName": "div",
+      "childIds": [
+        "550"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "550",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 550,
+      "domNodeId": "387",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"387\"]",
+      "tagName": "div",
+      "childIds": [
+        "42"
+      ]
+    },
+    {
+      "nodeId": "552",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 552,
+      "domNodeId": "389",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"389\"]",
+      "tagName": "div",
+      "childIds": [
+        "553",
+        "555"
+      ]
+    },
+    {
+      "nodeId": "559",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 559,
+      "domNodeId": "396",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"396\"]",
+      "tagName": "div",
+      "childIds": [
+        "560"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "560",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 560,
+      "domNodeId": "397",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"397\"]",
+      "tagName": "div",
+      "childIds": [
+        "561",
+        "568"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "561",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 561,
+      "domNodeId": "398",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"398\"]",
+      "tagName": "div",
+      "childIds": [
+        "562"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "562",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 562,
+      "domNodeId": "399",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"399\"]",
+      "tagName": "div",
+      "childIds": [
+        "563"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "563",
+      "ignored": false,
+      "role": "tablist",
+      "name": "",
+      "backendDOMNodeId": 563,
+      "domNodeId": "400",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"400\"]",
+      "tagName": "nav",
+      "childIds": [
+        "564",
+        "566"
+      ],
+      "properties": {
+        "multiselectable": false,
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "568",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 568,
+      "domNodeId": "405",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"405\"]",
+      "tagName": "div",
+      "childIds": [
+        "569"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "569",
+      "ignored": false,
+      "role": "tabpanel",
+      "name": "Sky Entertainment",
+      "backendDOMNodeId": 569,
+      "domNodeId": "406",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"406\"]",
+      "tagName": "div",
+      "childIds": [
+        "570"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "597",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 597,
+      "domNodeId": "434",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"434\"]",
+      "tagName": "div",
+      "childIds": [
+        "598"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "598",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 598,
+      "domNodeId": "435",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"435\"]",
+      "tagName": "div",
+      "childIds": [
+        "599"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "599",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 599,
+      "domNodeId": "436",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"436\"]",
+      "tagName": "div",
+      "childIds": [
+        "600"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "600",
+      "ignored": false,
+      "role": "link",
+      "name": "Learn more",
+      "backendDOMNodeId": 600,
+      "domNodeId": "437",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"437\"]",
+      "tagName": "a",
+      "childIds": [
+        "46"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/watch?irct=web-tv_stream-gallery-gbr-stream-all-acq"
+      }
+    },
+    {
+      "nodeId": "611",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 611,
+      "domNodeId": "448",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"448\"]",
+      "tagName": "li",
+      "childIds": [
+        "612"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "617",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 617,
+      "domNodeId": "454",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"454\"]",
+      "tagName": "li",
+      "childIds": [
+        "618"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "623",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 623,
+      "domNodeId": "460",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"460\"]",
+      "tagName": "li",
+      "childIds": [
+        "624"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "637",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 637,
+      "domNodeId": "474",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"474\"]",
+      "tagName": "span",
+      "childIds": [
+        "50"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "50",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Why Sky?",
+      "backendDOMNodeId": 50,
+      "childIds": [
+        "-1000000804"
+      ]
+    },
+    {
+      "nodeId": "641",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 641,
+      "domNodeId": "478",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"478\"]",
+      "tagName": "li",
+      "childIds": [
+        "642"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "649",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 649,
+      "domNodeId": "486",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"486\"]",
+      "tagName": "li",
+      "childIds": [
+        "650"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "659",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 659,
+      "domNodeId": "496",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"496\"]",
+      "tagName": "div",
+      "childIds": [
+        "660"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "660",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 660,
+      "domNodeId": "497",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"497\"]",
+      "tagName": "div",
+      "childIds": [
+        "661",
+        "665"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "661",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 661,
+      "domNodeId": "498",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"498\"]",
+      "tagName": "div",
+      "childIds": [
+        "662"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "662",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 662,
+      "domNodeId": "499",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"499\"]",
+      "tagName": "div",
+      "childIds": [
+        "663"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "663",
+      "ignored": false,
+      "role": "heading",
+      "name": "Frequently asked questions",
+      "backendDOMNodeId": 663,
+      "domNodeId": "500",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"500\"]",
+      "tagName": "h2",
+      "childIds": [
+        "664"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "665",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 665,
+      "domNodeId": "502",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"502\"]",
+      "tagName": "ul",
+      "childIds": [
+        "666",
+        "680",
+        "694",
+        "708"
+      ]
+    },
+    {
+      "nodeId": "744",
+      "ignored": false,
+      "role": "heading",
+      "name": "Here's the legal bit",
+      "backendDOMNodeId": 744,
+      "domNodeId": "581",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"581\"]",
+      "tagName": "h2",
+      "childIds": [
+        "745"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "813",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 813,
+      "domNodeId": "650",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"650\"]",
+      "tagName": "a",
+      "childIds": [
+        "2218",
+        "2219"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2218",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2218,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2219",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2219,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "828",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 828,
+      "domNodeId": "665",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"665\"]",
+      "tagName": "a",
+      "childIds": [
+        "2220",
+        "2221"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2220",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2220,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2221",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2221,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "832",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 832,
+      "domNodeId": "669",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"669\"]",
+      "tagName": "a",
+      "childIds": [
+        "2222",
+        "2223"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2222",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2222,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2223",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2223,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "875",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 875,
+      "domNodeId": "712",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"712\"]",
+      "tagName": "a",
+      "childIds": [
+        "2224",
+        "2225"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2224",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2224,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2225",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2225,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "876",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 876,
+      "domNodeId": "713",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"713\"]",
+      "tagName": "a",
+      "childIds": [
+        "2226",
+        "2227"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2226",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2226,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2227",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2227,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "880",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 880,
+      "domNodeId": "717",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"717\"]",
+      "tagName": "a",
+      "childIds": [
+        "2228",
+        "2229"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2228",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2228,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2229",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2229,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "881",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 881,
+      "domNodeId": "718",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"718\"]",
+      "tagName": "a",
+      "childIds": [
+        "2230",
+        "2231"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2230",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2230,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2231",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2231,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "888",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 888,
+      "domNodeId": "725",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"725\"]",
+      "tagName": "a",
+      "childIds": [
+        "2232",
+        "2233"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2232",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2232,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2233",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2233,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "909",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 909,
+      "domNodeId": "746",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"746\"]",
+      "tagName": "a",
+      "childIds": [
+        "2234",
+        "2235"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2234",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2234,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2235",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2235,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "919",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 919,
+      "domNodeId": "756",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"756\"]",
+      "tagName": "a",
+      "childIds": [
+        "2236",
+        "2237"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2236",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2236,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2237",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2237,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "922",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 922,
+      "domNodeId": "759",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"759\"]",
+      "tagName": "a",
+      "childIds": [
+        "2238",
+        "2239"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2238",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2238,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2239",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2239,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "926",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 926,
+      "domNodeId": "763",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"763\"]",
+      "tagName": "a",
+      "childIds": [
+        "2240",
+        "2241"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2240",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2240,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2241",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2241,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "930",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 930,
+      "domNodeId": "767",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"767\"]",
+      "tagName": "a",
+      "childIds": [
+        "2242",
+        "2243"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2242",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2242,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2243",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2243,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "950",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 950,
+      "domNodeId": "787",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"787\"]",
+      "tagName": "a",
+      "childIds": [
+        "2244",
+        "2245"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2244",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2244,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2245",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2245,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "972",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 972,
+      "domNodeId": "809",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"809\"]",
+      "tagName": "a",
+      "childIds": [
+        "2246",
+        "2247"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2246",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2246,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2247",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2247,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "978",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 978,
+      "domNodeId": "815",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"815\"]",
+      "tagName": "ol",
+      "childIds": [
+        "979",
+        "985",
+        "991"
+      ]
+    },
+    {
+      "nodeId": "999",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 999,
+      "domNodeId": "836",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"836\"]",
+      "tagName": "div",
+      "childIds": [
+        "1000",
+        "1002"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1000",
+      "ignored": false,
+      "role": "link",
+      "name": "Sky home page",
+      "backendDOMNodeId": 1000,
+      "domNodeId": "837",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"837\"]",
+      "tagName": "a",
+      "childIds": [
+        "1001"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/"
+      }
+    },
+    {
+      "nodeId": "1002",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1002,
+      "domNodeId": "839",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"839\"]",
+      "tagName": "span",
+      "childIds": [
+        "65",
+        "1904",
+        "1905"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "65",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "© ",
+      "backendDOMNodeId": 65,
+      "childIds": [
+        "-1000000819"
+      ]
+    },
+    {
+      "nodeId": "1904",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "2026",
+      "backendDOMNodeId": 1904,
+      "childIds": [
+        "-1000000820"
+      ]
+    },
+    {
+      "nodeId": "1905",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " Sky UK",
+      "backendDOMNodeId": 1905,
+      "childIds": [
+        "-1000000821"
+      ]
+    },
+    {
+      "nodeId": "1003",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1003,
+      "domNodeId": "840",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"840\"]",
+      "tagName": "div",
+      "childIds": [
+        "1004"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1004",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1004,
+      "domNodeId": "841",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"841\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1005",
+        "1007",
+        "1009",
+        "1011",
+        "1013",
+        "1015",
+        "1017",
+        "1019",
+        "1021"
+      ]
+    },
+    {
+      "nodeId": "1023",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1023,
+      "domNodeId": "860",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"860\"]",
+      "tagName": "div",
+      "childIds": [
+        "1024"
+      ]
+    },
+    {
+      "nodeId": "77",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "back to top",
+      "backendDOMNodeId": 77,
+      "childIds": [
+        "-1000000895"
+      ]
+    },
+    {
+      "nodeId": "171",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 171,
+      "domNodeId": "11",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
+      "tagName": "li",
+      "childIds": [
+        "172"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "173",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 173,
+      "domNodeId": "13",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"13\"]",
+      "tagName": "li",
+      "childIds": [
+        "174"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "175",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 175,
+      "domNodeId": "15",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"15\"]",
+      "tagName": "li",
+      "childIds": [
+        "176"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "177",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 177,
+      "domNodeId": "17",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"17\"]",
+      "tagName": "li",
+      "childIds": [
+        "178"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "180",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 180,
+      "domNodeId": "20",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"20\"]",
+      "tagName": "a",
+      "childIds": [
+        "24"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "24",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 24,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "182",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 182,
+      "domNodeId": "22",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"22\"]",
+      "tagName": "div",
+      "childIds": [
+        "83"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "83",
+      "ignored": false,
+      "role": "link",
+      "name": "Sky home page",
+      "backendDOMNodeId": 83,
+      "domNodeId": "23",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"23\"]",
+      "tagName": "a",
+      "childIds": [
+        "183"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/"
+      }
+    },
+    {
+      "nodeId": "184",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 184,
+      "domNodeId": "25",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"25\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "192",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 192,
+      "domNodeId": "33",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"33\"]",
+      "tagName": "div",
+      "childIds": [
+        "193"
+      ]
+    },
+    {
+      "nodeId": "464",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 464,
+      "domNodeId": "300",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"300\"]",
+      "tagName": "div",
+      "childIds": [
+        "465"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "465",
+      "ignored": false,
+      "role": "link",
+      "name": "Sign in",
+      "backendDOMNodeId": 465,
+      "domNodeId": "301",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"301\"]",
+      "tagName": "a",
+      "childIds": [
+        "21"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/signin?successUrl=https%3A%2F%2Fwww.sky.com%2Ftv%2Fstream&cancelUrl=https%3A%2F%2Fwww.sky.com%2Ftv%2Fstream"
+      }
+    },
+    {
+      "nodeId": "-1000000769",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get Sky Stream"
+    },
+    {
+      "nodeId": "81",
+      "ignored": false,
+      "role": "image",
+      "name": "Sky Stream",
+      "backendDOMNodeId": 81,
+      "domNodeId": "316",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"316\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt9bbcdfaacdc01550/6672daa31774d2f641a17a89/Hero_TV_latest.png?format=webp&imageManager=true&impolicy=resize&width=1200"
+      }
+    },
+    {
+      "nodeId": "481",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 481,
+      "domNodeId": "318",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"318\"]",
+      "tagName": "div",
+      "childIds": [
+        "482",
+        "484",
+        "492"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "482",
+      "ignored": false,
+      "role": "heading",
+      "name": "Enjoy your favourite content over WiFi with Sky Stream",
+      "backendDOMNodeId": 482,
+      "domNodeId": "319",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"319\"]",
+      "tagName": "h1",
+      "childIds": [
+        "27"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "484",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 484,
+      "domNodeId": "321",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"321\"]",
+      "tagName": "div",
+      "childIds": [
+        "485"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "485",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 485,
+      "domNodeId": "322",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"322\"]",
+      "tagName": "div",
+      "childIds": [
+        "486",
+        "488"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "486",
+      "ignored": false,
+      "role": "heading",
+      "name": "",
+      "backendDOMNodeId": 486,
+      "domNodeId": "323",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"323\"]",
+      "tagName": "h2",
+      "childIds": [
+        "487"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "488",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 488,
+      "domNodeId": "325",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"325\"]",
+      "tagName": "div",
+      "childIds": [
+        "489"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "489",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 489,
+      "domNodeId": "326",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"326\"]",
+      "tagName": "div",
+      "childIds": [
+        "490"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "490",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 490,
+      "domNodeId": "327",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"327\"]",
+      "tagName": "div",
+      "childIds": [
+        "28"
+      ]
+    },
+    {
+      "nodeId": "492",
+      "ignored": false,
+      "role": "link",
+      "name": "Get Sky Stream",
+      "backendDOMNodeId": 492,
+      "domNodeId": "329",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"329\"]",
+      "tagName": "a",
+      "childIds": [
+        "29"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/glass/buy/stream/base-pack?sc=stream-essential-tv-v2&irct=web-tv_stream-hero-gbr-stream-all-acq"
+      }
+    },
+    {
+      "nodeId": "30",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Stream over WiFi. No dish needed.",
+      "backendDOMNodeId": 30,
+      "childIds": [
+        "-1000000776"
+      ]
+    },
+    {
+      "nodeId": "-1000000777",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What makes Sky Stream the best "
+    },
+    {
+      "nodeId": "-1000000778",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "entertainment experience?"
+    },
+    {
+      "nodeId": "-1000000779",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get unmissable shows"
+    },
+    {
+      "nodeId": "-1000000780",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Enjoy more of the UK's highest rated shows from Sky, Netflix and "
+    },
+    {
+      "nodeId": "-1000000781",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "discovery+ in one simple subscription."
+    },
+    {
+      "nodeId": "-1000000782",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Feel powerful with voice control"
+    },
+    {
+      "nodeId": "-1000000783",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get to the content you love even faster. Use your voice to search "
+    },
+    {
+      "nodeId": "-1000000784",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "shows, genres and even actors."
+    },
+    {
+      "nodeId": "-1000000785",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Forget the app hopping"
+    },
+    {
+      "nodeId": "-1000000786",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Search across all your apps in one place. Spend less time app "
+    },
+    {
+      "nodeId": "-1000000787",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "hopping and more time watching."
+    },
+    {
+      "nodeId": "-1000000788",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Start watching straight away"
+    },
+    {
+      "nodeId": "-1000000789",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Ready to just plug and play. No dish, No fuss. With next day delivery."
+    },
+    {
+      "nodeId": "545",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 545,
+      "domNodeId": "382",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"382\"]",
+      "tagName": "span",
+      "childIds": [
+        "40"
+      ]
+    },
+    {
+      "nodeId": "546",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 546,
+      "domNodeId": "383",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"383\"]",
+      "tagName": "span",
+      "childIds": [
+        "41"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "41",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Made for the biggest shows",
+      "backendDOMNodeId": 41,
+      "childIds": [
+        "-1000000791"
+      ]
+    },
+    {
+      "nodeId": "42",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Built for the best entertainment. Sky Stream pairs brilliantly with our content. Stream your favourites over WiFi.",
+      "backendDOMNodeId": 42,
+      "childIds": [
+        "-1000000792",
+        "-1000000793"
+      ]
+    },
+    {
+      "nodeId": "553",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 553,
+      "domNodeId": "390",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"390\"]",
+      "tagName": "div",
+      "childIds": [
+        "554"
+      ]
+    },
+    {
+      "nodeId": "555",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 555,
+      "domNodeId": "392",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"392\"]",
+      "tagName": "div",
+      "childIds": [
+        "556"
+      ]
+    },
+    {
+      "nodeId": "564",
+      "ignored": false,
+      "role": "tab",
+      "name": "Sky Entertainment",
+      "backendDOMNodeId": 564,
+      "domNodeId": "401",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"401\"]",
+      "tagName": "button",
+      "childIds": [
+        "565"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "selected": true,
+        "controls": "_R_1lkib6_-tabpanel-0"
+      }
+    },
+    {
+      "nodeId": "566",
+      "ignored": false,
+      "role": "tab",
+      "name": "Netflix",
+      "backendDOMNodeId": 566,
+      "domNodeId": "403",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"403\"]",
+      "tagName": "button",
+      "childIds": [
+        "567"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "570",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 570,
+      "domNodeId": "407",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"407\"]",
+      "tagName": "ul",
+      "childIds": [
+        "571",
+        "573",
+        "575",
+        "577",
+        "579",
+        "581"
+      ]
+    },
+    {
+      "nodeId": "46",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Learn more",
+      "backendDOMNodeId": 46,
+      "childIds": [
+        "-1000000835"
+      ]
+    },
+    {
+      "nodeId": "612",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 612,
+      "domNodeId": "449",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"449\"]",
+      "tagName": "div",
+      "childIds": [
+        "613"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "613",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 613,
+      "domNodeId": "450",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"450\"]",
+      "tagName": "div",
+      "childIds": [
+        "614"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "614",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 614,
+      "domNodeId": "451",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"451\"]",
+      "tagName": "div",
+      "childIds": [
+        "615",
+        "616"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "615",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 615,
+      "domNodeId": "452",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"452\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "616",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 616,
+      "domNodeId": "453",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"453\"]",
+      "tagName": "p",
+      "childIds": [
+        "47"
+      ]
+    },
+    {
+      "nodeId": "618",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 618,
+      "domNodeId": "455",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"455\"]",
+      "tagName": "div",
+      "childIds": [
+        "619"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "619",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 619,
+      "domNodeId": "456",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"456\"]",
+      "tagName": "div",
+      "childIds": [
+        "620"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "620",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 620,
+      "domNodeId": "457",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"457\"]",
+      "tagName": "div",
+      "childIds": [
+        "621",
+        "622"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "621",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 621,
+      "domNodeId": "458",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"458\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "622",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 622,
+      "domNodeId": "459",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"459\"]",
+      "tagName": "p",
+      "childIds": [
+        "48"
+      ]
+    },
+    {
+      "nodeId": "624",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 624,
+      "domNodeId": "461",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"461\"]",
+      "tagName": "div",
+      "childIds": [
+        "625"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "625",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 625,
+      "domNodeId": "462",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"462\"]",
+      "tagName": "div",
+      "childIds": [
+        "626"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "626",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 626,
+      "domNodeId": "463",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"463\"]",
+      "tagName": "div",
+      "childIds": [
+        "627",
+        "628"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "627",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 627,
+      "domNodeId": "464",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"464\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "628",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 628,
+      "domNodeId": "465",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"465\"]",
+      "tagName": "p",
+      "childIds": [
+        "49"
+      ]
+    },
+    {
+      "nodeId": "-1000000804",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Why Sky?"
+    },
+    {
+      "nodeId": "642",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 642,
+      "domNodeId": "479",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"479\"]",
+      "tagName": "div",
+      "childIds": [
+        "643"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "643",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 643,
+      "domNodeId": "480",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"480\"]",
+      "tagName": "div",
+      "childIds": [
+        "644"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "644",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 644,
+      "domNodeId": "481",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"481\"]",
+      "tagName": "div",
+      "childIds": [
+        "645",
+        "646",
+        "647"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "645",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 645,
+      "domNodeId": "482",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"482\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "646",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 646,
+      "domNodeId": "483",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"483\"]",
+      "tagName": "p",
+      "childIds": [
+        "51"
+      ]
+    },
+    {
+      "nodeId": "647",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 647,
+      "domNodeId": "484",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"484\"]",
+      "tagName": "div",
+      "childIds": [
+        "648"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "648",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 648,
+      "domNodeId": "485",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"485\"]",
+      "tagName": "p",
+      "childIds": [
+        "52"
+      ]
+    },
+    {
+      "nodeId": "650",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 650,
+      "domNodeId": "487",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"487\"]",
+      "tagName": "div",
+      "childIds": [
+        "651"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "651",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 651,
+      "domNodeId": "488",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"488\"]",
+      "tagName": "div",
+      "childIds": [
+        "652"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "652",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 652,
+      "domNodeId": "489",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"489\"]",
+      "tagName": "div",
+      "childIds": [
+        "653",
+        "654",
+        "655"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "653",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 653,
+      "domNodeId": "490",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"490\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "emptyAlt",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "654",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 654,
+      "domNodeId": "491",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"491\"]",
+      "tagName": "p",
+      "childIds": [
+        "53"
+      ]
+    },
+    {
+      "nodeId": "655",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 655,
+      "domNodeId": "492",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"492\"]",
+      "tagName": "div",
+      "childIds": [
+        "656"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "656",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 656,
+      "domNodeId": "493",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"493\"]",
+      "tagName": "p",
+      "childIds": [
+        "54"
+      ]
+    },
+    {
+      "nodeId": "664",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 664,
+      "domNodeId": "501",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"501\"]",
+      "tagName": "span",
+      "childIds": [
+        "55"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "55",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Frequently asked questions",
+      "backendDOMNodeId": 55,
+      "childIds": [
+        "-1000000809"
+      ]
+    },
+    {
+      "nodeId": "666",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 666,
+      "domNodeId": "503",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"503\"]",
+      "tagName": "li",
+      "childIds": [
+        "667"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "680",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 680,
+      "domNodeId": "517",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"517\"]",
+      "tagName": "li",
+      "childIds": [
+        "681"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "694",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 694,
+      "domNodeId": "531",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"531\"]",
+      "tagName": "li",
+      "childIds": [
+        "695"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "708",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 708,
+      "domNodeId": "545",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"545\"]",
+      "tagName": "li",
+      "childIds": [
+        "709"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "745",
+      "ignored": false,
+      "role": "button",
+      "name": "Here's the legal bit",
+      "backendDOMNodeId": 745,
+      "domNodeId": "582",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"582\"]",
+      "tagName": "button",
+      "childIds": [
+        "746",
+        "748"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "979",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 979,
+      "domNodeId": "816",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"816\"]",
+      "tagName": "li",
+      "childIds": [
+        "980"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "985",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 985,
+      "domNodeId": "822",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"822\"]",
+      "tagName": "li",
+      "childIds": [
+        "986"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "991",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 991,
+      "domNodeId": "828",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"828\"]",
+      "tagName": "li",
+      "childIds": [
+        "992"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1001",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1001,
+      "domNodeId": "838",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"838\"]",
+      "tagName": "span",
+      "childIds": [
+        "64"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "64",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sky home page",
+      "backendDOMNodeId": 64,
+      "childIds": [
+        "-1000000871"
+      ]
+    },
+    {
+      "nodeId": "-1000000819",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "© "
+    },
+    {
+      "nodeId": "-1000000820",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "2026"
+    },
+    {
+      "nodeId": "-1000000821",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " Sky UK"
+    },
+    {
+      "nodeId": "1005",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1005,
+      "domNodeId": "842",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"842\"]",
+      "tagName": "li",
+      "childIds": [
+        "1006"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1007",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1007,
+      "domNodeId": "844",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"844\"]",
+      "tagName": "li",
+      "childIds": [
+        "1008"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1009",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1009,
+      "domNodeId": "846",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"846\"]",
+      "tagName": "li",
+      "childIds": [
+        "1010"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1011",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1011,
+      "domNodeId": "848",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"848\"]",
+      "tagName": "li",
+      "childIds": [
+        "1012"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1013",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1013,
+      "domNodeId": "850",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"850\"]",
+      "tagName": "li",
+      "childIds": [
+        "1014"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1015",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1015,
+      "domNodeId": "852",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"852\"]",
+      "tagName": "li",
+      "childIds": [
+        "1016"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1017",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1017,
+      "domNodeId": "854",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"854\"]",
+      "tagName": "li",
+      "childIds": [
+        "1018"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1019",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1019,
+      "domNodeId": "856",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"856\"]",
+      "tagName": "li",
+      "childIds": [
+        "1020"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1021",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1021,
+      "domNodeId": "858",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"858\"]",
+      "tagName": "li",
+      "childIds": [
+        "1022"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1024",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1024,
+      "domNodeId": "861",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"861\"]",
+      "tagName": "div",
+      "childIds": [
+        "1025",
+        "1026",
+        "1902"
+      ]
+    },
+    {
+      "nodeId": "-1000000895",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "back to top"
+    },
+    {
+      "nodeId": "172",
+      "ignored": false,
+      "role": "link",
+      "name": "skip to search",
+      "backendDOMNodeId": 172,
+      "domNodeId": "12",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"12\"]",
+      "tagName": "a",
+      "childIds": [
+        "1054"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream#masthead-search-toggle"
+      }
+    },
+    {
+      "nodeId": "174",
+      "ignored": false,
+      "role": "link",
+      "name": "skip to alerts",
+      "backendDOMNodeId": 174,
+      "domNodeId": "14",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"14\"]",
+      "tagName": "a",
+      "childIds": [
+        "1055"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream#masthead-alerts-toggle-nav"
+      }
+    },
+    {
+      "nodeId": "176",
+      "ignored": false,
+      "role": "link",
+      "name": "skip to content",
+      "backendDOMNodeId": 176,
+      "domNodeId": "16",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"16\"]",
+      "tagName": "a",
+      "childIds": [
+        "22"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream#page-content"
+      }
+    },
+    {
+      "nodeId": "178",
+      "ignored": false,
+      "role": "link",
+      "name": "skip to footer",
+      "backendDOMNodeId": 178,
+      "domNodeId": "18",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"18\"]",
+      "tagName": "a",
+      "childIds": [
+        "23"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream#page-footer"
+      }
+    },
+    {
+      "nodeId": "183",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 183,
+      "domNodeId": "24",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"24\"]",
+      "tagName": "span",
+      "childIds": [
+        "20"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sky home page",
+      "backendDOMNodeId": 20,
+      "childIds": [
+        "-1000000752"
+      ]
+    },
+    {
+      "nodeId": "193",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 193,
+      "domNodeId": "34",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"34\"]",
+      "tagName": "div",
+      "childIds": [
+        "194",
+        "409"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "194",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 194,
+      "domNodeId": "35",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"35\"]",
+      "tagName": "div",
+      "childIds": [
+        "195",
+        "345"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "195",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 195,
+      "domNodeId": "36",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"36\"]",
+      "tagName": "div",
+      "childIds": [
+        "196"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "196",
+      "ignored": false,
+      "role": "navigation",
+      "name": "primary",
+      "backendDOMNodeId": 196,
+      "domNodeId": "37",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"37\"]",
+      "tagName": "nav",
+      "childIds": [
+        "197"
+      ]
+    },
+    {
+      "nodeId": "345",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 345,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "div",
+      "childIds": [
+        "346",
+        "360",
+        "361"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "346",
+      "ignored": false,
+      "role": "button",
+      "name": "Open Search",
+      "backendDOMNodeId": 346,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "360",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 360,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "361",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 361,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "409",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 409,
+      "domNodeId": "245",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"245\"]",
+      "tagName": "div",
+      "childIds": [
+        "410",
+        "2069"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "410",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 410,
+      "domNodeId": "246",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"246\"]",
+      "tagName": "div",
+      "childIds": [
+        "411"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "411",
+      "ignored": false,
+      "role": "button",
+      "name": "Open alerts, you have no alerts",
+      "backendDOMNodeId": 411,
+      "domNodeId": "247",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"247\"]",
+      "tagName": "button",
+      "childIds": [
+        "412"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "2069",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2069,
+      "domNodeId": "261",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"261\"]",
+      "tagName": "div",
+      "childIds": [
+        "2070"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2070",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2070,
+      "domNodeId": "262",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"262\"]",
+      "tagName": "div",
+      "childIds": [
+        "2071"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2071",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2071,
+      "domNodeId": "263",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"263\"]",
+      "tagName": "div",
+      "childIds": [
+        "2072",
+        "2073"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2072",
+      "ignored": false,
+      "role": "link",
+      "name": "Help",
+      "backendDOMNodeId": 2072,
+      "domNodeId": "264",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"264\"]",
+      "tagName": "a",
+      "childIds": [
+        "2111"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/help/home"
+      }
+    },
+    {
+      "nodeId": "2073",
+      "ignored": false,
+      "role": "button",
+      "name": "Open Help menu",
+      "backendDOMNodeId": 2073,
+      "domNodeId": "265",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"265\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "21",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign in",
+      "backendDOMNodeId": 21,
+      "childIds": [
+        "-1000000763"
+      ]
+    },
+    {
+      "nodeId": "27",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Enjoy your favourite content over WiFi with Sky Stream",
+      "backendDOMNodeId": 27,
+      "childIds": [
+        "-1000000770",
+        "-1000000771"
+      ]
+    },
+    {
+      "nodeId": "487",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 487,
+      "domNodeId": "324",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"324\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "28",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get more of the UK’s highest rated shows from Sky, Netflix and discovery+ in one simple subscription. Everyday low price of just £15/month with Essential TV. Find out more below...",
+      "backendDOMNodeId": 28,
+      "childIds": [
+        "-1000000772",
+        "-1000000773",
+        "-1000000774"
+      ]
+    },
+    {
+      "nodeId": "29",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get Sky Stream",
+      "backendDOMNodeId": 29,
+      "childIds": [
+        "-1000000775"
+      ]
+    },
+    {
+      "nodeId": "-1000000776",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Stream over WiFi. No dish needed."
+    },
+    {
+      "nodeId": "40",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sky Entertainment & Netflix",
+      "backendDOMNodeId": 40,
+      "childIds": [
+        "-1000000790"
+      ]
+    },
+    {
+      "nodeId": "-1000000791",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Made for the biggest shows"
+    },
+    {
+      "nodeId": "-1000000792",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Built for the best entertainment. Sky Stream pairs brilliantly with our content. "
+    },
+    {
+      "nodeId": "-1000000793",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Stream your favourites over WiFi."
+    },
+    {
+      "nodeId": "554",
+      "ignored": false,
+      "role": "image",
+      "name": "Under Salt Marsh",
+      "backendDOMNodeId": 554,
+      "domNodeId": "391",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"391\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt1bff7c18cdac64be/697f1a25b0d8adf9fef65deb/2026_Q1_Jan_UnderSaltMarsh_Glass_Gen_2_Pod_desktop.jpg?format=webp&imageManager=true&impolicy=resize&width=1200"
+      }
+    },
+    {
+      "nodeId": "556",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 556,
+      "domNodeId": "393",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"393\"]",
+      "tagName": "div",
+      "childIds": [
+        "557",
+        "558"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "557",
+      "ignored": false,
+      "role": "image",
+      "name": "Under Salt Marsh",
+      "backendDOMNodeId": 557,
+      "domNodeId": "394",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"394\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt6cf9cf7e6bc19dcc/69454360c3568c0e2132e7d2/TT_02_UnderSaltMarsh_S01.png?format=webp&imageManager=true&impolicy=resize&width=560"
+      }
+    },
+    {
+      "nodeId": "558",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 558,
+      "domNodeId": "395",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"395\"]",
+      "tagName": "p",
+      "childIds": [
+        "43"
+      ]
+    },
+    {
+      "nodeId": "565",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 565,
+      "domNodeId": "402",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"402\"]",
+      "tagName": "div",
+      "childIds": [
+        "44"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "44",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sky Entertainment",
+      "backendDOMNodeId": 44,
+      "childIds": [
+        "-1000000795"
+      ]
+    },
+    {
+      "nodeId": "567",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 567,
+      "domNodeId": "404",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"404\"]",
+      "tagName": "div",
+      "childIds": [
+        "45"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "45",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Netflix",
+      "backendDOMNodeId": 45,
+      "childIds": [
+        "-1000000796"
+      ]
+    },
+    {
+      "nodeId": "571",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 571,
+      "domNodeId": "408",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"408\"]",
+      "tagName": "li",
+      "childIds": [
+        "572"
+      ],
+      "properties": {
+        "focusable": true,
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "573",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 573,
+      "domNodeId": "410",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"410\"]",
+      "tagName": "li",
+      "childIds": [
+        "574"
+      ],
+      "properties": {
+        "focusable": true,
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "575",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 575,
+      "domNodeId": "412",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"412\"]",
+      "tagName": "li",
+      "childIds": [
+        "576"
+      ],
+      "properties": {
+        "focusable": true,
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "577",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 577,
+      "domNodeId": "414",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"414\"]",
+      "tagName": "li",
+      "childIds": [
+        "578"
+      ],
+      "properties": {
+        "focusable": true,
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "579",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 579,
+      "domNodeId": "416",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"416\"]",
+      "tagName": "li",
+      "childIds": [
+        "580"
+      ],
+      "properties": {
+        "focusable": true,
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "581",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 581,
+      "domNodeId": "418",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"418\"]",
+      "tagName": "li",
+      "childIds": [
+        "582"
+      ],
+      "properties": {
+        "focusable": true,
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "-1000000835",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Learn more"
+    },
+    {
+      "nodeId": "47",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Next day delivery, just plug in & play",
+      "backendDOMNodeId": 47,
+      "childIds": [
+        "-1000000798",
+        "-1000000799"
+      ]
+    },
+    {
+      "nodeId": "48",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Stream your favourite shows over WiFi",
+      "backendDOMNodeId": 48,
+      "childIds": [
+        "-1000000800",
+        "-1000000801"
+      ]
+    },
+    {
+      "nodeId": "49",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "24 month plan or a flexible monthly rolling plan",
+      "backendDOMNodeId": 49,
+      "childIds": [
+        "-1000000802",
+        "-1000000803"
+      ]
+    },
+    {
+      "nodeId": "51",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Watch on the go",
+      "backendDOMNodeId": 51,
+      "childIds": [
+        "-1000000805"
+      ]
+    },
+    {
+      "nodeId": "52",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Watch on any device with the Sky Go app",
+      "backendDOMNodeId": 52,
+      "childIds": [
+        "-1000000806"
+      ]
+    },
+    {
+      "nodeId": "53",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Award-winning",
+      "backendDOMNodeId": 53,
+      "childIds": [
+        "-1000000807"
+      ]
+    },
+    {
+      "nodeId": "54",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Content and service people love and trust",
+      "backendDOMNodeId": 54,
+      "childIds": [
+        "-1000000808"
+      ]
+    },
+    {
+      "nodeId": "-1000000809",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Frequently asked questions"
+    },
+    {
+      "nodeId": "667",
+      "ignored": false,
+      "role": "heading",
+      "name": "What is Sky Stream?",
+      "backendDOMNodeId": 667,
+      "domNodeId": "504",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"504\"]",
+      "tagName": "h3",
+      "childIds": [
+        "668"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "681",
+      "ignored": false,
+      "role": "heading",
+      "name": "How does Sky Stream Work?",
+      "backendDOMNodeId": 681,
+      "domNodeId": "518",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"518\"]",
+      "tagName": "h3",
+      "childIds": [
+        "682"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "695",
+      "ignored": false,
+      "role": "heading",
+      "name": "Can you record on Sky Stream?",
+      "backendDOMNodeId": 695,
+      "domNodeId": "532",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"532\"]",
+      "tagName": "h3",
+      "childIds": [
+        "696"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "709",
+      "ignored": false,
+      "role": "heading",
+      "name": "What channels are on Sky Stream?",
+      "backendDOMNodeId": 709,
+      "domNodeId": "546",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"546\"]",
+      "tagName": "h3",
+      "childIds": [
+        "710"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "746",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 746,
+      "domNodeId": "583",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"583\"]",
+      "tagName": "span",
+      "childIds": [
+        "60"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "60",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Here's the legal bit",
+      "backendDOMNodeId": 60,
+      "childIds": [
+        "-1000000814"
+      ]
+    },
+    {
+      "nodeId": "748",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 748,
+      "domNodeId": "585",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"585\"]",
+      "tagName": "span",
+      "childIds": [
+        "749"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "749",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 749,
+      "domNodeId": "586",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"586\"]",
+      "tagName": "span",
+      "childIds": [
+        "750",
+        "1142"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "750",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 750,
+      "domNodeId": "587",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"587\"]",
+      "tagName": "svg",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1142",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1142
+    },
+    {
+      "nodeId": "980",
+      "ignored": false,
+      "role": "link",
+      "name": "Home",
+      "backendDOMNodeId": 980,
+      "domNodeId": "817",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"817\"]",
+      "tagName": "a",
+      "childIds": [
+        "61"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/"
+      }
+    },
+    {
+      "nodeId": "986",
+      "ignored": false,
+      "role": "link",
+      "name": "TV",
+      "backendDOMNodeId": 986,
+      "domNodeId": "823",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"823\"]",
+      "tagName": "a",
+      "childIds": [
+        "62"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv"
+      }
+    },
+    {
+      "nodeId": "992",
+      "ignored": false,
+      "role": "link",
+      "name": "Sky Stream",
+      "backendDOMNodeId": 992,
+      "domNodeId": "829",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"829\"]",
+      "tagName": "a",
+      "childIds": [
+        "63"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream"
+      }
+    },
+    {
+      "nodeId": "-1000000871",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sky home page"
+    },
+    {
+      "nodeId": "1006",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy options",
+      "backendDOMNodeId": 1006,
+      "domNodeId": "843",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"843\"]",
+      "tagName": "a",
+      "childIds": [
+        "66",
+        "1891"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv/stream#"
+      }
+    },
+    {
+      "nodeId": "1008",
+      "ignored": false,
+      "role": "link",
+      "name": "Terms & conditions",
+      "backendDOMNodeId": 1008,
+      "domNodeId": "845",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"845\"]",
+      "tagName": "a",
+      "childIds": [
+        "67",
+        "1892"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/help/articles/sky-terms-and-conditions"
+      }
+    },
+    {
+      "nodeId": "1010",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy & cookies notice",
+      "backendDOMNodeId": 1010,
+      "domNodeId": "847",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"847\"]",
+      "tagName": "a",
+      "childIds": [
+        "68",
+        "1893"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/help/articles/sky-privacy-and-cookies-notice"
+      }
+    },
+    {
+      "nodeId": "1012",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility",
+      "backendDOMNodeId": 1012,
+      "domNodeId": "849",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"849\"]",
+      "tagName": "a",
+      "childIds": [
+        "69",
+        "1894"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://skyaccessibility.sky/"
+      }
+    },
+    {
+      "nodeId": "1014",
+      "ignored": false,
+      "role": "link",
+      "name": "Site map",
+      "backendDOMNodeId": 1014,
+      "domNodeId": "851",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"851\"]",
+      "tagName": "a",
+      "childIds": [
+        "70",
+        "1895"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/sitemap"
+      }
+    },
+    {
+      "nodeId": "1016",
+      "ignored": false,
+      "role": "link",
+      "name": "Contact us",
+      "backendDOMNodeId": 1016,
+      "domNodeId": "853",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"853\"]",
+      "tagName": "a",
+      "childIds": [
+        "71",
+        "1896"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/help/articles/contacting-sky"
+      }
+    },
+    {
+      "nodeId": "1018",
+      "ignored": false,
+      "role": "link",
+      "name": "Complaints",
+      "backendDOMNodeId": 1018,
+      "domNodeId": "855",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"855\"]",
+      "tagName": "a",
+      "childIds": [
+        "72",
+        "1897"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/help/articles/sky-customer-complaints-code-of-practice/"
+      }
+    },
+    {
+      "nodeId": "1020",
+      "ignored": false,
+      "role": "link",
+      "name": "Sky Group",
+      "backendDOMNodeId": 1020,
+      "domNodeId": "857",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"857\"]",
+      "tagName": "a",
+      "childIds": [
+        "73",
+        "1898"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.skygroup.sky/"
+      }
+    },
+    {
+      "nodeId": "1022",
+      "ignored": false,
+      "role": "link",
+      "name": "Store locator",
+      "backendDOMNodeId": 1022,
+      "domNodeId": "859",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"859\"]",
+      "tagName": "a",
+      "childIds": [
+        "74",
+        "1899"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/shop/store-locator"
+      }
+    },
+    {
+      "nodeId": "1025",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 1025,
+      "domNodeId": "862",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"862\"]",
+      "tagName": "label",
+      "childIds": [
+        "75"
+      ]
+    },
+    {
+      "nodeId": "1026",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1026,
+      "domNodeId": "863",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"863\"]",
+      "tagName": "div",
+      "childIds": [
+        "1027"
+      ]
+    },
+    {
+      "nodeId": "1902",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1902
+    },
+    {
+      "nodeId": "1054",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "skip to search",
+      "backendDOMNodeId": 1054,
+      "childIds": [
+        "-1000000764"
+      ]
+    },
+    {
+      "nodeId": "1055",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "skip to alerts",
+      "backendDOMNodeId": 1055,
+      "childIds": [
+        "-1000000765"
+      ]
+    },
+    {
+      "nodeId": "22",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "skip to content",
+      "backendDOMNodeId": 22,
+      "childIds": [
+        "-1000000766"
+      ]
+    },
+    {
+      "nodeId": "23",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "skip to footer",
+      "backendDOMNodeId": 23,
+      "childIds": [
+        "-1000000767"
+      ]
+    },
+    {
+      "nodeId": "-1000000752",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sky home page"
+    },
+    {
+      "nodeId": "197",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 197,
+      "domNodeId": "38",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"38\"]",
+      "tagName": "ul",
+      "childIds": [
+        "198",
+        "215",
+        "250",
+        "276",
+        "305",
+        "337",
+        "339",
+        "341",
+        "343"
+      ]
+    },
+    {
+      "nodeId": "412",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 412,
+      "domNodeId": "248",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"248\"]",
+      "tagName": "span",
+      "childIds": [
+        "413"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "413",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 413,
+      "domNodeId": "249",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"249\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2111",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help",
+      "backendDOMNodeId": 2111,
+      "childIds": [
+        "-1000000762"
+      ]
+    },
+    {
+      "nodeId": "-1000000763",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign in"
+    },
+    {
+      "nodeId": "-1000000770",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Enjoy your favourite content "
+    },
+    {
+      "nodeId": "-1000000771",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "over WiFi with Sky Stream"
+    },
+    {
+      "nodeId": "-1000000772",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get more of the UK’s highest rated shows from Sky, Netflix and discovery+ in "
+    },
+    {
+      "nodeId": "-1000000773",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "one simple subscription. Everyday low price of just £15/month with Essential TV. "
+    },
+    {
+      "nodeId": "-1000000774",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Find out more below..."
+    },
+    {
+      "nodeId": "-1000000775",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get Sky Stream"
+    },
+    {
+      "nodeId": "-1000000790",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sky Entertainment & Netflix"
+    },
+    {
+      "nodeId": "43",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Watch now exclusively on Sky Atlantic",
+      "backendDOMNodeId": 43,
+      "childIds": [
+        "-1000000794"
+      ]
+    },
+    {
+      "nodeId": "-1000000795",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sky Entertainment"
+    },
+    {
+      "nodeId": "-1000000796",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Netflix"
+    },
+    {
+      "nodeId": "572",
+      "ignored": false,
+      "role": "image",
+      "name": "The Dyers' Caravan Park",
+      "backendDOMNodeId": 572,
+      "domNodeId": "409",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"409\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/bltf59f18a83ce5d470/69a01591b9f0f266c7323c22/KA_01_DyersCaravanPark_S01-C2.jpg?format=webp&imageManager=true&impolicy=resize&width=376"
+      }
+    },
+    {
+      "nodeId": "574",
+      "ignored": false,
+      "role": "image",
+      "name": "Watson",
+      "backendDOMNodeId": 574,
+      "domNodeId": "411",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"411\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/bltd1c32889adc7e20b/69a9a3cab268174ca6f7c9f1/SkyWitness_5.png?format=webp&imageManager=true&impolicy=resize&width=376"
+      }
+    },
+    {
+      "nodeId": "576",
+      "ignored": false,
+      "role": "image",
+      "name": "Last Week Tonight With John Oliver",
+      "backendDOMNodeId": 576,
+      "domNodeId": "413",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"413\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt138416ee944de024/69a01591d5b2d2c6a774fd7a/KA_Last_Week_Tonight_With_John_Oliver_S13_3-4-C2.jpg?format=webp&imageManager=true&impolicy=resize&width=376"
+      }
+    },
+    {
+      "nodeId": "578",
+      "ignored": false,
+      "role": "image",
+      "name": "Dr. Strangelove",
+      "backendDOMNodeId": 578,
+      "domNodeId": "415",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"415\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt5df4de3709f42e04/69a015917e22a95aa7fac9c9/KA_01_NTLive-DrStrangelove-C2.jpg?format=webp&imageManager=true&impolicy=resize&width=376"
+      }
+    },
+    {
+      "nodeId": "580",
+      "ignored": false,
+      "role": "image",
+      "name": "Charmed By The Devil",
+      "backendDOMNodeId": 580,
+      "domNodeId": "417",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"417\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt1deee0f7f5c07380/69a0159140b034497b0f8285/KA_01_CharmedByTheDevil_S01-C2.jpg?format=webp&imageManager=true&impolicy=resize&width=376"
+      }
+    },
+    {
+      "nodeId": "582",
+      "ignored": false,
+      "role": "image",
+      "name": "I'm Chevy Chase And You're Not",
+      "backendDOMNodeId": 582,
+      "domNodeId": "419",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"419\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://static.skyassets.com/contentstack/assets/blt143e20b03d72047e/blt4d5316a035467472/69a01591883c638c464d8934/KA_01_ChevyChase_P-C2.jpg?format=webp&imageManager=true&impolicy=resize&width=376"
+      }
+    },
+    {
+      "nodeId": "-1000000798",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Next day delivery, just plug in & "
+    },
+    {
+      "nodeId": "-1000000799",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "play"
+    },
+    {
+      "nodeId": "-1000000800",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Stream your favourite shows over "
+    },
+    {
+      "nodeId": "-1000000801",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "WiFi"
+    },
+    {
+      "nodeId": "-1000000802",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "24 month plan or a flexible "
+    },
+    {
+      "nodeId": "-1000000803",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "monthly rolling plan"
+    },
+    {
+      "nodeId": "-1000000805",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Watch on the go"
+    },
+    {
+      "nodeId": "-1000000806",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Watch on any device with the Sky Go app"
+    },
+    {
+      "nodeId": "-1000000807",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Award-winning"
+    },
+    {
+      "nodeId": "-1000000808",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Content and service people love and trust"
+    },
+    {
+      "nodeId": "668",
+      "ignored": false,
+      "role": "button",
+      "name": "What is Sky Stream?",
+      "backendDOMNodeId": 668,
+      "domNodeId": "505",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"505\"]",
+      "tagName": "button",
+      "childIds": [
+        "669",
+        "670"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "682",
+      "ignored": false,
+      "role": "button",
+      "name": "How does Sky Stream Work?",
+      "backendDOMNodeId": 682,
+      "domNodeId": "519",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"519\"]",
+      "tagName": "button",
+      "childIds": [
+        "683",
+        "684"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "696",
+      "ignored": false,
+      "role": "button",
+      "name": "Can you record on Sky Stream?",
+      "backendDOMNodeId": 696,
+      "domNodeId": "533",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"533\"]",
+      "tagName": "button",
+      "childIds": [
+        "697",
+        "698"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "710",
+      "ignored": false,
+      "role": "button",
+      "name": "What channels are on Sky Stream?",
+      "backendDOMNodeId": 710,
+      "domNodeId": "547",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"547\"]",
+      "tagName": "button",
+      "childIds": [
+        "711",
+        "712"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "-1000000814",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Here's the legal bit"
+    },
+    {
+      "nodeId": "61",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Home",
+      "backendDOMNodeId": 61,
+      "childIds": [
+        "-1000000850"
+      ]
+    },
+    {
+      "nodeId": "62",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "TV",
+      "backendDOMNodeId": 62,
+      "childIds": [
+        "-1000000862"
+      ]
+    },
+    {
+      "nodeId": "63",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sky Stream",
+      "backendDOMNodeId": 63,
+      "childIds": [
+        "-1000000870"
+      ]
+    },
+    {
+      "nodeId": "66",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy options",
+      "backendDOMNodeId": 66,
+      "childIds": [
+        "-1000000873"
+      ]
+    },
+    {
+      "nodeId": "1891",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1891
+    },
+    {
+      "nodeId": "67",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Terms & conditions",
+      "backendDOMNodeId": 67,
+      "childIds": [
+        "-1000000875"
+      ]
+    },
+    {
+      "nodeId": "1892",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1892
+    },
+    {
+      "nodeId": "68",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy & cookies notice",
+      "backendDOMNodeId": 68,
+      "childIds": [
+        "-1000000877"
+      ]
+    },
+    {
+      "nodeId": "1893",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1893
+    },
+    {
+      "nodeId": "69",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility",
+      "backendDOMNodeId": 69,
+      "childIds": [
+        "-1000000879"
+      ]
+    },
+    {
+      "nodeId": "1894",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1894
+    },
+    {
+      "nodeId": "70",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Site map",
+      "backendDOMNodeId": 70,
+      "childIds": [
+        "-1000000881"
+      ]
+    },
+    {
+      "nodeId": "1895",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1895
+    },
+    {
+      "nodeId": "71",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact us",
+      "backendDOMNodeId": 71,
+      "childIds": [
+        "-1000000883"
+      ]
+    },
+    {
+      "nodeId": "1896",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1896
+    },
+    {
+      "nodeId": "72",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Complaints",
+      "backendDOMNodeId": 72,
+      "childIds": [
+        "-1000000885"
+      ]
+    },
+    {
+      "nodeId": "1897",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1897
+    },
+    {
+      "nodeId": "73",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sky Group",
+      "backendDOMNodeId": 73,
+      "childIds": [
+        "-1000000887"
+      ]
+    },
+    {
+      "nodeId": "1898",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1898
+    },
+    {
+      "nodeId": "74",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Store locator",
+      "backendDOMNodeId": 74,
+      "childIds": [
+        "-1000000889"
+      ]
+    },
+    {
+      "nodeId": "1899",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1899
+    },
+    {
+      "nodeId": "75",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Country:",
+      "backendDOMNodeId": 75,
+      "childIds": [
+        "-1000000891"
+      ]
+    },
+    {
+      "nodeId": "1027",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1027,
+      "domNodeId": "864",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"864\"]",
+      "tagName": "div",
+      "childIds": [
+        "1900",
+        "1028",
+        "1041"
+      ]
+    },
+    {
+      "nodeId": "-1000000764",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "skip to search"
+    },
+    {
+      "nodeId": "-1000000765",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "skip to alerts"
+    },
+    {
+      "nodeId": "-1000000766",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "skip to content"
+    },
+    {
+      "nodeId": "-1000000767",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "skip to footer"
+    },
+    {
+      "nodeId": "198",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 198,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "li",
+      "childIds": [
+        "199"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "215",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 215,
+      "domNodeId": "56",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"56\"]",
+      "tagName": "li",
+      "childIds": [
+        "216"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "250",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 250,
+      "domNodeId": "91",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"91\"]",
+      "tagName": "li",
+      "childIds": [
+        "251"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "276",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 276,
+      "domNodeId": "117",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"117\"]",
+      "tagName": "li",
+      "childIds": [
+        "277"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "305",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 305,
+      "domNodeId": "146",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"146\"]",
+      "tagName": "li",
+      "childIds": [
+        "306"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "337",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 337,
+      "domNodeId": "178",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"178\"]",
+      "tagName": "li",
+      "childIds": [
+        "338"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "339",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 339,
+      "domNodeId": "180",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"180\"]",
+      "tagName": "li",
+      "childIds": [
+        "340"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "341",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 341,
+      "domNodeId": "182",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"182\"]",
+      "tagName": "li",
+      "childIds": [
+        "342"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "343",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 343,
+      "domNodeId": "184",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"184\"]",
+      "tagName": "li",
+      "childIds": [
+        "344"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "-1000000762",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help"
+    },
+    {
+      "nodeId": "-1000000794",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Watch now exclusively on Sky Atlantic"
+    },
+    {
+      "nodeId": "669",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 669,
+      "domNodeId": "506",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"506\"]",
+      "tagName": "span",
+      "childIds": [
+        "56"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "56",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What is Sky Stream?",
+      "backendDOMNodeId": 56,
+      "childIds": [
+        "-1000000810"
+      ]
+    },
+    {
+      "nodeId": "670",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 670,
+      "domNodeId": "507",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"507\"]",
+      "tagName": "span",
+      "childIds": [
+        "671"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "671",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 671,
+      "domNodeId": "508",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
+      "tagName": "span",
+      "childIds": [
+        "672",
+        "1120"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "672",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 672,
+      "domNodeId": "509",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"509\"]",
+      "tagName": "svg",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1120",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1120
+    },
+    {
+      "nodeId": "683",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 683,
+      "domNodeId": "520",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"520\"]",
+      "tagName": "span",
+      "childIds": [
+        "57"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "57",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "How does Sky Stream Work?",
+      "backendDOMNodeId": 57,
+      "childIds": [
+        "-1000000811"
+      ]
+    },
+    {
+      "nodeId": "684",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 684,
+      "domNodeId": "521",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"521\"]",
+      "tagName": "span",
+      "childIds": [
+        "685"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "685",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 685,
+      "domNodeId": "522",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
+      "tagName": "span",
+      "childIds": [
+        "686",
+        "1122"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "686",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 686,
+      "domNodeId": "523",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"523\"]",
+      "tagName": "svg",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1122",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1122
+    },
+    {
+      "nodeId": "697",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 697,
+      "domNodeId": "534",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"534\"]",
+      "tagName": "span",
+      "childIds": [
+        "58"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "58",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Can you record on Sky Stream?",
+      "backendDOMNodeId": 58,
+      "childIds": [
+        "-1000000812"
+      ]
+    },
+    {
+      "nodeId": "698",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 698,
+      "domNodeId": "535",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"535\"]",
+      "tagName": "span",
+      "childIds": [
+        "699"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "699",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 699,
+      "domNodeId": "536",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"536\"]",
+      "tagName": "span",
+      "childIds": [
+        "700",
+        "1124"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "700",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 700,
+      "domNodeId": "537",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
+      "tagName": "svg",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1124",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1124
+    },
+    {
+      "nodeId": "711",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 711,
+      "domNodeId": "548",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"548\"]",
+      "tagName": "span",
+      "childIds": [
+        "59"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "59",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What channels are on Sky Stream?",
+      "backendDOMNodeId": 59,
+      "childIds": [
+        "-1000000813"
+      ]
+    },
+    {
+      "nodeId": "712",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 712,
+      "domNodeId": "549",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "tagName": "span",
+      "childIds": [
+        "713"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "713",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 713,
+      "domNodeId": "550",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"550\"]",
+      "tagName": "span",
+      "childIds": [
+        "714",
+        "1126"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "714",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 714,
+      "domNodeId": "551",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"551\"]",
+      "tagName": "svg",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1126",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1126
+    },
+    {
+      "nodeId": "-1000000850",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Home"
+    },
+    {
+      "nodeId": "-1000000862",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "TV"
+    },
+    {
+      "nodeId": "-1000000870",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sky Stream"
+    },
+    {
+      "nodeId": "-1000000873",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy options"
+    },
+    {
+      "nodeId": "-1000000875",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Terms & conditions"
+    },
+    {
+      "nodeId": "-1000000877",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy & cookies notice"
+    },
+    {
+      "nodeId": "-1000000879",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility"
+    },
+    {
+      "nodeId": "-1000000881",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Site map"
+    },
+    {
+      "nodeId": "-1000000883",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact us"
+    },
+    {
+      "nodeId": "-1000000885",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Complaints"
+    },
+    {
+      "nodeId": "-1000000887",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sky Group"
+    },
+    {
+      "nodeId": "-1000000889",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Store locator"
+    },
+    {
+      "nodeId": "-1000000891",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Country:"
+    },
+    {
+      "nodeId": "1900",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1900
+    },
+    {
+      "nodeId": "1028",
+      "ignored": false,
+      "role": "combobox",
+      "name": "Country:",
+      "value": "United Kingdom",
+      "backendDOMNodeId": 1028,
+      "domNodeId": "865",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"865\"]",
+      "tagName": "select",
+      "childIds": [
+        "1031"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "hasPopup": "menu",
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "1041",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1041,
+      "domNodeId": "868",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"868\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "199",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 199,
+      "domNodeId": "40",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"40\"]",
+      "tagName": "div",
+      "childIds": [
+        "200"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "200",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 200,
+      "domNodeId": "41",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"41\"]",
+      "tagName": "div",
+      "childIds": [
+        "201",
+        "202"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "201",
+      "ignored": false,
+      "role": "link",
+      "name": "Watch",
+      "backendDOMNodeId": 201,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "a",
+      "childIds": [
+        "1056"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/watch"
+      }
+    },
+    {
+      "nodeId": "202",
+      "ignored": false,
+      "role": "button",
+      "name": "Open Watch menu",
+      "backendDOMNodeId": 202,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "216",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 216,
+      "domNodeId": "57",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"57\"]",
+      "tagName": "div",
+      "childIds": [
+        "217"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "217",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 217,
+      "domNodeId": "58",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"58\"]",
+      "tagName": "div",
+      "childIds": [
+        "218",
+        "219"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "218",
+      "ignored": false,
+      "role": "link",
+      "name": "TV",
+      "backendDOMNodeId": 218,
+      "domNodeId": "59",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"59\"]",
+      "tagName": "a",
+      "childIds": [
+        "1059"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/tv"
+      }
+    },
+    {
+      "nodeId": "219",
+      "ignored": false,
+      "role": "button",
+      "name": "Open TV menu",
+      "backendDOMNodeId": 219,
+      "domNodeId": "60",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"60\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "251",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 251,
+      "domNodeId": "92",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"92\"]",
+      "tagName": "div",
+      "childIds": [
+        "252"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "252",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 252,
+      "domNodeId": "93",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"93\"]",
+      "tagName": "div",
+      "childIds": [
+        "253",
+        "254"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "253",
+      "ignored": false,
+      "role": "link",
+      "name": "Glass",
+      "backendDOMNodeId": 253,
+      "domNodeId": "94",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"94\"]",
+      "tagName": "a",
+      "childIds": [
+        "1068"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/glass"
+      }
+    },
+    {
+      "nodeId": "254",
+      "ignored": false,
+      "role": "button",
+      "name": "Open Glass menu",
+      "backendDOMNodeId": 254,
+      "domNodeId": "95",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"95\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "277",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 277,
+      "domNodeId": "118",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"118\"]",
+      "tagName": "div",
+      "childIds": [
+        "278"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "278",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 278,
+      "domNodeId": "119",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"119\"]",
+      "tagName": "div",
+      "childIds": [
+        "279",
+        "280"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "279",
+      "ignored": false,
+      "role": "link",
+      "name": "Broadband",
+      "backendDOMNodeId": 279,
+      "domNodeId": "120",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"120\"]",
+      "tagName": "a",
+      "childIds": [
+        "1074"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/broadband"
+      }
+    },
+    {
+      "nodeId": "280",
+      "ignored": false,
+      "role": "button",
+      "name": "Open Broadband menu",
+      "backendDOMNodeId": 280,
+      "domNodeId": "121",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"121\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "306",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 306,
+      "domNodeId": "147",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"147\"]",
+      "tagName": "div",
+      "childIds": [
+        "307"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "307",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 307,
+      "domNodeId": "148",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"148\"]",
+      "tagName": "div",
+      "childIds": [
+        "308",
+        "309"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "308",
+      "ignored": false,
+      "role": "link",
+      "name": "Mobile",
+      "backendDOMNodeId": 308,
+      "domNodeId": "149",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"149\"]",
+      "tagName": "a",
+      "childIds": [
+        "1081"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/shop/mobile"
+      }
+    },
+    {
+      "nodeId": "309",
+      "ignored": false,
+      "role": "button",
+      "name": "Open Mobile menu",
+      "backendDOMNodeId": 309,
+      "domNodeId": "150",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"150\"]",
+      "tagName": "button",
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "338",
+      "ignored": false,
+      "role": "link",
+      "name": "Insurance",
+      "backendDOMNodeId": 338,
+      "domNodeId": "179",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"179\"]",
+      "tagName": "a",
+      "childIds": [
+        "1089"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/protect"
+      }
+    },
+    {
+      "nodeId": "340",
+      "ignored": false,
+      "role": "link",
+      "name": "Smart Home",
+      "backendDOMNodeId": 340,
+      "domNodeId": "181",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"181\"]",
+      "tagName": "a",
+      "childIds": [
+        "1090"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/smart-home"
+      }
+    },
+    {
+      "nodeId": "342",
+      "ignored": false,
+      "role": "link",
+      "name": "Business",
+      "backendDOMNodeId": 342,
+      "domNodeId": "183",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"183\"]",
+      "tagName": "a",
+      "childIds": [
+        "1091"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://business.sky.com/"
+      }
+    },
+    {
+      "nodeId": "344",
+      "ignored": false,
+      "role": "link",
+      "name": "Deals",
+      "backendDOMNodeId": 344,
+      "domNodeId": "185",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"185\"]",
+      "tagName": "a",
+      "childIds": [
+        "1092"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.sky.com/deals"
+      }
+    },
+    {
+      "nodeId": "-1000000810",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What is Sky Stream?"
+    },
+    {
+      "nodeId": "-1000000811",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "How does Sky Stream Work?"
+    },
+    {
+      "nodeId": "-1000000812",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Can you record on Sky Stream?"
+    },
+    {
+      "nodeId": "-1000000813",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What channels are on Sky Stream?"
+    },
+    {
+      "nodeId": "1031",
+      "ignored": false,
+      "role": "MenuListPopup",
+      "name": "",
+      "backendDOMNodeId": 1031,
+      "childIds": [
+        "1035",
+        "1038"
+      ]
+    },
+    {
+      "nodeId": "1056",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Watch",
+      "backendDOMNodeId": 1056,
+      "childIds": [
+        "-1000000753"
+      ]
+    },
+    {
+      "nodeId": "1059",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "TV",
+      "backendDOMNodeId": 1059,
+      "childIds": [
+        "-1000000754"
+      ]
+    },
+    {
+      "nodeId": "1068",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Glass",
+      "backendDOMNodeId": 1068,
+      "childIds": [
+        "-1000000755"
+      ]
+    },
+    {
+      "nodeId": "1074",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Broadband",
+      "backendDOMNodeId": 1074,
+      "childIds": [
+        "-1000000756"
+      ]
+    },
+    {
+      "nodeId": "1081",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Mobile",
+      "backendDOMNodeId": 1081,
+      "childIds": [
+        "-1000000757"
+      ]
+    },
+    {
+      "nodeId": "1089",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Insurance",
+      "backendDOMNodeId": 1089,
+      "childIds": [
+        "-1000000758"
+      ]
+    },
+    {
+      "nodeId": "1090",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Smart Home",
+      "backendDOMNodeId": 1090,
+      "childIds": [
+        "-1000000759"
+      ]
+    },
+    {
+      "nodeId": "1091",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Business",
+      "backendDOMNodeId": 1091,
+      "childIds": [
+        "-1000000760"
+      ]
+    },
+    {
+      "nodeId": "1092",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Deals",
+      "backendDOMNodeId": 1092,
+      "childIds": [
+        "-1000000761"
+      ]
+    },
+    {
+      "nodeId": "1035",
+      "ignored": false,
+      "role": "option",
+      "name": "United Kingdom ",
+      "backendDOMNodeId": 1035,
+      "domNodeId": "866",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"866\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": true
+      }
+    },
+    {
+      "nodeId": "1038",
+      "ignored": false,
+      "role": "option",
+      "name": "Republic of Ireland ",
+      "backendDOMNodeId": 1038,
+      "domNodeId": "867",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"867\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "-1000000753",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Watch"
+    },
+    {
+      "nodeId": "-1000000754",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "TV"
+    },
+    {
+      "nodeId": "-1000000755",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Glass"
+    },
+    {
+      "nodeId": "-1000000756",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Broadband"
+    },
+    {
+      "nodeId": "-1000000757",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Mobile"
+    },
+    {
+      "nodeId": "-1000000758",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Insurance"
+    },
+    {
+      "nodeId": "-1000000759",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Smart Home"
+    },
+    {
+      "nodeId": "-1000000760",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Business"
+    },
+    {
+      "nodeId": "-1000000761",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Deals"
+    }
+  ]
+}

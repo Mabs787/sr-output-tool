@@ -77,7 +77,9 @@ To download from a GitHub Actions run directly:
 yarn voiceover:refine-artifact -- --run-id 123456789 --target www-example-com --force
 ```
 
-That command downloads or reads the artifact, imports a fixture workspace, creates an AI prompt, writes a Markdown evidence report, and compares the current engine with `refinedAnnouncements`. It does not promote files into the checked-in corpus unless `--promote candidate` or `--promote refined` is passed.
+That command is the preprocessing entrypoint: it downloads or reads the artifact, imports a fixture workspace, creates initial `expectedAnnouncements` and `refinedAnnouncements`, applies safe deterministic cleanup, creates an AI prompt, writes a Markdown evidence report, stores rendered HTML / AX tree / step snapshots, and compares the current engine with `refinedAnnouncements`. It does not promote files into the checked-in corpus unless `--promote candidate` or `--promote refined` is passed.
+
+The full refinement workflow continues after that command. The AI/manual pass must review the prompt, report, raw VoiceOver output, rendered HTML, AX tree, step snapshots, and engine diff; correct `refinedAnnouncements` only for evidence-backed capture noise; classify the fixture; update the reusable engine where the refined fixture exposes a real behavior gap; rebuild the extension runtime when engine output changes; and rerun the relevant tests.
 
 Use the lower-level queue/prompt commands when debugging:
 

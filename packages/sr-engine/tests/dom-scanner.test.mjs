@@ -309,3 +309,141 @@ test("scanSubtree ignores false current state and keeps choice buttons ungrouped
     ],
   );
 });
+
+test("scanSubtree keeps opacity-hidden native controls in accessibility traversal", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by" data-sr-computed-hidden="opacity:0">
+          <option selected>Relevance</option>
+          <option>Price (low to high)</option>
+        </select>
+      </div>
+    `),
+    [
+      "Sort by:",
+      "Relevance, Sort by:, menu pop up collapsed, button",
+    ],
+  );
+});
+
+test("scanSubtree splits heading and body text in structured list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div role="list">
+        <div role="listitem">
+          <h3>Ultra-reliable Full Fibre broadband</h3>
+          <div><span>Take your gaming to the next level.</span></div>
+        </div>
+        <div role="listitem">
+          <h3>Game Changing Speeds</h3>
+          <div><span>Speeds up to 5Gbps.</span></div>
+        </div>
+      </div>
+    `),
+    [
+      "list 2 items",
+      "heading level 3, Ultra-reliable Full Fibre broadband, 1 of 2",
+      "Take your gaming to the next level.",
+      "heading level 3, Game Changing Speeds, 2 of 2",
+      "Speeds up to 5Gbps.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree splits text and controls in interactive card list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <div>
+            <div>
+              <span>Full Fibre 150</span>
+              <span>Recommended for streaming.</span>
+            </div>
+            <button><span>What is Full Fibre?</span><svg aria-hidden="true"></svg></button>
+            <button><span>Standard hub</span><svg aria-hidden="true"></svg></button>
+            <div><span>£25</span><span>/month</span></div>
+            <a href="/check">Check availability</a>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div><span>Full Fibre 500</span></div>
+            <button><span>What is Full Fibre?</span><svg aria-hidden="true"></svg></button>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "Full Fibre 150 Recommended for streaming., 1 of 2",
+      "What is Full Fibre?, button, group",
+      "Standard hub, button, group",
+      "£25/month",
+      "link, Check availability",
+      "Full Fibre 500, 2 of 2",
+      "What is Full Fibre?, button, group",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree includes ARIA tabs and visible tab panel list cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <nav role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="panel-a" id="tab-a">Sky Entertainment</button>
+        <button role="tab" aria-controls="panel-b" id="tab-b">Netflix</button>
+      </nav>
+      <div role="tabpanel" id="panel-a" aria-labelledby="tab-a">
+        <ul>
+          <li tabindex="0"><img alt="The Dyers' Caravan Park"></li>
+          <li tabindex="0"><img alt="Watson"></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="panel-b" aria-labelledby="tab-b" aria-hidden="true">
+        <ul><li tabindex="0"><img alt="Hidden title"></li></ul>
+      </div>
+    `),
+    [
+      "Sky Entertainment, selected, tab, 1 of 2",
+      "Netflix, tab, 2 of 2",
+      "Sky Entertainment, tab panel",
+      "list 2 items",
+      "The Dyers' Caravan Park, group, 1 of 2",
+      "Watson, group, 2 of 2",
+      "end of list",
+      "end of, Sky Entertainment, tab panel",
+    ],
+  );
+});
+
+test("scanSubtree splits paragraph text blocks in list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <img alt="">
+          <p>Watch on the go</p>
+          <div><p>Watch on any device with the Sky Go app</p></div>
+        </li>
+        <li>
+          <img alt="">
+          <p>Award-winning</p>
+          <div><p>Content and service people love and trust</p></div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "Watch on the go, 1 of 2",
+      "Watch on any device with the Sky Go app",
+      "Award-winning, 2 of 2",
+      "Content and service people love and trust",
+      "end of list",
+    ],
+  );
+});

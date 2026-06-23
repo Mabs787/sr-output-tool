@@ -2,9 +2,10 @@
 
 The most reliable way to improve the engine is to compare actual Chrome + VoiceOver output against rendered DOM, AX, and per-step evidence, then lock reusable behavior into tests.
 
-Use this workflow for small local examples. Use
-[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md) when the
-input is a live-site scan artifact.
+Use this workflow for small local or reduced HTML examples. Use
+[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md) as the
+canonical workflow when the input is a live-site scan artifact or a batch of
+site scans.
 
 ## Small Example Workflow
 
@@ -45,9 +46,22 @@ yarn build:extension-runtime
 
 Use [refinement-template.md](refinement-template.md) when preparing a new refinement request.
 
-## Artifact Workflow
+## Live-Site Artifacts
 
-For a completed `VoiceOver scan` artifact, prefer:
+Do not run live-site artifact refinement from this document. Use
+[ai-corpus-refinement-workflow.md](ai-corpus-refinement-workflow.md).
+
+The short version is:
+
+1. Run `voiceover:refine-artifact` to stage and preprocess the target.
+2. Complete the AI/manual refinement pass against the generated prompt, report,
+   rendered HTML, AX tree, VoiceOver sources, and step snapshots.
+3. Update `refinedAnnouncements`, fixture status, and reusable engine logic as
+   needed.
+4. Rebuild extension runtime when engine output changes.
+5. Rerun the relevant tests before promotion.
+
+For reference, the preprocessing command is:
 
 ```bash
 npm run voiceover:refine-artifact -- \
@@ -57,15 +71,7 @@ npm run voiceover:refine-artifact -- \
   --promote none
 ```
 
-This creates a staging fixture, AI prompt, evidence report, and engine
-comparison. Promote only after the refined output is trusted:
-
-```bash
-npm run voiceover:refine-artifact -- \
-  --artifact-dir /tmp/voiceover-artifacts \
-  --target www-example-com \
-  --promote candidate
-```
+The command is not the full workflow by itself.
 
 ## Corpus Gating
 

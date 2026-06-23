@@ -120,15 +120,16 @@ function formatHeadingFragments(level: number, fragments?: string[]): string | u
     return undefined;
   }
 
-  if (level < 3) {
+  if (level === 1) {
     return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
   }
 
   const [firstFragment, ...nestedFragments] = normalizedFragments;
+  const nestedLevel = Math.max(1, level - 1);
   return [
     `heading level ${level} ${firstFragment}`,
-    ...nestedFragments.map((fragment) => `level 2 ${fragment}`),
-    `level 2, ${normalizedFragments.length} items`,
+    ...nestedFragments.map((fragment) => `level ${nestedLevel} ${fragment}`),
+    `level ${nestedLevel}, ${normalizedFragments.length} items`,
   ].join(", ");
 }
 
@@ -181,7 +182,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushCollectionPosition(parts, el);
       } else {
         pushIfPresent(parts, headingLabel);
-        pushCollectionPosition(parts, el);
+        if (!el.headingButton) {
+          pushCollectionPosition(parts, el);
+        }
       }
       if (el.headingButton) {
         if (el.expanded !== undefined) {
@@ -335,12 +338,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (selectLabel && selectLabel !== value) {
           pushIfPresent(parts, selectLabel);
         }
-        if (selectLabel?.endsWith(":")) {
-          parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
-        } else {
-          parts.push("menu pop up");
-          parts.push(el.expanded ? "expanded" : "collapsed");
-        }
+        parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
         parts.push("button");
       } else {
         pushIfPresent(parts, label);
@@ -761,8 +759,8 @@ export function getContextEndAnnouncement(
 
   if (role === "tabpanel") {
     return descriptor?.name
-      ? `end of ${descriptor.name} tab panel`
-      : "end of tab panel";
+      ? `end of, ${descriptor.name}, tab panel`
+      : "end of, tab panel";
   }
 
   if (role === "table") {

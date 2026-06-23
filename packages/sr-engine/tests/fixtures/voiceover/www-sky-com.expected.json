@@ -221,7 +221,7 @@
     "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
   ],
   "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-latest-27963923991/voiceover-scan-www-sky-com/scans/www-sky-com/refinement-manifest.json",
+    "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com/scans/www-sky-com/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "list 4 items",
       "lastVoiceOverAnnouncement": "dialog"

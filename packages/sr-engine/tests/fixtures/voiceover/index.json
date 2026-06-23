@@ -125,6 +125,141 @@
       "sanitizationStatus": "sanitized"
     },
     {
+      "name": "business-sky-com-s",
+      "expected": "business-sky-com-s.expected.json",
+      "html": "business-sky-com-s.html",
+      "accessibilityTree": "business-sky-com-s.ax.json",
+      "stepSnapshots": "business-sky-com-s.step-snapshots.json",
+      "voiceOverAnnouncementCount": 210,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-broadband-gaming",
+      "expected": "www-sky-com-broadband-gaming.expected.json",
+      "html": "www-sky-com-broadband-gaming.html",
+      "accessibilityTree": "www-sky-com-broadband-gaming.ax.json",
+      "stepSnapshots": "www-sky-com-broadband-gaming.step-snapshots.json",
+      "voiceOverAnnouncementCount": 130,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-broadband",
+      "expected": "www-sky-com-broadband.expected.json",
+      "html": "www-sky-com-broadband.html",
+      "accessibilityTree": "www-sky-com-broadband.ax.json",
+      "stepSnapshots": "www-sky-com-broadband.step-snapshots.json",
+      "voiceOverAnnouncementCount": 154,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-deals",
+      "expected": "www-sky-com-deals.expected.json",
+      "html": "www-sky-com-deals.html",
+      "accessibilityTree": "www-sky-com-deals.ax.json",
+      "stepSnapshots": "www-sky-com-deals.step-snapshots.json",
+      "voiceOverAnnouncementCount": 299,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-glass-43-inch",
+      "expected": "www-sky-com-glass-43-inch.expected.json",
+      "html": "www-sky-com-glass-43-inch.html",
+      "accessibilityTree": "www-sky-com-glass-43-inch.ax.json",
+      "stepSnapshots": "www-sky-com-glass-43-inch.step-snapshots.json",
+      "voiceOverAnnouncementCount": 127,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-glass-air",
+      "expected": "www-sky-com-glass-air.expected.json",
+      "html": "www-sky-com-glass-air.html",
+      "accessibilityTree": "www-sky-com-glass-air.ax.json",
+      "stepSnapshots": "www-sky-com-glass-air.step-snapshots.json",
+      "voiceOverAnnouncementCount": 257,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-glass",
+      "expected": "www-sky-com-glass.expected.json",
+      "html": "www-sky-com-glass.html",
+      "accessibilityTree": "www-sky-com-glass.ax.json",
+      "stepSnapshots": "www-sky-com-glass.step-snapshots.json",
+      "voiceOverAnnouncementCount": 149,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-protect",
+      "expected": "www-sky-com-protect.expected.json",
+      "html": "www-sky-com-protect.html",
+      "accessibilityTree": "www-sky-com-protect.ax.json",
+      "stepSnapshots": "www-sky-com-protect.step-snapshots.json",
+      "voiceOverAnnouncementCount": 104,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-shop-mobile",
+      "expected": "www-sky-com-shop-mobile.expected.json",
+      "html": "www-sky-com-shop-mobile.html",
+      "accessibilityTree": "www-sky-com-shop-mobile.ax.json",
+      "stepSnapshots": "www-sky-com-shop-mobile.step-snapshots.json",
+      "voiceOverAnnouncementCount": 165,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-smart-home",
+      "expected": "www-sky-com-smart-home.expected.json",
+      "html": "www-sky-com-smart-home.html",
+      "accessibilityTree": "www-sky-com-smart-home.ax.json",
+      "stepSnapshots": "www-sky-com-smart-home.step-snapshots.json",
+      "voiceOverAnnouncementCount": 150,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-tv-stream",
+      "expected": "www-sky-com-tv-stream.expected.json",
+      "html": "www-sky-com-tv-stream.html",
+      "accessibilityTree": "www-sky-com-tv-stream.ax.json",
+      "stepSnapshots": "www-sky-com-tv-stream.step-snapshots.json",
+      "voiceOverAnnouncementCount": 116,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-tv",
+      "expected": "www-sky-com-tv.expected.json",
+      "html": "www-sky-com-tv.html",
+      "accessibilityTree": "www-sky-com-tv.ax.json",
+      "stepSnapshots": "www-sky-com-tv.step-snapshots.json",
+      "voiceOverAnnouncementCount": 176,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-tvandbroadband",
+      "expected": "www-sky-com-tvandbroadband.expected.json",
+      "html": "www-sky-com-tvandbroadband.html",
+      "accessibilityTree": "www-sky-com-tvandbroadband.ax.json",
+      "stepSnapshots": "www-sky-com-tvandbroadband.step-snapshots.json",
+      "voiceOverAnnouncementCount": 351,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-watch-what-to-watch-this-week",
+      "expected": "www-sky-com-watch-what-to-watch-this-week.expected.json",
+      "html": "www-sky-com-watch-what-to-watch-this-week.html",
+      "accessibilityTree": "www-sky-com-watch-what-to-watch-this-week.ax.json",
+      "stepSnapshots": "www-sky-com-watch-what-to-watch-this-week.step-snapshots.json",
+      "voiceOverAnnouncementCount": 193,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-sky-com-watch",
+      "expected": "www-sky-com-watch.expected.json",
+      "html": "www-sky-com-watch.html",
+      "accessibilityTree": "www-sky-com-watch.ax.json",
+      "stepSnapshots": "www-sky-com-watch.step-snapshots.json",
+      "voiceOverAnnouncementCount": 259,
+      "sanitizationStatus": "sanitized"
+    },
+    {
       "name": "www-sky-com",
       "expected": "www-sky-com.expected.json",
       "html": "www-sky-com.html",
