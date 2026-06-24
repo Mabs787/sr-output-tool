@@ -84,7 +84,7 @@
     },
     "www-sky-com-broadband": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps are postcode text-field phrasing, CTA/card grouping, and text cleanup; needs fixture refinement before exact gating."
+      "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for currency, smart punctuation, missing speed-card spaces, a stray list bullet, and I/l drift; remaining page-backed gaps include postcode text-field phrasing, speed-card decomposition, and FAQ body/region traversal, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-deals": {
       "status": "candidate",

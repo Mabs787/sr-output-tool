@@ -39,7 +39,7 @@ These fixtures should be rescanned with current scanner evidence before promotio
 
 - `business-sky-com-s`: Phase B review preserved the captured open submenu traversal, Salesforce/lightning shadow-DOM carousel/product traversal, live-status title announcement, and consent-dialog tail as page-backed VoiceOver evidence; remaining gaps are too broad for exact gating.
 - `www-w3-org-wai-standards-guidelines-wcag`: useful W3C language/list/marker evidence, but current engine comparison has large list/structure divergence from the stored fixture.
-- `www-sky-com-broadband`: latest Sky batch candidate; remaining gaps include postcode text-field phrasing, CTA/card grouping, and text cleanup.
+- `www-sky-com-broadband`: Phase B corrected clear OCR/caption noise for currency, smart punctuation, speed-card spacing, a stray list bullet, and I/l drift; remaining page-backed gaps include postcode text-field phrasing, speed-card decomposition, and FAQ body/region traversal.
 - `www-sky-com-deals`: latest Sky batch candidate; remaining gaps include listbox selected-state phrasing, result-count decomposition, and deal-card grouping.
 - `www-sky-com-glass-43-inch`: latest Sky batch candidate; remaining gaps include bullet/list decomposition, hero/product grouping, and button/group phrasing.
 - `www-sky-com-glass-air`: latest Sky batch candidate; remaining gaps include grouped hero headings, price text cleanup, native controls, and repeated card/button groups.
