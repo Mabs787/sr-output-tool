@@ -59,6 +59,10 @@ VoiceOver behavior that is not ready for exact gating:
   button grouping, visual separator list items, and trailing disclaimer button
   groups. Remaining gaps are footer tail group announcements around the country
   selector/back-to-top traversal.
+- `www-sky-com-glass-43-inch`: phase B corrected monthly price spacing, a
+  truncated table column phrase, and FAQ casing. Remaining gaps are page-backed
+  strong-text benefit-list segmentation and the native 3-column/9-row
+  comparison-table traversal versus the current engine row flattening.
 - `www-sky-com-protect`: grouped hero/postcode traversal, carousel
   group/region phrasing, grouped support text, reminder-section grouping, and
   footer group noise remain page-backed candidate evidence.
@@ -71,7 +75,6 @@ VoiceOver behavior that is not ready for exact gating:
 These Sky fixtures are imported and have initial `refinedAnnouncements`, but
 they still need the full Phase B AI/manual refinement loop before promotion:
 
-- `www-sky-com-glass-43-inch`
 - `www-sky-com-glass-air`
 - `www-sky-com-glass`
 - `www-sky-com-shop-mobile`

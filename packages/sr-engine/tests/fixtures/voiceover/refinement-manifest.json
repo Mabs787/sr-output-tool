@@ -92,7 +92,7 @@
     },
     "www-sky-com-glass-43-inch": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include bullet/list decomposition, hero/product grouping, and button/group phrasing; needs refinement before exact gating."
+      "reason": "Phase B review completed. Clear caption/OCR/truncation cleanup was applied for monthly price spacing, a truncated table column phrase, and FAQ casing. Remaining page-backed gaps include strong-text benefit-list segmentation and the 3-column/9-row native comparison-table traversal versus the current engine row flattening, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-glass-air": {
       "status": "candidate",

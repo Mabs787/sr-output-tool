@@ -195,8 +195,8 @@
     "Sky Glass Gen 2, The ultimate entertainment experience, Volcanic Grey, Atlantic Blue, and Arctic Silver group, column 3 of 3",
     "Sky Glass Gen 2The ultimate entertainment experienceVolcanic GreyAtlantic BlueArctic Silver",
     "row 2 of 9 Monthly Plan, Picture, Sound, Connectivity, Hardware, and Accessories Monthly Plan, column 1 of 3",
-    "Sky Glass Air, The smarter TV for a smarter price, Carbon Grey, Sea Green, and Cotton White £6 a monthover 48 months or £309. Requires Sky TV",
-    "Sky Glass Gen 2, The ultimate entertainment experience, Volcanic Grey, Atlantic Blue, and Arctic Silver £14 a monthover 48 months or £699. Requires Sky TV",
+    "Sky Glass Air, The smarter TV for a smarter price, Carbon Grey, Sea Green, and Cotton White £6 a month over 48 months or £309. Requires Sky TV",
+    "Sky Glass Gen 2, The ultimate entertainment experience, Volcanic Grey, Atlantic Blue, and Arctic Silver £14 a month over 48 months or £699. Requires Sky TV",
     "row 3 of 9 Get Started, Picture, Sound, Connectivity, Hardware, and Accessories Get Started, column 1 of 3",
     "Sky Glass Air, The smarter TV for a smarter price, Carbon Grey, Sea Green, and Cotton White link, Buy Glass Air, column 2 of 3",
     "Sky Glass Gen 2, The ultimate entertainment experience, Volcanic Grey, Atlantic Blue, and Arctic Silver link, Buy Glass Gen 2, column 3 of 3",
@@ -212,7 +212,7 @@
     "Anodised aluminium design, 3 of 3",
     "end of list",
     "row 5 of 9, Picture, Sound, Connectivity, Hardware, and Accessories Picture, expanded, button, group, column 1 of 3",
-    "row 6 of 9 Sound, expanded, button, group, column 1 of",
+    "row 6 of 9 Sound, expanded, button, group, column 1 of 3",
     "row 7 of 9 Connectivity, expanded, button, group, column 1 of 3",
     "row 8 of 9 Hardware, expanded, button, group, column 1 of 3",
     "row 9 of 9 Accessories, expanded, button, group, column 1 of 3",
@@ -225,7 +225,7 @@
     "Free delivery, 3 of 3",
     "Choose an all day delivery slot to suit you",
     "end of list",
-    "heading level 2, Sky Glass FAQS",
+    "heading level 2, Sky Glass FAQs",
     "list 6 items",
     "heading level 3, How does Sky Glass TV work?, collapsed, button, group, 1 of 6",
     "heading level 3, Who makes the Sky Glass TV?, collapsed, button, group, 2 of 6",
@@ -283,10 +283,10 @@
     }
   },
   "refinementNotes": [
-    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
-    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "Phase B review completed against expected/refined announcements, rendered HTML, AX tree, step snapshots, VoiceOver source evidence, and current engine comparison.",
+    "Raw expectedAnnouncements are preserved. refinedAnnouncements only correct clear caption/OCR/truncation noise: missing spaces in the monthly price phrases, a truncated table column phrase, and FAQ casing backed by rendered HTML/AX evidence.",
+    "The split benefit-list announcements and 3-column/9-row comparison-table traversal are page-backed VoiceOver evidence, so they remain in refinedAnnouncements rather than being normalized to current engine output.",
+    "Current exact gating is blocked by reusable engine gaps around native table traversal, strong-text/list segmentation, and related group/list phrasing; no site-specific engine logic was added."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com-glass-43-inch/scans/www-sky-com-glass-43-inch/refinement-manifest.json",
@@ -297,14 +297,14 @@
   },
   "sanitization": {
     "status": "sanitized",
-    "changedAnnouncementCount": 0,
+    "changedAnnouncementCount": 4,
     "warningCount": 0,
     "severeIssueCount": 0,
     "warnings": [],
     "severeIssues": [],
     "notes": [
       "Raw expectedAnnouncements are preserved.",
-      "refinedAnnouncements currently match raw expectedAnnouncements and are ready for AI refinement.",
+      "refinedAnnouncements contain Phase B evidence-backed cleanup for four clear scan/caption artifacts.",
       "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
   }
