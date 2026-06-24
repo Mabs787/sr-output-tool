@@ -37,7 +37,7 @@ These fixtures protect reliable slices while leaving unresolved regions out of e
 
 These fixtures should be rescanned with current scanner evidence before promotion:
 
-- `business-sky-com-s`: latest Sky batch candidate; open navigation/menu state and grouped submenu traversal still diverge from the engine.
+- `business-sky-com-s`: Phase B review preserved the captured open submenu traversal, Salesforce/lightning shadow-DOM carousel/product traversal, live-status title announcement, and consent-dialog tail as page-backed VoiceOver evidence; remaining gaps are too broad for exact gating.
 - `www-w3-org-wai-standards-guidelines-wcag`: useful W3C language/list/marker evidence, but current engine comparison has large list/structure divergence from the stored fixture.
 - `www-sky-com-broadband`: latest Sky batch candidate; remaining gaps include postcode text-field phrasing, CTA/card grouping, and text cleanup.
 - `www-sky-com-deals`: latest Sky batch candidate; remaining gaps include listbox selected-state phrasing, result-count decomposition, and deal-card grouping.
@@ -46,7 +46,7 @@ These fixtures should be rescanned with current scanner evidence before promotio
 - `www-sky-com-glass`: latest Sky batch candidate; remaining gaps include hero group announcements, heading/card decomposition, and button/group phrasing.
 - `www-sky-com-protect`: Phase B AI refinement corrected clear caption spacing/truncation, but grouped hero/postcode traversal, carousel group/region phrasing, grouped support text, reminder-section grouping, and footer group noise still need reusable engine or scanner decisions.
 - `www-sky-com-shop-mobile`: latest Sky batch candidate; remaining gaps include carousel dynamic state, slide button grouping, and heading/card decomposition.
-- `www-sky-com-smart-home`: preprocessed candidate with initial `refinedAnnouncements`; still needs the Phase B AI/manual evidence review before promotion.
+- `www-sky-com-smart-home`: Phase B review preserved grouped hero/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and trailing alert as page-backed VoiceOver evidence; not exact yet.
 - `www-sky-com-tv`: latest Sky batch candidate; remaining gaps include skip-link capture/order, native controls, and repeated button/group card differences.
 - `www-sky-com-tvandbroadband`: latest Sky batch candidate; remaining gaps include hero/CTA group announcements, product-card grouped text, and repeated text cleanup.
 - `www-sky-com-watch-what-to-watch-this-week`: latest Sky batch candidate; remaining gaps include text truncation cleanup, local navigation/landmark ordering, grouped headings, and button grouping.

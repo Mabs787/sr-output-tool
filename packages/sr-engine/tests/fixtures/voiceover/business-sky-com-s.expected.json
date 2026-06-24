@@ -449,10 +449,9 @@
     }
   },
   "refinementNotes": [
-    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
-    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "Phase B review completed for the latest Sky batch. Raw VoiceOver output remains the oracle except for deterministic cleanup of the hero OCR suffix, curly apostrophe normalization, and a leading footer bullet OCR artifact.",
+    "Step snapshots confirm the Broadband and Mobile submenu contents were visible while VoiceOver traversed them, even though the final rendered HTML stores those menus closed; preserve the captured submenu announcements.",
+    "The large engine mismatch is not treated as fixture noise: snapshots and AX/HTML evidence support the Salesforce/lightning shadow-DOM carousel, product-selection, sticky-footer, live-status, and consent-dialog traversal. Keep as candidate evidence rather than an exact gate until reusable dynamic-state/shadow-DOM behavior is refined."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-business-sky-com-s/scans/business-sky-com-s/refinement-manifest.json",

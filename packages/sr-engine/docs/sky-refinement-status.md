@@ -37,20 +37,35 @@ snapshots still support grouped hero/postcode traversal, carousel group/region
 phrasing, grouped support text, reminder-section grouping, and footer group
 noise that need reusable engine or scanner decisions before exact gating.
 
+## Phase B Complete Sky Candidates
+
+These fixtures have completed the Phase B evidence review and remain
+`candidate` because the current engine comparison still has page-backed
+VoiceOver behavior that is not ready for exact gating:
+
+- `business-sky-com-s`: phase B preserved the captured open Broadband/Mobile
+  submenu traversal, Salesforce/lightning shadow-DOM carousel/product
+  traversal, live-status title announcement, and consent-dialog tail because
+  step snapshots and AX/HTML evidence support those states. Only deterministic
+  OCR/punctuation cleanup was applied.
+- `www-sky-com-protect`: grouped hero/postcode traversal, carousel
+  group/region phrasing, grouped support text, reminder-section grouping, and
+  footer group noise remain page-backed candidate evidence.
+- `www-sky-com-smart-home`: grouped hero/price fragments, rail image/list
+  decomposition, grouped card text, FAQ wrapper grouping, footer group noise,
+  and trailing alert remain page-backed candidate evidence.
+
 ## Remaining Preprocessed Sky Candidates
 
 These Sky fixtures are imported and have initial `refinedAnnouncements`, but
 they still need the full Phase B AI/manual refinement loop before promotion:
 
-- `business-sky-com-s`
 - `www-sky-com-broadband`
 - `www-sky-com-deals`
 - `www-sky-com-glass-43-inch`
 - `www-sky-com-glass-air`
 - `www-sky-com-glass`
-- `www-sky-com-protect`
 - `www-sky-com-shop-mobile`
-- `www-sky-com-smart-home`
 - `www-sky-com-tv`
 - `www-sky-com-tvandbroadband`
 - `www-sky-com-watch-what-to-watch-this-week`

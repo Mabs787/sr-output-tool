@@ -76,7 +76,7 @@
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Engine comparison shows extensive open navigation/menu state and grouped submenu traversal mismatches; keep as evidence but do not gate until dynamic menu snapshots are refined."
+      "reason": "Phase B review completed. Step snapshots support the open Broadband/Mobile submenu traversal, Salesforce/lightning shadow-DOM carousel/product traversal, live-status title announcement, and consent-dialog tail; only deterministic OCR/punctuation cleanup was applied, so the fixture remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-broadband-gaming": {
       "status": "refined",
