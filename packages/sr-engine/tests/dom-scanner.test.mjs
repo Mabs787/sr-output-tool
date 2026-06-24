@@ -308,6 +308,87 @@ test("scanSubtree ignores false current state and keeps choice buttons ungrouped
       "end of list",
     ],
   );
+
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li><button aria-label="Sky Stream"><img alt="" src="/stream.png"></button></li>
+        <li><button aria-label="Netflix"><img alt="" src="/netflix.png"></button></li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "Sky Stream, button, 1 of 2",
+      "Netflix, button, 2 of 2",
+      "end of list",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li><button aria-label="Sky Cinema"><img alt="Sky cinema logo" src="/cinema.png"></button></li>
+      </ul>
+    `),
+    [
+      "list 1 item",
+      "Sky Cinema, button, group",
+      "end of list",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>TV &amp; Broadband</li>
+        <li>|</li>
+        <li>TV</li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "TV & Broadband, 1 of 3",
+      "TV, 3 of 3",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree keeps trailing disclaimer buttons grouped", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Deal">
+        <p>New customers only.</p>
+        <div><button>See all legals</button></div>
+      </section>
+    `),
+    [
+      "Deal, region",
+      "New customers only.",
+      "See all legals, button, group",
+      "end of, Deal, region",
+    ],
+  );
+});
+
+test("scanSubtree announces single-select listboxes with the selected option", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div role="listbox" aria-label="Deals filters">
+        <button role="option" aria-selected="true" type="button">All</button>
+        <button role="option" aria-selected="false" type="button">TV</button>
+        <button role="option" aria-selected="false" type="button">Broadband</button>
+      </div>
+    `),
+    [
+      "Deals filters, list box, 1 item selected. All, menu item, (1 of 3)",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`<span>31results</span>`),
+    ["31", "results"],
+  );
 });
 
 test("scanSubtree keeps opacity-hidden native controls in accessibility traversal", () => {

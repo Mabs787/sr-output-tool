@@ -496,7 +496,7 @@
     "list 1 item",
     "Broadband",
     "end of list",
-    "heading level 2,500Mbps Full Fibre Broadband",
+    "heading level 2, 500Mbps Full Fibre Broadband",
     "list 2 items",
     "500Mb/s Full Fibre, button, 1 of 2",
     "Advanced hub, button, 2 of 2",
@@ -510,7 +510,7 @@
     "Claim up to £200 switching credit",
     "link, Buy now",
     "What's included, button",
-    "Includes Sky Pay As You Talk. E0 set-up fee. New customers only. Available to 60% of UK homes.",
+    "Includes Sky Pay As You Talk. £0 set-up fee. New customers only. Available to 60% of UK homes.",
     "See all legals, button, group",
     "end of, 500Mbps Full Fibre Broadband, group",
     "Ultimate TV, Sky Cinema, group",
@@ -557,7 +557,7 @@
     "Includes a selection of Sky channels. New Sky TV customers only.",
     "See all legals, button, group",
     "end of, Essential TV, group",
-    "Showing 1 - 9 of 31",
+    "Showing 1 – 9 of 31",
     "Show more, button",
     "Jump to top, button",
     "heading level 2, Why Choose Sky?",
@@ -573,8 +573,8 @@
     "list 6 items",
     "heading level 3, What channels do I get with Sky TV?, collapsed, button, group, 1 of 6",
     "heading level 3, Does Sky TV need a satellite?, collapsed, button, group, 2 of 6",
-    "heading level 3, Can I watch Sky TV with Witi?, collapsed, button, group, 3 of 6",
-    "heading level 3, Can I record TV on Sky TV?",
+    "heading level 3, Can I watch Sky TV with Wifi?, collapsed, button, group, 3 of 6",
+    "heading level 3, Can I record TV on Sky TV?, collapsed, button, group, 4 of 6",
     "heading level 3, Can I watch TV on my phone, tablet or laptop with Sky TV?, collapsed, button, group, 5 of 6",
     "heading level 3, Can I get Sky TV without Broadband?, collapsed, button, group, 6 of 6",
     "end of list",
@@ -627,10 +627,9 @@
     }
   },
   "refinementNotes": [
-    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
-    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
-    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "Phase B review completed for the latest Sky batch. Raw VoiceOver output remains the oracle except for evidence-backed OCR cleanup: UK smart apostrophe normalization, monthly price spacing, £0 currency, heading spacing, rendered en dash counter, Wifi OCR, and the FAQ OCR merge `CanI record TV on Sky TV3` restored to the AX-backed question while preserving collapsed button/group/list-position phrasing.",
+    "Step snapshots and AX evidence support decorative product-card icon buttons as plain positioned buttons, meaningful image-labelled product-card buttons as grouped buttons, visual separator list items as skipped announcements with original item ordinals, trailing disclaimer buttons as grouped buttons, the selected-option listbox phrase, and compact result-count splitting; reusable engine logic was updated for those patterns.",
+    "Remaining candidate mismatches are footer tail groups after the country selector/back-to-top traversal; these need broader reusable scan-tail handling before this fixture can be exact."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com-deals/scans/www-sky-com-deals/refinement-manifest.json",
@@ -641,7 +640,7 @@
   },
   "sanitization": {
     "status": "sanitized",
-    "changedAnnouncementCount": 8,
+    "changedAnnouncementCount": 12,
     "warningCount": 0,
     "severeIssueCount": 0,
     "warnings": [],

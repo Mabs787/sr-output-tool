@@ -483,17 +483,30 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "listbox": {
+      if (value) {
+        const selectedParts: string[] = [];
+        pushIfPresent(selectedParts, el.name);
+        selectedParts.push("list box");
+        if (el.selectedCount) {
+          selectedParts.push(
+            `${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected. ${value}`,
+          );
+        } else {
+          selectedParts.push(value);
+        }
+        selectedParts.push("menu item");
+        if (el.positionInSet && el.setSize) {
+          selectedParts.push(`(${el.positionInSet} of ${el.setSize})`);
+        }
+        pushSupplementalText(selectedParts, el);
+        return selectedParts.join(", ");
+      }
       pushIfPresent(parts, el.name);
       parts.push("list box");
       if (el.selectedCount) {
         parts.push(
           `${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected`,
         );
-      }
-      if (value) {
-        parts.push(value);
-        parts.push("menu item");
-        pushCollectionPosition(parts, el);
       }
       pushSupplementalText(parts, el);
       break;

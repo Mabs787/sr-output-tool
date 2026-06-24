@@ -321,13 +321,27 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function isLabeledIconActionButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
+    if (isSlideshowNavigationButton(el)) return false;
     if (!el.hasAttribute("aria-label")) return false;
     if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
+    if (isPositionedImageChoiceButton(el)) return false;
 
     const label = normalize(el.getAttribute("aria-label"));
     if (/^(previous|next) slide$/i.test(label || "")) return false;
 
     return Boolean(el.querySelector("svg, [role='img'], img"));
+  }
+
+  function isPositionedImageChoiceButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (!el.hasAttribute("aria-label")) return false;
+    if (nestedImageLabel(el)) return false;
+    if (readableText(el)) return false;
+    if (!el.querySelector("svg, [role='img'], img")) return false;
+    if (!hasOnlyInteractiveListItemContent(semanticListContext(el).listItem)) return false;
+    const rect = el.getBoundingClientRect?.();
+    if (rect && (rect.width > 80 || rect.height > 80)) return false;
+    return Boolean(positionInSet(el, "button"));
   }
 
   function isIconFirstTextButton(el: any): boolean {
@@ -353,6 +367,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
+  function isTrailingDisclaimerButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
+    if (el.querySelector("svg, [role='img'], img")) return false;
+    const label = readableText(el) || accessibleName(el, "button");
+    if (!label) return false;
+    if (!/\blegals?\b/i.test(label)) return false;
+
+    for (
+      let current = el.parentElement, depth = 0;
+      current && depth < 4;
+      current = current.parentElement, depth += 1
+    ) {
+      if (current === document.body || current === document.documentElement) break;
+      const textBeforeButton = normalize(textWithoutInteractive(current));
+      if (!textBeforeButton || !/[.!?]$/.test(textBeforeButton)) continue;
+      const fullText = normalize(readableText(current));
+      if (fullText.endsWith(label)) return true;
+    }
+
+    return false;
+  }
+
   function isSlideshowNavigationButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
     if (el.hasAttribute("aria-pressed")) return false;
@@ -365,6 +402,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
     if (!/^(previous|next)(\b|,)/i.test(label || "")) return false;
     if (/^(previous|next) slide$/i.test(label || "")) return false;
+    if (/^(previous|next) item, .+ gallery$/i.test(label || "")) return true;
 
     return Boolean(
       el.closest(
@@ -579,6 +617,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return role === "listitem" || (tag === "li" && (!role || role === "listitem"));
   }
 
+  function isSeparatorListItem(el: any): boolean {
+    if (!isListItem(el)) return false;
+    const text = normalize(textWithoutInteractive(el) || readableText(el));
+    return Boolean(text && /^[|/\\•·]+$/.test(text));
+  }
+
   function listChildren(list: any): any[] {
     if (!list) return [];
     const tag = list.tagName.toLowerCase();
@@ -590,6 +634,26 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     return Array.from(list.children).filter((child: any) => isListItem(child));
+  }
+
+  function announcedListChildren(list: any): any[] {
+    return listChildren(list).filter((child: any) => !isSeparatorListItem(child));
+  }
+
+  function selectedListboxOptions(el: any): any[] {
+    if (implicitRole(el) !== "listbox") return [];
+    return Array.from(el.querySelectorAll("[role='option']")).filter(
+      (option: any) =>
+        !isHidden(option) &&
+        (option.getAttribute("aria-selected") === "true" ||
+          option.getAttribute("aria-checked") === "true"),
+    );
+  }
+
+  function singleSelectedListboxOption(el: any): any | undefined {
+    if (el.getAttribute("aria-multiselectable") === "true") return undefined;
+    const selected = selectedListboxOptions(el);
+    return selected.length === 1 ? selected[0] : undefined;
   }
 
   function semanticListContext(el: any) {
@@ -742,7 +806,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const explicit = Number.parseInt(el.getAttribute("aria-setsize") || "", 10);
     if (Number.isFinite(explicit) && explicit > 0) return explicit;
 
-    if (role === "list") return listChildren(el).length || undefined;
+    if (role === "list") return announcedListChildren(el).length || undefined;
     if (role === "option") {
       return (
         Array.from(el.parentElement?.querySelectorAll("[role='option']") || []).filter(
@@ -1165,6 +1229,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ? el.querySelector("button, [role='button']")
       : null;
     const headingLink = role === "heading" ? el.querySelector("a[href]") : null;
+    const selectedListboxOption = singleSelectedListboxOption(el);
     const suppressPositionedChoiceGroup =
       role === "button" &&
       Boolean(position) &&
@@ -1176,9 +1241,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const value =
       tag === "select"
         ? nativeSelectValue(stateEl)
+        : selectedListboxOption
+          ? accessibleName(selectedListboxOption, "option") ||
+            readableText(selectedListboxOption)
         : "value" in stateEl && stateEl.value
           ? stateEl.value
           : undefined;
+    const listboxSelectedCount =
+      role === "listbox" ? selectedListboxOptions(el).length || undefined : undefined;
+    const selectedListboxPosition = selectedListboxOption
+      ? positionInSet(selectedListboxOption, "option")
+      : undefined;
+    const selectedListboxSize = selectedListboxOption
+      ? setSize(selectedListboxOption, "option")
+      : undefined;
 
     const descriptor: CapturedElementDescriptor = {
       role,
@@ -1211,8 +1287,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : role === "list"
             ? listLevel(el)
           : undefined,
-      setSize: size,
-      positionInSet: position,
+      setSize: selectedListboxSize ?? size,
+      positionInSet: selectedListboxPosition ?? position,
       ...parentListMeta,
       value,
       valueText: normalize(stateEl.getAttribute("aria-valuetext")),
@@ -1257,6 +1333,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
       modal: el.getAttribute("aria-modal") === "true" || undefined,
       sort: normalize(el.getAttribute("aria-sort")),
+      selectedCount: listboxSelectedCount,
       nativeSelect: tag === "select" || undefined,
       headingButton: Boolean(headingButton) || undefined,
       headingLink: Boolean(headingLink) || undefined,
@@ -1270,6 +1347,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         Boolean(headingButton) ||
         (role === "button" &&
           !suppressPositionedChoiceGroup &&
+          !isPositionedImageChoiceButton(el) &&
           Boolean(nestedImageLabel(el))) ||
         (role === "button" &&
           Boolean(closestCustomElement(el)) &&
@@ -1288,6 +1366,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "button" && isMenuDisclosureGroupButton(el)) ||
         (role === "button" && isSlideshowNavigationButton(el)) ||
         (role === "button" && isInteractiveCardListButton(el)) ||
+        (role === "button" && isTrailingDisclaimerButton(el)) ||
         (role === "button" &&
           !suppressPositionedChoiceGroup &&
           isIconFirstTextButton(el)) ||
@@ -1381,7 +1460,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !accessibleName(el, role) &&
       !readableText(el) &&
       !hasVisibleInteractiveDescendant(el) &&
-      !(role === "list" && listChildren(el).length)
+      !(role === "list" && announcedListChildren(el).length)
     ) {
       return false;
     }
@@ -1457,6 +1536,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function shouldDescendIntoStop(el: any): boolean {
     const role = implicitRole(el);
     if (role === "group" && isFocusableImageListItem(el)) {
+      return false;
+    }
+    if (role === "listbox" && singleSelectedListboxOption(el)) {
       return false;
     }
     if (contextRoles.has(role)) return true;
@@ -1559,6 +1641,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return [label, announcement].filter((entry): entry is string => Boolean(entry));
   }
 
+  function splitCompactResultCountAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!["text", "paragraph"].includes(descriptor.role || "")) return undefined;
+    const label = normalize(descriptor.name || descriptor.text);
+    const match = label?.match(/^(\d+)(results?)$/i);
+    if (!match) return undefined;
+    return [match[1], match[2]];
+  }
+
   function scanSubtree(root: any): ScanLogEntry[] {
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
@@ -1566,6 +1658,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     function walk(el: any): void {
       if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return;
       if (isInsideCollapsedPopup(el)) return;
+      if (isSeparatorListItem(el)) return;
 
       if (isStopElement(el)) {
         const id = `__sr_el_${stopIndex}_${now()}`;
@@ -1577,6 +1670,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           const announcements =
             splitDescribedAutocompleteAnnouncements(descriptor) ||
             splitLabelStopAnnouncements(descriptor) ||
+            splitCompactResultCountAnnouncements(descriptor) ||
             [generateAnnouncement(descriptor)];
           for (const announcement of announcements) {
             if (!announcement) continue;

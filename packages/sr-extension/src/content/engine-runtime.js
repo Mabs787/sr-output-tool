@@ -446,15 +446,26 @@
             return [normalizedListParts.join(" "), ...supplementalParts].filter(Boolean).join(", ");
           }
           case "listbox": {
+            if (value) {
+              const selectedParts = [];
+              pushIfPresent(selectedParts, el.name);
+              selectedParts.push("list box");
+              if (el.selectedCount) {
+                selectedParts.push(`${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected. ${value}`);
+              } else {
+                selectedParts.push(value);
+              }
+              selectedParts.push("menu item");
+              if (el.positionInSet && el.setSize) {
+                selectedParts.push(`(${el.positionInSet} of ${el.setSize})`);
+              }
+              pushSupplementalText(selectedParts, el);
+              return selectedParts.join(", ");
+            }
             pushIfPresent(parts, el.name);
             parts.push("list box");
             if (el.selectedCount) {
               parts.push(`${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected`);
-            }
-            if (value) {
-              parts.push(value);
-              parts.push("menu item");
-              pushCollectionPosition(parts, el);
             }
             pushSupplementalText(parts, el);
             break;
@@ -910,14 +921,36 @@
         function isLabeledIconActionButton(el) {
           if (implicitRole(el) !== "button")
             return false;
+          if (isSlideshowNavigationButton(el))
+            return false;
           if (!el.hasAttribute("aria-label"))
             return false;
           if (normalizedPopup(el) || el.hasAttribute("aria-expanded"))
+            return false;
+          if (isPositionedImageChoiceButton(el))
             return false;
           const label = normalize(el.getAttribute("aria-label"));
           if (/^(previous|next) slide$/i.test(label || ""))
             return false;
           return Boolean(el.querySelector("svg, [role='img'], img"));
+        }
+        function isPositionedImageChoiceButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (!el.hasAttribute("aria-label"))
+            return false;
+          if (nestedImageLabel(el))
+            return false;
+          if (readableText(el))
+            return false;
+          if (!el.querySelector("svg, [role='img'], img"))
+            return false;
+          if (!hasOnlyInteractiveListItemContent(semanticListContext(el).listItem))
+            return false;
+          const rect = el.getBoundingClientRect?.();
+          if (rect && (rect.width > 80 || rect.height > 80))
+            return false;
+          return Boolean(positionInSet(el, "button"));
         }
         function isIconFirstTextButton(el) {
           if (implicitRole(el) !== "button")
@@ -944,6 +977,30 @@
           }
           return false;
         }
+        function isTrailingDisclaimerButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (normalizedPopup(el) || el.hasAttribute("aria-expanded"))
+            return false;
+          if (el.querySelector("svg, [role='img'], img"))
+            return false;
+          const label = readableText(el) || accessibleName(el, "button");
+          if (!label)
+            return false;
+          if (!/\blegals?\b/i.test(label))
+            return false;
+          for (let current = el.parentElement, depth = 0; current && depth < 4; current = current.parentElement, depth += 1) {
+            if (current === document.body || current === document.documentElement)
+              break;
+            const textBeforeButton = normalize(textWithoutInteractive(current));
+            if (!textBeforeButton || !/[.!?]$/.test(textBeforeButton))
+              continue;
+            const fullText = normalize(readableText(current));
+            if (fullText.endsWith(label))
+              return true;
+          }
+          return false;
+        }
         function isSlideshowNavigationButton(el) {
           if (implicitRole(el) !== "button")
             return false;
@@ -954,6 +1011,8 @@
             return false;
           if (/^(previous|next) slide$/i.test(label || ""))
             return false;
+          if (/^(previous|next) item, .+ gallery$/i.test(label || ""))
+            return true;
           return Boolean(el.closest("[aria-roledescription='slideshow'], [aria-roledescription='carousel']"));
         }
         function isMenuDisclosureGroupButton(el) {
@@ -1143,6 +1202,12 @@
           const role = el.getAttribute("role") || "";
           return role === "listitem" || tag === "li" && (!role || role === "listitem");
         }
+        function isSeparatorListItem(el) {
+          if (!isListItem(el))
+            return false;
+          const text = normalize(textWithoutInteractive(el) || readableText(el));
+          return Boolean(text && /^[|/\\•·]+$/.test(text));
+        }
         function listChildren(list) {
           if (!list)
             return [];
@@ -1154,6 +1219,20 @@
             });
           }
           return Array.from(list.children).filter((child) => isListItem(child));
+        }
+        function announcedListChildren(list) {
+          return listChildren(list).filter((child) => !isSeparatorListItem(child));
+        }
+        function selectedListboxOptions(el) {
+          if (implicitRole(el) !== "listbox")
+            return [];
+          return Array.from(el.querySelectorAll("[role='option']")).filter((option) => !isHidden(option) && (option.getAttribute("aria-selected") === "true" || option.getAttribute("aria-checked") === "true"));
+        }
+        function singleSelectedListboxOption(el) {
+          if (el.getAttribute("aria-multiselectable") === "true")
+            return void 0;
+          const selected = selectedListboxOptions(el);
+          return selected.length === 1 ? selected[0] : void 0;
         }
         function semanticListContext(el) {
           let listItem = el;
@@ -1251,7 +1330,7 @@
           if (Number.isFinite(explicit) && explicit > 0)
             return explicit;
           if (role === "list")
-            return listChildren(el).length || void 0;
+            return announcedListChildren(el).length || void 0;
           if (role === "option") {
             return Array.from(el.parentElement?.querySelectorAll("[role='option']") || []).filter((option) => !isHidden(option)).length || void 0;
           }
@@ -1595,8 +1674,12 @@
           const parentListMeta = parentListPosition(el);
           const headingButton = role === "heading" ? el.querySelector("button, [role='button']") : null;
           const headingLink = role === "heading" ? el.querySelector("a[href]") : null;
+          const selectedListboxOption = singleSelectedListboxOption(el);
           const suppressPositionedChoiceGroup = role === "button" && Boolean(position) && !el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !isSlideshowNavigationButton(el) && (isIconFirstTextButton(el) || el.hasAttribute("aria-label") && !readableText(el));
-          const value = tag === "select" ? nativeSelectValue(stateEl) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
+          const value = tag === "select" ? nativeSelectValue(stateEl) : selectedListboxOption ? accessibleName(selectedListboxOption, "option") || readableText(selectedListboxOption) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
+          const listboxSelectedCount = role === "listbox" ? selectedListboxOptions(el).length || void 0 : void 0;
+          const selectedListboxPosition = selectedListboxOption ? positionInSet(selectedListboxOption, "option") : void 0;
+          const selectedListboxSize = selectedListboxOption ? setSize(selectedListboxOption, "option") : void 0;
           const descriptor = {
             role,
             name,
@@ -1606,8 +1689,8 @@
             errorMessage: textFromIdRefs(stateEl.getAttribute("aria-errormessage") ?? el.getAttribute("aria-errormessage")),
             roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "contentinfo" && isSimpleNativeFooter(el) ? "footer" : role === "alert" && isEmptyAlertBeforeDialog(el) ? "group" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
             level: role === "heading" ? Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2 : role === "list" ? listLevel(el) : void 0,
-            setSize: size,
-            positionInSet: position,
+            setSize: selectedListboxSize ?? size,
+            positionInSet: selectedListboxPosition ?? position,
             ...parentListMeta,
             value,
             valueText: normalize(stateEl.getAttribute("aria-valuetext")),
@@ -1625,13 +1708,14 @@
             autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
             modal: el.getAttribute("aria-modal") === "true" || void 0,
             sort: normalize(el.getAttribute("aria-sort")),
+            selectedCount: listboxSelectedCount,
             nativeSelect: tag === "select" || void 0,
             headingButton: Boolean(headingButton) || void 0,
             headingLink: Boolean(headingLink) || void 0,
             headingFragments: directHeadingFragments(el),
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && readableText(el)) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || void 0,
+            groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || void 0,
             groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || void 0,
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
@@ -1677,7 +1761,7 @@
           if (role === "listitem" && hasSingleSemanticListItemChild(el)) {
             return false;
           }
-          if (contextRoles.has(role) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !(role === "list" && listChildren(el).length)) {
+          if (contextRoles.has(role) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !(role === "list" && announcedListChildren(el).length)) {
             return false;
           }
           if (role === "paragraph" && (!readableText(el) || hasOnlyLinkContent(el))) {
@@ -1725,6 +1809,9 @@
         function shouldDescendIntoStop(el) {
           const role = implicitRole(el);
           if (role === "group" && isFocusableImageListItem(el)) {
+            return false;
+          }
+          if (role === "listbox" && singleSelectedListboxOption(el)) {
             return false;
           }
           if (contextRoles.has(role))
@@ -1790,6 +1877,15 @@
           }
           return [label, announcement].filter((entry) => Boolean(entry));
         }
+        function splitCompactResultCountAnnouncements(descriptor) {
+          if (!["text", "paragraph"].includes(descriptor.role || ""))
+            return void 0;
+          const label = normalize(descriptor.name || descriptor.text);
+          const match = label?.match(/^(\d+)(results?)$/i);
+          if (!match)
+            return void 0;
+          return [match[1], match[2]];
+        }
         function scanSubtree(root) {
           const log = [];
           let stopIndex = 0;
@@ -1798,13 +1894,15 @@
               return;
             if (isInsideCollapsedPopup(el))
               return;
+            if (isSeparatorListItem(el))
+              return;
             if (isStopElement(el)) {
               const id = `__sr_el_${stopIndex}_${now()}`;
               stopIndex += 1;
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;

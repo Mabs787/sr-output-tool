@@ -52,6 +52,13 @@ VoiceOver behavior that is not ready for exact gating:
   smart punctuation, speed-card spacing, a stray list bullet, and I/l drift.
   Remaining gaps are postcode text-field phrasing, speed-card decomposition,
   and FAQ body/region traversal that are backed by VoiceOver and snapshots.
+- `www-sky-com-deals`: phase B corrected evidence-backed OCR/caption noise for
+  currency, smart punctuation, rendered en dash counter, Wifi OCR, and an FAQ
+  OCR merge. Reusable engine logic was added for single-select ARIA listboxes,
+  compact result-count splitting, decorative versus meaningful image-choice
+  button grouping, visual separator list items, and trailing disclaimer button
+  groups. Remaining gaps are footer tail group announcements around the country
+  selector/back-to-top traversal.
 - `www-sky-com-protect`: grouped hero/postcode traversal, carousel
   group/region phrasing, grouped support text, reminder-section grouping, and
   footer group noise remain page-backed candidate evidence.
@@ -64,7 +71,6 @@ VoiceOver behavior that is not ready for exact gating:
 These Sky fixtures are imported and have initial `refinedAnnouncements`, but
 they still need the full Phase B AI/manual refinement loop before promotion:
 
-- `www-sky-com-deals`
 - `www-sky-com-glass-43-inch`
 - `www-sky-com-glass-air`
 - `www-sky-com-glass`

@@ -88,7 +88,7 @@
     },
     "www-sky-com-deals": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include listbox selected-state phrasing, result-count decomposition, and deal-card grouping; not exact yet."
+      "reason": "Phase B review completed. Evidence-backed OCR/caption cleanup was applied for currency, smart punctuation, rendered en dash counter, Wifi OCR, and an FAQ OCR merge. Reusable engine logic now covers single-select listbox phrasing, compact result-count splitting, decorative versus meaningful image-choice button grouping, visual separator list items, and trailing disclaimer button groups. Remaining page-backed gaps are footer tail group announcements around the country selector/back-to-top traversal, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-glass-43-inch": {
       "status": "candidate",
