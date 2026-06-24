@@ -102,6 +102,12 @@ explicitly asks for that only.
 The target loop is AI-led and has two phases. For a batch of scan artifacts,
 repeat both phases for each target before calling the batch refined.
 
+Important: a fixture is not refined just because `refinedAnnouncements` exists.
+The preprocessing command creates an initial `refinedAnnouncements` field for
+every imported target. A site has completed the workflow only after Phase B has
+reviewed that output against rendered HTML, AX tree, step snapshots, and engine
+comparison, then recorded a final status and reason.
+
 Batch rule:
 
 - Process targets one at a time.
@@ -111,6 +117,9 @@ Batch rule:
   before final classification.
 - It is acceptable to import all targets into the corpus as `candidate` for
   visibility, but that is not the same as completing refinement for the batch.
+- Never report a batch as refined when only Phase A has run for some targets.
+  Call those targets `preprocessed candidates` and continue Phase B one site at
+  a time.
 
 ### Phase A: Stage And Preprocess
 

@@ -11,7 +11,16 @@ This is the handover note for continuing the Sky VoiceOver corpus refinement in 
 
 The `voiceover-smoke/` workspace is local scratch/debug output and is ignored by git. The checked-in corpus fixtures are the source of truth for future refinement work.
 
-## Refined Sky Sites
+## Workflow Completion Status
+
+The Sky batch has not been fully refined end to end. The artifact import and
+preprocessing step created `expectedAnnouncements` and initial
+`refinedAnnouncements` for every Sky page, but that is only Phase A of the
+workflow. A page is complete only after the Phase B AI/manual evidence review,
+engine comparison, reusable engine changes where needed, test run, and manifest
+classification.
+
+## Fully Refined Sky Sites
 
 These Sky fixtures are promoted to `refined` in `refinement-manifest.json` and pass the exact VoiceOver corpus gate:
 
@@ -28,15 +37,10 @@ snapshots still support grouped hero/postcode traversal, carousel group/region
 phrasing, grouped support text, reminder-section grouping, and footer group
 noise that need reusable engine or scanner decisions before exact gating.
 
-`www-sky-com-smart-home` has had an AI refinement pass and remains
-`candidate`. Clear OCR/caption noise was corrected for image alt text, FAQ
-heading casing/state, and legal accordion state; remaining gaps include hero
-heading/price fragments, rail image/list decomposition, grouped card text, FAQ
-wrapper grouping, footer group noise, and an extra trailing alert.
+## Remaining Preprocessed Sky Candidates
 
-## Remaining Sky Candidates
-
-These Sky fixtures are imported but still need page-by-page AI/manual refinement before promotion:
+These Sky fixtures are imported and have initial `refinedAnnouncements`, but
+they still need the full Phase B AI/manual refinement loop before promotion:
 
 - `business-sky-com-s`
 - `www-sky-com-broadband`
@@ -71,11 +75,17 @@ Read:
 - packages/sr-engine/docs/voiceover-corpus-baseline.md
 - packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json
 
-Refine one remaining Sky candidate only, starting with the lowest mismatch candidate.
+Refine the remaining Sky candidates one site at a time, starting with the
+lowest mismatch candidate in sky-refinement-status.md.
+Do not stop after running voiceover:refine-artifact; that is only Phase A
+preprocessing.
 Use rendered HTML, AX tree, and step snapshots as evidence.
 Update engine only with reusable logic, never site-specific logic.
 Update refinedAnnouncements, refinement-manifest.json, voiceover-corpus-baseline.md, and extension runtime where needed.
-Run unit tests, the fixture compare, and the VoiceOver corpus gate before stopping with a summary.
+Run unit tests, the fixture compare, and the VoiceOver corpus gate before
+marking a site refined. After each site, record whether it is refined, partial,
+candidate, or skip, then continue to the next remaining candidate unless asked
+to stop.
 ```
 
 ## Useful Commands

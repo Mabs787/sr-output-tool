@@ -112,7 +112,7 @@
     },
     "www-sky-com-smart-home": {
       "status": "candidate",
-      "reason": "AI refinement pass corrected clear OCR/caption noise for image alt text, FAQ heading casing/state, and legal accordion state. Remaining gaps include hero heading/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and an extra trailing alert; not exact yet."
+      "reason": "Latest Sky scan imported and preprocessed as a candidate with initial refinedAnnouncements. It still needs the Phase B AI/manual evidence review before promotion; likely areas include hero heading/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and trailing alert handling."
     },
     "www-sky-com-tv-stream": {
       "status": "refined",

@@ -44,9 +44,9 @@ These fixtures should be rescanned with current scanner evidence before promotio
 - `www-sky-com-glass-43-inch`: latest Sky batch candidate; remaining gaps include bullet/list decomposition, hero/product grouping, and button/group phrasing.
 - `www-sky-com-glass-air`: latest Sky batch candidate; remaining gaps include grouped hero headings, price text cleanup, native controls, and repeated card/button groups.
 - `www-sky-com-glass`: latest Sky batch candidate; remaining gaps include hero group announcements, heading/card decomposition, and button/group phrasing.
-- `www-sky-com-protect`: AI refinement pass corrected clear caption spacing/truncation, but grouped hero/postcode traversal, carousel group/region phrasing, grouped support text, reminder-section grouping, and footer group noise still need reusable engine or scanner decisions.
+- `www-sky-com-protect`: Phase B AI refinement corrected clear caption spacing/truncation, but grouped hero/postcode traversal, carousel group/region phrasing, grouped support text, reminder-section grouping, and footer group noise still need reusable engine or scanner decisions.
 - `www-sky-com-shop-mobile`: latest Sky batch candidate; remaining gaps include carousel dynamic state, slide button grouping, and heading/card decomposition.
-- `www-sky-com-smart-home`: AI refinement pass corrected clear OCR/caption noise for image alt text, FAQ heading casing/state, and legal accordion state; remaining gaps include hero heading/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and an extra trailing alert.
+- `www-sky-com-smart-home`: preprocessed candidate with initial `refinedAnnouncements`; still needs the Phase B AI/manual evidence review before promotion.
 - `www-sky-com-tv`: latest Sky batch candidate; remaining gaps include skip-link capture/order, native controls, and repeated button/group card differences.
 - `www-sky-com-tvandbroadband`: latest Sky batch candidate; remaining gaps include hero/CTA group announcements, product-card grouped text, and repeated text cleanup.
 - `www-sky-com-watch-what-to-watch-this-week`: latest Sky batch candidate; remaining gaps include text truncation cleanup, local navigation/landmark ordering, grouped headings, and button grouping.
@@ -58,8 +58,10 @@ These fixtures should be rescanned with current scanner evidence before promotio
 ## Latest Sky Artifact Note
 
 The latest 1200px Sky batch from run/artifact `27963923991` has been imported
-into the corpus. `www-sky-com`, `www-sky-com-broadband-gaming`, and
+into the corpus. Import/preprocessing created initial `expectedAnnouncements`
+and `refinedAnnouncements` for every Sky page, but that is only Phase A of the
+workflow. `www-sky-com`, `www-sky-com-broadband-gaming`, and
 `www-sky-com-tv-stream` match the current engine exactly and are promoted to
-`refined`; the other 13 Sky pages are checked in as `candidate` fixtures with
-step snapshots. See
-`sky-refinement-status.md` for the current handover list.
+`refined`; the other 13 Sky pages are checked in as preprocessed `candidate`
+fixtures with step snapshots. See `sky-refinement-status.md` for the current
+handover list.
