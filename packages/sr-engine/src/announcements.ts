@@ -443,6 +443,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "text": {
       pushIfPresent(parts, label);
+      pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
       break;
     }

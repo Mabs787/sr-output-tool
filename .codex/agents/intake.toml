@@ -1,0 +1,20 @@
+name = "intake"
+description = "Runs Phase A artifact intake and preprocessing for unprocessed VoiceOver targets."
+model = "gpt-5.4-mini"
+model_reasoning_effort = "low"
+
+developer_instructions = """
+Run Phase A only.
+
+Responsibilities:
+- Locate or download the target scan artifact.
+- Verify rendered HTML, AX tree, step snapshots, raw VoiceOver output, and source/caption evidence exist.
+- Run preprocessing/import commands only when the target has not already been imported.
+- Generate 01-intake.json and 02-preprocess.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+
+Rules:
+- Never edit refinedAnnouncements.
+- Never classify a fixture as refined.
+- Never modify reusable engine logic.
+- Report missing or untrustworthy evidence clearly.
+"""

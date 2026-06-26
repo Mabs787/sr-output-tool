@@ -191,8 +191,8 @@
     "Open Help menu, collapsed, button",
     "link, Sign in",
     "end of, banner",
-    "heading level 1 It all starts at your front door, 2 items",
-    "heading level 4 Get the Smart Doorbell and Smart Home Plan for, level 3 £ , level 3 5, level 3 space, level 3 a month, level 3 £15 upfront, level 3, 6 items",
+    "heading level 1, It all starts at your front door",
+    "heading level 4, Get the Smart Doorbell and Smart Home Plan for £5 a month £15 upfront",
     "heading level 3, £20 total first month cost, then £5/month. 24-month minimum term. GB only",
     "link, Buy now",
     "link, Explore the tech",
@@ -270,7 +270,6 @@
     "Support hub, 3 of 3",
     "Our help centre is packed with guides, tips and answers from our friendly community.",
     "end of list",
-    "group",
     "heading level 2, Sky Smart Home FAQs",
     "Answers to your questions and other helpful things.",
     "list 8 items",
@@ -308,7 +307,8 @@
     "group",
     "group",
     "link, back to top",
-    "end of, footer"
+    "end of, footer",
+    "group"
   ],
   "scan": {
     "stopReason": "scan-end-marker",
@@ -333,7 +333,8 @@
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
     "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
-    "AI refinement pass 2026-06-23: corrected clear OCR/caption noise in refinedAnnouncements for image alt text, FAQ heading casing/state, and legal accordion state. Remaining mismatches stay candidate evidence because raw VoiceOver and captured page evidence still support hero heading/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and an extra trailing alert that need reusable engine or scanner decisions."
+    "AI refinement pass 2026-06-23: corrected clear OCR/caption noise in refinedAnnouncements for image alt text, FAQ heading casing/state, and legal accordion state. Remaining mismatches stay candidate evidence because raw VoiceOver and captured page evidence still support hero heading/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and an extra trailing alert that need reusable engine or scanner decisions.",
+    "Phase D review corrected hero heading announcements to match AX heading names, removed an unsupported FAQ wrapper group, and preserved the final empty alert as a group after reusable scanner support for footer country-selector grouping and media/text list-card decomposition."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com-smart-home/scans/www-sky-com-smart-home/refinement-manifest.json",

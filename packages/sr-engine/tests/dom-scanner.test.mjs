@@ -371,6 +371,42 @@ test("scanSubtree keeps trailing disclaimer buttons grouped", () => {
   );
 });
 
+test("scanSubtree infers first previous slide buttons as dimmed", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <div>
+          <button aria-label="Previous slide"></button>
+          <button aria-label="Next slide"></button>
+        </div>
+        <ul>
+          <li><a href="/one">One</a></li>
+        </ul>
+      </section>
+    `),
+    [
+      "Previous slide, dimmed, button",
+      "Next slide, button",
+      "list 1 item",
+      "link, One",
+      "end of list",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-roledescription="carousel">
+        <button aria-label="Previous slide: 4 of 4 - Mobile Insurance"></button>
+        <button aria-label="Next slide: 2 of 4 - Accidental Damage"></button>
+      </section>
+    `),
+    [
+      "Previous slide: 4 of 4 - Mobile Insurance, button, group",
+      "Next slide: 2 of 4 - Accidental Damage, button, group",
+    ],
+  );
+});
+
 test("scanSubtree announces single-select listboxes with the selected option", () => {
   assert.deepEqual(
     scanHtml(`

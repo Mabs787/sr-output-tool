@@ -11,20 +11,23 @@ The repo uses Yarn as the source-of-truth package manager.
 ```text
 packages/
   sr-engine/       Chrome + VoiceOver-focused announcement engine and DOM scanner
-    docs/          engine architecture, refinement, and corpus workflow notes
     tests/         unit tests plus imported VoiceOver corpus fixtures
   sr-extension/    Chrome extension UI built on top of the generated engine runtime
     docs/          install, development, architecture, and release notes
     tests/         extension-facing and popup coverage
+docs/              workflow, status, and design docs shared across packages
+.codex/            agents, prompts, context, and knowledge for Codex workflows
 test-app/          optional local fixture for manual checks
 .github/scripts/   VoiceOver scan, artifact import, and refinement helpers
 ```
 
 ## Package Docs
 
-- [packages/sr-engine/README.md](packages/sr-engine/README.md) explains what the engine owns, how to build it, and how to refine its output.
+- [packages/sr-engine/README.md](packages/sr-engine/README.md) explains what the engine owns and how to build/test it.
 - [packages/sr-extension/README.md](packages/sr-extension/README.md) explains how to build, load, use, and package the browser extension.
 - [packages/sr-extension/RELEASE_NOTES.md](packages/sr-extension/RELEASE_NOTES.md) is the extension-specific release-notes file to use when publishing extension zip builds.
+- [docs/workflows/voiceover-refinement.md](docs/workflows/voiceover-refinement.md) is the canonical multi-agent VoiceOver refinement workflow.
+- [.codex/README.md](.codex/README.md) explains the project-scoped Codex agents, prompts, context, and knowledge layout.
 
 ## Quick Start
 
@@ -81,15 +84,24 @@ That command is the preprocessing entrypoint: it downloads or reads the artifact
 
 The full refinement workflow continues after that command. The AI/manual pass must review the prompt, report, raw VoiceOver output, rendered HTML, AX tree, step snapshots, and engine diff; correct `refinedAnnouncements` only for evidence-backed capture noise; classify the fixture; update the reusable engine where the refined fixture exposes a real behavior gap; rebuild the extension runtime when engine output changes; and rerun the relevant tests.
 
-Use the lower-level queue/prompt commands when debugging:
+Use the lower-level import/prompt commands only when debugging Phase A:
 
 ```bash
-yarn voiceover:refinement --download-latest --force
 yarn voiceover:create-refinement-prompt --list
 yarn voiceover:create-refinement-prompt --target www-example-com-page
 ```
 
 The refinement workflow treats the raw VoiceOver stream as the primary evidence. Rendered HTML, step snapshots, AX tree data, computed style evidence, and source diagnostics explain surprising output or repair clear capture noise; they should not be used to reshape valid VoiceOver output to match the current engine.
+
+For the full multi-agent process, use
+`docs/workflows/voiceover-refinement.md`. That document is the canonical
+workflow for deciding which agents preprocess artifacts, refine
+`refinedAnnouncements`, judge mismatches, update reusable engine logic, and
+promote fixtures.
+
+Project-scoped Codex subagents live in `.codex/agents/`. Those TOML files
+define phase-specific agent instructions and model routing; workflow markdown
+defines behavior and handoffs only.
 
 ## Architecture Overview
 

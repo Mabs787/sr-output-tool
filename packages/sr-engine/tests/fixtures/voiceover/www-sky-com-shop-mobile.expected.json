@@ -254,7 +254,7 @@
     "link, Shop now",
     "end of, Shop the latest plans and devices, region",
     "heading level 2, Why Sky Mobile?",
-    "heading level 3, Roam with Ease​",
+    "heading level 3, Roam with Ease",
     "Stay connected in 120 destinations for just £2 a day.",
     "heading level 3, Roll Spare Data",
     "Your spare data rolls over ready to use later or use on a range of rewards.",
@@ -282,7 +282,7 @@
     "heading level 2, More reasons to choose Sky Mobile",
     "Explore a world of possibilities and switch to Sky Mobile, the award-winning network",
     "heading level 3, Watch",
-    "With Sky Mobile, you can enjoy hours and hours of streaming on Sky Apps without using your data - so you never miss a moment. Fair Usage Policy applies. See",
+    "With Sky Mobile, you can enjoy hours and hours of streaming on Sky Apps without using your data - so you never miss a moment. Fair Usage Policy applies. See sky.com/FUP.",
     "heading level 3, Swap",
     "Swap to a shiny new device anytime, so you can always stay up to date with the latest tech.",
     "link, Read more about Sky Mobile",
@@ -310,7 +310,7 @@
     "heading level 3, Why choose Sky Mobile?, collapsed, button, group",
     "heading level 3, How do I join Sky Mobile?, collapsed, button, group",
     "heading level 3, Can I switch to Sky Mobile?, collapsed, button, group",
-    "heading level 3, Canl upgrade my device on Sky Mobile?, collapsed, button, group",
+    "heading level 3, Can I upgrade my device on Sky Mobile?, collapsed, button, group",
     "heading level 3, Will I be charged when I use my phone abroad?, collapsed, button, group",
     "heading level 3, Do I need to adjust my spend cap if I want to roam?, collapsed, button, group",
     "heading level 3, How can I avoid roaming charges?, collapsed, button, group",
@@ -362,7 +362,8 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+    "Phase B review corrected a hidden character in Roam with Ease, restored the truncated Fair Usage Policy URL, and fixed FAQ I/l OCR drift; remaining gaps are carousel/list/card structural traversal."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com-shop-mobile/scans/www-sky-com-shop-mobile/refinement-manifest.json",

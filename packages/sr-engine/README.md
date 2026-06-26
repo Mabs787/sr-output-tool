@@ -6,10 +6,10 @@ It owns the rules that decide how DOM structure, roles, labels, states, grouping
 
 ## Docs
 
-- [Engine architecture](docs/architecture.md)
-- [Refinement workflow](docs/refinement-workflow.md)
-- [AI corpus refinement workflow](docs/ai-corpus-refinement-workflow.md)
-- [Refinement prompt template](docs/refinement-template.md)
+- [Engine architecture](../../docs/design/engine-architecture.md)
+- [Multi-agent VoiceOver refinement workflow](../../docs/workflows/voiceover-refinement.md)
+- [VoiceOver corpus baseline](../../docs/status/voiceover-corpus-baseline.md)
+- [Sky refinement status](../../docs/status/sky-refinement-status.md)
 
 ## Build
 
@@ -55,10 +55,10 @@ yarn workspace @sr-output/engine voiceover:compare www-sky-com
 
 The most reliable way to improve the engine is to compare actual Chrome + VoiceOver output against rendered DOM/AX evidence, then lock reusable behavior into unit tests and corpus fixtures.
 
-Use [docs/refinement-workflow.md](docs/refinement-workflow.md) for the
-step-by-step process, [docs/ai-corpus-refinement-workflow.md](docs/ai-corpus-refinement-workflow.md)
-for the site-set-to-engine AI loop, and [docs/refinement-template.md](docs/refinement-template.md)
-when preparing a new refinement request.
+Use [../../docs/workflows/voiceover-refinement.md](../../docs/workflows/voiceover-refinement.md)
+as the single source of truth for live-site artifact refinement. It covers
+artifact preprocessing, evidence-backed `refinedAnnouncements` cleanup, engine
+refinement, promotion, and handoff status.
 
 ## Notes
 

@@ -130,7 +130,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!leftChar || !rightChar) return false;
     if (/\s/.test(leftChar) || /\s/.test(rightChar)) return false;
     if (/[.,;:!?)]/.test(rightChar) || /[(]/.test(leftChar)) return false;
-    return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}]/u.test(rightChar);
+    return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}£$€]/u.test(rightChar);
   }
 
   function readableText(el: any): string | undefined {
@@ -411,6 +411,40 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function isImplicitDisabledPreviousSlideButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true") {
+      return false;
+    }
+    const label = normalize(
+      el.getAttribute("aria-label") ||
+        el.getAttribute("title") ||
+        textWithoutInteractive(el) ||
+        readableText(el),
+    );
+    if (label !== "Previous slide") return false;
+
+    for (let current = el.parentElement, depth = 0; current && depth < 4; current = current.parentElement, depth += 1) {
+      const buttons = Array.from(current.querySelectorAll("button, [role='button']")).filter(
+        (button: any) => !isHidden(button),
+      );
+      const index = buttons.indexOf(el);
+      if (index < 0) continue;
+      const nextButton = buttons[index + 1];
+      const nextLabel = normalize(
+        nextButton?.getAttribute("aria-label") ||
+          nextButton?.getAttribute("title") ||
+          textWithoutInteractive(nextButton) ||
+          readableText(nextButton),
+      );
+      if (nextLabel === "Next slide") {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function isMenuDisclosureGroupButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
     if (!el.hasAttribute("aria-expanded")) return false;
@@ -474,6 +508,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     return false;
+  }
+
+  function isFooterCountrySelector(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "select") return false;
+    const footer = el.closest("footer,[role='contentinfo']");
+    if (!footer) return false;
+    const label = labelForControl(el) || accessibleName(el, "combobox");
+    if (!/^country:\s*$/i.test(label || "")) return false;
+    return Boolean(
+      Array.from(footer.querySelectorAll("a[href], [role='link']")).some((link: any) =>
+        /back to top/i.test(accessibleName(link, "link") || readableText(link) || ""),
+      ),
+    );
   }
 
   function accessibleName(el: any, role: string): string | undefined {
@@ -603,7 +650,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       directOwnText(el) &&
       !el.querySelector(interactiveSelector) &&
       !el.closest(interactiveSelector) &&
-      !el.closest("p, li, h1, h2, h3, h4, h5, h6")
+      (isSplitTextListItemBlock(el) || !el.closest("p, li, h1, h2, h3, h4, h5, h6"))
     ) {
       return "text";
     }
@@ -743,7 +790,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "h1, h2, h3, h4, h5, h6, [role='heading']",
       );
       if (
-        firstHeading &&
+        !firstHeading ||
         Boolean(
           el.compareDocumentPosition(firstHeading) &
             el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
@@ -754,6 +801,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return index >= 0 ? index + 1 : undefined;
       }
       return undefined;
+    }
+
+    if (
+      role === "text" &&
+      isFirstSplitTextListItemBlock(el) &&
+      !el.closest("li,[role='listitem']")?.querySelector("img, [role='img'], svg[aria-label]")
+    ) {
+      const { listItem, siblings } = semanticListContext(el);
+      const index = siblings.indexOf(listItem);
+      return index >= 0 ? index + 1 : undefined;
     }
 
     if (
@@ -833,6 +890,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
+    if (
+      role === "text" &&
+      isFirstSplitTextListItemBlock(el) &&
+      !el.closest("li,[role='listitem']")?.querySelector("img, [role='img'], svg[aria-label]")
+    ) {
+      const { siblings } = semanticListContext(el);
+      return siblings.length || undefined;
+    }
     return undefined;
   }
 
@@ -868,6 +933,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return contextRoles.has(role) || role === "group";
   }
 
+  function splitListItemTextBlocks(el: any): any[] {
+    if (!isListItem(el) || el.querySelector(interactiveSelector)) return [];
+    return Array.from(el.querySelectorAll("span, div, p")).filter((candidate: any) => {
+      if (isHidden(candidate)) return false;
+      if (candidate.querySelector(interactiveSelector)) return false;
+      if (!directOwnText(candidate)) return false;
+      return !Array.from(candidate.children || []).some(
+        (child: any) => !isHidden(child) && Boolean(readableText(child)),
+      );
+    });
+  }
+
+  function hasSplitTextListItemContent(el: any): boolean {
+    if (!isListItem(el)) return false;
+    return splitListItemTextBlocks(el).length > 1;
+  }
+
+  function isSplitTextListItemBlock(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const listItem = el.closest("li,[role='listitem']");
+    return splitListItemTextBlocks(listItem).includes(el);
+  }
+
+  function isFirstSplitTextListItemBlock(el: any): boolean {
+    if (!isSplitTextListItemBlock(el)) return false;
+    const listItem = el.closest("li,[role='listitem']");
+    return splitListItemTextBlocks(listItem)[0] === el;
+  }
+
   function hasStructuredListItemContent(el: any): boolean {
     if (!isListItem(el)) return false;
     const heading = el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']");
@@ -890,6 +984,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (hasTextBlockListItemContent(el)) {
+      return true;
+    }
+
+    if (hasSplitTextListItemContent(el)) {
       return true;
     }
 
@@ -1274,7 +1372,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? "definition list"
           : role === "contentinfo" && isSimpleNativeFooter(el)
             ? "footer"
-          : role === "alert" && isEmptyAlertBeforeDialog(el)
+          : role === "alert" && (!readableText(el) || isEmptyAlertBeforeDialog(el))
             ? "group"
           : role === "paragraph" &&
               el.getAttribute("tabindex") === "-1" &&
@@ -1320,7 +1418,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : el.getAttribute("aria-pressed") === "true"
         : undefined,
       disabled:
-        el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || undefined,
+        el.disabled ||
+          el.hasAttribute("disabled") ||
+          el.getAttribute("aria-disabled") === "true" ||
+          isImplicitDisabledPreviousSlideButton(el) ||
+          undefined,
       readOnly: el.readOnly || el.getAttribute("aria-readonly") === "true" || undefined,
       current: el.hasAttribute("aria-current")
         ? el.getAttribute("aria-current") === "false"
@@ -1394,6 +1496,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ))
           ? true
           : undefined,
+      footerCountrySelector:
+        role === "combobox" && isFooterCountrySelector(el) ? true : undefined,
       suppressContextEnd:
         (role === "group" && isFocusableImageListItem(el)) ||
         (role === "group" &&
@@ -1641,6 +1745,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return [label, announcement].filter((entry): entry is string => Boolean(entry));
   }
 
+  function splitFooterCountrySelectorAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.footerCountrySelector) return undefined;
+    const label = normalize(descriptor.name || descriptor.text);
+    const announcement = generateAnnouncement(descriptor);
+    return [label, announcement, "group", "group"].filter((entry): entry is string =>
+      Boolean(entry),
+    );
+  }
+
   function splitCompactResultCountAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -1669,6 +1784,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         if (descriptor) {
           const announcements =
             splitDescribedAutocompleteAnnouncements(descriptor) ||
+            splitFooterCountrySelectorAnnouncements(descriptor) ||
             splitLabelStopAnnouncements(descriptor) ||
             splitCompactResultCountAnnouncements(descriptor) ||
             [generateAnnouncement(descriptor)];

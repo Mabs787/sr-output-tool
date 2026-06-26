@@ -64,7 +64,7 @@
     },
     "www-w3-org-wai-standards-guidelines-wcag": {
       "status": "candidate",
-      "reason": "Useful nested language/list fixture, but casing/Japanese item and parent-position announcements need manual confirmation."
+      "reason": "Phase B review completed. Refined announcements restore two HTML/AX-backed closing punctuation announcements after WAI/W3C links; remaining gaps are broad list/marker and role/structure divergence, so this stays candidate evidence rather than an exact gate."
     },
     "www-w3-org-wai": {
       "status": "skip",
@@ -87,8 +87,8 @@
       "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for currency, smart punctuation, missing speed-card spaces, a stray list bullet, and I/l drift; remaining page-backed gaps include postcode text-field phrasing, speed-card decomposition, and FAQ body/region traversal, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-deals": {
-      "status": "candidate",
-      "reason": "Phase B review completed. Evidence-backed OCR/caption cleanup was applied for currency, smart punctuation, rendered en dash counter, Wifi OCR, and an FAQ OCR merge. Reusable engine logic now covers single-select listbox phrasing, compact result-count splitting, decorative versus meaningful image-choice button grouping, visual separator list items, and trailing disclaimer button groups. Remaining page-backed gaps are footer tail group announcements around the country selector/back-to-top traversal, so this remains candidate evidence rather than an exact gate."
+      "status": "refined",
+      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after reusable footer country-selector grouping and empty-alert group handling."
     },
     "www-sky-com-glass-43-inch": {
       "status": "candidate",
@@ -96,11 +96,11 @@
     },
     "www-sky-com-glass-air": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include grouped hero headings, price text cleanup, native controls, and repeated card/button groups; not exact yet."
+      "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for upfront price currency, monthly price spacing, word joins, hyphenation, and Netflix casing. Remaining page-backed gaps include hero/heading grouping, native control traversal, table/card segmentation, and repeated button/list groups, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-glass": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include hero group announcements, heading/card decomposition, and button/group phrasing; needs refinement before exact gating."
+      "reason": "Phase B review completed. Clear OCR cleanup was applied for Netflix casing. Remaining page-backed gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-protect": {
       "status": "candidate",
@@ -108,11 +108,11 @@
     },
     "www-sky-com-shop-mobile": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include carousel dynamic state, slide button grouping, and heading/card decomposition; not exact yet."
+      "reason": "Phase B review completed. Clear cleanup was applied for a hidden character in Roam with Ease, a truncated Fair Usage Policy URL, and an FAQ I/l OCR drift. Remaining page-backed gaps include carousel dynamic state, slide button grouping, heading/card decomposition, and list/marker traversal, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-smart-home": {
-      "status": "candidate",
-      "reason": "Latest Sky scan imported and preprocessed as a candidate with initial refinedAnnouncements. It still needs the Phase B AI/manual evidence review before promotion; likely areas include hero heading/price fragments, rail image/list decomposition, grouped card text, FAQ wrapper grouping, footer group noise, and trailing alert handling."
+      "status": "refined",
+      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after reusable footer country-selector grouping, empty-alert group handling, first previous-slide disabled-state inference, and media/text list-card decomposition."
     },
     "www-sky-com-tv-stream": {
       "status": "refined",
@@ -120,19 +120,19 @@
     },
     "www-sky-com-tv": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include skip-link capture/order, native controls, and repeated button/group card differences; not exact yet."
+      "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for price spacing, £300 currency, Image gallery OCR, and Wifi FAQ spelling. Remaining page-backed gaps include skip-link/order differences, package-card list marker segmentation, native controls, and repeated button/group card differences, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-tvandbroadband": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include hero/CTA group announcements, product-card grouped text, and repeated text cleanup; not exact yet."
+      "reason": "Phase B review completed. Clear cleanup was applied for interest-free legal copy, hidden heading characters, 900 pixel OCR, and FAQ I/l drift. Remaining page-backed gaps include hero/CTA group announcements, product-card grouped text, carousel/package ordering, and list/marker segmentation, so this remains candidate evidence rather than an exact gate."
     },
     "www-sky-com-watch-what-to-watch-this-week": {
-      "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include text truncation cleanup, local navigation/landmark ordering, grouped headings, and button grouping; not exact yet."
+      "status": "refined",
+      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after article/show-description cleanup plus reusable footer country-selector grouping and first previous-slide disabled-state inference."
     },
     "www-sky-com-watch": {
       "status": "candidate",
-      "reason": "Latest Sky scan imported as candidate. Remaining gaps include carousel disabled state from dynamic step state, card grouping, and text cleanup; not exact yet."
+      "reason": "Phase B review completed. Remaining comparison gaps are list/marker carousel traversal and dynamic slide disabled-state behavior rather than isolated fixture text noise, so this remains candidate evidence rather than an exact gate."
     }
   }
 }

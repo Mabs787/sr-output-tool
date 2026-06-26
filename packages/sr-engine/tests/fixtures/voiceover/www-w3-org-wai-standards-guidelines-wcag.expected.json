@@ -668,7 +668,7 @@
       "axMappedNodeCount": 408,
       "domSnapshotMappedNodeCount": 457
     },
-    "refinedAnnouncementCount": 320
+    "refinedAnnouncementCount": 322
   },
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
@@ -676,7 +676,9 @@
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
     "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
     "User refinement: nested language list preserves rendered casing, includes the parent list-item position, and follows the captured language order including Japanese as item 5 of 6.",
-    "Fixture refinement: `Hide Options -` punctuation and `group` suffix are treated as caption noise where rendered HTML exposes a normal expanded button in list position."
+    "Fixture refinement: `Hide Options -` punctuation and `group` suffix are treated as caption noise where rendered HTML exposes a normal expanded button in list position.",
+    "Fixture refinement also restores two HTML/AX-backed closing punctuation announcements (`).`) that raw VoiceOver missed after WAI/W3C links; refinedAnnouncements has 322 entries while raw expectedAnnouncements remains 320.",
+    "Phase B review confirmed the fixture remains candidate evidence because current comparison gaps are broad list/marker and role/structure divergence, not isolated caption cleanup."
   ],
   "source": {
     "manifestPath": "../../../../../tmp/sr-vo-broad-snapshots-27794063976/voiceover-scan-www-w3-org-wai-standards-guidelines-wcag/scans/www-w3-org-wai-standards-guidelines-wcag/refinement-manifest.json",

@@ -276,7 +276,7 @@
     "heading level 3, Will Sky Glass work without a Sky Essential TV or Ultimate TV subscription?, collapsed, button, group, 3 of 6",
     "heading level 3, Can the Sky Glass TV be wall mounted?, collapsed, button, group, 4 of 6",
     "heading level 3, What does Sky Glass include?, collapsed, button, group, 5 of 6",
-    "heading level 3, Do I have to buy Sky TV & Nettlix?, collapsed, button, group, 6 of 6",
+    "heading level 3, Do I have to buy Sky TV & Netflix?, collapsed, button, group, 6 of 6",
     "end of list",
     "heading level 2, Here's the legal bit, collapsed, button, group",
     "Breadcrumbs, navigation",
@@ -330,7 +330,8 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+    "Phase B review corrected Netflix OCR casing; remaining gaps are structural traversal and list/card segmentation."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com-glass/scans/www-sky-com-glass/refinement-manifest.json",

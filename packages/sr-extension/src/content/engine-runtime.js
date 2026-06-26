@@ -1015,6 +1015,28 @@
             return true;
           return Boolean(el.closest("[aria-roledescription='slideshow'], [aria-roledescription='carousel']"));
         }
+        function isImplicitDisabledPreviousSlideButton(el) {
+          if (implicitRole(el) !== "button")
+            return false;
+          if (el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true") {
+            return false;
+          }
+          const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
+          if (label !== "Previous slide")
+            return false;
+          for (let current = el.parentElement, depth = 0; current && depth < 4; current = current.parentElement, depth += 1) {
+            const buttons = Array.from(current.querySelectorAll("button, [role='button']")).filter((button) => !isHidden(button));
+            const index = buttons.indexOf(el);
+            if (index < 0)
+              continue;
+            const nextButton = buttons[index + 1];
+            const nextLabel = normalize(nextButton?.getAttribute("aria-label") || nextButton?.getAttribute("title") || textWithoutInteractive(nextButton) || readableText(nextButton));
+            if (nextLabel === "Next slide") {
+              return true;
+            }
+          }
+          return false;
+        }
         function isMenuDisclosureGroupButton(el) {
           if (implicitRole(el) !== "button")
             return false;
@@ -1068,6 +1090,17 @@
             }
           }
           return false;
+        }
+        function isFooterCountrySelector(el) {
+          if (el?.tagName?.toLowerCase() !== "select")
+            return false;
+          const footer = el.closest("footer,[role='contentinfo']");
+          if (!footer)
+            return false;
+          const label = labelForControl(el) || accessibleName(el, "combobox");
+          if (!/^country:\s*$/i.test(label || ""))
+            return false;
+          return Boolean(Array.from(footer.querySelectorAll("a[href], [role='link']")).some((link) => /back to top/i.test(accessibleName(link, "link") || readableText(link) || "")));
         }
         function accessibleName(el, role) {
           const tag = el.tagName.toLowerCase();
@@ -1190,7 +1223,7 @@
           if (isCustomElement(el) && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || hasShadowRootContent(el)) && hasVisibleInteractiveDescendant(el)) {
             return "group";
           }
-          if (["span", "div"].includes(tag) && directOwnText(el) && !el.querySelector(interactiveSelector) && !el.closest(interactiveSelector) && !el.closest("p, li, h1, h2, h3, h4, h5, h6")) {
+          if (["span", "div"].includes(tag) && directOwnText(el) && !el.querySelector(interactiveSelector) && !el.closest(interactiveSelector) && (isSplitTextListItemBlock(el) || !el.closest("p, li, h1, h2, h3, h4, h5, h6"))) {
             return "text";
           }
           return "";
@@ -1292,12 +1325,17 @@
           if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
             const listItem = el.closest("li,[role='listitem']");
             const firstHeading = listItem?.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']");
-            if (firstHeading && Boolean(el.compareDocumentPosition(firstHeading) & el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)) {
+            if (!firstHeading || Boolean(el.compareDocumentPosition(firstHeading) & el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)) {
               const { siblings } = semanticListContext(el);
               const index = siblings.indexOf(listItem);
               return index >= 0 ? index + 1 : void 0;
             }
             return void 0;
+          }
+          if (role === "text" && isFirstSplitTextListItemBlock(el)) {
+            const { listItem, siblings } = semanticListContext(el);
+            const index = siblings.indexOf(listItem);
+            return index >= 0 ? index + 1 : void 0;
           }
           if (["heading", "link"].includes(role) && structuredListItemHasPreHeadingImage(el.closest("li,[role='listitem']"))) {
             return void 0;
@@ -1349,6 +1387,10 @@
             const { siblings } = semanticListContext(el);
             return siblings.length || void 0;
           }
+          if (role === "text" && isFirstSplitTextListItemBlock(el)) {
+            const { siblings } = semanticListContext(el);
+            return siblings.length || void 0;
+          }
           return void 0;
         }
         function directSemanticChildren(el) {
@@ -1387,6 +1429,36 @@
           const role = implicitRole(children[0]);
           return contextRoles.has(role) || role === "group";
         }
+        function splitListItemTextBlocks(el) {
+          if (!isListItem(el) || el.querySelector(interactiveSelector))
+            return [];
+          return Array.from(el.querySelectorAll("span, div, p")).filter((candidate) => {
+            if (isHidden(candidate))
+              return false;
+            if (candidate.querySelector(interactiveSelector))
+              return false;
+            if (!directOwnText(candidate))
+              return false;
+            return !Array.from(candidate.children || []).some((child) => !isHidden(child) && Boolean(readableText(child)));
+          });
+        }
+        function hasSplitTextListItemContent(el) {
+          if (!isListItem(el))
+            return false;
+          return splitListItemTextBlocks(el).length > 1;
+        }
+        function isSplitTextListItemBlock(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          return splitListItemTextBlocks(listItem).includes(el);
+        }
+        function isFirstSplitTextListItemBlock(el) {
+          if (!isSplitTextListItemBlock(el))
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          return splitListItemTextBlocks(listItem)[0] === el;
+        }
         function hasStructuredListItemContent(el) {
           if (!isListItem(el))
             return false;
@@ -1398,6 +1470,9 @@
             return true;
           }
           if (hasTextBlockListItemContent(el)) {
+            return true;
+          }
+          if (hasSplitTextListItemContent(el)) {
             return true;
           }
           const linkedHeading = el.querySelector("h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]");
@@ -1687,7 +1762,7 @@
             description: normalize(stateEl.getAttribute("aria-description") ?? el.getAttribute("aria-description")),
             details: textFromIdRefs(stateEl.getAttribute("aria-describedby") ?? el.getAttribute("aria-describedby")),
             errorMessage: textFromIdRefs(stateEl.getAttribute("aria-errormessage") ?? el.getAttribute("aria-errormessage")),
-            roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "contentinfo" && isSimpleNativeFooter(el) ? "footer" : role === "alert" && isEmptyAlertBeforeDialog(el) ? "group" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
+            roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "contentinfo" && isSimpleNativeFooter(el) ? "footer" : role === "alert" && (!readableText(el) || isEmptyAlertBeforeDialog(el)) ? "group" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
             level: role === "heading" ? Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2 : role === "list" ? listLevel(el) : void 0,
             setSize: selectedListboxSize ?? size,
             positionInSet: selectedListboxPosition ?? position,
@@ -1701,7 +1776,7 @@
             expanded: parseBooleanAttribute(stateEl, "aria-expanded") ?? (headingButton ? parseBooleanAttribute(headingButton, "aria-expanded") : void 0),
             selected: parseBooleanAttribute(el, "aria-selected"),
             pressed: el.hasAttribute("aria-pressed") ? el.getAttribute("aria-pressed") === "mixed" ? "mixed" : el.getAttribute("aria-pressed") === "true" : void 0,
-            disabled: el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || void 0,
+            disabled: el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || isImplicitDisabledPreviousSlideButton(el) || void 0,
             readOnly: el.readOnly || el.getAttribute("aria-readonly") === "true" || void 0,
             current: el.hasAttribute("aria-current") ? el.getAttribute("aria-current") === "false" ? void 0 : el.getAttribute("aria-current") === "true" ? true : el.getAttribute("aria-current") : void 0,
             hasPopup: normalizedPopup(stateEl) ?? normalizedPopup(el),
@@ -1720,6 +1795,7 @@
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":")) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) ? true : void 0,
+            footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
             suppressContextEnd: role === "group" && isFocusableImageListItem(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             boundingBox: {
@@ -1877,6 +1953,13 @@
           }
           return [label, announcement].filter((entry) => Boolean(entry));
         }
+        function splitFooterCountrySelectorAnnouncements(descriptor) {
+          if (!descriptor.footerCountrySelector)
+            return void 0;
+          const label = normalize(descriptor.name || descriptor.text);
+          const announcement = generateAnnouncement2(descriptor);
+          return [label, announcement, "group", "group"].filter((entry) => Boolean(entry));
+        }
         function splitCompactResultCountAnnouncements(descriptor) {
           if (!["text", "paragraph"].includes(descriptor.role || ""))
             return void 0;
@@ -1902,7 +1985,7 @@
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;

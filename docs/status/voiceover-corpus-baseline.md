@@ -1,0 +1,59 @@
+# VoiceOver Corpus Baseline
+
+Last refreshed: 2026-06-23
+
+This baseline uses the VoiceOver-first refinement workflow:
+
+- VoiceOver output is the primary evidence.
+- `refinedAnnouncements` remove only clear capture noise.
+- Rendered HTML, AX tree, and step snapshots explain or repair capture issues; they do not override page-backed VoiceOver output.
+- Surprising output, such as `link, undefined page link`, remains valid when live page evidence backs it.
+
+## Exact Fixtures
+
+These fixtures currently match the engine exactly against `refinedAnnouncements`:
+
+- `www-bbc-co-uk-news`
+- `www-google-com-accessibility`
+- `www-gov-uk-apply-blue-badge`
+- `www-gov-uk`
+- `www-microsoft-com-en-us-accessibility`
+- `www-nhs-uk-conditions`
+- `www-nhs-uk`
+- `www-sky-com`
+- `www-sky-com-broadband-gaming`
+- `www-sky-com-deals`
+- `www-sky-com-smart-home`
+- `www-sky-com-tv-stream`
+- `www-sky-com-watch-what-to-watch-this-week`
+- `www-wikipedia-org`
+
+## Active Partial Fixtures
+
+These fixtures protect reliable slices while leaving unresolved regions out of exact gating:
+
+- `web-dev`: header through appearance/language shadow controls.
+- `www-apple-com-accessibility`: global/local navigation and the reviewed gallery slices.
+- `www-bbc-co-uk-weather`: BBC-wide header through location search button.
+
+## Candidate / Needs Refinement
+
+These fixtures are useful evidence but are not exact corpus gates yet:
+
+- `business-sky-com-s`
+- `developer-mozilla-org-en-us`
+- `developer-mozilla-org-en-us-docs-web-html`
+- `www-sky-com-broadband`
+- `www-sky-com-glass-43-inch`
+- `www-sky-com-glass-air`
+- `www-sky-com-glass`
+- `www-sky-com-protect`
+- `www-sky-com-shop-mobile`
+- `www-sky-com-tv`
+- `www-sky-com-tvandbroadband`
+- `www-sky-com-watch`
+- `www-w3-org-wai`
+- `www-w3-org-wai-standards-guidelines-wcag`
+
+The Sky candidates listed here have completed Phase B evidence review; remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating. See `docs/status/sky-refinement-status.md`.
+

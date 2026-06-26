@@ -68,6 +68,7 @@ export interface ElementDescriptor {
   splitDescribedAutocomplete?: boolean;
   searchInputGroup?: boolean;
   splitLabelStop?: boolean;
+  footerCountrySelector?: boolean;
 }
 
 /** Types of screen reader events. */
