@@ -16,6 +16,19 @@ Use `.codex/agents/engine-refiner.toml`.
 
 ## Engine-Confidence Checklist
 
+Phase D is expected to produce at least one focused reusable patch when Phase C
+has identified a replayable engine/scanner gap. Leaving Phase D with no engine
+change is acceptable only when the receipt includes:
+
+- the narrow gap selected for implementation
+- the exact generic predicate or wording rule attempted
+- the target compare delta
+- the corpus regression, if any
+- the narrower follow-up that was attempted before abandoning the patch
+
+Do not reject all engine work because the full target remains far from exact.
+Make progress on one mismatch family at a time.
+
 For structural/decomposition gaps, attempt a focused reusable fix before
 declaring the gap too broad when the Phase B/C evidence shows:
 
@@ -27,6 +40,9 @@ declaring the gap too broad when the Phase B/C evidence shows:
 
 Common reusable patterns to check:
 
+- declarative shadow DOM or serialized shadow-root content where semantic tags
+  such as `h1`-`h6`, `button`, `a`, `ul`/`li`, `input`, or ARIA roles are
+  present in saved fixture HTML but the engine drops their role/level/state
 - focusable `li` or `role=listitem` cards with a whole-card AX/computed name
 - focusable grouped controls whose parent receives focus while child text/link/image nodes supply the name
 - scanner-stop mistakes where the focused object should be announced as one unit instead of descending into descendants
@@ -38,6 +54,12 @@ Common reusable patterns to check:
 If a prototype is too broad, reduce it to the evidence-backed focused-node
 shape and rerun target and corpus checks before abandoning the engine path.
 Record both rejected broad prototypes and any narrower kept fixes.
+
+When a broad prototype regresses corpus fixtures, first try reducing it to the
+smallest generic condition that explains the target mismatch. For example,
+prefer "preserve heading level for semantic heading elements discovered in
+declarative shadow-root fixture HTML" over a broad "use all declarative
+shadow-root text as accessible names" rule.
 
 Scan artifacts are sufficient when they contain the relevant rendered HTML,
 AX roles/names, and control relationships. Do not require a live DevTools

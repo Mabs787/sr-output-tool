@@ -15,7 +15,7 @@ Use `.codex/agents/evidence-refiner.toml`.
 - current `refinedAnnouncements`
 - rendered HTML
 - AX tree
-- step snapshots around disputed steps
+- step snapshots around disputed steps, including `htmlAfterStep` when present
 - VoiceOver source/caption evidence
 - current engine comparison
 
@@ -25,21 +25,22 @@ For each suspicious announcement:
 
 1. Treat the current refined line as a hypothesis, not truth.
 2. Compare raw VoiceOver, rendered HTML, AX nodes, step snapshots, and source/caption evidence for that step or nearby content.
-3. For any text split/join mismatch, check whether the split aligns with DOM text boundaries before calling it OCR/caption noise:
+3. For any VoiceOver line that is present in `htmlAfterStep` but absent from the initial `rendered-html.html`, classify the line as conditional scan state unless the initial fixture HTML also contains the same semantic content. Remove or normalize hover-only, focus-only, carousel-advanced, timer-mutated, or otherwise step-time-only content from `refinedAnnouncements` because the engine fixture replays the initial DOM.
+4. For any text split/join mismatch, check whether the split aligns with DOM text boundaries before calling it OCR/caption noise:
    - inline emphasis boundaries: `strong`, `b`, `em`, `i`
    - explicit line or block boundaries: `br`, `p`, `div`, `span`, list marker text, or markdown-rendered fragments
    - hidden/offscreen or visually-hidden text near the disputed words
    - text-node boundaries inside the focused element's direct/relevant `outerHTML`
-4. For structural mismatches where VoiceOver announces one object but the engine decomposes children, build a focused-node contract before deciding:
+5. For structural mismatches where VoiceOver announces one object but the engine decomposes children, build a focused-node contract before deciding:
    - focused/active DOM node tag, `data-sr-dom-node-id`, `tabindex`, role, ARIA attributes, and direct/relevant `outerHTML`
    - child shape: headings, paragraphs, links, images, buttons, lists, inline emphasis, explicit line breaks, and visible text blocks
    - AX or step-snapshot role, name, focusable/focused state, level, and position/set metadata when available
    - whether the focused node's computed/AX name equals the whole announced card/group text, or only a child fragment
-5. Decide whether the raw VoiceOver output is plausible and evidence-backed.
-6. Preserve surprising output when evidence supports it.
-7. Repair `refinedAnnouncements` when the draft refined output is contradicted by stronger site evidence, or when the evidence proves capture noise.
-8. Before leaving any line uncertain, test the likely explanations against the evidence: hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, and scanner traversal.
-9. Record every approval, edit, or uncertainty with the evidence used.
+6. Decide whether the raw VoiceOver output is plausible and evidence-backed.
+7. Preserve surprising output when evidence supports it and it is replayable from the initial fixture DOM.
+8. Repair `refinedAnnouncements` when the draft refined output is contradicted by stronger site evidence, or when the evidence proves capture noise or conditional step-only state.
+9. Before leaving any line uncertain, test the likely explanations against the evidence: hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, scanner traversal, and `htmlAfterStep` versus initial DOM divergence.
+10. Record every approval, edit, or uncertainty with the evidence used.
 
 ## Evidence Packet
 
@@ -51,6 +52,7 @@ Every disputed line must have a receipt entry with:
 - HTML lookup summary
 - AX lookup summary
 - step snapshot or VoiceOver source/caption summary
+- `htmlAfterStep` versus initial `rendered-html.html` comparison for content that may be hover/focus/dynamic-step-only state
 - text-boundary lookup for text split/join disputes: the relevant `outerHTML`, inline children, text-node/`br`/block boundaries, and whether the expected split follows those boundaries
 - focused-node contract for structural/decomposition disputes, including focusability and computed/AX name evidence when available
 - decision: `approved`, `edited`, or `uncertain`

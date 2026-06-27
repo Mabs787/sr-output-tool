@@ -61,6 +61,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "link",
     "button",
     "heading",
+    "checkbox",
+    "radio",
     "listitem",
     "image",
     "group",
@@ -136,6 +138,54 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}£$€]/u.test(rightChar);
   }
 
+  const shadowContentHostByNode = new WeakMap<any, any>();
+
+  function rememberShadowContentHost(nodes: any[], host: any): void {
+    const visit = (node: any) => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+      shadowContentHostByNode.set(node, host);
+      for (const child of Array.from(node.children || [])) visit(child);
+    };
+    for (const node of nodes) visit(node);
+  }
+
+  function shadowContentChildren(el: any): any[] {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return [];
+    if (el.shadowRoot) {
+      const children = Array.from(el.shadowRoot.children);
+      rememberShadowContentHost(children, el);
+      return children;
+    }
+    const template = Array.from(el.children || []).find(
+      (child: any) =>
+        child.tagName?.toLowerCase() === "template" &&
+        child.getAttribute("shadowrootmode"),
+    );
+    if (!template) return [];
+    const children = Array.from(template.content?.children || []);
+    rememberShadowContentHost(children, el);
+    return children;
+  }
+
+  function assignedSlotChildren(slot: any): any[] {
+    if (slot?.tagName?.toLowerCase() !== "slot") return [];
+    const assignedElements =
+      typeof slot.assignedElements === "function"
+        ? slot.assignedElements({ flatten: true })
+        : [];
+    if (assignedElements.length) return assignedElements;
+
+    const host = shadowContentHostByNode.get(slot);
+    if (!host) return [];
+    const slotName = slot.getAttribute("name") || "";
+    return Array.from(host.children || []).filter((child: any) => {
+      if (child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")) {
+        return false;
+      }
+      return (child.getAttribute("slot") || "") === slotName;
+    });
+  }
+
   function readableText(el: any): string | undefined {
     function collect(node: any): string {
       if (!node) return "";
@@ -145,6 +195,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
       let text = "";
       for (const child of Array.from(node.childNodes)) {
+        const part = collect(child);
+        if (!part) continue;
+        if (text && needsBoundary(text, part)) text += " ";
+        text += part;
+      }
+      for (const child of shadowContentChildren(node)) {
         const part = collect(child);
         if (!part) continue;
         if (text && needsBoundary(text, part)) text += " ";
@@ -861,7 +917,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       });
     }
 
-    return Array.from(list.children).filter((child: any) => isListItem(child));
+    return walkChildren(list).filter((child: any) => isListItem(child));
   }
 
   function announcedListChildren(list: any): any[] {
@@ -882,6 +938,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (el.getAttribute("aria-multiselectable") === "true") return undefined;
     const selected = selectedListboxOptions(el);
     return selected.length === 1 ? selected[0] : undefined;
+  }
+
+  function radioGroupOptions(el: any): any[] {
+    if (implicitRole(el) !== "radio") return [];
+    const tag = el.tagName?.toLowerCase();
+    const name = normalize(el.getAttribute("name"));
+    if (tag === "input" && name) {
+      for (let current = el.parentElement; current; current = current.parentElement) {
+        const localRadios = Array.from(
+          current.querySelectorAll(`input[type='radio'][name='${cssEscape(name)}']`),
+        ).filter((radio: any) => !isHidden(radio));
+        if (localRadios.length > 1) return localRadios;
+      }
+      const root = el.closest("form") || document;
+      return Array.from(
+        root.querySelectorAll(`input[type='radio'][name='${cssEscape(name)}']`),
+      ).filter((radio: any) => !isHidden(radio));
+    }
+    const container = el.closest("[role='radiogroup']");
+    if (!container) return [];
+    return Array.from(container.querySelectorAll("[role='radio']")).filter(
+      (radio: any) => !isHidden(radio),
+    );
   }
 
   function semanticListContext(el: any) {
@@ -962,6 +1041,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         el.closest("[role='tablist']")?.querySelectorAll("[role='tab']") || [],
       ).filter((tab: any) => !isHidden(tab));
       const index = tabs.indexOf(el);
+      return index >= 0 ? index + 1 : undefined;
+    }
+
+    if (role === "radio") {
+      const radios = radioGroupOptions(el);
+      const index = radios.indexOf(el);
       return index >= 0 ? index + 1 : undefined;
     }
 
@@ -1052,6 +1137,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ).filter((tab: any) => !isHidden(tab)).length || undefined
       );
     }
+    if (role === "radio") return radioGroupOptions(el).length || undefined;
     if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
       if (!shouldPositionStructuredListImage(el)) return undefined;
       const { siblings } = semanticListContext(el);
@@ -1521,6 +1607,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (node.matches("[aria-hidden='true']")) return;
 
       for (const child of Array.from(node.childNodes)) collect(child);
+      for (const child of shadowContentChildren(node)) collect(child);
     }
 
     collect(el);
@@ -2047,7 +2134,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         : null;
     const stateEl = control || el;
     const name = accessibleName(el, role);
-    const text = readableText(el);
+    const rawText = readableText(el);
+    const text =
+      role === "group" && isCustomElement(el) && hasShadowRootContent(el)
+        ? undefined
+        : rawText;
     const position = positionInSet(el, role);
     const size = setSize(el, role);
     const rect = el.getBoundingClientRect();
@@ -2065,7 +2156,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !normalizedPopup(el) &&
       !isSlideshowNavigationButton(el) &&
       (isIconFirstTextButton(el) ||
-        (el.hasAttribute("aria-label") && !readableText(el)));
+        (el.hasAttribute("aria-label") && !rawText));
     const value =
       tag === "select"
         ? nativeSelectValue(stateEl)
@@ -2173,7 +2264,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       iconOnlyLink: role === "link" && isIconOnlyLink(el) || undefined,
       compositeText:
         role === "button" &&
-        Boolean(nestedImageLabel(el) && readableText(el)) ||
+          Boolean(nestedImageLabel(el) && rawText) ||
         undefined,
       groupContext:
         Boolean(headingButton) ||
@@ -2450,13 +2541,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function walkChildren(el: any): any[] {
-    if (el.shadowRoot) return Array.from(el.shadowRoot.children);
-    const template = Array.from(el.children).find(
-      (child: any) =>
-        child.tagName?.toLowerCase() === "template" &&
-        child.getAttribute("shadowrootmode"),
-    );
-    if (template) return Array.from(template.content?.children || []);
+    const assignedChildren = assignedSlotChildren(el);
+    if (assignedChildren.length) return assignedChildren;
+    const shadowChildren = shadowContentChildren(el);
+    if (shadowChildren.length) return shadowChildren;
     return Array.from(el.children);
   }
 

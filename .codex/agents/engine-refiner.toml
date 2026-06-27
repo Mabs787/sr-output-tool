@@ -8,6 +8,7 @@ Run Phase D only.
 
 Responsibilities:
 - Modify reusable engine/scanner logic when trusted refinedAnnouncements expose a real engine gap.
+- When Phase C identifies a replayable reusable-engine-gap, make a focused patch for at least one mismatch family unless concrete evidence proves every attempted narrow rule is unsafe.
 - Change src/dom.ts for traversal, role, label, grouping, state, or order behavior.
 - Change src/announcements.ts when descriptor data is right but VoiceOver wording/order is wrong.
 - Split mixed mismatch families into independent sub-gaps. If one sub-gap has a narrow reusable fix, implement and verify that fix even when other sub-gaps remain candidate.
@@ -15,6 +16,7 @@ Responsibilities:
 - For structural/decomposition gaps, inspect the focused-node contract before giving up on Phase D. If the focused node is focusable and AX/computed evidence names the whole card/group, first try a narrow scanner-stop/grouping predicate based on generic semantics, not site copy or classes.
 - For text split/join gaps, inspect the Phase B text-boundary lookup before giving up on Phase D. If the expected split follows generic DOM boundaries such as inline emphasis, `br`, markdown/block wrappers, list markers, hidden text, or text nodes, first try a narrow reusable segmentation rule.
 - For native table context gaps, inspect rendered HTML and AX together before giving up on Phase D. If VoiceOver appears to synthesize context from generic table structure, such as direct grouped `thead` controller buttons paired with controlled `tbody` regions, first try a narrow reusable table-context rule even when the phrase is not present in one AX name.
+- For serialized/declarative shadow DOM gaps, preserve generic semantics that are present in saved fixture HTML. If a saved semantic element is an `h1`-`h6`, `button`, `a`, `ul`/`li`, form control, or has a generic ARIA role, first try a narrow rule that preserves that role/level/state before treating the mismatch as dynamic.
 - Add focused unit coverage for reusable behavior when practical.
 - Run required build, compare, unit, corpus, and extension-runtime checks.
 - Generate 05-engine-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
@@ -23,6 +25,7 @@ Rules:
 - Do not add site-specific engine logic.
 - Do not keep broad prototypes that regress corpus fixtures; reduce them to the focused-node shape when evidence supports a narrower reusable rule, then rerun target and corpus checks.
 - Do not decline Phase D only because a target has multiple mismatch families; record unresolved families separately after applying safe reusable fixes.
+- Do not abandon all engine changes after a broad prototype regresses. Reduce the predicate to the smallest evidence-backed generic shape and rerun checks before returning without a patch.
 - Do not require live DevTools evidence when saved scan artifacts already include the relevant rendered HTML, AX role/name, and control relationships.
 - Do not modify refinedAnnouncements unless a new evidence issue is discovered; if that happens, stop and return the target to evidence-refiner.
 - Do not promote fixtures.

@@ -83,6 +83,33 @@ test("scanSubtree skips paragraph wrappers that only contain interactive content
   );
 });
 
+test("scanSubtree preserves semantic parents whose text is inside declarative shadow DOM", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h3>
+          <x-rich-text>
+            <template shadowrootmode="open">
+              <span>Why Sky Business broadband?</span>
+            </template>
+          </x-rich-text>
+        </h3>
+        <button>
+          <x-rich-text>
+            <template shadowrootmode="open">
+              <span>Discover Full Fibre</span>
+            </template>
+          </x-rich-text>
+        </button>
+      </section>
+    `),
+    [
+      "heading level 3, Why Sky Business broadband?",
+      "Discover Full Fibre, button",
+    ],
+  );
+});
+
 test("scanSubtree falls back to link URL slugs when links have no readable label", () => {
   assert.deepEqual(
     scanHtml(`
@@ -516,6 +543,41 @@ test("scanSubtree traverses declarative shadow root controls", () => {
   );
 });
 
+test("scanSubtree composes declarative shadow slots with host light DOM children", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-carousel>
+        <template shadowrootmode="open">
+          <ul>
+            <slot></slot>
+          </ul>
+        </template>
+        <x-slide>
+          <template shadowrootmode="open">
+            <li><h1>First offer</h1><a href="/first">See first</a></li>
+          </template>
+        </x-slide>
+        <x-slide>
+          <template shadowrootmode="open">
+            <li><h1>Second offer</h1><a href="/second">See second</a></li>
+          </template>
+        </x-slide>
+      </x-carousel>
+    `),
+    [
+      "group",
+      "list",
+      "group",
+      "heading level 1, First offer",
+      "link, See first",
+      "group",
+      "heading level 1, Second offer",
+      "link, See second",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree treats labelled custom element shadow controls as a group", () => {
   assert.deepEqual(
     scanHtml(`
@@ -577,6 +639,20 @@ test("scanSubtree ignores false current state and keeps choice buttons ungrouped
       "current page, link, Current, 2 of 2",
       "end of list",
       "end of, Breadcrumbs, navigation",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <fieldset>
+        <legend>Speed</legend>
+        <input type="radio" name="speed" id="speed-76" checked><label for="speed-76">76 Mb/s</label>
+        <input type="radio" name="speed" id="speed-150"><label for="speed-150">150 Mb/s</label>
+      </fieldset>
+    `),
+    [
+      "76 Mb/s, radio button, selected, 1 of 2",
+      "150 Mb/s, radio button, not selected, 2 of 2",
     ],
   );
 

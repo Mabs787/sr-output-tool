@@ -13,7 +13,11 @@ Read:
 - target-specific status docs in `docs/status/`
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
 
-Use the orchestrator agent. For each target, run every required phase:
+Use the orchestrator agent to coordinate, but the top-level Codex session must
+verify that the phase agents are actually spawned. A single orchestrator doing
+all work itself is a multi-phase run, not a multi-agent run.
+
+For each target, run every required phase:
 
 - Phase A only when fixture evidence has not been imported.
 - Phase B for every candidate before judging. Treat the current refined output

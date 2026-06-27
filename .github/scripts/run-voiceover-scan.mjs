@@ -10,6 +10,7 @@ import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { JSDOM } from "jsdom";
 
 const repoRoot = process.cwd();
@@ -381,6 +382,10 @@ function appleString(value) {
 
 function writeJson(filePath, value) {
   writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function sha256(value) {
+  return createHash("sha256").update(String(value || "")).digest("hex");
 }
 
 function writeText(filePath, value) {
@@ -2927,6 +2932,18 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     };
   }
 
+  const htmlAfterStepCapture = await captureRenderedSourceHtml(target);
+  const htmlAfterStep = htmlAfterStepCapture.ok
+    ? reduceHtmlForRefinement(htmlAfterStepCapture.stdout || "", target)
+    : {
+        html: "",
+        stats: {
+          originalLength: 0,
+          reducedLength: 0,
+          reductionPercent: 0,
+        },
+      };
+
   const axCapture = await sendChromeDevToolsCommand(
     "Accessibility.getFullAXTree",
     {},
@@ -2988,6 +3005,20 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
       error: pageStateCapture.error,
     },
     pageState,
+    htmlAfterStepCapture: {
+      ok: htmlAfterStepCapture.ok,
+      status: htmlAfterStepCapture.status,
+      signal: htmlAfterStepCapture.signal,
+      stderr: htmlAfterStepCapture.stderr,
+      error: htmlAfterStepCapture.error,
+      source: htmlAfterStepCapture.source || "",
+    },
+    htmlAfterStep: {
+      source: "chrome-rendered-dom-after-voiceover-step",
+      html: htmlAfterStep.html,
+      sha256: sha256(htmlAfterStep.html),
+      stats: htmlAfterStep.stats,
+    },
     accessibility,
   };
 }

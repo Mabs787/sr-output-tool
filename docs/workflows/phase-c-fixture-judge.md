@@ -22,6 +22,12 @@ Classify each mismatch as one of:
 - scanner evidence gap
 - ambiguous
 
+Classification is evidence-weighted, not evenly balanced. After known
+unreplayable state has been removed from the fixture, a remaining mismatch
+between trusted VoiceOver output and deterministic engine replay should default
+to `reusable engine gap` unless the judge can point to concrete fixture noise,
+missing evidence, or saved/live state divergence for that exact window.
+
 `ambiguous` is not a shortcut classification. Use it only after checking the
 plausible causes against the evidence and recording what is still missing.
 
@@ -64,6 +70,34 @@ If the lookup is missing, send the target back to Phase B or record a
 When a target has multiple mismatch families, split them. Send any trusted,
 narrow reusable family to Phase D even if other families remain dynamic,
 scanner-evidence, or ambiguous.
+
+## Replayable-State Gate
+
+Before marking a window as `dynamic state mismatch`, check whether the expected
+VoiceOver line is supported by the saved fixture HTML/AX/snapshots after the
+fixture has excluded known unreplayable state such as hover-only menus,
+countdown text, or live personalization. If saved evidence still contains the
+semantic object that VoiceOver announced, the mismatch is not dynamic-state
+noise; it is a reusable engine/scanner gap.
+
+The engine comparison is against the initial `rendered-html.html` fixture. If a
+line is supported only by a step snapshot's `htmlAfterStep` and the semantic
+content is absent from initial `rendered-html.html`, classify it as fixture
+still noisy or conditional scan state and return it to Phase B for removal or
+normalization. Do not send step-only hover/focus/carousel/timer mutations to
+Phase D as engine gaps.
+
+Examples:
+
+- saved HTML contains `<h3>` or `<h4>` but the engine emits plain text:
+  `reusable engine gap`
+- saved HTML contains a focusable/button-like card with visible descendant text
+  and VoiceOver speaks one grouped button: `reusable engine gap`
+- expected line is a countdown value that changes independently of structure:
+  `fixture still noisy` or normalized/ignored volatility
+- expected line exists only because a hover menu was open during capture while
+  saved HTML has the menu hidden: remove it from fixture or classify the window
+  as unreplayable page state, not an engine gap
 
 ## Structural-Inference Gate
 

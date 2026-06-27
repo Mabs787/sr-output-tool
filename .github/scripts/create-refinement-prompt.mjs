@@ -246,6 +246,14 @@ function summarizeStepSnapshots(stepSnapshots) {
             rect: ancestor.rect,
           })),
         })) || [],
+      htmlAfterStep: snapshot.htmlAfterStep
+        ? {
+            source: snapshot.htmlAfterStep.source || "",
+            sha256: snapshot.htmlAfterStep.sha256 || "",
+            stats: snapshot.htmlAfterStep.stats || {},
+            htmlExcerpt: String(snapshot.htmlAfterStep.html || "").slice(0, 12000),
+          }
+        : null,
       matchedAccessibilityNodes:
         snapshot.accessibility?.matchedNodes?.slice(0, 8).map((node) => ({
           score: node.score,
@@ -305,7 +313,8 @@ If \`Eligible\` is false, stop and do not change code.
 - Preserve raw \`expectedAnnouncements\`; put corrected output in \`refinedAnnouncements\`.
 - Keep raw VoiceOver wording unless there is clear capture corruption such as OCR text drift, truncation, system noise, duplicated captions, or a scan boundary artifact.
 - Use \`voCursorText\`, focused AX role/name, matched AX node, step snapshot DOM, and rendered HTML to explain or repair capture noise, not to replace valid VoiceOver output with what the engine currently expects.
-- Prefer step-snapshot evidence over final rendered HTML when the page state differs at the moment VoiceOver announced an element.
+- Prefer step-snapshot evidence over final rendered HTML when diagnosing what VoiceOver announced at that step.
+- The engine fixture replays the initial rendered DOM in \`rendered-html.html\`. If \`htmlAfterStep\` shows content appeared only after VoiceOver navigation, hover, focus, carousel advancement, or another step-time mutation, refine that content out of \`refinedAnnouncements\` unless the initial DOM fixture also contains the same semantic content.
 - If VoiceOver announces surprising but page-backed text, keep it and treat it as engine/page evidence. For example, an announcement like \`link, undefined page link\` should be preserved when live ARIA evidence shows \`aria-label="undefined page link"\`.
 - If a correction is not backed by clear capture-noise evidence, mark it as an engine gap or page-authored output instead of changing the fixture.
 - After fixture refinement, compare the current engine output with \`refinedAnnouncements\`.
@@ -315,8 +324,8 @@ If \`Eligible\` is false, stop and do not change code.
 - Do not update unrelated tests.
 - Do not edit generated artifacts.
 - Reason from VoiceOver output, rendered HTML, the Chrome accessibility tree, and step snapshots when present.
-- Treat \`rendered-html.html\` as the stable HTML fixture context, but not as proof that every VoiceOver-announced item was absent during the scan.
-- When VoiceOver output conflicts with rendered HTML, inspect the step snapshots. If a snapshot shows the announcement matched live Chrome AX/page state at that step, prefer the VoiceOver plus step-snapshot evidence over final rendered HTML.
+- Treat \`rendered-html.html\` as the stable initial HTML fixture context that the engine must match.
+- When VoiceOver output conflicts with rendered HTML, inspect the step snapshots. If \`htmlAfterStep\` shows the announcement matched live Chrome DOM/AX only after a step-time page mutation, classify it as conditional scan state and remove or normalize it from \`refinedAnnouncements\` for this static fixture.
 - If both rendered HTML and step snapshots lack evidence for an announcement, consider OCR/caption artifact or page drift before changing the fixture. Do not change the engine to match missing evidence until the VoiceOver capture is understood.
 - Inspect the start of each VoiceOver announcement for obvious caption/OCR artifacts before creating expected test output.
 - Classify the issue yourself as missing, extra, merged, reordered, wording-only, acceptable difference, visual-recognition-only, or engine bug.

@@ -76,7 +76,7 @@
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Refreshed from run 28301913611 and evidence-refined; keep candidate because saved HTML/state diverges from VoiceOver for open nav submenus, carousel/package/legal state, and no safe reusable engine change survived corpus checks."
+      "reason": "Refreshed from run 28301913611 and evidence-refined; hover-open nav submenu announcements were removed because the fixture replays the initial non-hover DOM state. Keep candidate because saved HTML/state still diverges from VoiceOver for carousel/package/legal state, timer/list-position volatility, and no safe reusable engine change has been kept."
     },
     "www-sky-com-broadband-gaming": {
       "status": "refined",

@@ -25,6 +25,11 @@ Project-scoped subagents live in `.codex/agents/`.
 
 Keep model choices in `.codex/agents/*.toml`. Keep behavior and handoffs in these workflow docs.
 
+The top-level Codex agent must actually spawn the phase agents when the user
+asks for the multi-agent workflow. Do not treat one orchestrator doing all
+phases as a multi-agent run. A valid multi-agent run has separate phase-agent
+handoffs or a receipt note explaining why a phase was intentionally skipped.
+
 ## Non-Negotiable Rules
 
 - VoiceOver output is the primary evidence. The current engine is not a source of truth.
@@ -43,7 +48,17 @@ Keep model choices in `.codex/agents/*.toml`. Keep behavior and handoffs in thes
   inline emphasis, `br`, block/span/markdown fragments, list markers, hidden
   text, and text-node boundaries.
 - Use rendered HTML, AX tree, step snapshots, and VoiceOver source evidence to repair clear scan/caption/OCR/truncation noise.
+- Treat `rendered-html.html` as the initial DOM fixture that the engine replays.
+  Use per-step `htmlAfterStep` snapshots to identify content that appeared only
+  because VoiceOver navigation triggered hover, focus, carousel, timer, or
+  other step-time state. Such content should be removed or normalized from
+  `refinedAnnouncements` for the static fixture unless the same semantic
+  content is also present in the initial DOM.
 - If refined output is trusted and the engine differs, change reusable engine logic unless there is a documented blocker.
+- Once unreplayable page state is removed or normalized from the fixture,
+  remaining mismatches are presumed engine/scanner gaps until Phase C/D prove
+  otherwise with evidence. Do not hide replayable gaps under a broad
+  "dynamic-state" label.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
 

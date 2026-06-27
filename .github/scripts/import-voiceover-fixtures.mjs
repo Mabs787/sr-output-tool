@@ -158,6 +158,22 @@ function reduceStepSnapshots(stepSnapshots) {
               .filter(Boolean),
           }
         : undefined,
+      htmlAfterStepCapture: snapshot.htmlAfterStepCapture
+        ? {
+            ok: Boolean(snapshot.htmlAfterStepCapture.ok),
+            status: snapshot.htmlAfterStepCapture.status ?? null,
+            error: snapshot.htmlAfterStepCapture.error || "",
+            source: snapshot.htmlAfterStepCapture.source || "",
+          }
+        : undefined,
+      htmlAfterStep: snapshot.htmlAfterStep
+        ? {
+            source: snapshot.htmlAfterStep.source || "",
+            sha256: snapshot.htmlAfterStep.sha256 || "",
+            stats: snapshot.htmlAfterStep.stats || {},
+            html: truncate(snapshot.htmlAfterStep.html || "", 12000),
+          }
+        : undefined,
       accessibility: snapshot.accessibility
         ? {
             ok: Boolean(snapshot.accessibility.ok),
