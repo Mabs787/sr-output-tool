@@ -35,11 +35,6 @@ on:
         options:
           - voiceover-right-arrow
           - plain-right-arrow
-      scan_timeout_minutes:
-        description: "Maximum minutes for each page scan job"
-        required: false
-        default: "120"
-        type: string
       viewport_width:
         description: "Chrome viewport/window width for each scan"
         required: false
@@ -93,7 +88,6 @@ jobs:
     needs:
       - prepare
     runs-on: macos-26
-    timeout-minutes: ${{ fromJSON(inputs.scan_timeout_minutes) }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
