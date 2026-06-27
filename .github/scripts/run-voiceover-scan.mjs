@@ -2138,110 +2138,44 @@ async function suppressPointerHoverDuringScan(target) {
   const script = `
 JSON.stringify((() => {
   const styleId = "sr-voiceover-pointer-hover-suppression";
-  const suppressedEvents = ["mousemove", "mouseover", "mouseenter"];
-  const documentStyleText = [
+  let style = document.getElementById(styleId);
+  if (!style) {
+    style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = [
       "html[data-sr-voiceover-suppress-hover] body,",
       "html[data-sr-voiceover-suppress-hover] body * {",
       "  pointer-events: none !important;",
       "  cursor: default !important;",
       "}"
     ].join("\\n");
-  const shadowStyleText = [
-      ":host,",
-      ":host *,",
-      "* {",
-      "  pointer-events: none !important;",
-      "  cursor: default !important;",
-      "}"
-    ].join("\\n");
-  const handler = (event) => {
-    if (!document.documentElement.hasAttribute("data-sr-voiceover-suppress-hover")) {
-      return;
-    }
-    event.stopImmediatePropagation();
-  };
-
-  function ensureStyle(root, text) {
-    const existing = root.getElementById
-      ? root.getElementById(styleId)
-      : root.querySelector?.("#" + styleId);
-    if (existing) {
-      existing.textContent = text;
-      return false;
-    }
-
-    const style = document.createElement("style");
-    style.id = styleId;
-    style.textContent = text;
-    root.appendChild(style);
-    return true;
+    document.head.appendChild(style);
   }
 
-  function installEventSuppression(root) {
-    if (root.__srVoiceOverPointerHoverSuppressionInstalled) {
-      return false;
-    }
-    for (const eventType of suppressedEvents) {
-      root.addEventListener(eventType, handler, true);
-    }
-    root.__srVoiceOverPointerHoverSuppressionInstalled = {
-      installedAt: new Date().toISOString(),
-      suppressedEvents
-    };
-    return true;
-  }
-
-  function installInShadowRoot(root) {
-    ensureStyle(root, shadowStyleText);
-    installEventSuppression(root);
-  }
-
-  function walkShadowRoots(root = document.documentElement, seen = new Set()) {
-    if (!root || seen.has(root)) {
-      return [];
-    }
-    seen.add(root);
-    const shadowRoots = [];
-    const elements = root.querySelectorAll ? root.querySelectorAll("*") : [];
-    for (const element of elements) {
-      if (element.shadowRoot) {
-        shadowRoots.push(element.shadowRoot);
-        shadowRoots.push(...walkShadowRoots(element.shadowRoot, seen));
-      }
-    }
-    return shadowRoots;
-  }
-
-  ensureStyle(document.head || document.documentElement, documentStyleText);
   document.documentElement.setAttribute("data-sr-voiceover-suppress-hover", "true");
 
   if (!window.__srVoiceOverPointerHoverSuppressionInstalled) {
-    installEventSuppression(document);
-    for (const eventType of suppressedEvents) window.addEventListener(eventType, handler, true);
-
-    const originalAttachShadow = Element.prototype.attachShadow;
-    Element.prototype.attachShadow = function patchedAttachShadow(init) {
-      const root = originalAttachShadow.call(this, init);
-      if (root.mode === "open") {
-        installInShadowRoot(root);
+    const suppressedEvents = ["mousemove", "mouseover", "mouseenter"];
+    const handler = (event) => {
+      if (!document.documentElement.hasAttribute("data-sr-voiceover-suppress-hover")) {
+        return;
       }
-      return root;
+      event.stopImmediatePropagation();
     };
-
+    for (const eventType of suppressedEvents) {
+      document.addEventListener(eventType, handler, true);
+      window.addEventListener(eventType, handler, true);
+    }
     window.__srVoiceOverPointerHoverSuppressionInstalled = {
       installedAt: new Date().toISOString(),
       suppressedEvents
     };
   }
 
-  const shadowRoots = walkShadowRoots();
-  shadowRoots.forEach(installInShadowRoot);
-
   return {
     action: "installed",
     styleId,
     active: document.documentElement.hasAttribute("data-sr-voiceover-suppress-hover"),
-    shadowRootCount: shadowRoots.length,
     suppressedEvents:
       window.__srVoiceOverPointerHoverSuppressionInstalled?.suppressedEvents || []
   };
