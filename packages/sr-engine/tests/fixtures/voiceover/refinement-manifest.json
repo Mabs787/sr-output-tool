@@ -120,7 +120,7 @@
     },
     "www-sky-com-tv": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for price spacing, £300 currency, Image gallery OCR, and Wifi FAQ spelling. Remaining page-backed gaps include skip-link/order differences, package-card list marker segmentation, native controls, and repeated button/group card differences, so this remains candidate evidence rather than an exact gate."
+      "reason": "Fresh Phase B review on 2026-06-27 treated refinedAnnouncements as an untrusted draft and applied seven evidence-backed repairs for the missing skip-search item, truncated list counts, truncated legal/disclaimer text, Sky Products typography, and FAQ button/group state. Phase C found 9 trusted reusable engine gaps. A broad Phase D prototype made this target exact but regressed already-refined corpus fixtures, so it was removed; a narrower focusable structured carousel/list-card li group fix was kept and reduced the target to 7 mismatch windows. Remaining gaps keep this as candidate evidence."
     },
     "www-sky-com-tvandbroadband": {
       "status": "candidate",

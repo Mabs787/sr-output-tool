@@ -19,8 +19,7 @@
     "voiceover:create-url-manifest": "node .github/scripts/create-voiceover-url-manifest.mjs",
     "voiceover:create-refinement-prompt": "node .github/scripts/create-refinement-prompt.mjs",
     "voiceover:import-fixtures": "node .github/scripts/import-voiceover-fixtures.mjs",
-    "voiceover:refine-artifact": "node .github/scripts/refine-voiceover-artifact.mjs",
-    "orchestrate": "node packages/sr-orchestrator/dist/cli.js"
+    "voiceover:refine-artifact": "node .github/scripts/refine-voiceover-artifact.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.5",

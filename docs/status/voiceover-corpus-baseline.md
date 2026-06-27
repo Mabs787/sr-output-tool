@@ -57,3 +57,4 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 
 The Sky candidates listed here have completed Phase B evidence review; remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating. See `docs/status/sky-refinement-status.md`.
 
+`www-sky-com-tv` was freshly reviewed through Phase B/C/D/E on 2026-06-27. Seven refinedAnnouncements repairs were applied, leaving 9 trusted reusable engine gaps. A broad Phase D prototype made the target exact but regressed already-refined corpus fixtures, so it was removed. A narrower follow-up engine fix for focusable structured carousel/list-card `li` groups was kept, reducing the target to 7 remaining mismatch windows; the target remains candidate.

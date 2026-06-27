@@ -420,6 +420,7 @@
           }
           case "text": {
             pushIfPresent(parts, label);
+            pushCollectionPosition(parts, el);
             pushSupplementalText(parts, el);
             break;
           }
@@ -560,7 +561,11 @@
           case "group": {
             pushIfPresent(parts, label);
             parts.push("group");
-            pushCollectionPosition(parts, el);
+            if (el.groupedCollectionPosition && el.positionInSet && el.setSize) {
+              parts.push(`(${el.positionInSet} of ${el.setSize})`);
+            } else {
+              pushCollectionPosition(parts, el);
+            }
             break;
           }
           case "menuitem":
@@ -772,7 +777,7 @@
             return false;
           if (/[.,;:!?)]/.test(rightChar) || /[(]/.test(leftChar))
             return false;
-          return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}]/u.test(rightChar);
+          return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}£$€]/u.test(rightChar);
         }
         function readableText(el) {
           function collect(node) {
@@ -905,6 +910,26 @@
             return false;
           return !textWithoutInteractive(el);
         }
+        function isFocusableStructuredListItemGroup(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return false;
+          if (el.tagName.toLowerCase() !== "li")
+            return false;
+          if (!el.hasAttribute("tabindex"))
+            return false;
+          if (isFocusableImageListItem(el))
+            return false;
+          if (!hasStructuredListItemContent(el))
+            return false;
+          if (!readableText(el))
+            return false;
+          const hasHeadingCardContent = Boolean(el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']") && el.querySelector("p, button, [role='button'], a[href], [role='link']"));
+          const hasImageTextCardContent = Boolean(!el.querySelector(interactiveSelector) && el.querySelector("img, [role='img'], svg[aria-label]") && el.querySelectorAll("p").length > 1);
+          return hasHeadingCardContent || hasImageTextCardContent;
+        }
+        function focusableStructuredListItemName(el) {
+          return normalize(readableText(el)?.replace(/\+(?=\p{L})/gu, "+ "));
+        }
         function isCustomElement(el) {
           return Boolean(el?.tagName?.toLowerCase().includes("-"));
         }
@@ -1032,7 +1057,10 @@
             const nextButton = buttons[index + 1];
             const nextLabel = normalize(nextButton?.getAttribute("aria-label") || nextButton?.getAttribute("title") || textWithoutInteractive(nextButton) || readableText(nextButton));
             if (nextLabel === "Next slide") {
-              return true;
+              const hasFollowingFocusableListItems = Array.from(current.querySelectorAll("li[tabindex], [role='listitem'][tabindex]")).some((item) => !isHidden(item) && Boolean(nextButton.compareDocumentPosition(item) & nextButton.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING));
+              if (hasFollowingFocusableListItems) {
+                return true;
+              }
             }
           }
           return false;
@@ -1082,11 +1110,32 @@
             return false;
           if (readableText(el))
             return false;
-          for (let current = el.parentElement; current; current = current.parentElement) {
-            for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+          const rootHost = el.getRootNode?.().host;
+          if (rootHost?.tagName?.toLowerCase() === "next-route-announcer") {
+            for (let sibling = rootHost.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+              if (sibling.getAttribute("role") === "dialog")
+                return true;
               if (isHidden(sibling))
                 continue;
-              return implicitRole(sibling) === "dialog";
+              if (!sibling.getAttribute("role") && !readableText(sibling) && !hasVisibleInteractiveDescendant(sibling)) {
+                continue;
+              }
+              return false;
+            }
+          }
+          if (el.id === "__next-route-announcer__") {
+            return true;
+          }
+          for (let current = el.parentElement; current; current = current.parentElement) {
+            for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+              if (sibling.getAttribute("role") === "dialog")
+                return true;
+              if (isHidden(sibling))
+                continue;
+              if (!sibling.getAttribute("role") && !readableText(sibling) && !hasVisibleInteractiveDescendant(sibling)) {
+                continue;
+              }
+              return false;
             }
           }
           return false;
@@ -1099,6 +1148,9 @@
             return false;
           const label = labelForControl(el) || accessibleName(el, "combobox");
           if (!/^country:\s*$/i.test(label || ""))
+            return false;
+          const visibleModalDialog = el.ownerDocument.querySelector("[role='dialog'][aria-modal='true']:not([data-sr-computed-hidden])");
+          if (visibleModalDialog)
             return false;
           return Boolean(Array.from(footer.querySelectorAll("a[href], [role='link']")).some((link) => /back to top/i.test(accessibleName(link, "link") || readableText(link) || "")));
         }
@@ -1130,7 +1182,12 @@
             return normalize(el.getAttribute("title"));
           }
           if (role === "group" && !el.matches(interactiveSelector)) {
-            return isFocusableImageListItem(el) ? nestedImageLabel(el) : normalize(el.getAttribute("title"));
+            if (isFocusableImageListItem(el))
+              return nestedImageLabel(el);
+            if (isFocusableStructuredListItemGroup(el)) {
+              return focusableStructuredListItemName(el);
+            }
+            return normalize(el.getAttribute("title"));
           }
           if (tag === "img")
             return normalize(el.getAttribute("alt"));
@@ -1159,6 +1216,8 @@
           if (tag === "button")
             return "button";
           if (isFocusableImageListItem(el))
+            return "group";
+          if (isFocusableStructuredListItemGroup(el))
             return "group";
           if (tag === "select")
             return el.hasAttribute("multiple") ? "listbox" : "combobox";
@@ -1323,16 +1382,14 @@
             return index >= 0 ? index + 1 : void 0;
           }
           if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+            if (!shouldPositionStructuredListImage(el))
+              return void 0;
             const listItem = el.closest("li,[role='listitem']");
-            const firstHeading = listItem?.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']");
-            if (!firstHeading || Boolean(el.compareDocumentPosition(firstHeading) & el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)) {
-              const { siblings } = semanticListContext(el);
-              const index = siblings.indexOf(listItem);
-              return index >= 0 ? index + 1 : void 0;
-            }
-            return void 0;
+            const { siblings } = semanticListContext(el);
+            const index = siblings.indexOf(listItem);
+            return index >= 0 ? index + 1 : void 0;
           }
-          if (role === "text" && isFirstSplitTextListItemBlock(el)) {
+          if (role === "text" && isFirstSplitTextListItemBlock(el) && !el.closest("li,[role='listitem']")?.querySelector("img, [role='img'], svg[aria-label]")) {
             const { listItem, siblings } = semanticListContext(el);
             const index = siblings.indexOf(listItem);
             return index >= 0 ? index + 1 : void 0;
@@ -1375,6 +1432,12 @@
           if (role === "tab") {
             return Array.from(el.closest("[role='tablist']")?.querySelectorAll("[role='tab']") || []).filter((tab) => !isHidden(tab)).length || void 0;
           }
+          if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+            if (!shouldPositionStructuredListImage(el))
+              return void 0;
+            const { siblings } = semanticListContext(el);
+            return siblings.length || void 0;
+          }
           if (listPositionedRoles.has(role)) {
             const { siblings } = semanticListContext(el);
             return siblings.length || void 0;
@@ -1387,11 +1450,20 @@
             const { siblings } = semanticListContext(el);
             return siblings.length || void 0;
           }
-          if (role === "text" && isFirstSplitTextListItemBlock(el)) {
+          if (role === "text" && isFirstSplitTextListItemBlock(el) && !el.closest("li,[role='listitem']")?.querySelector("img, [role='img'], svg[aria-label]")) {
             const { siblings } = semanticListContext(el);
             return siblings.length || void 0;
           }
           return void 0;
+        }
+        function shouldPositionStructuredListImage(el) {
+          const listItem = el.closest("li,[role='listitem']");
+          if (!listItem || !hasStructuredListItemContent(listItem))
+            return false;
+          const images = Array.from(listItem.querySelectorAll("*")).filter((image) => !isHidden(image) && implicitRole(image) === "image");
+          if (images.indexOf(el) > 0)
+            return false;
+          return !accessibleName(el, "image") || !listItem.querySelector(interactiveSelector);
         }
         function directSemanticChildren(el) {
           return walkChildren(el).filter((child) => {
@@ -1762,7 +1834,7 @@
             description: normalize(stateEl.getAttribute("aria-description") ?? el.getAttribute("aria-description")),
             details: textFromIdRefs(stateEl.getAttribute("aria-describedby") ?? el.getAttribute("aria-describedby")),
             errorMessage: textFromIdRefs(stateEl.getAttribute("aria-errormessage") ?? el.getAttribute("aria-errormessage")),
-            roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "contentinfo" && isSimpleNativeFooter(el) ? "footer" : role === "alert" && (!readableText(el) || isEmptyAlertBeforeDialog(el)) ? "group" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
+            roleDescription: role === "list" && tag === "dl" ? "definition list" : role === "contentinfo" && isSimpleNativeFooter(el) ? "footer" : role === "alert" && isEmptyAlertBeforeDialog(el) ? "group" : role === "paragraph" && el.getAttribute("tabindex") === "-1" && hasStructuredListItemContent(el.closest("li,[role='listitem']")) ? "empty group" : normalize(el.getAttribute("aria-roledescription")),
             level: role === "heading" ? Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2 : role === "list" ? listLevel(el) : void 0,
             setSize: selectedListboxSize ?? size,
             positionInSet: selectedListboxPosition ?? position,
@@ -1791,12 +1863,12 @@
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && readableText(el)) || void 0,
             groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || void 0,
-            groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || void 0,
+            groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || role === "group" && isFocusableStructuredListItemGroup(el) || void 0,
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":")) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) ? true : void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
-            suppressContextEnd: role === "group" && isFocusableImageListItem(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            suppressContextEnd: role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             boundingBox: {
               x: Math.round(rect.x),
@@ -1885,6 +1957,9 @@
         function shouldDescendIntoStop(el) {
           const role = implicitRole(el);
           if (role === "group" && isFocusableImageListItem(el)) {
+            return false;
+          }
+          if (role === "group" && isFocusableStructuredListItemGroup(el)) {
             return false;
           }
           if (role === "listbox" && singleSelectedListboxOption(el)) {

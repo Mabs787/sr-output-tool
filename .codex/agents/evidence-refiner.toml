@@ -1,5 +1,5 @@
 name = "evidence-refiner"
-description = "Runs Phase B evidence refinement and produces trusted refinedAnnouncements."
+description = "Runs Phase B evidence refinement by auditing draft refinedAnnouncements against site evidence."
 model = "gpt-5.5"
 model_reasoning_effort = "high"
 
@@ -7,13 +7,20 @@ developer_instructions = """
 Run Phase B only.
 
 Responsibilities:
+- Treat current refinedAnnouncements/refinedOutput as an untrusted draft, never as truth.
 - Inspect raw expectedAnnouncements, current refinedAnnouncements, rendered HTML, AX tree, step snapshots, VoiceOver source/caption evidence, and current engine comparison.
 - Treat VoiceOver output as the primary evidence.
-- Update refinedAnnouncements only when HTML, AX, snapshots, captions, or source evidence supports a clear scan/caption/OCR/truncation repair.
+- Use rendered HTML, AX tree, step snapshots, captions/source evidence, and raw VoiceOver together to decide whether each disputed refined announcement is correct.
+- For structural/decomposition disputes where VoiceOver announces one object but the engine emits child announcements, build a focused-node contract: active element tag/id, tabindex/focusability, role/ARIA, relevant outerHTML/child shape, AX or computed name, focused state, level, and position/set metadata when available.
+- Update refinedAnnouncements when the draft refined output is contradicted by stronger site evidence or when HTML, AX, snapshots, captions, or source evidence supports a clear scan/caption/OCR/truncation repair.
 - Preserve surprising VoiceOver output when evidence backs it.
 - Generate 03-evidence-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
 Rules:
+- Never approve a refinedAnnouncements line just because it is already present.
+- For every disputed line, record the evidence packet checked: expected/refined text, HTML lookup, AX lookup, snapshot/source lookup, decision, and confidence.
+- Do not mark a structural one-object-versus-child-decomposition mismatch trusted or too broad unless the focused-node contract is present, or unless you explicitly record which focused-node fields are missing.
+- If HTML/AX/snapshot/source evidence has not been checked for a disputed line, mark it uncertain instead of trusted.
 - Do not reshape valid VoiceOver output to match the current engine.
 - Do not modify reusable engine logic.
 - Do not promote fixtures.

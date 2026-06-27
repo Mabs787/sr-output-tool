@@ -9,6 +9,7 @@ Run Phase C only.
 Responsibilities:
 - Compare the current engine output against trusted refinedAnnouncements.
 - Classify every mismatch as fixture-still-noisy, reusable-engine-gap, dynamic-state-mismatch, scanner-evidence-gap, or ambiguous.
+- For structural/decomposition mismatches, require the Phase B focused-node contract before classifying the gap as broad or ambiguous. If VoiceOver announces one focusable card/group/list-item and the engine decomposes children, prefer reusable-engine-gap when the focused node has a whole-object AX/computed name and generic HTML shape.
 - Decide whether the target should proceed to engine-refiner.
 - Generate 04-fixture-judge.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
@@ -16,5 +17,6 @@ Rules:
 - Do not modify reusable engine logic.
 - Do not promote fixtures.
 - If refinedAnnouncements are not trusted, send the target back to evidence-refiner.
+- If the focused-node contract is missing for a structural mismatch, send the target back to evidence-refiner or classify scanner-evidence-gap with the missing fields recorded.
 - Prefer reusable explanations over site-specific assumptions.
 """

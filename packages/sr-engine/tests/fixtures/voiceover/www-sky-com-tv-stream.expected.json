@@ -236,9 +236,11 @@
     "end of list",
     "Country:",
     "United Kingdom, Country:, menu pop up collapsed, button",
+    "group",
+    "group",
     "link, back to top",
     "end of, footer",
-    "alert"
+    "group"
   ],
   "scan": {
     "stopReason": "scan-end-marker",

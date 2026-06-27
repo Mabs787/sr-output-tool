@@ -16,10 +16,15 @@ Read:
 Use the orchestrator agent. For each target, run every required phase:
 
 - Phase A only when fixture evidence has not been imported.
-- Phase B for every candidate before judging.
+- Phase B for every candidate before judging. Treat the current refined output
+  as an untrusted draft and verify disputed lines against HTML, AX, snapshots,
+  captions/source evidence, and raw VoiceOver before approving or editing it.
 - Phase C after evidence refinement.
 - Phase D only when a trusted mismatch proves a reusable engine or scanner gap.
 - Phase E after compare and tests pass.
 
-Do not stop after preprocessing. Do not move to the next site until the current site has a recorded outcome.
+For structural mismatches where VoiceOver announces one grouped/card object but
+the engine emits child announcements, require the focused-node evidence packet
+from Phase B before judging or skipping engine refinement.
 
+Do not stop after preprocessing. Do not move to the next site until the current site has a recorded outcome.

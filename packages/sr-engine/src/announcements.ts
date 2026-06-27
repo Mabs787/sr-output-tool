@@ -623,7 +623,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "group": {
       pushIfPresent(parts, label);
       parts.push("group");
-      pushCollectionPosition(parts, el);
+      if (el.groupedCollectionPosition && el.positionInSet && el.setSize) {
+        parts.push(`(${el.positionInSet} of ${el.setSize})`);
+      } else {
+        pushCollectionPosition(parts, el);
+      }
       break;
     }
 

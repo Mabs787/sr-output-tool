@@ -4,7 +4,6 @@
 packages/
   sr-engine/       shared screen-reader engine and VoiceOver corpus fixtures
   sr-extension/    Chrome extension UI and bundled engine runtime
-  sr-orchestrator/ multi-agent/orchestration package
 test-app/          optional local fixture for manual checks
 .github/scripts/   VoiceOver scan, artifact import, and refinement helpers
 docs/
@@ -22,4 +21,3 @@ voiceover-smoke/
 - `packages/sr-engine/tests/fixtures/voiceover/*.ax.json`
 - `packages/sr-engine/tests/fixtures/voiceover/*.step-snapshots.json`
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
-

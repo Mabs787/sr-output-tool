@@ -13,6 +13,28 @@ Use `.codex/agents/engine-refiner.toml`.
 - Add focused unit coverage for reusable behavior when practical.
 - Rebuild extension runtime whenever engine output changes.
 
+## Engine-Confidence Checklist
+
+For structural/decomposition gaps, attempt a focused reusable fix before
+declaring the gap too broad when the Phase B/C evidence shows:
+
+- raw VoiceOver or source evidence for the single grouped/card announcement
+- rendered HTML for the focused node and its child shape
+- AX tree or step-snapshot evidence for focused role/name/focusability
+- current engine comparison proving the engine decomposes the same object
+- a reusable predicate based on semantics or computed accessibility facts, not site-specific class names or copy
+
+Common reusable patterns to check:
+
+- focusable `li` or `role=listitem` cards with a whole-card AX/computed name
+- focusable grouped controls whose parent receives focus while child text/link/image nodes supply the name
+- scanner-stop mistakes where the focused object should be announced as one unit instead of descending into descendants
+- announcement-format gaps where descriptor metadata is right but VoiceOver punctuation, position, or group wording differs
+
+If a prototype is too broad, reduce it to the evidence-backed focused-node
+shape and rerun target and corpus checks before abandoning the engine path.
+Record both rejected broad prototypes and any narrower kept fixes.
+
 ## Checks
 
 ```bash
@@ -27,4 +49,3 @@ yarn build:extension-runtime
 Write `05-engine-refinement.json` with changed files, behavior fixed, checks run, and remaining mismatches.
 
 Do not add site-specific engine logic.
-

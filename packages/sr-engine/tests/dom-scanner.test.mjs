@@ -380,7 +380,7 @@ test("scanSubtree infers first previous slide buttons as dimmed", () => {
           <button aria-label="Next slide"></button>
         </div>
         <ul>
-          <li><a href="/one">One</a></li>
+          <li tabindex="0"><a href="/one">One</a></li>
         </ul>
       </section>
     `),
@@ -503,6 +503,43 @@ test("scanSubtree splits text and controls in interactive card list items", () =
       "link, Check availability",
       "Full Fibre 500, 2 of 2",
       "What is Full Fibre?, button, group",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree announces focusable structured list items as grouped cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li tabindex="0">
+          <div>
+            <img alt="">
+            <p>Forget app hopping</p>
+            <p>Search across your apps in one place. Spend less time app hopping and more time watching.</p>
+          </div>
+        </li>
+        <li tabindex="0">
+          <div>
+            <h3>Sky Sports</h3>
+            <p>All 9 dedicated sports channels, including Premier League, F1 and more. Includes Sky Sports+</p>
+            <a href="/sports">Learn more</a>
+          </div>
+        </li>
+        <li tabindex="0">
+          <div>
+            <h3>Sky Cinema</h3>
+            <p>Includes 2 Vue Cinema tickets every month and Paramount+ at no extra cost</p>
+            <a href="/cinema">Learn More</a>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 3 items",
+      "Forget app hopping Search across your apps in one place. Spend less time app hopping and more time watching., group, (1 of 3)",
+      "Sky Sports All 9 dedicated sports channels, including Premier League, F1 and more. Includes Sky Sports+ Learn more, group, (2 of 3)",
+      "Sky Cinema Includes 2 Vue Cinema tickets every month and Paramount+ at no extra cost Learn More, group, (3 of 3)",
       "end of list",
     ],
   );

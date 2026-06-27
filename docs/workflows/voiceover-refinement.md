@@ -30,7 +30,14 @@ Keep model choices in `.codex/agents/*.toml`. Keep behavior and handoffs in thes
 - VoiceOver output is the primary evidence. The current engine is not a source of truth.
 - `voiceover:refine-artifact` is Phase A preprocessing only.
 - A fixture is not refined just because `refinedAnnouncements` exists.
-- Evidence refinement must inspect and, when needed, edit `refinedAnnouncements` directly.
+- Evidence refinement must treat `refinedAnnouncements` as an untrusted draft,
+  inspect it against HTML, AX, snapshots, and VoiceOver source evidence, and
+  edit it directly when the draft is wrong.
+- Structural VoiceOver-vs-engine mismatches must include a focused-node
+  contract before they are dismissed as broad or ambiguous. In particular,
+  when VoiceOver announces one grouped/card object and the engine decomposes
+  children, inspect the active element, focusability, AX/computed name, child
+  HTML shape, and scanner descent behavior.
 - Use rendered HTML, AX tree, step snapshots, and VoiceOver source evidence to repair clear scan/caption/OCR/truncation noise.
 - If refined output is trusted and the engine differs, change reusable engine logic unless there is a documented blocker.
 - Do not add site-specific engine logic.
@@ -62,4 +69,3 @@ These files are ignored scratch output. Checked-in source of truth remains in:
 
 Use `.codex/prompts/continue-workflow.md` to resume the whole workflow.
 Use `.codex/prompts/refine-target.md` to process one named target only.
-

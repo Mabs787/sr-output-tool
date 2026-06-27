@@ -297,6 +297,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return !textWithoutInteractive(el);
   }
 
+  function isFocusableStructuredListItemGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
+    if (el.tagName.toLowerCase() !== "li") return false;
+    if (!el.hasAttribute("tabindex")) return false;
+    if (isFocusableImageListItem(el)) return false;
+    if (!hasStructuredListItemContent(el)) return false;
+    if (!readableText(el)) return false;
+    const hasHeadingCardContent = Boolean(
+      el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']") &&
+        el.querySelector("p, button, [role='button'], a[href], [role='link']"),
+    );
+    const hasImageTextCardContent = Boolean(
+      !el.querySelector(interactiveSelector) &&
+        el.querySelector("img, [role='img'], svg[aria-label]") &&
+        el.querySelectorAll("p").length > 1,
+    );
+    return hasHeadingCardContent || hasImageTextCardContent;
+  }
+
+  function focusableStructuredListItemName(el: any): string | undefined {
+    return normalize(readableText(el)?.replace(/\+(?=\p{L})/gu, "+ "));
+  }
+
   function isCustomElement(el: any): boolean {
     return Boolean(el?.tagName?.toLowerCase().includes("-"));
   }
@@ -438,7 +461,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           readableText(nextButton),
       );
       if (nextLabel === "Next slide") {
-        return true;
+        const hasFollowingFocusableListItems = Array.from(
+          current.querySelectorAll("li[tabindex], [role='listitem'][tabindex]"),
+        ).some(
+          (item: any) =>
+            !isHidden(item) &&
+            Boolean(
+              nextButton.compareDocumentPosition(item) &
+                nextButton.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+            ),
+        );
+        if (hasFollowingFocusableListItems) {
+          return true;
+        }
       }
     }
 
@@ -500,10 +535,38 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (implicitRole(el) !== "alert") return false;
     if (readableText(el)) return false;
 
+    const rootHost = el.getRootNode?.().host;
+    if (rootHost?.tagName?.toLowerCase() === "next-route-announcer") {
+      for (let sibling = rootHost.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+        if (sibling.getAttribute("role") === "dialog") return true;
+        if (isHidden(sibling)) continue;
+        if (
+          !sibling.getAttribute("role") &&
+          !readableText(sibling) &&
+          !hasVisibleInteractiveDescendant(sibling)
+        ) {
+          continue;
+        }
+        return false;
+      }
+    }
+
+    if (el.id === "__next-route-announcer__") {
+      return true;
+    }
+
     for (let current = el.parentElement; current; current = current.parentElement) {
       for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+        if (sibling.getAttribute("role") === "dialog") return true;
         if (isHidden(sibling)) continue;
-        return implicitRole(sibling) === "dialog";
+        if (
+          !sibling.getAttribute("role") &&
+          !readableText(sibling) &&
+          !hasVisibleInteractiveDescendant(sibling)
+        ) {
+          continue;
+        }
+        return false;
       }
     }
 
@@ -516,6 +579,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!footer) return false;
     const label = labelForControl(el) || accessibleName(el, "combobox");
     if (!/^country:\s*$/i.test(label || "")) return false;
+    const visibleModalDialog = el.ownerDocument.querySelector(
+      "[role='dialog'][aria-modal='true']:not([data-sr-computed-hidden])",
+    );
+    if (visibleModalDialog) return false;
     return Boolean(
       Array.from(footer.querySelectorAll("a[href], [role='link']")).some((link: any) =>
         /back to top/i.test(accessibleName(link, "link") || readableText(link) || ""),
@@ -555,9 +622,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "group" && !el.matches(interactiveSelector)) {
-      return isFocusableImageListItem(el)
-        ? nestedImageLabel(el)
-        : normalize(el.getAttribute("title"));
+      if (isFocusableImageListItem(el)) return nestedImageLabel(el);
+      if (isFocusableStructuredListItemGroup(el)) {
+        return focusableStructuredListItemName(el);
+      }
+      return normalize(el.getAttribute("title"));
     }
 
     if (tag === "img") return normalize(el.getAttribute("alt"));
@@ -590,6 +659,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "a" && el.hasAttribute("href")) return "link";
     if (tag === "button") return "button";
     if (isFocusableImageListItem(el)) return "group";
+    if (isFocusableStructuredListItemGroup(el)) return "group";
     if (tag === "select") return el.hasAttribute("multiple") ? "listbox" : "combobox";
     if (tag === "textarea") return "textbox";
     if (tag === "input") {
@@ -785,22 +855,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+      if (!shouldPositionStructuredListImage(el)) return undefined;
       const listItem = el.closest("li,[role='listitem']");
-      const firstHeading = listItem?.querySelector(
-        "h1, h2, h3, h4, h5, h6, [role='heading']",
-      );
-      if (
-        !firstHeading ||
-        Boolean(
-          el.compareDocumentPosition(firstHeading) &
-            el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
-        )
-      ) {
-        const { siblings } = semanticListContext(el);
-        const index = siblings.indexOf(listItem);
-        return index >= 0 ? index + 1 : undefined;
-      }
-      return undefined;
+      const { siblings } = semanticListContext(el);
+      const index = siblings.indexOf(listItem);
+      return index >= 0 ? index + 1 : undefined;
     }
 
     if (
@@ -878,6 +937,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ).filter((tab: any) => !isHidden(tab)).length || undefined
       );
     }
+    if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+      if (!shouldPositionStructuredListImage(el)) return undefined;
+      const { siblings } = semanticListContext(el);
+      return siblings.length || undefined;
+    }
     if (listPositionedRoles.has(role)) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
@@ -899,6 +963,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return siblings.length || undefined;
     }
     return undefined;
+  }
+
+  function shouldPositionStructuredListImage(el: any): boolean {
+    const listItem = el.closest("li,[role='listitem']");
+    if (!listItem || !hasStructuredListItemContent(listItem)) return false;
+
+    const images = Array.from(listItem.querySelectorAll("*")).filter(
+      (image: any) => !isHidden(image) && implicitRole(image) === "image",
+    );
+    if (images.indexOf(el) > 0) return false;
+
+    return !accessibleName(el, "image") || !listItem.querySelector(interactiveSelector);
   }
 
   function directSemanticChildren(el: any): any[] {
@@ -1372,7 +1448,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? "definition list"
           : role === "contentinfo" && isSimpleNativeFooter(el)
             ? "footer"
-          : role === "alert" && (!readableText(el) || isEmptyAlertBeforeDialog(el))
+          : role === "alert" && isEmptyAlertBeforeDialog(el)
             ? "group"
           : role === "paragraph" &&
               el.getAttribute("tabindex") === "-1" &&
@@ -1476,6 +1552,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       groupedCollectionPosition:
         role === "button" &&
           hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) ||
+        role === "group" && isFocusableStructuredListItemGroup(el) ||
         undefined,
       splitDescribedAutocomplete:
         shouldSplitDescribedAutocomplete(el, role) || undefined,
@@ -1500,6 +1577,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "combobox" && isFooterCountrySelector(el) ? true : undefined,
       suppressContextEnd:
         (role === "group" && isFocusableImageListItem(el)) ||
+        (role === "group" && isFocusableStructuredListItemGroup(el)) ||
         (role === "group" &&
           isCustomElement(el) &&
           hasShadowRootContent(el) &&
@@ -1640,6 +1718,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function shouldDescendIntoStop(el: any): boolean {
     const role = implicitRole(el);
     if (role === "group" && isFocusableImageListItem(el)) {
+      return false;
+    }
+    if (role === "group" && isFocusableStructuredListItemGroup(el)) {
       return false;
     }
     if (role === "listbox" && singleSelectedListboxOption(el)) {

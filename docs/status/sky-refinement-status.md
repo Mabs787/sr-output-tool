@@ -47,11 +47,10 @@ These fixtures have completed Phase B evidence review and remain `candidate`:
 - `www-sky-com-glass-air`: remaining gaps include hero/heading grouping, native control traversal, table/card segmentation, and repeated button/list groups.
 - `www-sky-com-glass`: remaining gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation.
 - `www-sky-com-shop-mobile`: remaining gaps include carousel dynamic state, slide button grouping, heading/card decomposition, and list/marker traversal.
-- `www-sky-com-tv`: remaining gaps include skip-link/order differences, package-card list marker segmentation, native controls, and repeated button/group card differences.
+- `www-sky-com-tv`: Fresh Phase B review on 2026-06-27 treated the draft refined output as untrusted and applied seven evidence-backed repairs: missing `skip to search`, two truncated list counts, two truncated legal/disclaimer lines, Sky Products typography, and restored FAQ button/group state. Phase C then found 9 trusted reusable engine gaps: price/legal text-boundary joins, grouped trailing-icon button context, grouped carousel cards, and standalone product-card group stops. A broad Phase D prototype made this target exact but regressed already-refined corpus fixtures, so it was removed. A narrower focusable structured carousel/list-card `li` group fix was kept, reducing the target to 7 mismatch windows; the remaining price/legal, trailing-icon button, and standalone product-card group gaps keep this as candidate evidence rather than an exact gate.
 - `www-sky-com-tvandbroadband`: remaining gaps include hero/CTA group announcements, product-card grouped text, carousel/package ordering, and list/marker segmentation.
 - `www-sky-com-watch`: remaining gaps are list/marker carousel traversal and dynamic slide disabled-state behavior rather than isolated fixture text noise.
 
 ## Resume Prompt
 
 Use `.codex/prompts/continue-workflow.md` for the whole backlog, or `.codex/prompts/refine-target.md` for one named Sky target.
-

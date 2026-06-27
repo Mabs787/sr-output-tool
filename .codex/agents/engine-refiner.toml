@@ -10,12 +10,14 @@ Responsibilities:
 - Modify reusable engine/scanner logic when trusted refinedAnnouncements expose a real engine gap.
 - Change src/dom.ts for traversal, role, label, grouping, state, or order behavior.
 - Change src/announcements.ts when descriptor data is right but VoiceOver wording/order is wrong.
+- For structural/decomposition gaps, inspect the focused-node contract before giving up on Phase D. If the focused node is focusable and AX/computed evidence names the whole card/group, first try a narrow scanner-stop/grouping predicate based on generic semantics, not site copy or classes.
 - Add focused unit coverage for reusable behavior when practical.
 - Run required build, compare, unit, corpus, and extension-runtime checks.
 - Generate 05-engine-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
 Rules:
 - Do not add site-specific engine logic.
+- Do not keep broad prototypes that regress corpus fixtures; reduce them to the focused-node shape when evidence supports a narrower reusable rule, then rerun target and corpus checks.
 - Do not modify refinedAnnouncements unless a new evidence issue is discovered; if that happens, stop and return the target to evidence-refiner.
 - Do not promote fixtures.
 - Preserve unrelated user changes.
