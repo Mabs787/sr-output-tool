@@ -125,15 +125,6 @@
       "sanitizationStatus": "sanitized"
     },
     {
-      "name": "business-sky-com-s",
-      "expected": "business-sky-com-s.expected.json",
-      "html": "business-sky-com-s.html",
-      "accessibilityTree": "business-sky-com-s.ax.json",
-      "stepSnapshots": "business-sky-com-s.step-snapshots.json",
-      "voiceOverAnnouncementCount": 212,
-      "sanitizationStatus": "sanitized"
-    },
-    {
       "name": "www-sky-com-broadband-gaming",
       "expected": "www-sky-com-broadband-gaming.expected.json",
       "html": "www-sky-com-broadband-gaming.html",
@@ -266,6 +257,15 @@
       "accessibilityTree": "www-sky-com.ax.json",
       "stepSnapshots": "www-sky-com.step-snapshots.json",
       "voiceOverAnnouncementCount": 93,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "business-sky-com-s",
+      "expected": "business-sky-com-s.expected.json",
+      "html": "business-sky-com-s.html",
+      "accessibilityTree": "business-sky-com-s.ax.json",
+      "stepSnapshots": "business-sky-com-s.step-snapshots.json",
+      "voiceOverAnnouncementCount": 211,
       "sanitizationStatus": "sanitized"
     }
   ],

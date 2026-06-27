@@ -76,7 +76,7 @@
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Run 28289053179 completed to the scan-end marker with screenshots, recording, AX tree, rendered HTML, and step snapshots. Refined announcements now contain evidence-backed OCR/text cleanup, but the fixture remains unsuitable for exact gating: VoiceOver traversed open Broadband/Mobile nav submenu content, live carousel/package states, legal accordion state, and consent-dialog tail while the saved rendered HTML does not replay those states consistently; all reduced snapshots lack focus DOM ids and 119 focused AX nodes still report missing value. Keep as candidate diagnostic evidence for scan/fixture work, not a refined engine contract."
+      "reason": "Imported by voiceover:refine-artifact. Keep as candidate until the generated report's engine gaps are resolved."
     },
     "www-sky-com-broadband-gaming": {
       "status": "refined",
