@@ -130,6 +130,7 @@ jobs:
             echo
 
             echo "## Chrome"
+            xattr -dr com.apple.quarantine /Applications/Google\ Chrome.app || true
             /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version || true
             osascript -e 'tell application "Google Chrome" to quit' || true
             killall "Google Chrome" || true

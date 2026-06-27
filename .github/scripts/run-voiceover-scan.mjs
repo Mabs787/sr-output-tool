@@ -1481,6 +1481,25 @@ function launchChrome(url) {
   const chromeUserDataDir = mkdtempSync(
     path.join(os.tmpdir(), "sr-vo-chrome-profile-"),
   );
+  const openChrome = () =>
+    toCommandResult(
+      run(
+        "open",
+        [
+          "-na",
+          "Google Chrome",
+          url,
+          "--args",
+          `--remote-debugging-port=${chromeDebuggingPort}`,
+          "--remote-allow-origins=*",
+          `--user-data-dir=${chromeUserDataDir}`,
+          "--no-first-run",
+          "--force-renderer-accessibility",
+          `--window-size=${chromeViewportWidth},${chromeViewportHeight}`,
+        ],
+        { timeout: 15000 },
+      ),
+    );
   const stopChromeResult = runAppleScript(`
 tell application "Google Chrome"
   quit
@@ -1488,24 +1507,17 @@ end tell
 `, 5000);
   run("killall", ["Google Chrome"], { timeout: 5000 });
   run("sleep", ["2"], { timeout: 4000 });
-  const openResult = toCommandResult(
-    run(
-      "open",
-      [
-        "-na",
-        "Google Chrome",
-        url,
-        "--args",
-        `--remote-debugging-port=${chromeDebuggingPort}`,
-        "--remote-allow-origins=*",
-        `--user-data-dir=${chromeUserDataDir}`,
-        "--no-first-run",
-        "--force-renderer-accessibility",
-        `--window-size=${chromeViewportWidth},${chromeViewportHeight}`,
-      ],
-      { timeout: 15000 },
-    ),
-  );
+  let openResult = openChrome();
+  let firstLaunchDialog = null;
+  let retryOpen = null;
+  if (!openResult.ok) {
+    firstLaunchDialog = dismissSystemDialogs();
+    run("sleep", ["2"], { timeout: 4000 });
+    retryOpen = openChrome();
+    if (retryOpen.ok) {
+      openResult = retryOpen;
+    }
+  }
   const activateResult = activateChrome();
   const windowBoundsResult = runAppleScript(`
 tell application "System Events"
@@ -1529,6 +1541,8 @@ end tell
       height: chromeViewportHeight,
     },
     stopChrome: stopChromeResult,
+    firstLaunchDialog,
+    retryOpen,
     activateChrome: activateResult,
     windowBounds: windowBoundsResult,
   };
@@ -1654,9 +1668,41 @@ tell application "System Events"
           set windowName to name of windowToRead as text
           set logText to logText & "process=" & processName & " window=" & windowName & linefeed
           try
+            if exists button "Open" of windowToRead then
+              click button "Open" of windowToRead
+              set logText to logText & "clicked=" & processName & ":Open" & linefeed
+              delay 1
+              return logText
+            end if
+          end try
+          try
             if exists button "Allow" of windowToRead then
               click button "Allow" of windowToRead
               set logText to logText & "clicked=" & processName & ":Allow" & linefeed
+              delay 1
+              return logText
+            end if
+          end try
+          try
+            if exists button "OK" of windowToRead then
+              click button "OK" of windowToRead
+              set logText to logText & "clicked=" & processName & ":OK" & linefeed
+              delay 1
+              return logText
+            end if
+          end try
+          try
+            if exists button "Not Now" of windowToRead then
+              click button "Not Now" of windowToRead
+              set logText to logText & "clicked=" & processName & ":Not Now" & linefeed
+              delay 1
+              return logText
+            end if
+          end try
+          try
+            if exists button "Close" of windowToRead then
+              click button "Close" of windowToRead
+              set logText to logText & "clicked=" & processName & ":Close" & linefeed
               delay 1
               return logText
             end if
@@ -1665,7 +1711,7 @@ tell application "System Events"
             try
               set buttonName to name of buttonToRead as text
               set logText to logText & "  button=" & buttonName & linefeed
-              if buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "Allow" or buttonName is "Open" then
+              if buttonName is "Cancel" then
                 click buttonToRead
                 set logText to logText & "clicked=" & processName & ":" & buttonName & linefeed
                 delay 1
