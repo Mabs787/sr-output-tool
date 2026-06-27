@@ -1158,6 +1158,35 @@ func normalize(_ value: String) -> String {
     .lowercased()
 }
 
+func editDistance(_ left: String, _ right: String) -> Int {
+  let leftChars = Array(left)
+  let rightChars = Array(right)
+  if leftChars.isEmpty { return rightChars.count }
+  if rightChars.isEmpty { return leftChars.count }
+
+  var previous = Array(0...rightChars.count)
+  for leftIndex in 1...leftChars.count {
+    var current = [leftIndex] + Array(repeating: 0, count: rightChars.count)
+    for rightIndex in 1...rightChars.count {
+      let substitutionCost = leftChars[leftIndex - 1] == rightChars[rightIndex - 1] ? 0 : 1
+      current[rightIndex] = min(
+        previous[rightIndex] + 1,
+        current[rightIndex - 1] + 1,
+        previous[rightIndex - 1] + substitutionCost
+      )
+    }
+    previous = current
+  }
+  return previous[rightChars.count]
+}
+
+func isFuzzyButtonMatch(_ normalized: String, _ target: Target) -> Bool {
+  if target.preference == "system-permission" { return false }
+  if target.label.count < 8 { return false }
+  if normalized.count > target.label.count + 4 { return false }
+  return editDistance(normalized, target.label) <= 2
+}
+
 var matches: [Match] = []
 var debug: [String] = []
 var recognizedLines: [String] = []
@@ -1190,7 +1219,8 @@ let request = VNRecognizeTextRequest { request, error in
       }
 
       let buttonLikeLengthLimit = target.label.count + 18
-      return normalized.count <= buttonLikeLengthLimit && normalized.contains(target.label)
+      return normalized.count <= buttonLikeLengthLimit &&
+        (normalized.contains(target.label) || isFuzzyButtonMatch(normalized, target))
     }) {
       let x = Int(observation.boundingBox.midX * CGFloat(cgImage.width))
       let y = Int((1 - observation.boundingBox.midY) * CGFloat(cgImage.height))
