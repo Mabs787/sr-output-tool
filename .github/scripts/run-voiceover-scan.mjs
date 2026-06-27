@@ -1620,7 +1620,7 @@ tell application "System Events"
                 try
                   set buttonName to name of buttonToRead as text
                   set logText to logText & "    button=" & buttonName & linefeed
-                  if buttonName contains "Not Now" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" or buttonName is "Allow" then
+                  if buttonName contains "Not Now" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "OK" or buttonName is "Allow" or buttonName is "Open" then
                     click buttonToRead
                     set logText to logText & "clicked=" & buttonName & linefeed
                     set clickedButton to true
@@ -1665,7 +1665,7 @@ tell application "System Events"
             try
               set buttonName to name of buttonToRead as text
               set logText to logText & "  button=" & buttonName & linefeed
-              if buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "Allow" then
+              if buttonName contains "Not Now" or buttonName is "OK" or buttonName is "Cancel" or buttonName is "Close" or buttonName is "Allow" or buttonName is "Open" then
                 click buttonToRead
                 set logText to logText & "clicked=" & processName & ":" & buttonName & linefeed
                 delay 1
@@ -3235,6 +3235,42 @@ function getStopPhrases(target) {
   return values.map((value) => value.toLowerCase());
 }
 
+function normalizeStallText(value) {
+  return cleanCaptionOcrText(value)
+    .toLowerCase()
+    .replace(/[,\s]+/g, " ")
+    .trim();
+}
+
+function isDesktopEmptyAnnouncement(step) {
+  const candidates = [
+    getComparisonVoiceOverText(step),
+    step.voiceOver?.lastPhrase,
+    step.voiceOver?.voCursorText,
+  ];
+  return candidates.some((candidate) => {
+    const normalized = normalizeStallText(candidate);
+    return normalized === "desktop empty group";
+  });
+}
+
+function hasMissingChromeFocus(step) {
+  const focusError = String(step.focus?.error || "");
+  return (
+    focusError.includes('Can’t get process "Google Chrome"') ||
+    focusError.includes('Can’t get attribute "AXFocusedUIElement"')
+  );
+}
+
+function getRepeatedTailCount(voiceOverSteps, predicate) {
+  let count = 0;
+  for (let index = voiceOverSteps.length - 1; index >= 0; index -= 1) {
+    if (!predicate(voiceOverSteps[index])) break;
+    count += 1;
+  }
+  return count;
+}
+
 function shouldStopScan({ target, voiceOverSteps }) {
   const latestStep = voiceOverSteps.at(-1);
   const latestText = latestStep ? getCaptureText(latestStep) : "";
@@ -3254,6 +3290,18 @@ function shouldStopScan({ target, voiceOverSteps }) {
   );
   if (stopPhrase) {
     return { stop: true, reason: `stopWhen.voiceOverIncludes:${stopPhrase}` };
+  }
+
+  const desktopTailCount = getRepeatedTailCount(
+    voiceOverSteps,
+    (step) => isDesktopEmptyAnnouncement(step) && hasMissingChromeFocus(step),
+  );
+  if (desktopTailCount >= 8) {
+    return {
+      stop: true,
+      reason: "stalled-on-desktop-chrome-focus-missing",
+      fatal: true,
+    };
   }
 
   return { stop: false, reason: "" };
@@ -3381,6 +3429,8 @@ function createScanDebugSummary({
     },
     scan: {
       stopReason: summary.stopReason,
+      partial: Boolean(summary.partial),
+      failureReason: summary.failureReason || "",
       capturedSteps: summary.capturedSteps,
       maxStepSeconds: summary.maxStepSeconds,
       navigationMode: summary.navigationMode,
@@ -3447,6 +3497,8 @@ function createRefinementManifest({
     },
     scan: {
       stopReason: summary.stopReason,
+      partial: Boolean(summary.partial),
+      failureReason: summary.failureReason || "",
       capturedSteps: summary.capturedSteps,
       startedAt: summary.startedAt,
       finishedAt: summary.finishedAt,
@@ -3546,6 +3598,7 @@ async function scanTarget(target, index) {
   const voiceOverSteps = [];
   const stepSnapshots = [];
   let stopReason = "not-stopped";
+  let failureReason = "";
 
   const initialStepStartedAt = Date.now();
   const initialCaptionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, 0);
@@ -3680,6 +3733,9 @@ async function scanTarget(target, index) {
     });
     if (stopCheck.stop) {
       stopReason = stopCheck.reason;
+      if (stopCheck.fatal) {
+        failureReason = stopCheck.reason;
+      }
       break;
     }
 
@@ -3694,6 +3750,8 @@ async function scanTarget(target, index) {
 
   summary.finishedAt = new Date().toISOString();
   summary.stopReason = stopReason;
+  summary.partial = Boolean(failureReason);
+  summary.failureReason = failureReason;
   summary.capturedSteps = voiceOverSteps.length;
   summary.screenRecording = screenRecordingResult;
   summary.launchChrome = launchChromeResult;
@@ -3769,16 +3827,17 @@ async function scanTarget(target, index) {
     path.join(targetOutputDir, "runner-environment.json"),
     summary.runnerEnvironment,
   );
-  writeStepSnapshotsFile(targetOutputDir, stepSnapshots, false);
+  writeStepSnapshotsFile(targetOutputDir, stepSnapshots, Boolean(failureReason));
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
     normalization: "caption-window-cropped-ocr-system-noise-filtered",
+    partial: Boolean(failureReason) || undefined,
   });
   writeJson(path.join(targetOutputDir, "voiceover-sources.json"), {
     schemaVersion: 1,
     source: "voiceover-caption-source-debug",
-    partial: false,
+    partial: Boolean(failureReason),
     steps: getVoiceOverSourceDebug(voiceOverSteps),
   });
   writeJson(
@@ -3801,6 +3860,10 @@ async function scanTarget(target, index) {
       accessibilityTreeStats,
     }),
   );
+
+  if (failureReason) {
+    throw new Error(`VoiceOver scan failed for ${targetName}: ${failureReason}`);
+  }
 }
 
 mkdirSync(outputRoot, { recursive: true });
