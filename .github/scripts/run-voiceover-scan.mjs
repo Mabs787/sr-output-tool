@@ -2162,8 +2162,8 @@ JSON.stringify((() => {
   };
 
   function ensureStyle(root, text) {
-    const existing = root === document
-      ? document.getElementById(styleId)
+    const existing = root.getElementById
+      ? root.getElementById(styleId)
       : root.querySelector?.("#" + styleId);
     if (existing) {
       existing.textContent = text;
