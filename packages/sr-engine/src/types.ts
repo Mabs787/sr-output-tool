@@ -32,6 +32,9 @@ export interface ElementDescriptor {
   columnIndex?: number;
   columnCount?: number;
   columnHeaderText?: string;
+  tableGroupHeaderText?: string;
+  tableGroupedHeaderRow?: boolean;
+  tableFirstGroupedHeaderRow?: boolean;
   rowSpan?: number;
   columnSpan?: number;
   tableLabel?: string;
@@ -67,8 +70,15 @@ export interface ElementDescriptor {
   groupedCollectionPosition?: boolean;
   splitDescribedAutocomplete?: boolean;
   searchInputGroup?: boolean;
+  compactInputActionGroup?: boolean;
+  leadingCarouselGroup?: boolean;
+  trailingCarouselSlideGroups?: boolean;
+  leadingStandaloneCardGroup?: boolean;
   splitLabelStop?: boolean;
   footerCountrySelector?: boolean;
+  inlineEmphasisListItemFragments?: string[];
+  complexColumnHeaderFragments?: string[];
+  complexColumnHeaderRawText?: string;
 }
 
 /** Types of screen reader events. */

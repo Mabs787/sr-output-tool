@@ -16,6 +16,11 @@ In Phase B, do not take existing refined output as truth. Verify disputed lines
 against HTML, AX, snapshots, captions/source evidence, and raw VoiceOver before
 approving or editing them.
 
+For text split/join mismatches, require a text-boundary evidence packet before
+judging the gap: relevant `outerHTML`, inline emphasis (`strong`, `b`, `em`,
+`i`), `br`, block/span/markdown fragments, list markers, hidden text, and
+text-node boundaries.
+
 For structural mismatches, especially when VoiceOver announces one grouped/card
 object but the engine emits child announcements, require a focused-node evidence
 packet before judging the gap: active element tag/id, `tabindex`, role/ARIA,

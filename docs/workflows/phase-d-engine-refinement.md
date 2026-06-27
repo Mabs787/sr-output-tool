@@ -12,6 +12,7 @@ Use `.codex/agents/engine-refiner.toml`.
 - Change `packages/sr-engine/src/announcements.ts` when descriptor data is right but wording or order is wrong.
 - Add focused unit coverage for reusable behavior when practical.
 - Rebuild extension runtime whenever engine output changes.
+- Split mixed mismatch families into independent sub-gaps. Implement and verify any narrow reusable fix, then record the families that still remain unresolved.
 
 ## Engine-Confidence Checklist
 
@@ -29,11 +30,22 @@ Common reusable patterns to check:
 - focusable `li` or `role=listitem` cards with a whole-card AX/computed name
 - focusable grouped controls whose parent receives focus while child text/link/image nodes supply the name
 - scanner-stop mistakes where the focused object should be announced as one unit instead of descending into descendants
+- expanded disclosure or accordion regions whose body descendants are present in HTML/source evidence but missing from current traversal
+- native tables where VoiceOver synthesizes context from generic structure, such as direct grouped `thead` controller buttons paired with controlled `tbody` regions, even when the synthesized phrase is not present in one AX name
+- text segmentation caused by generic DOM boundaries such as inline emphasis (`strong`, `b`, `em`, `i`), `br`, markdown-rendered fragments, or visible text-node/block boundaries
 - announcement-format gaps where descriptor metadata is right but VoiceOver punctuation, position, or group wording differs
 
 If a prototype is too broad, reduce it to the evidence-backed focused-node
 shape and rerun target and corpus checks before abandoning the engine path.
 Record both rejected broad prototypes and any narrower kept fixes.
+
+Scan artifacts are sufficient when they contain the relevant rendered HTML,
+AX roles/names, and control relationships. Do not require a live DevTools
+recapture only to confirm that a phrase is absent from an AX name.
+
+Do not abandon Phase D only because a target has several mismatch families. A
+single page can produce one safe traversal fix, one dynamic-state mismatch, and
+one still-ambiguous family; keep those outcomes separate.
 
 ## Checks
 

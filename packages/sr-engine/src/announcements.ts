@@ -1,7 +1,10 @@
 import { ElementDescriptor } from "./types";
 
 function normalizeText(value?: string): string | undefined {
-  const normalized = value?.replace(/\s+/g, " ").trim();
+  const normalized = value
+    ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
   return normalized || undefined;
 }
 
@@ -29,6 +32,66 @@ function pushTableCoordinates(parts: string[], el: ElementDescriptor): void {
   if (el.rowIndex) {
     parts.push(`row ${el.rowIndex}`);
   }
+}
+
+function hasTableColumnContext(el: ElementDescriptor): boolean {
+  return Boolean(
+    el.tableRole === "table" &&
+      el.columnIndex &&
+      el.columnCount &&
+      !["cell", "gridcell", "rowheader", "columnheader"].includes(el.role || ""),
+  );
+}
+
+function mergeTableColumnHeaderContext(
+  parts: string[],
+  el: ElementDescriptor,
+): void {
+  if (!el.columnHeaderText) return;
+
+  if (parts.length > 0) {
+    parts[0] = `${el.columnHeaderText} ${parts[0]}`;
+  } else {
+    parts.unshift(el.columnHeaderText);
+  }
+}
+
+function tableColumnPosition(el: ElementDescriptor): string | undefined {
+  if (!hasTableColumnContext(el)) return undefined;
+  return `column ${el.columnIndex} of ${el.columnCount}`;
+}
+
+function pushTableColumnContext(parts: string[], el: ElementDescriptor): void {
+  if (
+    !hasTableColumnContext(el)
+  ) {
+    return;
+  }
+
+  mergeTableColumnHeaderContext(parts, el);
+  if (el.columnIndex === 1 && el.rowIndex) {
+    if (
+      el.tableGroupedHeaderRow &&
+      !el.tableFirstGroupedHeaderRow &&
+      parts.length > 0
+    ) {
+      parts[0] =
+        `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${parts[0]}`;
+      const columnPosition = tableColumnPosition(el);
+      if (columnPosition) parts.push(columnPosition);
+      return;
+    }
+    if (
+      el.tableFirstGroupedHeaderRow &&
+      el.tableGroupHeaderText &&
+      parts.length > 0
+    ) {
+      parts[0] = `${el.tableGroupHeaderText} ${parts[0]}`;
+    }
+    parts.unshift(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`);
+  }
+  const columnPosition = tableColumnPosition(el);
+  if (columnPosition) parts.push(columnPosition);
 }
 
 function formatPopupType(hasPopup?: string | boolean): string | undefined {
@@ -158,6 +221,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     normalizeText(el.text) ??
     normalizeText(el.description);
   const value = normalizeText(el.valueText ?? el.value);
+  const placeholder = normalizeText(el.placeholder);
 
   switch (role) {
     case "heading": {
@@ -248,6 +312,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       } else if (el.pressed === "mixed") {
         parts.push("mixed");
       }
+      pushTableColumnContext(parts, el);
       pushSupplementalText(parts, el);
       break;
     }
@@ -288,6 +353,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushIfPresent(parts, label);
       }
       pushCollectionPosition(parts, el);
+      pushTableColumnContext(parts, el);
       pushSupplementalText(parts, el);
       break;
     }
@@ -317,8 +383,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushAutocomplete(parts, el.autocomplete);
       } else {
         pushIfPresent(parts, label);
-        parts.push("text field");
-        pushIfPresent(parts, value ?? el.placeholder);
+        if (el.invalid) {
+          pushInvalidState(parts, el.invalid === true ? "data" : el.invalid);
+        }
+        parts.push("edit text");
+        if (!el.invalid) {
+          const placeholderText = placeholder !== label ? placeholder : undefined;
+          pushIfPresent(parts, value ?? placeholderText);
+        }
         pushAutocomplete(parts, el.autocomplete);
         if (el.required) {
           parts.push("required");
@@ -327,7 +399,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (el.readOnly) {
         parts.push("read only");
       }
-      pushSupplementalText(parts, el);
+      if (role === "searchbox" || !el.invalid) {
+        pushSupplementalText(parts, el);
+      } else {
+        pushIfPresent(parts, el.details);
+        pushIfPresent(parts, el.errorMessage);
+        if (el.busy) {
+          parts.push("busy");
+        }
+      }
       break;
     }
 
@@ -441,6 +521,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "blockquote": {
+      pushIfPresent(parts, label);
+      parts.push("block quote level 1");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "text": {
       pushIfPresent(parts, label);
       pushCollectionPosition(parts, el);
@@ -476,6 +564,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (parentPosition) {
           supplementalParts.push(parentPosition);
         }
+      }
+      if (hasTableColumnContext(el)) {
+        mergeTableColumnHeaderContext(normalizedListParts, el);
+        const columnPosition = tableColumnPosition(el);
+        if (columnPosition) supplementalParts.push(columnPosition);
       }
       pushSupplementalText(supplementalParts, el);
       return [normalizedListParts.join(" "), ...supplementalParts]
@@ -559,15 +652,30 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts.push(label ?? "blank");
           parts.push(`column ${el.columnIndex} of ${el.columnCount}`);
         } else {
-          if (el.columnIndex === 1 && el.rowIndex) {
+          if (
+            role === "rowheader" &&
+            el.columnIndex === 1 &&
+            el.rowIndex &&
+            label &&
+            el.tableGroupHeaderText
+          ) {
+            parts.push(
+              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label}, ${el.tableGroupHeaderText} ${label}`,
+            );
+          } else if (el.columnIndex === 1 && el.rowIndex) {
             parts.push(
               `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`,
             );
+            pushIfPresent(
+              parts,
+              [el.columnHeaderText, label].filter(Boolean).join(" "),
+            );
+          } else {
+            pushIfPresent(
+              parts,
+              [el.columnHeaderText, label].filter(Boolean).join(" "),
+            );
           }
-          pushIfPresent(
-            parts,
-            [el.columnHeaderText, label].filter(Boolean).join(" "),
-          );
           parts.push(`column ${el.columnIndex} of ${el.columnCount}`);
         }
       } else {

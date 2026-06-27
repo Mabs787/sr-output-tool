@@ -76,7 +76,7 @@
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Phase B review completed. Step snapshots support the open Broadband/Mobile submenu traversal, Salesforce/lightning shadow-DOM carousel/product traversal, live-status title announcement, and consent-dialog tail; only deterministic OCR/punctuation cleanup was applied, so the fixture remains candidate evidence rather than an exact gate."
+      "reason": "Run 28289053179 completed to the scan-end marker with screenshots, recording, AX tree, rendered HTML, and step snapshots. Refined announcements now contain evidence-backed OCR/text cleanup, but the fixture remains unsuitable for exact gating: VoiceOver traversed open Broadband/Mobile nav submenu content, live carousel/package states, legal accordion state, and consent-dialog tail while the saved rendered HTML does not replay those states consistently; all reduced snapshots lack focus DOM ids and 119 focused AX nodes still report missing value. Keep as candidate diagnostic evidence for scan/fixture work, not a refined engine contract."
     },
     "www-sky-com-broadband-gaming": {
       "status": "refined",

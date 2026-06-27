@@ -27,4 +27,7 @@ For structural mismatches where VoiceOver announces one grouped/card object but
 the engine emits child announcements, require the focused-node evidence packet
 from Phase B before judging or skipping engine refinement.
 
+For text split/join mismatches, require the Phase B text-boundary evidence
+packet before judging or skipping engine refinement.
+
 Do not stop after preprocessing. Do not move to the next site until the current site has a recorded outcome.

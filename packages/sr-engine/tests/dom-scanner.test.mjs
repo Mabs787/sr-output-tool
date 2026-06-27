@@ -129,6 +129,187 @@ test("scanSubtree closes main before entering a following contentinfo landmark",
   );
 });
 
+test("scanSubtree preserves line break heading fragments", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>Keep the drama on the screen<br>with Sky Protect</h1>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 1 Keep the drama on the screen with Sky Protect, 2 items",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree follows comparison table accessibility row order", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Product A</th>
+            <th>Product B</th>
+          </tr>
+        </thead>
+        <thead aria-hidden="true">
+          <tr>
+            <th>&nbsp;</th>
+            <th>Sticky Product A</th>
+            <th>Sticky Product B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Monthly Plan</th>
+            <td><a href="/a">Buy A</a></td>
+            <td><a href="/b">Buy B</a></td>
+          </tr>
+        </tbody>
+        <thead data-table-group-header="true">
+          <tr>
+            <th>
+              <button id="picture-heading" aria-controls="picture-content" aria-expanded="true">
+                Picture
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="picture-content" role="region" aria-labelledby="picture-heading">
+          <tr>
+            <th>4k display</th>
+            <td>Visible in DOM, ignored in table navigation</td>
+            <td>Also ignored in table navigation</td>
+          </tr>
+        </tbody>
+      </table>
+    `),
+    [
+      "table, 3 columns, 3 rows",
+      "blank, column 1 of 3",
+      "Product A, column 2 of 3",
+      "Product B, column 3 of 3",
+      "row 2 of 3, Monthly Plan, column 1 of 3",
+      "Product A link, Buy A, column 2 of 3",
+      "Product B link, Buy B, column 3 of 3",
+      "row 3 of 3, Picture, expanded, button, group, column 1 of 3",
+      "end of table",
+    ],
+  );
+});
+
+test("scanSubtree includes grouped table headers in first-column row header context", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Product A</th>
+            <th>Product B</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Monthly Plan</th>
+            <td>£6 a month</td>
+            <td>£14 a month</td>
+          </tr>
+        </tbody>
+        <thead data-table-group-header="true">
+          <tr>
+            <th>
+              <button id="picture-heading" aria-controls="picture-content" aria-expanded="true">
+                Picture
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="picture-content" role="region" aria-labelledby="picture-heading">
+          <tr>
+            <th>4k display</th>
+            <td>Ignored group content A</td>
+            <td>Ignored group content B</td>
+          </tr>
+        </tbody>
+        <thead data-table-group-header="true">
+          <tr>
+            <th>
+              <button id="sound-heading" aria-controls="sound-content" aria-expanded="true">
+                Sound
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="sound-content" role="region" aria-labelledby="sound-heading">
+          <tr>
+            <th>Speakers</th>
+            <td>Ignored group content C</td>
+            <td>Ignored group content D</td>
+          </tr>
+        </tbody>
+        <thead data-table-group-header="true">
+          <tr>
+            <th>
+              <button id="hardware-heading" aria-controls="hardware-content" aria-expanded="true">
+                Hardware
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="hardware-content" role="region" aria-labelledby="hardware-heading">
+          <tr>
+            <th>Ports</th>
+            <td>Ignored group content E</td>
+            <td>Ignored group content F</td>
+          </tr>
+        </tbody>
+      </table>
+    `),
+    [
+      "table, 3 columns, 5 rows",
+      "blank, column 1 of 3",
+      "Product A, column 2 of 3",
+      "Product B, column 3 of 3",
+      "row 2 of 5 Monthly Plan, Picture, Sound, and Hardware Monthly Plan, column 1 of 3",
+      "Product A £6 a month, column 2 of 3",
+      "Product B £14 a month, column 3 of 3",
+      "row 3 of 5, Picture, Sound, and Hardware Picture, expanded, button, group, column 1 of 3",
+      "row 4 of 5 Sound, expanded, button, group, column 1 of 3",
+      "row 5 of 5 Hardware, expanded, button, group, column 1 of 3",
+      "end of table",
+    ],
+  );
+});
+
+test("scanSubtree splits complex table column headers into group and child text stops", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th><div><img alt=""><span>Product A</span><div><span>The practical choice</span></div><div><span>Black</span><span></span><span>Blue</span><span></span><span>White</span><span></span></div></div></th>
+            <th><div><img alt=""><span>Product B</span><div><span>The premium choice</span></div><div><span>Grey</span><span></span><span>Silver</span><span></span><span>Green</span><span></span></div></div></th>
+          </tr>
+        </thead>
+      </table>
+    `),
+    [
+      "table, 3 columns, 1 rows",
+      "column header, column 1, row 1",
+      "Product A, The practical choice, Black, Blue, and White group, column 2 of 3",
+      "Product AThe practical choiceBlackBlueWhite",
+      "Product B, The premium choice, Grey, Silver, and Green group, column 3 of 3",
+      "Product BThe premium choiceGreySilverGreen",
+      "end of table",
+    ],
+  );
+});
+
 test("scanSubtree splits described autocomplete search inputs", () => {
   assert.deepEqual(
     scanHtml(`
@@ -203,6 +384,111 @@ test("scanSubtree splits described autocomplete search inputs", () => {
       "Enter a city, list box pop up collapsed, combo box",
       "Search, button",
       "end of, search",
+    ],
+  );
+});
+
+test("scanSubtree announces compact labelled input action groups before the input", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <div>
+          <label for="address-postcode-input" aria-label="Enter your postcode">
+            Enter your postcode
+          </label>
+          <div>
+            <input
+              id="address-postcode-input"
+              type="text"
+              placeholder="Enter your postcode"
+              aria-label="Enter your postcode"
+            >
+            <button type="button">Get Started</button>
+          </div>
+        </div>
+      </section>
+    `),
+    [
+      "Enter your postcode, group",
+      "Enter your postcode",
+      "end of, Enter your postcode, group",
+      "Enter your postcode, edit text",
+      "Get Started, button",
+    ],
+  );
+});
+
+test("scanSubtree does not compact autocomplete search input action groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <form role="search">
+          <div>
+            <label for="search-main">Search</label>
+            <div>
+              <input
+                id="search-main"
+                type="search"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="search-main__listbox"
+                aria-autocomplete="list"
+                aria-describedby="search-main__assistiveHint"
+              >
+              <ul id="search-main__listbox" role="listbox" hidden></ul>
+              <span id="search-main__assistiveHint" hidden>
+                When search suggestions are available use up and down arrows.
+              </span>
+            </div>
+            <button type="submit">Search GOV.UK</button>
+          </div>
+        </form>
+      </main>
+    `),
+    [
+      "main",
+      "search",
+      "Search",
+      "group",
+      "Search When search suggestions are available use up and down arrows.",
+      "Search GOV.UK, button",
+      "end of, search",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree includes expanded accordion region body text inside list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Frequently Asked Questions</h2>
+        <ul>
+          <li>
+            <h3>
+              <button id="faq-0-heading" aria-controls="faq-0-content" aria-expanded="true">
+                What is One Touch Switch for Broadband?
+              </button>
+            </h3>
+            <div id="faq-0-content" aria-labelledby="faq-0-heading" aria-hidden="false" role="region">
+              <div>
+                <div>
+                  <span>One Touch Switch means it is easier to switch broadband provider.</span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    `),
+    [
+      "heading level 2, Frequently Asked Questions",
+      "list 1 item",
+      "heading level 3, What is One Touch Switch for Broadband?, expanded, button, group",
+      "What is One Touch Switch for Broadband?, region",
+      "One Touch Switch means it is easier to switch broadband provider.",
+      "end of, What is One Touch Switch for Broadband?, region",
+      "end of list",
     ],
   );
 });
@@ -401,8 +687,105 @@ test("scanSubtree infers first previous slide buttons as dimmed", () => {
       </section>
     `),
     [
-      "Previous slide: 4 of 4 - Mobile Insurance, button, group",
-      "Next slide: 2 of 4 - Accidental Damage, button, group",
+      "Previous slide: 4 of 4 - Mobile Insurance, button",
+      "Next slide: 2 of 4 - Accidental Damage, button",
+    ],
+  );
+});
+
+test("scanSubtree skips unnamed carousel region wrappers", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section role="region" aria-roledescription="Carousel">
+        <span>Current slide, 1 of 5, undefined</span>
+        <button aria-label="Previous slide: 5 of 5 - "></button>
+        <button aria-label="Next slide: 2 of 5 - "></button>
+      </section>
+    `),
+    [
+      "Current slide, 1 of 5, undefined",
+      "Previous slide: 5 of 5 -, button",
+      "Next slide: 2 of 5 -, button",
+    ],
+  );
+});
+
+test("scanSubtree includes VoiceOver group stops for active carousel slides", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Products</h2>
+        <div role="region" aria-roledescription="carousel">
+          <span>Current slide, 1 of 2, Home Insurance</span>
+          <button aria-label="Previous slide: 2 of 2 - Mobile Insurance"></button>
+          <button aria-label="Next slide: 2 of 2 - Mobile Insurance"></button>
+          <div aria-live="polite">
+            <div aria-hidden="false" role="group" tabindex="0">
+              <div>
+                <p>Home Insurance</p>
+                <p>Cover for your home-sweet-home</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `),
+    [
+      "heading level 2, Products",
+      "group",
+      "Current slide, 1 of 2, Home Insurance",
+      "Previous slide: 2 of 2 - Mobile Insurance, button",
+      "Next slide: 2 of 2 - Mobile Insurance, button",
+      "Home Insurance",
+      "Cover for your home-sweet-home",
+      "group",
+      "group",
+    ],
+  );
+});
+
+test("scanSubtree groups text buttons with trailing icons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <p>Already have a subscription?</p>
+        <button><p>Learn More</p><svg aria-hidden="true"></svg></button>
+      </section>
+    `),
+    ["Already have a subscription?", "Learn More, button, group"],
+  );
+});
+
+test("scanSubtree adds post-heading groups for h2 cards with leading decorative media", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <div>
+          <h2>Not quite ready to switch?</h2>
+          <div><img alt="" role="presentation"></div>
+          <div>
+            <span>Let us know your home insurance renewal date and we'll send you a reminder to switch.</span>
+            <a href="/save-date">Save the date</a>
+          </div>
+        </div>
+        <div>
+          <div><h2>Existing Sky Protect customer?</h2></div>
+          <div>
+            <p>Access your policy documents anytime in My Sky App, or find them here</p>
+            <a href="/policy-documents">See full insurance coverage</a>
+          </div>
+          <div><img alt="" role="presentation"></div>
+        </div>
+      </section>
+    `),
+    [
+      "heading level 2, Not quite ready to switch?",
+      "group",
+      "Let us know your home insurance renewal date and we'll send you a reminder to switch.",
+      "link, Save the date",
+      "heading level 2, Existing Sky Protect customer?",
+      "Access your policy documents anytime in My Sky App, or find them here",
+      "link, See full insurance coverage",
     ],
   );
 });
@@ -441,6 +824,146 @@ test("scanSubtree keeps opacity-hidden native controls in accessibility traversa
     [
       "Sort by:",
       "Relevance, Sort by:, menu pop up collapsed, button",
+    ],
+  );
+});
+
+test("scanSubtree descends into image-link caption list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <a aria-label="Navigate to PONIES" href="/watch/ponies">
+            <img alt="PONIES on Sky Atlantic">
+            <img alt="">
+          </a>
+          <span>PONIES</span>
+        </li>
+        <li>
+          <a aria-label="Navigate to FROM" href="/watch/from">
+            <img alt="FROM on Sky Atlantic">
+          </a>
+          <span>FROM</span>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "link, image, Navigate to PONIES, 1 of 2",
+      "PONIES",
+      "link, image, Navigate to FROM, 2 of 2",
+      "FROM",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree includes named images in otherwise empty list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li><img alt="The Guardian - 5 of 5 stars"></li>
+        <li><img alt="T3 - 4 of 5 stars"></li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "The Guardian - 5 of 5 stars, image, 1 of 2",
+      "T3 - 4 of 5 stars, image, 2 of 2",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree suppresses zero-width text artifacts and decorative emoji", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h3>Roam with Ease\u200B</h3>
+        <p>24/7 switching service with real person support\u200B.</p>
+        <span>😍</span>
+        <h2>More reasons to choose Sky Mobile</h2>
+      </section>
+    `),
+    [
+      "heading level 3, Roam with Ease",
+      "24/7 switching service with real person support.",
+      "heading level 2, More reasons to choose Sky Mobile",
+    ],
+  );
+});
+
+test("scanSubtree skips empty headings and announces block quotes", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2><span></span></h2>
+        <figure>
+          <blockquote>Slim, lightweight and bright.</blockquote>
+          <figcaption>Trusted reviewer</figcaption>
+        </figure>
+      </section>
+    `),
+    ["Slim, lightweight and bright., block quote level 1", "Trusted reviewer"],
+  );
+});
+
+test("scanSubtree splits inline emphasis inside simple list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <div>
+            <svg aria-hidden="true"></svg>
+            <span><div><strong>Free delivery</strong> on the day of your choice</div></span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <svg aria-hidden="true"></svg>
+            <span><div><strong>2 Year</strong> Warranty &amp; <strong>30 day</strong> return</div></span>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "Free delivery, 1 of 2",
+      "• on the day of your choice",
+      "2 Year, 2 of 2",
+      "Warranty &",
+      "30 day",
+      "return",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree suppresses product card CTA link positions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <h3>Samsung Galaxy A37 5G</h3>
+          <p>Pair with 50GB for £12 a month.</p>
+          <a aria-label="View Samsung Galaxy deal" href="/shop/mobile/samsung">View deal</a>
+        </li>
+        <li>
+          <h3>iPhone 16e</h3>
+          <p>Pair with 50GB for £10 a month.</p>
+          <a aria-label="View iPhone 16e deal" href="/shop/mobile/iphone">View deal</a>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "heading level 3, Samsung Galaxy A37 5G, 1 of 2",
+      "Pair with 50GB for £12 a month.",
+      "link, View Samsung Galaxy deal",
+      "heading level 3, iPhone 16e, 2 of 2",
+      "Pair with 50GB for £10 a month.",
+      "link, View iPhone 16e deal",
+      "end of list",
     ],
   );
 });

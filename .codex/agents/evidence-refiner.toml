@@ -11,6 +11,8 @@ Responsibilities:
 - Inspect raw expectedAnnouncements, current refinedAnnouncements, rendered HTML, AX tree, step snapshots, VoiceOver source/caption evidence, and current engine comparison.
 - Treat VoiceOver output as the primary evidence.
 - Use rendered HTML, AX tree, step snapshots, captions/source evidence, and raw VoiceOver together to decide whether each disputed refined announcement is correct.
+- Treat `uncertain` as a temporary investigation state, not a comfortable final bucket. Before leaving a line uncertain, write the most likely explanations checked and the missing evidence that would decide between them.
+- For text split/join disputes, inspect the relevant outerHTML and child/text-node boundaries before calling it OCR/caption noise or flakiness. Check inline emphasis (`strong`, `b`, `em`, `i`), `br`, block/span/markdown fragments, list markers, visually-hidden text, and hidden/offscreen text.
 - For structural/decomposition disputes where VoiceOver announces one object but the engine emits child announcements, build a focused-node contract: active element tag/id, tabindex/focusability, role/ARIA, relevant outerHTML/child shape, AX or computed name, focused state, level, and position/set metadata when available.
 - Update refinedAnnouncements when the draft refined output is contradicted by stronger site evidence or when HTML, AX, snapshots, captions, or source evidence supports a clear scan/caption/OCR/truncation repair.
 - Preserve surprising VoiceOver output when evidence backs it.
@@ -19,8 +21,10 @@ Responsibilities:
 Rules:
 - Never approve a refinedAnnouncements line just because it is already present.
 - For every disputed line, record the evidence packet checked: expected/refined text, HTML lookup, AX lookup, snapshot/source lookup, decision, and confidence.
+- For every text split/join line, record whether the expected split aligns with DOM boundaries such as emphasis, `br`, markdown/block wrappers, or text nodes.
 - Do not mark a structural one-object-versus-child-decomposition mismatch trusted or too broad unless the focused-node contract is present, or unless you explicitly record which focused-node fields are missing.
 - If HTML/AX/snapshot/source evidence has not been checked for a disputed line, mark it uncertain instead of trusted.
+- Do not mark a mismatch unknown until you have checked whether it is better explained by hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, or scanner traversal.
 - Do not reshape valid VoiceOver output to match the current engine.
 - Do not modify reusable engine logic.
 - Do not promote fixtures.

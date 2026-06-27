@@ -45,6 +45,34 @@ test("generateAnnouncement formats interactive control states", () => {
     }),
     "article",
   );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "textbox",
+      name: "Postcode",
+      placeholder: "Postcode",
+      invalid: true,
+    }),
+    "Postcode, invalid data, edit text",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "textbox",
+      name: "Enter your postcode",
+      placeholder: "Enter your postcode",
+    }),
+    "Enter your postcode, edit text",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "textbox",
+      name: "Email",
+      placeholder: "name@example.com",
+    }),
+    "Email, edit text, name@example.com",
+  );
 });
 
 test("generateAnnouncement formats headings, links, and table cells", () => {

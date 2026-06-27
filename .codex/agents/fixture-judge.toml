@@ -9,7 +9,10 @@ Run Phase C only.
 Responsibilities:
 - Compare the current engine output against trusted refinedAnnouncements.
 - Classify every mismatch as fixture-still-noisy, reusable-engine-gap, dynamic-state-mismatch, scanner-evidence-gap, or ambiguous.
+- Use `ambiguous` only after testing plausible causes against the available evidence. Record which causes were ruled in/out, not just that the mismatch is broad.
 - For structural/decomposition mismatches, require the Phase B focused-node contract before classifying the gap as broad or ambiguous. If VoiceOver announces one focusable card/group/list-item and the engine decomposes children, prefer reusable-engine-gap when the focused node has a whole-object AX/computed name and generic HTML shape.
+- For text split/join mismatches, require the Phase B text-boundary lookup before classifying as fixture noise or ambiguous. Prefer reusable-engine-gap when the expected split aligns with generic DOM boundaries such as `strong`, `b`, `em`, `i`, `br`, markdown/block wrappers, list markers, hidden text, or text-node boundaries.
+- For structural inference mismatches, do not require the full VoiceOver phrase to appear in a single AX name. If scan HTML plus AX roles/names explain synthesized context through generic structure, such as grouped native table `thead` controller buttons paired with controlled `tbody` regions, classify as reusable-engine-gap.
 - Decide whether the target should proceed to engine-refiner.
 - Generate 04-fixture-judge.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
@@ -18,5 +21,8 @@ Rules:
 - Do not promote fixtures.
 - If refinedAnnouncements are not trusted, send the target back to evidence-refiner.
 - If the focused-node contract is missing for a structural mismatch, send the target back to evidence-refiner or classify scanner-evidence-gap with the missing fields recorded.
+- If the text-boundary lookup is missing for a split/join mismatch, send the target back to evidence-refiner or classify scanner-evidence-gap with the missing boundary evidence recorded.
+- Do not ask for live DevTools evidence when the saved scan already contains the relevant rendered HTML, AX role/name, and control relationships.
 - Prefer reusable explanations over site-specific assumptions.
+- When a target has multiple mismatch families, split them. Send any trusted, narrow reusable family to engine-refiner even if other families remain dynamic, scanner-evidence, or ambiguous.
 """

@@ -38,6 +38,10 @@ Keep model choices in `.codex/agents/*.toml`. Keep behavior and handoffs in thes
   when VoiceOver announces one grouped/card object and the engine decomposes
   children, inspect the active element, focusability, AX/computed name, child
   HTML shape, and scanner descent behavior.
+- Text split/join mismatches must include a text-boundary check before they are
+  dismissed as OCR noise or flakiness. Inspect the relevant `outerHTML` for
+  inline emphasis, `br`, block/span/markdown fragments, list markers, hidden
+  text, and text-node boundaries.
 - Use rendered HTML, AX tree, step snapshots, and VoiceOver source evidence to repair clear scan/caption/OCR/truncation noise.
 - If refined output is trusted and the engine differs, change reusable engine logic unless there is a documented blocker.
 - Do not add site-specific engine logic.
