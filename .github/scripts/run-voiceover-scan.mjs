@@ -2123,6 +2123,68 @@ JSON.stringify((() => {
   return evaluateJavaScriptInChrome(script, 15000);
 }
 
+async function suppressPointerHoverDuringScan(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "skipped: pointer hover suppression is only applied to live URL scans",
+      stderr: "",
+      error: "",
+    };
+  }
+
+  const script = `
+JSON.stringify((() => {
+  const styleId = "sr-voiceover-pointer-hover-suppression";
+  let style = document.getElementById(styleId);
+  if (!style) {
+    style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = [
+      "html[data-sr-voiceover-suppress-hover] body,",
+      "html[data-sr-voiceover-suppress-hover] body * {",
+      "  pointer-events: none !important;",
+      "  cursor: default !important;",
+      "}"
+    ].join("\\n");
+    document.head.appendChild(style);
+  }
+
+  document.documentElement.setAttribute("data-sr-voiceover-suppress-hover", "true");
+
+  if (!window.__srVoiceOverPointerHoverSuppressionInstalled) {
+    const suppressedEvents = ["mousemove", "mouseover", "mouseenter"];
+    const handler = (event) => {
+      if (!document.documentElement.hasAttribute("data-sr-voiceover-suppress-hover")) {
+        return;
+      }
+      event.stopImmediatePropagation();
+    };
+    for (const eventType of suppressedEvents) {
+      document.addEventListener(eventType, handler, true);
+      window.addEventListener(eventType, handler, true);
+    }
+    window.__srVoiceOverPointerHoverSuppressionInstalled = {
+      installedAt: new Date().toISOString(),
+      suppressedEvents
+    };
+  }
+
+  return {
+    action: "installed",
+    styleId,
+    active: document.documentElement.hasAttribute("data-sr-voiceover-suppress-hover"),
+    suppressedEvents:
+      window.__srVoiceOverPointerHoverSuppressionInstalled?.suppressedEvents || []
+  };
+})())
+`;
+
+  return evaluateJavaScriptInChrome(script, 15000);
+}
+
 async function focusScanStartMarker(target) {
   if (!target.url && !target.fixturePath) {
     return moveVoiceOverToStart();
@@ -3596,6 +3658,8 @@ function createScanDebugSummary({
       prepareScanRootBeforeVoiceOver: summary.prepareScanRootBeforeVoiceOver,
       injectScanBoundaryMarkersBeforeVoiceOver:
         summary.injectScanBoundaryMarkersBeforeVoiceOver,
+      suppressPointerHoverBeforeVoiceOver:
+        summary.suppressPointerHoverBeforeVoiceOver,
       prepareScanRootAfterVoiceOver: summary.prepareScanRootAfterVoiceOver,
       resetVoiceOverAfterLoad: summary.resetVoiceOverAfterLoad,
       interactWithWebContentBeforeScan: summary.interactWithWebContentBeforeScan,
@@ -3711,6 +3775,8 @@ async function scanTarget(target, index) {
   );
   const injectScanBoundaryMarkersBeforeVoiceOver =
     await injectScanBoundaryMarkers(target, scanRootSelector);
+  const suppressPointerHoverBeforeVoiceOver =
+    await suppressPointerHoverDuringScan(target);
   const launchVoiceOverResult = launchVoiceOver();
   run("sleep", ["5"], { timeout: 7000 });
   run("pkill", ["-x", "VoiceOver Quick"], { timeout: 5000 });
@@ -3911,6 +3977,8 @@ async function scanTarget(target, index) {
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.injectScanBoundaryMarkersBeforeVoiceOver =
     injectScanBoundaryMarkersBeforeVoiceOver;
+  summary.suppressPointerHoverBeforeVoiceOver =
+    suppressPointerHoverBeforeVoiceOver;
   summary.launchVoiceOver = launchVoiceOverResult;
   summary.dismissChromeAfterVoiceOver = dismissChromeAfterVoiceOver;
   summary.dismissSystemAfterVoiceOver = dismissSystemAfterVoiceOver;
