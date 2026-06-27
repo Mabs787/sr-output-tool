@@ -76,7 +76,7 @@
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Imported by voiceover:refine-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Refreshed from run 28301913611 and evidence-refined; keep candidate because saved HTML/state diverges from VoiceOver for open nav submenus, carousel/package/legal state, and no safe reusable engine change survived corpus checks."
     },
     "www-sky-com-broadband-gaming": {
       "status": "refined",

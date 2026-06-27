@@ -8,7 +8,7 @@ This is the handover note for continuing the Sky VoiceOver corpus refinement.
 - Local download/import workspace used during refinement: `voiceover-smoke/sky-artifacts-27963923991`
 - Imported fixture location: `packages/sr-engine/tests/fixtures/voiceover/`
 - Evidence imported per site: rendered HTML, accessibility tree, step snapshots, expected/refined announcement JSON.
-- Business Sky follow-up rescan: `28289053179`, processed from `voiceover-smoke/refinement-workspace/business-sky-com-s/artifacts/28289053179`.
+- Business Sky follow-up rescan: `28301913611`, processed from `voiceover-smoke/refinement-workspace/business-sky-com-s/artifacts/28301913611`.
 
 The `voiceover-smoke/` workspace is local scratch/debug output and is ignored by git. The checked-in corpus fixtures are the source of truth for future refinement work.
 
@@ -47,7 +47,7 @@ Rerun on 2026-06-27 after the stricter Phase C/D workflow and latest reusable en
 
 | Fixture | Expected | Actual | Mismatch windows | Main buckets |
 | --- | ---: | ---: | ---: | --- |
-| `business-sky-com-s` | 212 | 131 | 121 | candidate: run `28289053179` completed and OCR cleanup was applied, but saved HTML still does not replay the open nav/carousel/package/dialog states traversed by VoiceOver |
+| `business-sky-com-s` | 211 | 130 | 118 | candidate: run `28301913611` completed and evidence-backed OCR cleanup was applied, but saved HTML still does not replay the open nav, carousel/package, and legal/tail states traversed by VoiceOver |
 | `www-sky-com-broadband` | 154 | 155 | 12 | speed-card decomposition, FAQ/link text-boundaries, fixture cleanup |
 | `www-sky-com-broadband-gaming` | 130 | 130 | 0 | exact |
 | `www-sky-com-deals` | 299 | 299 | 0 | exact |
@@ -67,7 +67,7 @@ Rerun on 2026-06-27 after the stricter Phase C/D workflow and latest reusable en
 
 These fixtures have completed Phase B evidence review and remain `candidate`:
 
-- `business-sky-com-s`: run `28289053179` has replaced the known-bad pre-rescan artifact as the active evidence and remains `candidate`. The scan completed to `scan-end-marker` with 214 captured steps, 212 VoiceOver announcements, rendered HTML, AX tree, full step snapshots, screenshots, and a screen recording. Evidence-backed OCR/text cleanup was applied for currency zeroes, `Icon` names, `money-back`, the VAT continuation, `Sky Group`, and curly apostrophe drift. Evidence quality is still not high enough for exact gating: VoiceOver traversed open Broadband/Mobile submenu content while the saved rendered HTML scans those menus as closed; carousel/package content, legal accordion state, and the consent-dialog tail are live dynamic state; all reduced step snapshots lack focus DOM ids; and 119 focused AX nodes still report `missing value`. Keep this as candidate diagnostic evidence for scan/fixture work, not as a refined engine contract; future partial gating would need a deliberately scoped stable slice.
+- `business-sky-com-s`: run `28301913611` replaced the older Business Sky artifact as the active evidence and remains `candidate`. The scan completed to `scan-end-marker` with 213 captured steps, 211 VoiceOver announcements, rendered HTML, AX tree, full step snapshots, OCR/source evidence, and a repo-local artifact copy under `voiceover-smoke/refinement-workspace/business-sky-com-s/artifacts/28301913611`. Evidence-backed OCR/text cleanup was applied for currency zeroes, `Icon` names, `money-back`, the VAT continuation, `Sky Group`, and curly apostrophe drift. Evidence quality is still not high enough for exact gating: VoiceOver traversed open Broadband/Mobile submenu content while the saved rendered HTML has those menus hidden; the hero carousel timer and slide/list position content are volatile; package/radio/legal state diverges between VoiceOver and saved HTML; and most source steps still report `missing value` focused AX nodes. Phase D tried a narrow declarative-shadow heading prototype that reduced this target from 118 to 116 mismatch windows, but it regressed already-refined Sky fixtures, so it was removed. Keep this as candidate diagnostic evidence for scan/fixture work, not as a refined engine contract; future partial gating would need a deliberately scoped stable slice.
 - `www-sky-com-broadband`: 2026-06-27 stricter Phase C/D pass fixed invalid postcode textbox phrasing and expanded FAQ body traversal. Remaining windows are speed-card decomposition, zero-width/quote/text-boundary fixture cleanup, and inline FAQ link surrounding text. Do not treat the draft refined output as truth for apostrophe or zero-width mismatches.
 - `www-sky-com-protect`: stricter pass fixed label/placeholder textbox duplication, `<br>` split hero heading fragments, and `Previous slide...` carousel button grouping. Remaining postcode wrapper group, carousel container/group exits, support text grouping, and reminder-section group need fresh focused-node evidence before Phase D.
 - `www-sky-com-glass-air`: stricter pass confirmed rating images and native comparison-table traversal as reusable engine candidates. Hero grouped heading, standalone groups, colour/gallery state, legal truncation, and quote/spacing differences require Phase B evidence cleanup or fresh focused-node evidence.
