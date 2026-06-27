@@ -805,6 +805,63 @@ let captionOcrTool = null;
 let captionAxTool = null;
 let captionWindowTool = null;
 let pageConsentOcrTool = null;
+let mousePointerTool = null;
+
+function getMousePointerTool() {
+  if (mousePointerTool) {
+    return mousePointerTool;
+  }
+
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), "sr-vo-mouse-tool-"));
+  const scriptPath = path.join(tempDir, "park-mouse-pointer.swift");
+  const binaryPath = path.join(tempDir, "park-mouse-pointer");
+  writeFileSync(
+    scriptPath,
+    `
+import CoreGraphics
+import Foundation
+
+let x = Double(CommandLine.arguments.dropFirst().first ?? "8") ?? 8
+let y = Double(CommandLine.arguments.dropFirst().dropFirst().first ?? "8") ?? 8
+CGWarpMouseCursorPosition(CGPoint(x: x, y: y))
+CGAssociateMouseAndMouseCursorPosition(boolean_t(1))
+print("parked=\\(Int(x)),\\(Int(y))")
+`,
+  );
+
+  const compile = toCommandResult(
+    run("swiftc", [scriptPath, "-o", binaryPath], { timeout: 60000 }),
+  );
+  mousePointerTool = {
+    ok: compile.ok,
+    path: binaryPath,
+    compile,
+  };
+  return mousePointerTool;
+}
+
+function parkMousePointerAwayFromPage(reason = "") {
+  const tool = getMousePointerTool();
+  if (!tool.ok) {
+    return {
+      ok: false,
+      status: tool.compile.status,
+      signal: tool.compile.signal,
+      stdout: "",
+      stderr: tool.compile.stderr,
+      error: tool.compile.error || "Unable to compile mouse pointer helper",
+      reason,
+      tool,
+    };
+  }
+
+  const result = toCommandResult(run(tool.path, ["8", "8"], { timeout: 5000 }));
+  return {
+    ...result,
+    reason,
+    tool,
+  };
+}
 
 function getCaptionAxTool() {
   if (captionAxTool) {
@@ -3542,6 +3599,7 @@ function createScanDebugSummary({
       prepareScanRootAfterVoiceOver: summary.prepareScanRootAfterVoiceOver,
       resetVoiceOverAfterLoad: summary.resetVoiceOverAfterLoad,
       interactWithWebContentBeforeScan: summary.interactWithWebContentBeforeScan,
+      parkMouseBeforeInitialCapture: summary.parkMouseBeforeInitialCapture,
       sourceHtmlCapture: summary.sourceHtmlCapture,
     },
     recording: summary.screenRecording,
@@ -3670,6 +3728,10 @@ async function scanTarget(target, index) {
   run("sleep", ["2"], { timeout: 4000 });
   const interactWithWebContentBeforeScan = interactWithVoiceOverItem();
   run("sleep", ["1"], { timeout: 3000 });
+  const parkMouseBeforeInitialCapture = parkMousePointerAwayFromPage(
+    "before-initial-capture",
+  );
+  run("sleep", ["0.3"], { timeout: 1000 });
 
   const voiceOverSteps = [];
   const stepSnapshots = [];
@@ -3712,6 +3774,7 @@ async function scanTarget(target, index) {
       stderr: "",
       error: "",
     },
+    parkMouseAfterNavigation: parkMouseBeforeInitialCapture,
     dismissSystemAfterNavigation: initialDismissSystem,
     voiceOverRaw: initialVoiceOverRaw,
     captionAxRaw: initialCaptionAxRaw,
@@ -3745,6 +3808,10 @@ async function scanTarget(target, index) {
     const stepStartedAt = Date.now();
     const navigation = navigateRight();
     const stepNumber = index + 1;
+    const parkMouseAfterNavigation = parkMousePointerAwayFromPage(
+      `after-navigation:${stepNumber}`,
+    );
+    run("sleep", ["0.3"], { timeout: 1000 });
     const captionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, stepNumber);
     const dismissSystemAfterNavigation = dismissSystemDialogs();
     const voiceOverCapture = captureVoiceOverStateWithRecovery(
@@ -3774,6 +3841,7 @@ async function scanTarget(target, index) {
       index: stepNumber,
       timing: getStepTiming(stepStartedAt, maxStepSeconds),
       navigation,
+      parkMouseAfterNavigation,
       dismissSystemAfterNavigation,
       voiceOverRaw,
       captionAxRaw,
@@ -3849,6 +3917,7 @@ async function scanTarget(target, index) {
   summary.prepareScanRootAfterVoiceOver = prepareScanRootAfterVoiceOver;
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
   summary.interactWithWebContentBeforeScan = interactWithWebContentBeforeScan;
+  summary.parkMouseBeforeInitialCapture = parkMouseBeforeInitialCapture;
   summary.captureStepScreenshots = captureStepScreenshots;
   summary.stepSnapshots = {
     enabled: captureStepSnapshots,
