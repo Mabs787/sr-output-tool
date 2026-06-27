@@ -164,14 +164,26 @@ function reduceStepSnapshots(stepSnapshots) {
             status: snapshot.htmlAfterStepCapture.status ?? null,
             error: snapshot.htmlAfterStepCapture.error || "",
             source: snapshot.htmlAfterStepCapture.source || "",
+            mode: snapshot.htmlAfterStepCapture.mode || "",
           }
         : undefined,
       htmlAfterStep: snapshot.htmlAfterStep
         ? {
             source: snapshot.htmlAfterStep.source || "",
+            mode: snapshot.htmlAfterStep.mode || "",
+            fingerprint: snapshot.htmlAfterStep.fingerprint || "",
             sha256: snapshot.htmlAfterStep.sha256 || "",
             stats: snapshot.htmlAfterStep.stats || {},
-            html: truncate(snapshot.htmlAfterStep.html || "", 12000),
+            htmlExcerpt: truncate(
+              snapshot.htmlAfterStep.htmlExcerpt ||
+                snapshot.htmlAfterStep.html ||
+                "",
+              12000,
+            ),
+            bodyTextExcerpt: truncate(
+              snapshot.htmlAfterStep.bodyTextExcerpt || "",
+              12000,
+            ),
           }
         : undefined,
       accessibility: snapshot.accessibility

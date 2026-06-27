@@ -25,6 +25,15 @@ const captureScreenRecording =
   process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
 const captureStepSnapshots =
   process.env.VOICEOVER_CAPTURE_STEP_SNAPSHOTS === "true";
+const captureStepHtmlMode = ["summary", "full", "off"].includes(
+  process.env.VOICEOVER_CAPTURE_STEP_HTML || "",
+)
+  ? process.env.VOICEOVER_CAPTURE_STEP_HTML
+  : "summary";
+const captureStepHtmlExcerptChars = parsePositiveInteger(
+  process.env.VOICEOVER_CAPTURE_STEP_HTML_EXCERPT_CHARS,
+  12000,
+);
 const scanMarkerTexts = {
   start: "SR Output Tool VoiceOver scan start marker",
   end: "SR Output Tool VoiceOver scan end marker",
@@ -2536,6 +2545,156 @@ async function captureRenderedSourceHtml(target) {
   };
 }
 
+async function captureStepHtmlAfterStep(target) {
+  if (!target.url || captureStepHtmlMode === "off") {
+    return {
+      capture: {
+        ok: true,
+        status: 0,
+        signal: null,
+        stderr: "",
+        error: "",
+        source: "not-applicable",
+        mode: captureStepHtmlMode,
+      },
+      htmlAfterStep: null,
+    };
+  }
+
+  if (captureStepHtmlMode === "full") {
+    const capture = await captureRenderedSourceHtml(target);
+    const reduced = capture.ok
+      ? reduceHtmlForRefinement(capture.stdout || "", target)
+      : {
+          html: "",
+          stats: {
+            originalLength: 0,
+            reducedLength: 0,
+            reductionPercent: 0,
+          },
+        };
+
+    return {
+      capture: {
+        ok: capture.ok,
+        status: capture.status,
+        signal: capture.signal,
+        stderr: capture.stderr,
+        error: capture.error,
+        source: capture.source || "",
+        mode: "full",
+      },
+      htmlAfterStep: {
+        source: "chrome-rendered-dom-after-voiceover-step",
+        mode: "full",
+        html: reduced.html,
+        htmlExcerpt: reduced.html.slice(0, captureStepHtmlExcerptChars),
+        sha256: sha256(reduced.html),
+        stats: {
+          ...reduced.stats,
+          excerptLength: Math.min(
+            reduced.html.length,
+            captureStepHtmlExcerptChars,
+          ),
+          excerptLimit: captureStepHtmlExcerptChars,
+        },
+      },
+    };
+  }
+
+  const summaryScript = [
+    "(() => {",
+    `const excerptLimit = ${JSON.stringify(captureStepHtmlExcerptChars)};`,
+    "function serializeNodeWithShadowRoots(node) {",
+    "  const clone = node.cloneNode(false);",
+    "  if (node.shadowRoot) {",
+    "    const template = document.createElement('template');",
+    "    template.setAttribute('shadowrootmode', node.shadowRoot.mode || 'open');",
+    "    for (const child of Array.from(node.shadowRoot.childNodes)) {",
+    "      template.content.appendChild(serializeNodeWithShadowRoots(child));",
+    "    }",
+    "    clone.appendChild(template);",
+    "  }",
+    "  for (const child of Array.from(node.childNodes)) {",
+    "    clone.appendChild(serializeNodeWithShadowRoots(child));",
+    "  }",
+    "  return clone;",
+    "}",
+    "function fnv1a(value) {",
+    "  let hash = 2166136261;",
+    "  for (let index = 0; index < value.length; index += 1) {",
+    "    hash ^= value.charCodeAt(index);",
+    "    hash = Math.imul(hash, 16777619);",
+    "  }",
+    "  return (hash >>> 0).toString(16).padStart(8, '0');",
+    "}",
+    "function compactClone(node) {",
+    "  const clone = serializeNodeWithShadowRoots(node);",
+    "  clone.querySelectorAll?.('script, style, link, meta, noscript').forEach((child) => child.remove());",
+    "  clone.querySelectorAll?.('svg').forEach((svg) => {",
+    "    const label = svg.getAttribute('aria-label') || svg.querySelector('title')?.textContent || '';",
+    "    svg.textContent = '';",
+    "    if (label && !svg.getAttribute('aria-label')) svg.setAttribute('aria-label', label.trim());",
+    "  });",
+    "  return clone;",
+    "}",
+    "const serialized = '<!doctype html>\\n' + serializeNodeWithShadowRoots(document.documentElement).outerHTML;",
+    "const compact = '<!doctype html>\\n' + compactClone(document.documentElement).outerHTML.replace(/\\s+/g, ' ').trim();",
+    "const bodyText = (document.body?.innerText || document.body?.textContent || '').replace(/\\s+/g, ' ').trim();",
+    "return JSON.stringify({",
+    "  source: 'chrome-rendered-dom-after-voiceover-step',",
+    "  mode: 'summary',",
+    "  fingerprint: fnv1a(serialized),",
+    "  stats: {",
+    "    originalLength: serialized.length,",
+    "    compactLength: compact.length,",
+    "    htmlExcerptLength: Math.min(compact.length, excerptLimit),",
+    "    bodyTextLength: bodyText.length,",
+    "    bodyTextExcerptLength: Math.min(bodyText.length, excerptLimit),",
+    "    excerptLimit,",
+    "    nodeCount: document.body?.querySelectorAll('*').length || 0,",
+    "    shadowHostCount: Array.from(document.body?.querySelectorAll('*') || []).filter((element) => element.shadowRoot).length",
+    "  },",
+    "  htmlExcerpt: compact.slice(0, excerptLimit),",
+    "  bodyTextExcerpt: bodyText.slice(0, excerptLimit)",
+    "});",
+    "})()",
+  ].join(" ");
+
+  const capture = await evaluateJavaScriptInChrome(summaryScript, 15000);
+  let htmlAfterStep = null;
+  if (capture.ok) {
+    try {
+      htmlAfterStep = JSON.parse(capture.stdout || "{}");
+    } catch (error) {
+      htmlAfterStep = {
+        source: "chrome-rendered-dom-after-voiceover-step",
+        mode: "summary",
+        parseError: error?.message || String(error),
+        raw: String(capture.stdout || "").slice(0, captureStepHtmlExcerptChars),
+        stats: {
+          originalLength: 0,
+          compactLength: 0,
+          excerptLimit: captureStepHtmlExcerptChars,
+        },
+      };
+    }
+  }
+
+  return {
+    capture: {
+      ok: capture.ok,
+      status: capture.status,
+      signal: capture.signal,
+      stderr: capture.stderr,
+      error: capture.error,
+      source: capture.source || "",
+      mode: "summary",
+    },
+    htmlAfterStep,
+  };
+}
+
 function getAxValue(value) {
   if (!value || typeof value !== "object") {
     return value ?? null;
@@ -2932,17 +3091,10 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     };
   }
 
-  const htmlAfterStepCapture = await captureRenderedSourceHtml(target);
-  const htmlAfterStep = htmlAfterStepCapture.ok
-    ? reduceHtmlForRefinement(htmlAfterStepCapture.stdout || "", target)
-    : {
-        html: "",
-        stats: {
-          originalLength: 0,
-          reducedLength: 0,
-          reductionPercent: 0,
-        },
-      };
+  const {
+    capture: htmlAfterStepCapture,
+    htmlAfterStep,
+  } = await captureStepHtmlAfterStep(target);
 
   const axCapture = await sendChromeDevToolsCommand(
     "Accessibility.getFullAXTree",
@@ -3012,13 +3164,9 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
       stderr: htmlAfterStepCapture.stderr,
       error: htmlAfterStepCapture.error,
       source: htmlAfterStepCapture.source || "",
+      mode: htmlAfterStepCapture.mode || "",
     },
-    htmlAfterStep: {
-      source: "chrome-rendered-dom-after-voiceover-step",
-      html: htmlAfterStep.html,
-      sha256: sha256(htmlAfterStep.html),
-      stats: htmlAfterStep.stats,
-    },
+    htmlAfterStep,
     accessibility,
   };
 }
@@ -3630,7 +3778,7 @@ function createRefinementManifest({
       "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
       "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
       "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-      "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+      "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html.",
     ],
     stats: {
       voiceOverAnnouncementCount: voiceOverOutput.length,

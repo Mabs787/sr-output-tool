@@ -249,9 +249,18 @@ function summarizeStepSnapshots(stepSnapshots) {
       htmlAfterStep: snapshot.htmlAfterStep
         ? {
             source: snapshot.htmlAfterStep.source || "",
+            mode: snapshot.htmlAfterStep.mode || "",
+            fingerprint: snapshot.htmlAfterStep.fingerprint || "",
             sha256: snapshot.htmlAfterStep.sha256 || "",
             stats: snapshot.htmlAfterStep.stats || {},
-            htmlExcerpt: String(snapshot.htmlAfterStep.html || "").slice(0, 12000),
+            htmlExcerpt: String(
+              snapshot.htmlAfterStep.htmlExcerpt ||
+                snapshot.htmlAfterStep.html ||
+                "",
+            ).slice(0, 12000),
+            bodyTextExcerpt: String(
+              snapshot.htmlAfterStep.bodyTextExcerpt || "",
+            ).slice(0, 12000),
           }
         : null,
       matchedAccessibilityNodes:
@@ -288,9 +297,11 @@ function createPrompt(entry) {
       ? readJson(stepSnapshotsPath)
       : null;
 
-  return `# SR Engine Refinement Request
+  return `# VoiceOver Multi-Phase Refinement Request
 
-Use this VoiceOver capture, VoiceOver source diagnostics, rendered HTML, Chrome accessibility tree, and optional step snapshots to first refine the expected VoiceOver output, then refine the SR Output Tool engine.
+Use this VoiceOver capture, VoiceOver source diagnostics, rendered HTML, Chrome accessibility tree, and optional step snapshots with \`docs/workflows/voiceover-refinement.md\`.
+
+This generated prompt is an evidence packet, not a substitute for the multi-agent workflow. If the user asks for a multi-agent run, the top-level Codex session must spawn the named phase agents and require receipts from \`docs/workflows/agent-receipts.md\`.
 
 ## Target
 
