@@ -23,6 +23,8 @@ Use these phase agents for actual phase work:
 - `intake` for Phase A when import/preprocessing is needed
 - `evidence-refiner` for Phase B
 - `fixture-judge` for Phase C
+- `repro-scanner` for Phase C.5 when uncertainty can be resolved by a
+  same-structure minimal VoiceOver scan
 - `engine-refiner` for Phase D when Phase C finds a reusable gap
 - `promoter` for Phase E when status/docs/promotion are needed
 
@@ -56,5 +58,11 @@ packet before judging the gap: active element tag/id, `tabindex`, role/ARIA,
 child HTML shape, AX or computed name, focusable/focused state, and whether the
 name represents the whole object. Use that packet in Phase C/D to decide whether
 a reusable scanner/engine fix is possible.
+
+When saved evidence still leaves doubt, do not fall back to manual user
+confirmation. Route the family to Phase C.5. The repro-scanner must preserve the
+same accessibility-relevant DOM structure and attributes in a small page, run a
+focused VoiceOver scan, and use that mini artifact to decide whether the issue
+is an engine gap, fixture noise, conditional state, or an insufficient repro.
 
 Do not modify unrelated fixtures. Do not move to another target.

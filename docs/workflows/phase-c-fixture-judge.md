@@ -30,6 +30,9 @@ missing evidence, or saved/live state divergence for that exact window.
 
 `ambiguous` is not a shortcut classification. Use it only after checking the
 plausible causes against the evidence and recording what is still missing.
+If the missing evidence can be produced with a minimal same-structure
+reproduction scan, route to Phase C.5 before using `ambiguous` as the terminal
+classification for that family.
 
 ## Structural Decomposition Gate
 
@@ -49,6 +52,9 @@ potential reusable engine gap if:
 If those facts are missing, send the target back to Phase B or mark the mismatch
 as `scanner-evidence-gap`; do not dismiss it as too broad without recording the
 missing focused-node fields.
+If the missing fields are caused by page complexity rather than unavailable
+evidence, route the family to Phase C.5 with a minimal focused-node reproduction
+request.
 
 For generic boundary words such as `list item`, `group`, `article`, `banner`, or
 `end of`, do not rely on text matching alone. Require Phase B evidence that maps
@@ -74,6 +80,9 @@ VoiceOver split aligns with generic DOM boundaries such as:
 If the lookup is missing, send the target back to Phase B or record a
 `scanner-evidence-gap`. Do not call a text split flaky until the relevant
 `outerHTML`, child text fragments, and AX/source evidence have been checked.
+If the saved page evidence remains inconclusive, route the family to Phase C.5
+with a minimal text-boundary reproduction that preserves the same text nodes,
+inline elements, `br`, hidden text, and wrapper structure.
 
 When a target has multiple mismatch families, split them. Send any trusted,
 narrow reusable family to Phase D even if other families remain dynamic,
@@ -116,6 +125,23 @@ saved fixture, classify the window as `fixture-still-noisy` or
 fixture-level normalization. Do not ask Phase D to globally reorder nodes to
 compensate for a stale or malformed saved DOM snapshot.
 
+## Minimal-Reproduction Gate
+
+Before sending a mismatch to Phase D with a broad rule, or leaving it as
+`ambiguous`/`scanner-evidence-gap`, decide whether Phase C.5 can produce
+decisive evidence. Phase C.5 is required when:
+
+- the mismatch depends on caption/source truncation uncertainty
+- the mismatch may be conditional on hover, focus, carousel movement, timer
+  changes, or other step-only DOM state
+- VoiceOver appears to synthesize context from generic structure but the full
+  page is too complex to isolate the predicate confidently
+- the proposed engine fix would be broad and is based on only one live-site
+  example
+
+The Phase C receipt must either route the family to `repro-scanner` or record
+why a reproduction scan is impossible or unnecessary.
+
 Examples:
 
 - saved HTML contains `<h3>` or `<h4>` but the engine emits plain text:
@@ -157,4 +183,5 @@ scan lacks the relevant HTML, AX role/name, or control relationship.
 
 Write `04-fixture-judge.json` with one decision per mismatch.
 
-If the refined fixture is trusted and the engine differs, send the target to Phase D.
+If the refined fixture is trusted and the engine differs, send the target to
+Phase D unless Phase C.5 is required to prove the reusable behavior first.

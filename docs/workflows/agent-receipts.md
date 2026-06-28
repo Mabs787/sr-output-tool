@@ -9,7 +9,7 @@ voiceover-smoke/agent-work/<run-id>/<target>/
 Receipts must be valid JSON and must include these common fields:
 
 - `schemaVersion`: `1`
-- `phase`: `A`, `B`, `C`, `D`, or `E`
+- `phase`: `A`, `B`, `C`, `C.5`, `D`, or `E`
 - `agent`: agent role name
 - `agentConfigPath`: `.codex/agents/<role>.toml`
 - `spawnedBy`: `top-level-codex`, `orchestrator`, or `manual`
@@ -77,7 +77,24 @@ run occurred.
 - confirmation that mismatch-relevant lines in `refinedAnnouncements` are
   replayable from the initial `rendered-html.html`, or the Phase B
   `initialDomStatus` reason for returning them
+- whether Phase C.5 is required before fixture edits, ambiguity labels, or
+  broad engine changes
 - whether Phase D should run
+
+`04-minimal-reproduction-scan.json` must include:
+
+- mismatch family and source fixture/window indexes
+- original expected/refined/actual snippets
+- why the saved site evidence was insufficient
+- reproduction HTML path or URL
+- preserved DOM contract checklist
+- scan workflow command, run id, and artifact path
+- mini raw VoiceOver output
+- mini rendered HTML, AX, and step-snapshot evidence summary
+- mini engine output
+- conclusion: `engine-gap-confirmed`, `fixture-noise-confirmed`,
+  `conditional-state-confirmed`, or `insufficient-repro`
+- next phase and handoff reason
 
 `05-engine-refinement.json` must include:
 

@@ -16,6 +16,7 @@ Responsibilities:
 - Treat rendered-html.html as the initial DOM fixture that the engine replays. Use step snapshot `htmlAfterStep` evidence, including fingerprint, stats, htmlExcerpt, bodyTextExcerpt, active element text, matched DOM elements, and matched AX nodes, to identify content that appeared only after VoiceOver navigation, hover, focus, carousel advancement, timer mutation, or another step-time page mutation.
 - For every disputed line with step evidence, record initialDomStatus as initial-dom, step-only-dom, volatile-dom, or not-found. Remove or normalize step-only/volatile conditional content from refinedAnnouncements unless the same semantic content is also present and replayable in the initial rendered HTML.
 - Treat `uncertain` as a temporary investigation state, not a comfortable final bucket. Before leaving a line uncertain, write the most likely explanations checked and the missing evidence that would decide between them.
+- When the missing evidence can be produced by a same-structure minimal reproduction scan, request Phase C.5 instead of asking the user to manually confirm local VoiceOver behavior.
 - For text split/join disputes, inspect the relevant outerHTML and child/text-node boundaries before calling it OCR/caption noise or flakiness. Check inline emphasis (`strong`, `b`, `em`, `i`), `br`, block/span/markdown fragments, list markers, visually-hidden text, and hidden/offscreen text.
 - For structural/decomposition disputes where VoiceOver announces one object but the engine emits child announcements, build a focused-node contract: active element tag/id, tabindex/focusability, role/ARIA, relevant outerHTML/child shape, AX or computed name, focused state, level, and position/set metadata when available.
 - Update refinedAnnouncements when the draft refined output is contradicted by stronger site evidence or when HTML, AX, snapshots, captions, or source evidence supports a clear scan/caption/OCR/truncation repair.
@@ -30,6 +31,7 @@ Rules:
 - Do not mark a structural one-object-versus-child-decomposition mismatch trusted or too broad unless the focused-node contract is present, or unless you explicitly record which focused-node fields are missing.
 - If HTML/AX/snapshot/source evidence has not been checked for a disputed line, mark it uncertain instead of trusted.
 - Do not mark a mismatch unknown until you have checked whether it is better explained by hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, or scanner traversal.
+- Do not leave a line uncertain without either a Phase C.5 reproduction request or a concrete blocker explaining why a mini VoiceOver scan cannot decide it.
 - Do not reshape valid VoiceOver output to match the current engine.
 - Do not modify reusable engine logic.
 - Do not promote fixtures.

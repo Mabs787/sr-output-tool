@@ -33,8 +33,15 @@ For each target, run every required phase:
   step snapshots exist, require initialDomStatus for disputed lines:
   `initial-dom`, `step-only-dom`, `volatile-dom`, or `not-found`.
 - Spawn `fixture-judge` for Phase C after evidence refinement.
+- Spawn `repro-scanner` for Phase C.5 whenever Phase B/C marks a family as
+  uncertain, truncation-prone, conditional-state-dependent, scanner-evidence,
+  ambiguous, or too broad to safely turn into a reusable engine rule from the
+  full page alone. The repro-scanner must create a same-structure minimal HTML
+  example, trigger/import a focused VoiceOver scan, and hand the result back to
+  evidence-refiner, fixture-judge, or engine-refiner.
 - Spawn `engine-refiner` for Phase D only when a trusted `initial-dom`
-  mismatch proves a reusable engine or scanner gap.
+  mismatch proves a reusable engine or scanner gap, or Phase C.5 concludes
+  `engine-gap-confirmed`.
 - Spawn `promoter` for Phase E after compare and tests pass, or when status/docs must record candidate/partial/skip.
 
 Each spawned phase agent must produce the receipt defined in
@@ -48,5 +55,8 @@ from Phase B before judging or skipping engine refinement.
 
 For text split/join mismatches, require the Phase B text-boundary evidence
 packet before judging or skipping engine refinement.
+
+Do not ask the user to manually confirm local VoiceOver behavior when a minimal
+same-structure reproduction scan can decide the issue.
 
 Do not stop after preprocessing. Do not move to the next site until the current site has a recorded outcome.

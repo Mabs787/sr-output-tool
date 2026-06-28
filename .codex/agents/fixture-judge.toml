@@ -17,6 +17,7 @@ Responsibilities:
 - For text split/join mismatches, require the Phase B text-boundary lookup before classifying as fixture noise or ambiguous. Prefer reusable-engine-gap when the expected split aligns with generic DOM boundaries such as `strong`, `b`, `em`, `i`, `br`, markdown/block wrappers, list markers, hidden text, or text-node boundaries.
 - For structural inference mismatches, do not require the full VoiceOver phrase to appear in a single AX name. If scan HTML plus AX roles/names explain synthesized context through generic structure, such as grouped native table `thead` controller buttons paired with controlled `tbody` regions, classify as reusable-engine-gap.
 - Decide whether the target should proceed to engine-refiner.
+- Decide whether uncertain, truncation-prone, conditional-state, or broad-rule mismatch families must proceed to repro-scanner before engine-refiner.
 - Generate 04-fixture-judge.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
 Rules:
@@ -26,9 +27,11 @@ Rules:
 - If the focused-node contract is missing for a structural mismatch, send the target back to evidence-refiner or classify scanner-evidence-gap with the missing fields recorded.
 - If the text-boundary lookup is missing for a split/join mismatch, send the target back to evidence-refiner or classify scanner-evidence-gap with the missing boundary evidence recorded.
 - Do not ask for live DevTools evidence when the saved scan already contains the relevant rendered HTML, AX role/name, and control relationships.
+- Do not use ambiguous or scanner-evidence-gap as a terminal outcome when a minimal reproduction scan can produce the missing evidence. Route those families to repro-scanner.
 - Prefer reusable explanations over site-specific assumptions.
 - Do not label a mismatch dynamic-state merely because the whole target is dynamic. If saved HTML/AX/snapshots contain the semantic object that VoiceOver announced, classify the window as reusable-engine-gap.
 - Do not send hover/focus/carousel/timer content to engine-refiner when `htmlAfterStep` proves it was introduced after the initial DOM snapshot and the initial fixture lacks the semantic content.
 - Do send trusted initial-dom mismatches to engine-refiner when the semantic content is replayable from saved HTML/AX, even if raw VoiceOver had other step-only lines nearby.
 - When a target has multiple mismatch families, split them. Send any trusted, narrow reusable family to engine-refiner even if other families remain dynamic, scanner-evidence, or ambiguous.
+- Send Phase C.5-required families to repro-scanner before Phase D, and only route them to engine-refiner after the mini scan concludes engine-gap-confirmed.
 """

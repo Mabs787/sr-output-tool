@@ -72,6 +72,12 @@ For each audited announcement or range:
 10. Before leaving any line uncertain, test the likely explanations against the evidence: hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, scanner traversal, and `htmlAfterStep` versus initial DOM divergence.
 11. When live/local DOM evidence is available and it contradicts the saved fixture order or duplicate structure, compare both against VoiceOver before blaming the engine. If VoiceOver matches live DOM but not saved `rendered-html.html`, record saved/live DOM-state divergence and return the target for fixture repair, recapture, or fixture-level normalization.
 12. Record every approval, edit, or uncertainty with the evidence used.
+13. When a disputed line remains uncertain after the required HTML, AX,
+    step-snapshot, source/caption, text-boundary, and focused-node checks,
+    request Phase C.5 instead of asking the user for manual confirmation. The
+    request must include the minimal DOM contract to preserve, the suspected
+    cause to test, and what result would prove fixture noise versus an engine
+    gap.
 
 ## Evidence Packet
 
@@ -92,12 +98,15 @@ Every disputed line must have a receipt entry with:
 - decision: `approved`, `edited`, or `uncertain`
 - confidence and reason
 - plausible causes checked, with the missing evidence that prevents a firmer decision when the line remains uncertain
+- Phase C.5 request when needed: reproduction purpose, DOM/AX contract to
+  preserve, suspected cause, and decisive mini-scan outcomes
 
 ## Output
 
 - updated fixture JSON when edits are needed
 - `03-evidence-refinement.json`
-- remaining uncertain announcements, if any
+- remaining uncertain announcements, if any, each with a Phase C.5 request or a
+  concrete blocker explaining why no reproduction scan is possible
 
 Do not approve the refined output simply because it already exists. Do not
 reshape valid VoiceOver output to match the current engine.

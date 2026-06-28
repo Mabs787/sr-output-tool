@@ -4,6 +4,9 @@ Run this phase only after Phase B has edited or explicitly approved
 `refinedAnnouncements`, and Phase C has classified a trusted `initial-dom`
 mismatch as a reusable engine or scanner gap.
 
+If Phase C marked the family for Phase C.5, do not implement the engine rule
+until the minimal reproduction scan concludes `engine-gap-confirmed`.
+
 ## Agent
 
 Use `.codex/agents/engine-refiner.toml`.
@@ -19,6 +22,8 @@ Use `.codex/agents/engine-refiner.toml`.
 - Do not implement engine behavior for raw VoiceOver lines that Phase B marked
   `step-only-dom` or `volatile-dom`; those belong in raw expectedAnnouncements
   or fixture normalization, not reusable engine traversal.
+- Do not implement a broad rule from a complex page when Phase C.5 was required
+  but not run.
 
 ## Engine-Confidence Checklist
 
@@ -70,6 +75,11 @@ prefer "preserve heading level for semantic heading elements discovered in
 declarative shadow-root fixture HTML" over a broad "use all declarative
 shadow-root text as accessible names" rule.
 
+When the smallest generic condition is still unclear, create or request a Phase
+C.5 minimal reproduction scan before committing the rule. Use the mini-scan
+result to decide whether the behavior is a real VoiceOver rule, fixture noise,
+or conditional step state.
+
 Scan artifacts are sufficient when they contain the relevant rendered HTML,
 AX roles/names, and control relationships. Do not require a live DevTools
 recapture only to confirm that a phrase is absent from an AX name.
@@ -94,7 +104,8 @@ revisit queue entry to `05-engine-refinement.json` with:
 - `currentWindowIndexes`
 - `latestActual`
 - `latestExpected`
-- `nextOwner`: `evidence-refiner`, `fixture-judge`, `engine-refiner`, or `promoter`
+- `nextOwner`: `evidence-refiner`, `fixture-judge`, `repro-scanner`,
+  `engine-refiner`, or `promoter`
 - `nextAction`
 - `blocker`, if any
 - `checksNeeded`

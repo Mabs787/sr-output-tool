@@ -9,8 +9,9 @@ The goal is to turn scan artifacts into trusted `refinedAnnouncements`, then use
 1. [Phase A: Intake](phase-a-intake.md)
 2. [Phase B: Evidence Refinement](phase-b-evidence-refinement.md)
 3. [Phase C: Fixture Judge](phase-c-fixture-judge.md)
-4. [Phase D: Engine Refinement](phase-d-engine-refinement.md)
-5. [Phase E: Promotion](phase-e-promotion.md)
+4. [Phase C.5: Minimal Reproduction Scan](phase-c5-minimal-reproduction-scan.md)
+5. [Phase D: Engine Refinement](phase-d-engine-refinement.md)
+6. [Phase E: Promotion](phase-e-promotion.md)
 
 All phase receipts must follow [Agent Receipts](agent-receipts.md).
 
@@ -22,6 +23,7 @@ Project-scoped subagents live in `.codex/agents/`.
 - `intake`: Phase A artifact intake and preprocessing.
 - `evidence-refiner`: Phase B source-of-truth `refinedAnnouncements` review.
 - `fixture-judge`: Phase C mismatch classification.
+- `repro-scanner`: Phase C.5 minimal reproduction scan loop for uncertain evidence.
 - `engine-refiner`: Phase D reusable engine/scanner changes.
 - `promoter`: Phase E manifest, docs, status, and final receipts.
 
@@ -43,6 +45,8 @@ must still spawn phase-specific agents for the actual phase work:
 - `intake` for Phase A when artifact import is needed
 - `evidence-refiner` for Phase B
 - `fixture-judge` for Phase C
+- `repro-scanner` for Phase C.5 when Phase B/C has a scanner-evidence gap,
+  uncertain replayability, truncation doubt, or a broad engine rule candidate
 - `engine-refiner` for Phase D when Phase C finds a reusable gap
 - `promoter` for Phase E when promotion or status updates are needed
 
@@ -84,6 +88,12 @@ evidence-backed reason.
   as a disputed VoiceOver line, Phase B must classify the line as
   `initial-dom`, `step-only-dom`, `volatile-dom`, or `not-found` before Phase C
   judges the mismatch.
+- When Phase B or Phase C cannot confidently decide whether a disputed line is
+  true VoiceOver behavior, capture truncation, conditional state, or an engine
+  gap from the saved site evidence, run Phase C.5 before changing fixtures or
+  broad engine logic. Phase C.5 must create a minimal same-structure DOM
+  reproduction, trigger a focused VoiceOver scan, import the artifact, and feed
+  the result back to Phase B/C/D.
 - If refined output is trusted and the engine differs, change reusable engine logic unless there is a documented blocker.
 - Once unreplayable page state is removed or normalized from the fixture,
   remaining mismatches are presumed engine/scanner gaps until Phase C/D prove
@@ -105,6 +115,7 @@ voiceover-smoke/agent-work/<run-id>/<target>/
   02-preprocess.json
   03-evidence-refinement.json
   04-fixture-judge.json
+  04-minimal-reproduction-scan.json
   05-engine-refinement.json
   06-promotion.json
   notes.md
