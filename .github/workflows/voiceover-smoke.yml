@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       urls:
-        description: "Newline, comma, or space separated page URLs to scan"
+        description: "Newline, comma, or space separated page URLs or repo-local fixture paths to scan"
         required: true
         type: string
       capture_step_screenshots:
@@ -113,7 +113,7 @@ jobs:
       - name: Create single-page manifest
         run: |
           node .github/scripts/create-voiceover-url-manifest.mjs \
-            --url "${{ matrix.url }}" \
+            --url "${{ matrix.input }}" \
             --output voiceover-smoke/url-manifest.json
 
       - name: Configure Chrome and VoiceOver

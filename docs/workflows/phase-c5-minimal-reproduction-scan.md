@@ -61,8 +61,12 @@ content unless they are part of the suspected behavior.
 ## Scan Artifact
 
 The reproduction must be scanned by VoiceOver, not only inspected by the
-engine. Host the reproduction as a static page under a temporary or scratch
-path, then trigger the VoiceOver scan workflow with step snapshots enabled.
+engine. Prefer checking the reproduction HTML into a repo-local repro path and
+passing that fixture path to the VoiceOver scan workflow. The workflow accepts
+repo-relative HTML fixture paths and the runner opens them as local `file://`
+pages, avoiding public hosting, CDN interstitials, and third-party page chrome.
+Use public `http`/`https` URLs only when the reproduction genuinely needs live
+network behavior.
 
 Record the exact command or workflow invocation in the receipt. A typical
 workflow invocation should include:
@@ -70,7 +74,7 @@ workflow invocation should include:
 ```bash
 gh workflow run "VoiceOver smoke" \
   --ref <branch> \
-  -f urls=<reproduction-url> \
+  -f urls=docs/voiceover-repros/<target>/<family>.html \
   -f capture_step_snapshots=true \
   -f capture_step_screenshots=false \
   -f capture_screen_recording=false \

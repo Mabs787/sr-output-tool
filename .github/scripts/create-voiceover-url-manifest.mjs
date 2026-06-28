@@ -41,10 +41,11 @@ function parseArgs(argv) {
 function printHelp() {
   console.log(`Usage:
   node .github/scripts/create-voiceover-url-manifest.mjs --urls "https://example.com"
+  node .github/scripts/create-voiceover-url-manifest.mjs --urls "docs/repros/example.html"
 
 Options:
-  --url <url>       Add one URL. Can be repeated.
-  --urls <urls>     Add newline, comma, or space separated URLs.
+  --url <target>    Add one URL or repo-local fixture path. Can be repeated.
+  --urls <targets>  Add newline, comma, or space separated URLs/fixture paths.
   --output <path>   Manifest output path. Defaults to ./voiceover-smoke/url-manifest.json
   --matrix-output <path>
                     Also write a GitHub Actions matrix JSON file.
@@ -59,15 +60,50 @@ function splitUrls(value) {
     .filter(Boolean);
 }
 
-function normalizeUrl(value) {
-  const url = new URL(value);
-  if (!["http:", "https:"].includes(url.protocol)) {
-    throw new Error(`Only http and https URLs are supported: ${value}`);
+function isHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol);
+  } catch {
+    return false;
   }
-  return url.href;
 }
 
-function getTargetName(url, index) {
+function normalizeFixturePath(value) {
+  const normalized = path.normalize(String(value || "").trim());
+  if (!normalized || normalized.startsWith("..") || path.isAbsolute(normalized)) {
+    throw new Error(`Fixture paths must be repo-relative: ${value}`);
+  }
+  return normalized;
+}
+
+function createTarget(value) {
+  if (isHttpUrl(value)) {
+    return {
+      mode: "page",
+      url: new URL(value).href,
+      scanRootSelector: "body",
+    };
+  }
+
+  return {
+    mode: "page",
+    fixturePath: normalizeFixturePath(value),
+    scanRootSelector: "[data-sr-scan-root]",
+  };
+}
+
+function getTargetName(target, index) {
+  if (target.fixturePath) {
+    const name = target.fixturePath
+      .replace(/\.[^.]+$/, "")
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/^-|-$/g, "")
+      .toLowerCase();
+    return name || `fixture-${index + 1}`;
+  }
+
+  const url = target.url;
   const parsed = new URL(url);
   const name = `${parsed.hostname}${parsed.pathname}`
     .replace(/\/$/, "")
@@ -77,16 +113,17 @@ function getTargetName(url, index) {
   return name || `url-${index + 1}`;
 }
 
-function createManifest(urls) {
-  return urls.map((url, index) => ({
-    name: getTargetName(url, index),
-    mode: "page",
-    url,
-    scanRootSelector: "body",
-    refinement: {
-      minVoiceOverAnnouncements: 1,
-    },
-  }));
+function createManifest(inputs) {
+  return inputs.map((input, index) => {
+    const target = createTarget(input);
+    return {
+      name: getTargetName(target, index),
+      ...target,
+      refinement: {
+        minVoiceOverAnnouncements: 1,
+      },
+    };
+  });
 }
 
 function main() {
@@ -96,19 +133,19 @@ function main() {
     return;
   }
 
-  const urls = options.urls.map(normalizeUrl);
-  if (!urls.length) {
-    throw new Error("At least one URL is required.");
+  const inputs = options.urls.map((value) => String(value || "").trim()).filter(Boolean);
+  if (!inputs.length) {
+    throw new Error("At least one URL or fixture path is required.");
   }
 
-  const manifest = createManifest(urls);
+  const manifest = createManifest(inputs);
   mkdirSync(path.dirname(options.output), { recursive: true });
   writeFileSync(options.output, `${JSON.stringify(manifest, null, 2)}\n`);
   if (options.matrixOutput) {
     const matrix = {
       include: manifest.map((target) => ({
         name: target.name,
-        url: target.url,
+        input: target.url || target.fixturePath,
       })),
     };
     mkdirSync(path.dirname(options.matrixOutput), { recursive: true });
