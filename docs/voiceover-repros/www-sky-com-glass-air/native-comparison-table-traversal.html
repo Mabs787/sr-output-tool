@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Minimal reproduction: native comparison table traversal</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #c8c8c8;
+        padding: 16px;
+        vertical-align: top;
+      }
+
+      th {
+        text-align: left;
+      }
+
+      .product-card {
+        display: block;
+      }
+
+      .colours span {
+        display: inline;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section aria-labelledby="comparison-heading" data-sr-dom-node-id="947">
+        <h2 id="comparison-heading" data-sr-dom-node-id="948">Compare Sky Glass models</h2>
+        <table data-sr-dom-node-id="956">
+          <thead data-sr-dom-node-id="957">
+            <tr data-sr-dom-node-id="958">
+              <th data-sr-dom-node-id="959"></th>
+              <th data-sr-dom-node-id="960">
+                <div class="product-card" data-sr-dom-node-id="961">
+                  <img alt="" data-sr-dom-node-id="962">
+                  <div data-sr-dom-node-id="963">
+                    <span data-sr-dom-node-id="964">Sky Glass Air</span>
+                    <div data-sr-dom-node-id="965">
+                      <span data-sr-dom-node-id="966">Available in</span>
+                      <div class="colours" data-sr-dom-node-id="967">
+                        <span data-sr-dom-node-id="968">Carbon Grey</span><span data-sr-dom-node-id="969"></span><span data-sr-dom-node-id="970">Sea Green</span><span data-sr-dom-node-id="971"></span><span data-sr-dom-node-id="972">Cotton White</span><span data-sr-dom-node-id="973"></span>
+                      </div>
+                      <span data-sr-dom-node-id="974">43", 55", 65"</span>
+                    </div>
+                    <span data-sr-dom-node-id="975"><div data-sr-dom-node-id="976">TV Starting from <br data-sr-dom-node-id="977"><span data-sr-dom-node-id="978">&pound;6 a month</span><br data-sr-dom-node-id="979"> Over a 48-month loan. From &pound;20 upfront payment. Total Glass Air price &pound;309. Requires streaming TV subscription from &pound;15pm. </div></span>
+                    <div data-sr-dom-node-id="980"><div data-sr-dom-node-id="981"><a href="#buy-air" title="Buy Now" data-sr-dom-node-id="982"><span data-sr-dom-node-id="983">Buy Now</span></a></div></div>
+                  </div>
+                </div>
+              </th>
+              <th data-sr-dom-node-id="984">
+                <div class="product-card" data-sr-dom-node-id="985">
+                  <img alt="" data-sr-dom-node-id="986">
+                  <div data-sr-dom-node-id="987">
+                    <span data-sr-dom-node-id="988">Sky Glass Gen 2</span>
+                    <div data-sr-dom-node-id="989">
+                      <span data-sr-dom-node-id="990">Available in</span>
+                      <div class="colours" data-sr-dom-node-id="991">
+                        <span data-sr-dom-node-id="992">Volcanic Grey</span><span data-sr-dom-node-id="993"></span><span data-sr-dom-node-id="994">Atlantic Blue</span><span data-sr-dom-node-id="995"></span><span data-sr-dom-node-id="996">Arctic Silver</span><span data-sr-dom-node-id="997"></span>
+                      </div>
+                      <span data-sr-dom-node-id="998">43", 55", 65"</span>
+                    </div>
+                    <span data-sr-dom-node-id="999"><div data-sr-dom-node-id="1000">TV Starting from <br data-sr-dom-node-id="1001"><span data-sr-dom-node-id="1002">&pound;14 a month</span><br data-sr-dom-node-id="1003"> Over a 48-month loan. From &pound;20 upfront payment. Total Glass Gen 2 price &pound;699 Requires streaming TV subscription from &pound;15pm. </div></span>
+                    <div class="actions" data-sr-dom-node-id="1004"><div data-sr-dom-node-id="1005"><a href="#learn-gen2" title="Learn More" data-sr-dom-node-id="1006"><span data-sr-dom-node-id="1007">Learn More</span></a><a href="#buy-gen2" title="Buy Now" data-sr-dom-node-id="1008"><span data-sr-dom-node-id="1009">Buy Now</span></a></div></div>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <thead aria-disabled="true" aria-hidden="true" data-sr-dom-node-id="1010">
+            <tr data-sr-dom-node-id="1011">
+              <th data-sr-dom-node-id="1012"></th>
+              <th data-sr-dom-node-id="1013"><div data-sr-dom-node-id="1014"><img alt="" data-sr-dom-node-id="1015"><span data-sr-dom-node-id="1016">Sky Glass Air</span></div></th>
+              <th data-sr-dom-node-id="1017"><div data-sr-dom-node-id="1018"><img alt="" data-sr-dom-node-id="1019"><span data-sr-dom-node-id="1020">Sky Glass Gen 2</span></div></th>
+            </tr>
+          </thead>
+          <tbody data-sr-dom-node-id="1021">
+            <tr data-sr-dom-node-id="1022">
+              <th data-sr-dom-node-id="1023">Quantum Dot Display</th>
+              <td data-sr-dom-node-id="1024"><div data-sr-dom-node-id="1025"><div data-sr-dom-node-id="1026"><img alt="" data-sr-dom-node-id="1027"></div><span data-sr-dom-node-id="1028"><span data-sr-dom-node-id="1029">Quantum Dot Display</span></span></div></td>
+              <td data-sr-dom-node-id="1030"><div data-sr-dom-node-id="1031"><div data-sr-dom-node-id="1032"><img alt="" data-sr-dom-node-id="1033"></div><span data-sr-dom-node-id="1034"><span data-sr-dom-node-id="1035">Quantum Dot Display</span></span></div></td>
+            </tr>
+            <tr data-sr-dom-node-id="1036">
+              <th data-sr-dom-node-id="1037">Dimming &amp; HDR</th>
+              <td data-sr-dom-node-id="1038"><div data-sr-dom-node-id="1039"><div data-sr-dom-node-id="1040"><img alt="" data-sr-dom-node-id="1041"></div><span data-sr-dom-node-id="1042"><span data-sr-dom-node-id="1043">Global dimming &amp; HDR</span></span></div></td>
+              <td data-sr-dom-node-id="1044"><div data-sr-dom-node-id="1045"><div data-sr-dom-node-id="1046"><img alt="" data-sr-dom-node-id="1047"></div><span data-sr-dom-node-id="1048"><span data-sr-dom-node-id="1049">Local dimming zones &amp; advanced HDR</span></span></div></td>
+            </tr>
+            <tr data-sr-dom-node-id="1050">
+              <th data-sr-dom-node-id="1051">Speakers</th>
+              <td data-sr-dom-node-id="1052"><div data-sr-dom-node-id="1053"><div data-sr-dom-node-id="1054"><img alt="" data-sr-dom-node-id="1055"></div><span data-sr-dom-node-id="1056"><span data-sr-dom-node-id="1057">2 speakers</span></span></div></td>
+              <td data-sr-dom-node-id="1058"><div data-sr-dom-node-id="1059"><div data-sr-dom-node-id="1060"><img alt="" data-sr-dom-node-id="1061"></div><span data-sr-dom-node-id="1062"><span data-sr-dom-node-id="1063">7 speakers</span></span></div></td>
+            </tr>
+            <tr data-sr-dom-node-id="1064">
+              <th data-sr-dom-node-id="1065">Soundbar</th>
+              <td data-sr-dom-node-id="1066"><div data-sr-dom-node-id="1067"><div data-sr-dom-node-id="1068"><img alt="" data-sr-dom-node-id="1069"></div><span data-sr-dom-node-id="1070"><span data-sr-dom-node-id="1071"> No soundbar</span></span></div></td>
+              <td data-sr-dom-node-id="1072"><div data-sr-dom-node-id="1073"><div data-sr-dom-node-id="1074"><img alt="" data-sr-dom-node-id="1075"></div><span data-sr-dom-node-id="1076"><span data-sr-dom-node-id="1077">Soundbar built-in</span></span></div></td>
+            </tr>
+            <tr data-sr-dom-node-id="1078">
+              <th data-sr-dom-node-id="1079">Design</th>
+              <td data-sr-dom-node-id="1080"><div data-sr-dom-node-id="1081"><div data-sr-dom-node-id="1082"><img alt="" data-sr-dom-node-id="1083"></div><span data-sr-dom-node-id="1084"><span data-sr-dom-node-id="1085">Lightweight sleek design</span></span></div></td>
+              <td data-sr-dom-node-id="1086"><div data-sr-dom-node-id="1087"><div data-sr-dom-node-id="1088"><img alt="" data-sr-dom-node-id="1089"></div><span data-sr-dom-node-id="1090"><span data-sr-dom-node-id="1091">Anodised aluminium design</span></span></div></td>
+            </tr>
+            <tr data-sr-dom-node-id="1092">
+              <th data-sr-dom-node-id="1093">Sky OS</th>
+              <td data-sr-dom-node-id="1094"><div data-sr-dom-node-id="1095"><div data-sr-dom-node-id="1096"><img alt="" data-sr-dom-node-id="1097"></div><span data-sr-dom-node-id="1098"><div data-sr-dom-node-id="1099">All your entertainment from Sky and your apps into one place <br data-sr-dom-node-id="1100"><br data-sr-dom-node-id="1101"> Hands-free voice control</div></span></div></td>
+              <td data-sr-dom-node-id="1102"><div data-sr-dom-node-id="1103"><div data-sr-dom-node-id="1104"><img alt="" data-sr-dom-node-id="1105"></div><span data-sr-dom-node-id="1106"><div data-sr-dom-node-id="1107">All your entertainment from Sky and your apps into one place <br data-sr-dom-node-id="1108"><br data-sr-dom-node-id="1109"> Hands-free voice control</div></span></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

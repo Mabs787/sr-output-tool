@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Minimal reproduction: gallery control volatile group stops</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 24px;
+      }
+
+      .intro {
+        max-width: 640px;
+      }
+
+      .size-links {
+        display: flex;
+        gap: 32px;
+        margin: 20px 0;
+      }
+
+      .gallery-visuals {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        min-height: 120px;
+      }
+
+      .gallery-visuals div {
+        min-height: 96px;
+        border: 1px solid #c8c8c8;
+      }
+
+      .swatch-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      .swatch-shell {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+      }
+
+      .swatch-shell button {
+        display: block;
+        width: 32px;
+        height: 32px;
+        border: 1px solid #4d4d4d;
+        border-radius: 50%;
+        background: #f8f8f8;
+      }
+
+      .carbon button {
+        background: #5b5b5b;
+      }
+
+      .sea button {
+        background: #8da79c;
+      }
+
+      .cotton button {
+        background: #f6f2ea;
+      }
+
+      .pause-shell {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        margin-left: 16px;
+      }
+
+      .pause-shell button {
+        width: 36px;
+        height: 36px;
+      }
+
+      .selected-colour {
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section data-sr-dom-node-id="859">
+        <div data-sr-dom-node-id="860">
+          <div data-sr-dom-node-id="861">
+            <div data-sr-dom-node-id="862">
+              <div data-sr-dom-node-id="863">
+                <div data-sr-dom-node-id="864">
+                  <h2 data-sr-dom-node-id="865"><span data-sr-dom-node-id="866">Three sizes. Three colours.</span></h2>
+                  <div class="intro" data-sr-dom-node-id="867">
+                    <div data-sr-dom-node-id="868">
+                      <div data-sr-dom-node-id="869">
+                        <div data-sr-dom-node-id="870">
+                          <span data-sr-dom-node-id="871">Sky Glass Air comes in three colours and sizes, so it looks great in any room you choose. </span>
+                        </div>
+                      </div>
+                      <div class="size-links" data-sr-dom-node-id="872">
+                        <a href="#size-43" data-sr-dom-node-id="873">43 inch<svg aria-hidden="true" data-sr-dom-node-id="874"></svg></a>
+                        <a href="#size-55" data-sr-dom-node-id="877">55 inch<svg aria-hidden="true" data-sr-dom-node-id="878"></svg></a>
+                        <a href="#size-65" data-sr-dom-node-id="881">65 inch<svg aria-hidden="true" data-sr-dom-node-id="882"></svg></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-visuals" data-sr-dom-node-id="885">
+          <div data-sr-dom-node-id="886"><img alt="" data-sr-dom-node-id="887"><img alt="" data-sr-dom-node-id="888"><img alt="" data-sr-dom-node-id="889"></div>
+          <div data-sr-dom-node-id="890"><img alt="" data-sr-dom-node-id="891"><img alt="" data-sr-dom-node-id="892"><img alt="" data-sr-dom-node-id="893"></div>
+          <div data-sr-dom-node-id="894"><img alt="" data-sr-dom-node-id="895"><img alt="" data-sr-dom-node-id="896"><img alt="" data-sr-dom-node-id="897"></div>
+        </div>
+
+        <div data-sr-dom-node-id="898">
+          <div data-sr-dom-node-id="899">
+            <div class="swatch-controls" data-sr-dom-node-id="900">
+              <div class="swatch-shell carbon" data-sr-dom-node-id="901">
+                <button aria-label="Colour - Carbon Grey" data-sr-dom-node-id="902">
+                  <span aria-hidden="true" data-sr-dom-node-id="903"></span>
+                </button>
+              </div>
+              <div class="swatch-shell sea" data-sr-dom-node-id="908">
+                <button aria-label="Colour - Sea Green" data-sr-dom-node-id="909">
+                  <span aria-hidden="true" data-sr-dom-node-id="910"></span>
+                </button>
+              </div>
+              <div class="swatch-shell cotton" data-sr-dom-node-id="915">
+                <button aria-label="Colour - Cotton White" data-sr-dom-node-id="916">
+                  <span aria-hidden="true" data-sr-dom-node-id="917"></span>
+                </button>
+              </div>
+              <div class="pause-shell" data-sr-dom-node-id="920">
+                <button aria-label="Pause" data-sr-dom-node-id="921">Pause</button>
+              </div>
+            </div>
+            <p class="selected-colour" data-sr-dom-node-id="925">Colour - Cotton White</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
