@@ -74,11 +74,17 @@ gh workflow run "VoiceOver smoke" \
   -f capture_step_snapshots=true \
   -f capture_step_screenshots=false \
   -f capture_screen_recording=false \
+  -f max_steps=80 \
   -f navigation_mode=voiceover-right-arrow
 ```
 
 If the reproduction cannot be hosted or scanned, Phase C.5 must return with a
 blocker instead of deciding the mismatch.
+
+Use a small `max_steps` value for minimal reproductions so a missing end marker
+or stalled VoiceOver cursor cannot hold the workflow open indefinitely. This is
+a step cap for focused mini evidence, not a substitute for the normal page end
+marker on full-site scans.
 
 ## Analysis
 

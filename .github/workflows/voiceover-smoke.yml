@@ -27,6 +27,11 @@ on:
         required: false
         default: "30"
         type: string
+      max_steps:
+        description: "Optional maximum number of VoiceOver steps to capture before stopping"
+        required: false
+        default: "0"
+        type: string
       navigation_mode:
         description: "How VoiceOver should move between items"
         required: false
@@ -164,6 +169,7 @@ jobs:
           VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ inputs.capture_screen_recording && 'true' || '' }}
           VOICEOVER_CAPTURE_STEP_SNAPSHOTS: ${{ inputs.capture_step_snapshots && 'true' || '' }}
           VOICEOVER_MAX_STEP_SECONDS: ${{ inputs.max_step_seconds }}
+          VOICEOVER_MAX_STEPS: ${{ inputs.max_steps }}
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
           VOICEOVER_VIEWPORT_WIDTH: ${{ inputs.viewport_width }}
           VOICEOVER_VIEWPORT_HEIGHT: ${{ inputs.viewport_height }}

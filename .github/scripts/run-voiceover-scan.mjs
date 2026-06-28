@@ -45,6 +45,10 @@ const navigationMode =
 const defaultMaxStepSeconds = Number(
   process.env.VOICEOVER_MAX_STEP_SECONDS || 30,
 );
+const maxScanSteps = parseNonNegativeInteger(
+  process.env.VOICEOVER_MAX_STEPS,
+  0,
+);
 const chromeDebuggingPort = Number(
   process.env.CHROME_REMOTE_DEBUGGING_PORT || 9222,
 );
@@ -60,6 +64,11 @@ const chromeViewportHeight = parsePositiveInteger(
 function parsePositiveInteger(value, fallback) {
   const parsed = Number.parseInt(String(value || ""), 10);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function parseNonNegativeInteger(value, fallback) {
+  const parsed = Number.parseInt(String(value || ""), 10);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
 }
 
 function run(command, args, options = {}) {
@@ -3687,6 +3696,7 @@ function createScanDebugSummary({
       partial: Boolean(summary.partial),
       failureReason: summary.failureReason || "",
       capturedSteps: summary.capturedSteps,
+      maxSteps: summary.maxSteps,
       maxStepSeconds: summary.maxStepSeconds,
       navigationMode: summary.navigationMode,
       startedAt: summary.startedAt,
@@ -3801,6 +3811,7 @@ async function scanTarget(target, index) {
     mode: target.mode || "page",
     url,
     source: target.fixturePath ? "fixture" : "url",
+    maxSteps: maxScanSteps,
     maxStepSeconds,
     navigationMode,
     startedAt: new Date().toISOString(),
@@ -3991,6 +4002,11 @@ async function scanTarget(target, index) {
       if (stopCheck.fatal) {
         failureReason = stopCheck.reason;
       }
+      break;
+    }
+
+    if (maxScanSteps > 0 && voiceOverSteps.length >= maxScanSteps) {
+      stopReason = `max-steps:${maxScanSteps}`;
       break;
     }
 
