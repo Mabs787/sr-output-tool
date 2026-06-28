@@ -21,6 +21,8 @@ Receipts must be valid JSON and must include these common fields:
 - `inputs`: files, artifact paths, run ids, and commands used
 - `decisions`: concrete decisions made by the phase
 - `evidence`: HTML, AX, snapshot, source, compare, and test evidence consulted
+- `fixtureChanges`: fixture edits made or proposed by the phase. Use an empty
+  array when none were made.
 - `nextPhase`: next phase role name, `complete`, or `stop`
 - `handoffReason`: why the next phase should run or why the target stops
 - `handoffFrom`: previous phase or empty for Phase A
@@ -34,6 +36,32 @@ For a real multi-agent run, `sessionId` must be populated for every phase that
 was executed by a spawned subagent. Generated or coordinator-only receipts must
 set `spawnedBy` to `manual` and must not be used as proof that a multi-agent
 run occurred.
+
+## Fixture Change Entries
+
+Whenever `refinedAnnouncements`, fixture HTML, fixture AX, manifest metadata, or
+status docs are edited, the responsible receipt must include one
+`fixtureChanges` entry per logical change:
+
+- `file`
+- `field`: for example `refinedAnnouncements`, `expectedAnnouncements`,
+  `html`, `ax`, `manifest`, or `status-doc`
+- `range` or `indexes`
+- `before`
+- `after`
+- `reason`: `caption-or-ocr-repair`, `truncation-repair`,
+  `conditional-state-removed`, `saved-live-dom-divergence`,
+  `manual-vo-confirmed`, `minimal-repro-confirmed`, `preprocess-correction`,
+  or `status-only`
+- `evidencePointers`: artifact id, step id, HTML/AX snippets, source/caption
+  references, mini-scan run id, local-VO note, compare window, or status source
+- `confidence`: `high`, `medium`, or `low`
+- `engineGapStillOpen`: boolean
+- `approvedByPhase`: `B`, `C.5`, `E`, or `manual`
+
+Raw VoiceOver scan output must not be hand-edited. If a receipt contains a
+fixture change with `field: "expectedAnnouncements"`, it must be an import from
+a named scan artifact or the run must stop before push.
 
 ## Phase Minimums
 
@@ -66,6 +94,7 @@ run occurred.
 - focused-node contract for structural/decomposition disputes
 - decision: `approved`, `edited`, or `returned`
 - confidence and evidence-backed reason
+- fixture change entries for every refined output edit
 
 `04-fixture-judge.json` must include:
 
@@ -104,6 +133,8 @@ run occurred.
 - tests and compares run
 - before/after compare counts
 - unresolved mismatch families and why
+- empty `fixtureChanges`, unless the phase returned a fixture evidence problem
+  without editing files
 
 `06-promotion.json` must include:
 
@@ -111,3 +142,6 @@ run occurred.
 - compare/test evidence
 - manifest and docs changed
 - commit/push status when requested
+- fixture push review: changed fixture files, raw-output edit check, receipt
+  coverage for refined-output changes, mixed engine/fixture warning, and final
+  push decision

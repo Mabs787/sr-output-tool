@@ -39,6 +39,7 @@ Use one of these exact machine enum values in `06-promotion.json`:
 - `blockers`
 - `manifestChanges`
 - `statusDocsUpdated`
+- `fixturePushReview`
 - `checks`: commands with status, exit code, summary, and skip reason
 
 Only use `refined` when `exactMatch` is true, Phase B trusted the fixture, and
@@ -54,3 +55,30 @@ promoted. If a family is blocked, record the missing evidence or rejected
 prototype and the check that should be rerun after it is addressed.
 
 Commit and push the target's changes before starting the next target when the user has asked for a commit-based workflow.
+
+## Fixture Push Review
+
+When the user has asked for a push and the diff includes fixture files, Phase E
+must review fixture purity before committing or pushing. Record the result in
+`fixturePushReview` with:
+
+- `changedFixtureFiles`
+- `rawOutputEdited`: boolean
+- `rawOutputSourceRunIds`: scan run ids for any imported raw evidence
+- `refinedOutputChanged`: boolean
+- `refinedChangeCount`
+- `receiptCoverage`: whether every refined output edit has a matching
+  `fixtureChanges` entry
+- `mixedEngineAndFixtureChanges`: boolean
+- `riskLevel`: `low`, `medium`, or `high`
+- `decision`: `allow-push`, `split-commit-recommended`, or `block-push`
+- `reason`
+
+Block the push when raw VoiceOver output appears hand-edited, when refined
+output changed without evidence receipt coverage, or when fixture-heavy changes
+only reduce mismatch counts without valid evidence classifications.
+
+When engine and fixture changes are mixed, prefer separate commits unless the
+user explicitly asked for one combined commit. If the mixed diff is still
+pushed, the final response must call out the fixture changes and the evidence
+classification that justified them.

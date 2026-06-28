@@ -8,6 +8,10 @@ compare before adding new families.
 The current `refinedAnnouncements` / refined output is an untrusted Phase A
 draft until this phase verifies it against the site evidence.
 
+Phase B is the normal owner for refined fixture edits. Its job is to preserve
+true VoiceOver behavior while removing or repairing evidence that cannot be
+replayed from the initial fixture input.
+
 ## Agent
 
 Use `.codex/agents/evidence-refiner.toml`.
@@ -71,8 +75,15 @@ For each audited announcement or range:
 9. Repair `refinedAnnouncements` when the draft refined output is contradicted by stronger site evidence, or when the evidence proves capture noise or conditional step-only state.
 10. Before leaving any line uncertain, test the likely explanations against the evidence: hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, scanner traversal, and `htmlAfterStep` versus initial DOM divergence.
 11. When live/local DOM evidence is available and it contradicts the saved fixture order or duplicate structure, compare both against VoiceOver before blaming the engine. If VoiceOver matches live DOM but not saved `rendered-html.html`, record saved/live DOM-state divergence and return the target for fixture repair, recapture, or fixture-level normalization.
-12. Record every approval, edit, or uncertainty with the evidence used.
-13. When a disputed line remains uncertain after the required HTML, AX,
+12. Do not edit refined output because the current engine already emits the
+    replacement, because an engine fix would be difficult, or because the
+    mismatch count decreases. Those are not evidence.
+13. For every refined output edit, add a `fixtureChanges` receipt entry using
+    the schema in `agent-receipts.md`. The entry must identify the exact range,
+    before/after text, valid reason enum, evidence pointers, confidence, and
+    whether an engine gap still remains after the edit.
+14. Record every approval, edit, or uncertainty with the evidence used.
+15. When a disputed line remains uncertain after the required HTML, AX,
     step-snapshot, source/caption, text-boundary, and focused-node checks,
     request Phase C.5 instead of asking the user for manual confirmation. The
     request must include the minimal DOM contract to preserve, the suspected
@@ -97,6 +108,7 @@ Every disputed line must have a receipt entry with:
 - saved/live DOM comparison when local or refreshed evidence shows different order, visibility, or duplicate responsive structures from the saved fixture
 - decision: `approved`, `edited`, or `uncertain`
 - confidence and reason
+- fixture change receipt entry when `decision` is `edited`
 - plausible causes checked, with the missing evidence that prevents a firmer decision when the line remains uncertain
 - Phase C.5 request when needed: reproduction purpose, DOM/AX contract to
   preserve, suspected cause, and decisive mini-scan outcomes
@@ -110,6 +122,11 @@ Every disputed line must have a receipt entry with:
 
 Do not approve the refined output simply because it already exists. Do not
 reshape valid VoiceOver output to match the current engine.
+
+Do not hand-edit raw `expectedAnnouncements`. If raw VoiceOver evidence looks
+wrong, preserve it, record the suspected issue, and request a recapture or Phase
+C.5 reproduction scan. A refreshed artifact may add new raw evidence; it should
+not overwrite prior raw evidence without recording the source run id.
 
 Do not classify a one-object VoiceOver announcement versus multi-child engine
 output as broad structural drift until the focused-node contract has been

@@ -41,7 +41,9 @@ For each target, run every required phase:
   evidence-refiner, fixture-judge, or engine-refiner.
 - Spawn `engine-refiner` for Phase D only when a trusted `initial-dom`
   mismatch proves a reusable engine or scanner gap, or Phase C.5 concludes
-  `engine-gap-confirmed`.
+  `engine-gap-confirmed`. Phase D may also request Phase C.5 when an engine
+  rule needs isolated same-structure VoiceOver confirmation before it is safe
+  to implement.
 - Spawn `promoter` for Phase E after compare and tests pass, or when status/docs must record candidate/partial/skip.
 
 Each spawned phase agent must produce the receipt defined in
@@ -58,5 +60,10 @@ packet before judging or skipping engine refinement.
 
 Do not ask the user to manually confirm local VoiceOver behavior when a minimal
 same-structure reproduction scan can decide the issue.
+
+Keep fixture purity visible. Raw VoiceOver output is append-only scan evidence,
+and every refined output edit must have fixtureChanges receipt coverage. When
+the user asks for a push and fixture files changed, Phase E must run the fixture
+push review and block fixture-heavy changes that are not evidence-backed.
 
 Do not stop after preprocessing. Do not move to the next site until the current site has a recorded outcome.

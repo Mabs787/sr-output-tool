@@ -47,6 +47,11 @@ Remove or normalize `step-only-dom` and `volatile-dom` lines from
 replayable in the initial rendered HTML. Do not send those removed raw-only
 lines to engine refinement.
 
+Do not hand-edit raw VoiceOver output. Every `refinedAnnouncements` edit must
+have a fixtureChanges receipt entry with before/after text, a valid evidence
+reason, evidence pointers, confidence, and whether an engine gap remains. Do
+not change refined output merely because it makes the engine compare easier.
+
 For text split/join mismatches, require a text-boundary evidence packet before
 judging the gap: relevant `outerHTML`, inline emphasis (`strong`, `b`, `em`,
 `i`), `br`, block/span/markdown fragments, list markers, hidden text, and

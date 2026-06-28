@@ -24,6 +24,10 @@ Use `.codex/agents/engine-refiner.toml`.
   or fixture normalization, not reusable engine traversal.
 - Do not implement a broad rule from a complex page when Phase C.5 was required
   but not run.
+- Do not edit `refinedAnnouncements`, raw `expectedAnnouncements`, fixture HTML,
+  or fixture AX while implementing engine logic. If an engine investigation
+  reveals fixture evidence is wrong or incomplete, stop that mismatch family and
+  return it to Phase B or Phase C.5 with the exact evidence problem.
 
 ## Engine-Confidence Checklist
 
@@ -79,6 +83,18 @@ When the smallest generic condition is still unclear, create or request a Phase
 C.5 minimal reproduction scan before committing the rule. Use the mini-scan
 result to decide whether the behavior is a real VoiceOver rule, fixture noise,
 or conditional step state.
+
+Phase C.5 is not limited to noisy-output suspicion. Use it as an engine-rule
+confidence check whenever:
+
+- the proposed rule would affect multiple roles, landmarks, tables, lists, or
+  card/group traversal shapes
+- the VoiceOver behavior is surprising but plausible
+- the saved page evidence proves the content exists, but not whether VoiceOver
+  behavior comes from generic semantics or site-specific state
+- the rule would otherwise depend on copy, classes, product names, or one site's
+  component library
+- rejecting the rule would leave a trusted replayable mismatch unresolved
 
 Scan artifacts are sufficient when they contain the relevant rendered HTML,
 AX roles/names, and control relationships. Do not require a live DevTools
@@ -144,3 +160,7 @@ practical.
 Write `05-engine-refinement.json` with changed files, behavior fixed, checks run, remaining mismatches, and the revisit queue.
 
 Do not add site-specific engine logic.
+
+The receipt must include `fixtureChanges: []` for a normal Phase D run. If this
+array is non-empty, Phase D has crossed its edit boundary and the target must be
+returned for Phase B/E review before push.

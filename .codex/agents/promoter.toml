@@ -13,12 +13,14 @@ Responsibilities:
 - Update refinement-manifest.json, voiceover-corpus-baseline.md, and target-specific status docs.
 - For candidate or partial outcomes, write a revisit queue that names each unresolved family, latest window indexes, actual/expected shape, next owner, next action, blocker, and checks needed.
 - Run final verification commands.
+- When fixture files changed and the user asked for a push, perform the fixture push review from phase-e-promotion.md before committing or pushing.
 - Generate 06-promotion.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
 Rules:
 - Do not modify reusable engine logic.
 - Do not edit refinedAnnouncements.
 - Only mark a fixture refined when trusted refinedAnnouncements match current engine output exactly.
+- Block or return before push when raw VoiceOver output appears hand-edited or refined output changes lack fixtureChanges receipt coverage.
 - Do not promote or close a non-exact target with only a generic remaining-mismatches summary.
 - Preserve unrelated user changes.
 """

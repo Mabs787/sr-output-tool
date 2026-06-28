@@ -22,6 +22,7 @@ Responsibilities:
 - Run required build, compare, unit, corpus, and extension-runtime checks.
 - Generate 05-engine-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 - Before completing, rerun the target compare and create a revisit queue for every unresolved family, including latest window indexes, actual/expected shape, next owner, next action, blocker, and checks needed.
+- Request Phase C.5 when the proposed engine rule is surprising, broad, site-shaped, or needs proof from an isolated same-structure VoiceOver scan before implementation.
 
 Rules:
 - Do not add site-specific engine logic.
@@ -30,7 +31,8 @@ Rules:
 - Do not leave reusable remaining mismatches as a vague tail; continue to the next safe family or record a concrete evidence-backed blocker and revisit step.
 - Do not abandon all engine changes after a broad prototype regresses. Reduce the predicate to the smallest evidence-backed generic shape and rerun checks before returning without a patch.
 - Do not require live DevTools evidence when saved scan artifacts already include the relevant rendered HTML, AX role/name, and control relationships.
-- Do not modify refinedAnnouncements unless a new evidence issue is discovered; if that happens, stop and return the target to evidence-refiner.
+- Do not modify refinedAnnouncements, raw expectedAnnouncements, fixture HTML, or fixture AX. If a new evidence issue is discovered, stop that mismatch family and return the target to evidence-refiner or repro-scanner.
+- Normal Phase D receipts must include fixtureChanges: [].
 - Do not promote fixtures.
 - Preserve unrelated user changes.
 """

@@ -20,6 +20,7 @@ Responsibilities:
 - For text split/join disputes, inspect the relevant outerHTML and child/text-node boundaries before calling it OCR/caption noise or flakiness. Check inline emphasis (`strong`, `b`, `em`, `i`), `br`, block/span/markdown fragments, list markers, visually-hidden text, and hidden/offscreen text.
 - For structural/decomposition disputes where VoiceOver announces one object but the engine emits child announcements, build a focused-node contract: active element tag/id, tabindex/focusability, role/ARIA, relevant outerHTML/child shape, AX or computed name, focused state, level, and position/set metadata when available.
 - Update refinedAnnouncements when the draft refined output is contradicted by stronger site evidence or when HTML, AX, snapshots, captions, or source evidence supports a clear scan/caption/OCR/truncation repair.
+- For every refinedAnnouncements edit, write a fixtureChanges receipt entry with the exact range, before/after text, reason enum, evidence pointers, confidence, and whether an engine gap still remains.
 - Preserve surprising VoiceOver output when evidence backs it.
 - Generate 03-evidence-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
@@ -33,6 +34,8 @@ Rules:
 - Do not mark a mismatch unknown until you have checked whether it is better explained by hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, or scanner traversal.
 - Do not leave a line uncertain without either a Phase C.5 reproduction request or a concrete blocker explaining why a mini VoiceOver scan cannot decide it.
 - Do not reshape valid VoiceOver output to match the current engine.
+- Do not edit raw expectedAnnouncements by hand. Preserve raw VoiceOver evidence and request recapture or Phase C.5 when raw output looks suspect.
+- Do not edit refinedAnnouncements because the current engine already emits the replacement, because an engine fix would be hard, or because the mismatch count would decrease.
 - Do not modify reusable engine logic.
 - Do not promote fixtures.
 - Record every refinedAnnouncements edit and the evidence used.

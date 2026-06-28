@@ -60,12 +60,20 @@ evidence-backed reason.
 - Raw `expectedAnnouncements` should preserve what VoiceOver actually heard.
   `refinedAnnouncements` is the replay target for the engine and must describe
   the initial `rendered-html.html` fixture input.
+- Raw VoiceOver evidence is append-only. Do not hand-edit raw scan output to
+  make a compare pass. If a later scan disagrees, record the later artifact id
+  and compare the two evidence sets instead of overwriting the original record.
 - `voiceover:preprocess-artifact` / `voiceover:refine-artifact` is Phase A
   preprocessing only.
 - A fixture is not refined just because `refinedAnnouncements` exists.
 - Evidence refinement must treat `refinedAnnouncements` as an untrusted draft,
   inspect it against HTML, AX, snapshots, and VoiceOver source evidence, and
   edit it directly when the draft is wrong.
+- A `refinedAnnouncements` edit is allowed only when it explains the evidence,
+  not when it makes an engine change easier. Every edit must carry a fixture
+  change receipt entry with the changed range, raw text, before/after refined
+  text, reason enum, evidence pointers, confidence, and whether an engine gap
+  still remains.
 - Structural VoiceOver-vs-engine mismatches must include a focused-node
   contract before they are dismissed as broad or ambiguous. In particular,
   when VoiceOver announces one grouped/card object and the engine decomposes
@@ -94,6 +102,9 @@ evidence-backed reason.
   broad engine logic. Phase C.5 must create a minimal same-structure DOM
   reproduction, trigger a focused VoiceOver scan, import the artifact, and feed
   the result back to Phase B/C/D.
+- Phase C.5 is also a Phase D confidence tool. When an engine rule feels too
+  broad, site-shaped, or surprising, Phase D should request a mini scan to prove
+  the isolated DOM/ARIA/table/list/control behavior before committing the rule.
 - If refined output is trusted and the engine differs, change reusable engine logic unless there is a documented blocker.
 - Once unreplayable page state is removed or normalized from the fixture,
   remaining mismatches are presumed engine/scanner gaps until Phase C/D prove
@@ -104,6 +115,61 @@ evidence-backed reason.
   blocker, and checks for every unresolved family.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
+
+## Fixture Purity
+
+Treat fixture data as two layers:
+
+- Raw evidence: immutable scan evidence that records what VoiceOver heard.
+- Refined output: an evidence-bound replay oracle for the initial
+  `rendered-html.html` fixture.
+
+Valid reasons to edit `refinedAnnouncements` are limited to:
+
+- `caption-or-ocr-repair`: source/caption evidence proves a transcription issue.
+- `truncation-repair`: raw/caption/source or a mini scan proves truncation.
+- `conditional-state-removed`: per-step HTML/AX proves hover, focus, carousel,
+  timer, personalization, or another step-only state was announced but is not
+  replayable from initial DOM.
+- `saved-live-dom-divergence`: saved fixture HTML differs from refreshed or
+  local DOM, and VoiceOver matches the refreshed/live structure.
+- `manual-vo-confirmed`: the user supplied a local VoiceOver confirmation and
+  the receipt records the exact text and DOM snippet checked.
+- `minimal-repro-confirmed`: Phase C.5 confirmed fixture noise or conditional
+  state for the same structure.
+- `preprocess-correction`: Phase A made a mechanical normalization error and
+  the correction is backed by raw/source evidence.
+
+Invalid reasons:
+
+- the current engine already emits the proposed refined text
+- the engine rule would be hard to implement
+- the mismatch count decreases
+- the site behavior seems unusual but is backed by raw VoiceOver and replayable
+  initial DOM evidence
+
+Phase B owns fixture edits. Phase C can return a fixture to Phase B. Phase D
+must not edit fixtures while implementing engine logic; if Phase D discovers a
+fixture evidence problem, it must stop that family and route it to Phase B or
+Phase C.5 with the evidence gap.
+
+## Push Gate
+
+Before pushing when fixture files changed, the top-level session or Phase E must
+run a fixture-change review:
+
+- Identify changed fixture files and whether raw evidence, refined output, HTML,
+  AX, or manifest data changed.
+- Block the push if raw VoiceOver output was hand-edited.
+- Require a fixture change receipt entry for every `refinedAnnouncements` range
+  that changed.
+- Require an explicit warning in the final response and `06-promotion.json` when
+  a commit mixes engine changes and more than a small number of fixture-output
+  edits.
+- Prefer separate commits for engine logic, fixture/evidence changes, and
+  workflow/docs changes when the user has not requested a single combined push.
+- Do not push fixture-heavy changes that only reduce mismatch counts without
+  evidence classifications.
 
 ## Receipts
 
