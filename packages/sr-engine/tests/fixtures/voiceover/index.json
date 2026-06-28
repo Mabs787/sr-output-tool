@@ -267,6 +267,15 @@
       "stepSnapshots": "business-sky-com-s.step-snapshots.json",
       "voiceOverAnnouncementCount": 194,
       "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com",
+      "expected": "www-tesco-com.expected.json",
+      "html": "www-tesco-com.html",
+      "accessibilityTree": "www-tesco-com.ax.json",
+      "stepSnapshots": "www-tesco-com.step-snapshots.json",
+      "voiceOverAnnouncementCount": 333,
+      "sanitizationStatus": "needs-manual-refinement"
     }
   ],
   "skipped": [],

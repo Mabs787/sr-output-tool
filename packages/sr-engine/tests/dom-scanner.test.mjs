@@ -156,6 +156,73 @@ test("scanSubtree closes main before entering a following contentinfo landmark",
   );
 });
 
+test("scanSubtree uses footer wording for native footer landmarks", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>Main body</main>
+      <footer>
+        <a href="/visa"><img alt="Visa Secure"></a>
+      </footer>
+    `),
+    [
+      "main",
+      "end of, main",
+      "footer",
+      "link, image, Visa Secure",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree uses footer wording for structured native footer landmarks", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>Main body</main>
+      <footer>
+        <h2>Here to help</h2>
+        <ul>
+          <li><a href="/account">My Account</a></li>
+          <li><a href="/help">Help</a></li>
+          <li><a href="/stores">Store locator</a></li>
+        </ul>
+      </footer>
+    `),
+    [
+      "main",
+      "end of, main",
+      "footer",
+      "heading level 2, Here to help",
+      "list 3 items",
+      "link, My Account, 1 of 3",
+      "link, Help, 2 of 3",
+      "link, Store locator, 3 of 3",
+      "end of list",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree keeps content information wording for informational native footers", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>Main body</main>
+      <footer>
+        <p>Weather data supplied by <a href="/provider">MeteoGroup</a>.</p>
+        <p>Copyright 2026.</p>
+      </footer>
+    `),
+    [
+      "main",
+      "end of, main",
+      "content information",
+      "Weather data supplied by",
+      "link, MeteoGroup",
+      "Copyright 2026.",
+      "end of, content information",
+    ],
+  );
+});
+
 test("scanSubtree preserves line break heading fragments", () => {
   assert.deepEqual(
     scanHtml(`
@@ -816,6 +883,71 @@ test("scanSubtree includes VoiceOver group stops for active carousel slides", ()
       "Cover for your home-sweet-home",
       "group",
       "group",
+    ],
+  );
+});
+
+test("scanSubtree keeps aria-controlled carousel navigation buttons ungrouped", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section role="group" aria-label="Deals" aria-roledescription="carousel">
+        <div id="carousel-items">
+          <a href="/deal">Deal</a>
+        </div>
+        <button aria-label="Go forward to next set of carousel items" aria-controls="carousel-items">
+          <svg aria-hidden="true"></svg>
+        </button>
+      </section>
+    `),
+    [
+      "Deals, carousel",
+      "link, Deal",
+      "Go forward to next set of carousel items, button",
+      "end of, Deals, carousel",
+    ],
+  );
+});
+
+test("scanSubtree preserves heading context inside linked promo cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <a href="/promo" aria-label="Ready for kick-off?. Shop now.">
+        <h3>Ready for kick-off?</h3>
+        <p>Shop now.</p>
+      </a>
+    `),
+    ["link, heading level 3, Ready for kick-off?. Shop now."],
+  );
+});
+
+test("scanSubtree emits quantity labels before add buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <label for="quantity-controls-1">Quantity controls, undefined</label>
+        <div>
+          <button type="submit" aria-label="add 1 Garden Table">Add</button>
+        </div>
+        <div aria-live="polite"></div>
+      </div>
+    `),
+    ["Quantity controls, undefined", "add 1 Garden Table, button"],
+  );
+});
+
+test("scanSubtree keeps labeled fieldset radio groups and VoiceOver radio phrasing", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <fieldset aria-label="Filter tabs">
+        <button type="button" role="radio" aria-checked="true">All</button>
+        <button type="button" role="radio" aria-checked="false">Electronics & Gaming</button>
+      </fieldset>
+    `),
+    [
+      "Filter tabs, group",
+      "All, selected, radio button",
+      "Electronics & Gaming, radio button",
+      "end of, Filter tabs, group",
     ],
   );
 });

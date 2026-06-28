@@ -7,6 +7,7 @@ developer_instructions = """
 Run Phase A only.
 
 Responsibilities:
+- Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-a-intake.md.
 - Locate or download the target scan artifact.
 - Verify rendered HTML, AX tree, step snapshots, raw VoiceOver output, and source/caption evidence exist.
 - Run preprocessing/import commands only when the target has not already been imported.

@@ -488,6 +488,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function isLabeledIconActionButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
     if (isSlideshowNavigationButton(el)) return false;
+    if (isCarouselControlButton(el)) return false;
     if (!el.hasAttribute("aria-label")) return false;
     if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
     if (isPositionedImageChoiceButton(el)) return false;
@@ -567,6 +568,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     return false;
+  }
+
+  function isCarouselControlButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    const controls = normalize(el.getAttribute("aria-controls"));
+    if (!controls) return false;
+    const controlled = resolveIdRef(controls);
+    return Boolean(
+      controlled?.closest?.(
+        "[aria-roledescription='carousel'], [aria-roledescription='slideshow']",
+      ),
+    );
   }
 
   function isSlideshowNavigationButton(el: any): boolean {
@@ -681,6 +694,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
       return false;
     }
+
+    if (
+      el.querySelector("ul, ol, nav, [role='navigation']") ||
+      el.querySelectorAll("a[href], [role='link']").length >= 3
+    ) {
+      return true;
+    }
+
     return !el.querySelector(
       "h1, h2, h3, h4, h5, h6, p, nav, [role='heading'], [role='navigation']",
     );
@@ -855,6 +876,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "img") return "image";
     if (tag === "svg") return "image";
     if (tag === "dialog") return "dialog";
+    if (tag === "fieldset" && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))) {
+      return "group";
+    }
     if (tag === "blockquote") return el.closest("figure") ? "blockquote" : "paragraph";
     if (
       tag === "p" ||
@@ -2119,6 +2143,47 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function descendantLinkCardHeadingLevel(el: any): number | undefined {
+    const heading = Array.from(
+      el?.querySelectorAll?.("h1, h2, h3, h4, h5, h6, [role='heading']") || [],
+    ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate)));
+    if (!heading) return undefined;
+    const tag = heading.tagName?.toLowerCase() || "";
+    const level = Number.parseInt(heading.getAttribute("aria-level") || tag.slice(1), 10) || 2;
+    return level >= 3 ? level : undefined;
+  }
+
+  function precedingControlLabelForButton(el: any): string | undefined {
+    if (implicitRole(el) !== "button") return undefined;
+    const label = normalize(el.getAttribute("aria-label") || accessibleName(el, "button"));
+    if (!/^add\s+\d+\b/i.test(label || "")) return undefined;
+
+    for (
+      let current = el.parentElement, depth = 0;
+      current && depth < 4;
+      current = current.parentElement, depth += 1
+    ) {
+      const labels = Array.from(current.querySelectorAll("label")).filter(
+        (candidate: any) => !isHidden(candidate) && !candidate.contains(el),
+      );
+      if (labels.length !== 1) continue;
+      const text = normalize(readableText(labels[0]) || labels[0].textContent);
+      if (/^quantity controls\b/i.test(text || "")) return text;
+    }
+
+    return undefined;
+  }
+
+  function isFieldsetRadioGroup(el: any, role: string): boolean {
+    if (role !== "radio") return false;
+    const group = el.closest("fieldset[aria-label], [role='radiogroup'][aria-label]");
+    if (!group) return false;
+    const radios = Array.from(group.querySelectorAll("[role='radio'], input[type='radio']")).filter(
+      (radio: any) => !isHidden(radio),
+    );
+    return radios.length > 1;
+  }
+
   function captureElement(el: any): CapturedElementDescriptor | null {
     if (!el || el === document.body || el === document.documentElement || isHidden(el)) {
       return null;
@@ -2260,8 +2325,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       nativeSelect: tag === "select" || undefined,
       headingButton: Boolean(headingButton) || undefined,
       headingLink: Boolean(headingLink) || undefined,
+      linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : undefined,
       headingFragments: directHeadingFragments(el),
       iconOnlyLink: role === "link" && isIconOnlyLink(el) || undefined,
+      precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : undefined,
+      fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || undefined,
       compositeText:
         role === "button" &&
           Boolean(nestedImageLabel(el) && rawText) ||
@@ -2658,6 +2726,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function splitPrecedingControlLabelAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.precedingControlLabel) return undefined;
+    return [descriptor.precedingControlLabel, generateAnnouncement(descriptor)].filter(
+      (entry): entry is string => Boolean(entry),
+    );
+  }
+
   function splitCompactResultCountAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -2736,6 +2813,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitDescribedAutocompleteAnnouncements(descriptor) ||
             splitFooterCountrySelectorAnnouncements(descriptor) ||
             splitCompactInputActionGroupAnnouncements(descriptor) ||
+            splitPrecedingControlLabelAnnouncements(descriptor) ||
             splitCarouselGroupAnnouncements(descriptor) ||
             splitLabelStopAnnouncements(descriptor) ||
             splitCompactResultCountAnnouncements(descriptor) ||

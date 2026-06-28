@@ -133,6 +133,10 @@
     "www-sky-com-watch": {
       "status": "candidate",
       "reason": "Phase B review completed. Remaining comparison gaps are list/marker carousel traversal and dynamic slide disabled-state behavior rather than isolated fixture text noise, so this remains candidate evidence rather than an exact gate."
+    },
+    "www-tesco-com": {
+      "status": "candidate",
+      "reason": "Phase E promotion keeps the fixture as candidate: Tesco compare improved to 2 mismatch windows after reusable carousel/slideshow, linked-heading, quantity-label, fieldset-radio, structured native-footer, searchbox wording, Clubcard list-position spacing, Pets roundel fixture, and promo punctuation cleanup. Remaining revisit queue covers saved/live header DOM-state divergence; exact gating is still unresolved."
     }
   }
 }

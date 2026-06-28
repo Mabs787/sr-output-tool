@@ -88,7 +88,7 @@
     "Read Wikipedia in your language, collapsed, button, group",
     "end of, All languages, navigation",
     "end of, main",
-    "content information",
+    "footer",
     "Wikipedia is hosted by the Wikimedia Foundation, a non-profit organization that also hosts a range of other projects.",
     "link, You can support our work with a donation.",
     "link, Download Wikipedia for Android or iOS",
@@ -115,7 +115,7 @@
     "link, Creative Commons Attribution-ShareAlike License",
     "link, Terms of Use",
     "link, Privacy Policy",
-    "end of, content information"
+    "end of, footer"
   ],
   "scan": {
     "stopReason": "scan-end-marker",

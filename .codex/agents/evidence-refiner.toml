@@ -7,6 +7,7 @@ developer_instructions = """
 Run Phase B only.
 
 Responsibilities:
+- Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-b-evidence-refinement.md.
 - Treat current refinedAnnouncements/refinedOutput as an untrusted draft, never as truth.
 - Inspect raw expectedAnnouncements, current refinedAnnouncements, rendered HTML, AX tree, step snapshots, VoiceOver source/caption evidence, and current engine comparison.
 - Treat VoiceOver output as the primary evidence.

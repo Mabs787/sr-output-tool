@@ -7,6 +7,7 @@ developer_instructions = """
 Run Phase C only.
 
 Responsibilities:
+- Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-c-fixture-judge.md.
 - Compare the current engine output against trusted refinedAnnouncements.
 - Classify every mismatch as fixture-still-noisy, reusable-engine-gap, dynamic-state-mismatch, scanner-evidence-gap, or ambiguous.
 - After known unreplayable state has been removed from the fixture, presume remaining deterministic mismatches are reusable-engine-gap unless there is concrete evidence for fixture noise, missing evidence, or saved/live state divergence in that exact window.

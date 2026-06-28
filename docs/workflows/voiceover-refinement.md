@@ -12,6 +12,8 @@ The goal is to turn scan artifacts into trusted `refinedAnnouncements`, then use
 4. [Phase D: Engine Refinement](phase-d-engine-refinement.md)
 5. [Phase E: Promotion](phase-e-promotion.md)
 
+All phase receipts must follow [Agent Receipts](agent-receipts.md).
+
 ## Agent Routing
 
 Project-scoped subagents live in `.codex/agents/`.
@@ -25,15 +27,34 @@ Project-scoped subagents live in `.codex/agents/`.
 
 Keep model choices in `.codex/agents/*.toml`. Keep behavior and handoffs in these workflow docs.
 
-The top-level Codex agent must actually spawn the phase agents when the user
-asks for the multi-agent workflow. Do not treat one orchestrator doing all
-phases as a multi-agent run. A valid multi-agent run has separate phase-agent
-handoffs or a receipt note explaining why a phase was intentionally skipped.
+## Multi-Agent Execution Contract
+
+The repository scripts do not spawn Codex subagents. The top-level Codex
+session must spawn the phase agents with the available multi-agent tool when
+the user asks for the multi-agent workflow.
+
+A run is `multi-agent` only when at least two phase-specific agents are
+spawned, or when the top-level session records why only one phase was required.
+An orchestrator-only run is not multi-agent.
+
+The top-level session may spawn `orchestrator` to create a routing plan, but it
+must still spawn phase-specific agents for the actual phase work:
+
+- `intake` for Phase A when artifact import is needed
+- `evidence-refiner` for Phase B
+- `fixture-judge` for Phase C
+- `engine-refiner` for Phase D when Phase C finds a reusable gap
+- `promoter` for Phase E when promotion or status updates are needed
+
+Before finalizing, the top-level session must report the spawned agent ids or
+nicknames and the receipt files they produced. If a phase is skipped, report the
+evidence-backed reason.
 
 ## Non-Negotiable Rules
 
 - VoiceOver output is the primary evidence. The current engine is not a source of truth.
-- `voiceover:refine-artifact` is Phase A preprocessing only.
+- `voiceover:preprocess-artifact` / `voiceover:refine-artifact` is Phase A
+  preprocessing only.
 - A fixture is not refined just because `refinedAnnouncements` exists.
 - Evidence refinement must treat `refinedAnnouncements` as an untrusted draft,
   inspect it against HTML, AX, snapshots, and VoiceOver source evidence, and
@@ -59,6 +80,9 @@ handoffs or a receipt note explaining why a phase was intentionally skipped.
   remaining mismatches are presumed engine/scanner gaps until Phase C/D prove
   otherwise with evidence. Do not hide replayable gaps under a broad
   "dynamic-state" label.
+- Remaining mismatches must be revisited, not merely listed. Phase D and Phase E
+  receipts must include a revisit queue with the next owner, next action,
+  blocker, and checks for every unresolved family.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
 

@@ -8,8 +8,9 @@ Coordinate the full VoiceOver refinement workflow.
 
 Responsibilities:
 - Read .codex/context and the relevant docs/workflows files before routing work.
-- Spawn phase agents in order: intake, evidence-refiner, fixture-judge, engine-refiner, promoter.
-- Wait for required receipts before moving to the next phase.
+- Produce the phase routing plan and required handoff order.
+- Tell the top-level Codex session which phase-specific agents must be spawned: intake, evidence-refiner, fixture-judge, engine-refiner, promoter.
+- Verify receipt completeness before recommending the next phase.
 - Stop before the next target when the user asks to stop before the next site.
 - Keep target state aligned with docs/status and refinement-manifest.json.
 
@@ -18,6 +19,6 @@ Rules:
 - Do not skip Phase B before judging or refining the engine.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current target has a recorded outcome.
+- Do not perform all phases yourself and call it multi-agent. If you cannot spawn or verify spawned phase agents, return a routing plan to the top-level session.
 - Preserve unrelated user changes.
 """
-

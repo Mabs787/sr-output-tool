@@ -320,7 +320,7 @@
     "No this page is not useful, button, 2 of 2",
     "end of list",
     "Report a problem with this page, button",
-    "content information",
+    "footer",
     "heading level 2, Services and information",
     "list 16 items",
     "link, Benefits, 1 of 16",
@@ -364,7 +364,7 @@
     "end of list",
     "link, Open Government Licence v3.0",
     "link, © Crown copyright",
-    "end of, content information"
+    "end of, footer"
   ],
   "partialAssertions": [
     {

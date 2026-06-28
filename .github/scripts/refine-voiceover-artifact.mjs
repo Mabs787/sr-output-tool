@@ -65,8 +65,12 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`Usage:
-  npm run voiceover:refine-artifact -- --run-id 123 --target www-example-com
-  npm run voiceover:refine-artifact -- --artifact-dir /tmp/artifacts --target www-example-com
+  npm run voiceover:preprocess-artifact -- --run-id 123 --target www-example-com
+  npm run voiceover:preprocess-artifact -- --artifact-dir /tmp/artifacts --target www-example-com
+
+This is Phase A preprocessing/import only. It does not run the full multi-agent
+refinement workflow or spawn phase agents. The legacy script name
+\`voiceover:refine-artifact\` is kept as an alias.
 
 Options:
   --run-id <id>           Download artifacts from a GitHub Actions run.

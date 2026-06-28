@@ -62,8 +62,11 @@ export interface ElementDescriptor {
   nativeSelect?: boolean;
   headingButton?: boolean;
   headingLink?: boolean;
+  linkHeadingLevel?: number;
   iconOnlyLink?: boolean;
   compositeText?: boolean;
+  precedingControlLabel?: string;
+  fieldsetRadioGroup?: boolean;
   linkRoleFirst?: boolean;
   suppressContextEnd?: boolean;
   groupContext?: boolean;

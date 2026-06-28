@@ -4,6 +4,7 @@ function normalizeText(value?: string): string | undefined {
   const normalized = value
     ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
     .replace(/\s+/g, " ")
+    .replace(/\s+([.,!?;:])/g, "$1")
     .trim();
   return normalized || undefined;
 }
@@ -59,6 +60,13 @@ function mergeTableColumnHeaderContext(
 function tableColumnPosition(el: ElementDescriptor): string | undefined {
   if (!hasTableColumnContext(el)) return undefined;
   return `column ${el.columnIndex} of ${el.columnCount}`;
+}
+
+function genericGroupRoleLabel(el?: ElementDescriptor): string {
+  const roleDescription = normalizeText(el?.roleDescription)?.toLowerCase();
+  return roleDescription === "carousel" || roleDescription === "slideshow"
+    ? roleDescription
+    : "group";
 }
 
 function pushTableColumnContext(parts: string[], el: ElementDescriptor): void {
@@ -350,6 +358,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushIfPresent(parts, label);
       } else {
         parts.push("link");
+        if (el.linkHeadingLevel) {
+          parts.push(`heading level ${el.linkHeadingLevel}`);
+        }
         pushIfPresent(parts, label);
       }
       pushCollectionPosition(parts, el);
@@ -372,15 +383,18 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts,
           [label, value ?? el.placeholder].filter(Boolean).join(" "),
         );
-        if (el.required) {
-          parts.push("required");
-        }
         const popupType = formatPopupType(el.hasPopup);
-        if (popupType) {
+        if (el.required && popupType) {
+          parts.push(`required ${popupType}`);
+        } else if (el.required) {
+          parts.push("required");
+        } else if (popupType) {
           parts.push(popupType);
         }
         parts.push("search text field");
-        pushAutocomplete(parts, el.autocomplete);
+        if (popupType !== "list box pop up") {
+          pushAutocomplete(parts, el.autocomplete);
+        }
       } else {
         pushIfPresent(parts, label);
         if (el.invalid) {
@@ -469,6 +483,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "radio": {
       pushIfPresent(parts, label);
+      if (el.fieldsetRadioGroup) {
+        if (el.selected || el.checked === true) {
+          parts.push("selected");
+        }
+        parts.push("radio button");
+        pushCollectionPosition(parts, el);
+        pushSupplementalText(parts, el);
+        break;
+      }
       parts.push("radio button");
       if (el.selected || el.checked === true) {
         parts.push("selected");
@@ -730,7 +753,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "group": {
       pushIfPresent(parts, label);
-      parts.push("group");
+      parts.push(genericGroupRoleLabel(el));
       if (el.groupedCollectionPosition && el.positionInSet && el.setSize) {
         parts.push(`(${el.positionInSet} of ${el.setSize})`);
       } else {
@@ -905,8 +928,8 @@ export function getContextEndAnnouncement(
 
   if (role === "group") {
     return descriptor?.name
-      ? `end of, ${descriptor.name}, group`
-      : "end of group";
+      ? `end of, ${descriptor.name}, ${genericGroupRoleLabel(descriptor)}`
+      : `end of ${genericGroupRoleLabel(descriptor)}`;
   }
 
   return null;

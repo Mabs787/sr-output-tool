@@ -1,6 +1,9 @@
 # Phase B: Evidence Refinement
 
 Run this phase for every candidate before fixture judging or engine refinement.
+When rerunning a target, start by reading the latest target status doc and prior
+Phase D/E revisit queue, then reconcile each queued family against the current
+compare before adding new families.
 
 The current `refinedAnnouncements` / refined output is an untrusted Phase A
 draft until this phase verifies it against the site evidence.
@@ -21,7 +24,22 @@ Use `.codex/agents/evidence-refiner.toml`.
 
 ## Steps
 
-For each suspicious announcement:
+Build an audit set before editing. The audit set must include:
+
+- every current engine compare mismatch window
+- every line that Phase A preprocessing edited between raw `expectedAnnouncements`
+  and draft `refinedAnnouncements`
+- every line whose content may be present only in `htmlAfterStep`
+- every text split/join candidate
+- every structural/decomposition candidate where VoiceOver announces one object
+  and the engine emits descendants
+- any line with OCR/caption/source disagreement
+
+The receipt must include an audit coverage summary with audited ranges and any
+unaudited ranges. Do not call the fixture trusted if mismatch-relevant ranges
+were not audited.
+
+For each audited announcement or range:
 
 1. Treat the current refined line as a hypothesis, not truth.
 2. Compare raw VoiceOver, rendered HTML, AX nodes, step snapshots, and source/caption evidence for that step or nearby content.
@@ -40,7 +58,8 @@ For each suspicious announcement:
 7. Preserve surprising output when evidence supports it and it is replayable from the initial fixture DOM.
 8. Repair `refinedAnnouncements` when the draft refined output is contradicted by stronger site evidence, or when the evidence proves capture noise or conditional step-only state.
 9. Before leaving any line uncertain, test the likely explanations against the evidence: hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, scanner traversal, and `htmlAfterStep` versus initial DOM divergence.
-10. Record every approval, edit, or uncertainty with the evidence used.
+10. When live/local DOM evidence is available and it contradicts the saved fixture order or duplicate structure, compare both against VoiceOver before blaming the engine. If VoiceOver matches live DOM but not saved `rendered-html.html`, record saved/live DOM-state divergence and return the target for fixture repair, recapture, or fixture-level normalization.
+11. Record every approval, edit, or uncertainty with the evidence used.
 
 ## Evidence Packet
 
@@ -55,6 +74,7 @@ Every disputed line must have a receipt entry with:
 - `htmlAfterStep` versus initial `rendered-html.html` comparison for content that may be hover/focus/dynamic-step-only state
 - text-boundary lookup for text split/join disputes: the relevant `outerHTML`, inline children, text-node/`br`/block boundaries, and whether the expected split follows those boundaries
 - focused-node contract for structural/decomposition disputes, including focusability and computed/AX name evidence when available
+- saved/live DOM comparison when local or refreshed evidence shows different order, visibility, or duplicate responsive structures from the saved fixture
 - decision: `approved`, `edited`, or `uncertain`
 - confidence and reason
 - plausible causes checked, with the missing evidence that prevents a firmer decision when the line remains uncertain

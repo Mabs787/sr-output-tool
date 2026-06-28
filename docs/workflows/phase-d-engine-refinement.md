@@ -13,6 +13,7 @@ Use `.codex/agents/engine-refiner.toml`.
 - Add focused unit coverage for reusable behavior when practical.
 - Rebuild extension runtime whenever engine output changes.
 - Split mixed mismatch families into independent sub-gaps. Implement and verify any narrow reusable fix, then record the families that still remain unresolved.
+- Keep revisiting the remaining mismatch families until the target is exact, every safe reusable family has been attempted, or a specific evidence-backed blocker is recorded for each unresolved family.
 
 ## Engine-Confidence Checklist
 
@@ -69,6 +70,27 @@ Do not abandon Phase D only because a target has several mismatch families. A
 single page can produce one safe traversal fix, one dynamic-state mismatch, and
 one still-ambiguous family; keep those outcomes separate.
 
+## Revisit Queue
+
+Before Phase D completes, rerun the target compare and reconcile every remaining
+mismatch family against the Phase C classifications. If any trusted reusable
+family remains unresolved, either continue with the next focused patch or add a
+revisit queue entry to `05-engine-refinement.json` with:
+
+- `family`
+- `currentWindowIndexes`
+- `latestActual`
+- `latestExpected`
+- `nextOwner`: `evidence-refiner`, `fixture-judge`, `engine-refiner`, or `promoter`
+- `nextAction`
+- `blocker`, if any
+- `checksNeeded`
+
+Do not mark Phase D complete with a vague "remaining mismatches" summary when
+the current compare still contains replayable families. The receipt must make
+the next refinement step obvious enough that a future run can resume with the
+first unresolved family.
+
 ## Checks
 
 ```bash
@@ -78,8 +100,23 @@ yarn workspace @sr-output/engine test:voiceover
 yarn build:extension-runtime
 ```
 
+Record every check in `05-engine-refinement.json` with:
+
+- `command`
+- `required`: `true` or `false`
+- `status`: `passed`, `failed`, or `skipped`
+- `exitCode` when run
+- `summary`
+- `skipReason` when omitted
+
+`test:unit` and the target `voiceover:compare` are required for any engine
+logic change. `test:voiceover` and `build:extension-runtime` are required
+unless the receipt records a concrete blocker or why the touched files cannot
+affect that surface. If focused unit coverage is omitted, record why it was not
+practical.
+
 ## Output
 
-Write `05-engine-refinement.json` with changed files, behavior fixed, checks run, and remaining mismatches.
+Write `05-engine-refinement.json` with changed files, behavior fixed, checks run, remaining mismatches, and the revisit queue.
 
 Do not add site-specific engine logic.

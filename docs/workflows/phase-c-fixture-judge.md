@@ -14,18 +14,18 @@ yarn workspace @sr-output/engine voiceover:compare <fixture-name>
 
 ## Classifications
 
-Classify each mismatch as one of:
+Classify each mismatch with one of these exact machine enum values:
 
-- fixture still noisy
-- reusable engine gap
-- dynamic state mismatch
-- scanner evidence gap
-- ambiguous
+- `fixture-still-noisy`
+- `reusable-engine-gap`
+- `dynamic-state-mismatch`
+- `scanner-evidence-gap`
+- `ambiguous`
 
 Classification is evidence-weighted, not evenly balanced. After known
 unreplayable state has been removed from the fixture, a remaining mismatch
 between trusted VoiceOver output and deterministic engine replay should default
-to `reusable engine gap` unless the judge can point to concrete fixture noise,
+to `reusable-engine-gap` unless the judge can point to concrete fixture noise,
 missing evidence, or saved/live state divergence for that exact window.
 
 `ambiguous` is not a shortcut classification. Use it only after checking the
@@ -73,7 +73,7 @@ scanner-evidence, or ambiguous.
 
 ## Replayable-State Gate
 
-Before marking a window as `dynamic state mismatch`, check whether the expected
+Before marking a window as `dynamic-state-mismatch`, check whether the expected
 VoiceOver line is supported by the saved fixture HTML/AX/snapshots after the
 fixture has excluded known unreplayable state such as hover-only menus,
 countdown text, or live personalization. If saved evidence still contains the
@@ -87,17 +87,27 @@ still noisy or conditional scan state and return it to Phase B for removal or
 normalization. Do not send step-only hover/focus/carousel/timer mutations to
 Phase D as engine gaps.
 
+If local/live DOM evidence shows a different stable order or duplicate structure
+than the saved fixture, and VoiceOver matches the live/local DOM rather than the
+saved fixture, classify the window as `fixture-still-noisy` or
+`scanner-evidence-gap` and return it for fixture repair, recapture, or
+fixture-level normalization. Do not ask Phase D to globally reorder nodes to
+compensate for a stale or malformed saved DOM snapshot.
+
 Examples:
 
 - saved HTML contains `<h3>` or `<h4>` but the engine emits plain text:
-  `reusable engine gap`
+  `reusable-engine-gap`
 - saved HTML contains a focusable/button-like card with visible descendant text
-  and VoiceOver speaks one grouped button: `reusable engine gap`
+  and VoiceOver speaks one grouped button: `reusable-engine-gap`
 - expected line is a countdown value that changes independently of structure:
-  `fixture still noisy` or normalized/ignored volatility
+  `fixture-still-noisy` or normalized/ignored volatility
 - expected line exists only because a hover menu was open during capture while
   saved HTML has the menu hidden: remove it from fixture or classify the window
   as unreplayable page state, not an engine gap
+- saved fixture has duplicate responsive header navigation before and after a
+  search form, while live DOM and VoiceOver agree on a single stable order:
+  repair/recapture/normalize the fixture before considering an engine rule
 
 ## Structural-Inference Gate
 

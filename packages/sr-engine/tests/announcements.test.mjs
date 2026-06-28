@@ -73,6 +73,17 @@ test("generateAnnouncement formats interactive control states", () => {
     }),
     "Email, edit text, name@example.com",
   );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "searchbox",
+      name: "Enter a product to search for Search",
+      required: true,
+      hasPopup: "listbox",
+      autocomplete: "list",
+    }),
+    "Enter a product to search for Search, required list box pop up, search text field",
+  );
 });
 
 test("generateAnnouncement formats headings, links, and table cells", () => {
@@ -113,6 +124,35 @@ test("generateAnnouncement formats headings, links, and table cells", () => {
 
   assert.equal(
     generateAnnouncement({
+      role: "link",
+      name: "Ready for kick-off?. Shop now.",
+      linkHeadingLevel: 3,
+    }),
+    "link, heading level 3, Ready for kick-off?. Shop now.",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "radio",
+      name: "All",
+      checked: true,
+      fieldsetRadioGroup: true,
+    }),
+    "All, selected, radio button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "radio",
+      name: "Electronics & Gaming",
+      checked: false,
+      fieldsetRadioGroup: true,
+    }),
+    "Electronics & Gaming, radio button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
       role: "cell",
       name: "£99",
       columnHeaderText: "Price",
@@ -146,6 +186,22 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
       roleDescription: "definition list",
     }),
     "end of definition list",
+  );
+  assert.equal(
+    generateAnnouncement({
+      role: "group",
+      name: "Popular offers ending soon",
+      roleDescription: "carousel",
+    }),
+    "Popular offers ending soon, carousel",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "group",
+      name: "Popular offers ending soon",
+      roleDescription: "carousel",
+    }),
+    "end of, Popular offers ending soon, carousel",
   );
   assert.equal(
     getContextEndAnnouncement({
