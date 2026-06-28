@@ -163,7 +163,7 @@
     "Sky Stream, image",
     "heading level 1, Enjoy your favourite content over WiFi with Sky Stream",
     "heading level 2",
-    "Get more of the UK's highest rated shows from Sky, Netflix and discovery+ in one simple subscription. Everyday low price of just £15/month with Essential TV.",
+    "Get more of the UK’s highest rated shows from Sky, Netflix and discovery+ in one simple subscription. Everyday low price of just £15/month with Essential TV. Find out more below...",
     "link, Get Sky Stream",
     "heading level 2 Stream over WiFi. No dish needed., level 1 What makes Sky Stream the best entertainment experience?, level 1, 2 items",
     "Get unmissable shows",
@@ -183,7 +183,7 @@
     "Netflix, tab, 2 of 2",
     "Sky Entertainment, tab panel",
     "list 6 items",
-    "The Dyers' Caravan Park, group, (1of 6)",
+    "The Dyers' Caravan Park, group, (1 of 6)",
     "Watson, group, (2 of 6)",
     "Last Week Tonight With John Oliver, group, (3 of 6)",
     "Dr. Strangelove, group, (4 of 6)",
@@ -258,13 +258,15 @@
       "ignoredNodeCount": 247,
       "axMappedNodeCount": 366,
       "domSnapshotMappedNodeCount": 925
-    }
+    },
+    "refinedAnnouncementCount": 116
   },
   "refinementNotes": [
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
+    "Restored VO-backed empty hero h2 announcement and parenthesized focusable image-card list positions after local VoiceOver confirmation on 2026-06-28."
   ],
   "source": {
     "manifestPath": "voiceover-smoke/sky-artifacts-27963923991/voiceover-scan-www-sky-com-tv-stream/scans/www-sky-com-tv-stream/refinement-manifest.json",

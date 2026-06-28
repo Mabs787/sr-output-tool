@@ -33,6 +33,18 @@ In Phase B, do not take existing refined output as truth. Verify disputed lines
 against HTML, AX, snapshots, captions/source evidence, and raw VoiceOver before
 approving or editing them.
 
+Preserve raw `expectedAnnouncements` as what VoiceOver heard. Build
+`refinedAnnouncements` as the output for the initial `rendered-html.html`
+fixture only. When step snapshots are present, use `htmlAfterStep.fingerprint`,
+`stats`, `htmlExcerpt`, `bodyTextExcerpt`, active element text, and matched
+DOM/AX evidence to decide whether each disputed line is `initial-dom`,
+`step-only-dom`, `volatile-dom`, or `not-found`.
+
+Remove or normalize `step-only-dom` and `volatile-dom` lines from
+`refinedAnnouncements` unless the same semantic content is present and
+replayable in the initial rendered HTML. Do not send those removed raw-only
+lines to engine refinement.
+
 For text split/join mismatches, require a text-boundary evidence packet before
 judging the gap: relevant `outerHTML`, inline emphasis (`strong`, `b`, `em`,
 `i`), `br`, block/span/markdown fragments, list markers, hidden text, and

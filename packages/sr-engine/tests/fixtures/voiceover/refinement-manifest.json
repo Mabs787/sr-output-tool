@@ -76,15 +76,15 @@
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Refreshed from run 28301913611 and evidence-refined; hover-open nav submenu announcements were removed because the fixture replays the initial non-hover DOM state. Keep candidate because saved HTML/state still diverges from VoiceOver for carousel/package/legal state, timer/list-position volatility, and no safe reusable engine change has been kept."
+      "reason": "Refreshed from run 28305378853 and evidence-refined; hover-open nav submenu announcements were removed because the fixture replays the initial non-hover DOM state. Keep candidate because the current compare still reports 193 expected, 233 actual, and 31 mismatch windows. The primary package-card collapse/list-count gap is fixed; unresolved trusted initial-DOM families still cover carousel/list-position, wrapper groups, legal/tail traversal, and timer volatility."
     },
     "www-sky-com-broadband-gaming": {
-      "status": "refined",
-      "reason": "Rendered HTML, AX tree, and step snapshots confirm cleanup of product-card spacing, four-item carousel position noise, and a truncated list position; refinedAnnouncements now match the engine exactly."
+      "status": "candidate",
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found product-card/list-position edits could mask true VO output. Current compare is 130 expected, 130 actual, and 11 mismatch windows; keep as candidate until the 2-of-6/product-card behavior is resolved in the engine or with stronger evidence."
     },
     "www-sky-com-broadband": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for currency, smart punctuation, missing speed-card spaces, a stray list bullet, and I/l drift; remaining page-backed gaps include postcode text-field phrasing, speed-card decomposition, and FAQ body/region traversal, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found fixture edits could mask true VO output. Current compare is 154 expected, 154 actual, and 11 mismatch windows; keep as candidate until gaps are resolved in the engine or evidence-backed refinements are re-established."
     },
     "www-sky-com-deals": {
       "status": "refined",
@@ -92,23 +92,23 @@
     },
     "www-sky-com-glass-43-inch": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear caption/OCR/truncation cleanup was applied for monthly price spacing, a truncated table column phrase, and FAQ casing. Remaining page-backed gaps include strong-text benefit-list segmentation and the 3-column/9-row native comparison-table traversal versus the current engine row flattening, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only refinements. Current compare is 127 expected, 127 actual, and 4 mismatch windows; keep as candidate until remaining table/card text gaps are engine-backed or evidence-backed."
     },
     "www-sky-com-glass-air": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear OCR/caption cleanup was applied for upfront price currency, monthly price spacing, word joins, hyphenation, and Netflix casing. Remaining page-backed gaps include hero/heading grouping, native control traversal, table/card segmentation, and repeated button/list groups, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored fixture-audit snapshot shows current compare is 257 expected, 246 actual, and 41 mismatch windows. Remaining page-backed gaps include hero/heading grouping, native control traversal, table/card segmentation, repeated button/list groups, and gallery state; keep as candidate evidence rather than an exact gate."
     },
     "www-sky-com-glass": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear OCR cleanup was applied for Netflix casing. Remaining page-backed gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored fixture-audit snapshot shows current compare is 149 expected, 136 actual, and 28 mismatch windows. Remaining page-backed gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation; keep as candidate evidence rather than an exact gate."
     },
     "www-sky-com-protect": {
       "status": "candidate",
-      "reason": "AI refinement pass corrected clear caption spacing/truncation, but raw VoiceOver and step snapshots still support grouped hero/postcode traversal, carousel group/region phrasing, grouped support text, reminder-section grouping, and footer group noise that need reusable engine or scanner decisions before exact gating."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only refinements. Current compare is 104 expected, 106 actual, and 2 mismatch windows; keep as candidate until the split/merge behavior is resolved without papering over VO output."
     },
     "www-sky-com-shop-mobile": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear cleanup was applied for a hidden character in Roam with Ease, a truncated Fair Usage Policy URL, and an FAQ I/l OCR drift. Remaining page-backed gaps include carousel dynamic state, slide button grouping, heading/card decomposition, and list/marker traversal, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/group/card fixture edits could mask true VO output. Current compare is 165 expected, 160 actual, and 12 mismatch windows; keep as candidate until the carousel and product-card traversal gaps are resolved in the engine or with stronger evidence."
     },
     "www-sky-com-smart-home": {
       "status": "refined",
@@ -116,15 +116,15 @@
     },
     "www-sky-com-tv-stream": {
       "status": "refined",
-      "reason": "Rendered HTML and step snapshots now match exactly after reusable engine fixes for ARIA tabs, focusable image-card groups, heading fragments, paragraph list cards, and empty live-region suppression."
+      "reason": "Matches exactly after VO-backed engine fixes for empty headings and parenthesized focusable image-card list positions, plus existing ARIA tab/focusable image-card traversal support. Current compare is 116 expected, 116 actual, and 0 mismatch windows."
     },
     "www-sky-com-tv": {
       "status": "candidate",
-      "reason": "Fresh Phase B review on 2026-06-27 treated refinedAnnouncements as an untrusted draft and applied seven evidence-backed repairs for the missing skip-search item, truncated list counts, truncated legal/disclaimer text, Sky Products typography, and FAQ button/group state. Phase C found 9 trusted reusable engine gaps. A broad Phase D prototype made this target exact but regressed already-refined corpus fixtures, so it was removed; a narrower focusable structured carousel/list-card li group fix was kept and reduced the target to 7 mismatch windows. Remaining gaps keep this as candidate evidence."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only group removals. Current compare is 177 expected, 174 actual, and 3 mismatch windows; keep as candidate until group behavior is resolved in the engine or with stronger evidence."
     },
     "www-sky-com-tvandbroadband": {
       "status": "candidate",
-      "reason": "Phase B review completed. Clear cleanup was applied for interest-free legal copy, hidden heading characters, 900 pixel OCR, and FAQ I/l drift. Remaining page-backed gaps include hero/CTA group announcements, product-card grouped text, carousel/package ordering, and list/marker segmentation, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored fixture-audit snapshot shows current compare is 351 expected, 309 actual, and 48 mismatch windows. Remaining page-backed gaps include hero/CTA group announcements, product-card grouped text, carousel/package ordering, and list/marker segmentation; keep as candidate evidence rather than an exact gate."
     },
     "www-sky-com-watch-what-to-watch-this-week": {
       "status": "refined",
@@ -132,7 +132,7 @@
     },
     "www-sky-com-watch": {
       "status": "candidate",
-      "reason": "Phase B review completed. Remaining comparison gaps are list/marker carousel traversal and dynamic slide disabled-state behavior rather than isolated fixture text noise, so this remains candidate evidence rather than an exact gate."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/text fixture edits could mask true VO output. Current compare is 259 expected, 259 actual, and 8 mismatch windows; keep as candidate until remaining carousel and text-boundary gaps are resolved in the engine or with stronger evidence."
     },
     "www-tesco-com": {
       "status": "candidate",

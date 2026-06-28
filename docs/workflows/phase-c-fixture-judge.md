@@ -43,11 +43,19 @@ potential reusable engine gap if:
 - the focused DOM node is itself focusable, such as `tabindex="0"` or native focusability
 - the AX/step-snapshot role and name describe the whole object
 - the rendered HTML child shape is generic enough to model without site-specific selectors
+- the nearest semantic ancestor chain and sibling context explain the announced boundary, such as a generic `list item` stop while entering a subsection inside a rich card `<li>`
 - the expected announcement is backed by raw VoiceOver/source or step evidence
 
 If those facts are missing, send the target back to Phase B or mark the mismatch
 as `scanner-evidence-gap`; do not dismiss it as too broad without recording the
 missing focused-node fields.
+
+For generic boundary words such as `list item`, `group`, `article`, `banner`, or
+`end of`, do not rely on text matching alone. Require Phase B evidence that maps
+the announcement to the closest semantic HTML ancestor and corresponding AX
+role/name/position data. If the saved HTML contains the ancestor and the AX tree
+confirms the semantics, default to `reusable-engine-gap` unless a concrete
+dynamic or fixture-noise explanation is recorded.
 
 ## Text-Boundary Gate
 
@@ -80,12 +88,26 @@ countdown text, or live personalization. If saved evidence still contains the
 semantic object that VoiceOver announced, the mismatch is not dynamic-state
 noise; it is a reusable engine/scanner gap.
 
-The engine comparison is against the initial `rendered-html.html` fixture. If a
-line is supported only by a step snapshot's `htmlAfterStep` and the semantic
-content is absent from initial `rendered-html.html`, classify it as fixture
-still noisy or conditional scan state and return it to Phase B for removal or
-normalization. Do not send step-only hover/focus/carousel/timer mutations to
-Phase D as engine gaps.
+The engine comparison is against `refinedAnnouncements`, and
+`refinedAnnouncements` must describe the initial `rendered-html.html` fixture.
+Raw `expectedAnnouncements` may include what VoiceOver heard after hover/focus
+or other step-time page state. If a line is supported only by a step snapshot's
+`htmlAfterStep` and the semantic content is absent, hidden, or not replayable in
+initial `rendered-html.html`, classify it as `fixture-still-noisy` and return
+it to Phase B for removal or normalization. Do not send step-only
+hover/focus/carousel/timer mutations to Phase D as engine gaps.
+
+Phase C must verify that Phase B assigned an initial-DOM status for disputed
+lines whenever step snapshots are available:
+
+- `initial-dom`: compare mismatches can proceed to reusable engine/scanner
+  classification.
+- `step-only-dom`: return to Phase B if the line remains in
+  `refinedAnnouncements`; otherwise ignore it as raw-only scan evidence.
+- `volatile-dom`: compare only normalized static structure or the value present
+  in `rendered-html.html`.
+- `not-found`: classify as `scanner-evidence-gap` or return to Phase B unless
+  other saved evidence explains the line.
 
 If local/live DOM evidence shows a different stable order or duplicate structure
 than the saved fixture, and VoiceOver matches the live/local DOM rather than the
@@ -119,6 +141,9 @@ Examples of enough evidence:
 
 - a native table rowheader has only its own AX name, but VoiceOver also speaks
   generic sibling/group header context visible in the same table structure
+- a feature-section paragraph is plain text, but its ancestor chain shows it is
+  inside a product-card `li` and AX exposes that card/list context, explaining a
+  VoiceOver `list item` boundary before the paragraph
 - grouped native table sections are represented by direct `thead` controller
   buttons with `aria-controls` pointing at sibling `tbody` regions
 - AX confirms the individual roles/names while rendered HTML explains the

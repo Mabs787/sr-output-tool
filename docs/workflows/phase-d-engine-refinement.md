@@ -1,6 +1,8 @@
 # Phase D: Engine Refinement
 
-Run this phase only after Phase B has edited or explicitly approved `refinedAnnouncements`, and Phase C has classified a trusted mismatch as a reusable engine or scanner gap.
+Run this phase only after Phase B has edited or explicitly approved
+`refinedAnnouncements`, and Phase C has classified a trusted `initial-dom`
+mismatch as a reusable engine or scanner gap.
 
 ## Agent
 
@@ -14,6 +16,9 @@ Use `.codex/agents/engine-refiner.toml`.
 - Rebuild extension runtime whenever engine output changes.
 - Split mixed mismatch families into independent sub-gaps. Implement and verify any narrow reusable fix, then record the families that still remain unresolved.
 - Keep revisiting the remaining mismatch families until the target is exact, every safe reusable family has been attempted, or a specific evidence-backed blocker is recorded for each unresolved family.
+- Do not implement engine behavior for raw VoiceOver lines that Phase B marked
+  `step-only-dom` or `volatile-dom`; those belong in raw expectedAnnouncements
+  or fixture normalization, not reusable engine traversal.
 
 ## Engine-Confidence Checklist
 
@@ -44,6 +49,9 @@ Common reusable patterns to check:
 - declarative shadow DOM or serialized shadow-root content where semantic tags
   such as `h1`-`h6`, `button`, `a`, `ul`/`li`, `input`, or ARIA roles are
   present in saved fixture HTML but the engine drops their role/level/state
+- generic boundary announcements synthesized from ancestor semantics, such as a
+  `list item` stop when VoiceOver enters a subsection inside the first rich card
+  `li`, even when the immediate wrapper is only a `div` or `p`
 - focusable `li` or `role=listitem` cards with a whole-card AX/computed name
 - focusable grouped controls whose parent receives focus while child text/link/image nodes supply the name
 - scanner-stop mistakes where the focused object should be announced as one unit instead of descending into descendants
@@ -65,6 +73,11 @@ shadow-root text as accessible names" rule.
 Scan artifacts are sufficient when they contain the relevant rendered HTML,
 AX roles/names, and control relationships. Do not require a live DevTools
 recapture only to confirm that a phrase is absent from an AX name.
+Before writing or rejecting a scanner rule, record the minimal DOM/AX contract:
+the disputed node, semantic ancestors, nearby siblings, AX role/name/position
+evidence, and why those facts explain VoiceOver better than the current engine
+output. If that contract is present and generic, implement the narrowest rule
+that matches it before labeling the family unresolved.
 
 Do not abandon Phase D only because a target has several mismatch families. A
 single page can produce one safe traversal fix, one dynamic-state mismatch, and

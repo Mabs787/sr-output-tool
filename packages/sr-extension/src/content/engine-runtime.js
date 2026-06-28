@@ -49,6 +49,10 @@
           return;
         }
         if (el.positionInSet && el.setSize) {
+          if (el.parenthesizedCollectionPosition) {
+            parts.push(`(${el.positionInSet} of ${el.setSize})`);
+            return;
+          }
           parts.push(`${el.positionInSet} of ${el.setSize}`);
         }
       }
@@ -61,7 +65,7 @@
         }
       }
       function hasTableColumnContext(el) {
-        return Boolean(el.tableRole === "table" && el.columnIndex && el.columnCount && !["cell", "gridcell", "rowheader", "columnheader"].includes(el.role || ""));
+        return Boolean(el.tableRole === "table" && el.columnIndex && el.columnCount && !(el.role === "link" && el.tableHasComplexColumnHeaders && el.rowIndex === 1) && !["cell", "gridcell", "rowheader", "columnheader"].includes(el.role || ""));
       }
       function mergeTableColumnHeaderContext(parts, el) {
         if (!el.columnHeaderText)
@@ -220,10 +224,16 @@
               }
               parts.push("link");
               pushIfPresent(parts, headingLabel);
+              if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
+                parts.push(`(${el.positionInSet} of ${el.setSize})`);
+              }
               pushCollectionPosition(parts, el);
             } else {
               pushIfPresent(parts, headingLabel);
               if (!el.headingButton) {
+                if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
+                  parts.push(`(${el.positionInSet} of ${el.setSize})`);
+                }
                 pushCollectionPosition(parts, el);
               }
             }
@@ -308,6 +318,13 @@
             }
             if (!popupType && el.expanded !== void 0) {
               parts.push(el.expanded ? "expanded" : "collapsed");
+            }
+            if (el.textlessCarouselPaginatorLink) {
+              parts.push("link s");
+              pushCollectionPosition(parts, el);
+              pushTableColumnContext(parts, el);
+              pushSupplementalText(parts, el);
+              break;
             }
             if (el.disabled) {
               parts.push("link");
@@ -502,6 +519,9 @@
           }
           case "text": {
             pushIfPresent(parts, label);
+            if (el.groupContext) {
+              parts.push("group");
+            }
             pushCollectionPosition(parts, el);
             pushSupplementalText(parts, el);
             break;
@@ -599,6 +619,8 @@
               } else {
                 if (role === "rowheader" && el.columnIndex === 1 && el.rowIndex && label && el.tableGroupHeaderText) {
                   parts.push(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label}, ${el.tableGroupHeaderText} ${label}`);
+                } else if (role === "rowheader" && el.columnIndex === 1 && el.rowIndex && label && el.tableHasComplexColumnHeaders) {
+                  parts.push(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${label}`);
                 } else if (el.columnIndex === 1 && el.rowIndex) {
                   parts.push(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`);
                   pushIfPresent(parts, [el.columnHeaderText, label].filter(Boolean).join(" "));
@@ -627,6 +649,20 @@
           }
           case "img":
           case "image": {
+            if (el.unlabeledImage) {
+              if (el.unlabeledImageSrcLabel) {
+                parts.push(el.unlabeledImageSrcLabel);
+                parts.push("Unlabeled image");
+                pushCollectionPosition(parts, el);
+                pushSupplementalText(parts, el);
+                break;
+              }
+              parts.push(el.imageMissingDescriptionHint ? "image. To get missing image descriptions, open the context menu." : "image");
+              parts.push("Unlabeled image");
+              pushCollectionPosition(parts, el);
+              pushSupplementalText(parts, el);
+              break;
+            }
             pushIfPresent(parts, label);
             parts.push("image");
             pushCollectionPosition(parts, el);
@@ -653,11 +689,7 @@
           case "group": {
             pushIfPresent(parts, label);
             parts.push(genericGroupRoleLabel(el));
-            if (el.groupedCollectionPosition && el.positionInSet && el.setSize) {
-              parts.push(`(${el.positionInSet} of ${el.setSize})`);
-            } else {
-              pushCollectionPosition(parts, el);
-            }
+            pushCollectionPosition(parts, el);
             break;
           }
           case "menuitem":
@@ -778,6 +810,9 @@
         if (role === "region") {
           return descriptor?.name ? `end of, ${descriptor.name}, region` : "end of region";
         }
+        if (role === "article") {
+          return descriptor?.name ? `end of, ${descriptor.name}, article` : "end of, article";
+        }
         if (role === "group") {
           return descriptor?.name ? `end of, ${descriptor.name}, ${genericGroupRoleLabel(descriptor)}` : `end of ${genericGroupRoleLabel(descriptor)}`;
         }
@@ -844,11 +879,17 @@
         function isFocusableOpacityHiddenControl(el) {
           return Boolean(el?.matches?.(interactiveSelector)) && isOpacityHiddenOnly(el);
         }
+        function isSldsDesktopHidden(el) {
+          return Boolean(el?.classList?.contains?.("slds-hide_medium"));
+        }
         function isHidden(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE) {
             return false;
           }
           if (el.getAttribute("aria-hidden") === "true") {
+            return true;
+          }
+          if (isSldsDesktopHidden(el) || el.closest?.(".slds-hide_medium")) {
             return true;
           }
           const marker = renderedHiddenValue(el);
@@ -874,6 +915,8 @@
           return /[\p{L}\p{N}%]/u.test(leftChar) && /[\p{L}\p{N}£$€]/u.test(rightChar);
         }
         const shadowContentHostByNode = /* @__PURE__ */ new WeakMap();
+        let flattenedSlottedCarouselListCache;
+        const flattenedSlottedCarouselStopCache = /* @__PURE__ */ new WeakMap();
         function rememberShadowContentHost(nodes, host) {
           const visit = (node) => {
             if (!node || node.nodeType !== Node.ELEMENT_NODE)
@@ -1019,17 +1062,68 @@
           }
           return labelText;
         }
+        function nestedImageLabels(el) {
+          return Array.from(el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]")).filter((node) => !isHidden(node)).map((image) => {
+            const tag = image.tagName.toLowerCase();
+            return normalize(image.getAttribute("aria-label") || (tag === "img" ? image.getAttribute("alt") : "") || image.getAttribute("title"));
+          }).filter((label) => Boolean(label));
+        }
         function nestedImageLabel(el) {
-          const image = Array.from(el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]")).find((node) => !isHidden(node));
-          if (!image)
-            return void 0;
-          const tag = image.tagName.toLowerCase();
-          return normalize(image.getAttribute("aria-label") || (tag === "img" ? image.getAttribute("alt") : "") || image.getAttribute("title"));
+          return nestedImageLabels(el)[0];
+        }
+        function embeddedControlLabelFragments(el) {
+          const fragments = [];
+          function push(fragment) {
+            const normalized = normalize(fragment);
+            if (normalized)
+              fragments.push(normalized);
+          }
+          function collect(node) {
+            if (!node)
+              return;
+            if (node.nodeType === Node.TEXT_NODE) {
+              push(node.textContent || "");
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node.matches("[aria-hidden='true']"))
+              return;
+            const role = implicitRole(node);
+            if (role === "image") {
+              push(accessibleName(node, "image"));
+              return;
+            }
+            for (const child of Array.from(node.childNodes))
+              collect(child);
+            for (const child of shadowContentChildren(node))
+              collect(child);
+          }
+          for (const child of Array.from(el.childNodes || []))
+            collect(child);
+          for (const child of shadowContentChildren(el))
+            collect(child);
+          return fragments;
+        }
+        function embeddedControlContentName(el) {
+          if (!nestedImageLabels(el).length && !linkSharesListWithImageCardLinks(el)) {
+            return readableText(el);
+          }
+          const fragments = embeddedControlLabelFragments(el);
+          return fragments.length ? normalize(fragments.join(" ")) : readableText(el);
+        }
+        function linkSharesListWithImageCardLinks(el) {
+          if (el?.tagName?.toLowerCase() !== "a" && el?.getAttribute?.("role") !== "link") {
+            return false;
+          }
+          const listItem = el.closest("li,[role='listitem']");
+          const list = listItem?.parentElement;
+          if (!list || implicitRole(list) !== "list")
+            return false;
+          return Array.from(list.querySelectorAll("a[href], [role='link']")).some((link) => link !== el && !isHidden(link) && nestedImageLabels(link).length > 0);
         }
         function linkContentName(el) {
-          const imageLabel = nestedImageLabel(el);
-          const text = readableText(el);
-          return normalize([imageLabel, text].filter(Boolean).join(" "));
+          return embeddedControlContentName(el);
         }
         function hrefSlugLabel(el) {
           if (el?.tagName?.toLowerCase() !== "a")
@@ -1075,9 +1169,7 @@
           }).join(" "));
         }
         function buttonContentName(el) {
-          const imageLabel = nestedImageLabel(el);
-          const text = readableText(el);
-          return normalize([imageLabel, text].filter(Boolean).join(" "));
+          return embeddedControlContentName(el);
         }
         function isFocusableImageListItem(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE)
@@ -1115,6 +1207,81 @@
             return false;
           return /^[\p{Extended_Pictographic}\uFE0F\s]+$/u.test(text);
         }
+        function joinedPriceDisclosureText(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName.toLowerCase() !== "div")
+            return void 0;
+          if (el.matches(interactiveSelector) || el.closest(interactiveSelector))
+            return void 0;
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (visibleChildren.length !== 2)
+            return void 0;
+          const [priceWrapper, note] = visibleChildren;
+          if (note.tagName?.toLowerCase() !== "span")
+            return void 0;
+          if (note.querySelector(interactiveSelector))
+            return void 0;
+          const priceText = normalize(readableText(priceWrapper));
+          const noteText = normalize(readableText(note));
+          if (!priceText || !noteText)
+            return void 0;
+          if (!/^(from\s+)?[£$€]\s?\d+(?:[.,]\d+)?\s*\/\s*(?:month|mo|mth)$/i.test(priceText)) {
+            return void 0;
+          }
+          if (!/\bprices?\s+may\s+change\b/i.test(noteText) || !/\bminimum\s+term\b/i.test(noteText)) {
+            return void 0;
+          }
+          const ariaHiddenDuplicate = Array.from(priceWrapper.querySelectorAll("[aria-hidden='true']")).some((candidate) => normalize(candidate.textContent || "") !== void 0);
+          if (!ariaHiddenDuplicate)
+            return void 0;
+          return normalize(`${priceText} ${noteText}`);
+        }
+        function groupedMetricCardText(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName.toLowerCase() !== "div")
+            return void 0;
+          if (el.matches(interactiveSelector) || el.closest(interactiveSelector))
+            return void 0;
+          const children = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (children.length !== 2)
+            return void 0;
+          const [headingRow, body] = children;
+          if (headingRow.tagName?.toLowerCase() !== "div" || body.tagName?.toLowerCase() !== "span") {
+            return void 0;
+          }
+          const headingParts = Array.from(headingRow.children || []).filter((child) => !isHidden(child));
+          if (headingParts.length !== 2 || headingParts.some((child) => child.tagName?.toLowerCase() !== "span")) {
+            return void 0;
+          }
+          const title = normalize(readableText(headingParts[0]));
+          const metric = normalize(readableText(headingParts[1]));
+          const bodyText = normalize(readableText(body));
+          if (!title || !metric || !bodyText)
+            return void 0;
+          if (title.length > 80 || /[.!?]$/.test(title))
+            return void 0;
+          if (!/\b\d+(?:\.\d+)?\s*(?:M|G|K)?bps\b/i.test(metric))
+            return void 0;
+          if (!/[.!?]$/.test(bodyText))
+            return void 0;
+          return normalize(`${title} ${metric} ${bodyText}`);
+        }
+        function isInsideJoinedPriceDisclosure(el) {
+          for (let current = el?.parentElement; current; current = current.parentElement) {
+            if (joinedPriceDisclosureText(current))
+              return true;
+          }
+          return false;
+        }
+        function isInsideGroupedMetricCard(el) {
+          for (let current = el?.parentElement; current; current = current.parentElement) {
+            if (groupedMetricCardText(current))
+              return true;
+          }
+          return false;
+        }
         function isFocusableStructuredListItemGroup(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE)
             return false;
@@ -1142,8 +1309,28 @@
           for (let current = el?.parentElement; current; current = current.parentElement) {
             if (isCustomElement(current))
               return current;
+            const shadowHost2 = shadowContentHostByNode.get(current);
+            if (isCustomElement(shadowHost2))
+              return shadowHost2;
           }
+          const shadowHost = shadowContentHostByNode.get(el);
+          if (isCustomElement(shadowHost))
+            return shadowHost;
           return null;
+        }
+        function isFocusableCustomTooltipTrigger(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (!el.hasAttribute("tabindex") || el.getAttribute("tabindex") === "-1")
+            return false;
+          if (el.querySelector(interactiveSelector) || el.closest(interactiveSelector))
+            return false;
+          if (!directOwnText(el))
+            return false;
+          const host = closestCustomElement(el);
+          if (!host)
+            return false;
+          return /tooltip/i.test(host.tagName.toLowerCase());
         }
         function hasShadowRootContent(el) {
           return Boolean(el?.shadowRoot || Array.from(el?.children || []).some((child) => child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")));
@@ -1525,9 +1712,15 @@
           }
           if (tag === "blockquote")
             return el.closest("figure") ? "blockquote" : "paragraph";
-          if (tag === "p" || tag === "figcaption" || tag === "time" || isStructuredListBodyText(el) || isInteractiveListBodyText(el)) {
+          if (tag === "p" || tag === "figcaption" || tag === "time" || isRichProductCardOfferBanner(el) || isStructuredListBodyText(el) || isInteractiveListBodyText(el)) {
             return "paragraph";
           }
+          if (joinedPriceDisclosureText(el))
+            return "text";
+          if (groupedMetricCardText(el))
+            return "text";
+          if (expandedRegionInlineLinkFragments(el))
+            return "paragraph";
           if (["section", "div", "form"].includes(tag) && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))) {
             return tag === "section" ? "region" : "group";
           }
@@ -1536,7 +1729,7 @@
           if (isCustomElement(el) && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || hasShadowRootContent(el)) && hasVisibleInteractiveDescendant(el)) {
             return "group";
           }
-          if (["span", "div"].includes(tag) && directOwnText(el) && !el.querySelector(interactiveSelector) && !el.closest(interactiveSelector) && (isSplitTextListItemBlock(el) || isExpandedRegionBodyText(el) || hasImageLinkWithCaptionListItemContent(el.closest("li,[role='listitem']")) || !el.closest("p, li, h1, h2, h3, h4, h5, h6"))) {
+          if (["span", "div"].includes(tag) && directOwnText(el) && !el.querySelector(interactiveSelector) && !el.closest(interactiveSelector) && (isSplitTextListItemBlock(el) || isExpandedRegionBodyText(el) || isRichProductCardTextFragment(el) || hasImageLinkWithCaptionListItemContent(el.closest("li,[role='listitem']")) || !el.closest("p, li, h1, h2, h3, h4, h5, h6"))) {
             return "text";
           }
           return "";
@@ -1554,6 +1747,192 @@
           const text = normalize(textWithoutInteractive(el) || readableText(el));
           return Boolean(text && /^[|/\\•·]+$/.test(text));
         }
+        function slottedCarouselSlidesForList(list) {
+          const slot = walkChildren(list).find((child) => child.tagName?.toLowerCase() === "slot");
+          if (!slot)
+            return [];
+          const assigned = assignedSlotChildren(slot).filter((child) => !isHidden(child));
+          if (assigned.length)
+            return assigned;
+          const host = shadowContentHostByNode.get(slot) || shadowContentHostByNode.get(list);
+          return Array.from(host?.children || []).filter((child) => {
+            if (child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")) {
+              return false;
+            }
+            return !isHidden(child) && !(child.getAttribute("slot") || "");
+          });
+        }
+        function isFlattenedSlottedCarouselList(list) {
+          if (!list || list.nodeType !== Node.ELEMENT_NODE || isHidden(list))
+            return false;
+          const tag = list.tagName.toLowerCase();
+          if (tag !== "ul" && tag !== "ol")
+            return false;
+          if (!/\bcarousel\b/i.test(list.getAttribute("class") || ""))
+            return false;
+          const assignedSlides = slottedCarouselSlidesForList(list).filter((child) => !isHidden(child) && isCustomElement(child));
+          if (assignedSlides.length < 2)
+            return false;
+          return assignedSlides.some((slide) => Boolean(slide.getAttribute("class")?.match(/\bcarousel__panel\b|\bcarousel-panel\b/i)));
+        }
+        function flattenedSlottedCarouselLists(root = document.body) {
+          if (root === document.body && flattenedSlottedCarouselListCache) {
+            return flattenedSlottedCarouselListCache;
+          }
+          const lists = [];
+          const visit = (node) => {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (isFlattenedSlottedCarouselList(node)) {
+              lists.push(node);
+              return;
+            }
+            for (const child of walkChildren(node))
+              visit(child);
+          };
+          visit(root);
+          if (root === document.body) {
+            flattenedSlottedCarouselListCache = lists;
+          }
+          return lists;
+        }
+        function flattenedSlottedCarouselAssignedSlides(list) {
+          if (!isFlattenedSlottedCarouselList(list))
+            return [];
+          return slottedCarouselSlidesForList(list);
+        }
+        function flattenedSlottedCarouselStops(list) {
+          if (!isFlattenedSlottedCarouselList(list))
+            return [];
+          const cached = flattenedSlottedCarouselStopCache.get(list);
+          if (cached)
+            return cached;
+          const stops = [];
+          for (const slide of flattenedSlottedCarouselAssignedSlides(list)) {
+            let countedPrimaryLink = false;
+            const visit = (node) => {
+              if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+                return;
+              const role = implicitRole(node);
+              if (role === "heading" && readableText(node)) {
+                stops.push({ el: node, counted: true });
+                return;
+              }
+              if (role === "paragraph" && readableText(node) && !hasOnlyLinkContent(node)) {
+                stops.push({ el: node, counted: true });
+                return;
+              }
+              if (role === "text" && readableText(node)) {
+                stops.push({ el: node, counted: true });
+                return;
+              }
+              if (role === "link") {
+                stops.push({ el: node, counted: !countedPrimaryLink });
+                countedPrimaryLink = true;
+                return;
+              }
+              if (role === "image" && accessibleName(node, role)) {
+                stops.push({ el: node, counted: true });
+                return;
+              }
+              for (const child of walkChildren(node))
+                visit(child);
+            };
+            for (const child of walkChildren(slide))
+              visit(child);
+          }
+          flattenedSlottedCarouselStopCache.set(list, stops);
+          return stops;
+        }
+        function flattenedSlottedCarouselPosition(el) {
+          for (const list of flattenedSlottedCarouselLists()) {
+            let position = 0;
+            const stops = flattenedSlottedCarouselStops(list);
+            const setSize2 = stops.filter((item) => item.counted).length;
+            for (const stop of stops) {
+              if (stop.counted)
+                position += 1;
+              if (stop.el === el) {
+                if (!stop.counted)
+                  return {};
+                return {
+                  positionInSet: position,
+                  setSize: setSize2
+                };
+              }
+            }
+          }
+          return {};
+        }
+        function flattenedSlottedCarouselImageInfo(el) {
+          if (implicitRole(el) !== "image")
+            return {};
+          const imageName = normalize(accessibleName(el, "image"));
+          if (imageName?.toLowerCase() !== "image")
+            return {};
+          const imagePosition = flattenedSlottedCarouselPosition(el).positionInSet;
+          if (!imagePosition)
+            return {};
+          let firstImagePosition;
+          for (const list of flattenedSlottedCarouselLists()) {
+            let position = 0;
+            for (const stop of flattenedSlottedCarouselStops(list)) {
+              if (stop.counted)
+                position += 1;
+              if (implicitRole(stop.el) !== "image")
+                continue;
+              const stopName = normalize(accessibleName(stop.el, "image"));
+              if (stopName?.toLowerCase() !== "image")
+                continue;
+              if (firstImagePosition === void 0 || position < firstImagePosition) {
+                firstImagePosition = position;
+              }
+            }
+          }
+          return {
+            unlabeledImage: true,
+            imageMissingDescriptionHint: imagePosition === firstImagePosition
+          };
+        }
+        function cmsMediaPathLabel(el) {
+          const src = normalize(el?.getAttribute?.("src"));
+          if (!src)
+            return void 0;
+          const match = src.match(/\/cms\/delivery\/media\/([^?#/]+)/i);
+          return match ? `/${match[1]}` : void 0;
+        }
+        function isInformativeUnlabeledCmsImage(el) {
+          if (el?.tagName?.toLowerCase() !== "img")
+            return false;
+          if (el.hasAttribute("alt") && !normalize(el.getAttribute("alt")))
+            return false;
+          if (accessibleName(el, "image"))
+            return false;
+          if (!cmsMediaPathLabel(el))
+            return false;
+          const host = closestCustomElement(el);
+          if (!host)
+            return false;
+          const hostName = host.tagName.toLowerCase();
+          if (!/(side-by-side|hero|banner|tile|card)/i.test(hostName))
+            return false;
+          return Boolean(readableText(host));
+        }
+        function flattenedSlottedCarouselSetSize(list) {
+          if (!isFlattenedSlottedCarouselList(list))
+            return void 0;
+          return flattenedSlottedCarouselStops(list).filter((stop) => stop.counted).length || void 0;
+        }
+        function isFlattenedSlottedCarouselGroupWrapper(el) {
+          if (!isCustomElement(el))
+            return false;
+          if (accessibleName(el, "group"))
+            return false;
+          if (flattenedSlottedCarouselLists().some((list) => flattenedSlottedCarouselAssignedSlides(list).includes(el))) {
+            return true;
+          }
+          return flattenedSlottedCarouselLists(el).length > 0;
+        }
         function listChildren(list) {
           if (!list)
             return [];
@@ -1564,7 +1943,9 @@
               return !isHidden(child) && (childTag === "dt" || childTag === "dd");
             });
           }
-          return walkChildren(list).filter((child) => isListItem(child));
+          const children = walkChildren(list);
+          const hasNativeItems = children.some((child) => isListItem(child));
+          return children.filter((child) => isListItem(child) || hasNativeItems && isDirectInvalidListContentItem(list, child));
         }
         function announcedListChildren(list) {
           return listChildren(list).filter((child) => !isSeparatorListItem(child));
@@ -1644,6 +2025,9 @@
           const explicit = Number.parseInt(el.getAttribute("aria-posinset") || "", 10);
           if (Number.isFinite(explicit) && explicit > 0)
             return explicit;
+          const flattenedCarouselPosition = flattenedSlottedCarouselPosition(el).positionInSet;
+          if (flattenedCarouselPosition)
+            return flattenedCarouselPosition;
           if (role === "option") {
             const options2 = Array.from(el.parentElement?.querySelectorAll("[role='option']") || []).filter((option) => !isHidden(option));
             const index = options2.indexOf(el);
@@ -1672,6 +2056,11 @@
             const index = siblings.indexOf(listItem);
             return index >= 0 ? index + 1 : void 0;
           }
+          if (role === "text" && isFirstRichProductCardTextFragment(el)) {
+            const { listItem, siblings } = semanticListContext(el);
+            const index = siblings.indexOf(listItem);
+            return index >= 0 ? index + 1 : void 0;
+          }
           if (["heading", "link"].includes(role) && structuredListItemHasPreHeadingImage(el.closest("li,[role='listitem']"))) {
             return void 0;
           }
@@ -1681,12 +2070,25 @@
           if (role === "link" && isGenericDealCtaLink(el)) {
             return void 0;
           }
+          if (role === "button" && hasRichProductCardListItemContent(el.closest("li,[role='listitem']"))) {
+            return void 0;
+          }
           if (role === "paragraph" && isFirstInteractiveListBodyText(el)) {
             const { listItem, siblings } = semanticListContext(el);
             const index = siblings.indexOf(listItem);
             return index >= 0 ? index + 1 : void 0;
           }
           if (role === "paragraph" && isFirstTextBlockListItemParagraph(el)) {
+            const { listItem, siblings } = semanticListContext(el);
+            const index = siblings.indexOf(listItem);
+            return index >= 0 ? index + 1 : void 0;
+          }
+          if (role === "paragraph" && isFirstRichProductCardParagraph(el)) {
+            const { listItem, siblings } = semanticListContext(el);
+            const index = siblings.indexOf(listItem);
+            return index >= 0 ? index + 1 : void 0;
+          }
+          if (role === "paragraph" && isRichProductCardOfferBanner(el)) {
             const { listItem, siblings } = semanticListContext(el);
             const index = siblings.indexOf(listItem);
             return index >= 0 ? index + 1 : void 0;
@@ -1705,8 +2107,13 @@
           const explicit = Number.parseInt(el.getAttribute("aria-setsize") || "", 10);
           if (Number.isFinite(explicit) && explicit > 0)
             return explicit;
-          if (role === "list")
-            return announcedListChildren(el).length || void 0;
+          if (role === "list") {
+            const flattenedSize = flattenedSlottedCarouselSetSize(el);
+            return flattenedSize ?? (announcedListChildren(el).length || void 0);
+          }
+          const flattenedCarouselSize = flattenedSlottedCarouselPosition(el).setSize;
+          if (flattenedCarouselSize)
+            return flattenedCarouselSize;
           if (role === "option") {
             return Array.from(el.parentElement?.querySelectorAll("[role='option']") || []).filter((option) => !isHidden(option)).length || void 0;
           }
@@ -1735,6 +2142,21 @@
           if (role === "paragraph" && isFirstTextBlockListItemParagraph(el)) {
             const { siblings } = semanticListContext(el);
             return siblings.length || void 0;
+          }
+          if (role === "paragraph" && isFirstRichProductCardParagraph(el)) {
+            const { siblings } = semanticListContext(el);
+            return siblings.length || void 0;
+          }
+          if (role === "paragraph" && isRichProductCardOfferBanner(el)) {
+            const { siblings } = semanticListContext(el);
+            return siblings.length || void 0;
+          }
+          if (role === "text" && isFirstRichProductCardTextFragment(el)) {
+            const { siblings } = semanticListContext(el);
+            return siblings.length || void 0;
+          }
+          if (role === "button" && hasRichProductCardListItemContent(el.closest("li,[role='listitem']"))) {
+            return void 0;
           }
           if (role === "text" && isFirstSplitTextListItemBlock(el) && !el.closest("li,[role='listitem']")?.querySelector("img, [role='img'], svg[aria-label]")) {
             const { siblings } = semanticListContext(el);
@@ -1773,6 +2195,18 @@
           if (!el.querySelector(interactiveSelector))
             return false;
           return !textWithoutInteractive(el);
+        }
+        function isDirectInvalidListContentItem(list, child) {
+          if (!list || !child || child.parentElement !== list || isHidden(child))
+            return false;
+          if (!["ul", "ol"].includes(list.tagName?.toLowerCase()))
+            return false;
+          if (isListItem(child) || child.matches?.("script, style, template"))
+            return false;
+          if (child.getAttribute?.("role") === "none" || child.getAttribute?.("role") === "presentation") {
+            return false;
+          }
+          return Boolean(readableText(child));
         }
         function isGenericDealCtaLink(el) {
           if (implicitRole(el) !== "link")
@@ -2056,6 +2490,64 @@
           }
           return !Array.from(el.children || []).some((child) => !isHidden(child) && Boolean(readableText(child)) && !child.matches?.(`${interactiveSelector}, strong, em, b, i`));
         }
+        function expandedControlledRegionFor(el) {
+          const region = el?.closest?.("[role='region']");
+          if (!region || region === el || isHidden(region))
+            return void 0;
+          if (region.getAttribute("aria-hidden") === "true")
+            return void 0;
+          const labelledBy = region.getAttribute("aria-labelledby");
+          const labelElement = labelledBy ? resolveIdRef(labelledBy) : null;
+          const controller = labelElement?.matches?.("[aria-expanded]") ? labelElement : labelElement?.querySelector?.("[aria-expanded]");
+          const controlsRegion = !region.id || controller?.getAttribute?.("aria-controls") === region.id;
+          if (controller?.getAttribute?.("aria-expanded") !== "true" || !controlsRegion) {
+            return void 0;
+          }
+          return region;
+        }
+        function expandedRegionInlineLinkFragments(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (!["div", "p"].includes(el.tagName.toLowerCase()))
+            return void 0;
+          if (!expandedControlledRegionFor(el))
+            return void 0;
+          const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter((link2) => !isHidden(link2));
+          if (links.length !== 1)
+            return void 0;
+          const link = links[0];
+          const before = [];
+          const after = [];
+          let sawLink = false;
+          function collect(node) {
+            if (!node)
+              return;
+            if (node === link) {
+              sawLink = true;
+              return;
+            }
+            if (node.nodeType === Node.TEXT_NODE) {
+              const text = normalize(node.textContent);
+              if (text)
+                (sawLink ? after : before).push(text);
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node.matches(interactiveSelector))
+              return;
+            for (const child of Array.from(node.childNodes))
+              collect(child);
+          }
+          for (const child of Array.from(el.childNodes))
+            collect(child);
+          const beforeText = normalize(before.join(" "));
+          const linkName = accessibleName(link, "link");
+          const afterText = normalize(after.join(" "));
+          if (!beforeText || !linkName || !afterText)
+            return void 0;
+          return [beforeText, `link, ${linkName}`, afterText];
+        }
         function isFirstSplitTextListItemBlock(el) {
           if (!isSplitTextListItemBlock(el))
             return false;
@@ -2112,6 +2604,73 @@
           }
           return normalizedFragments;
         }
+        function inlineEmphasisTextFragments(el, role) {
+          if (!["paragraph", "text"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.querySelector(interactiveSelector))
+            return void 0;
+          const expandedRegion = expandedControlledRegionFor(el);
+          if (!expandedRegion && el.closest("li,[role='listitem']"))
+            return void 0;
+          const emphasisSelector = "strong, b, em, i";
+          const emphasisElements = Array.from(el.querySelectorAll(emphasisSelector)).filter((candidate) => !isHidden(candidate) && Boolean(readableText(candidate)));
+          if (!emphasisElements.length)
+            return void 0;
+          const fragments = [];
+          let plainText = "";
+          let suppressNextLeadingSpace = false;
+          function flushPlainText() {
+            const normalized = normalize(plainText);
+            if (normalized)
+              fragments.push(normalized);
+            plainText = "";
+          }
+          function collect(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+              const text = suppressNextLeadingSpace ? (node.textContent || "").replace(/^\s+/u, "") : node.textContent || "";
+              plainText = `${plainText}${text}`;
+              suppressNextLeadingSpace = false;
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node.matches("[aria-hidden='true']"))
+              return;
+            if (node.tagName?.toLowerCase() === "br" && expandedControlledRegionFor(el)) {
+              plainText = plainText.replace(/\s+$/u, "");
+              suppressNextLeadingSpace = true;
+              return;
+            }
+            if (node.matches(emphasisSelector)) {
+              flushPlainText();
+              const emphasizedText = readableText(node);
+              if (emphasizedText)
+                fragments.push(emphasizedText);
+              return;
+            }
+            if (node !== el && implicitRole(node) && !node.matches(emphasisSelector)) {
+              return;
+            }
+            for (const child of Array.from(node.childNodes))
+              collect(child);
+          }
+          collect(el);
+          flushPlainText();
+          const normalizedFullText = normalize(textWithoutInteractive(el) || readableText(el));
+          const normalizedFragments = fragments.map((fragment) => normalize(fragment)).filter((fragment) => Boolean(fragment));
+          if (!expandedRegion && normalizedFragments.length !== 2) {
+            return void 0;
+          }
+          if (expandedRegion && normalizedFragments.length < 2) {
+            return void 0;
+          }
+          if (!expandedRegion && normalizedFragments.join(" ") !== normalizedFullText) {
+            return void 0;
+          }
+          return normalizedFragments;
+        }
         function leafTextFragments(el) {
           const fragments = [];
           function collect(node) {
@@ -2145,16 +2704,16 @@
           const readable = readableText(el);
           if (!rawText || !readable)
             return {};
-          if (normalize(fragments.join(" ")) !== readable)
-            return {};
           return {
-            complexColumnHeaderFragments: fragments,
+            complexColumnHeaderFragments: complexColumnHeaderContextFragments(el),
             complexColumnHeaderRawText: rawText
           };
         }
         function hasStructuredListItemContent(el) {
           if (!isListItem(el))
             return false;
+          if (hasRichProductCardListItemContent(el))
+            return true;
           const heading = el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']");
           if (heading && (el.querySelector("p, [role='group'], img, [role='img'], svg[aria-label]") || el.querySelector("button, [role='button'], a[href], [role='link']") || Array.from(el.children).some((child) => isStructuredListBodyText(child)))) {
             return true;
@@ -2170,6 +2729,127 @@
           }
           const linkedHeading = el.querySelector("h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]");
           return Boolean(linkedHeading && textWithoutInteractive(el));
+        }
+        function hasRichProductCardListItemContent(el) {
+          if (!isListItem(el))
+            return false;
+          if (!el.querySelector("button, [role='button'], a[href], [role='link']"))
+            return false;
+          const paragraphs = Array.from(el.querySelectorAll("p")).filter((paragraph) => !isHidden(paragraph) && Boolean(readableText(paragraph)));
+          if (paragraphs.length < 5)
+            return false;
+          const labelledImages = Array.from(el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]")).filter((image) => !isHidden(image) && Boolean(accessibleName(image, implicitRole(image))));
+          const featureRows = paragraphs.filter((paragraph) => isRichProductCardFeatureRow(paragraph, true));
+          return labelledImages.length >= 3 && featureRows.length >= 2;
+        }
+        function isRichProductCardFeatureRow(el, skipCardCheck = false) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.tagName.toLowerCase() !== "p")
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          if (!skipCardCheck && !hasRichProductCardListItemContent(listItem))
+            return false;
+          if (el.querySelector(interactiveSelector))
+            return false;
+          return Boolean(Array.from(el.querySelectorAll("img, [role='img'], svg[aria-label]")).some((image) => !isHidden(image) && implicitRole(image) === "image" && Boolean(accessibleName(image, "image"))) && textWithoutInteractive(el));
+        }
+        function isFirstRichProductCardParagraph(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.tagName.toLowerCase() !== "p")
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          if (!hasRichProductCardListItemContent(listItem))
+            return false;
+          if (richProductCardOfferBanner(listItem))
+            return false;
+          const paragraphs = Array.from(listItem.querySelectorAll("p")).filter((paragraph) => !isHidden(paragraph) && Boolean(readableText(paragraph)));
+          return paragraphs[0] === el;
+        }
+        function richProductCardOfferBanner(listItem) {
+          if (!hasRichProductCardListItemContent(listItem))
+            return void 0;
+          return Array.from(listItem.querySelectorAll("div, span")).find((candidate) => {
+            if (isHidden(candidate) || !readableText(candidate))
+              return false;
+            if (candidate.querySelector(interactiveSelector) || candidate.closest(interactiveSelector)) {
+              return false;
+            }
+            const className = normalize(candidate.getAttribute("class")) || "";
+            return /\boffer\b/i.test(className) && /\bbanner\b/i.test(className);
+          });
+        }
+        function isRichProductCardOfferBanner(el) {
+          const listItem = el.closest("li,[role='listitem']");
+          return richProductCardOfferBanner(listItem) === el;
+        }
+        function richProductCardFeatureRowFragments(el) {
+          if (!isRichProductCardFeatureRow(el))
+            return void 0;
+          const image = Array.from(el.querySelectorAll("img, [role='img'], svg[aria-label]")).find((candidate) => !isHidden(candidate) && implicitRole(candidate) === "image" && Boolean(accessibleName(candidate, "image")));
+          const imageLabel = image ? accessibleName(image, "image") : void 0;
+          const text = textWithoutInteractive(el);
+          return [
+            imageLabel ? `${imageLabel}, image` : void 0,
+            text
+          ].filter((entry) => Boolean(entry));
+        }
+        function isFirstRichProductCardListItem(listItem) {
+          if (!hasRichProductCardListItemContent(listItem))
+            return false;
+          const list = listItem.parentElement;
+          if (!list || implicitRole(list) !== "list")
+            return false;
+          const richItems = Array.from(list.children || []).filter((child) => hasRichProductCardListItemContent(child));
+          return richItems[0] === listItem;
+        }
+        function isRichProductCardFeatureHeading(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.tagName.toLowerCase() !== "p")
+            return false;
+          if (el.querySelector(interactiveSelector))
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          if (!isFirstRichProductCardListItem(listItem))
+            return false;
+          const parent = el.parentElement;
+          if (!parent)
+            return false;
+          const readableParagraphs = Array.from(parent.children || []).filter((paragraph) => paragraph.tagName?.toLowerCase() === "p" && !isHidden(paragraph) && Boolean(readableText(paragraph)));
+          if (readableParagraphs[0] !== el)
+            return false;
+          const headingText = readableText(el);
+          if (!headingText || !/:$/.test(headingText))
+            return false;
+          return readableParagraphs.slice(1).some((paragraph) => isRichProductCardFeatureRow(paragraph));
+        }
+        function richProductCardTextFragments(listItem) {
+          if (!hasRichProductCardListItemContent(listItem))
+            return [];
+          return Array.from(listItem.querySelectorAll("span, div")).filter((candidate) => isRichProductCardTextFragment(candidate));
+        }
+        function isRichProductCardTextFragment(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (!["span", "div"].includes(el.tagName.toLowerCase()))
+            return false;
+          if (el.querySelector(interactiveSelector) || el.closest(interactiveSelector))
+            return false;
+          if (!directOwnText(el))
+            return false;
+          if (Array.from(el.children || []).some((child) => !isHidden(child) && Boolean(readableText(child)))) {
+            return false;
+          }
+          const listItem = el.closest("li,[role='listitem']");
+          if (!hasRichProductCardListItemContent(listItem))
+            return false;
+          return Boolean(el.closest(".bos-offer-banner-box, p") || /feature/i.test(normalize(el.getAttribute("class")) || ""));
+        }
+        function isFirstRichProductCardTextFragment(el) {
+          const listItem = el.closest("li,[role='listitem']");
+          return richProductCardTextFragments(listItem)[0] === el;
         }
         function hasTextBlockListItemContent(el) {
           if (!isListItem(el))
@@ -2272,6 +2952,71 @@
           }
           return !readableText(clone);
         }
+        function isTextlessCarouselPaginatorLink(el) {
+          if (implicitRole(el) !== "link")
+            return false;
+          if (!el.closest(".carousel-paginator"))
+            return false;
+          if (normalize(accessibleName(el, "link")) || readableText(el))
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          if (!listItem)
+            return false;
+          const list = listItem.parentElement;
+          return Boolean(list && /\bcarousel-paginator\b/.test(list.getAttribute("class") || ""));
+        }
+        function isUnnamedCarouselNavigationButtonWrapper(el) {
+          if (!isCustomElement(el))
+            return false;
+          if (!el.closest(".carousel-navigation"))
+            return false;
+          if (accessibleName(el, "group") || readableText(el))
+            return false;
+          const buttons = [];
+          const visit = (node) => {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node !== el && implicitRole(node) === "button") {
+              buttons.push(node);
+              return;
+            }
+            for (const child of walkChildren(node))
+              visit(child);
+          };
+          visit(el);
+          if (buttons.length !== 1)
+            return false;
+          const button = buttons[0];
+          return !normalize(accessibleName(button, "button") || readableText(button));
+        }
+        function isLwcLikeCustomElement(el) {
+          if (!isCustomElement(el))
+            return false;
+          const tag = el.tagName.toLowerCase();
+          if (tag.startsWith("lightning-") || tag.startsWith("vlocity_cmt-") || tag.startsWith("c-")) {
+            return true;
+          }
+          return Array.from(el.attributes || []).some((attr) => /^lwc-|.+-host$/.test(attr.name));
+        }
+        function isAnonymousStructuralCustomElementGroup(el) {
+          if (!isCustomElement(el))
+            return false;
+          if (!hasShadowRootContent(el))
+            return false;
+          if (accessibleName(el, "group"))
+            return false;
+          if (el.matches(interactiveSelector))
+            return false;
+          if (compactInputActionGroupLabel(el))
+            return false;
+          if (isFocusableImageListItem(el) || isFocusableStructuredListItemGroup(el)) {
+            return false;
+          }
+          if (el.closest("[aria-roledescription='carousel'], [aria-roledescription='slideshow']") && !isFlattenedSlottedCarouselGroupWrapper(el) && !isUnnamedCarouselNavigationButtonWrapper(el)) {
+            return false;
+          }
+          return isLwcLikeCustomElement(el);
+        }
         function parseBooleanAttribute(el, name) {
           if (!el.hasAttribute(name))
             return void 0;
@@ -2314,23 +3059,129 @@
             return ["columnheader", "rowheader"].includes(childRole);
           });
           const columnHeader = columnIndex >= 0 ? headerCells[columnIndex] : null;
-          const columnHeaderText = role !== "columnheader" && columnHeader ? complexColumnHeaderText(columnHeader) || accessibleName(columnHeader, "columnheader") : void 0;
+          const tableHasComplexColumnHeaders = headerCells.some((header) => isComplexColumnHeaderContext(header));
+          const columnHeaderFragments = role !== "columnheader" && columnHeader ? complexColumnHeaderContextFragments(columnHeader) : [];
+          const complexColumnHeaderContextText = columnHeaderFragments.length >= 3 ? formatConjunctiveList(columnHeaderFragments, { oxfordComma: false }) : void 0;
+          const cellRole = implicitRole(cell);
+          const columnHeaderText = role !== "columnheader" && cellRole !== "columnheader" && columnHeader ? complexColumnHeaderContextText || accessibleName(columnHeader, "columnheader") : void 0;
           const groupedHeaderNames = groupedTableHeaderNames(table);
           const tableGroupHeaderText = columnIndex === 0 && groupedHeaderNames.length > 1 ? formatConjunctiveList(groupedHeaderNames) : void 0;
           const tableGroupedHeaderRow = Boolean(tableGroupHeaderText) && Boolean(row.closest("thead")) && Boolean(row.querySelector("button[aria-controls]"));
           const tableFirstGroupedHeaderRow = tableGroupedHeaderRow && row === groupedTableHeaders(table)[0]?.querySelector("tr,[role='row']");
+          const insideColumnHeaderContent = role !== "columnheader" && cellRole === "columnheader" && isComplexColumnHeaderContext(cell);
           return {
             tableRole: implicitRole(table),
             tableLabel: accessibleName(table, implicitRole(table)),
-            rowIndex: rowIndex >= 0 ? rowIndex + 1 : void 0,
+            rowIndex: !insideColumnHeaderContent && rowIndex >= 0 ? rowIndex + 1 : void 0,
             rowCount: rows.length || void 0,
-            columnIndex: columnIndex >= 0 ? columnIndex + 1 : void 0,
-            columnCount: columnCount || cells.length || void 0,
+            columnIndex: !insideColumnHeaderContent && columnIndex >= 0 ? columnIndex + 1 : void 0,
+            columnCount: !insideColumnHeaderContent ? columnCount || cells.length || void 0 : void 0,
             columnHeaderText,
+            complexColumnHeaderContextText,
             tableGroupHeaderText,
             tableGroupedHeaderRow,
-            tableFirstGroupedHeaderRow
+            tableFirstGroupedHeaderRow,
+            tableHasComplexColumnHeaders
           };
+        }
+        function isComplexColumnHeaderContext(el) {
+          return complexColumnHeaderContextFragments(el).length >= 3;
+        }
+        function complexColumnHeaderContextFragments(el) {
+          return leafTextFragments(el).filter((fragment) => {
+            if (/^£/.test(fragment))
+              return false;
+            if (/^Over a /i.test(fragment))
+              return false;
+            if (/Requires streaming/i.test(fragment))
+              return false;
+            return true;
+          });
+        }
+        function closestComplexColumnHeader(el) {
+          const header = el?.closest?.("th,[role='columnheader']");
+          if (!header || implicitRole(header) !== "columnheader")
+            return null;
+          return isComplexColumnHeaderContext(header) ? header : null;
+        }
+        function complexColumnHeaderColorFragments(header) {
+          const fragments = complexColumnHeaderContextFragments(header);
+          const availableIndex = fragments.findIndex((fragment) => /^Available in$/i.test(fragment));
+          if (availableIndex < 0)
+            return [];
+          const colors = [];
+          for (const fragment of fragments.slice(availableIndex + 1)) {
+            if (/^\d/.test(fragment) || /^TV Starting from$/i.test(fragment))
+              break;
+            if (/^(Learn more|Learn More|Buy Now)$/i.test(fragment))
+              break;
+            colors.push(fragment);
+          }
+          return colors;
+        }
+        function complexColumnHeaderColorGroupText(el, role) {
+          if (role !== "text" && role !== "paragraph")
+            return void 0;
+          const header = closestComplexColumnHeader(el);
+          if (!header)
+            return void 0;
+          const text = normalize(readableText(el) || el.textContent || "");
+          if (!text)
+            return void 0;
+          const colors = complexColumnHeaderColorFragments(header);
+          return colors[0] === text && colors.length > 1 ? colors.join("") : void 0;
+        }
+        function isConsumedComplexColumnHeaderColorStop(el, role) {
+          if (role !== "text" && role !== "paragraph")
+            return false;
+          const header = closestComplexColumnHeader(el);
+          if (!header)
+            return false;
+          const text = normalize(readableText(el) || el.textContent || "");
+          if (!text)
+            return false;
+          const colors = complexColumnHeaderColorFragments(header);
+          const index = colors.indexOf(text);
+          return index > 0;
+        }
+        function isConsumedComplexColumnHeaderTitleStop(el, role) {
+          if (role !== "text" && role !== "paragraph")
+            return false;
+          const header = closestComplexColumnHeader(el);
+          if (!header)
+            return false;
+          const fragments = complexColumnHeaderContextFragments(header);
+          const title = fragments[0];
+          if (!title)
+            return false;
+          const text = normalize(readableText(el) || el.textContent || "");
+          return text === title;
+        }
+        function complexColumnHeaderTextFragments(el, role) {
+          if (role !== "text" && role !== "paragraph")
+            return void 0;
+          if (!closestComplexColumnHeader(el))
+            return void 0;
+          if (complexColumnHeaderColorGroupText(el, role))
+            return void 0;
+          const fragments = leafTextFragments(el);
+          if (fragments.length < 2)
+            return void 0;
+          const label = normalize(textWithoutInteractive(el) || readableText(el));
+          if (!label || normalize(fragments.join(" ")) !== label)
+            return void 0;
+          return fragments;
+        }
+        function complexColumnHeaderContextCellTextFragments(el, role, contextText) {
+          if (!["cell", "gridcell"].includes(role) || !contextText)
+            return void 0;
+          const fragments = leafTextFragments(el);
+          if (fragments.length < 2)
+            return void 0;
+          const label = normalize(textWithoutInteractive(el) || readableText(el));
+          if (!label || normalize(fragments.join(" ")) !== label)
+            return void 0;
+          return fragments;
         }
         function complexColumnHeaderText(el) {
           const fragments = complexColumnHeaderFragments(el, "columnheader").complexColumnHeaderFragments;
@@ -2384,6 +3235,45 @@
           const interactiveDescendants = Array.from(el.querySelectorAll(interactiveSelector)).filter((candidate) => !isHidden(candidate));
           return Boolean(interactiveDescendants.length > 0 && interactiveDescendants.every((candidate) => implicitRole(candidate) === "link") && !textWithoutInteractive(el));
         }
+        function classTokens(el) {
+          return new Set((normalize(el?.getAttribute?.("class")) || "").split(" ").filter(Boolean));
+        }
+        function sharesParagraphTextClassFamily(a, b) {
+          const aTokens = classTokens(a);
+          const bTokens = classTokens(b);
+          if (!aTokens.size || !bTokens.size)
+            return false;
+          return Array.from(aTokens).some((token) => bTokens.has(token) && (/^(bos-text_|slds-text-align_|slds-align_|slds-size_|slds-medium-size_)/.test(token) || token === "slds-align_absolute-center"));
+        }
+        function adjacentParagraphValueText(el) {
+          if (el?.tagName?.toLowerCase() !== "p")
+            return void 0;
+          if (el.querySelector(interactiveSelector))
+            return void 0;
+          if (el.closest("li,[role='listitem']"))
+            return void 0;
+          const label = normalize(textWithoutInteractive(el) || readableText(el));
+          if (!label?.endsWith(":"))
+            return void 0;
+          if (label.length > 80)
+            return void 0;
+          const next = el.nextElementSibling;
+          if (next?.tagName?.toLowerCase() !== "p" || isHidden(next))
+            return void 0;
+          if (next.querySelector(interactiveSelector))
+            return void 0;
+          if (next.querySelector("img, svg, [role='img']"))
+            return void 0;
+          if (!sharesParagraphTextClassFamily(el, next))
+            return void 0;
+          return normalize(textWithoutInteractive(next) || readableText(next));
+        }
+        function isConsumedAdjacentParagraphValue(el) {
+          if (el?.tagName?.toLowerCase() !== "p")
+            return false;
+          const previous = el.previousElementSibling;
+          return Boolean(previous && adjacentParagraphValueText(previous));
+        }
         function tableCellShouldYieldToStructuredContent(el, role) {
           if (!["cell", "gridcell", "rowheader", "columnheader"].includes(role)) {
             return false;
@@ -2395,11 +3285,10 @@
             return void 0;
           if (el.querySelector("button, [role='button'], a[href]"))
             return void 0;
-          const hasLineBreak = Array.from(el.childNodes).some((child) => child.nodeType === Node.ELEMENT_NODE && child.tagName?.toLowerCase() === "br");
-          if (hasLineBreak) {
+          function lineBreakFragments(container) {
             const fragments2 = [];
             let current = "";
-            for (const child of Array.from(el.childNodes)) {
+            for (const child of Array.from(container.childNodes)) {
               if (child.nodeType === Node.ELEMENT_NODE && child.tagName?.toLowerCase() === "br") {
                 const fragment = normalize(current);
                 if (fragment)
@@ -2417,6 +3306,16 @@
             if (lastFragment)
               fragments2.push(lastFragment);
             return fragments2.length > 1 ? fragments2 : void 0;
+          }
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          const tag = el.tagName?.toLowerCase();
+          const level = Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2;
+          if (level === 1 && visibleChildren.length === 1 && !directOwnText(el) && visibleChildren[0].querySelector("br") && Array.from(visibleChildren[0].children || []).some((child) => child.tagName?.toLowerCase() !== "br" && !isHidden(child))) {
+            return lineBreakFragments(visibleChildren[0]);
+          }
+          const hasLineBreak = Array.from(el.childNodes).some((child) => child.nodeType === Node.ELEMENT_NODE && child.tagName?.toLowerCase() === "br");
+          if (hasLineBreak) {
+            return lineBreakFragments(el);
           }
           const directText = Array.from(el.childNodes).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => normalize(child.textContent)).filter(Boolean);
           if (directText.length)
@@ -2536,11 +3435,35 @@
         function isFieldsetRadioGroup(el, role) {
           if (role !== "radio")
             return false;
-          const group = el.closest("fieldset[aria-label], [role='radiogroup'][aria-label]");
+          const group = el.closest("fieldset[aria-label], [role='radiogroup'][aria-label], .slds-radio_button-group");
           if (!group)
             return false;
           const radios = Array.from(group.querySelectorAll("[role='radio'], input[type='radio']")).filter((radio) => !isHidden(radio));
           return radios.length > 1;
+        }
+        function inferredSldsRadioChecked(el) {
+          if (implicitRole(el) !== "radio")
+            return void 0;
+          if (el.hasAttribute("aria-checked") || el.hasAttribute("checked") || el.checked) {
+            return void 0;
+          }
+          const group = el.closest(".slds-radio_button-group");
+          if (!group)
+            return void 0;
+          const radios = Array.from(group.querySelectorAll("[role='radio'], input[type='radio']")).filter((radio) => !isHidden(radio));
+          if (!radios.includes(el))
+            return void 0;
+          if (radios.some((radio) => radio !== el && (radio.checked || radio.hasAttribute("checked")))) {
+            return void 0;
+          }
+          const wrapper = el.closest(".slds-radio_button");
+          const label = wrapper?.querySelector?.("label");
+          const labelClass = normalize(label?.getAttribute("class")) || "";
+          const labelStyle = normalize(label?.getAttribute("style")) || "";
+          if (/\bradioBkgColor\b/.test(labelClass) || /linear-gradient/i.test(labelStyle)) {
+            return true;
+          }
+          return false;
         }
         function captureElement(el) {
           if (!el || el === document.body || el === document.documentElement || isHidden(el)) {
@@ -2585,7 +3508,7 @@
             placeholder: normalize(stateEl.getAttribute("placeholder")),
             required: stateEl.required || stateEl.getAttribute("aria-required") === "true" || void 0,
             invalid: stateEl.getAttribute("aria-invalid") && stateEl.getAttribute("aria-invalid") !== "false" ? stateEl.getAttribute("aria-invalid") === "true" ? true : stateEl.getAttribute("aria-invalid") : void 0,
-            checked: role === "checkbox" || role === "radio" ? el.getAttribute("aria-checked") === "mixed" ? "mixed" : el.getAttribute("aria-checked") ? el.getAttribute("aria-checked") === "true" : Boolean(el.checked) : void 0,
+            checked: role === "checkbox" || role === "radio" ? el.getAttribute("aria-checked") === "mixed" ? "mixed" : el.getAttribute("aria-checked") ? el.getAttribute("aria-checked") === "true" : inferredSldsRadioChecked(el) ?? Boolean(el.checked) : void 0,
             expanded: parseBooleanAttribute(stateEl, "aria-expanded") ?? (headingButton ? parseBooleanAttribute(headingButton, "aria-expanded") : void 0),
             selected: parseBooleanAttribute(el, "aria-selected"),
             pressed: el.hasAttribute("aria-pressed") ? el.getAttribute("aria-pressed") === "mixed" ? "mixed" : el.getAttribute("aria-pressed") === "true" : void 0,
@@ -2603,11 +3526,17 @@
             linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : void 0,
             headingFragments: directHeadingFragments(el),
             iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
+            textlessCarouselPaginatorLink: role === "link" && isTextlessCarouselPaginatorLink(el) || void 0,
             precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : void 0,
             fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && rawText) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || void 0,
+            groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el) || void 0,
             groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || role === "group" && isFocusableStructuredListItemGroup(el) || void 0,
+            parenthesizedCollectionPosition: role === "group" && (isFocusableStructuredListItemGroup(el) || isFocusableImageListItem(el)) || void 0,
+            duplicateCollectionPosition: role === "heading" && Boolean(flattenedSlottedCarouselPosition(el).positionInSet) || void 0,
+            unlabeledImage: role === "image" && isInformativeUnlabeledCmsImage(el) ? true : void 0,
+            unlabeledImageSrcLabel: role === "image" && isInformativeUnlabeledCmsImage(el) ? cmsMediaPathLabel(el) : void 0,
+            ...flattenedSlottedCarouselImageInfo(el),
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
             compactInputActionGroup: role === "group" && compactInputActionGroupLabel(el) ? true : void 0,
@@ -2616,6 +3545,13 @@
             leadingStandaloneCardGroup: isPostHeadingMediaCardGroupStop(el, role) || void 0,
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) ? true : void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
+            richProductCardFeatureRowFragments: role === "paragraph" ? richProductCardFeatureRowFragments(el) : void 0,
+            richProductCardFeatureHeading: role === "paragraph" ? isRichProductCardFeatureHeading(el) || void 0 : void 0,
+            complexColumnHeaderColorGroupText: complexColumnHeaderColorGroupText(el, role),
+            complexColumnHeaderTextFragments: complexColumnHeaderTextFragments(el, role),
+            complexColumnHeaderContextCellTextFragments: complexColumnHeaderContextCellTextFragments(el, role, table.complexColumnHeaderContextText),
+            inlineEmphasisTextFragments: inlineEmphasisTextFragments(el, role),
+            expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
@@ -2632,7 +3568,24 @@
             descriptor.inlineEmphasisListItemFragments = inlineEmphasisListItemFragments(el);
           }
           if (role === "paragraph") {
-            descriptor.name = hasInlineInteractiveEmbeddedInText(el) ? textBeforeFirstInlineInteractive(el) : textWithoutInteractive(el) || text;
+            const adjacentValue = adjacentParagraphValueText(el);
+            const paragraphName = hasInlineInteractiveEmbeddedInText(el) ? textBeforeFirstInlineInteractive(el) : textWithoutInteractive(el) || text;
+            descriptor.name = adjacentValue && paragraphName ? `${paragraphName}${adjacentValue}` : paragraphName;
+            descriptor.text = descriptor.name;
+          }
+          if (descriptor.complexColumnHeaderColorGroupText) {
+            descriptor.name = descriptor.complexColumnHeaderColorGroupText;
+            descriptor.text = descriptor.complexColumnHeaderColorGroupText;
+          }
+          const priceDisclosureText = role === "text" ? joinedPriceDisclosureText(el) : void 0;
+          if (priceDisclosureText) {
+            descriptor.name = priceDisclosureText;
+            descriptor.text = priceDisclosureText;
+          }
+          const metricCardText = role === "text" ? groupedMetricCardText(el) : void 0;
+          if (metricCardText) {
+            descriptor.name = metricCardText;
+            descriptor.text = metricCardText;
           }
           return descriptor;
         }
@@ -2651,6 +3604,12 @@
           if (!role)
             return false;
           if (isDecorativeEmojiText(el, role)) {
+            return false;
+          }
+          if (isInsideJoinedPriceDisclosure(el)) {
+            return false;
+          }
+          if (isInsideGroupedMetricCard(el)) {
             return false;
           }
           if (role === "listitem" && hasOnlyInteractiveListItemContent(el)) {
@@ -2674,22 +3633,34 @@
           if (isUnnamedCarouselRegion(el)) {
             return false;
           }
+          if (role === "group" && isFlattenedSlottedCarouselGroupWrapper(el)) {
+            return false;
+          }
+          if (role === "group" && isUnnamedCarouselNavigationButtonWrapper(el)) {
+            return false;
+          }
+          if (role === "group" && isAnonymousStructuralCustomElementGroup(el)) {
+            return false;
+          }
           if (role === "row" && el.closest("table")) {
             return false;
           }
-          if (tableCellShouldYieldToStructuredContent(el, role)) {
+          if (tableCellShouldYieldToStructuredContent(el, role) && !(role === "columnheader" && isComplexColumnHeaderContext(el))) {
+            return false;
+          }
+          if (isConsumedComplexColumnHeaderTitleStop(el, role) || isConsumedComplexColumnHeaderColorStop(el, role)) {
             return false;
           }
           if (role === "paragraph" && (!readableText(el) || hasOnlyLinkContent(el))) {
             return false;
           }
-          if (role === "heading" && !readableText(el)) {
+          if (role === "paragraph" && isConsumedAdjacentParagraphValue(el)) {
             return false;
           }
           if (role === "image" && el.tagName?.toLowerCase() === "img" && el.hasAttribute("alt") && !normalize(el.getAttribute("alt"))) {
             return false;
           }
-          if (role === "image" && !accessibleName(el, role) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+          if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
             return false;
           }
           if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !(isCustomElement(el) && hasShadowRootContent(el))) {
@@ -2739,6 +3710,9 @@
           }
           if (contextRoles.has(role))
             return true;
+          if (role === "columnheader" && isComplexColumnHeaderContext(el)) {
+            return true;
+          }
           if (role === "heading") {
             return false;
           }
@@ -2746,7 +3720,7 @@
             return hasOnlyInteractiveListItemContent(el) || hasImageLinkWithCaptionListItemContent(el) || hasNamedImageListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
           }
           if (role === "paragraph") {
-            return !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
+            return !expandedRegionInlineLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
           }
           return false;
         }
@@ -2843,20 +3817,69 @@
             return void 0;
           return [match[1], match[2]];
         }
-        function formatConjunctiveList(fragments) {
+        function splitRichProductCardFeatureRowAnnouncements(descriptor) {
+          const fragments = descriptor.richProductCardFeatureRowFragments;
+          return fragments?.length ? fragments : void 0;
+        }
+        function splitInlineEmphasisTextAnnouncements(descriptor) {
+          const fragments = descriptor.inlineEmphasisTextFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments || fragments.length < 2) {
+            return void 0;
+          }
+          return fragments;
+        }
+        function splitRichProductCardFeatureHeadingAnnouncements(descriptor) {
+          if (!descriptor.richProductCardFeatureHeading)
+            return void 0;
+          const announcement = generateAnnouncement2(descriptor);
+          return announcement ? ["list item", announcement] : ["list item"];
+        }
+        function formatConjunctiveList(fragments, options2 = {}) {
           if (fragments.length <= 1)
             return fragments[0] || "";
           if (fragments.length === 2)
             return `${fragments[0]} and ${fragments[1]}`;
-          return `${fragments.slice(0, -1).join(", ")}, and ${fragments.at(-1)}`;
+          const comma = options2.oxfordComma === false ? "" : ",";
+          return `${fragments.slice(0, -1).join(", ")}${comma} and ${fragments.at(-1)}`;
         }
         function splitComplexColumnHeaderAnnouncements(descriptor) {
           const fragments = descriptor.complexColumnHeaderFragments;
           if (descriptor.role !== "columnheader" || descriptor.tableRole !== "table" || !fragments || fragments.length < 3 || !descriptor.columnIndex || !descriptor.columnCount) {
             return void 0;
           }
-          const formattedHeader = `${formatConjunctiveList(fragments)} group, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
-          return [formattedHeader, descriptor.complexColumnHeaderRawText].filter((announcement) => Boolean(announcement));
+          const productName = normalize(fragments[0]);
+          const context = formatConjunctiveList(fragments, { oxfordComma: false });
+          const formattedHeader = `${context} ${productName}, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
+          return [formattedHeader].filter((announcement) => Boolean(announcement));
+        }
+        function splitComplexColumnHeaderContextCellAnnouncements(descriptor) {
+          if (!["cell", "gridcell"].includes(descriptor.role || "") || descriptor.tableRole !== "table" || !descriptor.complexColumnHeaderContextText || !descriptor.columnIndex || !descriptor.columnCount) {
+            return void 0;
+          }
+          const fragments = descriptor.complexColumnHeaderContextCellTextFragments;
+          const label = normalize(descriptor.name || descriptor.text);
+          const header = `${descriptor.complexColumnHeaderContextText} group, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
+          return [header, ...fragments?.length ? fragments : [label]].filter((announcement) => Boolean(announcement));
+        }
+        function splitComplexColumnHeaderTextAnnouncements(descriptor) {
+          if (!["paragraph", "text"].includes(descriptor.role || "")) {
+            return void 0;
+          }
+          return descriptor.complexColumnHeaderTextFragments?.length ? descriptor.complexColumnHeaderTextFragments : void 0;
+        }
+        function splitInlineEmphasisTextAnnouncements(descriptor) {
+          const fragments = descriptor.inlineEmphasisTextFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
+        function splitExpandedRegionInlineLinkAnnouncements(descriptor) {
+          const fragments = descriptor.expandedRegionInlineLinkFragments;
+          if (descriptor.role !== "paragraph" || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
         }
         function splitInlineEmphasisListItemAnnouncements(descriptor) {
           const fragments = descriptor.inlineEmphasisListItemFragments;
@@ -2889,7 +3912,7 @@
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;

@@ -11,12 +11,14 @@ Responsibilities:
 - Produce the phase routing plan and required handoff order.
 - Tell the top-level Codex session which phase-specific agents must be spawned: intake, evidence-refiner, fixture-judge, engine-refiner, promoter.
 - Verify receipt completeness before recommending the next phase.
+- Verify Phase B separated raw VoiceOver output from the initial rendered-html.html replay output, and that disputed step-snapshot lines include initialDomStatus before routing to Phase C/D.
 - Stop before the next target when the user asks to stop before the next site.
 - Keep target state aligned with docs/status and refinement-manifest.json.
 
 Rules:
 - Do not treat Phase A preprocessing as refinement.
 - Do not skip Phase B before judging or refining the engine.
+- Do not route step-only or volatile DOM state to engine-refiner. Route only trusted initial-dom mismatches to engine-refiner.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current target has a recorded outcome.
 - Do not perform all phases yourself and call it multi-agent. If you cannot spawn or verify spawned phase agents, return a routing plan to the top-level session.

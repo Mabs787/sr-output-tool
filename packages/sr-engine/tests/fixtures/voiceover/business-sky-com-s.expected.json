@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "business-sky-com-s",
   "url": "https://business.sky.com/s/",
-  "sourceRunId": "28301913611",
+  "sourceRunId": "28305378853",
   "html": "business-sky-com-s.html",
   "accessibilityTree": "business-sky-com-s.ax.json",
   "stepSnapshots": "business-sky-com-s.step-snapshots.json",
@@ -12,7 +12,24 @@
     "Sky Connect Homepage, button, group",
     "list 6 items",
     "Broadband, button, 1 of 6",
+    "list 8 items, level 2",
+    "link, Broadband Packages, 1 of 8",
+    "link, Full Fibre Broadband, 2 of 8",
+    "link, 4G backup, 3 of 8",
+    "link, Security Edge, 4 of 8",
+    "link, Voice, 5 of 8",
+    "link, Static IP, 6 of 8",
+    "link, Dedicated Internet Access, 7 of 8",
+    "link, Switching Broadband, 8 of 8",
+    "end of list",
+    "image",
     "Mobile, button, 2 of 6",
+    "list 3 items, level 2",
+    "link, SIM Only, 1 of 3",
+    "link, SIM Activation, 2 of 3",
+    "link, Why Sky Business Mobile?, 3 of 3",
+    "end of list",
+    "image",
     "link, Enterprise, 3 of 6",
     "link, Wholesale, 4 of 6",
     "link, Business TV, 5 of 6",
@@ -23,7 +40,7 @@
     "link, Help",
     "link, Sign In",
     "end of, banner",
-    "Hurry! Our Summer broadband sale ends in 10 Days : 1H: 43M : 12S",
+    "Hurry! Our Summer broadband sale ends in 9 Days : 23H: 11M: 6S",
     "list 14 items",
     "heading level 1, Hurry! Our Summer broadband sale ends 7 July., (1 of 14), 1 of 14",
     "Get up to 20% off on broadband packages, with plans starting from just £21.50., 2 of 14",
@@ -106,7 +123,7 @@
     "4G Backup",
     "featurelconExcluded, image",
     "Static IP",
-    "More about these features",
+    "More about these features, group",
     "Check availability, button",
     "Summer sale - up to 20% off, 2 of 4",
     "Broadband Advanced",
@@ -128,7 +145,7 @@
     "4G Backup",
     "featurelconExcluded, image",
     "Static IP",
-    "More about these features",
+    "More about these features, group",
     "Check availability, button",
     "Summer sale - up to 20% off, 3 of 4",
     "Broadband Ultimate",
@@ -150,7 +167,7 @@
     "4G Backup",
     "featurelconIncluded, image",
     "Static IP",
-    "More about these features",
+    "More about these features, group",
     "Check availability, button",
     "Get up to 20% off our broadband packages. Prices shown include the discount. Pay nothing upfront on 12, 24 and 36 month terms. All prices exclude VAT at 20%",
     "end of list",
@@ -159,7 +176,7 @@
     "heading level 3, Switch with confidence",
     "list 2 items",
     "From the second you sign up, our dedicated account managers are all over your switch - making the process hassle free every step of the way., 1 of 2",
-    "Once you're up and running we'll be there to help 24/7. Call us today to get started., 2 of 2",
+    "Once you're up and running we’ll be there to help 24/7. Call us today to get started., 2 of 2",
     "end of list",
     "heading level 4, Switching made easy",
     "Our dedicated account managers are with you every step of the way.",
@@ -203,7 +220,6 @@
     "Sky Business Connectivity Solutions for All Business Sizes"
   ],
   "refinedAnnouncements": [
-    "group",
     "banner",
     "Sky Connect Homepage, button, group",
     "list 6 items",
@@ -219,7 +235,7 @@
     "link, Help",
     "link, Sign In",
     "end of, banner",
-    "Hurry! Our Summer broadband sale ends in 10 Days : 1H: 43M : 12S",
+    "Hurry! Our Summer broadband sale ends in 9 Days : 22H : 54M : 29S",
     "list 14 items",
     "heading level 1, Hurry! Our Summer broadband sale ends 7 July., (1 of 14), 1 of 14",
     "Get up to 20% off on broadband packages, with plans starting from just £21.50., 2 of 14",
@@ -302,7 +318,7 @@
     "4G Backup",
     "featureIconExcluded, image",
     "Static IP",
-    "More about these features",
+    "More about these features, group",
     "Check availability, button",
     "Summer sale - up to 20% off, 2 of 4",
     "Broadband Advanced",
@@ -324,7 +340,7 @@
     "4G Backup",
     "featureIconExcluded, image",
     "Static IP",
-    "More about these features",
+    "More about these features, group",
     "Check availability, button",
     "Summer sale - up to 20% off, 3 of 4",
     "Broadband Ultimate",
@@ -346,9 +362,9 @@
     "4G Backup",
     "featureIconIncluded, image",
     "Static IP",
-    "More about these features",
+    "More about these features, group",
     "Check availability, button",
-    "Get up to 20% off our broadband packages. Prices shown include the discount. Pay nothing upfront on 12, 24 and 36 month terms. All prices exclude VAT at 20% and may vary during contract. Part Fibre speeds up to 76/19Mbps. Standard Full Fibre speeds up to 150/28Mbps.",
+    "Get up to 20% off our broadband packages. Prices shown include the discount. Pay nothing upfront on 12, 24 and 36 month terms. All prices exclude VAT at 20% and may vary during contract. Part Fibre speeds up to 76/19Mbps. Standard Full Fibre speeds up to 150/28Mbps., (4 of 4), 4 of 4",
     "end of list",
     "end of, article",
     "/MCZQVPUVZFVRFHRPEDMQLSJCGTUU, Unlabeled image",
@@ -405,8 +421,8 @@
   "stats": {
     "voiceOverAnnouncementCount": 211,
     "reducedHtml": {
-      "originalLength": 310968,
-      "reducedLength": 109600,
+      "originalLength": 311359,
+      "reducedLength": 109598,
       "reductionPercent": 65
     },
     "accessibilityTree": {
@@ -420,19 +436,21 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML.",
-    "User refinement 2026-06-27: removed hover-open Broadband/Mobile submenu announcements from expected/refined output because the fixture replays the initial non-hover DOM state."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html.",
+    "Step snapshots from run 28305378853 show active header text expands to include Broadband/Mobile submenu labels only during VO hover state. refinedAnnouncements represent the static rendered-html.html fixture, so those conditional submenu lines are omitted.",
+    "Countdown text is timer-driven; refinedAnnouncements use the value present in rendered-html.html for the static fixture.",
+    "Phase B run 28305378853 repaired refinedAnnouncements OCR-only glyph drift backed by initial rendered HTML/AX/step snapshots: £O/EO -> £0, downloadlcon/uploadlcon -> downloadIcon/uploadIcon, featurelcon -> featureIcon. Raw expectedAnnouncements preserved."
   ],
   "source": {
-    "manifestPath": "voiceover-smoke/refinement-workspace/business-sky-com-s/artifacts/28301913611/voiceover-scan-business-sky-com-s/scans/business-sky-com-s/refinement-manifest.json",
+    "manifestPath": "../../../../../tmp/sr-vo-business-sky-28305378853/voiceover-scan-business-sky-com-s/scans/business-sky-com-s/refinement-manifest.json",
     "scanDebug": {
       "firstVoiceOverAnnouncement": "group",
       "lastVoiceOverAnnouncement": "Sky Business Connectivity Solutions for All Business Sizes"
     }
   },
   "sanitization": {
-    "status": "sanitized",
-    "changedAnnouncementCount": 2,
+    "status": "manual-refined",
+    "changedAnnouncementCount": 18,
     "warningCount": 0,
     "severeIssueCount": 0,
     "warnings": [],
@@ -440,7 +458,11 @@
     "notes": [
       "Raw expectedAnnouncements are preserved.",
       "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
-      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
-    ]
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
+      "Manual refinement removed Broadband and Mobile submenu announcements because step snapshots show the submenu text only appears after VoiceOver hover/navigation state; rendered-html.html keeps those submenu elements hidden with visibility:hidden/opacity:0.",
+      "Manual refinement aligned the countdown announcement to rendered-html.html because the timer changes between VO recording and HTML capture."
+    ],
+    "conditionalRemovalCount": 17,
+    "timerNormalizationCount": 1
   }
 }

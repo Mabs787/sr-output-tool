@@ -101,12 +101,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(el?.matches?.(interactiveSelector)) && isOpacityHiddenOnly(el);
   }
 
+  function isSldsDesktopHidden(el: any): boolean {
+    return Boolean(el?.classList?.contains?.("slds-hide_medium"));
+  }
+
   function isHidden(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE) {
       return false;
     }
 
     if (el.getAttribute("aria-hidden") === "true") {
+      return true;
+    }
+
+    if (isSldsDesktopHidden(el) || el.closest?.(".slds-hide_medium")) {
       return true;
     }
 
@@ -139,6 +147,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   const shadowContentHostByNode = new WeakMap<any, any>();
+  let flattenedSlottedCarouselListCache: any[] | undefined;
+  const flattenedSlottedCarouselStopCache = new WeakMap<
+    any,
+    Array<{ el: any; counted: boolean }>
+  >();
 
   function rememberShadowContentHost(nodes: any[], host: any): void {
     const visit = (node: any) => {
@@ -324,24 +337,80 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return labelText;
   }
 
-  function nestedImageLabel(el: any): string | undefined {
-    const image = Array.from(
+  function nestedImageLabels(el: any): string[] {
+    return Array.from(
       el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]"),
-    ).find((node: any) => !isHidden(node));
+    )
+      .filter((node: any) => !isHidden(node))
+      .map((image: any) => {
+        const tag = image.tagName.toLowerCase();
+        return normalize(
+          image.getAttribute("aria-label") ||
+            (tag === "img" ? image.getAttribute("alt") : "") ||
+            image.getAttribute("title"),
+        );
+      })
+      .filter((label: any): label is string => Boolean(label));
+  }
 
-    if (!image) return undefined;
-    const tag = image.tagName.toLowerCase();
-    return normalize(
-      image.getAttribute("aria-label") ||
-        (tag === "img" ? image.getAttribute("alt") : "") ||
-        image.getAttribute("title"),
+  function nestedImageLabel(el: any): string | undefined {
+    return nestedImageLabels(el)[0];
+  }
+
+  function embeddedControlLabelFragments(el: any): string[] {
+    const fragments: string[] = [];
+
+    function push(fragment?: string): void {
+      const normalized = normalize(fragment);
+      if (normalized) fragments.push(normalized);
+    }
+
+    function collect(node: any): void {
+      if (!node) return;
+      if (node.nodeType === Node.TEXT_NODE) {
+        push(node.textContent || "");
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node.matches("[aria-hidden='true']")) return;
+
+      const role = implicitRole(node);
+      if (role === "image") {
+        push(accessibleName(node, "image"));
+        return;
+      }
+
+      for (const child of Array.from(node.childNodes)) collect(child);
+      for (const child of shadowContentChildren(node)) collect(child);
+    }
+
+    for (const child of Array.from(el.childNodes || [])) collect(child);
+    for (const child of shadowContentChildren(el)) collect(child);
+    return fragments;
+  }
+
+  function embeddedControlContentName(el: any): string | undefined {
+    if (!nestedImageLabels(el).length && !linkSharesListWithImageCardLinks(el)) {
+      return readableText(el);
+    }
+    const fragments = embeddedControlLabelFragments(el);
+    return fragments.length ? normalize(fragments.join(" ")) : readableText(el);
+  }
+
+  function linkSharesListWithImageCardLinks(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "a" && el?.getAttribute?.("role") !== "link") {
+      return false;
+    }
+    const listItem = el.closest("li,[role='listitem']");
+    const list = listItem?.parentElement;
+    if (!list || implicitRole(list) !== "list") return false;
+    return Array.from(list.querySelectorAll("a[href], [role='link']")).some(
+      (link: any) => link !== el && !isHidden(link) && nestedImageLabels(link).length > 0,
     );
   }
 
   function linkContentName(el: any): string | undefined {
-    const imageLabel = nestedImageLabel(el);
-    const text = readableText(el);
-    return normalize([imageLabel, text].filter(Boolean).join(" "));
+    return embeddedControlContentName(el);
   }
 
   function hrefSlugLabel(el: any): string | undefined {
@@ -399,9 +468,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function buttonContentName(el: any): string | undefined {
-    const imageLabel = nestedImageLabel(el);
-    const text = readableText(el);
-    return normalize([imageLabel, text].filter(Boolean).join(" "));
+    return embeddedControlContentName(el);
   }
 
   function isFocusableImageListItem(el: any): boolean {
@@ -440,6 +507,83 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return /^[\p{Extended_Pictographic}\uFE0F\s]+$/u.test(text);
   }
 
+  function joinedPriceDisclosureText(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName.toLowerCase() !== "div") return undefined;
+    if (el.matches(interactiveSelector) || el.closest(interactiveSelector)) return undefined;
+
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (visibleChildren.length !== 2) return undefined;
+
+    const [priceWrapper, note] = visibleChildren;
+    if (note.tagName?.toLowerCase() !== "span") return undefined;
+    if (note.querySelector(interactiveSelector)) return undefined;
+
+    const priceText = normalize(readableText(priceWrapper));
+    const noteText = normalize(readableText(note));
+    if (!priceText || !noteText) return undefined;
+    if (!/^(from\s+)?[£$€]\s?\d+(?:[.,]\d+)?\s*\/\s*(?:month|mo|mth)$/i.test(priceText)) {
+      return undefined;
+    }
+    if (!/\bprices?\s+may\s+change\b/i.test(noteText) || !/\bminimum\s+term\b/i.test(noteText)) {
+      return undefined;
+    }
+
+    const ariaHiddenDuplicate = Array.from(priceWrapper.querySelectorAll("[aria-hidden='true']")).some(
+      (candidate: any) => normalize(candidate.textContent || "") !== undefined,
+    );
+    if (!ariaHiddenDuplicate) return undefined;
+
+    return normalize(`${priceText} ${noteText}`);
+  }
+
+  function groupedMetricCardText(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName.toLowerCase() !== "div") return undefined;
+    if (el.matches(interactiveSelector) || el.closest(interactiveSelector)) return undefined;
+
+    const children = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (children.length !== 2) return undefined;
+
+    const [headingRow, body] = children;
+    if (headingRow.tagName?.toLowerCase() !== "div" || body.tagName?.toLowerCase() !== "span") {
+      return undefined;
+    }
+    const headingParts = Array.from(headingRow.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (
+      headingParts.length !== 2 ||
+      headingParts.some((child: any) => child.tagName?.toLowerCase() !== "span")
+    ) {
+      return undefined;
+    }
+
+    const title = normalize(readableText(headingParts[0]));
+    const metric = normalize(readableText(headingParts[1]));
+    const bodyText = normalize(readableText(body));
+    if (!title || !metric || !bodyText) return undefined;
+    if (title.length > 80 || /[.!?]$/.test(title)) return undefined;
+    if (!/\b\d+(?:\.\d+)?\s*(?:M|G|K)?bps\b/i.test(metric)) return undefined;
+    if (!/[.!?]$/.test(bodyText)) return undefined;
+
+    return normalize(`${title} ${metric} ${bodyText}`);
+  }
+
+  function isInsideJoinedPriceDisclosure(el: any): boolean {
+    for (let current = el?.parentElement; current; current = current.parentElement) {
+      if (joinedPriceDisclosureText(current)) return true;
+    }
+    return false;
+  }
+
+  function isInsideGroupedMetricCard(el: any): boolean {
+    for (let current = el?.parentElement; current; current = current.parentElement) {
+      if (groupedMetricCardText(current)) return true;
+    }
+    return false;
+  }
+
   function isFocusableStructuredListItemGroup(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
     if (el.tagName.toLowerCase() !== "li") return false;
@@ -470,8 +614,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function closestCustomElement(el: any): any {
     for (let current = el?.parentElement; current; current = current.parentElement) {
       if (isCustomElement(current)) return current;
+      const shadowHost = shadowContentHostByNode.get(current);
+      if (isCustomElement(shadowHost)) return shadowHost;
     }
+    const shadowHost = shadowContentHostByNode.get(el);
+    if (isCustomElement(shadowHost)) return shadowHost;
     return null;
+  }
+
+  function isFocusableCustomTooltipTrigger(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!el.hasAttribute("tabindex") || el.getAttribute("tabindex") === "-1") return false;
+    if (el.querySelector(interactiveSelector) || el.closest(interactiveSelector)) return false;
+    if (!directOwnText(el)) return false;
+
+    const host = closestCustomElement(el);
+    if (!host) return false;
+    return /tooltip/i.test(host.tagName.toLowerCase());
   }
 
   function hasShadowRootContent(el: any): boolean {
@@ -884,11 +1043,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       tag === "p" ||
       tag === "figcaption" ||
       tag === "time" ||
+      isRichProductCardOfferBanner(el) ||
       isStructuredListBodyText(el) ||
       isInteractiveListBodyText(el)
     ) {
       return "paragraph";
     }
+    if (joinedPriceDisclosureText(el)) return "text";
+    if (groupedMetricCardText(el)) return "text";
+    if (expandedRegionInlineLinkFragments(el)) return "paragraph";
     if (
       ["section", "div", "form"].includes(tag) &&
       (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))
@@ -910,6 +1073,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !el.closest(interactiveSelector) &&
       (isSplitTextListItemBlock(el) ||
         isExpandedRegionBodyText(el) ||
+        isRichProductCardTextFragment(el) ||
         hasImageLinkWithCaptionListItemContent(el.closest("li,[role='listitem']")) ||
         !el.closest("p, li, h1, h2, h3, h4, h5, h6"))
     ) {
@@ -931,6 +1095,196 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(text && /^[|/\\•·]+$/.test(text));
   }
 
+  function slottedCarouselSlidesForList(list: any): any[] {
+    const slot = walkChildren(list).find(
+      (child: any) => child.tagName?.toLowerCase() === "slot",
+    );
+    if (!slot) return [];
+
+    const assigned = assignedSlotChildren(slot).filter((child: any) => !isHidden(child));
+    if (assigned.length) return assigned;
+
+    const host = shadowContentHostByNode.get(slot) || shadowContentHostByNode.get(list);
+    return Array.from(host?.children || []).filter((child: any) => {
+      if (child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")) {
+        return false;
+      }
+      return !isHidden(child) && !(child.getAttribute("slot") || "");
+    });
+  }
+
+  function isFlattenedSlottedCarouselList(list: any): boolean {
+    if (!list || list.nodeType !== Node.ELEMENT_NODE || isHidden(list)) return false;
+    const tag = list.tagName.toLowerCase();
+    if (tag !== "ul" && tag !== "ol") return false;
+    if (!/\bcarousel\b/i.test(list.getAttribute("class") || "")) return false;
+
+    const assignedSlides = slottedCarouselSlidesForList(list).filter(
+      (child: any) => !isHidden(child) && isCustomElement(child),
+    );
+    if (assignedSlides.length < 2) return false;
+
+    return assignedSlides.some((slide: any) =>
+      Boolean(slide.getAttribute("class")?.match(/\bcarousel__panel\b|\bcarousel-panel\b/i)),
+    );
+  }
+
+  function flattenedSlottedCarouselLists(root: any = document.body): any[] {
+    if (root === document.body && flattenedSlottedCarouselListCache) {
+      return flattenedSlottedCarouselListCache;
+    }
+    const lists: any[] = [];
+    const visit = (node: any) => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (isFlattenedSlottedCarouselList(node)) {
+        lists.push(node);
+        return;
+      }
+      for (const child of walkChildren(node)) visit(child);
+    };
+    visit(root);
+    if (root === document.body) {
+      flattenedSlottedCarouselListCache = lists;
+    }
+    return lists;
+  }
+
+  function flattenedSlottedCarouselAssignedSlides(list: any): any[] {
+    if (!isFlattenedSlottedCarouselList(list)) return [];
+    return slottedCarouselSlidesForList(list);
+  }
+
+  function flattenedSlottedCarouselStops(list: any): Array<{ el: any; counted: boolean }> {
+    if (!isFlattenedSlottedCarouselList(list)) return [];
+    const cached = flattenedSlottedCarouselStopCache.get(list);
+    if (cached) return cached;
+
+    const stops: Array<{ el: any; counted: boolean }> = [];
+
+    for (const slide of flattenedSlottedCarouselAssignedSlides(list)) {
+      let countedPrimaryLink = false;
+      const visit = (node: any) => {
+        if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+        const role = implicitRole(node);
+        if (role === "heading" && readableText(node)) {
+          stops.push({ el: node, counted: true });
+          return;
+        }
+        if (role === "paragraph" && readableText(node) && !hasOnlyLinkContent(node)) {
+          stops.push({ el: node, counted: true });
+          return;
+        }
+        if (role === "text" && readableText(node)) {
+          stops.push({ el: node, counted: true });
+          return;
+        }
+        if (role === "link") {
+          stops.push({ el: node, counted: !countedPrimaryLink });
+          countedPrimaryLink = true;
+          return;
+        }
+        if (role === "image" && accessibleName(node, role)) {
+          stops.push({ el: node, counted: true });
+          return;
+        }
+
+        for (const child of walkChildren(node)) visit(child);
+      };
+
+      for (const child of walkChildren(slide)) visit(child);
+    }
+
+    flattenedSlottedCarouselStopCache.set(list, stops);
+    return stops;
+  }
+
+  function flattenedSlottedCarouselPosition(el: any) {
+    for (const list of flattenedSlottedCarouselLists()) {
+      let position = 0;
+      const stops = flattenedSlottedCarouselStops(list);
+      const setSize = stops.filter((item) => item.counted).length;
+      for (const stop of stops) {
+        if (stop.counted) position += 1;
+        if (stop.el === el) {
+          if (!stop.counted) return {};
+          return {
+            positionInSet: position,
+            setSize,
+          };
+        }
+      }
+    }
+    return {};
+  }
+
+  function flattenedSlottedCarouselImageInfo(el: any) {
+    if (implicitRole(el) !== "image") return {};
+    const imageName = normalize(accessibleName(el, "image"));
+    if (imageName?.toLowerCase() !== "image") return {};
+    const imagePosition = flattenedSlottedCarouselPosition(el).positionInSet;
+    if (!imagePosition) return {};
+
+    let firstImagePosition: number | undefined;
+    for (const list of flattenedSlottedCarouselLists()) {
+      let position = 0;
+      for (const stop of flattenedSlottedCarouselStops(list)) {
+        if (stop.counted) position += 1;
+        if (implicitRole(stop.el) !== "image") continue;
+        const stopName = normalize(accessibleName(stop.el, "image"));
+        if (stopName?.toLowerCase() !== "image") continue;
+        if (firstImagePosition === undefined || position < firstImagePosition) {
+          firstImagePosition = position;
+        }
+      }
+    }
+
+    return {
+      unlabeledImage: true,
+      imageMissingDescriptionHint: imagePosition === firstImagePosition,
+    };
+  }
+
+  function cmsMediaPathLabel(el: any): string | undefined {
+    const src = normalize(el?.getAttribute?.("src"));
+    if (!src) return undefined;
+    const match = src.match(/\/cms\/delivery\/media\/([^?#/]+)/i);
+    return match ? `/${match[1]}` : undefined;
+  }
+
+  function isInformativeUnlabeledCmsImage(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "img") return false;
+    if (el.hasAttribute("alt") && !normalize(el.getAttribute("alt"))) return false;
+    if (accessibleName(el, "image")) return false;
+    if (!cmsMediaPathLabel(el)) return false;
+
+    const host = closestCustomElement(el);
+    if (!host) return false;
+    const hostName = host.tagName.toLowerCase();
+    if (!/(side-by-side|hero|banner|tile|card)/i.test(hostName)) return false;
+
+    return Boolean(readableText(host));
+  }
+
+  function flattenedSlottedCarouselSetSize(list: any): number | undefined {
+    if (!isFlattenedSlottedCarouselList(list)) return undefined;
+    return flattenedSlottedCarouselStops(list).filter((stop) => stop.counted).length || undefined;
+  }
+
+  function isFlattenedSlottedCarouselGroupWrapper(el: any): boolean {
+    if (!isCustomElement(el)) return false;
+    if (accessibleName(el, "group")) return false;
+
+    if (
+      flattenedSlottedCarouselLists().some((list) =>
+        flattenedSlottedCarouselAssignedSlides(list).includes(el),
+      )
+    ) {
+      return true;
+    }
+
+    return flattenedSlottedCarouselLists(el).length > 0;
+  }
+
   function listChildren(list: any): any[] {
     if (!list) return [];
     const tag = list.tagName.toLowerCase();
@@ -941,7 +1295,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       });
     }
 
-    return walkChildren(list).filter((child: any) => isListItem(child));
+    const children = walkChildren(list);
+    const hasNativeItems = children.some((child: any) => isListItem(child));
+    return children.filter(
+      (child: any) =>
+        isListItem(child) ||
+        (hasNativeItems && isDirectInvalidListContentItem(list, child)),
+    );
   }
 
   function announcedListChildren(list: any): any[] {
@@ -1052,6 +1412,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const explicit = Number.parseInt(el.getAttribute("aria-posinset") || "", 10);
     if (Number.isFinite(explicit) && explicit > 0) return explicit;
 
+    const flattenedCarouselPosition = flattenedSlottedCarouselPosition(el).positionInSet;
+    if (flattenedCarouselPosition) return flattenedCarouselPosition;
+
     if (role === "option") {
       const options = Array.from(
         el.parentElement?.querySelectorAll("[role='option']") || [],
@@ -1092,6 +1455,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return index >= 0 ? index + 1 : undefined;
     }
 
+    if (role === "text" && isFirstRichProductCardTextFragment(el)) {
+      const { listItem, siblings } = semanticListContext(el);
+      const index = siblings.indexOf(listItem);
+      return index >= 0 ? index + 1 : undefined;
+    }
+
     if (
       ["heading", "link"].includes(role) &&
       structuredListItemHasPreHeadingImage(el.closest("li,[role='listitem']"))
@@ -1112,6 +1481,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
+    if (
+      role === "button" &&
+      hasRichProductCardListItemContent(el.closest("li,[role='listitem']"))
+    ) {
+      return undefined;
+    }
+
     if (role === "paragraph" && isFirstInteractiveListBodyText(el)) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
@@ -1119,6 +1495,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "paragraph" && isFirstTextBlockListItemParagraph(el)) {
+      const { listItem, siblings } = semanticListContext(el);
+      const index = siblings.indexOf(listItem);
+      return index >= 0 ? index + 1 : undefined;
+    }
+
+    if (role === "paragraph" && isFirstRichProductCardParagraph(el)) {
+      const { listItem, siblings } = semanticListContext(el);
+      const index = siblings.indexOf(listItem);
+      return index >= 0 ? index + 1 : undefined;
+    }
+
+    if (role === "paragraph" && isRichProductCardOfferBanner(el)) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
@@ -1146,7 +1534,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const explicit = Number.parseInt(el.getAttribute("aria-setsize") || "", 10);
     if (Number.isFinite(explicit) && explicit > 0) return explicit;
 
-    if (role === "list") return announcedListChildren(el).length || undefined;
+    if (role === "list") {
+      const flattenedSize = flattenedSlottedCarouselSetSize(el);
+      return flattenedSize ?? (announcedListChildren(el).length || undefined);
+    }
+    const flattenedCarouselSize = flattenedSlottedCarouselPosition(el).setSize;
+    if (flattenedCarouselSize) return flattenedCarouselSize;
+
     if (role === "option") {
       return (
         Array.from(el.parentElement?.querySelectorAll("[role='option']") || []).filter(
@@ -1181,6 +1575,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "paragraph" && isFirstTextBlockListItemParagraph(el)) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
+    }
+    if (role === "paragraph" && isFirstRichProductCardParagraph(el)) {
+      const { siblings } = semanticListContext(el);
+      return siblings.length || undefined;
+    }
+    if (role === "paragraph" && isRichProductCardOfferBanner(el)) {
+      const { siblings } = semanticListContext(el);
+      return siblings.length || undefined;
+    }
+    if (role === "text" && isFirstRichProductCardTextFragment(el)) {
+      const { siblings } = semanticListContext(el);
+      return siblings.length || undefined;
+    }
+    if (
+      role === "button" &&
+      hasRichProductCardListItemContent(el.closest("li,[role='listitem']"))
+    ) {
+      return undefined;
     }
     if (
       role === "text" &&
@@ -1225,6 +1637,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!isListItem(el)) return false;
     if (!el.querySelector(interactiveSelector)) return false;
     return !textWithoutInteractive(el);
+  }
+
+  function isDirectInvalidListContentItem(list: any, child: any): boolean {
+    if (!list || !child || child.parentElement !== list || isHidden(child)) return false;
+    if (!["ul", "ol"].includes(list.tagName?.toLowerCase())) return false;
+    if (isListItem(child) || child.matches?.("script, style, template")) return false;
+    if (child.getAttribute?.("role") === "none" || child.getAttribute?.("role") === "presentation") {
+      return false;
+    }
+    return Boolean(readableText(child));
   }
 
   function isGenericDealCtaLink(el: any): boolean {
@@ -1550,6 +1972,67 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function expandedControlledRegionFor(el: any): any | undefined {
+    const region = el?.closest?.("[role='region']");
+    if (!region || region === el || isHidden(region)) return undefined;
+    if (region.getAttribute("aria-hidden") === "true") return undefined;
+
+    const labelledBy = region.getAttribute("aria-labelledby");
+    const labelElement = labelledBy ? resolveIdRef(labelledBy) : null;
+    const controller = labelElement?.matches?.("[aria-expanded]")
+      ? labelElement
+      : labelElement?.querySelector?.("[aria-expanded]");
+    const controlsRegion =
+      !region.id || controller?.getAttribute?.("aria-controls") === region.id;
+
+    if (controller?.getAttribute?.("aria-expanded") !== "true" || !controlsRegion) {
+      return undefined;
+    }
+
+    return region;
+  }
+
+  function expandedRegionInlineLinkFragments(el: any): string[] | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (!["div", "p"].includes(el.tagName.toLowerCase())) return undefined;
+    if (!expandedControlledRegionFor(el)) return undefined;
+
+    const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
+      (link: any) => !isHidden(link),
+    );
+    if (links.length !== 1) return undefined;
+    const link = links[0] as any;
+
+    const before: string[] = [];
+    const after: string[] = [];
+    let sawLink = false;
+
+    function collect(node: any): void {
+      if (!node) return;
+      if (node === link) {
+        sawLink = true;
+        return;
+      }
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = normalize(node.textContent);
+        if (text) (sawLink ? after : before).push(text);
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node.matches(interactiveSelector)) return;
+      for (const child of Array.from(node.childNodes)) collect(child);
+    }
+
+    for (const child of Array.from(el.childNodes)) collect(child);
+
+    const beforeText = normalize(before.join(" "));
+    const linkName = accessibleName(link, "link");
+    const afterText = normalize(after.join(" "));
+    if (!beforeText || !linkName || !afterText) return undefined;
+
+    return [beforeText, `link, ${linkName}`, afterText];
+  }
+
   function isFirstSplitTextListItemBlock(el: any): boolean {
     if (!isSplitTextListItemBlock(el)) return false;
     const listItem = el.closest("li,[role='listitem']");
@@ -1617,6 +2100,82 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalizedFragments;
   }
 
+  function inlineEmphasisTextFragments(el: any, role: string): string[] | undefined {
+    if (!["paragraph", "text"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.querySelector(interactiveSelector)) return undefined;
+    const expandedRegion = expandedControlledRegionFor(el);
+    if (!expandedRegion && el.closest("li,[role='listitem']")) return undefined;
+
+    const emphasisSelector = "strong, b, em, i";
+    const emphasisElements = Array.from(el.querySelectorAll(emphasisSelector)).filter(
+      (candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate)),
+    );
+    if (!emphasisElements.length) return undefined;
+
+    const fragments: string[] = [];
+    let plainText = "";
+    let suppressNextLeadingSpace = false;
+
+    function flushPlainText(): void {
+      const normalized = normalize(plainText);
+      if (normalized) fragments.push(normalized);
+      plainText = "";
+    }
+
+    function collect(node: any): void {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = suppressNextLeadingSpace
+          ? (node.textContent || "").replace(/^\s+/u, "")
+          : node.textContent || "";
+        plainText = `${plainText}${text}`;
+        suppressNextLeadingSpace = false;
+        return;
+      }
+
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node.matches("[aria-hidden='true']")) return;
+
+      if (node.tagName?.toLowerCase() === "br" && expandedControlledRegionFor(el)) {
+        plainText = plainText.replace(/\s+$/u, "");
+        suppressNextLeadingSpace = true;
+        return;
+      }
+
+      if (node.matches(emphasisSelector)) {
+        flushPlainText();
+        const emphasizedText = readableText(node);
+        if (emphasizedText) fragments.push(emphasizedText);
+        return;
+      }
+
+      if (node !== el && implicitRole(node) && !node.matches(emphasisSelector)) {
+        return;
+      }
+
+      for (const child of Array.from(node.childNodes)) collect(child);
+    }
+
+    collect(el);
+    flushPlainText();
+
+    const normalizedFullText = normalize(textWithoutInteractive(el) || readableText(el));
+    const normalizedFragments = fragments
+      .map((fragment) => normalize(fragment))
+      .filter((fragment): fragment is string => Boolean(fragment));
+    if (!expandedRegion && normalizedFragments.length !== 2) {
+      return undefined;
+    }
+    if (expandedRegion && normalizedFragments.length < 2) {
+      return undefined;
+    }
+    if (!expandedRegion && normalizedFragments.join(" ") !== normalizedFullText) {
+      return undefined;
+    }
+
+    return normalizedFragments;
+  }
+
   function leafTextFragments(el: any): string[] {
     const fragments: string[] = [];
 
@@ -1648,16 +2207,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const rawText = normalize(el.textContent || "");
     const readable = readableText(el);
     if (!rawText || !readable) return {};
-    if (normalize(fragments.join(" ")) !== readable) return {};
 
     return {
-      complexColumnHeaderFragments: fragments,
+      complexColumnHeaderFragments: complexColumnHeaderContextFragments(el),
       complexColumnHeaderRawText: rawText,
     };
   }
 
   function hasStructuredListItemContent(el: any): boolean {
     if (!isListItem(el)) return false;
+    if (hasRichProductCardListItemContent(el)) return true;
+
     const heading = el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']");
     if (
       heading &&
@@ -1689,6 +2249,155 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       "h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]",
     );
     return Boolean(linkedHeading && textWithoutInteractive(el));
+  }
+
+  function hasRichProductCardListItemContent(el: any): boolean {
+    if (!isListItem(el)) return false;
+    if (!el.querySelector("button, [role='button'], a[href], [role='link']")) return false;
+
+    const paragraphs = Array.from(el.querySelectorAll("p")).filter(
+      (paragraph: any) => !isHidden(paragraph) && Boolean(readableText(paragraph)),
+    );
+    if (paragraphs.length < 5) return false;
+
+    const labelledImages = Array.from(
+      el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]"),
+    ).filter(
+      (image: any) =>
+        !isHidden(image) && Boolean(accessibleName(image, implicitRole(image))),
+    );
+    const featureRows = paragraphs.filter((paragraph: any) =>
+      isRichProductCardFeatureRow(paragraph, true),
+    );
+    return labelledImages.length >= 3 && featureRows.length >= 2;
+  }
+
+  function isRichProductCardFeatureRow(el: any, skipCardCheck = false): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName.toLowerCase() !== "p") return false;
+    const listItem = el.closest("li,[role='listitem']");
+    if (!skipCardCheck && !hasRichProductCardListItemContent(listItem)) return false;
+    if (el.querySelector(interactiveSelector)) return false;
+    return Boolean(
+      Array.from(el.querySelectorAll("img, [role='img'], svg[aria-label]")).some(
+        (image: any) =>
+          !isHidden(image) &&
+          implicitRole(image) === "image" &&
+          Boolean(accessibleName(image, "image")),
+      ) && textWithoutInteractive(el),
+    );
+  }
+
+  function isFirstRichProductCardParagraph(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName.toLowerCase() !== "p") return false;
+    const listItem = el.closest("li,[role='listitem']");
+    if (!hasRichProductCardListItemContent(listItem)) return false;
+    if (richProductCardOfferBanner(listItem)) return false;
+    const paragraphs = Array.from(listItem.querySelectorAll("p")).filter(
+      (paragraph: any) => !isHidden(paragraph) && Boolean(readableText(paragraph)),
+    );
+    return paragraphs[0] === el;
+  }
+
+  function richProductCardOfferBanner(listItem: any): any | undefined {
+    if (!hasRichProductCardListItemContent(listItem)) return undefined;
+    return Array.from(listItem.querySelectorAll("div, span")).find((candidate: any) => {
+      if (isHidden(candidate) || !readableText(candidate)) return false;
+      if (candidate.querySelector(interactiveSelector) || candidate.closest(interactiveSelector)) {
+        return false;
+      }
+      const className = normalize(candidate.getAttribute("class")) || "";
+      return /\boffer\b/i.test(className) && /\bbanner\b/i.test(className);
+    });
+  }
+
+  function isRichProductCardOfferBanner(el: any): boolean {
+    const listItem = el.closest("li,[role='listitem']");
+    return richProductCardOfferBanner(listItem) === el;
+  }
+
+  function richProductCardFeatureRowFragments(el: any): string[] | undefined {
+    if (!isRichProductCardFeatureRow(el)) return undefined;
+    const image = Array.from(el.querySelectorAll("img, [role='img'], svg[aria-label]")).find(
+      (candidate: any) =>
+        !isHidden(candidate) &&
+        implicitRole(candidate) === "image" &&
+        Boolean(accessibleName(candidate, "image")),
+    );
+    const imageLabel = image ? accessibleName(image, "image") : undefined;
+    const text = textWithoutInteractive(el);
+    return [
+      imageLabel ? `${imageLabel}, image` : undefined,
+      text,
+    ].filter((entry): entry is string => Boolean(entry));
+  }
+
+  function isFirstRichProductCardListItem(listItem: any): boolean {
+    if (!hasRichProductCardListItemContent(listItem)) return false;
+    const list = listItem.parentElement;
+    if (!list || implicitRole(list) !== "list") return false;
+    const richItems = Array.from(list.children || []).filter((child: any) =>
+      hasRichProductCardListItemContent(child),
+    );
+    return richItems[0] === listItem;
+  }
+
+  function isRichProductCardFeatureHeading(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName.toLowerCase() !== "p") return false;
+    if (el.querySelector(interactiveSelector)) return false;
+
+    const listItem = el.closest("li,[role='listitem']");
+    if (!isFirstRichProductCardListItem(listItem)) return false;
+
+    const parent = el.parentElement;
+    if (!parent) return false;
+    const readableParagraphs = Array.from(parent.children || []).filter(
+      (paragraph: any) =>
+        paragraph.tagName?.toLowerCase() === "p" &&
+        !isHidden(paragraph) &&
+        Boolean(readableText(paragraph)),
+    );
+    if (readableParagraphs[0] !== el) return false;
+
+    const headingText = readableText(el);
+    if (!headingText || !/:$/.test(headingText)) return false;
+    return readableParagraphs.slice(1).some((paragraph: any) =>
+      isRichProductCardFeatureRow(paragraph),
+    );
+  }
+
+  function richProductCardTextFragments(listItem: any): any[] {
+    if (!hasRichProductCardListItemContent(listItem)) return [];
+    return Array.from(listItem.querySelectorAll("span, div")).filter((candidate: any) =>
+      isRichProductCardTextFragment(candidate),
+    );
+  }
+
+  function isRichProductCardTextFragment(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!["span", "div"].includes(el.tagName.toLowerCase())) return false;
+    if (el.querySelector(interactiveSelector) || el.closest(interactiveSelector)) return false;
+    if (!directOwnText(el)) return false;
+    if (
+      Array.from(el.children || []).some(
+        (child: any) => !isHidden(child) && Boolean(readableText(child)),
+      )
+    ) {
+      return false;
+    }
+    const listItem = el.closest("li,[role='listitem']");
+    if (!hasRichProductCardListItemContent(listItem)) return false;
+    return Boolean(
+      el.closest(".bos-offer-banner-box, p") ||
+        /feature/i.test(normalize(el.getAttribute("class")) || ""),
+    );
+  }
+
+  function isFirstRichProductCardTextFragment(el: any): boolean {
+    const listItem = el.closest("li,[role='listitem']");
+    return richProductCardTextFragments(listItem)[0] === el;
   }
 
   function hasTextBlockListItemContent(el: any): boolean {
@@ -1809,6 +2518,72 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return !readableText(clone);
   }
 
+  function isTextlessCarouselPaginatorLink(el: any): boolean {
+    if (implicitRole(el) !== "link") return false;
+    if (!el.closest(".carousel-paginator")) return false;
+    if (normalize(accessibleName(el, "link")) || readableText(el)) return false;
+    const listItem = el.closest("li,[role='listitem']");
+    if (!listItem) return false;
+    const list = listItem.parentElement;
+    return Boolean(list && /\bcarousel-paginator\b/.test(list.getAttribute("class") || ""));
+  }
+
+  function isUnnamedCarouselNavigationButtonWrapper(el: any): boolean {
+    if (!isCustomElement(el)) return false;
+    if (!el.closest(".carousel-navigation")) return false;
+    if (accessibleName(el, "group") || readableText(el)) return false;
+
+    const buttons: any[] = [];
+    const visit = (node: any) => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node !== el && implicitRole(node) === "button") {
+        buttons.push(node);
+        return;
+      }
+      for (const child of walkChildren(node)) visit(child);
+    };
+    visit(el);
+    if (buttons.length !== 1) return false;
+
+    const button = buttons[0] as any;
+    return !normalize(accessibleName(button, "button") || readableText(button));
+  }
+
+  function isLwcLikeCustomElement(el: any): boolean {
+    if (!isCustomElement(el)) return false;
+    const tag = el.tagName.toLowerCase();
+    if (
+      tag.startsWith("lightning-") ||
+      tag.startsWith("vlocity_cmt-") ||
+      tag.startsWith("c-")
+    ) {
+      return true;
+    }
+    return Array.from(el.attributes || []).some((attr: any) =>
+      /^lwc-|.+-host$/.test(attr.name),
+    );
+  }
+
+  function isAnonymousStructuralCustomElementGroup(el: any): boolean {
+    if (!isCustomElement(el)) return false;
+    if (!hasShadowRootContent(el)) return false;
+    if (accessibleName(el, "group")) return false;
+    if (el.matches(interactiveSelector)) return false;
+    if (compactInputActionGroupLabel(el)) return false;
+    if (isFocusableImageListItem(el) || isFocusableStructuredListItemGroup(el)) {
+      return false;
+    }
+    if (
+      el.closest("[aria-roledescription='carousel'], [aria-roledescription='slideshow']") &&
+      !isFlattenedSlottedCarouselGroupWrapper(el) &&
+      !isUnnamedCarouselNavigationButtonWrapper(el)
+    ) {
+      return false;
+    }
+
+    return isLwcLikeCustomElement(el);
+  }
+
   function parseBooleanAttribute(el: any, name: string): boolean | undefined {
     if (!el.hasAttribute(name)) return undefined;
     return el.getAttribute(name) === "true";
@@ -1862,9 +2637,21 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       },
     );
     const columnHeader = columnIndex >= 0 ? headerCells[columnIndex] : null;
-    const columnHeaderText =
+    const tableHasComplexColumnHeaders = headerCells.some((header: any) =>
+      isComplexColumnHeaderContext(header),
+    );
+    const columnHeaderFragments =
       role !== "columnheader" && columnHeader
-        ? complexColumnHeaderText(columnHeader) ||
+        ? complexColumnHeaderContextFragments(columnHeader)
+        : [];
+    const complexColumnHeaderContextText =
+      columnHeaderFragments.length >= 3
+        ? formatConjunctiveList(columnHeaderFragments, { oxfordComma: false })
+        : undefined;
+    const cellRole = implicitRole(cell);
+    const columnHeaderText =
+      role !== "columnheader" && cellRole !== "columnheader" && columnHeader
+        ? complexColumnHeaderContextText ||
           accessibleName(columnHeader, "columnheader")
         : undefined;
     const groupedHeaderNames = groupedTableHeaderNames(table);
@@ -1879,19 +2666,132 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const tableFirstGroupedHeaderRow =
       tableGroupedHeaderRow &&
       row === groupedTableHeaders(table)[0]?.querySelector("tr,[role='row']");
+    const insideColumnHeaderContent =
+      role !== "columnheader" &&
+      cellRole === "columnheader" &&
+      isComplexColumnHeaderContext(cell);
 
     return {
       tableRole: implicitRole(table),
       tableLabel: accessibleName(table, implicitRole(table)),
-      rowIndex: rowIndex >= 0 ? rowIndex + 1 : undefined,
+      rowIndex:
+        !insideColumnHeaderContent && rowIndex >= 0 ? rowIndex + 1 : undefined,
       rowCount: rows.length || undefined,
-      columnIndex: columnIndex >= 0 ? columnIndex + 1 : undefined,
-      columnCount: columnCount || cells.length || undefined,
+      columnIndex:
+        !insideColumnHeaderContent && columnIndex >= 0
+          ? columnIndex + 1
+          : undefined,
+      columnCount:
+        !insideColumnHeaderContent ? columnCount || cells.length || undefined : undefined,
       columnHeaderText,
+      complexColumnHeaderContextText,
       tableGroupHeaderText,
       tableGroupedHeaderRow,
       tableFirstGroupedHeaderRow,
+      tableHasComplexColumnHeaders,
     };
+  }
+
+  function isComplexColumnHeaderContext(el: any): boolean {
+    return complexColumnHeaderContextFragments(el).length >= 3;
+  }
+
+  function complexColumnHeaderContextFragments(el: any): string[] {
+    return leafTextFragments(el).filter((fragment) => {
+      if (/^£/.test(fragment)) return false;
+      if (/^Over a /i.test(fragment)) return false;
+      if (/Requires streaming/i.test(fragment)) return false;
+      return true;
+    });
+  }
+
+  function closestComplexColumnHeader(el: any): any | null {
+    const header = el?.closest?.(
+      "th,[role='columnheader']",
+    );
+    if (!header || implicitRole(header) !== "columnheader") return null;
+    return isComplexColumnHeaderContext(header) ? header : null;
+  }
+
+  function complexColumnHeaderColorFragments(header: any): string[] {
+    const fragments = complexColumnHeaderContextFragments(header);
+    const availableIndex = fragments.findIndex((fragment) =>
+      /^Available in$/i.test(fragment),
+    );
+    if (availableIndex < 0) return [];
+
+    const colors: string[] = [];
+    for (const fragment of fragments.slice(availableIndex + 1)) {
+      if (/^\d/.test(fragment) || /^TV Starting from$/i.test(fragment)) break;
+      if (/^(Learn more|Learn More|Buy Now)$/i.test(fragment)) break;
+      colors.push(fragment);
+    }
+    return colors;
+  }
+
+  function complexColumnHeaderColorGroupText(el: any, role: string): string | undefined {
+    if (role !== "text" && role !== "paragraph") return undefined;
+    const header = closestComplexColumnHeader(el);
+    if (!header) return undefined;
+
+    const text = normalize(readableText(el) || el.textContent || "");
+    if (!text) return undefined;
+
+    const colors = complexColumnHeaderColorFragments(header);
+    return colors[0] === text && colors.length > 1 ? colors.join("") : undefined;
+  }
+
+  function isConsumedComplexColumnHeaderColorStop(el: any, role: string): boolean {
+    if (role !== "text" && role !== "paragraph") return false;
+    const header = closestComplexColumnHeader(el);
+    if (!header) return false;
+
+    const text = normalize(readableText(el) || el.textContent || "");
+    if (!text) return false;
+
+    const colors = complexColumnHeaderColorFragments(header);
+    const index = colors.indexOf(text);
+    return index > 0;
+  }
+
+  function isConsumedComplexColumnHeaderTitleStop(el: any, role: string): boolean {
+    if (role !== "text" && role !== "paragraph") return false;
+    const header = closestComplexColumnHeader(el);
+    if (!header) return false;
+
+    const fragments = complexColumnHeaderContextFragments(header);
+    const title = fragments[0];
+    if (!title) return false;
+
+    const text = normalize(readableText(el) || el.textContent || "");
+    return text === title;
+  }
+
+  function complexColumnHeaderTextFragments(el: any, role: string): string[] | undefined {
+    if (role !== "text" && role !== "paragraph") return undefined;
+    if (!closestComplexColumnHeader(el)) return undefined;
+    if (complexColumnHeaderColorGroupText(el, role)) return undefined;
+
+    const fragments = leafTextFragments(el);
+    if (fragments.length < 2) return undefined;
+
+    const label = normalize(textWithoutInteractive(el) || readableText(el));
+    if (!label || normalize(fragments.join(" ")) !== label) return undefined;
+    return fragments;
+  }
+
+  function complexColumnHeaderContextCellTextFragments(
+    el: any,
+    role: string,
+    contextText?: string,
+  ): string[] | undefined {
+    if (!["cell", "gridcell"].includes(role) || !contextText) return undefined;
+    const fragments = leafTextFragments(el);
+    if (fragments.length < 2) return undefined;
+
+    const label = normalize(textWithoutInteractive(el) || readableText(el));
+    if (!label || normalize(fragments.join(" ")) !== label) return undefined;
+    return fragments;
   }
 
   function complexColumnHeaderText(el: any): string | undefined {
@@ -1986,6 +2886,46 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function classTokens(el: any): Set<string> {
+    return new Set((normalize(el?.getAttribute?.("class")) || "").split(" ").filter(Boolean));
+  }
+
+  function sharesParagraphTextClassFamily(a: any, b: any): boolean {
+    const aTokens = classTokens(a);
+    const bTokens = classTokens(b);
+    if (!aTokens.size || !bTokens.size) return false;
+    return Array.from(aTokens).some(
+      (token) =>
+        bTokens.has(token) &&
+        (/^(bos-text_|slds-text-align_|slds-align_|slds-size_|slds-medium-size_)/.test(token) ||
+          token === "slds-align_absolute-center"),
+    );
+  }
+
+  function adjacentParagraphValueText(el: any): string | undefined {
+    if (el?.tagName?.toLowerCase() !== "p") return undefined;
+    if (el.querySelector(interactiveSelector)) return undefined;
+    if (el.closest("li,[role='listitem']")) return undefined;
+
+    const label = normalize(textWithoutInteractive(el) || readableText(el));
+    if (!label?.endsWith(":")) return undefined;
+    if (label.length > 80) return undefined;
+
+    const next = el.nextElementSibling;
+    if (next?.tagName?.toLowerCase() !== "p" || isHidden(next)) return undefined;
+    if (next.querySelector(interactiveSelector)) return undefined;
+    if (next.querySelector("img, svg, [role='img']")) return undefined;
+    if (!sharesParagraphTextClassFamily(el, next)) return undefined;
+
+    return normalize(textWithoutInteractive(next) || readableText(next));
+  }
+
+  function isConsumedAdjacentParagraphValue(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "p") return false;
+    const previous = el.previousElementSibling;
+    return Boolean(previous && adjacentParagraphValueText(previous));
+  }
+
   function tableCellShouldYieldToStructuredContent(el: any, role: string): boolean {
     if (!["cell", "gridcell", "rowheader", "columnheader"].includes(role)) {
       return false;
@@ -2001,15 +2941,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (implicitRole(el) !== "heading") return undefined;
     if (el.querySelector("button, [role='button'], a[href]")) return undefined;
 
-    const hasLineBreak = Array.from(el.childNodes).some(
-      (child: any) =>
-        child.nodeType === Node.ELEMENT_NODE &&
-        child.tagName?.toLowerCase() === "br",
-    );
-    if (hasLineBreak) {
+    function lineBreakFragments(container: any): string[] | undefined {
       const fragments: string[] = [];
       let current = "";
-      for (const child of Array.from(el.childNodes)) {
+      for (const child of Array.from(container.childNodes)) {
         if (
           child.nodeType === Node.ELEMENT_NODE &&
           child.tagName?.toLowerCase() === "br"
@@ -2028,6 +2963,32 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const lastFragment = normalize(current);
       if (lastFragment) fragments.push(lastFragment);
       return fragments.length > 1 ? fragments : undefined;
+    }
+
+    const visibleChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    const tag = el.tagName?.toLowerCase();
+    const level = Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2;
+    if (
+      level === 1 &&
+      visibleChildren.length === 1 &&
+      !directOwnText(el) &&
+      visibleChildren[0].querySelector("br") &&
+      Array.from(visibleChildren[0].children || []).some(
+        (child: any) => child.tagName?.toLowerCase() !== "br" && !isHidden(child),
+      )
+    ) {
+      return lineBreakFragments(visibleChildren[0]);
+    }
+
+    const hasLineBreak = Array.from(el.childNodes).some(
+      (child: any) =>
+        child.nodeType === Node.ELEMENT_NODE &&
+        child.tagName?.toLowerCase() === "br",
+    );
+    if (hasLineBreak) {
+      return lineBreakFragments(el);
     }
 
     const directText = Array.from(el.childNodes)
@@ -2176,12 +3137,42 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function isFieldsetRadioGroup(el: any, role: string): boolean {
     if (role !== "radio") return false;
-    const group = el.closest("fieldset[aria-label], [role='radiogroup'][aria-label]");
+    const group = el.closest(
+      "fieldset[aria-label], [role='radiogroup'][aria-label], .slds-radio_button-group",
+    );
     if (!group) return false;
     const radios = Array.from(group.querySelectorAll("[role='radio'], input[type='radio']")).filter(
       (radio: any) => !isHidden(radio),
     );
     return radios.length > 1;
+  }
+
+  function inferredSldsRadioChecked(el: any): boolean | undefined {
+    if (implicitRole(el) !== "radio") return undefined;
+    if (el.hasAttribute("aria-checked") || el.hasAttribute("checked") || el.checked) {
+      return undefined;
+    }
+
+    const group = el.closest(".slds-radio_button-group");
+    if (!group) return undefined;
+
+    const radios = Array.from(group.querySelectorAll("[role='radio'], input[type='radio']")).filter(
+      (radio: any) => !isHidden(radio),
+    );
+    if (!radios.includes(el)) return undefined;
+    if (radios.some((radio: any) => radio !== el && (radio.checked || radio.hasAttribute("checked")))) {
+      return undefined;
+    }
+
+    const wrapper = el.closest(".slds-radio_button");
+    const label = wrapper?.querySelector?.("label");
+    const labelClass = normalize(label?.getAttribute("class")) || "";
+    const labelStyle = normalize(label?.getAttribute("style")) || "";
+    if (/\bradioBkgColor\b/.test(labelClass) || /linear-gradient/i.test(labelStyle)) {
+      return true;
+    }
+
+    return false;
   }
 
   function captureElement(el: any): CapturedElementDescriptor | null {
@@ -2292,7 +3283,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             ? "mixed"
             : el.getAttribute("aria-checked")
               ? el.getAttribute("aria-checked") === "true"
-              : Boolean(el.checked)
+              : inferredSldsRadioChecked(el) ?? Boolean(el.checked)
           : undefined,
       expanded:
         parseBooleanAttribute(stateEl, "aria-expanded") ??
@@ -2328,6 +3319,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : undefined,
       headingFragments: directHeadingFragments(el),
       iconOnlyLink: role === "link" && isIconOnlyLink(el) || undefined,
+      textlessCarouselPaginatorLink:
+        role === "link" && isTextlessCarouselPaginatorLink(el) || undefined,
       precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : undefined,
       fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || undefined,
       compositeText:
@@ -2362,12 +3355,28 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "button" &&
           !suppressPositionedChoiceGroup &&
           isIconFirstTextButton(el)) ||
+        (role === "text" && isFocusableCustomTooltipTrigger(el)) ||
         undefined,
       groupedCollectionPosition:
         role === "button" &&
           hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) ||
         role === "group" && isFocusableStructuredListItemGroup(el) ||
         undefined,
+      parenthesizedCollectionPosition:
+        role === "group" &&
+          (isFocusableStructuredListItemGroup(el) || isFocusableImageListItem(el)) ||
+        undefined,
+      duplicateCollectionPosition:
+        role === "heading" &&
+          Boolean(flattenedSlottedCarouselPosition(el).positionInSet) ||
+        undefined,
+      unlabeledImage:
+        role === "image" && isInformativeUnlabeledCmsImage(el) ? true : undefined,
+      unlabeledImageSrcLabel:
+        role === "image" && isInformativeUnlabeledCmsImage(el)
+          ? cmsMediaPathLabel(el)
+          : undefined,
+      ...flattenedSlottedCarouselImageInfo(el),
       splitDescribedAutocomplete:
         shouldSplitDescribedAutocomplete(el, role) || undefined,
       searchInputGroup:
@@ -2400,6 +3409,21 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       footerCountrySelector:
         role === "combobox" && isFooterCountrySelector(el) ? true : undefined,
+      richProductCardFeatureRowFragments:
+        role === "paragraph" ? richProductCardFeatureRowFragments(el) : undefined,
+      richProductCardFeatureHeading:
+        role === "paragraph" ? isRichProductCardFeatureHeading(el) || undefined : undefined,
+      complexColumnHeaderColorGroupText: complexColumnHeaderColorGroupText(el, role),
+      complexColumnHeaderTextFragments: complexColumnHeaderTextFragments(el, role),
+      complexColumnHeaderContextCellTextFragments:
+        complexColumnHeaderContextCellTextFragments(
+          el,
+          role,
+          table.complexColumnHeaderContextText,
+        ),
+      inlineEmphasisTextFragments: inlineEmphasisTextFragments(el, role),
+      expandedRegionInlineLinkFragments:
+        role === "paragraph" ? expandedRegionInlineLinkFragments(el) : undefined,
       suppressContextEnd:
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
         (role === "group" && isFocusableImageListItem(el)) ||
@@ -2428,9 +3452,31 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "paragraph") {
-      descriptor.name = hasInlineInteractiveEmbeddedInText(el)
+      const adjacentValue = adjacentParagraphValueText(el);
+      const paragraphName = hasInlineInteractiveEmbeddedInText(el)
         ? textBeforeFirstInlineInteractive(el)
         : textWithoutInteractive(el) || text;
+      descriptor.name = adjacentValue && paragraphName
+        ? `${paragraphName}${adjacentValue}`
+        : paragraphName;
+      descriptor.text = descriptor.name;
+    }
+
+    if (descriptor.complexColumnHeaderColorGroupText) {
+      descriptor.name = descriptor.complexColumnHeaderColorGroupText;
+      descriptor.text = descriptor.complexColumnHeaderColorGroupText;
+    }
+
+    const priceDisclosureText = role === "text" ? joinedPriceDisclosureText(el) : undefined;
+    if (priceDisclosureText) {
+      descriptor.name = priceDisclosureText;
+      descriptor.text = priceDisclosureText;
+    }
+
+    const metricCardText = role === "text" ? groupedMetricCardText(el) : undefined;
+    if (metricCardText) {
+      descriptor.name = metricCardText;
+      descriptor.text = metricCardText;
     }
 
     return descriptor;
@@ -2455,6 +3501,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!role) return false;
 
     if (isDecorativeEmojiText(el, role)) {
+      return false;
+    }
+
+    if (isInsideJoinedPriceDisclosure(el)) {
+      return false;
+    }
+
+    if (isInsideGroupedMetricCard(el)) {
       return false;
     }
 
@@ -2493,11 +3547,33 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (role === "group" && isFlattenedSlottedCarouselGroupWrapper(el)) {
+      return false;
+    }
+
+    if (role === "group" && isUnnamedCarouselNavigationButtonWrapper(el)) {
+      return false;
+    }
+
+    if (role === "group" && isAnonymousStructuralCustomElementGroup(el)) {
+      return false;
+    }
+
     if (role === "row" && el.closest("table")) {
       return false;
     }
 
-    if (tableCellShouldYieldToStructuredContent(el, role)) {
+    if (
+      tableCellShouldYieldToStructuredContent(el, role) &&
+      !(role === "columnheader" && isComplexColumnHeaderContext(el))
+    ) {
+      return false;
+    }
+
+    if (
+      isConsumedComplexColumnHeaderTitleStop(el, role) ||
+      isConsumedComplexColumnHeaderColorStop(el, role)
+    ) {
       return false;
     }
 
@@ -2508,7 +3584,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
-    if (role === "heading" && !readableText(el)) {
+    if (role === "paragraph" && isConsumedAdjacentParagraphValue(el)) {
       return false;
     }
 
@@ -2524,6 +3600,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (
       role === "image" &&
       !accessibleName(el, role) &&
+      !isInformativeUnlabeledCmsImage(el) &&
       !hasStructuredListItemContent(el.closest("li,[role='listitem']"))
     ) {
       return false;
@@ -2586,6 +3663,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
     if (contextRoles.has(role)) return true;
+    if (role === "columnheader" && isComplexColumnHeaderContext(el)) {
+      return true;
+    }
     if (role === "heading") {
       return false;
     }
@@ -2601,6 +3681,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (role === "paragraph") {
       return (
+        !expandedRegionInlineLinkFragments(el) &&
         !hasInlineInteractiveEmbeddedInText(el) &&
         Boolean(el.querySelector(interactiveSelector))
       );
@@ -2745,10 +3826,43 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return [match[1], match[2]];
   }
 
-  function formatConjunctiveList(fragments: string[]): string {
+  function splitRichProductCardFeatureRowAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.richProductCardFeatureRowFragments;
+    return fragments?.length ? fragments : undefined;
+  }
+
+  function splitInlineEmphasisTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.inlineEmphasisTextFragments;
+    if (
+      !["paragraph", "text"].includes(descriptor.role || "") ||
+      !fragments ||
+      fragments.length < 2
+    ) {
+      return undefined;
+    }
+    return fragments;
+  }
+
+  function splitRichProductCardFeatureHeadingAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.richProductCardFeatureHeading) return undefined;
+    const announcement = generateAnnouncement(descriptor);
+    return announcement ? ["list item", announcement] : ["list item"];
+  }
+
+  function formatConjunctiveList(
+    fragments: string[],
+    options: { oxfordComma?: boolean } = {},
+  ): string {
     if (fragments.length <= 1) return fragments[0] || "";
     if (fragments.length === 2) return `${fragments[0]} and ${fragments[1]}`;
-    return `${fragments.slice(0, -1).join(", ")}, and ${fragments.at(-1)}`;
+    const comma = options.oxfordComma === false ? "" : ",";
+    return `${fragments.slice(0, -1).join(", ")}${comma} and ${fragments.at(-1)}`;
   }
 
   function splitComplexColumnHeaderAnnouncements(
@@ -2766,10 +3880,64 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
-    const formattedHeader = `${formatConjunctiveList(fragments)} group, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
-    return [formattedHeader, descriptor.complexColumnHeaderRawText].filter(
+    const productName = normalize(fragments[0]);
+    const context = formatConjunctiveList(fragments, { oxfordComma: false });
+    const formattedHeader = `${context} ${productName}, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
+    return [formattedHeader].filter(
       (announcement): announcement is string => Boolean(announcement),
     );
+  }
+
+  function splitComplexColumnHeaderContextCellAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      !["cell", "gridcell"].includes(descriptor.role || "") ||
+      descriptor.tableRole !== "table" ||
+      !descriptor.complexColumnHeaderContextText ||
+      !descriptor.columnIndex ||
+      !descriptor.columnCount
+    ) {
+      return undefined;
+    }
+
+    const fragments = descriptor.complexColumnHeaderContextCellTextFragments;
+    const label = normalize(descriptor.name || descriptor.text);
+    const header = `${descriptor.complexColumnHeaderContextText} group, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
+    return [header, ...(fragments?.length ? fragments : [label])].filter((announcement): announcement is string =>
+      Boolean(announcement),
+    );
+  }
+
+  function splitComplexColumnHeaderTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!["paragraph", "text"].includes(descriptor.role || "")) {
+      return undefined;
+    }
+    return descriptor.complexColumnHeaderTextFragments?.length
+      ? descriptor.complexColumnHeaderTextFragments
+      : undefined;
+  }
+
+  function splitInlineEmphasisTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.inlineEmphasisTextFragments;
+    if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
+  function splitExpandedRegionInlineLinkAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.expandedRegionInlineLinkFragments;
+    if (descriptor.role !== "paragraph" || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
   }
 
   function splitInlineEmphasisListItemAnnouncements(
@@ -2818,6 +3986,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitLabelStopAnnouncements(descriptor) ||
             splitCompactResultCountAnnouncements(descriptor) ||
             splitComplexColumnHeaderAnnouncements(descriptor) ||
+            splitComplexColumnHeaderContextCellAnnouncements(descriptor) ||
+            splitComplexColumnHeaderTextAnnouncements(descriptor) ||
+            splitRichProductCardFeatureHeadingAnnouncements(descriptor) ||
+            splitRichProductCardFeatureRowAnnouncements(descriptor) ||
+            splitExpandedRegionInlineLinkAnnouncements(descriptor) ||
+            splitInlineEmphasisTextAnnouncements(descriptor) ||
             splitInlineEmphasisListItemAnnouncements(descriptor) ||
             [generateAnnouncement(descriptor)];
           for (const announcement of announcements) {

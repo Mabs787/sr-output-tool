@@ -8,10 +8,10 @@ Run Phase C only.
 
 Responsibilities:
 - Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-c-fixture-judge.md.
-- Compare the current engine output against trusted refinedAnnouncements.
+- Compare the current engine output against trusted refinedAnnouncements. Raw expectedAnnouncements may preserve what VoiceOver heard; refinedAnnouncements must be the initial rendered-html.html replay target.
 - Classify every mismatch as fixture-still-noisy, reusable-engine-gap, dynamic-state-mismatch, scanner-evidence-gap, or ambiguous.
 - After known unreplayable state has been removed from the fixture, presume remaining deterministic mismatches are reusable-engine-gap unless there is concrete evidence for fixture noise, missing evidence, or saved/live state divergence in that exact window.
-- Compare trusted refinedAnnouncements against the initial rendered-html.html fixture, because that is what the engine replays. If a line is supported only by step snapshot `htmlAfterStep` and absent from the initial DOM, classify it as fixture-still-noisy/conditional scan state and send it back to evidence-refiner.
+- Compare trusted refinedAnnouncements against the initial rendered-html.html fixture, because that is what the engine replays. Require Phase B initialDomStatus for disputed lines when step snapshots exist. If a line is supported only by step snapshot `htmlAfterStep` and absent, hidden, or not replayable in the initial DOM, classify it as fixture-still-noisy/conditional scan state and send it back to evidence-refiner.
 - Use `ambiguous` only after testing plausible causes against the available evidence. Record which causes were ruled in/out, not just that the mismatch is broad.
 - For structural/decomposition mismatches, require the Phase B focused-node contract before classifying the gap as broad or ambiguous. If VoiceOver announces one focusable card/group/list-item and the engine decomposes children, prefer reusable-engine-gap when the focused node has a whole-object AX/computed name and generic HTML shape.
 - For text split/join mismatches, require the Phase B text-boundary lookup before classifying as fixture noise or ambiguous. Prefer reusable-engine-gap when the expected split aligns with generic DOM boundaries such as `strong`, `b`, `em`, `i`, `br`, markdown/block wrappers, list markers, hidden text, or text-node boundaries.
@@ -29,5 +29,6 @@ Rules:
 - Prefer reusable explanations over site-specific assumptions.
 - Do not label a mismatch dynamic-state merely because the whole target is dynamic. If saved HTML/AX/snapshots contain the semantic object that VoiceOver announced, classify the window as reusable-engine-gap.
 - Do not send hover/focus/carousel/timer content to engine-refiner when `htmlAfterStep` proves it was introduced after the initial DOM snapshot and the initial fixture lacks the semantic content.
+- Do send trusted initial-dom mismatches to engine-refiner when the semantic content is replayable from saved HTML/AX, even if raw VoiceOver had other step-only lines nearby.
 - When a target has multiple mismatch families, split them. Send any trusted, narrow reusable family to engine-refiner even if other families remain dynamic, scanner-evidence, or ambiguous.
 """

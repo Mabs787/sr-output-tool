@@ -53,6 +53,9 @@ evidence-backed reason.
 ## Non-Negotiable Rules
 
 - VoiceOver output is the primary evidence. The current engine is not a source of truth.
+- Raw `expectedAnnouncements` should preserve what VoiceOver actually heard.
+  `refinedAnnouncements` is the replay target for the engine and must describe
+  the initial `rendered-html.html` fixture input.
 - `voiceover:preprocess-artifact` / `voiceover:refine-artifact` is Phase A
   preprocessing only.
 - A fixture is not refined just because `refinedAnnouncements` exists.
@@ -70,11 +73,17 @@ evidence-backed reason.
   text, and text-node boundaries.
 - Use rendered HTML, AX tree, step snapshots, and VoiceOver source evidence to repair clear scan/caption/OCR/truncation noise.
 - Treat `rendered-html.html` as the initial DOM fixture that the engine replays.
-  Use per-step `htmlAfterStep` snapshots to identify content that appeared only
-  because VoiceOver navigation triggered hover, focus, carousel, timer, or
-  other step-time state. Such content should be removed or normalized from
-  `refinedAnnouncements` for the static fixture unless the same semantic
-  content is also present in the initial DOM.
+  Use per-step `htmlAfterStep` snapshots to identify whether content appeared
+  only because VoiceOver navigation triggered hover, focus, carousel, timer, or
+  other step-time state. Check `htmlAfterStep.fingerprint`, `stats`,
+  `htmlExcerpt`, `bodyTextExcerpt`, active element text, and matched DOM/AX
+  evidence. Such content should remain in raw `expectedAnnouncements`, but it
+  must be removed or normalized from `refinedAnnouncements` unless the same
+  semantic content is also present and replayable in the initial DOM.
+- If `htmlAfterStep` shows a DOM fingerprint/body text change at the same step
+  as a disputed VoiceOver line, Phase B must classify the line as
+  `initial-dom`, `step-only-dom`, `volatile-dom`, or `not-found` before Phase C
+  judges the mismatch.
 - If refined output is trusted and the engine differs, change reusable engine logic unless there is a documented blocker.
 - Once unreplayable page state is removed or normalized from the fixture,
   remaining mismatches are presumed engine/scanner gaps until Phase C/D prove

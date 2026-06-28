@@ -395,10 +395,91 @@ test("scanSubtree splits complex table column headers into group and child text 
     [
       "table, 3 columns, 1 rows",
       "column header, column 1, row 1",
-      "Product A, The practical choice, Black, Blue, and White group, column 2 of 3",
-      "Product AThe practical choiceBlackBlueWhite",
-      "Product B, The premium choice, Grey, Silver, and Green group, column 3 of 3",
-      "Product BThe premium choiceGreySilverGreen",
+      "Product A, The practical choice, Black, Blue and White Product A, column 2 of 3",
+      "The practical choice",
+      "Black",
+      "Blue",
+      "White",
+      "Product B, The premium choice, Grey, Silver and Green Product B, column 3 of 3",
+      "The premium choice",
+      "Grey",
+      "Silver",
+      "Green",
+      "end of table",
+    ],
+  );
+});
+
+test("scanSubtree splits data cells with complex product column headers", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>
+              <div>
+                <span>Sky Glass Air</span>
+                <span>Available in</span>
+                <span>Carbon Grey</span><span>Sea Green</span><span>Cotton White</span>
+                <span>43", 55", 65"</span>
+                <span>TV Starting from</span>
+                <span>£6 a month</span>
+                <span>Over a 48-month loan.</span>
+                <a href="/learn">Learn more</a>
+                <a href="/buy">Buy Now</a>
+              </div>
+            </th>
+            <th>
+              <div>
+                <span>Sky Glass Gen 2</span>
+                <span>Available in</span>
+                <span>Volcanic Grey</span><span>Atlantic Blue</span><span>Arctic Silver</span>
+                <span>43", 55", 65"</span>
+                <span>TV Starting from</span>
+                <span>£14 a month</span>
+                <span>Over a 48-month loan.</span>
+                <a href="/learn-gen2">Learn More</a>
+                <a href="/buy-gen2">Buy Now</a>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Quantum Dot Display</th>
+            <td>Quantum Dot Display</td>
+            <td>Quantum Dot Display</td>
+          </tr>
+        </tbody>
+      </table>
+    `),
+    [
+      "table, 3 columns, 2 rows",
+      "blank, column 1 of 3",
+      "Sky Glass Air, Available in, Carbon Grey, Sea Green, Cotton White, 43\", 55\", 65\", TV Starting from, Learn more and Buy Now Sky Glass Air, column 2 of 3",
+      "Available in",
+      "Carbon GreySea GreenCotton White",
+      "43\", 55\", 65\"",
+      "TV Starting from",
+      "£6 a month",
+      "Over a 48-month loan.",
+      "link, Learn more",
+      "link, Buy Now",
+      "Sky Glass Gen 2, Available in, Volcanic Grey, Atlantic Blue, Arctic Silver, 43\", 55\", 65\", TV Starting from, Learn More and Buy Now Sky Glass Gen 2, column 3 of 3",
+      "Available in",
+      "Volcanic GreyAtlantic BlueArctic Silver",
+      "43\", 55\", 65\"",
+      "TV Starting from",
+      "£14 a month",
+      "Over a 48-month loan.",
+      "link, Learn More",
+      "link, Buy Now",
+      "row 2 of 2 Quantum Dot Display Quantum Dot Display, column 1 of 3",
+      "Sky Glass Air, Available in, Carbon Grey, Sea Green, Cotton White, 43\", 55\", 65\", TV Starting from, Learn more and Buy Now group, column 2 of 3",
+      "Quantum Dot Display",
+      "Sky Glass Gen 2, Available in, Volcanic Grey, Atlantic Blue, Arctic Silver, 43\", 55\", 65\", TV Starting from, Learn More and Buy Now group, column 3 of 3",
+      "Quantum Dot Display",
       "end of table",
     ],
   );
@@ -587,6 +668,81 @@ test("scanSubtree includes expanded accordion region body text inside list items
   );
 });
 
+test("scanSubtree splits text-link-text runs inside expanded accordion regions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Frequently Asked Questions</h2>
+        <ul>
+          <li>
+            <h3>
+              <button id="faq-1-heading" aria-controls="faq-1-content" aria-expanded="true">
+                Which packages are available?
+              </button>
+            </h3>
+            <div id="faq-1-content" aria-labelledby="faq-1-heading" aria-hidden="false" role="region">
+              <div>
+                <div>
+                  Use our <a href="/checker">postcode checker</a> to see available packages.
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    `),
+    [
+      "heading level 2, Frequently Asked Questions",
+      "list 1 item",
+      "heading level 3, Which packages are available?, expanded, button, group",
+      "Which packages are available?, region",
+      "Use our",
+      "link, postcode checker",
+      "to see available packages.",
+      "end of, Which packages are available?, region",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree splits emphasized rich text inside expanded accordion regions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Frequently Asked Questions</h2>
+        <ul>
+          <li>
+            <h3>
+              <button id="faq-2-heading" aria-controls="faq-2-content" aria-expanded="true">
+                What do the options mean?
+              </button>
+            </h3>
+            <div id="faq-2-content" aria-labelledby="faq-2-heading" aria-hidden="false" role="region">
+              <div>
+                <strong>First option</strong>, also known as option one. <br><br>
+                More detail follows. <br><br>
+                <strong>Second option</strong>, also known as option two to the<br>customer.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    `),
+    [
+      "heading level 2, Frequently Asked Questions",
+      "list 1 item",
+      "heading level 3, What do the options mean?, expanded, button, group",
+      "What do the options mean?, region",
+      "First option",
+      ", also known as option one.More detail follows.",
+      "Second option",
+      ", also known as option two to thecustomer.",
+      "end of, What do the options mean?, region",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree traverses declarative shadow root controls", () => {
   assert.deepEqual(
     scanHtml(`
@@ -645,6 +801,80 @@ test("scanSubtree composes declarative shadow slots with host light DOM children
   );
 });
 
+test("scanSubtree flattens slotted carousel slide stops into list positions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-carousel>
+        <template shadowrootmode="open">
+          <x-carousel-base>
+            <template shadowrootmode="open">
+              <ul class="carousel is-set">
+                <slot></slot>
+              </ul>
+              <div class="carousel-navigation carousel-navigation-previous">
+                <lightning-button>
+                  <template shadowrootmode="open">
+                    <button type="button"></button>
+                  </template>
+                </lightning-button>
+              </div>
+              <div class="carousel-navigation">
+                <lightning-button>
+                  <template shadowrootmode="open">
+                    <button type="button"></button>
+                  </template>
+                </lightning-button>
+              </div>
+              <ul class="carousel-paginator">
+                <li><a href=""><span></span></a></li>
+                <li><a href=""><span></span></a></li>
+              </ul>
+            </template>
+            <x-slide class="slds-carousel__panel">
+              <template shadowrootmode="open">
+                <section>
+                  <h1>First offer</h1>
+                  <div>First offer copy</div>
+                  <a href="/first">See first</a>
+                  <a href="/secondary-first">Call me back</a>
+                  <img alt="image">
+                </section>
+              </template>
+            </x-slide>
+            <x-slide class="slds-carousel__panel">
+              <template shadowrootmode="open">
+                <section>
+                  <h1>Second offer</h1>
+                  <div>Second offer copy</div>
+                  <a href="/second">See second</a>
+                </section>
+              </template>
+            </x-slide>
+          </x-carousel-base>
+        </template>
+      </x-carousel>
+    `),
+    [
+      "list 7 items",
+      "heading level 1, First offer, (1 of 7), 1 of 7",
+      "First offer copy, 2 of 7",
+      "link, See first, 3 of 7",
+      "link, Call me back",
+      "image. To get missing image descriptions, open the context menu., Unlabeled image, 4 of 7",
+      "heading level 1, Second offer, (5 of 7), 5 of 7",
+      "Second offer copy, 6 of 7",
+      "link, See second, 7 of 7",
+      "end of list",
+      "button",
+      "button",
+      "list 2 items",
+      "link s, 1 of 2",
+      "link s, 2 of 2",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree treats labelled custom element shadow controls as a group", () => {
   assert.deepEqual(
     scanHtml(`
@@ -658,6 +888,33 @@ test("scanSubtree treats labelled custom element shadow controls as a group", ()
       "Select your language preference., group",
       "Language, menu pop up, button",
       "end of, Select your language preference., group",
+    ],
+  );
+});
+
+test("scanSubtree skips anonymous Lightning structural wrapper groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <c-bos-tiles>
+        <template shadowrootmode="open">
+          <section>
+            <h3>Why Sky Business broadband?</h3>
+            <h4>Full Fibre speeds up to 900Mbps</h4>
+            <p>A choice of speeds available on all packs.</p>
+            <lightning-button>
+              <template shadowrootmode="open">
+                <button type="button">Discover Full Fibre</button>
+              </template>
+            </lightning-button>
+          </section>
+        </template>
+      </c-bos-tiles>
+    `),
+    [
+      "heading level 3, Why Sky Business broadband?",
+      "heading level 4, Full Fibre speeds up to 900Mbps",
+      "A choice of speeds available on all packs.",
+      "Discover Full Fibre, button",
     ],
   );
 });
@@ -952,6 +1209,56 @@ test("scanSubtree keeps labeled fieldset radio groups and VoiceOver radio phrasi
   );
 });
 
+test("scanSubtree uses grouped VoiceOver radio phrasing for SLDS radio button groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div class="slds-radio_button-group">
+        <span class="slds-button slds-radio_button">
+          <input type="radio" name="speed" value="76 Mb/s" checked>
+          <label><span>76 Mb/s</span></label>
+        </span>
+        <span class="slds-button slds-radio_button">
+          <input type="radio" name="speed" value="150 Mb/s">
+          <label><span>150 Mb/s</span></label>
+        </span>
+      </div>
+    `),
+    [
+      "selected, radio button, 1 of 2",
+      "76 Mb/s",
+      "radio button, 2 of 2",
+      "150 Mb/s",
+    ],
+  );
+});
+
+test("scanSubtree infers selected SLDS radio from styled label when checked is not serialized", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div class="slds-radio_button-group radio_container">
+        <span class="slds-button slds-radio_button btnSpan">
+          <input type="radio" name="speed" role="radio" value="76 Mb/s">
+          <label class="slds-radio_button__label radioLabel optLabel radioBkgColor" style="background: linear-gradient(to right, rgb(0, 55, 255), rgb(0, 131, 255));">
+            <span class="slds-radio_faux radioSpan" role="text" style="color: white;">76 Mb/s</span>
+          </label>
+        </span>
+        <span class="slds-button slds-radio_button btnSpan" tabindex="0">
+          <input type="radio" name="speed" role="radio" value="150 Mb/s">
+          <label class="slds-radio_button__label radioLabel optLabel" style="background: white;">
+            <span class="slds-radio_faux radioSpan" role="text" style="color: rgb(74, 74, 74);">150 Mb/s</span>
+          </label>
+        </span>
+      </div>
+    `),
+    [
+      "selected, radio button, 1 of 2",
+      "76 Mb/s",
+      "radio button, 2 of 2",
+      "150 Mb/s",
+    ],
+  );
+});
+
 test("scanSubtree groups text buttons with trailing icons", () => {
   assert.deepEqual(
     scanHtml(`
@@ -1036,6 +1343,79 @@ test("scanSubtree keeps opacity-hidden native controls in accessibility traversa
   );
 });
 
+test("scanSubtree composes multiple image labels in button names", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <button>
+        <img alt="Wifi Icon">
+        <img alt="Phone Icon">
+        Broadband &amp; Phone Prices from £26.95
+      </button>
+      <a href="/bundle">
+        <img alt="TV Icon">
+        <img alt="Broadband Icon">
+        TV &amp; Broadband
+      </a>
+    `),
+    [
+      "Wifi Icon Phone Icon Broadband & Phone Prices from £26.95, button, group",
+      "link, TV Icon Broadband Icon TV & Broadband",
+    ],
+  );
+});
+
+test("scanSubtree composes control names from image and text fragments in DOM order", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <a href="/image-first">
+        <img alt="Sky Atlantic">
+        <p>These two women are about to become the CIA's best kept secrets.</p>
+        <span>Included with Essential TV</span>
+      </a>
+      <a href="/text-first">
+        <span>Discover new movies on Sky this month</span>
+        <img alt="What to watch on Sky Cinema this month">
+      </a>
+    `),
+    [
+      "link, Sky Atlantic These two women are about to become the CIA's best kept secrets. Included with Essential TV",
+      "link, Discover new movies on Sky this month What to watch on Sky Cinema this month",
+    ],
+  );
+});
+
+test("scanSubtree joins price containers with serialized aria-hidden duplicate price pieces", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <div>
+          <span>From £24 /month</span>
+          <div aria-hidden="true">
+            <span>From</span><span>£24</span><span>/month</span>
+          </div>
+        </div>
+        <span>Prices may change during 24 month minimum term.</span>
+      </div>
+    `),
+    ["From £24 /month Prices may change during 24 month minimum term."],
+  );
+});
+
+test("scanSubtree groups noninteractive metric cards with title, speed range, and body text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <div>
+          <span>Everyday essential</span>
+          <span>67 Mbps - 150 Mbps</span>
+        </div>
+        <span>Perfect for browsing and video calling.</span>
+      </div>
+    `),
+    ["Everyday essential 67 Mbps - 150 Mbps Perfect for browsing and video calling."],
+  );
+});
+
 test("scanSubtree descends into image-link caption list items", () => {
   assert.deepEqual(
     scanHtml(`
@@ -1101,7 +1481,7 @@ test("scanSubtree suppresses zero-width text artifacts and decorative emoji", ()
   );
 });
 
-test("scanSubtree skips empty headings and announces block quotes", () => {
+test("scanSubtree announces empty headings and block quotes", () => {
   assert.deepEqual(
     scanHtml(`
       <section>
@@ -1112,7 +1492,11 @@ test("scanSubtree skips empty headings and announces block quotes", () => {
         </figure>
       </section>
     `),
-    ["Slim, lightweight and bright., block quote level 1", "Trusted reviewer"],
+    [
+      "heading level 2",
+      "Slim, lightweight and bright., block quote level 1",
+      "Trusted reviewer",
+    ],
   );
 });
 
@@ -1239,6 +1623,135 @@ test("scanSubtree splits text and controls in interactive card list items", () =
   );
 });
 
+test("scanSubtree decomposes rich product cards with feature rows", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <div>
+            <div class="offer-banner"><span>Summer sale - up to 20% off</span></div>
+            <p>Broadband Essential</p>
+            <p>£21.50</p>
+            <p>a month</p>
+            <p>24-months contract</p>
+            <p>Entry-level broadband for emails and everyday tasks</p>
+          </div>
+          <div>
+            <p>Features included:</p>
+            <p><img alt="featureIconIncluded"><span>24/7 Support</span></p>
+            <p><img alt="featureIconIncluded"><span>Minimum Speed Guarantee</span></p>
+            <p><img alt="featureIconExcluded"><span>4G Backup</span></p>
+            <button>Check availability</button>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="offer-banner"><span>Summer sale - up to 20% off</span></div>
+            <p>Broadband Advanced</p>
+            <p>£31.50</p>
+            <p>a month</p>
+            <p>24-months contract</p>
+            <p>Reliable business broadband with automatic 4G backup</p>
+          </div>
+          <div>
+            <p>Features included:</p>
+            <p><img alt="featureIconIncluded"><span>24/7 Support</span></p>
+            <p><img alt="featureIconIncluded"><span>Minimum Speed Guarantee</span></p>
+            <p><img alt="featureIconIncluded"><span>4G Backup</span></p>
+            <button>Check availability</button>
+          </div>
+        </li>
+        <div>Offer terms apply.</div>
+      </ul>
+    `),
+    [
+      "list 3 items",
+      "Summer sale - up to 20% off, 1 of 3",
+      "Broadband Essential",
+      "£21.50",
+      "a month",
+      "24-months contract",
+      "Entry-level broadband for emails and everyday tasks",
+      "list item",
+      "Features included:",
+      "featureIconIncluded, image",
+      "24/7 Support",
+      "featureIconIncluded, image",
+      "Minimum Speed Guarantee",
+      "featureIconExcluded, image",
+      "4G Backup",
+      "Check availability, button",
+      "Summer sale - up to 20% off, 2 of 3",
+      "Broadband Advanced",
+      "£31.50",
+      "a month",
+      "24-months contract",
+      "Reliable business broadband with automatic 4G backup",
+      "Features included:",
+      "featureIconIncluded, image",
+      "24/7 Support",
+      "featureIconIncluded, image",
+      "Minimum Speed Guarantee",
+      "featureIconIncluded, image",
+      "4G Backup",
+      "Check availability, button",
+      "Offer terms apply.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree announces focusable custom tooltip triggers as groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <c-product-tooltip>
+        <template shadowrootmode="open">
+          <div>
+            <span class="slds-button" tabindex="0">More about these features</span>
+          </div>
+        </template>
+      </c-product-tooltip>
+    `),
+    ["More about these features, group"],
+  );
+});
+
+test("scanSubtree ends articles before following informative unlabeled CMS images", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <c-product-selection>
+        <template shadowrootmode="open">
+          <article>
+            <p>Package prices based on 76 Mb/s download speed</p>
+          </article>
+        </template>
+      </c-product-selection>
+      <c-omni-side-by-side>
+        <template shadowrootmode="open">
+          <div>
+            <h3 class="slds-hide_medium">Switch with confidence</h3>
+            <img src="https://business.sky.com/cms/delivery/media/MCZQVPUVZFVRFHRPEDMQLSJCGTUU">
+            <h3 class="slds-show_medium">Switch with confidence</h3>
+            <ul>
+              <li>From the second you sign up.</li>
+            </ul>
+          </div>
+        </template>
+      </c-omni-side-by-side>
+    `),
+    [
+      "article",
+      "Package prices based on 76 Mb/s download speed",
+      "end of, article",
+      "/MCZQVPUVZFVRFHRPEDMQLSJCGTUU, Unlabeled image",
+      "heading level 3, Switch with confidence",
+      "list 1 item",
+      "From the second you sign up.",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree announces focusable structured list items as grouped cards", () => {
   assert.deepEqual(
     scanHtml(`
@@ -1298,8 +1811,8 @@ test("scanSubtree includes ARIA tabs and visible tab panel list cards", () => {
       "Netflix, tab, 2 of 2",
       "Sky Entertainment, tab panel",
       "list 2 items",
-      "The Dyers' Caravan Park, group, 1 of 2",
-      "Watson, group, 2 of 2",
+      "The Dyers' Caravan Park, group, (1 of 2)",
+      "Watson, group, (2 of 2)",
       "end of list",
       "end of, Sky Entertainment, tab panel",
     ],
@@ -1329,6 +1842,48 @@ test("scanSubtree splits paragraph text blocks in list items", () => {
       "Award-winning, 2 of 2",
       "Content and service people love and trust",
       "end of list",
+    ],
+  );
+});
+
+test("scanSubtree preserves wrapped heading line-break fragments", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <h1><div>The new <br><span>Product TV</span></div></h1>
+      <h4><div>Plan for <br><span>£5 a month</span></div></h4>
+    `),
+    [
+      "heading level 1 The new Product TV, 2 items",
+      "heading level 4, Plan for £5 a month",
+    ],
+  );
+});
+
+test("scanSubtree splits generic inline emphasis text boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>for 48 months 0% interest or <strong>£309</strong></div>
+      <div><strong>150</strong> Mbps avg. speed</div>
+    `),
+    [
+      "for 48 months 0% interest or",
+      "£309",
+      "150",
+      "Mbps avg. speed",
+    ],
+  );
+});
+
+test("scanSubtree merges adjacent colon label and value paragraphs", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div class="custom-box">
+        <p class="bos-text_body-sml slds-size_10-of-12 slds-medium-size_8-of-12 slds-align_absolute-center bos-text-medium slds-text-align_center slds-m-top_large">Speeds suitable for:\u200b</p>
+        <p class="bos-text_body-sml slds-size_10-of-12 slds-medium-size_8-of-12 slds-align_absolute-center slds-p-bottom_large slds-text-align_center">Emails, browsing and card payments. Upgrade to 150Mbps for video calls, cloud apps and everyday business tasks.</p>
+      </div>
+    `),
+    [
+      "Speeds suitable for:Emails, browsing and card payments. Upgrade to 150Mbps for video calls, cloud apps and everyday business tasks.",
     ],
   );
 });

@@ -35,6 +35,7 @@ export interface ElementDescriptor {
   tableGroupHeaderText?: string;
   tableGroupedHeaderRow?: boolean;
   tableFirstGroupedHeaderRow?: boolean;
+  tableHasComplexColumnHeaders?: boolean;
   rowSpan?: number;
   columnSpan?: number;
   tableLabel?: string;
@@ -64,6 +65,7 @@ export interface ElementDescriptor {
   headingLink?: boolean;
   linkHeadingLevel?: number;
   iconOnlyLink?: boolean;
+  textlessCarouselPaginatorLink?: boolean;
   compositeText?: boolean;
   precedingControlLabel?: string;
   fieldsetRadioGroup?: boolean;
@@ -71,6 +73,11 @@ export interface ElementDescriptor {
   suppressContextEnd?: boolean;
   groupContext?: boolean;
   groupedCollectionPosition?: boolean;
+  parenthesizedCollectionPosition?: boolean;
+  duplicateCollectionPosition?: boolean;
+  unlabeledImage?: boolean;
+  unlabeledImageSrcLabel?: string;
+  imageMissingDescriptionHint?: boolean;
   splitDescribedAutocomplete?: boolean;
   searchInputGroup?: boolean;
   compactInputActionGroup?: boolean;
@@ -80,6 +87,13 @@ export interface ElementDescriptor {
   splitLabelStop?: boolean;
   footerCountrySelector?: boolean;
   inlineEmphasisListItemFragments?: string[];
+  inlineEmphasisTextFragments?: string[];
+  expandedRegionInlineLinkFragments?: string[];
+  richProductCardFeatureRowFragments?: string[];
+  complexColumnHeaderContextText?: string;
+  complexColumnHeaderColorGroupText?: string;
+  complexColumnHeaderTextFragments?: string[];
+  complexColumnHeaderContextCellTextFragments?: string[];
   complexColumnHeaderFragments?: string[];
   complexColumnHeaderRawText?: string;
 }

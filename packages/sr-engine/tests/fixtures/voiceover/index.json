@@ -265,8 +265,8 @@
       "html": "business-sky-com-s.html",
       "accessibilityTree": "business-sky-com-s.ax.json",
       "stepSnapshots": "business-sky-com-s.step-snapshots.json",
-      "voiceOverAnnouncementCount": 194,
-      "sanitizationStatus": "sanitized"
+      "voiceOverAnnouncementCount": 211,
+      "sanitizationStatus": "manual-refined"
     },
     {
       "name": "www-tesco-com",

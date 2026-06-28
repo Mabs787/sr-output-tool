@@ -21,6 +21,10 @@ function pushCollectionPosition(parts: string[], el: ElementDescriptor): void {
     return;
   }
   if (el.positionInSet && el.setSize) {
+    if (el.parenthesizedCollectionPosition) {
+      parts.push(`(${el.positionInSet} of ${el.setSize})`);
+      return;
+    }
     parts.push(`${el.positionInSet} of ${el.setSize}`);
   }
 }
@@ -40,6 +44,7 @@ function hasTableColumnContext(el: ElementDescriptor): boolean {
     el.tableRole === "table" &&
       el.columnIndex &&
       el.columnCount &&
+      !(el.role === "link" && el.tableHasComplexColumnHeaders && el.rowIndex === 1) &&
       !["cell", "gridcell", "rowheader", "columnheader"].includes(el.role || ""),
   );
 }
@@ -251,10 +256,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
         parts.push("link");
         pushIfPresent(parts, headingLabel);
+        if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
+          parts.push(`(${el.positionInSet} of ${el.setSize})`);
+        }
         pushCollectionPosition(parts, el);
       } else {
         pushIfPresent(parts, headingLabel);
         if (!el.headingButton) {
+          if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
+            parts.push(`(${el.positionInSet} of ${el.setSize})`);
+          }
           pushCollectionPosition(parts, el);
         }
       }
@@ -345,6 +356,13 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       }
       if (!popupType && el.expanded !== undefined) {
         parts.push(el.expanded ? "expanded" : "collapsed");
+      }
+      if (el.textlessCarouselPaginatorLink) {
+        parts.push("link s");
+        pushCollectionPosition(parts, el);
+        pushTableColumnContext(parts, el);
+        pushSupplementalText(parts, el);
+        break;
       }
       if (el.disabled) {
         parts.push("link");
@@ -554,6 +572,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "text": {
       pushIfPresent(parts, label);
+      if (el.groupContext) {
+        parts.push("group");
+      }
       pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
       break;
@@ -685,6 +706,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             parts.push(
               `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label}, ${el.tableGroupHeaderText} ${label}`,
             );
+          } else if (
+            role === "rowheader" &&
+            el.columnIndex === 1 &&
+            el.rowIndex &&
+            label &&
+            el.tableHasComplexColumnHeaders
+          ) {
+            parts.push(
+              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${label}`,
+            );
           } else if (el.columnIndex === 1 && el.rowIndex) {
             parts.push(
               `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`,
@@ -726,6 +757,24 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "img":
     case "image": {
+      if (el.unlabeledImage) {
+        if (el.unlabeledImageSrcLabel) {
+          parts.push(el.unlabeledImageSrcLabel);
+          parts.push("Unlabeled image");
+          pushCollectionPosition(parts, el);
+          pushSupplementalText(parts, el);
+          break;
+        }
+        parts.push(
+          el.imageMissingDescriptionHint
+            ? "image. To get missing image descriptions, open the context menu."
+            : "image",
+        );
+        parts.push("Unlabeled image");
+        pushCollectionPosition(parts, el);
+        pushSupplementalText(parts, el);
+        break;
+      }
       pushIfPresent(parts, label);
       parts.push("image");
       pushCollectionPosition(parts, el);
@@ -754,11 +803,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "group": {
       pushIfPresent(parts, label);
       parts.push(genericGroupRoleLabel(el));
-      if (el.groupedCollectionPosition && el.positionInSet && el.setSize) {
-        parts.push(`(${el.positionInSet} of ${el.setSize})`);
-      } else {
-        pushCollectionPosition(parts, el);
-      }
+      pushCollectionPosition(parts, el);
       break;
     }
 
@@ -924,6 +969,10 @@ export function getContextEndAnnouncement(
     return descriptor?.name
       ? `end of, ${descriptor.name}, region`
       : "end of region";
+  }
+
+  if (role === "article") {
+    return descriptor?.name ? `end of, ${descriptor.name}, article` : "end of, article";
   }
 
   if (role === "group") {

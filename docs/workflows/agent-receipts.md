@@ -56,7 +56,11 @@ run occurred.
 - one entry per disputed announcement or range
 - raw, draft refined, and final refined text
 - initial `rendered-html.html` lookup
-- `htmlAfterStep` lookup when conditional state is possible
+- `htmlAfterStep` lookup when conditional state is possible, including
+  `fingerprint`, relevant `stats`, `htmlExcerpt`/`bodyTextExcerpt` snippets,
+  active element text, and matched DOM/AX evidence used
+- `initialDomStatus`: `initial-dom`, `step-only-dom`, `volatile-dom`, or
+  `not-found`
 - AX and source/caption lookup
 - text-boundary lookup for split/join disputes
 - focused-node contract for structural/decomposition disputes
@@ -70,6 +74,9 @@ run occurred.
 - classification: `fixture-still-noisy`, `reusable-engine-gap`,
   `dynamic-state-mismatch`, `scanner-evidence-gap`, or `ambiguous`
 - evidence for the classification
+- confirmation that mismatch-relevant lines in `refinedAnnouncements` are
+  replayable from the initial `rendered-html.html`, or the Phase B
+  `initialDomStatus` reason for returning them
 - whether Phase D should run
 
 `05-engine-refinement.json` must include:

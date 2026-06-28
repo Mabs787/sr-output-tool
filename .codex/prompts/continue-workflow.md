@@ -28,8 +28,13 @@ For each target, run every required phase:
 - Spawn `evidence-refiner` for Phase B for every candidate before judging. Treat the current refined output
   as an untrusted draft and verify disputed lines against HTML, AX, snapshots,
   captions/source evidence, and raw VoiceOver before approving or editing it.
+  Preserve raw expectedAnnouncements as what VoiceOver heard; make
+  refinedAnnouncements the initial rendered-html.html replay output. When
+  step snapshots exist, require initialDomStatus for disputed lines:
+  `initial-dom`, `step-only-dom`, `volatile-dom`, or `not-found`.
 - Spawn `fixture-judge` for Phase C after evidence refinement.
-- Spawn `engine-refiner` for Phase D only when a trusted mismatch proves a reusable engine or scanner gap.
+- Spawn `engine-refiner` for Phase D only when a trusted `initial-dom`
+  mismatch proves a reusable engine or scanner gap.
 - Spawn `promoter` for Phase E after compare and tests pass, or when status/docs must record candidate/partial/skip.
 
 Each spawned phase agent must produce the receipt defined in
