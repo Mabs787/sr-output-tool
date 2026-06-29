@@ -395,12 +395,12 @@ test("scanSubtree splits complex table column headers into group and child text 
     [
       "table, 3 columns, 1 rows",
       "column header, column 1, row 1",
-      "Product A, The practical choice, Black, Blue and White Product A, column 2 of 3",
+      "Product A, The practical choice, Black, Blue, and White Product A, column 2 of 3",
       "The practical choice",
       "Black",
       "Blue",
       "White",
-      "Product B, The premium choice, Grey, Silver and Green Product B, column 3 of 3",
+      "Product B, The premium choice, Grey, Silver, and Green Product B, column 3 of 3",
       "The premium choice",
       "Grey",
       "Silver",
@@ -457,7 +457,7 @@ test("scanSubtree splits data cells with complex product column headers", () => 
     [
       "table, 3 columns, 2 rows",
       "blank, column 1 of 3",
-      "Sky Glass Air, Available in, Carbon Grey, Sea Green, Cotton White, 43\", 55\", 65\", TV Starting from, Learn more and Buy Now Sky Glass Air, column 2 of 3",
+      "Sky Glass Air, Available in, Carbon Grey, Sea Green, Cotton White, 43\", 55\", 65\", TV Starting from, Learn more, and Buy Now Sky Glass Air, column 2 of 3",
       "Available in",
       "Carbon GreySea GreenCotton White",
       "43\", 55\", 65\"",
@@ -466,7 +466,7 @@ test("scanSubtree splits data cells with complex product column headers", () => 
       "Over a 48-month loan.",
       "link, Learn more",
       "link, Buy Now",
-      "Sky Glass Gen 2, Available in, Volcanic Grey, Atlantic Blue, Arctic Silver, 43\", 55\", 65\", TV Starting from, Learn More and Buy Now Sky Glass Gen 2, column 3 of 3",
+      "Sky Glass Gen 2, Available in, Volcanic Grey, Atlantic Blue, Arctic Silver, 43\", 55\", 65\", TV Starting from, Learn More, and Buy Now Sky Glass Gen 2, column 3 of 3",
       "Available in",
       "Volcanic GreyAtlantic BlueArctic Silver",
       "43\", 55\", 65\"",
@@ -476,9 +476,9 @@ test("scanSubtree splits data cells with complex product column headers", () => 
       "link, Learn More",
       "link, Buy Now",
       "row 2 of 2 Quantum Dot Display Quantum Dot Display, column 1 of 3",
-      "Sky Glass Air, Available in, Carbon Grey, Sea Green, Cotton White, 43\", 55\", 65\", TV Starting from, Learn more and Buy Now group, column 2 of 3",
+      "Sky Glass Air, Available in, Carbon Grey, Sea Green, Cotton White, 43\", 55\", 65\", TV Starting from, Learn more, and Buy Now group, column 2 of 3",
       "Quantum Dot Display",
-      "Sky Glass Gen 2, Available in, Volcanic Grey, Atlantic Blue, Arctic Silver, 43\", 55\", 65\", TV Starting from, Learn More and Buy Now group, column 3 of 3",
+      "Sky Glass Gen 2, Available in, Volcanic Grey, Atlantic Blue, Arctic Silver, 43\", 55\", 65\", TV Starting from, Learn More, and Buy Now group, column 3 of 3",
       "Quantum Dot Display",
       "end of table",
     ],
@@ -1161,6 +1161,45 @@ test("scanSubtree keeps aria-controlled carousel navigation buttons ungrouped", 
       "link, Deal",
       "Go forward to next set of carousel items, button",
       "end of, Deals, carousel",
+    ],
+  );
+});
+
+test("scanSubtree emits standalone groups for clustered visual button shells", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <a href="#size-43">43 inch</a>
+        <a href="#size-55">55 inch</a>
+        <div>
+          <div>
+            <button aria-label="Colour - Carbon Grey"><span aria-hidden="true"></span></button>
+            <div><span aria-hidden="true"></span></div>
+          </div>
+          <div>
+            <button aria-label="Colour - Sea Green"><span aria-hidden="true"></span></button>
+            <div><span aria-hidden="true"></span></div>
+          </div>
+          <div>
+            <button aria-label="Colour - Cotton White"><span aria-hidden="true"></span></button>
+            <div><span aria-hidden="true"></span></div>
+          </div>
+        </div>
+        <button aria-label="Pause"><svg aria-hidden="true"></svg></button>
+      </section>
+    `),
+    [
+      "link, 43 inch",
+      "link, 55 inch",
+      "group",
+      "group",
+      "Colour - Carbon Grey, button",
+      "group",
+      "Colour - Sea Green, button",
+      "group",
+      "Colour - Cotton White, button",
+      "group",
+      "Pause, button",
     ],
   );
 });

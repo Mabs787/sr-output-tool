@@ -337,6 +337,94 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return labelText;
   }
 
+  function buttonShellControl(el: any): any | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!["div", "span"].includes(el.tagName.toLowerCase())) return false;
+    const children = Array.from(el.children || []);
+    if (children.length < 1 || children.length > 3) return undefined;
+    if (el.matches(interactiveSelector)) return false;
+    if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return undefined;
+    }
+    if (directOwnText(el)) return undefined;
+
+    const visibleChildren = children.filter((child: any) => !isHidden(child));
+    const controls = visibleChildren.filter(
+      (child: any) => child.tagName?.toLowerCase() === "button" || child.getAttribute?.("role") === "button",
+    );
+    if (controls.length !== 1) return undefined;
+
+    const control = controls[0] as any;
+    if (!accessibleName(control, "button")) return undefined;
+    if (readableText(control)) return undefined;
+    const decorativeOnly = visibleChildren.every((child: any) => {
+      if (child === control) return true;
+      if (child.matches?.(interactiveSelector)) return false;
+      return !directOwnText(child) && !child.querySelector?.(interactiveSelector);
+    });
+    return decorativeOnly ? control : undefined;
+  }
+
+  function buttonShellSiblings(el: any): any[] {
+    const parent = el?.parentElement;
+    if (!parent) return [];
+    return Array.from(parent.children || []).filter((sibling: any) =>
+      Boolean(buttonShellControl(sibling)),
+    );
+  }
+
+  function isButtonShellGroup(el: any): boolean {
+    if (!buttonShellControl(el)) return false;
+    return buttonShellSiblings(el).length >= 2;
+  }
+
+  function isButtonShellClusterGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!["div", "span"].includes(el.tagName.toLowerCase())) return false;
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (visibleChildren.length < 2 || visibleChildren.length > 6) return false;
+    if (el.matches(interactiveSelector)) return false;
+    if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return false;
+    }
+    if (directOwnText(el)) return false;
+
+    const shellChildren = visibleChildren.filter((child: any) => isButtonShellGroup(child));
+    if (shellChildren.length < 2) return false;
+
+    return visibleChildren.every((child: any) => {
+      if (shellChildren.includes(child)) return true;
+      if (child.matches?.(interactiveSelector)) return false;
+      return !directOwnText(child) && !child.querySelector?.(interactiveSelector);
+    });
+  }
+
+  function isClusteredVisualButton(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (!el.hasAttribute("aria-label")) return false;
+    if (readableText(el)) return false;
+
+    const parent = el.parentElement;
+    if (!parent) return false;
+    const visualButtons = Array.from(parent.children || []).filter((sibling: any) => {
+      if (!sibling || isHidden(sibling)) return false;
+      if (implicitRole(sibling) !== "button") return false;
+      if (!sibling.hasAttribute("aria-label")) return false;
+      if (readableText(sibling)) return false;
+      return Boolean(
+        sibling.querySelector?.("span[aria-hidden='true'], svg[aria-hidden='true'], img[alt='']"),
+      );
+    });
+
+    if (visualButtons.length >= 3 && visualButtons.includes(el)) return true;
+    return (
+      visualButtons.includes(el) &&
+      Array.from(parent.children || []).some((sibling: any) =>
+        sibling !== el && isButtonShellClusterGroup(sibling),
+      )
+    );
+  }
+
   function nestedImageLabels(el: any): string[] {
     return Array.from(
       el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]"),
@@ -1059,6 +1147,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return tag === "section" ? "region" : "group";
     }
     if (compactInputActionGroupLabel(el)) return "group";
+    if (isButtonShellClusterGroup(el)) return "group";
+    if (isButtonShellGroup(el)) return "group";
     if (
       isCustomElement(el) &&
       ((el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) ||
@@ -2646,7 +2736,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         : [];
     const complexColumnHeaderContextText =
       columnHeaderFragments.length >= 3
-        ? formatConjunctiveList(columnHeaderFragments, { oxfordComma: false })
+        ? formatConjunctiveList(columnHeaderFragments)
         : undefined;
     const cellRole = implicitRole(cell);
     const columnHeaderText =
@@ -3409,6 +3499,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       footerCountrySelector:
         role === "combobox" && isFooterCountrySelector(el) ? true : undefined,
+      clusteredVisualButton:
+        role === "button" && isClusteredVisualButton(el, role) ? true : undefined,
       richProductCardFeatureRowFragments:
         role === "paragraph" ? richProductCardFeatureRowFragments(el) : undefined,
       richProductCardFeatureHeading:
@@ -3426,6 +3518,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "paragraph" ? expandedRegionInlineLinkFragments(el) : undefined,
       suppressContextEnd:
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
+        (role === "group" && isButtonShellClusterGroup(el)) ||
+        (role === "group" && isButtonShellGroup(el)) ||
         (role === "group" && isFocusableImageListItem(el)) ||
         (role === "group" && isFocusableStructuredListItemGroup(el)) ||
         (role === "group" &&
@@ -3610,6 +3704,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "group" &&
       !accessibleName(el, role) &&
       !el.matches(interactiveSelector) &&
+      !isButtonShellClusterGroup(el) &&
+      !isButtonShellGroup(el) &&
       !(isCustomElement(el) && hasShadowRootContent(el))
     ) {
       return false;
@@ -3807,6 +3903,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function splitClusteredVisualButtonAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.clusteredVisualButton) return undefined;
+    return [
+      "group",
+      generateAnnouncement({
+        ...descriptor,
+        groupContext: undefined,
+      }),
+    ].filter((entry): entry is string => Boolean(entry));
+  }
+
   function splitPrecedingControlLabelAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -3881,7 +3990,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     const productName = normalize(fragments[0]);
-    const context = formatConjunctiveList(fragments, { oxfordComma: false });
+    const context = formatConjunctiveList(fragments);
     const formattedHeader = `${context} ${productName}, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
     return [formattedHeader].filter(
       (announcement): announcement is string => Boolean(announcement),
@@ -3983,6 +4092,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitCompactInputActionGroupAnnouncements(descriptor) ||
             splitPrecedingControlLabelAnnouncements(descriptor) ||
             splitCarouselGroupAnnouncements(descriptor) ||
+            splitClusteredVisualButtonAnnouncements(descriptor) ||
             splitLabelStopAnnouncements(descriptor) ||
             splitCompactResultCountAnnouncements(descriptor) ||
             splitComplexColumnHeaderAnnouncements(descriptor) ||

@@ -96,7 +96,7 @@
     },
     "www-sky-com-glass-air": {
       "status": "candidate",
-      "reason": "Restored fixture-audit snapshot shows current compare is 257 expected, 246 actual, and 41 mismatch windows. Remaining page-backed gaps include hero/heading grouping, native control traversal, table/card segmentation, repeated button/list groups, and gallery state; keep as candidate evidence rather than an exact gate."
+      "reason": "Current compare is 257 expected, 265 actual, and 11 mismatch windows after the Phase D engine pass. Remaining page-backed gaps still include color/price boundaries, hero/carousel grouping, comparison-table segmentation, and tab-panel/list boundary issues; keep as candidate evidence rather than an exact gate."
     },
     "www-sky-com-glass": {
       "status": "candidate",

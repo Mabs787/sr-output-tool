@@ -37,7 +37,7 @@ Notes:
 
 ## Latest Compare Snapshot
 
-Rerun on 2026-06-28 after the fixture-trust audit restored unsafe refined-output edits:
+Rerun on 2026-06-29 after the Phase D engine pass and Phase E promotion review:
 
 | Fixture | Expected | Actual | Mismatch windows | Main buckets |
 | --- | ---: | ---: | ---: | --- |
@@ -47,7 +47,7 @@ Rerun on 2026-06-28 after the fixture-trust audit restored unsafe refined-output
 | `www-sky-com-deals` | 299 | 299 | 0 | exact |
 | `www-sky-com-glass` | 149 | 136 | 28 | comparison-table/card structure, hero/card groups, legal text cleanup |
 | `www-sky-com-glass-43-inch` | 127 | 127 | 4 | restored fixture baseline; candidate again |
-| `www-sky-com-glass-air` | 257 | 246 | 41 | legal/text cleanup, colour/gallery state, table/card structure |
+| `www-sky-com-glass-air` | 257 | 265 | 11 | color/price boundaries, hero/carousel grouping, comparison-table segmentation |
 | `www-sky-com-protect` | 104 | 106 | 2 | restored fixture baseline; candidate again |
 | `www-sky-com-shop-mobile` | 165 | 160 | 12 | restored carousel/group/card output; candidate again |
 | `www-sky-com-smart-home` | 150 | 150 | 0 | exact |
@@ -66,7 +66,7 @@ These fixtures have completed Phase B evidence review and remain `candidate`:
 - `www-sky-com-broadband-gaming`: restored to the prior refined baseline after product-card/list-position edits were judged unsafe; current compare is 130 expected, 130 actual, and 11 mismatch windows.
 - `www-sky-com-glass`: 2026-06-27 stricter Phase C/D pass confirmed native comparison-table traversal as the main reusable engine gap. Hero/card standalone groups and legal truncation remain evidence-refinement work, not safe broad engine targets.
 - `www-sky-com-glass-43-inch`: restored to the prior refined baseline; current compare is 127 expected, 127 actual, and 4 mismatch windows.
-- `www-sky-com-glass-air`: stricter pass confirmed rating images and native comparison-table traversal as reusable engine candidates. Hero grouped heading, standalone groups, colour/gallery state, legal truncation, and quote/spacing differences require Phase B evidence cleanup or fresh focused-node evidence. The current compare is 257 expected, 246 actual, and 41 mismatch windows.
+- `www-sky-com-glass-air`: the Phase D pass reduced the compare to 257 expected, 265 actual, and 11 mismatch windows. Remaining gaps now cluster around color/price boundaries, hero/carousel grouping, sky-os copy boundaries, comparison-table segmentation, and tab-panel/list boundaries; the target remains candidate until those families are resolved or reclassified with fresh evidence.
 - `www-sky-com-protect`: restored to the prior refined baseline; current compare is 104 expected, 106 actual, and 2 mismatch windows.
 - `www-sky-com-shop-mobile`: restored to the prior refined baseline after carousel/group/card edits were judged unsafe; current compare is 165 expected, 160 actual, and 12 mismatch windows.
 - `www-sky-com-tv`: restored to the prior refined baseline; current compare is 177 expected, 174 actual, and 3 mismatch windows.

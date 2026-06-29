@@ -1062,6 +1062,101 @@
           }
           return labelText;
         }
+        function buttonShellControl(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (!["div", "span"].includes(el.tagName.toLowerCase()))
+            return false;
+          const children = Array.from(el.children || []);
+          if (children.length < 1 || children.length > 3)
+            return void 0;
+          if (el.matches(interactiveSelector))
+            return false;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+            return void 0;
+          }
+          if (directOwnText(el))
+            return void 0;
+          const visibleChildren = children.filter((child) => !isHidden(child));
+          const controls = visibleChildren.filter((child) => child.tagName?.toLowerCase() === "button" || child.getAttribute?.("role") === "button");
+          if (controls.length !== 1)
+            return void 0;
+          const control = controls[0];
+          if (!accessibleName(control, "button"))
+            return void 0;
+          if (readableText(control))
+            return void 0;
+          const decorativeOnly = visibleChildren.every((child) => {
+            if (child === control)
+              return true;
+            if (child.matches?.(interactiveSelector))
+              return false;
+            return !directOwnText(child) && !child.querySelector?.(interactiveSelector);
+          });
+          return decorativeOnly ? control : void 0;
+        }
+        function buttonShellSiblings(el) {
+          const parent = el?.parentElement;
+          if (!parent)
+            return [];
+          return Array.from(parent.children || []).filter((sibling) => Boolean(buttonShellControl(sibling)));
+        }
+        function isButtonShellGroup(el) {
+          if (!buttonShellControl(el))
+            return false;
+          return buttonShellSiblings(el).length >= 2;
+        }
+        function isButtonShellClusterGroup(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (!["div", "span"].includes(el.tagName.toLowerCase()))
+            return false;
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (visibleChildren.length < 2 || visibleChildren.length > 6)
+            return false;
+          if (el.matches(interactiveSelector))
+            return false;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+            return false;
+          }
+          if (directOwnText(el))
+            return false;
+          const shellChildren = visibleChildren.filter((child) => isButtonShellGroup(child));
+          if (shellChildren.length < 2)
+            return false;
+          return visibleChildren.every((child) => {
+            if (shellChildren.includes(child))
+              return true;
+            if (child.matches?.(interactiveSelector))
+              return false;
+            return !directOwnText(child) && !child.querySelector?.(interactiveSelector);
+          });
+        }
+        function isClusteredVisualButton(el, role) {
+          if (role !== "button")
+            return false;
+          if (!el.hasAttribute("aria-label"))
+            return false;
+          if (readableText(el))
+            return false;
+          const parent = el.parentElement;
+          if (!parent)
+            return false;
+          const visualButtons = Array.from(parent.children || []).filter((sibling) => {
+            if (!sibling || isHidden(sibling))
+              return false;
+            if (implicitRole(sibling) !== "button")
+              return false;
+            if (!sibling.hasAttribute("aria-label"))
+              return false;
+            if (readableText(sibling))
+              return false;
+            return Boolean(sibling.querySelector?.("span[aria-hidden='true'], svg[aria-hidden='true'], img[alt='']"));
+          });
+          if (visualButtons.length >= 3 && visualButtons.includes(el))
+            return true;
+          return visualButtons.includes(el) && Array.from(parent.children || []).some((sibling) => sibling !== el && isButtonShellClusterGroup(sibling));
+        }
         function nestedImageLabels(el) {
           return Array.from(el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]")).filter((node) => !isHidden(node)).map((image) => {
             const tag = image.tagName.toLowerCase();
@@ -1725,6 +1820,10 @@
             return tag === "section" ? "region" : "group";
           }
           if (compactInputActionGroupLabel(el))
+            return "group";
+          if (isButtonShellClusterGroup(el))
+            return "group";
+          if (isButtonShellGroup(el))
             return "group";
           if (isCustomElement(el) && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || hasShadowRootContent(el)) && hasVisibleInteractiveDescendant(el)) {
             return "group";
@@ -3061,7 +3160,7 @@
           const columnHeader = columnIndex >= 0 ? headerCells[columnIndex] : null;
           const tableHasComplexColumnHeaders = headerCells.some((header) => isComplexColumnHeaderContext(header));
           const columnHeaderFragments = role !== "columnheader" && columnHeader ? complexColumnHeaderContextFragments(columnHeader) : [];
-          const complexColumnHeaderContextText = columnHeaderFragments.length >= 3 ? formatConjunctiveList(columnHeaderFragments, { oxfordComma: false }) : void 0;
+          const complexColumnHeaderContextText = columnHeaderFragments.length >= 3 ? formatConjunctiveList(columnHeaderFragments) : void 0;
           const cellRole = implicitRole(cell);
           const columnHeaderText = role !== "columnheader" && cellRole !== "columnheader" && columnHeader ? complexColumnHeaderContextText || accessibleName(columnHeader, "columnheader") : void 0;
           const groupedHeaderNames = groupedTableHeaderNames(table);
@@ -3545,6 +3644,7 @@
             leadingStandaloneCardGroup: isPostHeadingMediaCardGroupStop(el, role) || void 0,
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) ? true : void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
+            clusteredVisualButton: role === "button" && isClusteredVisualButton(el, role) ? true : void 0,
             richProductCardFeatureRowFragments: role === "paragraph" ? richProductCardFeatureRowFragments(el) : void 0,
             richProductCardFeatureHeading: role === "paragraph" ? isRichProductCardFeatureHeading(el) || void 0 : void 0,
             complexColumnHeaderColorGroupText: complexColumnHeaderColorGroupText(el, role),
@@ -3552,7 +3652,7 @@
             complexColumnHeaderContextCellTextFragments: complexColumnHeaderContextCellTextFragments(el, role, table.complexColumnHeaderContextText),
             inlineEmphasisTextFragments: inlineEmphasisTextFragments(el, role),
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
-            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
             boundingBox: {
@@ -3663,7 +3763,7 @@
           if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
             return false;
           }
-          if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !(isCustomElement(el) && hasShadowRootContent(el))) {
+          if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !isButtonShellClusterGroup(el) && !isButtonShellGroup(el) && !(isCustomElement(el) && hasShadowRootContent(el))) {
             return false;
           }
           return contextRoles.has(role) || [
@@ -3803,6 +3903,17 @@
           const announcement = generateAnnouncement2(descriptor);
           return [label, announcement, "group", "group"].filter((entry) => Boolean(entry));
         }
+        function splitClusteredVisualButtonAnnouncements(descriptor) {
+          if (!descriptor.clusteredVisualButton)
+            return void 0;
+          return [
+            "group",
+            generateAnnouncement2({
+              ...descriptor,
+              groupContext: void 0
+            })
+          ].filter((entry) => Boolean(entry));
+        }
         function splitPrecedingControlLabelAnnouncements(descriptor) {
           if (!descriptor.precedingControlLabel)
             return void 0;
@@ -3848,7 +3959,7 @@
             return void 0;
           }
           const productName = normalize(fragments[0]);
-          const context = formatConjunctiveList(fragments, { oxfordComma: false });
+          const context = formatConjunctiveList(fragments);
           const formattedHeader = `${context} ${productName}, column ${descriptor.columnIndex} of ${descriptor.columnCount}`;
           return [formattedHeader].filter((announcement) => Boolean(announcement));
         }
@@ -3912,7 +4023,7 @@
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;
