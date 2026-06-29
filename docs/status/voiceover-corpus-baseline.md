@@ -1,6 +1,6 @@
 # VoiceOver Corpus Baseline
 
-Last refreshed: 2026-06-28
+Last refreshed: 2026-06-29
 
 This baseline uses the VoiceOver-first refinement workflow:
 
@@ -22,6 +22,7 @@ These fixtures currently match the engine exactly against `refinedAnnouncements`
 - `www-nhs-uk`
 - `www-sky-com`
 - `www-sky-com-deals`
+- `www-sky-com-protect`
 - `www-sky-com-smart-home`
 - `www-sky-com-tv-stream`
 - `www-sky-com-watch-what-to-watch-this-week`
@@ -47,7 +48,6 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 - `www-sky-com-glass`
 - `www-sky-com-glass-43-inch`
 - `www-sky-com-glass-air` - current compare is 257 expected, 265 actual, and 11 mismatch windows; keep as candidate until the color/price, hero/carousel, table, and tab-panel boundaries are resolved or reclassified.
-- `www-sky-com-protect`
 - `www-sky-com-shop-mobile`
 - `www-sky-com-tv`
 - `www-sky-com-tvandbroadband`

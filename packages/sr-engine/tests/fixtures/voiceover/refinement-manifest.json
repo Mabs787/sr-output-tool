@@ -103,8 +103,8 @@
       "reason": "Restored fixture-audit snapshot shows current compare is 149 expected, 136 actual, and 28 mismatch windows. Remaining page-backed gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation; keep as candidate evidence rather than an exact gate."
     },
     "www-sky-com-protect": {
-      "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only refinements. Current compare is 104 expected, 106 actual, and 2 mismatch windows; keep as candidate until the split/merge behavior is resolved without papering over VO output."
+      "status": "refined",
+      "reason": "Matches exactly after Phase B removed a zero-width heading artifact and Phase C.5 run 28370885731 confirmed the feature-row text should be split into separate refined announcements. Current compare is 106 expected, 106 actual, and 0 mismatch windows."
     },
     "www-sky-com-shop-mobile": {
       "status": "candidate",
