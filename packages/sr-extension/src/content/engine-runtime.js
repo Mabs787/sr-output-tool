@@ -1345,6 +1345,77 @@
             return void 0;
           return normalize(`${priceText} ${noteText}`);
         }
+        function visibleLeafTextFragments(el) {
+          const fragments = [];
+          function push(fragment) {
+            const normalized = normalize(fragment);
+            if (normalized)
+              fragments.push(normalized);
+          }
+          function collect(node) {
+            if (!node)
+              return;
+            if (node.nodeType === Node.TEXT_NODE) {
+              push(node.textContent || "");
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node.matches("[aria-hidden='true']"))
+              return;
+            if (["script", "style", "svg"].includes(node.tagName?.toLowerCase()))
+              return;
+            const visibleChildren = Array.from(node.childNodes || []).filter((child) => {
+              if (child.nodeType === Node.TEXT_NODE)
+                return Boolean(normalize(child.textContent));
+              return child.nodeType === Node.ELEMENT_NODE && !isHidden(child) && !child.matches("[aria-hidden='true']");
+            });
+            if (visibleChildren.length === 1 && visibleChildren[0].nodeType === Node.TEXT_NODE) {
+              push(visibleChildren[0].textContent || "");
+              return;
+            }
+            for (const child of Array.from(node.childNodes || []))
+              collect(child);
+            for (const child of shadowContentChildren(node))
+              collect(child);
+          }
+          collect(el);
+          return fragments;
+        }
+        function priceDisclosureFragments(el, role) {
+          if (role && !["paragraph", "text"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName.toLowerCase() !== "div")
+            return void 0;
+          if (el.matches(interactiveSelector) || el.closest(interactiveSelector))
+            return void 0;
+          const text = normalize(readableText(el));
+          if (!text)
+            return void 0;
+          if (!/(?:from\s+)?[£$€]\s?\d+(?:[.,]\d+)?\s*\/\s*(?:month|mo|mth)/i.test(text)) {
+            return void 0;
+          }
+          if (!/\bprices?\s+may\s+change\b/i.test(text))
+            return void 0;
+          const ariaHiddenDuplicate = Array.from(el.querySelectorAll("[aria-hidden='true']")).some((candidate) => normalize(candidate.textContent || "") !== void 0);
+          if (!ariaHiddenDuplicate)
+            return void 0;
+          const fragments = visibleLeafTextFragments(el);
+          if (fragments.length < 2)
+            return void 0;
+          if (!/^(from\s+)?[£$€]\s?\d+(?:[.,]\d+)?\s*\/\s*(?:month|mo|mth)$/i.test(fragments[0])) {
+            return void 0;
+          }
+          if (!fragments.some((fragment) => /\bprices?\s+may\s+change\b/i.test(fragment))) {
+            return void 0;
+          }
+          if (!fragments.some((fragment) => /\bno\s+upfront\s+fees?\b/i.test(fragment)) && !fragments.some((fragment) => /\bswitching\s+credit\b/i.test(fragment))) {
+            return void 0;
+          }
+          return fragments;
+        }
         function groupedMetricCardText(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
@@ -1482,6 +1553,8 @@
         function isIconFirstTextButton(el) {
           if (implicitRole(el) !== "button")
             return false;
+          if (isNativeCardActionDisclosureButton(el))
+            return false;
           if (!readableText(el))
             return false;
           if (normalizedPopup(el) || el.hasAttribute("aria-expanded"))
@@ -1537,13 +1610,63 @@
             if (current === document.body || current === document.documentElement)
               break;
             const textBeforeButton = normalize(textWithoutInteractive(current));
-            if (!textBeforeButton || !/[.!?]$/.test(textBeforeButton))
+            if (!textBeforeButton)
               continue;
             const fullText = normalize(readableText(current));
-            if (fullText.endsWith(label))
+            if (fullText.endsWith(label) && (/[.!?]$/.test(textBeforeButton) || hasPreviousCardActionControls(current))) {
               return true;
+            }
           }
           return false;
+        }
+        function hasPreviousCardActionControls(el) {
+          const previous = previousVisibleElementSibling(el);
+          if (!previous)
+            return false;
+          const actionControls = Array.from(previous.querySelectorAll(":scope > a[href], :scope > button")).filter((control) => !isHidden(control));
+          if (actionControls.length === 2 && actionControls[0].tagName?.toLowerCase() === "a" && actionControls[1].tagName?.toLowerCase() === "button") {
+            return true;
+          }
+          const actionWrappers = Array.from(previous.children || []).filter((child) => !isHidden(child) && child.querySelector?.(interactiveSelector));
+          if (actionWrappers.length < 2)
+            return false;
+          const linkWrapper = actionWrappers[actionWrappers.length - 2];
+          const buttonWrapper = actionWrappers[actionWrappers.length - 1];
+          return hasOnlyNativeLinkControls(linkWrapper) && Array.from(buttonWrapper.querySelectorAll(":scope > button, :scope > [role='button']")).filter((button) => !isHidden(button)).length === 1;
+        }
+        function isNativeCardActionDisclosureButton(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.tagName.toLowerCase() !== "button")
+            return false;
+          if (el.getAttribute("role") || el.hasAttribute("tabindex"))
+            return false;
+          if (el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby") || el.hasAttribute("aria-expanded") || el.hasAttribute("aria-controls") || normalizedPopup(el)) {
+            return false;
+          }
+          if (!readableText(el))
+            return false;
+          const media = Array.from(el.querySelectorAll("svg, img, [role='img']"));
+          if (!media.length)
+            return false;
+          if (media.some((candidate) => candidate.getAttribute("aria-hidden") !== "true" && normalize(candidate.getAttribute("alt")) !== "")) {
+            return false;
+          }
+          function hasFollowingDetails(container) {
+            const following = nextVisibleElementSibling(container);
+            return Boolean(following && !following.matches?.(interactiveSelector) && !following.closest?.(interactiveSelector) && textWithoutInteractive(following));
+          }
+          const actionRow = el.parentElement;
+          if (!actionRow)
+            return false;
+          const visibleControls = Array.from(actionRow.querySelectorAll(":scope > a[href], :scope > button")).filter((control) => !isHidden(control));
+          if (visibleControls.length === 2 && visibleControls[1] === el && visibleControls[0].tagName?.toLowerCase() === "a" && hasFollowingDetails(actionRow)) {
+            return true;
+          }
+          const previous = previousVisibleElementSibling(actionRow);
+          const parent = actionRow.parentElement;
+          const wrapperControls = Array.from(actionRow.querySelectorAll(":scope > button, :scope > [role='button']")).filter((control) => !isHidden(control));
+          return Boolean(parent && wrapperControls.length === 1 && wrapperControls[0] === el && previous && hasOnlyNativeLinkControls(previous) && hasFollowingDetails(parent));
         }
         function isCarouselControlButton(el) {
           if (implicitRole(el) !== "button")
@@ -1820,7 +1943,7 @@
           }
           if (tag === "blockquote")
             return el.closest("figure") ? "blockquote" : "paragraph";
-          if (tag === "p" || tag === "figcaption" || tag === "time" || isRichProductCardOfferBanner(el) || isStructuredListBodyText(el) || isInteractiveListBodyText(el)) {
+          if (tag === "p" || tag === "figcaption" || tag === "time" || isRichProductCardOfferBanner(el) || isStructuredListBodyText(el) || isInteractiveListBodyText(el) || priceDisclosureFragments(el)) {
             return "paragraph";
           }
           if (joinedPriceDisclosureText(el))
@@ -1838,10 +1961,12 @@
             return "group";
           if (isButtonShellGroup(el))
             return "group";
+          if (tag === "div" && isDecorativeGenericGroupBeforeNativeLinks(el, "group"))
+            return "group";
           if (isCustomElement(el) && (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || hasShadowRootContent(el)) && hasVisibleInteractiveDescendant(el)) {
             return "group";
           }
-          if (["span", "div"].includes(tag) && directOwnText(el) && !el.querySelector(interactiveSelector) && !el.closest(interactiveSelector) && (isSplitTextListItemBlock(el) || isExpandedRegionBodyText(el) || isRichProductCardTextFragment(el) || hasImageLinkWithCaptionListItemContent(el.closest("li,[role='listitem']")) || !el.closest("p, li, h1, h2, h3, h4, h5, h6"))) {
+          if (["span", "div"].includes(tag) && directOwnText(el) && !el.querySelector(interactiveSelector) && !el.closest(interactiveSelector) && (isSplitTextListItemBlock(el) || isExpandedRegionBodyText(el) || isCardDetailTextLeaf(el) || isRichProductCardTextFragment(el) || hasImageLinkWithCaptionListItemContent(el.closest("li,[role='listitem']")) || !el.closest("p, li, h1, h2, h3, h4, h5, h6"))) {
             return "text";
           }
           return "";
@@ -2553,6 +2678,30 @@
           if (!previous || !readableText(previous) || previous.querySelector(interactiveSelector)) {
             return false;
           }
+          if (["heading", "button", "link"].includes(implicitRole(previous)))
+            return false;
+          return hasOnlyNativeLinkControls(nextVisibleElementSibling(el));
+        }
+        function isDecorativeGenericGroupBeforeNativeLinks(el, role = implicitRole(el)) {
+          if (role !== "group")
+            return false;
+          if (el.getAttribute("role"))
+            return false;
+          if (accessibleName(el, role) || readableText(el))
+            return false;
+          if (el.matches(interactiveSelector))
+            return false;
+          const tabIndex = Number.parseInt(el.getAttribute("tabindex") || "", 10);
+          if (Number.isFinite(tabIndex) && tabIndex >= 0)
+            return false;
+          if (!isDecorativeMediaOnlyContainer(el))
+            return false;
+          const previous = previousVisibleElementSibling(el);
+          if (!previous || !readableText(previous) || previous.querySelector(interactiveSelector)) {
+            return false;
+          }
+          if (["heading", "button", "link"].includes(implicitRole(previous)))
+            return false;
           return hasOnlyNativeLinkControls(nextVisibleElementSibling(el));
         }
         function standaloneContentCardHeading(el, minimumLevel = 2) {
@@ -2643,6 +2792,99 @@
           if (!["paragraph", "text"].includes(role))
             return false;
           return Boolean(h2CardWithDecorativeMediaBeforeBodyFor(el));
+        }
+        function firstReadableStopWithin(el) {
+          const nodeFilter = el.ownerDocument?.defaultView?.NodeFilter || document.defaultView?.NodeFilter;
+          if (!nodeFilter)
+            return null;
+          const walker = document.createTreeWalker(el, nodeFilter.SHOW_ELEMENT);
+          let node;
+          while (node = walker.nextNode()) {
+            if (node === el || isHidden(node))
+              continue;
+            const role = implicitRole(node);
+            if ([
+              "heading",
+              "paragraph",
+              "text",
+              "button",
+              "link",
+              "image",
+              "textbox",
+              "searchbox",
+              "combobox"
+            ].includes(role) && readableStopText(node, role)) {
+              return node;
+            }
+          }
+          return null;
+        }
+        function genericDecorativeTextCardFor(el) {
+          for (let current = el?.parentElement, depth = 0; current && depth < 5; current = current.parentElement, depth += 1) {
+            if (current === document.body || current === document.documentElement)
+              break;
+            if (current.matches?.("main, footer, header, nav, aside, li, [role='listitem']"))
+              break;
+            if (current.getAttribute("role") || accessibleName(current, "group"))
+              continue;
+            if (current.querySelector(interactiveSelector))
+              continue;
+            if (current.querySelector("h1, h2, h3, h4, h5, h6, [role='heading'], ul, ol, table, [role='list'], [role='table'], [role='grid']")) {
+              continue;
+            }
+            const readableStops = Array.from(current.querySelectorAll("p, span, div")).filter((candidate) => {
+              if (candidate === current || isHidden(candidate))
+                return false;
+              const role = implicitRole(candidate);
+              return ["paragraph", "text"].includes(role) && Boolean(readableStopText(candidate, role));
+            });
+            if (readableStops.length !== 1 || readableStops[0] !== el)
+              continue;
+            if (firstReadableStopWithin(current) !== el)
+              continue;
+            const decorativeMedia = Array.from(current.querySelectorAll("img[alt=''], img[role='presentation'], svg[aria-hidden='true'], [role='presentation']")).filter((candidate) => !isHidden(candidate));
+            if (decorativeMedia.length < 1)
+              continue;
+            const parent = current.parentElement;
+            const previousCollectionSibling = parent ? previousVisibleElementSibling(parent) : null;
+            if (previousCollectionSibling && implicitRole(previousCollectionSibling) === "heading") {
+              continue;
+            }
+            if (!hasPrecedingFeatureList(parent))
+              continue;
+            const siblingCards = Array.from(parent?.children || []).filter((sibling) => {
+              if (sibling === current || isHidden(sibling))
+                return false;
+              if (sibling.getAttribute?.("role") || accessibleName(sibling, "group"))
+                return false;
+              if (sibling.querySelector?.(interactiveSelector))
+                return false;
+              return Boolean(sibling.querySelector?.("img[alt=''], img[role='presentation'], svg[aria-hidden='true'], [role='presentation']") && readableText(sibling));
+            });
+            if (siblingCards.length < 2)
+              continue;
+            return current;
+          }
+          return null;
+        }
+        function hasPrecedingFeatureList(el) {
+          for (let current = el, depth = 0; current && depth < 5; current = current.parentElement, depth += 1) {
+            if (current === document.body || current === document.documentElement)
+              break;
+            const previous = previousVisibleElementSibling(current);
+            if (!previous)
+              continue;
+            if (implicitRole(previous) === "list")
+              return true;
+            if (previous.querySelector?.("ul, ol, [role='list']"))
+              return true;
+          }
+          return false;
+        }
+        function isLeadingDecorativeTextCardGroupStop(el, role) {
+          if (!["paragraph", "text"].includes(role))
+            return false;
+          return Boolean(genericDecorativeTextCardFor(el));
         }
         function hasSingleSemanticListItemChild(el) {
           if (!isListItem(el))
@@ -3144,8 +3386,39 @@
           }
           return Boolean(readableText(el));
         }
+        function cardDetailTextWithTrailingDisclaimer(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.tagName.toLowerCase() !== "div")
+            return false;
+          if (el.matches(interactiveSelector) || el.closest(interactiveSelector))
+            return false;
+          if (el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading'], ul, ol, [role='list'], table, [role='table'], [role='grid']")) {
+            return false;
+          }
+          const text = textWithoutInteractive(el);
+          if (!text)
+            return false;
+          const buttons = Array.from(el.querySelectorAll("button, [role='button']")).filter((button) => !isHidden(button));
+          if (buttons.length !== 1 || !isTrailingDisclaimerButton(buttons[0]))
+            return false;
+          return hasPreviousCardActionControls(el);
+        }
+        function isCardDetailTextLeaf(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (!["span", "div"].includes(el.tagName.toLowerCase()))
+            return false;
+          if (!directOwnText(el))
+            return false;
+          if (el.querySelector(interactiveSelector) || el.closest(interactiveSelector))
+            return false;
+          return cardDetailTextWithTrailingDisclaimer(el.parentElement);
+        }
         function isInteractiveCardListButton(el) {
           if (implicitRole(el) !== "button")
+            return false;
+          if (isNativeCardActionDisclosureButton(el))
             return false;
           if (!el.querySelector("svg, img, [role='img']"))
             return false;
@@ -3768,6 +4041,7 @@
           const headingFragments = role === "heading" ? directHeadingFragments(el) : void 0;
           const selectedListboxOption = singleSelectedListboxOption(el);
           const suppressPositionedChoiceGroup = role === "button" && Boolean(position) && !el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !isSlideshowNavigationButton(el) && (isIconFirstTextButton(el) || el.hasAttribute("aria-label") && !rawText);
+          const suppressNativeCardActionGroup = role === "button" && isNativeCardActionDisclosureButton(el);
           const value = tag === "select" ? nativeSelectValue(stateEl) : selectedListboxOption ? accessibleName(selectedListboxOption, "option") || readableText(selectedListboxOption) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
           const listboxSelectedCount = role === "listbox" ? selectedListboxOptions(el).length || void 0 : void 0;
           const selectedListboxPosition = selectedListboxOption ? positionInSet(selectedListboxOption, "option") : void 0;
@@ -3812,7 +4086,7 @@
             precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : void 0,
             fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && rawText) || void 0,
-            groupContext: Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el) || void 0,
+            groupContext: !suppressNativeCardActionGroup && (Boolean(headingButton) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !normalizedPopup(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isMenuDisclosureGroupButton(el) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el)) || void 0,
             groupedCollectionPosition: role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || role === "group" && isFocusableStructuredListItemGroup(el) || void 0,
             parenthesizedCollectionPosition: role === "group" && (isFocusableStructuredListItemGroup(el) || isFocusableImageListItem(el)) || void 0,
             duplicateCollectionPosition: role === "heading" && Boolean(flattenedSlottedCarouselPosition(el).positionInSet) || void 0,
@@ -3825,6 +4099,7 @@
             leadingCarouselGroup: isLeadingCarouselGroupStop(el, role) || void 0,
             trailingCarouselSlideGroups: isTrailingCarouselSlideGroupStop(el, role) || void 0,
             leadingStandaloneCardGroup: isLeadingStandaloneCardGroupStop(el, role) || isPostHeadingMediaCardGroupStop(el, role) || void 0,
+            leadingDecorativeTextCardGroups: isLeadingDecorativeTextCardGroupStop(el, role) || void 0,
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) ? true : void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
             clusteredVisualButton: role === "button" && isClusteredVisualButton(el, role) ? true : void 0,
@@ -3835,7 +4110,8 @@
             complexColumnHeaderContextCellTextFragments: complexColumnHeaderContextCellTextFragments(el, role, table.complexColumnHeaderContextText),
             inlineEmphasisTextFragments: inlineEmphasisTextFragments(el, role),
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
-            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            priceDisclosureFragments: priceDisclosureFragments(el, role),
+            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
             boundingBox: {
@@ -3896,6 +4172,7 @@
             return false;
           }
           const decorativeRoleGroupBeforeNativeLinks = isDecorativeRoleGroupBeforeNativeLinks(el, role);
+          const decorativeGenericGroupBeforeNativeLinks = isDecorativeGenericGroupBeforeNativeLinks(el, role);
           if (role === "listitem" && hasOnlyInteractiveListItemContent(el)) {
             return false;
           }
@@ -3911,7 +4188,7 @@
           if (role === "listitem" && hasSingleSemanticListItemChild(el)) {
             return false;
           }
-          if (contextRoles.has(role) && !isUnnamedCarouselRegion(el) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !(role === "list" && announcedListChildren(el).length)) {
+          if (contextRoles.has(role) && !isUnnamedCarouselRegion(el) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(role === "list" && announcedListChildren(el).length)) {
             return false;
           }
           if (isUnnamedCarouselRegion(el)) {
@@ -3947,7 +4224,7 @@
           if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
             return false;
           }
-          if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !isButtonShellClusterGroup(el) && !isButtonShellGroup(el) && !decorativeRoleGroupBeforeNativeLinks && !(isCustomElement(el) && hasShadowRootContent(el))) {
+          if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !isButtonShellClusterGroup(el) && !isButtonShellGroup(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(isCustomElement(el) && hasShadowRootContent(el))) {
             return false;
           }
           return contextRoles.has(role) || [
@@ -4075,6 +4352,9 @@
           if (descriptor.leadingStandaloneCardGroup) {
             return ["group", announcement].filter((entry) => Boolean(entry));
           }
+          if (descriptor.leadingDecorativeTextCardGroups) {
+            return ["group", "group", announcement].filter((entry) => Boolean(entry));
+          }
           if (descriptor.trailingCarouselSlideGroups) {
             return [announcement, "group", "group"].filter((entry) => Boolean(entry));
           }
@@ -4176,6 +4456,13 @@
           }
           return fragments;
         }
+        function splitPriceDisclosureAnnouncements(descriptor) {
+          const fragments = descriptor.priceDisclosureFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
         function splitInlineEmphasisListItemAnnouncements(descriptor) {
           const fragments = descriptor.inlineEmphasisListItemFragments;
           if (descriptor.role !== "listitem" || !fragments || fragments.length < 2) {
@@ -4207,7 +4494,7 @@
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitPriceDisclosureAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;

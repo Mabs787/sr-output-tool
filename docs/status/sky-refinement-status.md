@@ -16,7 +16,7 @@ The `voiceover-smoke/` workspace is local scratch/debug output and is ignored by
 
 The latest Sky batch has completed Phase B review for every imported site.
 
-Five Sky fixtures currently pass the exact VoiceOver corpus gate. A fixture-trust audit on 2026-06-28 restored several agent-made refined-output edits that could have masked true VoiceOver output. The restored fixtures are reviewed `candidate` evidence until their remaining gaps are fixed in the engine or re-refined with stronger HTML/AX/step evidence.
+Six Sky fixtures currently pass the exact VoiceOver corpus gate. A fixture-trust audit on 2026-06-28 restored several agent-made refined-output edits that could have masked true VoiceOver output. The restored fixtures are reviewed `candidate` evidence until their remaining gaps are fixed in the engine or re-refined with stronger HTML/AX/step evidence.
 
 ## Fully Refined Sky Sites
 
@@ -26,6 +26,7 @@ These Sky fixtures are promoted to `refined` in `refinement-manifest.json` and p
 - `www-sky-com-deals`
 - `www-sky-com-smart-home`
 - `www-sky-com-tv-stream`
+- `www-sky-com-tvandbroadband`
 - `www-sky-com-watch-what-to-watch-this-week`
 
 Notes:
@@ -33,6 +34,7 @@ Notes:
 - `www-sky-com-tv-stream` was refined after VO-backed engine changes for empty level-2 headings and parenthesized focusable image-card list positions, alongside the existing ARIA tab/focusable image-card traversal support.
 - `www-sky-com-deals` was promoted after reusable footer country-selector grouping and empty-alert group handling.
 - `www-sky-com-smart-home` was promoted after reusable media/text list-card decomposition, footer country-selector grouping, empty-alert group handling, and first previous-slide disabled-state inference.
+- `www-sky-com-tvandbroadband` was promoted after Phase D narrowed the reusable hero/media wrapper and card-grouping fixes, and Phase C.5 confirmed the four disputed families as reusable engine gaps. The exact compare is now 351 expected, 351 actual, and 0 mismatch windows.
 - `www-sky-com-watch-what-to-watch-this-week` was promoted after article/show-description cleanup plus reusable footer country-selector grouping and first previous-slide disabled-state inference.
 
 ## Latest Compare Snapshot
@@ -53,7 +55,7 @@ Rerun on 2026-06-29 after the Phase D engine pass and Phase E promotion review:
 | `www-sky-com-smart-home` | 150 | 150 | 0 | exact |
 | `www-sky-com-tv` | 177 | 177 | 0 | exact after reusable generic-wrapper group-boundary traversal |
 | `www-sky-com-tv-stream` | 116 | 116 | 0 | exact |
-| `www-sky-com-tvandbroadband` | 351 | 309 | 21 | hero CTA group, package-card price/disclosure boundaries, included-content group-stop scanner gap |
+| `www-sky-com-tvandbroadband` | 351 | 351 | 0 | exact after Phase D and Phase E promotion |
 | `www-sky-com-watch` | 259 | 259 | 8 | restored carousel/text-boundary output; candidate again |
 | `www-sky-com-watch-what-to-watch-this-week` | 171 | 171 | 0 | exact |
 
@@ -69,7 +71,6 @@ These fixtures have completed Phase B evidence review and remain `candidate`:
 - `www-sky-com-glass-air`: the Phase D pass reduced the compare to 257 expected, 265 actual, and 11 mismatch windows. Remaining gaps now cluster around color/price boundaries, hero/carousel grouping, sky-os copy boundaries, comparison-table segmentation, and tab-panel/list boundaries; the target remains candidate until those families are resolved or reclassified with fresh evidence.
 - `www-sky-com-shop-mobile`: restored to the prior refined baseline after carousel/group/card edits were judged unsafe; current compare is 165 expected, 160 actual, and 12 mismatch windows.
 - `www-sky-com-tv`: promoted to `refined` after Phase D fixed reusable generic-wrapper group-boundary traversal. The target now compares at 177 expected, 177 actual, and 0 mismatch windows.
-- `www-sky-com-tvandbroadband`: Phase D resolved package-card list-marker/position and heading-fragment-count families. The current compare is 351 expected, 309 actual, and 21 mismatch windows. Remaining gaps are the hero CTA group semantic mismatch, package-card price/disclosure boundaries, and the included-content standalone group-stop scanner-evidence family.
 - `www-sky-com-watch`: restored to the prior refined baseline after carousel/text-boundary edits were judged unsafe; current compare is 259 expected, 259 actual, and 8 mismatch windows.
 
 ## Resume Prompt

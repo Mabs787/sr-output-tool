@@ -123,8 +123,8 @@
       "reason": "Promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare now reads 177 expected, 177 actual, and 0 mismatch windows."
     },
     "www-sky-com-tvandbroadband": {
-      "status": "candidate",
-      "reason": "Current compare is 351 expected, 309 actual, and 21 mismatch windows after the Phase D engine pass. Package-card list-marker/position and heading-fragment-count families are resolved; remaining page-backed gaps are the hero CTA group semantic mismatch, package-card price/disclosure boundaries, and the included-content standalone group-stop scanner-evidence family. Keep as candidate evidence rather than an exact gate."
+      "status": "refined",
+      "reason": "Exact compare now reads 351 expected, 351 actual, and 0 mismatch windows after Phase D engine narrowing plus Phase E validation. The four disputed families were confirmed by Phase C.5 as reusable engine gaps, and the target now passes the exact VoiceOver corpus gate."
     },
     "www-sky-com-watch-what-to-watch-this-week": {
       "status": "refined",

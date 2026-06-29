@@ -1344,7 +1344,7 @@ test("scanSubtree adds post-heading groups for h2 cards with leading decorative 
   );
 });
 
-test("scanSubtree announces explicit decorative role groups before native link actions", () => {
+test("scanSubtree announces decorative media groups before native link actions", () => {
   assert.deepEqual(
     scanHtml(`
       <main>
@@ -1392,9 +1392,86 @@ test("scanSubtree announces explicit decorative role groups before native link a
       "main",
       "heading level 1, TV & Broadband Packages",
       "Get Sky TV with fast broadband for seamless streaming.",
+      "group",
       "link, Build your package",
       "link, See all deals",
       "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps native package action disclosure buttons ungrouped and preserves detail text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <div aria-labelledby="package-heading">
+            <h2 id="package-heading">Ultimate TV &amp; 300Mbps Full Fibre Broadband</h2>
+            <div>
+              <span>£41 /month</span>
+              <div aria-hidden="true"><span>£41</span><span>/month</span></div>
+              <span>Prices may change during 24 month minimum term.</span>
+            </div>
+            <div>
+              <a href="/start">Get Started</a>
+              <button>What's included<svg aria-hidden="true"></svg></button>
+            </div>
+            <div>
+              <span>Full Fibre 300 available to UK homes. New Sky TV &amp; Broadband customers only</span>
+              <div><button>See all legals</button></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 1 item",
+      "Ultimate TV & 300Mbps Full Fibre Broadband, group",
+      "heading level 2, Ultimate TV & 300Mbps Full Fibre Broadband",
+      "£41 /month Prices may change during 24 month minimum term.",
+      "link, Get Started",
+      "What's included, button",
+      "Full Fibre 300 available to UK homes. New Sky TV & Broadband customers only",
+      "See all legals, button, group",
+      "end of, Ultimate TV & 300Mbps Full Fibre Broadband, group",
+      "end of list",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <div aria-labelledby="package-heading">
+            <h2 id="package-heading">Ultimate TV &amp; 300Mbps Full Fibre Broadband</h2>
+            <div>
+              <span>£41 /month</span>
+              <div aria-hidden="true"><span>£41</span><span>/month</span></div>
+              <span>Prices may change during 24 month minimum term.</span>
+            </div>
+            <div>
+              <div><a href="/start">Get Started</a></div>
+              <div><button>What's included<svg aria-hidden="true"></svg></button></div>
+            </div>
+            <div>
+              <span>Full Fibre 300 available to UK homes. New Sky TV &amp; Broadband customers only.</span>
+              <div><button>See all legals</button></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 1 item",
+      "Ultimate TV & 300Mbps Full Fibre Broadband, group",
+      "heading level 2, Ultimate TV & 300Mbps Full Fibre Broadband",
+      "£41 /month Prices may change during 24 month minimum term.",
+      "link, Get Started",
+      "What's included, button",
+      "Full Fibre 300 available to UK homes. New Sky TV & Broadband customers only.",
+      "See all legals, button, group",
+      "end of, Ultimate TV & 300Mbps Full Fibre Broadband, group",
+      "end of list",
     ],
   );
 });
@@ -1506,6 +1583,59 @@ test("scanSubtree adds leading groups for standalone h3 content cards", () => {
       "heading level 3, Sky Glass",
       "Sky Glass is the smarter TV.",
       "link, Learn more",
+    ],
+  );
+});
+
+test("scanSubtree adds paired groups for decorative text-only content cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>TV guaranteed for every mood, and everyone</h2>
+        <h3>Included in your TV and Broadband package</h3>
+        <p>Find shows from Sky, Netflix, Discovery+, BBC and ITV.</p>
+        <ul>
+          <li><img alt=""><p>More of the UK's highest rated shows</p><p>Sky and Netflix in one simple subscription.</p></li>
+          <li><img alt=""><p>No dish, just plug and play</p><p>Stream straight to any TV over WiFi.</p></li>
+          <li><img alt=""><p>UK's fastest speeds</p><p>Speeds up to 5Gbps.</p></li>
+        </ul>
+        <div>
+          <div>
+            <div><img alt=""></div>
+            <div><img alt=""><span>Sky Atlantic has world class television and stories.</span></div>
+          </div>
+          <div>
+            <div><img alt=""></div>
+            <div><img alt=""><span>Netflix shows are included. Bring your profile or create a new one.</span></div>
+          </div>
+          <div>
+            <div><img alt=""></div>
+            <div><img alt=""><span>Discovery+ has documentaries and reality shows on demand.</span></div>
+          </div>
+        </div>
+      </section>
+    `),
+    [
+      "heading level 2, TV guaranteed for every mood, and everyone",
+      "heading level 3, Included in your TV and Broadband package",
+      "Find shows from Sky, Netflix, Discovery+, BBC and ITV.",
+      "list 3 items",
+      "More of the UK's highest rated shows, 1 of 3",
+      "Sky and Netflix in one simple subscription.",
+      "No dish, just plug and play, 2 of 3",
+      "Stream straight to any TV over WiFi.",
+      "UK's fastest speeds, 3 of 3",
+      "Speeds up to 5Gbps.",
+      "end of list",
+      "group",
+      "group",
+      "Sky Atlantic has world class television and stories.",
+      "group",
+      "group",
+      "Netflix shows are included. Bring your profile or create a new one.",
+      "group",
+      "group",
+      "Discovery+ has documentaries and reality shows on demand.",
     ],
   );
 });
@@ -1635,7 +1765,7 @@ test("scanSubtree composes control names from image and text fragments in DOM or
   );
 });
 
-test("scanSubtree joins price containers with serialized aria-hidden duplicate price pieces", () => {
+test("scanSubtree splits price containers with serialized aria-hidden duplicate price pieces", () => {
   assert.deepEqual(
     scanHtml(`
       <div>
@@ -1649,6 +1779,32 @@ test("scanSubtree joins price containers with serialized aria-hidden duplicate p
       </div>
     `),
     ["From £24 /month Prices may change during 24 month minimum term."],
+  );
+});
+
+test("scanSubtree splits rich price disclosure clusters into VoiceOver leaf stops", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <div>
+          <div>
+            <span>£41 /month</span>
+            <div aria-hidden="true"><span>£41</span><span>/month</span></div>
+          </div>
+        </div>
+        <div><span><span>Prices may change during 24 month minimum term.</span></span></div>
+        <div>
+          <span>No upfront fees</span>
+          <div><span>Claim up to £300 switching credit</span></div>
+        </div>
+      </div>
+    `),
+    [
+      "£41 /month",
+      "Prices may change during 24 month minimum term.",
+      "No upfront fees",
+      "Claim up to £300 switching credit",
+    ],
   );
 });
 

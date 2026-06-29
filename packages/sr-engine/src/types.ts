@@ -85,11 +85,13 @@ export interface ElementDescriptor {
   leadingCarouselGroup?: boolean;
   trailingCarouselSlideGroups?: boolean;
   leadingStandaloneCardGroup?: boolean;
+  leadingDecorativeTextCardGroups?: boolean;
   splitLabelStop?: boolean;
   footerCountrySelector?: boolean;
   inlineEmphasisListItemFragments?: string[];
   inlineEmphasisTextFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];
+  priceDisclosureFragments?: string[];
   richProductCardFeatureRowFragments?: string[];
   complexColumnHeaderContextText?: string;
   complexColumnHeaderColorGroupText?: string;
