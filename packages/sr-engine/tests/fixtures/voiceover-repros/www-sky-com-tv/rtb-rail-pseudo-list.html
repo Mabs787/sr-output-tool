@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sky TV rail pseudo-list repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        padding: 24px 0;
+      }
+
+      .rail__Wrapper-sc-vahzlm-0 {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .track__Element-sc-lslsgj-0 {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        padding: 20px 16px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .items__Element-sc-twijxe-0 {
+        align-items: center;
+        column-gap: 20px;
+        display: inline-grid;
+        grid-template-columns: repeat(3, 1fr);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: fit-content;
+      }
+
+      @media (min-width: 320px) {
+        .items__Element-sc-twijxe-0::before,
+        .items__Element-sc-twijxe-0::after {
+          content: "";
+          width: calc(((100vw - 320px - var(--rail-scrollbar-width, 0)) / 2) - 0px);
+        }
+
+        .items__Element-sc-twijxe-0 {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
+      .item__Element-sc-1sn8hdi-0 {
+        height: 100%;
+        scroll-snap-align: start;
+        width: 240px;
+      }
+
+      .item__Element-sc-1sn8hdi-0 > * {
+        user-select: none;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      img {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section data-test-id="rtb-rail-section">
+        <div data-skyui-core="Rail@13.1.1" class="rail__Wrapper-sc-vahzlm-0 kCDsxF">
+          <div class="rail__RailHeader-sc-vahzlm-1 fcowUp">
+            <h2>TV's easy with Sky</h2>
+            <button aria-label="Previous slide" disabled></button>
+            <button aria-label="Next slide"></button>
+          </div>
+          <div role="group" tabindex="0" class="track__Element-sc-lslsgj-0 byuhvZ" data-drag-to-scroll="drag-scroll">
+            <ul class="items__Element-sc-twijxe-0 kiGvcW">
+              <li tabindex="0" class="item__Element-sc-1sn8hdi-0 eWeuZD">
+                <div class="card">
+                  <img alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">
+                  <div>
+                    <p>Forget app hopping</p>
+                    <p>Search across your apps in one place. Spend less time app hopping and more time watching.</p>
+                  </div>
+                </div>
+              </li>
+              <li tabindex="0" class="item__Element-sc-1sn8hdi-0 eWeuZD">
+                <div class="card">
+                  <img alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">
+                  <div>
+                    <p>Never miss a moment</p>
+                    <p>Forgot to record? Your favourite shows are ready and waiting.</p>
+                  </div>
+                </div>
+              </li>
+              <li tabindex="0" class="item__Element-sc-1sn8hdi-0 eWeuZD">
+                <div class="card">
+                  <img alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">
+                  <div>
+                    <p>Feel powerful with voice control</p>
+                    <p>Get to the content you love even faster. Use your voice to search shows, genres and even actors.</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

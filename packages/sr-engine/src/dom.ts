@@ -1448,6 +1448,80 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return { listItem, list, siblings };
   }
 
+  function generatedPseudoCollectionSide(el: any, side: "before" | "after"): boolean {
+    const attr =
+      el?.getAttribute?.(`data-sr-pseudo-${side}-layout-item`) ??
+      el?.getAttribute?.(`data-sr-pseudo-${side}`);
+    if (attr === "collection-item") return true;
+    if (attr === "true") return true;
+    if (attr === "none") return false;
+    if (attr === "false") return false;
+
+    if (typeof getComputedStyle !== "function") return false;
+    if (/\bjsdom\b/i.test(el?.ownerDocument?.defaultView?.navigator?.userAgent || "")) {
+      return false;
+    }
+    try {
+      const pseudo = getComputedStyle(el, `::${side}`);
+      const content = normalize(pseudo?.content);
+      if (!content || content === "none" || content === "normal") return false;
+      if (
+        pseudo.display === "none" ||
+        pseudo.display === "contents" ||
+        pseudo.visibility === "hidden" ||
+        pseudo.position === "absolute" ||
+        pseudo.position === "fixed"
+      ) {
+        return false;
+      }
+
+      const display = normalize(getComputedStyle(el).display) || "";
+      if (!/^(inline-)?(grid|flex)$/.test(display)) return false;
+
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function generatedPseudoCollectionPadding(list: any) {
+    if (
+      !list ||
+      (!["ul", "ol"].includes(list.tagName?.toLowerCase()) &&
+        !["list", "grid"].includes(implicitRole(list) || ""))
+    ) {
+      return { before: 0, after: 0 };
+    }
+    return {
+      before: generatedPseudoCollectionSide(list, "before") ? 1 : 0,
+      after: generatedPseudoCollectionSide(list, "after") ? 1 : 0,
+    };
+  }
+
+  function shouldApplyGeneratedPseudoCollectionPadding(el: any, role: string): boolean {
+    return role === "group" && isFocusableStructuredListItemGroup(el);
+  }
+
+  function adjustedListPosition(index: number, list: any, el: any, role: string): number {
+    const padding = shouldApplyGeneratedPseudoCollectionPadding(el, role)
+      ? generatedPseudoCollectionPadding(list)
+      : { before: 0 };
+    return index + 1 + padding.before;
+  }
+
+  function adjustedListSetSize(
+    siblings: any[],
+    list: any,
+    el: any,
+    role: string,
+  ): number | undefined {
+    if (!shouldApplyGeneratedPseudoCollectionPadding(el, role)) {
+      return siblings.length || undefined;
+    }
+    const padding = generatedPseudoCollectionPadding(list);
+    return siblings.length + padding.before + padding.after || undefined;
+  }
+
   function listLevel(el: any): number | undefined {
     let depth = 1;
     for (let current = el.parentElement; current; current = current.parentElement) {
@@ -1603,7 +1677,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (listPositionedRoles.has(role)) {
-      const { listItem, siblings } = semanticListContext(el);
+      const { listItem, list, siblings } = semanticListContext(el);
       if (
         role === "button" &&
         listItem &&
@@ -1614,7 +1688,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return undefined;
       }
       const index = siblings.indexOf(listItem);
-      return index >= 0 ? index + 1 : undefined;
+      return index >= 0 ? adjustedListPosition(index, list, el, role) : undefined;
     }
 
     return undefined;
@@ -1655,8 +1729,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
     if (listPositionedRoles.has(role)) {
-      const { siblings } = semanticListContext(el);
-      return siblings.length || undefined;
+      const { list, siblings } = semanticListContext(el);
+      return adjustedListSetSize(siblings, list, el, role);
     }
     if (role === "paragraph" && isFirstInteractiveListBodyText(el)) {
       const { siblings } = semanticListContext(el);

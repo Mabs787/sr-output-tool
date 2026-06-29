@@ -2088,6 +2088,60 @@
           const siblings = list ? listChildren(list) : [];
           return { listItem, list, siblings };
         }
+        function generatedPseudoCollectionSide(el, side) {
+          const attr = el?.getAttribute?.(`data-sr-pseudo-${side}-layout-item`) ?? el?.getAttribute?.(`data-sr-pseudo-${side}`);
+          if (attr === "collection-item")
+            return true;
+          if (attr === "true")
+            return true;
+          if (attr === "none")
+            return false;
+          if (attr === "false")
+            return false;
+          if (typeof getComputedStyle !== "function")
+            return false;
+          if (/\bjsdom\b/i.test(el?.ownerDocument?.defaultView?.navigator?.userAgent || "")) {
+            return false;
+          }
+          try {
+            const pseudo = getComputedStyle(el, `::${side}`);
+            const content = normalize(pseudo?.content);
+            if (!content || content === "none" || content === "normal")
+              return false;
+            if (pseudo.display === "none" || pseudo.display === "contents" || pseudo.visibility === "hidden" || pseudo.position === "absolute" || pseudo.position === "fixed") {
+              return false;
+            }
+            const display = normalize(getComputedStyle(el).display) || "";
+            if (!/^(inline-)?(grid|flex)$/.test(display))
+              return false;
+            return true;
+          } catch {
+            return false;
+          }
+        }
+        function generatedPseudoCollectionPadding(list) {
+          if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase()) && !["list", "grid"].includes(implicitRole(list) || "")) {
+            return { before: 0, after: 0 };
+          }
+          return {
+            before: generatedPseudoCollectionSide(list, "before") ? 1 : 0,
+            after: generatedPseudoCollectionSide(list, "after") ? 1 : 0
+          };
+        }
+        function shouldApplyGeneratedPseudoCollectionPadding(el, role) {
+          return role === "group" && isFocusableStructuredListItemGroup(el);
+        }
+        function adjustedListPosition(index, list, el, role) {
+          const padding = shouldApplyGeneratedPseudoCollectionPadding(el, role) ? generatedPseudoCollectionPadding(list) : { before: 0 };
+          return index + 1 + padding.before;
+        }
+        function adjustedListSetSize(siblings, list, el, role) {
+          if (!shouldApplyGeneratedPseudoCollectionPadding(el, role)) {
+            return siblings.length || void 0;
+          }
+          const padding = generatedPseudoCollectionPadding(list);
+          return siblings.length + padding.before + padding.after || void 0;
+        }
         function listLevel(el) {
           let depth = 1;
           for (let current = el.parentElement; current; current = current.parentElement) {
@@ -2193,12 +2247,12 @@
             return index >= 0 ? index + 1 : void 0;
           }
           if (listPositionedRoles.has(role)) {
-            const { listItem, siblings } = semanticListContext(el);
+            const { listItem, list, siblings } = semanticListContext(el);
             if (role === "button" && listItem && Array.from(listItem.querySelectorAll("a[href], [role='link']")).some((link) => !isHidden(link) && !link.contains(el) && !el.contains(link))) {
               return void 0;
             }
             const index = siblings.indexOf(listItem);
-            return index >= 0 ? index + 1 : void 0;
+            return index >= 0 ? adjustedListPosition(index, list, el, role) : void 0;
           }
           return void 0;
         }
@@ -2231,8 +2285,8 @@
             return void 0;
           }
           if (listPositionedRoles.has(role)) {
-            const { siblings } = semanticListContext(el);
-            return siblings.length || void 0;
+            const { list, siblings } = semanticListContext(el);
+            return adjustedListSetSize(siblings, list, el, role);
           }
           if (role === "paragraph" && isFirstInteractiveListBodyText(el)) {
             const { siblings } = semanticListContext(el);

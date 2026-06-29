@@ -1914,6 +1914,60 @@ test("scanSubtree announces focusable structured list items as grouped cards", (
   );
 });
 
+test("scanSubtree accounts for generated rail pseudo-items in grouped card positions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul data-sr-pseudo-before-layout-item="true" data-sr-pseudo-after-layout-item="true">
+        <li tabindex="0">
+          <div>
+            <img alt="">
+            <p>Forget app hopping</p>
+            <p>Search across your apps in one place. Spend less time app hopping and more time watching.</p>
+          </div>
+        </li>
+        <li tabindex="0">
+          <div>
+            <h3>Sky Sports</h3>
+            <p>All 9 dedicated sports channels, including Premier League, F1 and more. Includes Sky Sports+</p>
+            <a href="/sports">Learn more</a>
+          </div>
+        </li>
+        <li tabindex="0">
+          <div>
+            <h3>Sky Cinema</h3>
+            <p>Includes 2 Vue Cinema tickets every month and Paramount+ at no extra cost</p>
+            <a href="/cinema">Learn More</a>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 3 items",
+      "Forget app hopping Search across your apps in one place. Spend less time app hopping and more time watching., group, (2 of 5)",
+      "Sky Sports All 9 dedicated sports channels, including Premier League, F1 and more. Includes Sky Sports+ Learn more, group, (3 of 5)",
+      "Sky Cinema Includes 2 Vue Cinema tickets every month and Paramount+ at no extra cost Learn More, group, (4 of 5)",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree does not apply generated pseudo-items to ordinary list link positions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul data-sr-pseudo-before-layout-item="true" data-sr-pseudo-after-layout-item="true">
+        <li><a href="/one">One</a></li>
+        <li><a href="/two">Two</a></li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "link, One, 1 of 2",
+      "link, Two, 2 of 2",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree includes ARIA tabs and visible tab panel list cards", () => {
   assert.deepEqual(
     scanHtml(`
