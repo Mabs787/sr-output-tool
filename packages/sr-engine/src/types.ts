@@ -23,6 +23,7 @@ export interface ElementDescriptor {
   valueText?: string;
   level?: number;
   headingFragments?: string[];
+  headingFragmentCount?: number;
   setSize?: number;
   positionInSet?: number;
   parentSetSize?: number;

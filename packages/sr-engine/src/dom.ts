@@ -1523,6 +1523,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function listLevel(el: any): number | undefined {
+    if (groupedListItemCardContainerFor(el)) return undefined;
     let depth = 1;
     for (let current = el.parentElement; current; current = current.parentElement) {
       if (implicitRole(current) === "list") depth += 1;
@@ -1532,6 +1533,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function parentListPosition(el: any) {
     if (implicitRole(el) !== "list") {
+      return {};
+    }
+    if (groupedListItemCardContainerFor(el)) {
       return {};
     }
 
@@ -1619,7 +1623,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return index >= 0 ? index + 1 : undefined;
     }
 
-    if (role === "text" && isFirstRichProductCardTextFragment(el)) {
+    if (
+      role === "text" &&
+      isFirstRichProductCardTextFragment(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
@@ -1652,7 +1660,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
-    if (role === "paragraph" && isFirstInteractiveListBodyText(el)) {
+    if (
+      role === "paragraph" &&
+      isFirstInteractiveListBodyText(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
@@ -1664,13 +1676,21 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return index >= 0 ? index + 1 : undefined;
     }
 
-    if (role === "paragraph" && isFirstRichProductCardParagraph(el)) {
+    if (
+      role === "paragraph" &&
+      isFirstRichProductCardParagraph(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
     }
 
-    if (role === "paragraph" && isRichProductCardOfferBanner(el)) {
+    if (
+      role === "paragraph" &&
+      isRichProductCardOfferBanner(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { listItem, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? index + 1 : undefined;
@@ -1732,7 +1752,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const { list, siblings } = semanticListContext(el);
       return adjustedListSetSize(siblings, list, el, role);
     }
-    if (role === "paragraph" && isFirstInteractiveListBodyText(el)) {
+    if (
+      role === "paragraph" &&
+      isFirstInteractiveListBodyText(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
@@ -1740,15 +1764,27 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
-    if (role === "paragraph" && isFirstRichProductCardParagraph(el)) {
+    if (
+      role === "paragraph" &&
+      isFirstRichProductCardParagraph(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
-    if (role === "paragraph" && isRichProductCardOfferBanner(el)) {
+    if (
+      role === "paragraph" &&
+      isRichProductCardOfferBanner(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
-    if (role === "text" && isFirstRichProductCardTextFragment(el)) {
+    if (
+      role === "text" &&
+      isFirstRichProductCardTextFragment(el) &&
+      !suppressGroupedListItemCardDescendantPosition(el, role)
+    ) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
@@ -1957,6 +1993,49 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "img[alt=''], img[role='presentation'], svg[aria-hidden='true'], [role='presentation']",
       ),
     );
+  }
+
+  function nextVisibleElementSibling(el: any): any | null {
+    for (let sibling = el?.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+      if (!isHidden(sibling)) return sibling;
+    }
+    return null;
+  }
+
+  function previousVisibleElementSibling(el: any): any | null {
+    for (let sibling = el?.previousElementSibling; sibling; sibling = sibling.previousElementSibling) {
+      if (!isHidden(sibling)) return sibling;
+    }
+    return null;
+  }
+
+  function hasOnlyNativeLinkControls(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const controls = Array.from(el.querySelectorAll(interactiveSelector)).filter(
+      (control: any) => !isHidden(control),
+    );
+    if (!controls.length) return false;
+    return controls.every(
+      (control: any) =>
+        control.tagName?.toLowerCase() === "a" && control.hasAttribute("href"),
+    );
+  }
+
+  function isDecorativeRoleGroupBeforeNativeLinks(el: any, role = implicitRole(el)): boolean {
+    if (role !== "group") return false;
+    if (el.getAttribute("role") !== "group") return false;
+    if (accessibleName(el, role) || readableText(el)) return false;
+    if (el.matches(interactiveSelector)) return false;
+    const tabIndex = Number.parseInt(el.getAttribute("tabindex") || "", 10);
+    if (Number.isFinite(tabIndex) && tabIndex >= 0) return false;
+    if (!isDecorativeMediaOnlyContainer(el)) return false;
+
+    const previous = previousVisibleElementSibling(el);
+    if (!previous || !readableText(previous) || previous.querySelector(interactiveSelector)) {
+      return false;
+    }
+
+    return hasOnlyNativeLinkControls(nextVisibleElementSibling(el));
   }
 
   function standaloneContentCardHeading(el: any, minimumLevel = 2): any {
@@ -2439,6 +2518,32 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       isRichProductCardFeatureRow(paragraph, true),
     );
     return labelledImages.length >= 3 && featureRows.length >= 2;
+  }
+
+  function groupedListItemCardContainerFor(el: any): any | undefined {
+    const listItem = el?.closest?.("li,[role='listitem']");
+    if (!isListItem(listItem)) return undefined;
+
+    for (let current = el.parentElement; current && current !== listItem; current = current.parentElement) {
+      if (
+        current.parentElement === listItem &&
+        implicitRole(current) === "group" &&
+        accessibleName(current, "group") &&
+        current.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']") &&
+        current.querySelector("ul, ol, dl, [role='list']") &&
+        current.querySelector(interactiveSelector) &&
+        current.contains(el)
+      ) {
+        return current;
+      }
+    }
+
+    return undefined;
+  }
+
+  function suppressGroupedListItemCardDescendantPosition(el: any, role: string): boolean {
+    if (!["paragraph", "text"].includes(role)) return false;
+    return Boolean(groupedListItemCardContainerFor(el));
   }
 
   function isRichProductCardFeatureRow(el: any, skipCardCheck = false): boolean {
@@ -3174,6 +3279,58 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments.length > 1 ? fragments : undefined;
   }
 
+  function parenthesizedBoundaryPartCount(el: any): number | undefined {
+    const text = normalize(readableText(el));
+    if (!text || !/^\(.+\)$/.test(text)) return undefined;
+
+    const visibleElementChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child) && Boolean(readableText(child)),
+    );
+    if (!directOwnText(el) && visibleElementChildren.length === 1) {
+      const child = visibleElementChildren[0];
+      const childText = normalize(readableText(child));
+      if (childText === text) {
+        return parenthesizedBoundaryPartCount(child) || 3;
+      }
+    }
+
+    const parts: string[] = [];
+    let hasBoundarySeparator = false;
+    for (const child of Array.from(el.childNodes || [])) {
+      if (child.nodeType === Node.COMMENT_NODE) {
+        hasBoundarySeparator = true;
+        continue;
+      }
+      if (child.nodeType === Node.TEXT_NODE) {
+        const fragment = normalize(child.textContent);
+        if (fragment) parts.push(fragment);
+        continue;
+      }
+      if (child.nodeType === Node.ELEMENT_NODE && !isHidden(child)) {
+        const fragment = normalize(readableText(child));
+        if (fragment) parts.push(fragment);
+      }
+    }
+
+    if (parts.length < 3 || !hasBoundarySeparator) return undefined;
+    return normalize(parts.join("")) === text ? parts.length : undefined;
+  }
+
+  function directHeadingFragmentCount(el: any, fragments?: string[]): number | undefined {
+    if (!fragments || fragments.length < 2) return undefined;
+
+    const visibleChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child) && Boolean(readableText(child)),
+    );
+    if (visibleChildren.length !== fragments.length) return undefined;
+
+    const count = visibleChildren.reduce((total: number, child: any) => {
+      return total + (parenthesizedBoundaryPartCount(child) || 1);
+    }, 0);
+
+    return count > fragments.length ? count : undefined;
+  }
+
   function textBeforeFirstInlineInteractive(el: any): string | undefined {
     const fragments: string[] = [];
 
@@ -3373,6 +3530,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ? el.querySelector("button, [role='button']")
       : null;
     const headingLink = role === "heading" ? el.querySelector("a[href]") : null;
+    const headingFragments = role === "heading" ? directHeadingFragments(el) : undefined;
     const selectedListboxOption = singleSelectedListboxOption(el);
     const suppressPositionedChoiceGroup =
       role === "button" &&
@@ -3486,7 +3644,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       headingButton: Boolean(headingButton) || undefined,
       headingLink: Boolean(headingLink) || undefined,
       linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : undefined,
-      headingFragments: directHeadingFragments(el),
+      headingFragments,
+      headingFragmentCount: directHeadingFragmentCount(el, headingFragments),
       iconOnlyLink: role === "link" && isIconOnlyLink(el) || undefined,
       textlessCarouselPaginatorLink:
         role === "link" && isTextlessCarouselPaginatorLink(el) || undefined,
@@ -3603,6 +3762,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "group" && isButtonShellGroup(el)) ||
         (role === "group" && isFocusableImageListItem(el)) ||
         (role === "group" && isFocusableStructuredListItemGroup(el)) ||
+        (role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el)) ||
         (role === "group" &&
           isCustomElement(el) &&
           hasShadowRootContent(el) &&
@@ -3687,6 +3847,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    const decorativeRoleGroupBeforeNativeLinks =
+      isDecorativeRoleGroupBeforeNativeLinks(el, role);
+
     if (role === "listitem" && hasOnlyInteractiveListItemContent(el)) {
       return false;
     }
@@ -3713,6 +3876,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !accessibleName(el, role) &&
       !readableText(el) &&
       !hasVisibleInteractiveDescendant(el) &&
+      !decorativeRoleGroupBeforeNativeLinks &&
       !(role === "list" && announcedListChildren(el).length)
     ) {
       return false;
@@ -3787,6 +3951,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !el.matches(interactiveSelector) &&
       !isButtonShellClusterGroup(el) &&
       !isButtonShellGroup(el) &&
+      !decorativeRoleGroupBeforeNativeLinks &&
       !(isCustomElement(el) && hasShadowRootContent(el))
     ) {
       return false;

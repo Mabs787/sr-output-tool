@@ -124,7 +124,7 @@
     },
     "www-sky-com-tvandbroadband": {
       "status": "candidate",
-      "reason": "Restored fixture-audit snapshot shows current compare is 351 expected, 309 actual, and 48 mismatch windows. Remaining page-backed gaps include hero/CTA group announcements, product-card grouped text, carousel/package ordering, and list/marker segmentation; keep as candidate evidence rather than an exact gate."
+      "reason": "Current compare is 351 expected, 309 actual, and 21 mismatch windows after the Phase D engine pass. Package-card list-marker/position and heading-fragment-count families are resolved; remaining page-backed gaps are the hero CTA group semantic mismatch, package-card price/disclosure boundaries, and the included-content standalone group-stop scanner-evidence family. Keep as candidate evidence rather than an exact gate."
     },
     "www-sky-com-watch-what-to-watch-this-week": {
       "status": "refined",

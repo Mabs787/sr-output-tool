@@ -76,6 +76,9 @@ VoiceOver split aligns with generic DOM boundaries such as:
 - block or markdown-rendered fragments: `p`, `div`, `span`
 - list marker text or generated marker-like text
 - hidden/visually-hidden text that explains extra or missing words
+- parenthesized heading counters or count badges whose DOM/comment/text-node
+  boundaries explain VoiceOver-style fragments such as
+  `level 1 (, level 1 9, level 1), level 1, 4 items`
 
 If the lookup is missing, send the target back to Phase B or record a
 `scanner-evidence-gap`. Do not call a text split flaky until the relevant

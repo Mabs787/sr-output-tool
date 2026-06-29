@@ -67,6 +67,10 @@ Common reusable patterns to check:
 - expanded disclosure or accordion regions whose body descendants are present in HTML/source evidence but missing from current traversal
 - native tables where VoiceOver synthesizes context from generic structure, such as direct grouped `thead` controller buttons paired with controlled `tbody` regions, even when the synthesized phrase is not present in one AX name
 - text segmentation caused by generic DOM boundaries such as inline emphasis (`strong`, `b`, `em`, `i`), `br`, markdown-rendered fragments, or visible text-node/block boundaries
+- parenthesized heading counters or count badges whose nested text/comment
+  boundaries produce VoiceOver-style boundary fragments, for example
+  `level 1 (, level 1 9, level 1), level 1, 4 items` instead of normalized
+  `(9)` wording
 - announcement-format gaps where descriptor metadata is right but VoiceOver punctuation, position, or group wording differs
 
 If a prototype is too broad, reduce it to the evidence-backed focused-node

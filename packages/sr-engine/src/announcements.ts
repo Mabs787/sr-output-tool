@@ -187,7 +187,11 @@ function pushSupplementalText(parts: string[], el: ElementDescriptor): void {
   }
 }
 
-function formatHeadingFragments(level: number, fragments?: string[]): string | undefined {
+function formatHeadingFragments(
+  level: number,
+  fragments?: string[],
+  fragmentCount?: number,
+): string | undefined {
   const normalizedFragments = fragments
     ?.map((fragment) => normalizeText(fragment))
     .filter((fragment): fragment is string => Boolean(fragment));
@@ -196,16 +200,35 @@ function formatHeadingFragments(level: number, fragments?: string[]): string | u
     return undefined;
   }
 
+  const itemCount = fragmentCount && fragmentCount > normalizedFragments.length
+    ? fragmentCount
+    : normalizedFragments.length;
+
   if (level === 1) {
-    return `heading level ${level} ${normalizedFragments.join(" ")}, ${normalizedFragments.length} items`;
+    return `heading level ${level} ${normalizedFragments.join(" ")}, ${itemCount} items`;
   }
 
   const [firstFragment, ...nestedFragments] = normalizedFragments;
   const nestedLevel = Math.max(1, level - 1);
+  const shouldExpandBoundaryFragments =
+    Boolean(fragmentCount && fragmentCount > normalizedFragments.length);
+  const nestedAnnouncements = nestedFragments.flatMap((fragment) => {
+    const parenthesized = shouldExpandBoundaryFragments
+      ? fragment.match(/^\((.+)\)$/)
+      : undefined;
+    if (!parenthesized) {
+      return [`level ${nestedLevel} ${fragment}`];
+    }
+    return [
+      `level ${nestedLevel} (`,
+      `level ${nestedLevel} ${parenthesized[1]}`,
+      `level ${nestedLevel})`,
+    ];
+  });
   return [
     `heading level ${level} ${firstFragment}`,
-    ...nestedFragments.map((fragment) => `level ${nestedLevel} ${fragment}`),
-    `level ${nestedLevel}, ${normalizedFragments.length} items`,
+    ...nestedAnnouncements,
+    `level ${nestedLevel}, ${itemCount} items`,
   ].join(", ");
 }
 
@@ -242,7 +265,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       const headingWithFragments =
         el.headingLink || el.headingButton
           ? formatInteractiveHeadingFragments(el.headingFragments)
-          : formatHeadingFragments(level, el.headingFragments);
+          : formatHeadingFragments(level, el.headingFragments, el.headingFragmentCount);
       const headingLabel = headingWithFragments ?? label;
       if (headingWithFragments && !el.headingLink && !el.headingButton) {
         parts.push(headingWithFragments);

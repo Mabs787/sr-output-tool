@@ -1344,6 +1344,132 @@ test("scanSubtree adds post-heading groups for h2 cards with leading decorative 
   );
 });
 
+test("scanSubtree announces explicit decorative role groups before native link actions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>TV &amp; Broadband Packages</h1>
+        <div>
+          <span>Get Sky TV with fast broadband for seamless streaming.</span>
+        </div>
+        <div role="group">
+          <div><img alt=""></div>
+        </div>
+        <div>
+          <a href="/build">Build your package</a>
+          <a href="/deals">See all deals</a>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 1, TV & Broadband Packages",
+      "Get Sky TV with fast broadband for seamless streaming.",
+      "group",
+      "link, Build your package",
+      "link, See all deals",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>TV &amp; Broadband Packages</h1>
+        <div>
+          <span>Get Sky TV with fast broadband for seamless streaming.</span>
+        </div>
+        <div>
+          <div><img alt=""></div>
+        </div>
+        <div>
+          <a href="/build">Build your package</a>
+          <a href="/deals">See all deals</a>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 1, TV & Broadband Packages",
+      "Get Sky TV with fast broadband for seamless streaming.",
+      "link, Build your package",
+      "link, See all deals",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree suppresses outer list metadata inside grouped list-item cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <div aria-labelledby="package-a-heading">
+            <div><span>Best value package</span></div>
+            <h2 id="package-a-heading">Package A</h2>
+            <ul><li><button>Feature A</button></li></ul>
+            <ul><li>Advanced hub</li></ul>
+          </div>
+        </li>
+        <li>
+          <div aria-labelledby="package-b-heading">
+            <div><span>Streaming package</span></div>
+            <h2 id="package-b-heading">Package B</h2>
+            <ul><li><button>Feature B</button></li></ul>
+          </div>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "Package A, group, 1 of 2",
+      "Best value package",
+      "heading level 2, Package A, 1 of 2",
+      "list 1 item",
+      "Feature A, button",
+      "end of list",
+      "list 1 item",
+      "Advanced hub",
+      "end of list",
+      "end of, Package A, group",
+      "Package B, group, 2 of 2",
+      "Streaming package",
+      "heading level 2, Package B, 2 of 2",
+      "list 1 item",
+      "Feature B, button",
+      "end of list",
+      "end of, Package B, group",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree counts parenthesized heading child boundary fragments without splitting visible text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <h2>
+        <span>TV &amp; Broadband Packages</span>
+        <span>(<!-- -->9<!-- -->)</span>
+      </h2>
+    `),
+    [
+      "heading level 2 TV & Broadband Packages, level 1 (, level 1 9, level 1), level 1, 4 items",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <h2>
+        <span>TV &amp; Broadband Packages</span>
+        <span><span>(9)</span></span>
+      </h2>
+    `),
+    [
+      "heading level 2 TV & Broadband Packages, level 1 (, level 1 9, level 1), level 1, 4 items",
+    ],
+  );
+});
+
 test("scanSubtree adds leading groups for standalone h3 content cards", () => {
   assert.deepEqual(
     scanHtml(`

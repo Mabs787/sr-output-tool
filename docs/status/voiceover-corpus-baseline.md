@@ -50,13 +50,15 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 - `www-sky-com-glass-43-inch`
 - `www-sky-com-glass-air` - current compare is 257 expected, 265 actual, and 11 mismatch windows; keep as candidate until the color/price, hero/carousel, table, and tab-panel boundaries are resolved or reclassified.
 - `www-sky-com-shop-mobile`
-- `www-sky-com-tvandbroadband`
+- `www-sky-com-tvandbroadband` - current compare is 351 expected, 309 actual, and 21 mismatch windows; package-card list-marker/position and heading-fragment-count families are resolved, while the hero CTA group semantic mismatch, package-card price/disclosure boundaries, and included-content group stops remain candidate-only.
 - `www-sky-com-watch`
 - `www-tesco-com`
 - `www-w3-org-wai`
 - `www-w3-org-wai-standards-guidelines-wcag`
 
 The Sky candidates listed here have completed Phase B evidence review. A 2026-06-28 fixture-trust audit restored several refined-output edits that could have hidden true VoiceOver output, so remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating. See `docs/status/sky-refinement-status.md`.
+
+`www-sky-com-tvandbroadband` was refreshed from successful scan `28305378853` on 2026-06-28 and reviewed through Phase B/C/D/E. OCR/source-backed fixture repairs were applied, and hover-open navigation submenu announcements were later removed because the fixture replays the initial non-hover DOM state. The current compare is 351 expected, 309 actual, and 21 mismatch windows. Phase D resolved package-card list-marker/position and parenthesized heading-fragment families. Remaining candidate-only gaps are the hero CTA group semantic mismatch, package-card price/disclosure boundaries, and the included-content standalone group-stop scanner-evidence family. The target remains candidate.
 
 `business-sky-com-s` was refreshed from successful scan `28305378853` on 2026-06-28 and reviewed through Phase B/C/D/E. OCR/source-backed fixture repairs were applied, and hover-open navigation submenu announcements were later removed because the fixture replays the initial non-hover DOM state. The current compare is 193 expected, 233 actual, and 31 mismatch windows. Rich package-card decomposition/list counting is now fixed, while unresolved trusted initial-DOM families still cover carousel/list-position, wrapper groups, legal/tail traversal, selected-state/text-boundary evidence, and timer volatility. The target remains candidate.
 

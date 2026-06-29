@@ -63,6 +63,11 @@ For each audited announcement or range:
    - explicit line or block boundaries: `br`, `p`, `div`, `span`, list marker text, or markdown-rendered fragments
    - hidden/offscreen or visually-hidden text near the disputed words
    - text-node boundaries inside the focused element's direct/relevant `outerHTML`
+   - parenthesized heading counters or count badges, such as
+     `<h2><span>Title</span><span>(<!-- -->9<!-- -->)</span></h2>`,
+     which VoiceOver may expand into boundary fragments like
+     `level 1 (, level 1 9, level 1), level 1, 4 items` rather than a
+     normalized `(9)` phrase
 6. For structural mismatches where VoiceOver announces one object but the engine decomposes children, build a focused-node contract before deciding:
    - focused/active DOM node tag, `data-sr-dom-node-id`, `tabindex`, role, ARIA attributes, and direct/relevant `outerHTML`
    - nearest semantic ancestor chain from the disputed node to the scan root, including `ul`/`ol`, `li`/`role=listitem`, landmarks, articles, groups, tables, and custom-element/shadow-root boundaries
