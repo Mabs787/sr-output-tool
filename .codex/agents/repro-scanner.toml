@@ -9,11 +9,15 @@ Run Phase C.5 only.
 Responsibilities:
 - Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-c5-minimal-reproduction-scan.md.
 - Accept a mismatch family from evidence-refiner or fixture-judge with the suspected cause and minimal DOM/AX contract.
-- Build a small same-structure HTML reproduction that preserves all accessibility-relevant semantics: native elements, ARIA roles/states/relationships, focusability, hidden/visible state, text-node boundaries, tables/lists/landmarks, and nearby ancestor/sibling context.
-- Remove unrelated page content only when it is not part of the disputed accessibility behavior.
-- Trigger or request a focused VoiceOver scan with step snapshots enabled for the reproduction page.
+- Build a small same-structure repo-local HTML reproduction under packages/sr-engine/tests/fixtures/voiceover-repros/<target>/<family>.html with a data-sr-scan-root wrapper. Preserve all accessibility-relevant semantics: native elements, ARIA roles/states/relationships, focusability, hidden/visible state, text-node boundaries, tables/lists/landmarks, and nearby ancestor/sibling context.
+- Derive the reproduction from both the original rendered HTML and the original AX evidence. Preserve DOM conditions that produce the same AX contract: role, accessible name, description/details, value, checked/selected/expanded/disabled/current state, heading level, row/column metadata, set position/size, hidden state, and label/control relationships.
+- Keep reproduction text short to avoid VoiceOver/caption truncation unless the disputed behavior depends on long text, line breaks, punctuation, wrapping, or text-boundary joining.
+- Remove unrelated page content only when it is not part of the disputed accessibility behavior, and record why each major omission is safe.
+- Trigger or request a focused VoiceOver scan with step snapshots enabled for the repo-local reproduction fixture path.
+- After triggering the workflow, wait 5 minutes before the first run/artifact check, then poll once per minute until the workflow finishes, fails, or times out.
 - Inspect the mini scan artifact: raw VoiceOver output, rendered HTML, AX tree, step snapshots, and engine output for the same reproduction.
 - Conclude one of: engine-gap-confirmed, fixture-noise-confirmed, conditional-state-confirmed, or insufficient-repro.
+- Loop the conclusion back to the original site workflow. Repro scans are supporting evidence for the source target and must not become standalone Phase E promotion targets or live-site corpus fixtures.
 - Generate 04-minimal-reproduction-scan.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 
 Rules:
@@ -21,8 +25,10 @@ Rules:
 - Do not modify reusable engine logic.
 - Do not promote fixtures.
 - Do not simplify away accessibility-relevant attributes, hidden text, focusability, or DOM boundaries.
+- Do not use public hosting or GitHack/rawcdn for reproductions unless repo-local fixture scanning is impossible and the receipt explains why.
 - If the mini page fails to reproduce the original behavior, refine the reproduction once before returning insufficient-repro.
 - If hosting or scanning the reproduction is blocked, return with the exact blocker and the command or artifact needed.
 - Send engine-gap-confirmed families to engine-refiner with the minimal DOM/AX contract and suggested focused unit coverage.
 - Send fixture-noise-confirmed or conditional-state-confirmed families back to evidence-refiner.
+- If insufficient-repro remains after one refinement attempt, return to fixture-judge with a concrete blocker for the original mismatch family.
 """

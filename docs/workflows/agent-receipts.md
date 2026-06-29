@@ -113,17 +113,25 @@ a named scan artifact or the run must stop before push.
 `04-minimal-reproduction-scan.json` must include:
 
 - mismatch family and source fixture/window indexes
+- original site target and requesting phase
 - original expected/refined/actual snippets
 - why the saved site evidence was insufficient
 - reproduction HTML path or URL
 - preserved DOM contract checklist
+- original AX contract copied into the reproduction, including source node ids
+  and relevant role/name/state/table/list/focusability values
+- content-shortening notes, including why shortened text cannot affect the
+  tested behavior or why long text had to be preserved
+- omitted page context and why it was safe to omit
 - scan workflow command, run id, and artifact path
+- wait/poll timeline, including the first 5-minute wait, subsequent 1-minute
+  polls, final run status, and artifact completeness
 - mini raw VoiceOver output
 - mini rendered HTML, AX, and step-snapshot evidence summary
 - mini engine output
 - conclusion: `engine-gap-confirmed`, `fixture-noise-confirmed`,
   `conditional-state-confirmed`, or `insufficient-repro`
-- next phase and handoff reason
+- loop-back target phase and handoff reason for the original site workflow
 
 `05-engine-refinement.json` must include:
 

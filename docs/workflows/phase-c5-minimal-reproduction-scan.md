@@ -7,6 +7,11 @@ engine rule based on one complex page.
 The goal is to turn uncertainty into new VoiceOver evidence by scanning a small
 same-structure page that preserves the accessibility-relevant DOM contract.
 
+Phase C.5 is a supporting evidence loop for the original site target. It is not
+a standalone site-refinement workflow and it must not promote the repro as a
+normal corpus fixture. Process the mini scan with the same evidence discipline
+as a site scan, then return the conclusion to the site phase that requested it.
+
 ## Agent
 
 Use `.codex/agents/repro-scanner.toml`.
@@ -32,7 +37,18 @@ VoiceOver/source evidence and saved HTML.
 
 ## Minimal Reproduction Requirements
 
-Create a small HTML page that preserves the disputed accessibility contract.
+Create a small repo-local HTML page that preserves the disputed accessibility
+contract. Start from the original mismatch window's rendered HTML, focused-node
+evidence, AX node, and nearby ancestor/sibling context. Then reduce the page
+only after you can explain why each removed node/attribute is irrelevant to the
+VoiceOver behavior being tested.
+
+The reproduction should be minimal, but it must be structurally equivalent for
+the disputed behavior. Prefer short, deterministic content such as "Plan A",
+"Feature", or "Buy now" to avoid caption/recording truncation. Keep long text
+only when the mismatch is specifically about truncation, text wrapping,
+line-breaks, punctuation, or text-boundary joining.
+
 The reproduction must keep:
 
 - native semantic elements: headings, buttons, links, lists, tables, rows,
@@ -52,11 +68,36 @@ The reproduction must keep:
 - ancestor and sibling context needed for synthesized VoiceOver context:
   nearest list/table/card/landmark/article/group ancestors, row/column header
   relationships, and preceding/following section boundaries
+- AX-derived values that explain the original output. You cannot hand-author
+  Chrome's AX tree, but the HTML must preserve the DOM conditions that produce
+  the same AX contract: role, name, description/details, value, checked/selected/
+  expanded/disabled/current state, level, row/column index/count, set position/
+  size, modal/live state, hidden state, and control/label relationships.
 - enough CSS to preserve visibility, hidden state, display type, and
   focusability. Avoid decorative CSS unless it affects accessibility.
 
 Remove unrelated ads, analytics, legal tails, images, scripts, and duplicate
 content unless they are part of the suspected behavior.
+
+Every reproduction file should live under:
+
+```text
+packages/sr-engine/tests/fixtures/voiceover-repros/<target>/<family>.html
+```
+
+Add a `data-sr-scan-root` wrapper around the reduced test surface so the runner
+and engine compare the intended content, not surrounding helper text.
+
+Keep these synthetic/minimal repro fixtures separate from captured site
+fixtures:
+
+- captured live-site fixtures: `packages/sr-engine/tests/fixtures/voiceover/`
+- synthetic Phase C.5 repro fixtures:
+  `packages/sr-engine/tests/fixtures/voiceover-repros/`
+
+Do not copy a mini repro into the live-site fixture directory. A mini repro is
+evidence about a focused DOM/AX contract, not a replacement for the captured
+page artifact.
 
 ## Scan Artifact
 
@@ -74,7 +115,7 @@ workflow invocation should include:
 ```bash
 gh workflow run "VoiceOver smoke" \
   --ref <branch> \
-  -f urls=docs/voiceover-repros/<target>/<family>.html \
+  -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/<target>/<family>.html \
   -f capture_step_snapshots=true \
   -f capture_step_screenshots=false \
   -f capture_screen_recording=false \
@@ -92,6 +133,13 @@ marker on full-site scans.
 
 ## Analysis
 
+After triggering the workflow, do not immediately assume failure if the run is
+not visible or complete. Wait 5 minutes before the first status/artifact check;
+after that, poll once per minute until the run completes, fails, or reaches the
+workflow timeout. Minimal examples should usually finish quickly, but this
+cadence keeps larger reproductions from being misclassified just because the
+runner was still starting VoiceOver.
+
 After the artifact is ready:
 
 1. Import or inspect the mini-scan artifact.
@@ -107,29 +155,52 @@ After the artifact is ready:
    - `insufficient-repro`: mini page failed to reproduce the original behavior
      or omitted required DOM/AX conditions
 
-When the mini scan confirms an engine gap, send the target to Phase D with the
-minimal DOM/AX contract and a focused unit-test sketch. When it confirms
-fixture noise or conditional state, send the target back to Phase B. When it is
-insufficient, refine the reproduction once before returning `scanner-evidence-gap`.
+## Loop Back
+
+The repro result must resolve an original site mismatch family, not create a
+new independent target. Record the original site target, original compare
+windows/indexes, and requesting phase in the receipt.
+
+Route the original site workflow as follows:
+
+- `engine-gap-confirmed`: return to the original site Phase D with the minimal
+  DOM/AX contract and a focused unit-test sketch.
+- `fixture-noise-confirmed`: return to the original site Phase B so the
+  evidence-refiner can make or reject a fixture edit with receipt coverage.
+- `conditional-state-confirmed`: return to the original site Phase B to remove,
+  normalize, or classify the step-only output against the initial DOM fixture.
+- `insufficient-repro`: refine the reproduction once and rerun C.5. If it still
+  cannot reproduce the behavior, return to Phase C with a concrete blocker and
+  classify the original family as `scanner-evidence-gap`.
+
+Do not send a repro fixture to Phase E promotion, add it to the live-site corpus
+manifest, or treat its exact-match status as a site result.
 
 ## Receipt
 
 Write `04-minimal-reproduction-scan.json` with:
 
 - mismatch family and source fixture/window indexes
+- original site target and requesting phase
 - original expected/refined/actual snippets
 - reason Phase C.5 was required
 - reproduction file/path/URL
 - preserved DOM contract checklist
+- original AX contract copied into the reproduction: source node ids and the
+  role/name/state/table/list/focusability values that mattered
+- content shortening notes: what text was shortened, why that cannot affect the
+  disputed behavior, or why long text had to be preserved
 - omitted page context and why it was safe to omit
 - scan workflow command/run id/artifact path
+- wait/poll timeline: initial 5-minute wait, subsequent 1-minute checks, final
+  run status, and whether the artifact was complete
 - mini raw VoiceOver output
 - mini rendered HTML and AX evidence summary
 - mini engine output
 - conclusion:
   `engine-gap-confirmed`, `fixture-noise-confirmed`,
   `conditional-state-confirmed`, or `insufficient-repro`
-- next phase and handoff reason
+- loop-back target phase and handoff reason for the original site workflow
 
 Do not use the current engine output as proof that the reproduction is correct.
 The mini VoiceOver scan is the deciding evidence.
