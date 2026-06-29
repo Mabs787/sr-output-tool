@@ -1912,7 +1912,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function isStandaloneContentCard(el: any): boolean {
-    if (!standaloneContentCardHeading(el, 3)) {
+    const heading = standaloneContentCardHeading(el, 3);
+    if (!heading) {
+      return false;
+    }
+    if (heading.querySelector(interactiveSelector) || heading.closest(interactiveSelector)) {
       return false;
     }
 
@@ -1921,9 +1925,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     ).filter((cta: any) => !isHidden(cta) && Boolean(accessibleName(cta, implicitRole(cta))));
     if (ctas.length !== 1) return false;
 
-    return Array.from(el.querySelectorAll("p, span, div")).some((candidate: any) =>
-      standaloneCardBodyTextElement(candidate),
+    const bodyTextElements = Array.from(el.querySelectorAll("p, span, div")).filter(
+      (candidate: any) => standaloneCardBodyTextElement(candidate),
     );
+    return bodyTextElements.length >= 1 && bodyTextElements.length <= 2;
   }
 
   function standaloneContentCardFor(el: any): any {
@@ -3480,7 +3485,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       trailingCarouselSlideGroups:
         isTrailingCarouselSlideGroupStop(el, role) || undefined,
       leadingStandaloneCardGroup:
-        isPostHeadingMediaCardGroupStop(el, role) || undefined,
+        isLeadingStandaloneCardGroupStop(el, role) ||
+        isPostHeadingMediaCardGroupStop(el, role) ||
+        undefined,
       splitLabelStop:
         (["searchbox", "textbox"].includes(role) &&
           tag === "input" &&

@@ -51,7 +51,7 @@ Rerun on 2026-06-29 after the Phase D engine pass and Phase E promotion review:
 | `www-sky-com-protect` | 106 | 106 | 0 | exact after Phase C.5 feature-row split confirmation |
 | `www-sky-com-shop-mobile` | 165 | 160 | 12 | restored carousel/group/card output; candidate again |
 | `www-sky-com-smart-home` | 150 | 150 | 0 | exact |
-| `www-sky-com-tv` | 177 | 174 | 3 | restored group output; candidate again |
+| `www-sky-com-tv` | 177 | 177 | 0 | exact after reusable generic-wrapper group-boundary traversal |
 | `www-sky-com-tv-stream` | 116 | 116 | 0 | exact |
 | `www-sky-com-tvandbroadband` | 351 | 309 | 48 | package/card grouping, price/legal boundaries, list-marker traversal |
 | `www-sky-com-watch` | 259 | 259 | 8 | restored carousel/text-boundary output; candidate again |
@@ -68,7 +68,7 @@ These fixtures have completed Phase B evidence review and remain `candidate`:
 - `www-sky-com-glass-43-inch`: restored to the prior refined baseline; current compare is 127 expected, 127 actual, and 4 mismatch windows.
 - `www-sky-com-glass-air`: the Phase D pass reduced the compare to 257 expected, 265 actual, and 11 mismatch windows. Remaining gaps now cluster around color/price boundaries, hero/carousel grouping, sky-os copy boundaries, comparison-table segmentation, and tab-panel/list boundaries; the target remains candidate until those families are resolved or reclassified with fresh evidence.
 - `www-sky-com-shop-mobile`: restored to the prior refined baseline after carousel/group/card edits were judged unsafe; current compare is 165 expected, 160 actual, and 12 mismatch windows.
-- `www-sky-com-tv`: restored to the prior refined baseline; current compare is 177 expected, 174 actual, and 3 mismatch windows.
+- `www-sky-com-tv`: promoted to `refined` after Phase D fixed reusable generic-wrapper group-boundary traversal. The target now compares at 177 expected, 177 actual, and 0 mismatch windows.
 - `www-sky-com-tvandbroadband`: remaining gaps include hero/CTA group announcements, product-card grouped text, carousel/package ordering, and list/marker segmentation. The current compare is 351 expected, 309 actual, and 48 mismatch windows.
 - `www-sky-com-watch`: restored to the prior refined baseline after carousel/text-boundary edits were judged unsafe; current compare is 259 expected, 259 actual, and 8 mismatch windows.
 

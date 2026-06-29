@@ -1344,6 +1344,92 @@ test("scanSubtree adds post-heading groups for h2 cards with leading decorative 
   );
 });
 
+test("scanSubtree adds leading groups for standalone h3 content cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Sky Products</h2>
+        <div>
+          <div></div>
+          <div>
+            <h3>Meet the streaming apps, included with Ultimate TV</h3>
+            <span>You get shows plus apps together.</span>
+            <a href="/apps">Learn more</a>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span>20% off Sky Glass</span>
+          </div>
+          <div>
+            <h3>Sky Glass</h3>
+            <span>Sky Glass is the smarter TV.</span>
+            <a href="/glass">Learn more</a>
+          </div>
+        </div>
+      </section>
+    `),
+    [
+      "heading level 2, Sky Products",
+      "group",
+      "heading level 3, Meet the streaming apps, included with Ultimate TV",
+      "You get shows plus apps together.",
+      "link, Learn more",
+      "group",
+      "20% off Sky Glass",
+      "heading level 3, Sky Glass",
+      "Sky Glass is the smarter TV.",
+      "link, Learn more",
+    ],
+  );
+});
+
+test("scanSubtree does not add standalone card groups before linked headings", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Featured</h2>
+        <div>
+          <h3><a href="/find-a-job">Find a job</a></h3>
+          <p>Search and apply for jobs.</p>
+        </div>
+      </section>
+    `),
+    [
+      "heading level 2, Featured",
+      "heading level 3, level 2, link, Find a job",
+      "Search and apply for jobs.",
+    ],
+  );
+});
+
+test("scanSubtree does not add standalone card groups to multi-metadata cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>AI skills</h2>
+        <div>
+          <span>General</span>
+          <h3>AI and accessibility overview</h3>
+          <div>
+            <p>This video focuses on the intersection of AI and accessibility.</p>
+            <p>Duration: 4 minutes 30 seconds</p>
+          </div>
+          <div><a href="/video">Learn about AI solutions</a></div>
+        </div>
+      </section>
+    `),
+    [
+      "heading level 2, AI skills",
+      "General",
+      "heading level 3, AI and accessibility overview",
+      "This video focuses on the intersection of AI and accessibility.",
+      "Duration: 4 minutes 30 seconds",
+      "link, Learn about AI solutions",
+    ],
+  );
+});
+
 test("scanSubtree announces single-select listboxes with the selected option", () => {
   assert.deepEqual(
     scanHtml(`

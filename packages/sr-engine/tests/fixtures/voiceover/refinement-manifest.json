@@ -119,8 +119,8 @@
       "reason": "Matches exactly after VO-backed engine fixes for empty headings and parenthesized focusable image-card list positions, plus existing ARIA tab/focusable image-card traversal support. Current compare is 116 expected, 116 actual, and 0 mismatch windows."
     },
     "www-sky-com-tv": {
-      "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only group removals. Current compare is 177 expected, 174 actual, and 3 mismatch windows; keep as candidate until group behavior is resolved in the engine or with stronger evidence."
+      "status": "refined",
+      "reason": "Promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare now reads 177 expected, 177 actual, and 0 mismatch windows."
     },
     "www-sky-com-tvandbroadband": {
       "status": "candidate",

@@ -2464,13 +2464,18 @@
           return headings[0];
         }
         function isStandaloneContentCard(el) {
-          if (!standaloneContentCardHeading(el, 3)) {
+          const heading = standaloneContentCardHeading(el, 3);
+          if (!heading) {
+            return false;
+          }
+          if (heading.querySelector(interactiveSelector) || heading.closest(interactiveSelector)) {
             return false;
           }
           const ctas = Array.from(el.querySelectorAll("a[href], button, [role='link'], [role='button']")).filter((cta) => !isHidden(cta) && Boolean(accessibleName(cta, implicitRole(cta))));
           if (ctas.length !== 1)
             return false;
-          return Array.from(el.querySelectorAll("p, span, div")).some((candidate) => standaloneCardBodyTextElement(candidate));
+          const bodyTextElements = Array.from(el.querySelectorAll("p, span, div")).filter((candidate) => standaloneCardBodyTextElement(candidate));
+          return bodyTextElements.length >= 1 && bodyTextElements.length <= 2;
         }
         function standaloneContentCardFor(el) {
           let card = null;
@@ -3641,7 +3646,7 @@
             compactInputActionGroup: role === "group" && compactInputActionGroupLabel(el) ? true : void 0,
             leadingCarouselGroup: isLeadingCarouselGroupStop(el, role) || void 0,
             trailingCarouselSlideGroups: isTrailingCarouselSlideGroupStop(el, role) || void 0,
-            leadingStandaloneCardGroup: isPostHeadingMediaCardGroupStop(el, role) || void 0,
+            leadingStandaloneCardGroup: isLeadingStandaloneCardGroupStop(el, role) || isPostHeadingMediaCardGroupStop(el, role) || void 0,
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) ? true : void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
             clusteredVisualButton: role === "button" && isClusteredVisualButton(el, role) ? true : void 0,
