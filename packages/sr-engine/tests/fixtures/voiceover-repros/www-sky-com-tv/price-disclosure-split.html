@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sky TV price disclosure split repro</title>
+    <style>
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      .package-card {
+        max-width: 360px;
+      }
+
+      .price-row {
+        margin-top: 16px;
+      }
+
+      .visual-price {
+        display: inline-flex;
+        gap: 0.25em;
+        font-weight: 700;
+      }
+
+      .price-note {
+        display: inline;
+        margin-left: 0.25em;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section aria-labelledby="packages-heading" data-sr-scan-root>
+        <h2 id="packages-heading">Choose your TV package</h2>
+        <div class="package-card">
+          <img alt="Essential TV">
+          <div>
+            <h3>Sky Essential TV</h3>
+          </div>
+          <div>
+            <ul>
+              <li>100+ channels.</li>
+              <li>Netflix and discovery+ included.</li>
+              <li>Everyday great value.</li>
+            </ul>
+            <a href="#learn-essential" aria-label="Learn more, Sky Essential TV">Learn more</a>
+          </div>
+          <div class="price-actions">
+            <div class="price-row">
+              <div class="price-wrapper">
+                <div class="price-copy">
+                  <span class="sr-only">From £15 /month</span>
+                  <div aria-hidden="true" class="visual-price">
+                    <span>From</span><span>£15</span><span>/month</span>
+                  </div>
+                </div>
+              </div><span class="price-note">Prices may change during 24 month minimum term.</span>
+            </div>
+            <a href="#get-started" aria-label="Get started, Sky Essential TV">Get started</a>
+          </div>
+          <div>
+            <span>New Sky TV customers only.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
