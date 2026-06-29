@@ -18,6 +18,13 @@ separate phase agents with the multi-agent tool and report their agent ids or
 nicknames. Do not let a single orchestrator or the top-level session perform
 all phases and call it multi-agent.
 
+Before phase work, create
+`voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json`. Record
+required roles, available roles before/after tool discovery, missing roles,
+decision, and spawned agent ids. If a required role is missing after discovery,
+stop with `decision: "blocked"` unless the user explicitly asks for a degraded
+run. Do not use `default` for a named phase in a normal multi-agent run.
+
 Use these phase agents for actual phase work:
 
 - `intake` for Phase A when import/preprocessing is needed
@@ -30,6 +37,9 @@ Use these phase agents for actual phase work:
 
 Each phase agent must write the receipt defined in
 `docs/workflows/agent-receipts.md`, including `sessionId` for spawned agents.
+Before Phase E promotion, run
+`yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/<run-id>/<target> --required-phases <actual-phases>`
+and record the result in `06-promotion.json`.
 
 In Phase B, do not take existing refined output as truth. Verify disputed lines
 against HTML, AX, snapshots, captions/source evidence, and raw VoiceOver before

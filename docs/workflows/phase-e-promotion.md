@@ -41,10 +41,24 @@ Use one of these exact machine enum values in `06-promotion.json`:
 - `statusDocsUpdated`
 - `fixturePushReview`
 - `checks`: commands with status, exit code, summary, and skip reason
+- `agentWorkflowValidation`: command, required phases, status, exit code,
+  summary, and any degraded/manual/default-agent blockers
 
 Only use `refined` when `exactMatch` is true, Phase B trusted the fixture, and
-required checks passed. Use `partial` only when `trustedSlices` identifies the
-reliable ranges and `remainingMismatchFamilies` records what is excluded.
+required checks passed. Required checks include agent workflow validation for
+multi-agent runs:
+
+```sh
+yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/<run-id>/<target> --required-phases A,B,C,C.5,D,E
+```
+
+Use the actual phase list for the target. Omit phases only when the receipts
+explain why they were not required. If validation fails because a named role was
+missing, a phase was executed manually, or `default` was used for a named phase,
+do not promote the target as `refined`; record the blocker or rerun the missing
+phase with the correct agent role. Use `partial` only when `trustedSlices`
+identifies the reliable ranges and `remainingMismatchFamilies` records what is
+excluded.
 
 When the promotion decision is `candidate` or `partial`, do not leave the
 remaining mismatch list as a dead end. Update the target status doc and

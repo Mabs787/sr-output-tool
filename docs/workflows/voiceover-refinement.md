@@ -35,6 +35,21 @@ The repository scripts do not spawn Codex subagents. The top-level Codex
 session must spawn the phase agents with the available multi-agent tool when
 the user asks for the multi-agent workflow.
 
+Before any phase work starts, the top-level session must create an agent
+registry preflight receipt:
+
+```text
+voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
+```
+
+The preflight must record the required roles, roles exposed by the current
+multi-agent tool registry, whether tool discovery was attempted, roles still
+missing after discovery, the final decision, and the spawned agent ids for the
+phase agents. Use `decision: "ready"` only when every required role is exposed
+and can be spawned. Use `decision: "blocked"` when a required role is missing
+after discovery. Use `decision: "degraded"` only when the user explicitly asks
+to continue without a named role.
+
 A run is `multi-agent` only when at least two phase-specific agents are
 spawned, or when the top-level session records why only one phase was required.
 An orchestrator-only run is not multi-agent.
@@ -53,6 +68,22 @@ must still spawn phase-specific agents for the actual phase work:
 Before finalizing, the top-level session must report the spawned agent ids or
 nicknames and the receipt files they produced. If a phase is skipped, report the
 evidence-backed reason.
+
+Default agents cannot satisfy named phases in a normal multi-agent workflow. If
+`repro-scanner` or another required role is not available, do not silently use
+`default`; run tool discovery once and either spawn the named role or stop with
+`00-agent-preflight.json` set to `blocked`. A degraded/default-agent run may be
+useful as exploratory work, but it must not be described as a completed
+multi-agent refinement run and must not promote a fixture as `refined`.
+
+Before Phase E promotion, validate the receipt directory:
+
+```sh
+yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/<run-id>/<target> --required-phases A,B,C,C.5,D,E
+```
+
+Use the actual required phase list for the target. Omit `C.5` or `D` only when
+the receipts explain why those phases were not required.
 
 ## Non-Negotiable Rules
 

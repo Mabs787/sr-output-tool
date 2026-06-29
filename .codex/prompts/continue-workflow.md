@@ -18,6 +18,13 @@ This prompt requires a real multi-agent run. The repository scripts cannot
 spawn Codex subagents. The top-level Codex session must spawn phase-specific
 agents with the multi-agent tool and report their agent ids or nicknames.
 
+Before any phase work for a target, create
+`voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json`. Record
+required roles, available roles before/after tool discovery, missing roles,
+decision, and spawned agent ids. If a required role is missing after discovery,
+stop with `decision: "blocked"` unless the user explicitly asks for a degraded
+run. Do not use `default` for a named phase in a normal multi-agent run.
+
 Optional: spawn `orchestrator` only to produce the routing plan. Do not let the
 orchestrator do all phase work by itself. A single orchestrator doing all work
 is a multi-phase run, not a multi-agent run.
@@ -50,6 +57,12 @@ Each spawned phase agent must produce the receipt defined in
 `docs/workflows/agent-receipts.md`. If a phase is skipped, the top-level
 session must record the evidence-backed skip reason in its final summary and in
 the prior phase handoff receipt.
+
+Before Phase E promotion, run
+`yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/<run-id>/<target> --required-phases <actual-phases>`
+and record the result in `06-promotion.json`. A failed validation blocks
+`refined` promotion until the missing named phase is rerun or the workflow is
+explicitly recorded as degraded.
 
 For structural mismatches where VoiceOver announces one grouped/card object but
 the engine emits child announcements, require the focused-node evidence packet

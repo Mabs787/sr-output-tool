@@ -6,6 +6,31 @@ Every phase agent must write a machine-readable receipt under:
 voiceover-smoke/agent-work/<run-id>/<target>/
 ```
 
+Every multi-agent run must also include a preflight receipt before phase work:
+
+```text
+voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
+```
+
+`00-agent-preflight.json` must include:
+
+- `schemaVersion`: `1`
+- `phase`: `preflight`
+- `target`
+- `runId`
+- `requiredRoles`: named roles needed for the requested workflow
+- `availableRolesBeforeDiscovery`: roles initially exposed by the multi-agent
+  tool registry
+- `discoveryAttempted`: boolean
+- `availableRolesAfterDiscovery`: roles exposed after tool discovery, if any
+- `missingRolesAfterDiscovery`: required roles still unavailable
+- `decision`: `ready`, `blocked`, or `degraded`
+- `degradedReason`: empty unless `decision` is `degraded`
+- `spawnedAgents`: array of `{ phase, agentType, sessionId, nickname,
+  agentConfigPath }`
+- `blockedReason`: empty unless `decision` is `blocked`
+- `startedAt` and `finishedAt`: ISO timestamps when available
+
 Receipts must be valid JSON and must include these common fields:
 
 - `schemaVersion`: `1`
@@ -36,6 +61,11 @@ For a real multi-agent run, `sessionId` must be populated for every phase that
 was executed by a spawned subagent. Generated or coordinator-only receipts must
 set `spawnedBy` to `manual` and must not be used as proof that a multi-agent
 run occurred.
+
+`default` is not a valid `agent` for a named phase receipt. If the named role is
+missing from the tool registry, record the missing role in
+`00-agent-preflight.json` and stop or mark the run `degraded` with explicit user
+approval. A degraded run cannot promote a fixture to `refined`.
 
 ## Fixture Change Entries
 
@@ -149,6 +179,7 @@ a named scan artifact or the run must stop before push.
 - final fixture status: `refined`, `partial`, `candidate`, or `skip`
 - compare/test evidence
 - manifest and docs changed
+- agent workflow validation command and result
 - commit/push status when requested
 - fixture push review: changed fixture files, raw-output edit check, receipt
   coverage for refined-output changes, mixed engine/fixture warning, and final
