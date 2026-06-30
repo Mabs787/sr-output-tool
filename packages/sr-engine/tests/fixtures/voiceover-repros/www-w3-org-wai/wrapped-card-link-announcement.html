@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WAI wrapped card link announcement repro</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      .card-set {
+        max-width: 720px;
+      }
+
+      section {
+        margin: 0 0 28px;
+      }
+
+      a.card-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 1.4rem;
+      }
+
+      h2 span {
+        display: block;
+      }
+
+      p,
+      ul {
+        margin: 0 0 12px;
+      }
+
+      .cta {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <div class="card-set" data-sr-dom-node-id="174">
+        <section aria-labelledby="course-title" data-sr-dom-node-id="203">
+          <a class="card-link" href="https://www.w3.org/WAI/fundamentals/foundations-course/" data-sr-dom-node-id="204">
+            <header data-sr-dom-node-id="205">
+              <h2 id="course-title" data-sr-dom-node-id="206">
+                <span data-sr-dom-node-id="207">Training Course:</span><span data-sr-dom-node-id="208">Digital Accessibility Foundations</span>
+              </h2>
+            </header>
+            <img alt="" data-sr-dom-node-id="209">
+            <p data-sr-dom-node-id="210">The free course gives you a foundation. It is designed for:</p>
+            <ul data-sr-dom-node-id="211">
+              <li data-sr-dom-node-id="212">technical and non-technical learners</li>
+              <li data-sr-dom-node-id="213">developers, designers, writers, managers</li>
+              <li data-sr-dom-node-id="214">professionals, instructors, students</li>
+            </ul>
+            <div data-sr-dom-node-id="215">
+              <span class="cta" data-sr-dom-node-id="216">About the Free Online Course</span>
+            </div>
+          </a>
+        </section>
+
+        <section aria-labelledby="media-title" data-sr-dom-node-id="231">
+          <a class="card-link" href="/WAI/media/av/" data-sr-dom-node-id="232">
+            <header data-sr-dom-node-id="233">
+              <h2 id="media-title" data-sr-dom-node-id="234">
+                <span data-sr-dom-node-id="235">Featured Resource: </span><span data-sr-dom-node-id="236">Making Audio and Video Media Accessible</span>
+              </h2>
+            </header>
+            <img alt="" data-sr-dom-node-id="237">
+            <p data-sr-dom-node-id="238">This media resource covers captions, audio description, transcripts, and sign language for media.</p>
+            <div data-sr-dom-node-id="239">
+              <span class="cta" data-sr-dom-node-id="240">Making Audio and Video Media Accessible</span>
+            </div>
+          </a>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
