@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web.dev resources aria-expanded false repro</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+      }
+
+      [data-sr-scan-root] {
+        padding: 16px;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -10000px;
+      }
+
+      devsite-header,
+      devsite-tabs,
+      tab {
+        display: block;
+      }
+
+      .devsite-header--inner,
+      .devsite-top-logo-row,
+      .devsite-top-logo-row-middle,
+      .devsite-tabs-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .devsite-tabs-content {
+        font: inherit;
+      }
+
+      .devsite-icon-arrow-drop-down::before {
+        content: "arrow_drop_down";
+        display: inline-block;
+        margin-right: 4px;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root>
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+      <devsite-header role="banner">
+        <div class="devsite-header--inner" data-nosnippet="">
+          <div class="devsite-top-logo-row">
+            <div class="devsite-product-name-wrapper">
+              <a href="/" class="devsite-site-logo-link">
+                <picture>
+                  <img alt="web.dev">
+                </picture>
+              </a>
+            </div>
+            <div class="devsite-top-logo-row-middle">
+              <devsite-tabs class="upper-tabs" connected="">
+                <nav class="devsite-tabs-wrapper" aria-label="Upper tabs">
+                  <tab class="devsite-dropdown devsite-dropdown-full">
+                    <button
+                      class="devsite-tabs-content devsite-tabs-dropdown-only gc-analytics-event devsite-icon devsite-icon-arrow-drop-down"
+                      track-type="nav"
+                      track-metadata-position="nav - resources"
+                      track-metadata-module="primary nav"
+                      data-category="Site-Wide Custom Events"
+                      data-label="Tab: Resources"
+                      track-name="resources"
+                      aria-expanded="false">
+                      Resources
+                    </button>
+                    <div
+                      class="devsite-tabs-dropdown"
+                      role="menu"
+                      aria-label="submenu"
+                      style="left: -253.406px; pointer-events: none;"
+                      hidden>
+                      <div class="devsite-tabs-dropdown-content">
+                        <div class="devsite-tabs-dropdown-column">
+                          <ul class="devsite-tabs-dropdown-section build-icon web-dev-subnav">
+                            <li class="devsite-nav-title" role="heading">Web Platform</li>
+                            <li class="devsite-nav-description">Dive into the web platform, at your pace.</li>
+                            <li class="devsite-nav-item">
+                              <a href="https://web.dev/html">
+                                <div class="devsite-nav-item-title">HTML</div>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </tab>
+                  <tab>
+                    <a href="https://web.dev/discover" class="devsite-tabs-content">Discover</a>
+                  </tab>
+                  <tab>
+                    <a href="https://web.dev/baseline" class="devsite-tabs-content">Baseline</a>
+                  </tab>
+                </nav>
+              </devsite-tabs>
+            </div>
+          </div>
+        </div>
+      </devsite-header>
+      <main id="main-content">
+        <p>Start page.</p>
+      </main>
+    </div>
+  </body>
+</html>
