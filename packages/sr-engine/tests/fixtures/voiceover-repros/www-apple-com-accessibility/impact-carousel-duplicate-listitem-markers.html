@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Impact Carousel Duplicate Listitem Marker Repro</title>
+    <style>
+      .scan-root {
+        font: 16px/1.4 system-ui, sans-serif;
+        margin: 2rem auto;
+        max-width: 44rem;
+      }
+
+      .story-list {
+        display: grid;
+        gap: 1rem;
+        padding: 0;
+      }
+
+      .story-card {
+        list-style: none;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root class="scan-root">
+      <section aria-labelledby="impact-heading">
+        <h2 id="impact-heading">Impact stories</h2>
+
+        <ul role="list" aria-label="Accessibility impact stories gallery" class="story-list">
+          <li role="listitem" class="story-card">
+            <div>
+              <div>
+                <p tabindex="-1">A bold iPhone accessory that is fit for every grip.</p>
+                <p tabindex="-1">
+                  <a href="https://example.test/hikawa" aria-label="Watch now, Hikawa Grip &amp; Stand for iPhone, opens in new tab">
+                    <span>Watch now<span aria-hidden="true"></span></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div>
+              <picture>
+                <img alt="">
+              </picture>
+              <video role="img" aria-label="Video montage of people reviewing adaptive smartphone accessories" hidden></video>
+              <picture>
+                <img alt="">
+              </picture>
+              <picture>
+                <img alt="A group of people with different mobility needs sitting together at a table while looking at adaptive smartphone accessories">
+              </picture>
+            </div>
+            <div hidden>
+              <button aria-label="Hikawa Grip &amp; Stand for iPhone video clip, loading">
+                <span hidden><span></span></span>
+                <span><span></span></span>
+              </button>
+            </div>
+          </li>
+
+          <li role="listitem" class="story-card">
+            <div>
+              <div>
+                <p tabindex="-1">A second card keeps the list position context alive.</p>
+                <p tabindex="-1">
+                  <a href="https://example.test/second" aria-label="Watch the second story now">
+                    <span>Watch now</span><span></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Impact Carousel Media Wrapper Image Versus Group Repro</title>
+    <style>
+      .scan-root {
+        font: 16px/1.4 system-ui, sans-serif;
+        margin: 2rem auto;
+        max-width: 44rem;
+      }
+
+      .story-list {
+        display: grid;
+        gap: 1rem;
+        padding: 0;
+      }
+
+      .story-card {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root class="scan-root">
+      <section aria-labelledby="impact-heading">
+        <h2 id="impact-heading">Impact stories</h2>
+
+        <ul role="list" aria-label="Accessibility impact stories gallery" class="story-list">
+          <li role="listitem" class="story-card">
+            <div>
+              <div>
+                <p tabindex="-1">Designed for Every Student highlights how accessibility features help learners excel.</p>
+                <p tabindex="-1">
+                  <a href="/accessibility/designed-for-students/" aria-label="Watch the Designed for Every Student film now">
+                    <span>Watch now</span><span></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+            <picture tabindex="-1">
+              <source>
+              <source>
+              <source>
+              <img alt="A diverse group of college students, including a wheelchair user, cheering against a blue background.">
+            </picture>
+          </li>
+
+          <li role="listitem" class="story-card">
+            <div>
+              <div>
+                <p tabindex="-1">An inside look at inclusive filmmaking.</p>
+                <p tabindex="-1">
+                  <a href="https://example.test/deaf-president-now" aria-label="Watch now, Deaf President Now!, opens in new tab">
+                    <span>Watch now<span aria-hidden="true"></span></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div>
+              <picture>
+                <source>
+                <img alt="">
+              </picture>
+              <video role="img" aria-label="Video of filmmakers using sign language" hidden></video>
+              <picture>
+                <source>
+                <img alt="">
+              </picture>
+              <picture>
+                <source>
+                <img alt="Image of two seated filmmakers watching and gesturing to a projection screen.">
+              </picture>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

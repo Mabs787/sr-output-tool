@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Impact Carousel Blockquote Quote Segmentation Repro</title>
+    <style>
+      .scan-root {
+        font: 16px/1.4 system-ui, sans-serif;
+        margin: 2rem auto;
+        max-width: 44rem;
+      }
+
+      .story-list {
+        display: grid;
+        gap: 1rem;
+        padding: 0;
+      }
+
+      .story-card {
+        list-style: none;
+      }
+
+      blockquote {
+        margin: 0;
+      }
+
+      blockquote p::before {
+        content: "\201C";
+      }
+
+      blockquote p::after {
+        content: "\201D";
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root class="scan-root">
+      <section aria-labelledby="impact-heading">
+        <h2 id="impact-heading">Impact stories</h2>
+
+        <ul role="list" aria-label="Accessibility impact stories gallery" class="story-list">
+          <li role="listitem" class="story-card">
+            <div>
+              <div>
+                <blockquote tabindex="-1">
+                  <p>I want people to feel what I am feeling<br><br hidden> when I make that song.</p>
+                </blockquote>
+                <p tabindex="-1">Kiddo K, Recording Artist</p>
+              </div>
+            </div>
+          </li>
+
+          <li role="listitem" class="story-card">
+            <div>
+              <div>
+                <blockquote tabindex="-1">
+                  <p>Inclusion needs tools supported physically and digitally.</p>
+                </blockquote>
+                <p tabindex="-1">Jordyn Zimmerman, Apple Distinguished Educator</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
