@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MDN code token line repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+        margin: 0;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      pre,
+      .cm-content {
+        white-space: pre-wrap;
+      }
+
+      .code-example {
+        margin-bottom: 24px;
+      }
+
+      .cm-scroller {
+        border: 1px solid #999;
+        padding: 8px;
+      }
+
+      .cm-gutters {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section aria-labelledby="overview" data-sr-dom-node-id="406">
+        <h2 id="overview" data-sr-dom-node-id="407"><a href="#overview" data-sr-dom-node-id="408">Overview</a></h2>
+        <p data-sr-dom-node-id="417">A site that accepts Word files might use an <code data-sr-dom-node-id="418">&lt;input&gt;</code> like this:</p>
+        <mdn-code-example data-sr-dom-node-id="419">
+          <template shadowrootmode="open"><!---->
+            <div class="code-example">
+              <div class="example-header">
+                <span class="language-name">HTML</span>
+                <mdn-copy-button variant="secondary">
+                  <template shadowrootmode="open"><!---->
+                    <button class="button" part="button" data-variant="secondary">Copy</button>
+                  </template>
+                </mdn-copy-button>
+              </div>
+              <pre class="brush: html notranslate"><code><!--?lit$599783461$--><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span>
+  <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span>
+  <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>docpicker<span class="token punctuation">"</span></span>
+  <span class="token attr-name">accept</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+</code></pre>
+            </div>
+          </template>
+        </mdn-code-example>
+      </section>
+
+      <section aria-labelledby="try_it" data-sr-dom-node-id="400">
+        <h2 id="try_it" data-sr-dom-node-id="401"><a href="#try_it" data-sr-dom-node-id="402">Try it</a></h2>
+        <interactive-example name="HTML Demo: accept" data-sr-dom-node-id="403">
+          <template shadowrootmode="open"><!---->
+            <div class="template-tabbed" aria-labelledby="demo-heading">
+              <header>
+                <h4 id="demo-heading">HTML Demo: accept</h4>
+              </header>
+              <div role="tablist">
+                <div id="html" role="tab" tabindex="0" aria-selected="true" aria-controls="html-panel">HTML</div>
+                <div id="css" role="tab" tabindex="-1" aria-selected="false" aria-controls="css-panel">CSS</div>
+              </div>
+              <div id="html-panel" role="tabpanel" tabindex="0" aria-labelledby="html">
+                <mdn-play-editor language="html">
+                  <template shadowrootmode="open"><!---->
+                    <div class="editor">
+                      <div class="cm-editor">
+                        <div class="cm-announced" aria-live="polite"></div>
+                        <div tabindex="-1" class="cm-scroller">
+                          <div class="cm-gutters" aria-hidden="true"></div>
+                          <div spellcheck="false" autocorrect="off" autocapitalize="off" translate="no" contenteditable="true" class="cm-content cm-lineWrapping" role="textbox" aria-multiline="true">
+                            <div class="cm-line"><span class="cm-matchingBracket">&lt;</span><span class="tok-tag">label</span> for=<span class="tok-string">"movie"</span><span class="cm-matchingBracket">&gt;</span>Choose a movie:&lt;/<span class="tok-tag">label</span>&gt;</div>
+                            <div class="cm-line">&lt;<span class="tok-tag">input</span> type=<span class="tok-string">"file"</span> id=<span class="tok-string">"movie"</span> accept=<span class="tok-string">"video/*"</span> /&gt;</div>
+                          </div>
+                          <div class="cm-layer cm-cursorLayer" aria-hidden="true"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </mdn-play-editor>
+              </div>
+            </div>
+          </template>
+        </interactive-example>
+      </section>
+    </main>
+  </body>
+</html>

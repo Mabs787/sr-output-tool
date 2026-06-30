@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MDN custom element group wrapper repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      .page-layout__banner,
+      .page-layout__header {
+        margin-bottom: 20px;
+      }
+
+      .top-placement,
+      .placement-container,
+      .placement-inner {
+        display: block;
+      }
+
+      .placement-link,
+      .placement-note,
+      .placement-no {
+        display: inline-block;
+        margin-right: 12px;
+      }
+
+      nav {
+        display: flex;
+        gap: 12px;
+      }
+
+      .hidden-mobile-search {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <div class="page-layout__banner" data-sr-dom-node-id="6">
+        <mdn-placement-top data-sr-dom-node-id="7">
+          <template shadowrootmode="open"><!---->
+            <div class="top-placement" data-type="top-banner">
+              <section class="placement-container">
+                <div class="placement-inner">
+                  <a class="placement-link" href="/pong/click" rel="sponsored" target="_blank">
+                    <div class="placement-content">
+                      <img alt="Mozilla Foundation" height="50" aria-hidden="false">
+                      <span>Build a better web today.</span>
+                    </div>
+                    <span class="placement-cta">Give Now</span>
+                  </a>
+                  <mdn-placement-note>
+                    <template shadowrootmode="open"><!---->
+                      <a href="/en-US/advertising" class="placement-note" target="_blank" rel="noreferrer">AD</a>
+                    </template>
+                  </mdn-placement-note>
+                </div>
+                <mdn-placement-no>
+                  <template shadowrootmode="open"><!---->
+                    <a class="placement-no" href="/en-US/plus?ref=nope">Don't want to see ads?</a>
+                  </template>
+                </mdn-placement-no>
+              </section>
+            </div>
+          </template>
+        </mdn-placement-top>
+      </div>
+
+      <header class="page-layout__header" data-sr-dom-node-id="8">
+        <nav aria-label="Primary" data-sr-dom-node-id="9">
+          <a href="/en-US/" aria-label="MDN" data-sr-dom-node-id="11">MDN</a>
+          <a href="/en-US/blog/" data-sr-dom-node-id="300">Blog</a>
+          <div data-sr-dom-node-id="314">
+            <mdn-search-button data-sr-dom-node-id="18">
+              <template shadowrootmode="open"><!---->
+                <button class="mdn-search-button" title="Search the site" data-glean-id="quick-search-open: menu">
+                  <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24"></svg>
+                </button>
+              </template>
+            </mdn-search-button>
+          </div>
+          <div class="hidden-mobile-search" data-sr-computed-hidden="display:none">
+            <mdn-search-button>
+              <template shadowrootmode="open"><!---->
+                <button class="mdn-search-button" title="Search the site">
+                  <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24"></svg>
+                </button>
+              </template>
+            </mdn-search-button>
+          </div>
+        </nav>
+      </header>
+    </main>
+  </body>
+</html>
