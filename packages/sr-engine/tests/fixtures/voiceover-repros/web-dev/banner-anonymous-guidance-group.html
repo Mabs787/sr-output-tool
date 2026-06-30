@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web.dev banner anonymous guidance group repro</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+      }
+
+      [data-sr-scan-root] {
+        padding: 16px;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -10000px;
+      }
+
+      devsite-header,
+      devsite-tabs,
+      devsite-user,
+      tab {
+        display: block;
+      }
+
+      .devsite-header--inner,
+      .devsite-top-logo-row,
+      .devsite-top-logo-row-middle,
+      .devsite-tabs-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .devsite-hero-message {
+        display: block;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root>
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+      <devsite-header role="banner" fixed="" top-row--height="49" bottom-row--height="76" bottom-tabs--height="0">
+        <div class="devsite-header--inner" data-nosnippet="">
+          <div class="devsite-top-logo-row-wrapper-wrapper">
+            <div class="devsite-top-logo-row-wrapper">
+              <div class="devsite-top-logo-row">
+                <div class="devsite-product-name-wrapper">
+                  <a href="/" class="devsite-site-logo-link">
+                    <picture>
+                      <img alt="web.dev">
+                    </picture>
+                  </a>
+                </div>
+                <div class="devsite-top-logo-row-middle">
+                  <div class="devsite-header-upper-tabs">
+                    <devsite-tabs class="upper-tabs" connected="">
+                      <nav class="devsite-tabs-wrapper" aria-label="Upper tabs">
+                        <tab>
+                          <button class="devsite-tabs-content devsite-tabs-dropdown-only devsite-icon devsite-icon-arrow-drop-down">
+                            Resources
+                          </button>
+                        </tab>
+                        <tab><a href="https://web.dev/discover">Discover</a></tab>
+                        <tab><a href="https://web.dev/baseline">Baseline</a></tab>
+                      </nav>
+                    </devsite-tabs>
+                  </div>
+                  <div>
+                    <input aria-autocomplete="list" aria-label="Search" aria-expanded="false" aria-haspopup="listbox" role="combobox" type="text">
+                  </div>
+                  <button type="button" aria-label="Appearance: Light theme" aria-haspopup="true">Theme</button>
+                  <devsite-user>
+                    <div>
+                      <a href="https://web.dev/_d/signin?continue=https%3A%2F%2Fweb.dev%2F&amp;prompt=select_account">Sign in</a>
+                    </div>
+                  </devsite-user>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="devsite-hero-message">
+            <div>
+              <div>
+                <div>
+                  <div>Guidance to build modern web experiences that work on any browser.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </devsite-header>
+      <main id="main-content">
+        <p>Start page.</p>
+      </main>
+    </div>
+  </body>
+</html>
