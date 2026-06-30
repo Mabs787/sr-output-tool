@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web.dev decorative visual duplicate links repro</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      section {
+        max-width: 760px;
+      }
+
+      .cards {
+        display: grid;
+        gap: 18px;
+      }
+
+      .card {
+        display: grid;
+        grid-template-columns: 88px 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .visual-link {
+        display: block;
+        width: 88px;
+        height: 56px;
+        background: #d9dee8;
+        color: #1f2937;
+      }
+
+      .visual-link > div {
+        width: 100%;
+        height: 100%;
+      }
+
+      h2,
+      h3,
+      p {
+        margin: 0 0 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section aria-labelledby="platform-title" data-sr-dom-node-id="387">
+        <h2 id="platform-title" data-sr-dom-node-id="388">Explore the web platform</h2>
+        <div class="cards" data-sr-dom-node-id="389">
+          <div class="card" data-sr-dom-node-id="390">
+            <div data-sr-dom-node-id="391">
+              <a class="visual-link" href="https://web.dev/html" data-sr-dom-node-id="392">
+                <div data-sr-dom-node-id="393">
+                  <div aria-hidden="true" data-sr-dom-node-id="394">image</div>
+                </div>
+              </a>
+            </div>
+            <div data-sr-dom-node-id="395">
+              <h3 data-sr-dom-node-id="396">
+                <a href="https://web.dev/html" data-sr-dom-node-id="397">HTML</a>
+              </h3>
+              <p data-sr-dom-node-id="398">HTML is the document layer.</p>
+              <div data-sr-dom-node-id="399">
+                <a href="https://web.dev/html" data-sr-dom-node-id="400">Learn more</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" data-sr-dom-node-id="401">
+            <div data-sr-dom-node-id="402">
+              <a class="visual-link" href="https://web.dev/css" data-sr-dom-node-id="403">
+                <div data-sr-dom-node-id="404">
+                  <div aria-hidden="true" data-sr-dom-node-id="405">web</div>
+                </div>
+              </a>
+            </div>
+            <div data-sr-dom-node-id="406">
+              <h3 data-sr-dom-node-id="407">
+                <a href="https://web.dev/css" data-sr-dom-node-id="408">CSS</a>
+              </h3>
+              <p data-sr-dom-node-id="409">CSS is the presentation layer.</p>
+              <div data-sr-dom-node-id="410">
+                <a href="https://web.dev/css" data-sr-dom-node-id="411">Learn more</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" data-sr-dom-node-id="412">
+            <div data-sr-dom-node-id="413">
+              <a class="visual-link" href="https://web.dev/javascript" data-sr-dom-node-id="414">
+                <div data-sr-dom-node-id="415">
+                  <div aria-hidden="true" data-sr-dom-node-id="416">timer</div>
+                </div>
+              </a>
+            </div>
+            <div data-sr-dom-node-id="417">
+              <h3 data-sr-dom-node-id="418">
+                <a href="https://web.dev/javascript" data-sr-dom-node-id="419">JavaScript</a>
+              </h3>
+              <p data-sr-dom-node-id="420">JavaScript adds interactivity.</p>
+              <div data-sr-dom-node-id="421">
+                <a href="https://web.dev/javascript" data-sr-dom-node-id="422">Learn more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
