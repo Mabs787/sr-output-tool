@@ -35,7 +35,7 @@
   </head>
   <body>
     <main data-sr-scan-root class="scan-root">
-      <nav aria-label="Global" class="global-nav">
+      <nav aria-label="Global" class="global-nav" data-sr-dom-node-id="100">
         <ul class="global-list">
           <li><a href="https://example.test/store">Store</a></li>
           <li><a href="https://example.test/mac">Mac</a></li>
@@ -44,16 +44,16 @@
         </ul>
       </nav>
 
-      <div class="empty-generic"></div>
+      <div class="empty-generic" data-sr-dom-node-id="101"></div>
 
-      <input id="local-nav-state" class="visually-hidden-state" type="checkbox" aria-hidden="true">
-      <div class="visually-hidden-state">
+      <input id="local-nav-state" class="visually-hidden-state" type="checkbox" aria-hidden="true" data-sr-dom-node-id="102">
+      <div class="visually-hidden-state" data-sr-dom-node-id="103">
         <button type="button" aria-controls="local-nav-tray">Open menu</button>
         <button type="button" aria-controls="local-nav-tray">Close menu</button>
       </div>
 
-      <nav aria-label="Local" class="local-nav">
-        <div>
+      <nav aria-label="Local" class="local-nav" data-sr-dom-node-id="104">
+        <div data-sr-dom-node-id="105">
           <a href="https://example.test/accessibility">Accessibility</a>
           <div id="local-nav-tray">
             <ul class="local-list">
