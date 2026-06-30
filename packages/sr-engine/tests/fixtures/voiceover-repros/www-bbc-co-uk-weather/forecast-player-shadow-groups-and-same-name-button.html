@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forecast player shadow group repro</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        border: 0;
+        padding: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .forecast-block,
+      .forecast-wrap,
+      .content-grid,
+      .media-grid,
+      .media-player-wrapper,
+      .media-container,
+      .media-inner {
+        display: block;
+      }
+
+      .media-container {
+        position: relative;
+        width: 360px;
+        height: 202px;
+        background: #111;
+      }
+
+      mini-media-player {
+        display: block;
+        position: absolute;
+        inset: 0;
+      }
+
+      .metadata {
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section class="forecast-block" aria-labelledby="forecast-heading">
+        <div class="forecast-wrap">
+          <div>
+            <h2 id="forecast-heading" type="normal">Forecast for North America</h2>
+          </div>
+          <div class="content-grid">
+            <div class="media-grid">
+              <h3 class="visually-hidden">Latest forecast for North America</h3>
+              <div class="media-player-wrapper" data-chromatic="ignore">
+                <div class="media-container" data-testid="media-player-container-landscape">
+                  <div class="media-inner">
+                    <mini-media-player>
+                      <template shadowrootmode="open">
+                        <style>
+                          :host {
+                            display: block;
+                            height: 100%;
+                            position: absolute;
+                            width: 100%;
+                          }
+
+                          .background {
+                            background: #000;
+                            height: 100%;
+                            position: absolute;
+                            width: 100%;
+                          }
+
+                          mini-playback,
+                          mini-preplay-layout,
+                          mini-video-layout,
+                          mini-error-layout {
+                            direction: ltr;
+                            object-fit: contain;
+                          }
+
+                          mini-video-layout[aria-hidden="true"],
+                          mini-error-layout[aria-hidden="true"] {
+                            display: none;
+                          }
+                        </style>
+                        <div class="background" aria-hidden="true"></div>
+                        <mini-playback>
+                          <template shadowrootmode="open">
+                            <video aria-hidden="true" playsinline style="width: 100%; height: 100%;"></video>
+                          </template>
+                        </mini-playback>
+                        <mini-video-layout tabindex="-1" aria-hidden="true" part="controls" style="display: none;">
+                          <template shadowrootmode="open">
+                            <div aria-live="polite" class="visually-hidden"></div>
+                          </template>
+                        </mini-video-layout>
+                        <mini-preplay-layout part="preplay" aria-hidden="false" style="display: block;">
+                          <template shadowrootmode="open">
+                            <style>
+                              :host {
+                                display: block;
+                                height: 100%;
+                                position: absolute;
+                                width: 100%;
+                              }
+
+                              .preplay-layout {
+                                height: 100%;
+                                position: absolute;
+                                width: 100%;
+                              }
+
+                              mini-holding-image {
+                                display: block;
+                                height: 100%;
+                                width: 100%;
+                              }
+
+                              mini-cta {
+                                background: rgba(0, 0, 0, 0.8);
+                                bottom: 0;
+                                display: block;
+                                height: 80px;
+                                left: 0;
+                                position: absolute;
+                                width: 80px;
+                                z-index: 2;
+                              }
+
+                              .guidance-container {
+                                display: none;
+                              }
+                            </style>
+                            <div class="preplay-layout">
+                              <mini-holding-image>
+                                <template shadowrootmode="open">
+                                  <img alt="" style="visibility: visible; width: 100%; height: 100%;">
+                                </template>
+                              </mini-holding-image>
+                              <mini-cta programme-title="Latest forecast for North America" title="Play Latest forecast for North America">
+                                <template shadowrootmode="open">
+                                  <style>
+                                    :host {
+                                      display: block;
+                                    }
+
+                                    .button {
+                                      background: transparent;
+                                      border: 0;
+                                      cursor: pointer;
+                                      display: block;
+                                      height: 100%;
+                                      margin: 0;
+                                      padding: 0;
+                                      width: 100%;
+                                    }
+
+                                    .button-inner {
+                                      align-items: center;
+                                      display: flex;
+                                      height: 100%;
+                                      justify-content: center;
+                                      width: 100%;
+                                    }
+
+                                    .cta-duration {
+                                      bottom: 8px;
+                                      color: #fff;
+                                      display: block;
+                                      font-size: 0.75rem;
+                                      pointer-events: none;
+                                      position: absolute;
+                                      text-align: center;
+                                      width: 80px;
+                                    }
+                                  </style>
+                                  <button class="button has-duration" aria-label="Play Latest forecast for North America">
+                                    <div class="button-inner" aria-hidden="true">
+                                      <svg viewBox="0 0 32 32" focusable="false" width="32" height="32">
+                                        <path d="M4 0v32l25-16z" focusable="false"></path>
+                                      </svg>
+                                    </div>
+                                  </button>
+                                  <time class="cta-duration" datetime="PT1M25S" style="display: block;">01:25</time>
+                                </template>
+                              </mini-cta>
+                              <div class="guidance-container" style="display: none;" aria-hidden="true"></div>
+                            </div>
+                          </template>
+                        </mini-preplay-layout>
+                        <mini-error-layout tabindex="-1" aria-hidden="true" part="error" style="display: none;">
+                          <template shadowrootmode="open">
+                            <div role="alert">Playback unavailable</div>
+                          </template>
+                        </mini-error-layout>
+                      </template>
+                    </mini-media-player>
+                  </div>
+                </div>
+              </div>
+              <ul class="metadata" role="list">
+                <div>
+                  <li role="listitem">
+                    <span>Last updated</span>
+                    <span>5 hours ago</span>
+                  </li>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
