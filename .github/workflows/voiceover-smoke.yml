@@ -50,6 +50,11 @@ on:
         required: false
         default: "543"
         type: string
+      post_navigation_settle_seconds:
+        description: "Seconds to wait after live page navigation/overlay dismissal before starting VoiceOver"
+        required: false
+        default: "60"
+        type: string
 
 permissions:
   contents: read
@@ -173,6 +178,7 @@ jobs:
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
           VOICEOVER_VIEWPORT_WIDTH: ${{ inputs.viewport_width }}
           VOICEOVER_VIEWPORT_HEIGHT: ${{ inputs.viewport_height }}
+          VOICEOVER_POST_NAVIGATION_SETTLE_SECONDS: ${{ inputs.post_navigation_settle_seconds }}
         run: node .github/scripts/run-voiceover-scan.mjs
 
       - name: Capture diagnostics

@@ -60,6 +60,10 @@ const chromeViewportHeight = parsePositiveInteger(
   process.env.VOICEOVER_VIEWPORT_HEIGHT,
   543,
 );
+const postNavigationSettleSeconds = parseNonNegativeInteger(
+  process.env.VOICEOVER_POST_NAVIGATION_SETTLE_SECONDS,
+  60,
+);
 
 function parsePositiveInteger(value, fallback) {
   const parsed = Number.parseInt(String(value || ""), 10);
@@ -1659,6 +1663,44 @@ function launchVoiceOver() {
 
 function activateChrome() {
   return runAppleScript('tell application "Google Chrome" to activate', 8000);
+}
+
+function waitForPostNavigationSettle(target) {
+  if (!target.url) {
+    return {
+      skipped: true,
+      reason: "post-navigation settle delay is only applied to live URL scans",
+      configuredSeconds: postNavigationSettleSeconds,
+      waitedSeconds: 0,
+    };
+  }
+
+  if (postNavigationSettleSeconds <= 0) {
+    return {
+      skipped: true,
+      reason: "post-navigation settle delay disabled",
+      configuredSeconds: postNavigationSettleSeconds,
+      waitedSeconds: 0,
+    };
+  }
+
+  activateChrome();
+  const startedAt = new Date().toISOString();
+  const wait = toCommandResult(
+    run("sleep", [String(postNavigationSettleSeconds)], {
+      timeout: (postNavigationSettleSeconds + 5) * 1000,
+    }),
+  );
+  const finishedAt = new Date().toISOString();
+
+  return {
+    skipped: false,
+    configuredSeconds: postNavigationSettleSeconds,
+    waitedSeconds: postNavigationSettleSeconds,
+    startedAt,
+    finishedAt,
+    wait,
+  };
 }
 
 function dismissChromeDialogs() {
@@ -3749,6 +3791,10 @@ function createScanDebugSummary({
     setup: {
       launchChrome: summary.launchChrome,
       launchVoiceOver: summary.launchVoiceOver,
+      postNavigationSettleBeforeVoiceOver:
+        summary.postNavigationSettleBeforeVoiceOver,
+      dismissBrowserBlockingOverlaysAfterSettle:
+        summary.dismissBrowserBlockingOverlaysAfterSettle,
       prepareScanRootBeforeVoiceOver: summary.prepareScanRootBeforeVoiceOver,
       injectScanBoundaryMarkersBeforeVoiceOver:
         summary.injectScanBoundaryMarkersBeforeVoiceOver,
@@ -3860,6 +3906,10 @@ async function scanTarget(target, index) {
       skipped: true,
       reason: "visual consent handler was not needed",
     };
+  const postNavigationSettleBeforeVoiceOver =
+    waitForPostNavigationSettle(target);
+  const dismissBrowserBlockingOverlaysAfterSettle =
+    await dismissBrowserBlockingOverlays(target, targetOutputDir);
   run("sleep", ["1"], { timeout: 3000 });
   const prepareScanRootBeforeVoiceOver = await prepareScanRoot(
     target,
@@ -4059,6 +4109,10 @@ async function scanTarget(target, index) {
     dismissPageConsentBeforeVoiceOver;
   summary.dismissPageConsentVisuallyBeforeVoiceOver =
     dismissPageConsentVisuallyBeforeVoiceOver;
+  summary.postNavigationSettleBeforeVoiceOver =
+    postNavigationSettleBeforeVoiceOver;
+  summary.dismissBrowserBlockingOverlaysAfterSettle =
+    dismissBrowserBlockingOverlaysAfterSettle;
   summary.prepareScanRootBeforeVoiceOver = prepareScanRootBeforeVoiceOver;
   summary.injectScanBoundaryMarkersBeforeVoiceOver =
     injectScanBoundaryMarkersBeforeVoiceOver;
