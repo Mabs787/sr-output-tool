@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="338px" height="188px" viewBox="0 0 338 188" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>BG</title>
+    <defs>
+        <path d="M24,0 L314,-3.55271368e-15 C327.254834,-5.98758718e-15 338,10.745166 338,24 L338,188 L338,188 L0,188 L0,24 C-1.623249e-15,10.745166 10.745166,1.623249e-15 24,0 Z" id="path-1"></path>
+        <linearGradient x1="50%" y1="3.06161713e-15%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#70CBF4" stop-opacity="0" offset="51.0417104%"></stop>
+            <stop stop-color="#70CBF4" stop-opacity="0" offset="76.5635788%"></stop>
+            <stop stop-color="#70CBF4" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="3.06161713e-15%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="51.0417104%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="76.5635788%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="3.06161713e-15%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#70CBF4" stop-opacity="0" offset="51.0417104%"></stop>
+            <stop stop-color="#70CBF4" stop-opacity="0" offset="76.5635788%"></stop>
+            <stop stop-color="#70CBF4" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="3.06161713e-15%" x2="50%" y2="100%" id="linearGradient-6">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="51.0417104%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="76.5635788%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="39.5829082%" x2="50%" y2="107.893929%" id="linearGradient-7">
+            <stop stop-color="#70CBF4" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#70CBF4" stop-opacity="0" offset="67.1881974%"></stop>
+            <stop stop-color="#70CBF4" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="39.5829082%" x2="50%" y2="107.893929%" id="linearGradient-8">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="67.1881974%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="BG">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Images/Hero" fill="#70CBF4" xlink:href="#path-1"></use>
+            <g id="Radient-smile" mask="url(#mask-2)">
+                <g transform="translate(-197, -378)" id="Vector">
+                    <path d="M365.999974,563.52381 C163.863769,563.52381 0,437.374711 0,281.761905 C0,126.149099 163.863769,0 365.999974,0 C568.136178,0 732,126.149099 732,281.761905 C732,437.374711 568.136178,563.52381 365.999974,563.52381 Z" fill-opacity="0.5" fill="url(#linearGradient-4)" fill-rule="evenodd" opacity="0.219999999"></path>
+                    <path d="M366.484127,60.031746 C522.900423,60.031746 649.698413,157.78012 649.698413,278.373016 C649.698413,398.965912 522.900423,496.714286 366.484127,496.714286 C210.067831,496.714286 83.2698413,398.965912 83.2698413,278.373016 L83.2698413,278.373016 C83.2698413,157.78012 210.067831,60.031746 366.484127,60.031746 Z" fill-opacity="0.5" fill="url(#linearGradient-6)" fill-rule="nonzero" opacity="0.370000005"></path>
+                    <path d="M367.452394,426.031746 C256.491368,426.031746 166.539683,356.671406 166.539683,271.111111 C166.539683,185.550816 256.491368,116.190476 367.452394,116.190476 C478.41342,116.190476 568.365079,185.550816 568.365079,271.111111 C568.365079,356.671406 478.41342,426.031746 367.452394,426.031746 Z" fill-opacity="0.300000012" fill="url(#linearGradient-8)" fill-rule="evenodd"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
