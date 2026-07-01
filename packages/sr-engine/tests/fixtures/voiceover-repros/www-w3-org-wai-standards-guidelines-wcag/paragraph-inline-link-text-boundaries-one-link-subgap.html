@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WCAG one-link paragraph boundary repro</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+      }
+
+      main {
+        padding: 24px;
+        max-width: 760px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0 0 14px;
+      }
+
+      aside {
+        border-top: 1px solid #ccc;
+        margin-top: 28px;
+        padding-top: 16px;
+      }
+
+      .feedback-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-dom-node-id="220">
+      <header data-sr-dom-node-id="221">
+        <h1 data-sr-dom-node-id="222">WCAG paragraph link boundary repro</h1>
+      </header>
+
+      <h2 data-sr-dom-node-id="261">Introduction</h2>
+      <p data-sr-dom-node-id="262">Web Content Accessibility Guidelines (WCAG) 2 is developed through the <a href="/WAI/standards-guidelines/w3c-process/" data-sr-dom-node-id="263">W3C process</a> in cooperation with people.</p>
+
+      <h2 data-sr-dom-node-id="270">Who WCAG is for</h2>
+      <p data-sr-dom-node-id="271">WCAG is for those who want a technical standard. <strong data-sr-dom-node-id="272">It is not an introduction to accessibility. For links to introductory material, see <a href="/WAI/standards-guidelines/wcag/faq/#start" data-sr-dom-node-id="273">&ldquo;Where should I start?&rdquo; in the FAQ</a>.</strong></p>
+
+      <aside aria-label="feedback" data-sr-dom-node-id="375">
+        <header data-sr-dom-node-id="376">
+          <svg aria-hidden="true" data-sr-dom-node-id="377"></svg>
+          <h2 data-sr-dom-node-id="379">Help improve this page</h2>
+        </header>
+        <div data-sr-dom-node-id="380">
+          <p data-sr-dom-node-id="381">Please share your ideas, suggestions, or comments via e-mail to the publicly-archived list <a href="mailto:wai@w3.org?body=%5Binclude%20a%20relevant%20email%20Subject%5D%0A%0A%5Bput%20comment%20here...%5D%0A%0AI%20give%20permission%20to%20share%20this%20to%20a%20publicly-archived%20e-mail%20list." data-sr-dom-node-id="382">wai@w3.org</a> or via GitHub.</p>
+          <div class="feedback-actions" data-sr-dom-node-id="383">
+            <a href="mailto:wai@w3.org?body=%5Binclude%20a%20relevant%20email%20Subject%5D%0A%0A%5Bput%20comment%20here...%5D%0A%0AI%20give%20permission%20to%20share%20this%20to%20a%20publicly-archived%20e-mail%20list." data-sr-dom-node-id="384"><span data-sr-dom-node-id="385">E-mail</span></a>
+            <a href="https://github.com/w3c/wai-wcag-overview/fork" data-sr-dom-node-id="386"><span data-sr-dom-node-id="387">Fork &amp; Edit on GitHub</span></a>
+            <a href="https://github.com/w3c/wai-wcag-overview/issues/new" data-sr-dom-node-id="388"><span data-sr-dom-node-id="389">New GitHub Issue</span></a>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </body>
+</html>
