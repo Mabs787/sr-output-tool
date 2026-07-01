@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MDN footer social URL context repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+        margin: 0;
+      }
+
+      footer {
+        padding: 24px;
+      }
+
+      ul {
+        display: flex;
+        gap: 12px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      a[aria-label] {
+        display: inline-block;
+        min-height: 24px;
+        min-width: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <footer data-sr-scan-root data-sr-dom-node-id="596">
+      <div data-sr-dom-node-id="597">
+        <div data-sr-dom-node-id="598">
+          <a href="/" aria-label="MDN logo" data-sr-dom-node-id="599">
+            <svg data-sr-dom-node-id="600" aria-label="MDN"></svg>
+          </a>
+          <p data-sr-dom-node-id="603"> Your blueprint for a better internet. </p>
+        </div>
+        <ul data-sr-dom-node-id="604">
+          <li data-sr-dom-node-id="605"><a href="https://github.com/mdn/" aria-label="MDN on GitHub" data-sr-dom-node-id="606"></a></li>
+          <li data-sr-dom-node-id="607"><a href="https://bsky.app/profile/developer.mozilla.org" aria-label="MDN on Bluesky" data-sr-dom-node-id="608"></a></li>
+          <li data-sr-dom-node-id="609"><a href="https://x.com/mozdevnet" aria-label="MDN on X" data-sr-dom-node-id="610"></a></li>
+          <li data-sr-dom-node-id="611"><a href="https://mastodon.social/@mdn" aria-label="MDN on Mastodon" data-sr-dom-node-id="612"></a></li>
+          <li data-sr-dom-node-id="613"><a href="/en-US/blog/rss.xml" aria-label="MDN blog RSS feed" data-sr-dom-node-id="614"></a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>
