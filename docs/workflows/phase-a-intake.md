@@ -2,6 +2,10 @@
 
 Run this phase only when a target has not already been imported or preprocessed.
 
+For newly downloaded scan artifacts, Phase A must be preceded by a passing
+[Phase 0 scan-health gate](phase-0-scan-health.md), or an explicit
+`partial-evidence` Phase 0 receipt that prevents premature promotion.
+
 ## Agent
 
 Use `.codex/agents/intake.toml`.
@@ -10,9 +14,11 @@ Use `.codex/agents/intake.toml`.
 
 1. Check whether Phase A can be skipped.
 2. Download or locate the scan artifact when required.
-3. List every target and evidence file in the artifact.
-4. Confirm the target has rendered HTML, AX tree, step snapshots, raw VoiceOver output, and source/caption evidence where available.
-5. Run preprocessing:
+3. Confirm the target/run has `00-scan-health.json` when the artifact came from
+   a new scan.
+4. List every target and evidence file in the artifact.
+5. Confirm the target has rendered HTML, AX tree, step snapshots, raw VoiceOver output, and source/caption evidence where available.
+6. Run preprocessing:
 
 ```bash
 yarn voiceover:preprocess-artifact -- --run-id <run-id> --target <target> --promote candidate
@@ -24,7 +30,7 @@ or:
 yarn voiceover:preprocess-artifact -- --artifact-dir <artifact-dir> --target <target> --promote candidate
 ```
 
-6. Record `01-intake.json` and `02-preprocess.json` using `docs/workflows/agent-receipts.md`.
+7. Record `01-intake.json` and `02-preprocess.json` using `docs/workflows/agent-receipts.md`.
 
 ## Skip Criteria
 

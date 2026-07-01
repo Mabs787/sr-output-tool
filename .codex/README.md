@@ -19,4 +19,5 @@ This directory separates reusable Codex behavior from repository source code.
 - Keep model choices inside `.codex/agents/*.toml`.
 - Keep workflow behavior in `docs/workflows/`.
 - Keep scratch receipts under `voiceover-smoke/agent-work/`; those files are not checked in.
-
+- Keep autonomous batch state under `voiceover-smoke/autonomous-runs/`.
+- Promote durable VoiceOver refinement lessons to `docs/status/voiceover-learnings.md`.

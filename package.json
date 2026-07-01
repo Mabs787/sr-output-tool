@@ -20,7 +20,6 @@
     "voiceover:create-refinement-prompt": "node .github/scripts/create-refinement-prompt.mjs",
     "voiceover:import-fixtures": "node .github/scripts/import-voiceover-fixtures.mjs",
     "voiceover:preprocess-artifact": "node .github/scripts/refine-voiceover-artifact.mjs",
-    "voiceover:refine-artifact": "node .github/scripts/refine-voiceover-artifact.mjs",
     "voiceover:validate-agent-workflow": "node .github/scripts/validate-agent-workflow.mjs"
   },
   "devDependencies": {

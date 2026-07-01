@@ -1,6 +1,6 @@
 # VoiceOver Corpus Baseline
 
-Last refreshed: 2026-06-29
+Last refreshed: 2026-07-01
 
 This baseline uses the VoiceOver-first refinement workflow:
 
@@ -13,11 +13,12 @@ This baseline uses the VoiceOver-first refinement workflow:
 
 These fixtures currently match the engine exactly against `refinedAnnouncements`:
 
-- `www-bbc-co-uk-news`
+- `www-bbc-co-uk-weather`
 - `www-google-com-accessibility`
 - `www-gov-uk-apply-blue-badge`
 - `www-gov-uk`
 - `www-microsoft-com-en-us-accessibility`
+- `developer-mozilla-org-en-us`
 - `www-nhs-uk-conditions`
 - `www-nhs-uk`
 - `www-sky-com`
@@ -28,23 +29,24 @@ These fixtures currently match the engine exactly against `refinedAnnouncements`
 - `www-sky-com-tv-stream`
 - `www-sky-com-tvandbroadband`
 - `www-sky-com-watch-what-to-watch-this-week`
+- `www-w3-org-wai`
+- `www-w3-org-wai-standards-guidelines-wcag`
 - `www-wikipedia-org`
 
 ## Active Partial Fixtures
 
 These fixtures protect reliable slices while leaving unresolved regions out of exact gating:
 
-- `web-dev`: header through appearance/language shadow controls.
+- `web-dev`: header through appearance/language shadow controls; direct compare is exact 0, but capture timing remains under review so the slice stays partial.
 - `www-apple-com-accessibility`: global/local navigation and the reviewed gallery slices.
-- `www-bbc-co-uk-weather`: BBC-wide header through location search button.
 
 ## Candidate / Needs Refinement
 
 These fixtures are useful evidence but are not exact corpus gates yet:
 
 - `business-sky-com-s`
-- `developer-mozilla-org-en-us`
 - `developer-mozilla-org-en-us-docs-web-html`
+- `www-bbc-co-uk-news`
 - `www-sky-com-broadband`
 - `www-sky-com-broadband-gaming`
 - `www-sky-com-glass`
@@ -53,10 +55,24 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 - `www-sky-com-shop-mobile`
 - `www-sky-com-watch`
 - `www-tesco-com`
-- `www-w3-org-wai`
-- `www-w3-org-wai-standards-guidelines-wcag`
 
 The Sky candidates listed here have completed Phase B evidence review. A 2026-06-28 fixture-trust audit restored several refined-output edits that could have hidden true VoiceOver output, so remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating. See `docs/status/sky-refinement-status.md`.
+
+`web-dev` remains partial because the direct compare is exact, but the 60-second settle rescan still has capture-timing evidence under review. Do not edit the refined announcements from that rescan unless a future receipt documents a fresh evidence-backed correction.
+
+`developer-mozilla-org-en-us` was promoted after the final Phase E review landed at 180 expected, 180 actual, and 0 mismatch windows.
+
+`www-bbc-co-uk-weather` was promoted after the final Phase E review landed at 181 expected, 181 actual, and 0 mismatch windows.
+
+`www-w3-org-wai` was promoted after the final Phase E review landed at 207 expected, 207 actual, and 0 mismatch windows.
+
+`www-w3-org-wai-standards-guidelines-wcag` was promoted after receipt 27 closed the footer punctuation family and the final compare landed at 320 expected, 320 actual, and 0 mismatch windows.
+
+`www-bbc-co-uk-news` is listed as a known unrelated corpus failure until its
+card-link ordering mismatch is revisited. The latest Phase E receipt for run
+`28405210071` reports first mismatch index 130 and a protected compare with 2
+mismatch windows, so do not treat it as exact despite earlier refined status
+metadata.
 
 `www-sky-com-tvandbroadband` was refreshed from successful scan `28305378853` on 2026-06-28 and reviewed through Phase B/C/D/E. OCR/source-backed fixture repairs were applied, and hover-open navigation submenu announcements were later removed because the fixture replays the initial non-hover DOM state. Phase D resolved package-card list-marker/position, parenthesized heading-fragment, and price/disclosure split families. Phase C.5 confirmed the remaining hero CTA, What's included, and included-content families as reusable engine gaps, and Phase E promotion now makes the exact compare 351 expected, 351 actual, and 0 mismatch windows.
 

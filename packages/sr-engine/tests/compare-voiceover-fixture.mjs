@@ -32,7 +32,7 @@ function escapeCssIdentifier(value) {
   });
 }
 
-function scanHtml(html) {
+function scanHtml(html, accessibilityTree) {
   const dom = new JSDOM(html);
   const css = dom.window.CSS ?? {};
   const previousDocument = globalThis.document;
@@ -55,6 +55,7 @@ function scanHtml(html) {
     const scanner = createDomScanner({
       generateAnnouncement,
       getContextEndAnnouncement,
+      accessibilityTree,
     });
     return scanner.scanSubtree(dom.window.document.body).map((entry) => entry.announcement);
   } finally {
@@ -150,8 +151,11 @@ if (!existsSync(expectedPath)) {
 
 const fixture = readJson(expectedPath);
 const html = readFileSync(path.join(fixturesDir, fixture.html), "utf8");
+const accessibilityTree = fixture.accessibilityTree
+  ? readJson(path.join(fixturesDir, fixture.accessibilityTree))
+  : undefined;
 const expected = fixture.refinedAnnouncements || fixture.expectedAnnouncements;
-const actual = scanHtml(html);
+const actual = scanHtml(html, accessibilityTree);
 const windows = findMismatchWindows(actual, expected);
 const grouped = windows.reduce((result, window) => {
   const key = classifyWindow(window);

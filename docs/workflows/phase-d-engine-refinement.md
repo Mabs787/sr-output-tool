@@ -7,6 +7,11 @@ mismatch as a reusable engine or scanner gap.
 If Phase C marked the family for Phase C.5, do not implement the engine rule
 until the minimal reproduction scan concludes `engine-gap-confirmed`.
 
+The target is zero mismatches for the site. Phase D should continue resolving
+one trusted reusable family at a time until the target compares exactly, all
+safe reusable fixes have been attempted, or each remaining family has an
+evidence-backed blocker and next owner.
+
 ## Agent
 
 Use `.codex/agents/engine-refiner.toml`.
@@ -77,6 +82,14 @@ If a prototype is too broad, reduce it to the evidence-backed focused-node
 shape and rerun target and corpus checks before abandoning the engine path.
 Record both rejected broad prototypes and any narrower kept fixes.
 
+Broad punctuation, marker, link-boundary, iframe/shadow, carousel, table, or
+group traversal changes require extra caution. A target compare improvement is
+not enough. The receipt must show either protected compares that stayed stable
+or a Phase C.5 result that proves the generic behavior before the rule is kept.
+If the first broad prototype regresses a protected fixture, unwind it and route
+the disputed sub-family back to Phase C/C.5 unless a narrower semantic
+predicate is obvious from saved HTML and AX evidence.
+
 When a broad prototype regresses corpus fixtures, first try reducing it to the
 smallest generic condition that explains the target mismatch. For example,
 prefer "preserve heading level for semantic heading elements discovered in
@@ -87,6 +100,10 @@ When the smallest generic condition is still unclear, create or request a Phase
 C.5 minimal reproduction scan before committing the rule. Use the mini-scan
 result to decide whether the behavior is a real VoiceOver rule, fixture noise,
 or conditional step state.
+
+If the mismatch might be caused by truncated VoiceOver output, stale saved HTML,
+AX/source disagreement, missing step-state evidence, or a scan artifact problem,
+return that family to Phase B or Phase C.5 before changing engine logic.
 
 Phase C.5 is not limited to noisy-output suspicion. Use it as an engine-rule
 confidence check whenever:

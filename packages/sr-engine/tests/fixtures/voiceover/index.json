@@ -4,52 +4,11 @@
   "importedAt": "2026-06-19T08:36:49.247Z",
   "cases": [
     {
-      "name": "developer-mozilla-org-en-us-docs-web-html",
-      "expected": "developer-mozilla-org-en-us-docs-web-html.expected.json",
-      "html": "developer-mozilla-org-en-us-docs-web-html.html",
-      "accessibilityTree": "developer-mozilla-org-en-us-docs-web-html.ax.json",
-      "voiceOverAnnouncementCount": 352,
-      "sanitizationStatus": "needs-manual-refinement"
-    },
-    {
-      "name": "developer-mozilla-org-en-us",
-      "expected": "developer-mozilla-org-en-us.expected.json",
-      "html": "developer-mozilla-org-en-us.html",
-      "accessibilityTree": "developer-mozilla-org-en-us.ax.json",
-      "voiceOverAnnouncementCount": 172,
-      "sanitizationStatus": "needs-manual-refinement"
-    },
-    {
-      "name": "web-dev",
-      "expected": "web-dev.expected.json",
-      "html": "web-dev.html",
-      "accessibilityTree": "web-dev.ax.json",
-      "voiceOverAnnouncementCount": 176,
-      "sanitizationStatus": "sanitized",
-      "stepSnapshots": "web-dev.step-snapshots.json"
-    },
-    {
-      "name": "www-apple-com-accessibility",
-      "expected": "www-apple-com-accessibility.expected.json",
-      "html": "www-apple-com-accessibility.html",
-      "accessibilityTree": "www-apple-com-accessibility.ax.json",
-      "voiceOverAnnouncementCount": 374,
-      "sanitizationStatus": "sanitized"
-    },
-    {
       "name": "www-bbc-co-uk-news",
       "expected": "www-bbc-co-uk-news.expected.json",
       "html": "www-bbc-co-uk-news.html",
       "accessibilityTree": "www-bbc-co-uk-news.ax.json",
       "voiceOverAnnouncementCount": 189,
-      "sanitizationStatus": "sanitized"
-    },
-    {
-      "name": "www-bbc-co-uk-weather",
-      "expected": "www-bbc-co-uk-weather.expected.json",
-      "html": "www-bbc-co-uk-weather.html",
-      "accessibilityTree": "www-bbc-co-uk-weather.ax.json",
-      "voiceOverAnnouncementCount": 188,
       "sanitizationStatus": "sanitized"
     },
     {
@@ -99,22 +58,6 @@
       "accessibilityTree": "www-nhs-uk.ax.json",
       "voiceOverAnnouncementCount": 110,
       "sanitizationStatus": "sanitized"
-    },
-    {
-      "name": "www-w3-org-wai-standards-guidelines-wcag",
-      "expected": "www-w3-org-wai-standards-guidelines-wcag.expected.json",
-      "html": "www-w3-org-wai-standards-guidelines-wcag.html",
-      "accessibilityTree": "www-w3-org-wai-standards-guidelines-wcag.ax.json",
-      "voiceOverAnnouncementCount": 319,
-      "sanitizationStatus": "sanitized"
-    },
-    {
-      "name": "www-w3-org-wai",
-      "expected": "www-w3-org-wai.expected.json",
-      "html": "www-w3-org-wai.html",
-      "accessibilityTree": "www-w3-org-wai.ax.json",
-      "voiceOverAnnouncementCount": 206,
-      "sanitizationStatus": "needs-manual-refinement"
     },
     {
       "name": "www-wikipedia-org",
@@ -276,6 +219,69 @@
       "stepSnapshots": "www-tesco-com.step-snapshots.json",
       "voiceOverAnnouncementCount": 333,
       "sanitizationStatus": "needs-manual-refinement"
+    },
+    {
+      "name": "developer-mozilla-org-en-us",
+      "expected": "developer-mozilla-org-en-us.expected.json",
+      "html": "developer-mozilla-org-en-us.html",
+      "accessibilityTree": "developer-mozilla-org-en-us.ax.json",
+      "stepSnapshots": "developer-mozilla-org-en-us.step-snapshots.json",
+      "voiceOverAnnouncementCount": 180,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "developer-mozilla-org-en-us-docs-web-html",
+      "expected": "developer-mozilla-org-en-us-docs-web-html.expected.json",
+      "html": "developer-mozilla-org-en-us-docs-web-html.html",
+      "accessibilityTree": "developer-mozilla-org-en-us-docs-web-html.ax.json",
+      "stepSnapshots": "developer-mozilla-org-en-us-docs-web-html.step-snapshots.json",
+      "voiceOverAnnouncementCount": 502,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "web-dev",
+      "expected": "web-dev.expected.json",
+      "html": "web-dev.html",
+      "accessibilityTree": "web-dev.ax.json",
+      "stepSnapshots": "web-dev.step-snapshots.json",
+      "voiceOverAnnouncementCount": 180,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-apple-com-accessibility",
+      "expected": "www-apple-com-accessibility.expected.json",
+      "html": "www-apple-com-accessibility.html",
+      "accessibilityTree": "www-apple-com-accessibility.ax.json",
+      "stepSnapshots": "www-apple-com-accessibility.step-snapshots.json",
+      "voiceOverAnnouncementCount": 378,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-bbc-co-uk-weather",
+      "expected": "www-bbc-co-uk-weather.expected.json",
+      "html": "www-bbc-co-uk-weather.html",
+      "accessibilityTree": "www-bbc-co-uk-weather.ax.json",
+      "stepSnapshots": "www-bbc-co-uk-weather.step-snapshots.json",
+      "voiceOverAnnouncementCount": 190,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-w3-org-wai",
+      "expected": "www-w3-org-wai.expected.json",
+      "html": "www-w3-org-wai.html",
+      "accessibilityTree": "www-w3-org-wai.ax.json",
+      "stepSnapshots": "www-w3-org-wai.step-snapshots.json",
+      "voiceOverAnnouncementCount": 205,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-w3-org-wai-standards-guidelines-wcag",
+      "expected": "www-w3-org-wai-standards-guidelines-wcag.expected.json",
+      "html": "www-w3-org-wai-standards-guidelines-wcag.html",
+      "accessibilityTree": "www-w3-org-wai-standards-guidelines-wcag.ax.json",
+      "stepSnapshots": "www-w3-org-wai-standards-guidelines-wcag.step-snapshots.json",
+      "voiceOverAnnouncementCount": 320,
+      "sanitizationStatus": "sanitized"
     }
   ],
   "skipped": [],

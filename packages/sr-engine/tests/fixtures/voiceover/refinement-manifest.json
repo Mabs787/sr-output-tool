@@ -11,28 +11,28 @@
   "defaultStatus": "candidate",
   "cases": {
     "developer-mozilla-org-en-us-docs-web-html": {
-      "status": "skip",
-      "reason": "VoiceOver captured dynamic advertising content absent from rendered HTML."
+      "status": "candidate",
+      "reason": "Parking at 26 mismatch windows; remaining MDN docs families still need evidence-backed review before exact gating."
     },
     "developer-mozilla-org-en-us": {
-      "status": "skip",
-      "reason": "Severe OCR/caption artifacts and dynamic advertising content absent from rendered HTML."
+      "status": "refined",
+      "reason": "Direct compare is exact at 180 expected, 180 actual, and 0 mismatch windows after the final Phase E review."
     },
     "web-dev": {
       "status": "partial",
-      "reason": "Rendered header through the appearance/language shadow controls is promoted as an exact partial gate. The full page remains partial because the latest raw VoiceOver stream skipped the logo link while rendered HTML and earlier runs include it, and later page content still contains caption/OCR cleanup candidates."
+      "reason": "Direct compare is exact at 180 expected, 180 actual, and 0 mismatch windows, but capture timing remains under evidence review so only the reviewed slice stays trusted."
     },
     "www-apple-com-accessibility": {
-      "status": "partial",
-      "reason": "Global nav, the visible local navigation tray, first accessibility features gallery, and accessibility resources gallery are promoted as an exact partial gate. Supplied gallery HTML confirms structured card decomposition; later lower-page sections still need review before full-page gating."
+      "status": "candidate",
+      "reason": "Parking at 22 mismatch windows; unresolved Apple gallery/footer families still need evidence-backed review before exact gating."
     },
     "www-bbc-co-uk-news": {
-      "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "status": "candidate",
+      "reason": "Known unrelated card-link ordering mismatch remains after run 28405210071; latest protected compare reported 2 mismatch windows and firstMismatchIndex 130, so keep as candidate until evidence/refinement closes that gap."
     },
     "www-bbc-co-uk-weather": {
-      "status": "partial",
-      "reason": "Header through weather location search button is promoted as an exact partial gate. The opened search-panel content is confirmed by step snapshots but absent from final rendered HTML, so that deeper slice remains candidate-only."
+      "status": "refined",
+      "reason": "Direct compare is exact at 181 expected, 181 actual, and 0 mismatch windows after the final Phase E review."
     },
     "www-google-com-accessibility": {
       "status": "refined",
@@ -63,12 +63,12 @@
       "reason": "Latest 1200px Sky artifact matched the engine exactly after reusable engine fixes; promoted as a refined full-page gate."
     },
     "www-w3-org-wai-standards-guidelines-wcag": {
-      "status": "candidate",
-      "reason": "Phase B review completed. Refined announcements restore two HTML/AX-backed closing punctuation announcements after WAI/W3C links; remaining gaps are broad list/marker and role/structure divergence, so this stays candidate evidence rather than an exact gate."
+      "status": "refined",
+      "reason": "Direct compare is exact at 320 expected, 320 actual, and 0 mismatch windows after the footer punctuation Phase D finish."
     },
     "www-w3-org-wai": {
-      "status": "skip",
-      "reason": "Severe OCR/caption artifacts; keep out of corpus gate until manually refined."
+      "status": "refined",
+      "reason": "Direct compare is exact at 207 expected, 207 actual, and 0 mismatch windows after the final Phase E review."
     },
     "www-wikipedia-org": {
       "status": "refined",

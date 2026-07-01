@@ -4,8 +4,27 @@ This is the canonical workflow for live-site Chrome + VoiceOver corpus refinemen
 
 The goal is to turn scan artifacts into trusted `refinedAnnouncements`, then use those fully processed fixtures to improve reusable engine behavior. Preprocessing alone is not refinement.
 
+The target outcome for each site is zero compare mismatches. A non-zero result
+is allowed only as a recorded `candidate`, `partial`, `blocked`, or `skip`
+outcome with evidence-backed revisit entries. Do not treat a difficult mismatch
+as an acceptable endpoint until the workflow has rechecked the saved evidence,
+attempted the safe reusable path, and used Phase C.5 when a focused scan could
+reduce uncertainty.
+
+The refined fixture oracle is the VoiceOver output for the initial captured
+HTML, not every announcement produced while VoiceOver navigation mutates the
+page. Raw `expectedAnnouncements` may preserve hover, focus, carousel,
+accordion, timer, personalization, or other step-time output, but
+`refinedAnnouncements` must represent what VoiceOver should produce when
+entering the initial `rendered-html.html` state. If page state changes while
+moving down the page, use `htmlAfterStep` and snapshots to explain the raw
+capture, then remove or normalize non-initial state from the refined replay
+target unless the same semantic content is present and replayable in the
+initial HTML.
+
 ## Required Phases
 
+0. [Phase 0: Scan Health Gate](phase-0-scan-health.md)
 1. [Phase A: Intake](phase-a-intake.md)
 2. [Phase B: Evidence Refinement](phase-b-evidence-refinement.md)
 3. [Phase C: Fixture Judge](phase-c-fixture-judge.md)
@@ -13,13 +32,19 @@ The goal is to turn scan artifacts into trusted `refinedAnnouncements`, then use
 5. [Phase D: Engine Refinement](phase-d-engine-refinement.md)
 6. [Phase E: Promotion](phase-e-promotion.md)
 
+For continuous multi-site operation, use
+[Autonomous VoiceOver Loop](autonomous-voiceover-loop.md). The autonomous loop
+adds queue/state management and learning capture; it does not replace the phase
+rules in this document.
+
 All phase receipts must follow [Agent Receipts](agent-receipts.md).
 
 ## Agent Routing
 
 Project-scoped subagents live in `.codex/agents/`.
 
-- `orchestrator`: coordinates phases, handoffs, and target order.
+- `orchestrator`: coordinates phases, handoffs, target order, and Phase 0
+  scan-health checks until a dedicated scan-health agent exists.
 - `intake`: Phase A artifact intake and preprocessing.
 - `evidence-refiner`: Phase B source-of-truth `refinedAnnouncements` review.
 - `fixture-judge`: Phase C mismatch classification.
@@ -57,6 +82,7 @@ An orchestrator-only run is not multi-agent.
 The top-level session may spawn `orchestrator` to create a routing plan, but it
 must still spawn phase-specific agents for the actual phase work:
 
+- `orchestrator` for Phase 0 when a new scan artifact needs health validation
 - `intake` for Phase A when artifact import is needed
 - `evidence-refiner` for Phase B
 - `fixture-judge` for Phase C
@@ -79,10 +105,12 @@ multi-agent refinement run and must not promote a fixture as `refined`.
 Before Phase E promotion, validate the receipt directory:
 
 ```sh
-yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/<run-id>/<target> --required-phases A,B,C,C.5,D,E
+yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/<run-id>/<target> --required-phases 0,A,B,C,C.5,D,E
 ```
 
-Use the actual required phase list for the target. Omit `C.5` or `D` only when
+Use the actual required phase list for the target. Omit `0` only when the
+artifact was already imported before the scan-health gate existed or the
+receipts explain why no new scan artifact was used. Omit `C.5` or `D` only when
 the receipts explain why those phases were not required.
 
 ## Non-Negotiable Rules
@@ -91,11 +119,13 @@ the receipts explain why those phases were not required.
 - Raw `expectedAnnouncements` should preserve what VoiceOver actually heard.
   `refinedAnnouncements` is the replay target for the engine and must describe
   the initial `rendered-html.html` fixture input.
+- The goal is not to reproduce transient page mutations that happened during
+  capture. The goal is to produce VoiceOver-equivalent output for entering the
+  initial captured HTML.
 - Raw VoiceOver evidence is append-only. Do not hand-edit raw scan output to
   make a compare pass. If a later scan disagrees, record the later artifact id
   and compare the two evidence sets instead of overwriting the original record.
-- `voiceover:preprocess-artifact` / `voiceover:refine-artifact` is Phase A
-  preprocessing only.
+- `voiceover:preprocess-artifact` is Phase A preprocessing only.
 - A fixture is not refined just because `refinedAnnouncements` exists.
 - Evidence refinement must treat `refinedAnnouncements` as an untrusted draft,
   inspect it against HTML, AX, snapshots, and VoiceOver source evidence, and
@@ -133,6 +163,10 @@ the receipts explain why those phases were not required.
   broad engine logic. Phase C.5 must create a minimal same-structure DOM
   reproduction, trigger a focused VoiceOver scan, import the artifact, and feed
   the result back to Phase B/C/D.
+- If there is any meaningful doubt about truncation, saved HTML correctness,
+  AX/tree interpretation, source/caption drift, step-only DOM state, or whether
+  VoiceOver behavior is generic, prefer a Phase C.5 test over a terminal
+  ambiguity label.
 - Phase C.5 is also a Phase D confidence tool. When an engine rule feels too
   broad, site-shaped, or surprising, Phase D should request a mini scan to prove
   the isolated DOM/ARIA/table/list/control behavior before committing the rule.
@@ -144,6 +178,10 @@ the receipts explain why those phases were not required.
 - Remaining mismatches must be revisited, not merely listed. Phase D and Phase E
   receipts must include a revisit queue with the next owner, next action,
   blocker, and checks for every unresolved family.
+- Fallback is not an escape route. A target may pause or skip only when the
+  receipts show the exact evidence checked, the C.5/retry attempts made or why
+  they were impossible, the generic fix attempted or rejected, and the concrete
+  external blocker or risk that prevents safe progress.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
 
@@ -184,21 +222,29 @@ must not edit fixtures while implementing engine logic; if Phase D discovers a
 fixture evidence problem, it must stop that family and route it to Phase B or
 Phase C.5 with the evidence gap.
 
-## Push Gate
+## Operational Push Gate
 
-Before pushing when fixture files changed, the top-level session or Phase E must
-run a fixture-change review:
+Do not push ordinary refinement, fixture, engine, status, or docs changes
+during a refinement campaign unless the user explicitly asks for commit, push,
+or PR work. Push only when required to trigger a remote scan workflow, expose a
+repo-local Phase C.5 reproduction to the runner, or provide another required
+remote workflow input.
+
+Before any required operational push when fixture files changed, the top-level
+session or Phase E must run a fixture-change review:
 
 - Identify changed fixture files and whether raw evidence, refined output, HTML,
   AX, or manifest data changed.
+- Confirm the push is required for scan/workflow execution and cannot be
+  avoided by using an existing artifact or already-pushed file.
 - Block the push if raw VoiceOver output was hand-edited.
 - Require a fixture change receipt entry for every `refinedAnnouncements` range
   that changed.
 - Require an explicit warning in the final response and `06-promotion.json` when
   a commit mixes engine changes and more than a small number of fixture-output
   edits.
-- Prefer separate commits for engine logic, fixture/evidence changes, and
-  workflow/docs changes when the user has not requested a single combined push.
+- Stage only the minimal files required by the scan/workflow. Leave unrelated
+  local refinement, engine, fixture, status, and docs changes unpushed.
 - Do not push fixture-heavy changes that only reduce mismatch counts without
   evidence classifications.
 
@@ -208,6 +254,7 @@ Each phase must leave a machine-readable receipt under:
 
 ```text
 voiceover-smoke/agent-work/<run-id>/<target>/
+  00-scan-health.json
   01-intake.json
   02-preprocess.json
   03-evidence-refinement.json
@@ -223,6 +270,7 @@ These files are ignored scratch output. Checked-in source of truth remains in:
 - `packages/sr-engine/tests/fixtures/voiceover/`
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
 - `docs/status/voiceover-corpus-baseline.md`
+- `docs/status/voiceover-learnings.md`
 - target-specific status docs in `docs/status/`
 
 ## Fresh Chat Entry

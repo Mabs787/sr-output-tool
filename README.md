@@ -27,6 +27,7 @@ test-app/          optional local fixture for manual checks
 - [packages/sr-extension/README.md](packages/sr-extension/README.md) explains how to build, load, use, and package the browser extension.
 - [packages/sr-extension/RELEASE_NOTES.md](packages/sr-extension/RELEASE_NOTES.md) is the extension-specific release-notes file to use when publishing extension zip builds.
 - [docs/workflows/voiceover-refinement.md](docs/workflows/voiceover-refinement.md) is the canonical multi-agent VoiceOver refinement workflow.
+- [docs/workflows/autonomous-voiceover-loop.md](docs/workflows/autonomous-voiceover-loop.md) describes the continuous scan/refine queue and learning loop.
 - [.codex/README.md](.codex/README.md) explains the project-scoped Codex agents, prompts, context, and knowledge layout.
 
 ## Quick Start
@@ -71,13 +72,13 @@ yarn voiceover:create-url-manifest --urls "https://example.com/page"
 After downloading a `voiceover-scan-*` artifact, the preferred one-target refinement entrypoint is:
 
 ```bash
-yarn voiceover:refine-artifact -- --artifact-dir /tmp/voiceover-artifacts --target www-example-com
+yarn voiceover:preprocess-artifact -- --artifact-dir /tmp/voiceover-artifacts --target www-example-com
 ```
 
 To download from a GitHub Actions run directly:
 
 ```bash
-yarn voiceover:refine-artifact -- --run-id 123456789 --target www-example-com --force
+yarn voiceover:preprocess-artifact -- --run-id 123456789 --target www-example-com --force
 ```
 
 That command is the preprocessing entrypoint: it downloads or reads the artifact, imports a fixture workspace, creates initial `expectedAnnouncements` and `refinedAnnouncements`, applies safe deterministic cleanup, creates an AI prompt, writes a Markdown evidence report, stores rendered HTML / AX tree / step snapshots, and compares the current engine with `refinedAnnouncements`. It does not promote files into the checked-in corpus unless `--promote candidate` or `--promote refined` is passed.
@@ -98,6 +99,10 @@ For the full multi-agent process, use
 workflow for deciding which agents preprocess artifacts, refine
 `refinedAnnouncements`, judge mismatches, update reusable engine logic, and
 promote fixtures.
+
+For autonomous multi-site operation, use
+`docs/workflows/autonomous-voiceover-loop.md`. New live-site scan artifacts must
+pass `docs/workflows/phase-0-scan-health.md` before Phase A imports them.
 
 Project-scoped Codex subagents live in `.codex/agents/`. Those TOML files
 define phase-specific agent instructions and model routing; workflow markdown

@@ -75,7 +75,7 @@ function isPartialGateStatus(fixture, status) {
   );
 }
 
-function scanHtml(html) {
+function scanHtml(html, accessibilityTree) {
   const dom = new JSDOM(html);
   const css = dom.window.CSS ?? {};
   const previousDocument = globalThis.document;
@@ -97,6 +97,7 @@ function scanHtml(html) {
     const scanner = createDomScanner({
       generateAnnouncement,
       getContextEndAnnouncement,
+      accessibilityTree,
     });
     return scanner.scanSubtree(dom.window.document.body).map((entry) => entry.announcement);
   } finally {
@@ -289,9 +290,12 @@ for (const fixture of cases) {
     `VoiceOver corpus: ${fixture.name} [${refinement.status}]`,
     () => {
     const html = readFileSync(path.join(fixturesDir, fixture.html), "utf8");
+    const accessibilityTree = fixture.accessibilityTree
+      ? readJson(path.join(fixturesDir, fixture.accessibilityTree))
+      : undefined;
     let actual;
     try {
-      actual = scanHtml(html);
+      actual = scanHtml(html, accessibilityTree);
     } catch (error) {
       assert.fail(
         JSON.stringify(
@@ -311,7 +315,8 @@ for (const fixture of cases) {
     if (isPartialGateStatus(fixture, refinement.status)) {
       for (const partial of fixture.partialAssertions) {
         const partialHtml = getPartialHtml(fixture, partial, html);
-        const partialActual = partialHtml === html ? actual : scanHtml(partialHtml);
+        const partialActual =
+          partialHtml === html ? actual : scanHtml(partialHtml);
         assertPartialAnnouncementsMatch(partialActual, partial);
       }
     } else {

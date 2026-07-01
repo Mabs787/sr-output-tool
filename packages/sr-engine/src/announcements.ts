@@ -437,13 +437,18 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           pushAutocomplete(parts, el.autocomplete);
         }
       } else {
-        pushIfPresent(parts, label);
+        const placeholderText = placeholder !== label ? placeholder : undefined;
+        pushIfPresent(
+          parts,
+          el.textboxPlaceholderBeforeRole && !value
+            ? [label, placeholderText].filter(Boolean).join(" ")
+            : label,
+        );
         if (el.invalid) {
           pushInvalidState(parts, el.invalid === true ? "data" : el.invalid);
         }
         parts.push("edit text");
-        if (!el.invalid) {
-          const placeholderText = placeholder !== label ? placeholder : undefined;
+        if (!el.invalid && !el.textboxPlaceholderBeforeRole) {
           pushIfPresent(parts, value ?? placeholderText);
         }
         pushAutocomplete(parts, el.autocomplete);
@@ -570,8 +575,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "term": {
       pushIfPresent(parts, label);
       pushSupplementalText(parts, el);
-      parts.push("term");
+      parts.push(el.emptyTerm ? "empty term" : "term");
       pushCollectionPosition(parts, el);
+      if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
+        parts.push(`${el.positionInSet} of ${el.setSize}`);
+      }
       break;
     }
 
@@ -685,7 +693,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       pushIfPresent(parts, el.name ?? el.tableLabel);
       parts.push(role === "grid" ? "grid" : "table");
       if (el.columnCount) {
-        parts.push(`${el.columnCount} columns`);
+        parts.push(`${el.columnCount} ${el.columnCount === 1 ? "column" : "columns"}`);
       }
       if (el.rowCount) {
         parts.push(`${el.rowCount} rows`);
@@ -830,6 +838,13 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "frame": {
+      pushIfPresent(parts, label);
+      parts.push("frame");
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "menuitem":
     case "option": {
       pushIfPresent(parts, label);
@@ -887,6 +902,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "region": {
       pushIfPresent(parts, el.name);
       parts.push(el.roleDescription ?? role);
+      if (role === "article") {
+        pushCollectionPosition(parts, el);
+      }
       pushSupplementalText(parts, el);
       break;
     }
@@ -935,6 +953,18 @@ export function getContextEndAnnouncement(
     return descriptor?.roleDescription === "definition list"
       ? "end of definition list"
       : "end of list";
+  }
+
+  if (role === "term") {
+    const name = normalizeText(descriptor?.name);
+    if (!name) return "end of term";
+    const position =
+      descriptor?.parenthesizedCollectionPosition &&
+      descriptor.positionInSet &&
+      descriptor.setSize
+        ? `, (${descriptor.positionInSet} of ${descriptor.setSize})`
+        : "";
+    return `end of, ${name}, term${position}`;
   }
 
   if (role === "banner") {
@@ -995,7 +1025,8 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "article") {
-    return descriptor?.name ? `end of, ${descriptor.name}, article` : "end of, article";
+    const name = descriptor?.contextEndName || descriptor?.name;
+    return name ? `end of, ${name}, article` : "end of, article";
   }
 
   if (role === "group") {

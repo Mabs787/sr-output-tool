@@ -12,6 +12,12 @@ Phase B is the normal owner for refined fixture edits. Its job is to preserve
 true VoiceOver behavior while removing or repairing evidence that cannot be
 replayed from the initial fixture input.
 
+`refinedAnnouncements` is the oracle for the initial captured HTML. It is not a
+transcript of every page state VoiceOver encountered while moving through the
+page. Raw `expectedAnnouncements` should retain those observed announcements,
+but the refined replay target must describe the output for entering the initial
+`rendered-html.html` state.
+
 ## Agent
 
 Use `.codex/agents/evidence-refiner.toml`.
@@ -50,7 +56,7 @@ For each audited announcement or range:
 
 1. Treat the current refined line as a hypothesis, not truth.
 2. Compare raw VoiceOver, rendered HTML, AX nodes, step snapshots, and source/caption evidence for that step or nearby content.
-3. For any VoiceOver line that is present in `htmlAfterStep` but absent from the initial `rendered-html.html`, classify the line as conditional scan state unless the initial fixture HTML also contains the same semantic content in a replayable visible/AX-supported state. Remove or normalize hover-only, focus-only, carousel-advanced, timer-mutated, or otherwise step-time-only content from `refinedAnnouncements` because the engine fixture replays the initial DOM. Keep the raw line in `expectedAnnouncements`.
+3. For any VoiceOver line that is present in `htmlAfterStep` but absent from the initial `rendered-html.html`, classify the line as conditional scan state unless the initial fixture HTML also contains the same semantic content in a replayable visible/AX-supported state. Remove or normalize hover-only, focus-only, carousel-advanced, accordion-expanded, modal-opened, lazy-rendered, timer-mutated, personalized, or otherwise step-time-only content from `refinedAnnouncements` because the engine fixture replays the initial DOM. Keep the raw line in `expectedAnnouncements`.
 4. For each disputed line with step evidence, assign one initial-DOM status:
    - `initial-dom`: the semantic content exists in initial `rendered-html.html` and is replayable from saved HTML/AX
    - `step-only-dom`: `htmlAfterStep`/active text/matched nodes expose content that is hidden, absent, or not replayable in initial `rendered-html.html`
@@ -79,6 +85,8 @@ For each audited announcement or range:
 8. Preserve surprising output when evidence supports it and it is replayable from the initial fixture DOM.
 9. Repair `refinedAnnouncements` when the draft refined output is contradicted by stronger site evidence, or when the evidence proves capture noise or conditional step-only state.
 10. Before leaving any line uncertain, test the likely explanations against the evidence: hidden/offscreen capture state, ARIA controller state, missing descendants, focus target drift, dynamic page state, DOM text-boundary segmentation, text-boundary normalization, scanner traversal, and `htmlAfterStep` versus initial DOM divergence.
+    The deciding question is always: "Would VoiceOver announce this when
+    entering the initial captured HTML, before navigation changes the page?"
 11. When live/local DOM evidence is available and it contradicts the saved fixture order or duplicate structure, compare both against VoiceOver before blaming the engine. If VoiceOver matches live DOM but not saved `rendered-html.html`, record saved/live DOM-state divergence and return the target for fixture repair, recapture, or fixture-level normalization.
 12. Do not edit refined output because the current engine already emits the
     replacement, because an engine fix would be difficult, or because the
@@ -88,12 +96,21 @@ For each audited announcement or range:
     before/after text, valid reason enum, evidence pointers, confidence, and
     whether an engine gap still remains after the edit.
 14. Record every approval, edit, or uncertainty with the evidence used.
-15. When a disputed line remains uncertain after the required HTML, AX,
+15. If any mismatch appears to be caused by incorrect saved evidence, first
+    double-check rendered HTML, AX tree, step snapshots, source/caption
+    evidence, scan-debug data, and screenshots/recording when available. Record
+    whether the saved resources agree with each other before deciding that the
+    fixture or engine is wrong.
+16. When a disputed line remains uncertain after the required HTML, AX,
     step-snapshot, source/caption, text-boundary, and focused-node checks,
     request Phase C.5 instead of asking the user for manual confirmation. The
     request must include the minimal DOM contract to preserve, the suspected
     cause to test, and what result would prove fixture noise versus an engine
     gap.
+17. If truncation is plausible from raw VoiceOver text, source/caption timing,
+    missing tail text, abrupt line endings, repeated partial phrases, or
+    screenshots/recording evidence, request Phase C.5 or a recapture before
+    editing refined output or classifying the line as ambiguous.
 
 ## Evidence Packet
 
@@ -106,11 +123,19 @@ Every disputed line must have a receipt entry with:
 - AX lookup summary
 - step snapshot or VoiceOver source/caption summary
 - `htmlAfterStep` versus initial `rendered-html.html` comparison for content that may be hover/focus/dynamic-step-only state
+- initial-HTML oracle decision: whether the refined line belongs in output for
+  entering the initial captured HTML, or only in raw capture evidence for a
+  later page state
 - initial-DOM status: `initial-dom`, `step-only-dom`, `volatile-dom`, or
   `not-found`, with the `htmlAfterStep` fingerprint/stat/excerpt evidence
 - text-boundary lookup for text split/join disputes: the relevant `outerHTML`, inline children, text-node/`br`/block boundaries, and whether the expected split follows those boundaries
 - focused-node contract for structural/decomposition disputes, including focusability, computed/AX name evidence, nearest semantic ancestor chain, and sibling context when available
 - saved/live DOM comparison when local or refreshed evidence shows different order, visibility, or duplicate responsive structures from the saved fixture
+- resource consistency check: whether rendered HTML, AX tree, step snapshots,
+  source/caption evidence, scan-debug data, screenshots, or recording agree
+  about the disputed content
+- truncation check: whether the line could be cut off or partially captured,
+  the evidence used, and whether Phase C.5 or recapture was requested
 - decision: `approved`, `edited`, or `uncertain`
 - confidence and reason
 - fixture change receipt entry when `decision` is `edited`

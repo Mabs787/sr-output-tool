@@ -2,14 +2,18 @@
   "schemaVersion": 1,
   "name": "web-dev",
   "url": "https://web.dev/",
-  "sourceRunId": "27883834106",
+  "sourceRunId": "",
   "html": "web-dev.html",
   "accessibilityTree": "web-dev.ax.json",
   "stepSnapshots": "web-dev.step-snapshots.json",
   "expectedAnnouncements": [
-    "link, inside of web content, Skip to main content link",
+    "link, Skip to main content",
     "banner",
+    "link, image, web.dev",
     "Upper tabs, navigation",
+    "arrow_drop_down Resources, button, group",
+    "link, Discover",
+    "link, Baseline",
     "Dropdown menu for Extended Navigation, menu pop up collapsed, button",
     "end of, Upper tabs, navigation",
     "Search, list box pop up collapsed, combo box",
@@ -40,7 +44,7 @@
     "link, Learn more",
     "link, identity",
     "heading level 3, level 2, link, Payments & Identity",
-    "• Read up on the latest features and best practices when it comes to identity and payment processing.",
+    "Read up on the latest features and best practices when it comes to identity and payment processing.",
     "link, Learn more",
     "heading level 2, Explore the web platform",
     "link, Start exploring",
@@ -51,7 +55,7 @@
     "heading level 3, level 2, link, CSS",
     "CSS is the presentation layer of the web, and allows you to make your web pages look exactly like you imagine.",
     "link, Learn more",
-    "*link, javascript",
+    "link, javascript",
     "heading level 3, level 2, link, JavaScript",
     "JavaScript adds rich interactivity to web pages, so you can build websites that help users to perform tasks and accomplish goals.",
     "link, Learn more",
@@ -63,12 +67,12 @@
     "heading level 3, level 2, link, Learn HTML",
     "A solid overview of HTML for developers, from novice to expert level HTML.",
     "link, Start course",
-    "link, css",
+    "link, CSS",
     "Course",
     "heading level 3, level 2, link, Learn CSS",
     "A guide to CSS with modules covering everything from accessibility to z-index.",
     "link, Start course",
-    "* link, javascript",
+    "link, javascript",
     "Course",
     "heading level 3, level 2, link, Learn JavaScript",
     "An in-depth course on the basics of JavaScript.",
@@ -98,7 +102,7 @@
     "heading level 3, level 2, link, What are source maps?",
     "Improve web debugging experience with source maps.",
     "heading level 3, level 2, link, CSS subgrid",
-    "• Subgrid is now interoperable across all three major engines. Find out how to use it.",
+    "Subgrid is now interoperable across all three major engines. Find out how to use it.",
     "heading level 2, Core Web Vitals",
     "Build faster websites and apps by understanding Core Web Vitals and other metrics.",
     "link, Explore Core Web Vitals",
@@ -116,22 +120,22 @@
     "heading level 3, level 2, link, Learn PWA",
     "A course that breaks down every aspect of modern progressive web app development.",
     "heading level 3, level 2, link, TransformStream is now supported cross browser.",
-    "Now that transform streams are supported in Safari, Firefox, and Chromethey are finally ready for prime time.",
+    "Now that transform streams are supported in Safari, Firefox, and Chrome they arefinally ready for prime time.",
     "heading level 3, level 2, link, New patterns for amazing apps",
     "Dive into a fantastic collection of new patterns for amazing apps, including clipboard patterns, file patterns, and advanced app patterns.",
-    "heading level 3, level 2, link, Project Fugu API showcase",
+    "heading level 3, level 2, link, Project Fugu APl showcase",
     "On the Chrome Developers site, explore capabilities APls.",
     "heading level 2, Accessible for all",
     "Learn how to make your sites more accessible for people with disabilities, whether permanent, temporary, or situational.",
     "link, More on accessibility",
     "heading level 3, level 2, link, Learn Accessibility",
     "Our new course is a great entry point and reference for accessibility topics.",
-    "(X heading level 3, level 2, link, Testing web design color contrast",
+    "heading level 3, level 2, link, Testing web design color contrast",
     "An overview of three tools and techniques for testing and verifying accessible color contrast of your design.",
     "heading level 3, level 2, link, Building the main navigation for a website",
     "This tutorial describes how to build an accessible main navigation of a website. You learn about semantic HTML, accessibility, and how using ARIA attributes can",
     "heading level 3, level 2, link, Community highlight: Melanie Sumner",
-    "• Read our interview with Melanie, a software engineer who specializes in digital accessibility.",
+    "Read our interview with Melanie, a software engineer who specializes in digital accessibility.",
     "heading level 2, Payments and identity",
     "Find the latest techniques and best practices for payments and helping users safely log into your sites and apps.",
     "link, More on identity",
@@ -147,10 +151,10 @@
     "Get the latest news, techniques and updates straight to your inbox.",
     "web.dev, frame",
     "end of, article",
-    "> end of, main",
+    "end of, main",
     "Footer links, navigation",
     "list 4 items",
-    "list 1 item, level 21 of 4",
+    "list 1 item, level 2 1 of 4",
     "We want to help you build beautiful, accessible, fast, and secure websites that work cross-browser, and for all of your users. This site is our home for content to help you",
     "end of list",
     "heading level 3, Contribute, 2 of 4",
@@ -164,12 +168,12 @@
     "link, Chromium updates, 2 of 4",
     "link, Case studies, 3 of 4",
     "link, Podcasts & shows, 4 of 4",
-    "endof list",
+    "end of list",
     "heading level 3, Follow, 4 of 4",
     "list 4 items, level 2",
     "link, @ChromiumDev on X, 1 of 4",
     "link, YouTube, 2 of 4",
-    "link, Chrome for Developers on Linkedln, 3 of 4",
+    "link, Chrome for Developers on Linkedin, 3 of 4",
     "link, RSS, 4 of 4",
     "end of list",
     "end of list",
@@ -178,17 +182,20 @@
     "list 2 items",
     "link, Terms, 1 of 2",
     "link, Privacy, 2 of 2",
-    "• end of list",
+    "end of list",
     "Select your language preference., group",
     "Language, menu pop up, button",
     "end of, Select your language preference., group",
-    "• end of, Utility links, navigation"
+    "end of, Utility links, navigation"
   ],
   "refinedAnnouncements": [
     "link, Skip to main content",
     "banner",
     "link, image, web.dev",
     "Upper tabs, navigation",
+    "arrow_drop_down Resources, button, group",
+    "link, Discover",
+    "link, Baseline",
     "Dropdown menu for Extended Navigation, menu pop up collapsed, button",
     "end of, Upper tabs, navigation",
     "Search, list box pop up collapsed, combo box",
@@ -198,7 +205,6 @@
     "Language, menu pop up, button",
     "end of, Select your language preference., group",
     "link, Sign in",
-    "group",
     "Guidance to build modern web experiences that work on any browser.",
     "end of, banner",
     "main",
@@ -224,6 +230,7 @@
     "heading level 2, Explore the web platform",
     "link, Start exploring",
     "The web platform is a constantly evolving ecosystem of browser features and APIs for developers to make websites that are easy and delightful to use. These pages are pathways for you to dive into each part of the web platform on web.dev—at your pace.",
+    "link, html",
     "heading level 3, level 2, link, HTML",
     "HTML is the document layer of the web, providing structure and semantics for pages.",
     "link, Learn more",
@@ -243,7 +250,7 @@
     "heading level 3, level 2, link, Learn HTML",
     "A solid overview of HTML for developers, from novice to expert level HTML.",
     "link, Start course",
-    "link, css",
+    "link, CSS",
     "Course",
     "heading level 3, level 2, link, Learn CSS",
     "A guide to CSS with modules covering everything from accessibility to z-index.",
@@ -325,7 +332,6 @@
     "Maximize conversions by helping your users complete address and payment forms as quickly and easily as possible.",
     "heading level 2, Developer Newsletter",
     "Get the latest news, techniques and updates straight to your inbox.",
-    "web.dev, frame",
     "end of, article",
     "end of, main",
     "Footer links, navigation",
@@ -366,19 +372,19 @@
   ],
   "scan": {
     "stopReason": "scan-end-marker",
-    "capturedSteps": 182
+    "capturedSteps": 185
   },
   "stats": {
-    "voiceOverAnnouncementCount": 178,
+    "voiceOverAnnouncementCount": 180,
     "reducedHtml": {
-      "originalLength": 184491,
-      "reducedLength": 77600,
+      "originalLength": 184246,
+      "reducedLength": 76934,
       "reductionPercent": 58
     },
     "accessibilityTree": {
-      "nodeCount": 941,
+      "nodeCount": 928,
       "ignoredNodeCount": 261,
-      "axMappedNodeCount": 516,
+      "axMappedNodeCount": 522,
       "domSnapshotMappedNodeCount": 812
     }
   },
@@ -386,27 +392,23 @@
     "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
     "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
     "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
-    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json; if a step snapshot shows matching live Chrome AX/page state, prefer that evidence over final rendered HTML."
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html."
   ],
   "source": {
-    "manifestPath": "../../../../../tmp/sr-vo-webdev-shadow-27883834106/voiceover-scan-web-dev/scans/web-dev/refinement-manifest.json",
+    "manifestPath": "voiceover-smoke/autonomous-runs/28405210071/artifacts/voiceover-scan-web-dev/scans/web-dev/refinement-manifest.json",
     "scanDebug": {
-      "firstVoiceOverAnnouncement": "link, inside of web content, Skip to main content link",
-      "lastVoiceOverAnnouncement": "• end of, Utility links, navigation"
+      "firstVoiceOverAnnouncement": "link, Skip to main content",
+      "lastVoiceOverAnnouncement": "end of, Utility links, navigation"
     }
   },
   "sanitization": {
     "status": "sanitized",
-    "changedAnnouncementCount": 10,
-    "warningCount": 2,
+    "changedAnnouncementCount": 1,
+    "warningCount": 1,
     "severeIssueCount": 0,
     "warnings": [
       {
-        "index": 0,
-        "announcement": "link, inside of web content, Skip to main content link"
-      },
-      {
-        "index": 22,
+        "index": 26,
         "announcement": "heading level 3, level 2, link, Al and the web"
       }
     ],
@@ -414,34 +416,7 @@
     "notes": [
       "Raw expectedAnnouncements are preserved.",
       "refinedAnnouncements contain only high-confidence OCR/system-caption corrections.",
-      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined.",
-      "Latest run captures open shadow roots in rendered HTML and reduced step snapshots.",
-      "The first raw caption contains a known VoiceOver caption artifact: inside of web content.",
-      "Refined announcements include the logo link and CSS card link confirmed by cropped-caption run 27913560022."
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
-  },
-  "partialAssertions": [
-    {
-      "name": "rendered header through shadow controls",
-      "reason": "Latest rendered HTML now includes open shadow roots for the appearance and language controls. The raw VoiceOver stream skipped the logo link in this run, but the logo is present in rendered HTML and was announced in earlier reliable runs, so this remains a partial gate while the full Web.dev sequence is refined.",
-      "startAt": "link, Skip to main content",
-      "expectedAnnouncements": [
-        "link, Skip to main content",
-        "banner",
-        "link, image, web.dev",
-        "Upper tabs, navigation",
-        "Dropdown menu for Extended Navigation, menu pop up collapsed, button",
-        "end of, Upper tabs, navigation",
-        "Search, list box pop up collapsed, combo box",
-        "group",
-        "Appearance: Light theme, menu pop up, button",
-        "Select your language preference., group",
-        "Language, menu pop up, button",
-        "end of, Select your language preference., group",
-        "link, Sign in",
-        "Guidance to build modern web experiences that work on any browser.",
-        "end of, banner"
-      ]
-    }
-  ]
+  }
 }

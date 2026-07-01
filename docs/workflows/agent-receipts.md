@@ -31,17 +31,29 @@ voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
 - `blockedReason`: empty unless `decision` is `blocked`
 - `startedAt` and `finishedAt`: ISO timestamps when available
 
+New scan artifacts must also include a scan-health receipt before Phase A:
+
+```text
+voiceover-smoke/agent-work/<run-id>/<target>/00-scan-health.json
+```
+
+See `docs/workflows/phase-0-scan-health.md` for the full schema. Phase A must
+not import a newly downloaded artifact unless Phase 0 passed or explicitly
+returned accepted `partial-evidence`.
+
 Receipts must be valid JSON and must include these common fields:
 
 - `schemaVersion`: `1`
-- `phase`: `A`, `B`, `C`, `C.5`, `D`, or `E`
+- `phase`: `0`, `A`, `B`, `C`, `C.5`, `D`, or `E`
 - `agent`: agent role name
 - `agentConfigPath`: `.codex/agents/<role>.toml`
 - `spawnedBy`: `top-level-codex`, `orchestrator`, or `manual`
 - `sessionId`: subagent id when a Codex subagent was spawned, otherwise empty
 - `target`: fixture or target name
 - `runId`: workflow run id, artifact run id, or `local`
-- `status`: `passed`, `skipped`, `returned`, `blocked`, or `failed`
+- `status`: `passed`, `skipped`, `returned`, `blocked`, or `failed`.
+  Phase-specific docs may define additional statuses, such as Phase 0
+  `retry-required`, `scanner-fix-required`, and `partial-evidence`.
 - `startedAt` and `finishedAt`: ISO timestamps when available
 - `inputs`: files, artifact paths, run ids, and commands used
 - `decisions`: concrete decisions made by the phase
@@ -52,6 +64,21 @@ Receipts must be valid JSON and must include these common fields:
 - `handoffReason`: why the next phase should run or why the target stops
 - `handoffFrom`: previous phase or empty for Phase A
 - `handoffTo`: next phase role or `complete`
+- `nextRecommendedWorker`: a compact machine-readable handoff block when more
+  work is expected:
+
+```json
+{
+  "type": "fixture-judge",
+  "scope": "Classify only footer-punctuation-tail",
+  "c5Needed": false,
+  "reason": "Latest compare leaves one trusted initial-DOM family"
+}
+```
+
+Use `type: "none"` when the target is complete or intentionally parked. Keep
+`scope` narrow enough that the next worker can start without inferring ownership
+from narrative text.
 
 Do not use `uncertain` as a terminal status. If uncertainty remains, use
 `returned` with the exact missing evidence or required prior phase. Use
@@ -95,6 +122,20 @@ a named scan artifact or the run must stop before push.
 
 ## Phase Minimums
 
+`00-scan-health.json` must include:
+
+- artifact source, target URL/path, final URL/path, and artifact file list
+- scan options and debug options used
+- page access result
+- VoiceOver health checks, including non-empty output, start marker, end marker
+  or step-cap reason, repeated-output check, and browser-chrome check
+- popup/interstitial handling evidence
+- screenshot, recording, source, scan-debug, and step-snapshot evidence
+  inspected when relevant
+- decision: `passed`, `retry-required`, `scanner-fix-required`, `blocked`, or
+  `partial-evidence`
+- next action and handoff target
+
 `01-intake.json` must include:
 
 - artifact source and target list
@@ -133,6 +174,10 @@ a named scan artifact or the run must stop before push.
 - classification: `fixture-still-noisy`, `reusable-engine-gap`,
   `dynamic-state-mismatch`, `scanner-evidence-gap`, or `ambiguous`
 - evidence for the classification
+- resource consistency check for each mismatch family: rendered HTML, AX tree,
+  step snapshots, source/caption evidence, scan-debug data, and
+  screenshots/recording when available
+- truncation check for every suspicious or incomplete VoiceOver line
 - confirmation that mismatch-relevant lines in `refinedAnnouncements` are
   replayable from the initial `rendered-html.html`, or the Phase B
   `initialDomStatus` reason for returning them
@@ -180,6 +225,9 @@ a named scan artifact or the run must stop before push.
 - compare/test evidence
 - manifest and docs changed
 - agent workflow validation command and result
+- fallback review for any non-`refined` or non-zero-mismatch result: resource
+  checks completed, C.5 result or impossibility reason, generic engine attempt
+  or unsafe reason, blocker, next owner, next action, and checks needed
 - commit/push status when requested
 - fixture push review: changed fixture files, raw-output edit check, receipt
   coverage for refined-output changes, mixed engine/fixture warning, and final

@@ -14,6 +14,7 @@ export interface BoundingBox {
 export interface ElementDescriptor {
   role?: string;
   name?: string;
+  contextEndName?: string;
   text?: string;
   description?: string;
   details?: string;
@@ -76,6 +77,7 @@ export interface ElementDescriptor {
   groupedCollectionPosition?: boolean;
   parenthesizedCollectionPosition?: boolean;
   duplicateCollectionPosition?: boolean;
+  emptyTerm?: boolean;
   unlabeledImage?: boolean;
   unlabeledImageSrcLabel?: string;
   imageMissingDescriptionHint?: boolean;
@@ -86,10 +88,19 @@ export interface ElementDescriptor {
   trailingCarouselSlideGroups?: boolean;
   leadingStandaloneCardGroup?: boolean;
   leadingDecorativeTextCardGroups?: boolean;
+  trailingStandaloneGroup?: boolean;
   splitLabelStop?: boolean;
+  textboxPlaceholderBeforeRole?: boolean;
   footerCountrySelector?: boolean;
+  fieldsetPromptText?: string;
+  labelledNavigationHeaderText?: string;
+  axInlineTwoLinkListItemAnnouncements?: string[];
+  contributionListItemAnnouncements?: string[];
+  metadataListItemValueAnnouncements?: string[];
+  wrappedDefinitionListTermChildAnnouncements?: string[];
   inlineEmphasisListItemFragments?: string[];
   inlineEmphasisTextFragments?: string[];
+  inlineTextLinkFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];
   priceDisclosureFragments?: string[];
   richProductCardFeatureRowFragments?: string[];
@@ -99,6 +110,7 @@ export interface ElementDescriptor {
   complexColumnHeaderContextCellTextFragments?: string[];
   complexColumnHeaderFragments?: string[];
   complexColumnHeaderRawText?: string;
+  codeMirrorTextEntryText?: string;
 }
 
 /** Types of screen reader events. */

@@ -69,8 +69,7 @@ function printHelp() {
   npm run voiceover:preprocess-artifact -- --artifact-dir /tmp/artifacts --target www-example-com
 
 This is Phase A preprocessing/import only. It does not run the full multi-agent
-refinement workflow or spawn phase agents. The legacy script name
-\`voiceover:refine-artifact\` is kept as an alias.
+refinement workflow or spawn phase agents.
 
 Options:
   --run-id <id>           Download artifacts from a GitHub Actions run.
@@ -551,8 +550,8 @@ function promoteFixture({ fixtureDir, promote, target }) {
     status: promote,
     reason:
       promote === "candidate"
-        ? "Imported by voiceover:refine-artifact. Keep as candidate until the generated report's engine gaps are resolved."
-        : "Imported by voiceover:refine-artifact and promoted as refined after evidence review.",
+        ? "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+        : "Imported by voiceover:preprocess-artifact and promoted as refined after evidence review.",
   };
   writeJson(manifestPath, manifest);
 

@@ -28,11 +28,36 @@ between trusted VoiceOver output and deterministic engine replay should default
 to `reusable-engine-gap` unless the judge can point to concrete fixture noise,
 missing evidence, or saved/live state divergence for that exact window.
 
+The target is zero mismatches for each site. Phase C should split mismatch
+families and keep routing them until each family is resolved, routed to C.5,
+sent to Phase D, or recorded with a genuine blocker. Do not use a broad
+classification to end work on a mismatch that can still be tested with saved
+evidence or a minimal reproduction scan.
+
 `ambiguous` is not a shortcut classification. Use it only after checking the
 plausible causes against the evidence and recording what is still missing.
 If the missing evidence can be produced with a minimal same-structure
 reproduction scan, route to Phase C.5 before using `ambiguous` as the terminal
 classification for that family.
+
+Before classifying any mismatch, double-check the evidence packet:
+
+- rendered HTML for the disputed node and nearest relevant ancestors/siblings
+- AX tree role, name, state, level, position, and focusability
+- step snapshots and `htmlAfterStep` for state changes
+- VoiceOver source/caption evidence for truncation or transcription drift
+- scan-debug data, screenshots, and screen recording when the textual evidence
+  suggests page-load, popup, focus, or VoiceOver startup problems
+
+If these resources disagree, return the family to Phase B or Phase C.5 instead
+of making an engine or fixture decision from only the compare output.
+
+Phase C judges the engine against the refined initial-HTML oracle. If the
+expected line is explained only by `htmlAfterStep` or another navigation-time
+mutation, return it to Phase B for removal or normalization from
+`refinedAnnouncements`; do not classify it as a reusable engine gap. If the
+same semantic content exists in initial `rendered-html.html` and AX evidence,
+then the mismatch can proceed as a fixture or engine question.
 
 ## Structural Decomposition Gate
 
@@ -109,6 +134,12 @@ initial `rendered-html.html`, classify it as `fixture-still-noisy` and return
 it to Phase B for removal or normalization. Do not send step-only
 hover/focus/carousel/timer mutations to Phase D as engine gaps.
 
+If moving down the page opens, expands, rotates, lazy-renders, or personalizes
+content, the refined output should still model the initial HTML state. Keep the
+mutated-state announcement in raw evidence and receipt notes, not in the exact
+refined replay target, unless the initial HTML already contains the same
+visible/AX-supported semantic content.
+
 Phase C must verify that Phase B assigned an initial-DOM status for disputed
 lines whenever step snapshots are available:
 
@@ -135,15 +166,29 @@ Before sending a mismatch to Phase D with a broad rule, or leaving it as
 decisive evidence. Phase C.5 is required when:
 
 - the mismatch depends on caption/source truncation uncertainty
+- the VoiceOver line may have been truncated, partially captured, or stitched
+  from adjacent output
 - the mismatch may be conditional on hover, focus, carousel movement, timer
   changes, or other step-only DOM state
+- the saved initial `rendered-html.html` disagrees with later local/manual DOM
+  inspection and the difference would change `refinedAnnouncements`
+- rendered HTML, AX tree, snapshots, source/caption evidence, screenshots, or
+  recording do not agree about the disputed content
 - VoiceOver appears to synthesize context from generic structure but the full
   page is too complex to isolate the predicate confidently
-- the proposed engine fix would be broad and is based on only one live-site
-  example
+- the proposed engine fix would be broad punctuation, marker, link-boundary,
+  iframe/shadow, carousel, table, or group traversal behavior based on only one
+  live-site example
+- the judge has meaningful doubt and a minimal same-structure page could answer
+  the question faster than further speculation
 
 The Phase C receipt must either route the family to `repro-scanner` or record
 why a reproduction scan is impossible or unnecessary.
+
+Longer page-settle waits do not automatically replace C.5. If a delayed rescan
+still captures a different DOM from manual local testing, keep the existing
+initial-HTML oracle until a focused scan proves the exact structure and
+announcement under test.
 
 Examples:
 
