@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TUI weather button group suffixes C5 repro</title>
+  <style>
+    .sr-only,
+    .visually-hidden {
+      border: 0;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute !important;
+      white-space: nowrap;
+      width: 1px;
+    }
+
+    .button-group .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root>
+    <h1 class="sr-only">TUI Homepage</h1>
+    <div class="js-page">
+      <div class="l-content-container weather-mfe-container">
+        <div class="container-component">
+          <div class="container">
+            <div id="tui-weather-header" class="header">
+              <div data-testid="title" class="title">Where's hot when?</div>
+              <div data-testid="subtitle" class="header">Choose a temperature.</div>
+            </div>
+            <div data-testcontainer="container-filter" class="filter-component">
+              <div class="visually-hidden">Changing any of the fields will automatically update the context.</div>
+              <div class="button-group">
+                <div class="group-component">
+                  <div class="title">Weather</div>
+                  <div class="row">
+                    <button type="button" data-testid="button-any" class="button-component any"><span class="title">Any</span></button>
+                    <button type="button" data-testid="button-warm" class="button-component warm"><span class="title">Warm</span><span class="subtitle">16 - 22&ordm;C</span></button>
+                    <button type="button" data-testid="button-hot" class="button-component hot active"><span class="title">Hot</span><span class="subtitle">23 - 28&ordm;C</span></button>
+                    <button type="button" data-testid="button-very-hot" class="button-component very-hot"><span class="title">Very Hot</span><span class="subtitle">29 - 40&ordm;C</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
