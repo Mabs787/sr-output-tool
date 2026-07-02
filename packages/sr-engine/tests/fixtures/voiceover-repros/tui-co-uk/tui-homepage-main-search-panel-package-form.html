@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TUI Homepage search panel package form repro</title>
+<style>
+.sr-only,
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.tab-list {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+}
+.tab {
+  display: block;
+}
+.tab-content {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+.search-inputs-wrapper {
+  display: grid;
+  gap: 0.75rem;
+}
+.input-text-with-icon {
+  display: grid;
+  gap: 0.25rem;
+}
+.input-wrapper,
+.input-select .group {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+</style>
+</head>
+<body data-sr-scan-root>
+<h1 class="sr-only">TUI Homepage</h1>
+<main>
+  <div class="tab-list-wrapper">
+    <ul class="tab-list" role="tablist">
+      <li role="tab" aria-selected="true" class="tab selected">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">Package Holidays</span></span>
+      </li>
+      <li role="tab" aria-selected="false" class="tab">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">Flights</span></span>
+      </li>
+      <li role="tab" aria-selected="false" class="tab">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">Hotels</span></span>
+      </li>
+      <li role="tab" aria-selected="false" class="tab">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">Marella Cruises</span></span>
+      </li>
+      <li role="tab" aria-selected="false" class="tab">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">River Cruises</span></span>
+      </li>
+      <li role="tab" aria-selected="false" class="tab">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">Ski</span></span>
+      </li>
+      <li role="tab" aria-selected="false" class="tab">
+        <span tabindex="-1" class="tab-content"><span class="tab-content-title">Multi-Centres</span></span>
+      </li>
+    </ul>
+  </div>
+  <div class="content active">
+    <section>
+      <div id="app">
+        <div class="container search-panel compact theme-tui-light">
+          <form data-testid="search_panel_wrapper" aria-label="Package search" class="search-panel-wrapper">
+            <fieldset aria-roledescription="legend" class="search-panel-fieldset">
+              <legend class="visually-hidden">Unfortunately, our search panel is not yet fully accessible to people with disabilities, however, our Assisted Travel team can assist with your search, you can call them on 0800 145 6920 &ndash; free from all landlines and mobiles.</legend>
+              <div id="announcements" aria-live="polite" aria-atomic="true" class="visually-hidden"></div>
+              <div class="search-panel-container">
+                <div data-testid="search-panel-main" class="search-panel-main" style="--search-panel-main-width: 1016px;">
+                  <div class="search-panel-inner-wrapper">
+                    <div class="search-inputs-wrapper has-smart-search row">
+                      <div class="airport-wrapper modal-full-width col col-12 col-md-6 col-lg-2-50">
+                        <div class="input-text-with-icon">
+                          <label for="departure-airport" class="input input-text false"><span class="text text--label">Flying from</span></label>
+                          <div class="input input-text input-wrapper false">
+                            <button tabindex="0" aria-label="Select departure airport(s), collapsed" data-testid="button_departure-airport" type="button" class="group input-group"><span class="button-text">Choose airports</span></button>
+                            <button type="button" tabindex="-1" data-testid="inputIcon_departure-airport" aria-hidden="true" class="icon-reset"></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="destination-wrapper col col-12 col-md-6 col-lg-2-50">
+                        <div class="input-text-with-icon">
+                          <label data-testid="destinations-label" for="destinations" class="input input-text false"><span class="text text--label">Destination or hotel</span></label>
+                          <div class="input input-text input-wrapper false">
+                            <button tabindex="-1" aria-label="Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete" data-testid="button_destinations" type="button" aria-hidden="true" class="group input-group cursor-text"></button>
+                            <input type="text" placeholder="Any" data-testid="input_destinations" id="destinations" tabindex="0" aria-label="Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete" aria-hidden="false" autocomplete="off" class="text text--placeholder">
+                            <button type="button" tabindex="-1" data-testid="inputIcon_destinations" aria-hidden="true" class="icon-reset cursor-text"></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="departure-dates-wrapper col col-6 col-md-6 col-lg-2-50">
+                        <div class="input-text-with-icon">
+                          <label for="departure-date" class="input input-text false"><span class="text text--label">Dates</span></label>
+                          <div class="input input-text input-wrapper false">
+                            <button tabindex="0" aria-label="Date of departure required, collapsed" data-testid="button_departure-date" type="button" class="group input-group"><span class="button-text">Select a date</span></button>
+                            <button type="button" tabindex="-1" data-testid="inputIcon_departure-date" aria-hidden="true" class="icon-reset"></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="duration-wrapper col col-6 col-md-6 col-lg-2-50">
+                        <div class="input-text-with-icon">
+                          <label data-testid="duration-label" for="duration" class="input input-select"><span class="text text--label">Duration</span></label>
+                          <div class="input input-select">
+                            <div class="group cursor">
+                              <select data-testid="select_duration" aria-label="Select duration" id="duration" class="false">
+                                <option aria-label="2 nights" aria-disabled="false" value="1002">2 nights</option>
+                                <option aria-label="3 nights" aria-disabled="false" value="3115">3 nights</option>
+                                <option aria-label="4 nights" aria-disabled="false" value="4115">4 nights</option>
+                                <option aria-label="5 nights" aria-disabled="false" value="5115">5 nights</option>
+                                <option aria-label="6 nights" aria-disabled="false" value="6115">6 nights</option>
+                                <option aria-label="7 nights" aria-disabled="false" value="7115">7 nights</option>
+                                <option aria-label="8 nights" aria-disabled="false" value="8115">8 nights</option>
+                                <option aria-label="9 nights" aria-disabled="false" value="9115">9 nights</option>
+                                <option aria-label="10 nights" aria-disabled="false" value="1015">10 nights</option>
+                                <option aria-label="11 nights" aria-disabled="false" value="1115">11 nights</option>
+                                <option aria-label="12 nights" aria-disabled="false" value="1215">12 nights</option>
+                                <option aria-label="13 nights" aria-disabled="false" value="1315">13 nights</option>
+                                <option aria-label="14 nights" aria-disabled="false" value="1415">14 nights</option>
+                                <option aria-label="More than 14 nights" aria-disabled="false" value="2115">More than 14 nights</option>
+                                <option disabled aria-label="Day Trip" aria-disabled="true" value="1245">Day Trip</option>
+                              </select>
+                              <span class="select-icon" aria-hidden="true"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pax-and-rooms-wrapper col col-12 col-md-12 col-lg-2-50">
+                        <div class="input-text-with-icon">
+                          <label for="pax-and-rooms" class="input input-text false"><span class="text text--label">Rooms &amp; guests</span></label>
+                          <div class="input input-text input-wrapper false">
+                            <button tabindex="0" aria-label="Room and guests , Number of rooms  2 adults 0 children  collapsed" data-testid="button_pax-and-rooms" type="button" class="group input-group"><span class="button-text">2 adults 0 children</span></button>
+                            <button type="button" tabindex="-1" data-testid="inputIcon_pax-and-rooms" aria-hidden="true" class="icon-reset"></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="smart-search-wrapper col col-md-6 col-lg-10">
+                        <div class="input-text-with-icon">
+                          <label for="smart-search" class="input input-text">
+                            <span class="text text--label">Tell us your preferences<span class="optional"> (Optional)</span></span>
+                            <span id="smart-search-helper" aria-hidden="true" class="helper-text">e.g. all inclusive, spa, beachfront</span>
+                          </label>
+                          <div class="input input-text">
+                            <span class="group">
+                              <textarea id="smart-search" data-testid="smart-search" aria-describedby="smart-search-helper" aria-multiline="false" autocomplete="off" maxlength="100" rows="1"></textarea>
+                            </span>
+                            <span aria-hidden="true" class="sparkle-icon"></span>
+                          </div>
+                          <span aria-live="polite" aria-atomic="true" class="visually-hidden"></span>
+                        </div>
+                      </div>
+                      <div class="search-button-wrapper col col-12 col-md-3 col-lg-2">
+                        <button aria-label="Search" data-testid="search-button" type="button" class="button secondary medium">Search</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+</body>
+</html>

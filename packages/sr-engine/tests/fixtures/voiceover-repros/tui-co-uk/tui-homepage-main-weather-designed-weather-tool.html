@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TUI Homepage weather tool repro</title>
+<style>
+.sr-only,
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  white-space: nowrap;
+  width: 1px;
+}
+.button-group .row,
+.select-group,
+.list-component,
+.paginate-component > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.list-component {
+  max-width: 64rem;
+}
+.card-component {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 18rem;
+  text-decoration: none;
+}
+.card-component .top {
+  display: flex;
+  flex-direction: column;
+}
+.card-component .top-mobile {
+  display: none;
+}
+.avg-temp,
+.days,
+.mm {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+.paginate-component li {
+  list-style: none;
+}
+</style>
+</head>
+<body data-sr-scan-root>
+<h1 class="sr-only">TUI Homepage</h1>
+<main>
+  <div class="js-page">
+    <div class="l-content-container weather-mfe-container" id="HddmbOfjSKFlEwtPeCia6">
+      <div class="container-component">
+        <div class="container">
+          <div id="tui-weather-header" class="header">
+            <div data-testid="title" class="title">Where&rsquo;s hot when?</div>
+            <div data-testid="subtitle" class="header">Let our handy tool help you decide where to head for your next sunshine fix.</div>
+          </div>
+          <div data-testcontainer="container-filter" class="filter-component">
+            <div class="visually-hidden">Changing any of the fields will automatically update the context.</div>
+            <div class="select-group">
+              <div class="group-component">
+                <div class="title">When</div>
+                <div class="row">
+                  <select data-testid="input-when" class="select-component">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+                </div>
+              </div>
+              <div class="group-component">
+                <div class="title">Where</div>
+                <div class="row">
+                  <div role="combobox" aria-haspopup="listbox" aria-owns="react-autowhatever-1" aria-expanded="false" class="react-autosuggest__container">
+                    <input type="text" autocomplete="off" aria-autocomplete="list" aria-controls="react-autowhatever-1" data-testid="input-where" class="react-autosuggest__input" placeholder="Anywhere">
+                    <div id="react-autowhatever-1" role="listbox" class="react-autosuggest__suggestions-container"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-group">
+              <div class="group-component">
+                <div class="title">Weather</div>
+                <div class="row">
+                  <button type="button" data-testid="button-any" class="button-component any"><span class="title">Any</span></button>
+                  <button type="button" data-testid="button-warm" class="button-component warm"><span class="title">Warm</span><span class="subtitle">16 - 22&ordm;C</span></button>
+                  <button type="button" data-testid="button-hot" class="button-component hot active"><span class="title">Hot</span><span class="subtitle">23 - 28&ordm;C</span></button>
+                  <button type="button" data-testid="button-very-hot" class="button-component very-hot"><span class="title">Very Hot</span><span class="subtitle">29 - 40&ordm;C</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div aria-live="polite" role="region" class="visually-hidden">There are now 30 destinations.</div>
+          <div aria-live="polite" role="region" data-testcontainer="container-result" class="result">
+            <div>
+              <div class="list-component">
+                <a data-testarea="card" data-testloading="false" class="card-component" href="https://www.tui.co.uk/destinations/asia/thailand/thailand/koh-samui/holidays-koh-samui.html">
+                  <div class="top"><div data-testid="card-image" class="image"><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp">28 &deg;C</span></div></div><div class="name"><span data-testid="card-location-name">Koh Samui, Thailand</span></div></div>
+                  <div class="top-mobile"><div class="name"><span data-testid="card-location-name">Koh Samui, Thailand</span></div><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp-mobile">28&ordm;C</span></div></div>
+                  <div class="bottom"><div><div class="days"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-chance-of-sun">2%</span></div><div><span class="rpm">chance of sun</span></div></div><div><div class="mm"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-precipitation">110mm</span></div><div><span class="rpm">rain per month</span></div></div><div><span aria-hidden="true" class="action-button"></span></div></div>
+                </a>
+                <a data-testarea="card" data-testloading="false" class="card-component" href="https://www.tui.co.uk/destinations/caribbean/dominican-republic/la-romana/holidays-la-romana.html">
+                  <div class="top"><div data-testid="card-image" class="image"><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp">27 &deg;C</span></div></div><div class="name"><span data-testid="card-location-name">La Romana, Dominican Republic</span></div></div>
+                  <div class="top-mobile"><div class="name"><span data-testid="card-location-name">La Romana, Dominican Republic</span></div><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp-mobile">27&ordm;C</span></div></div>
+                  <div class="bottom"><div><div class="days"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-chance-of-sun">3%</span></div><div><span class="rpm">chance of sun</span></div></div><div><div class="mm"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-precipitation">83mm</span></div><div><span class="rpm">rain per month</span></div></div><div><span aria-hidden="true" class="action-button"></span></div></div>
+                </a>
+                <a data-testarea="card" data-testloading="false" class="card-component" href="https://www.tui.co.uk/destinations/africa/morocco/morocco-marrakech/holidays-morocco-marrakech.html">
+                  <div class="top"><div data-testid="card-image" class="image"><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp">27 &deg;C</span></div></div><div class="name"><span data-testid="card-location-name">Marrakech, Morocco</span></div></div>
+                  <div class="top-mobile"><div class="name"><span data-testid="card-location-name">Marrakech, Morocco</span></div><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp-mobile">27&ordm;C</span></div></div>
+                  <div class="bottom"><div><div class="days"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-chance-of-sun">68%</span></div><div><span class="rpm">chance of sun</span></div></div><div><div class="mm"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-precipitation">28mm</span></div><div><span class="rpm">rain per month</span></div></div><div><span aria-hidden="true" class="action-button"></span></div></div>
+                </a>
+                <a data-testarea="card" data-testloading="false" class="card-component" href="https://www.tui.co.uk/destinations/caribbean/trinidad-and-tobago/tobago/holidays-tobago.html">
+                  <div class="top"><div data-testid="card-image" class="image"><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp">26 &deg;C</span></div></div><div class="name"><span data-testid="card-location-name">Tobago, Trinidad and Tobago</span></div></div>
+                  <div class="top-mobile"><div class="name"><span data-testid="card-location-name">Tobago, Trinidad and Tobago</span></div><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp-mobile">26&ordm;C</span></div></div>
+                  <div class="bottom"><div><div class="days"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-chance-of-sun">12%</span></div><div><span class="rpm">chance of sun</span></div></div><div><div class="mm"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-precipitation">12mm</span></div><div><span class="rpm">rain per month</span></div></div><div><span aria-hidden="true" class="action-button"></span></div></div>
+                </a>
+                <a data-testarea="card" data-testloading="false" class="card-component" href="https://www.tui.co.uk/destinations/europe/spain/andalucia/seville/holidays-seville.html">
+                  <div class="top"><div data-testid="card-image" class="image"><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp">26 &deg;C</span></div></div><div class="name"><span data-testid="card-location-name">Seville, Spain</span></div></div>
+                  <div class="top-mobile"><div class="name"><span data-testid="card-location-name">Seville, Spain</span></div><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp-mobile">26&ordm;C</span></div></div>
+                  <div class="bottom"><div><div class="days"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-chance-of-sun">67%</span></div><div><span class="rpm">chance of sun</span></div></div><div><div class="mm"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-precipitation">14mm</span></div><div><span class="rpm">rain per month</span></div></div><div><span aria-hidden="true" class="action-button"></span></div></div>
+                </a>
+                <a data-testarea="card" data-testloading="false" class="card-component" href="https://www.tui.co.uk/destinations/africa/tanzania/zanzibar/holidays-zanzibar.html">
+                  <div class="top"><div data-testid="card-image" class="image"><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp">26 &deg;C</span></div></div><div class="name"><span data-testid="card-location-name">Zanzibar, Tanzania</span></div></div>
+                  <div class="top-mobile"><div class="name"><span data-testid="card-location-name">Zanzibar, Tanzania</span></div><div class="avg-temp"><span aria-hidden="true" class="icon"></span><span class="temp" data-testid="card-temp-mobile">26&ordm;C</span></div></div>
+                  <div class="bottom"><div><div class="days"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-chance-of-sun">0%</span></div><div><span class="rpm">chance of sun</span></div></div><div><div class="mm"><span aria-hidden="true" class="icon"></span><span class="value" data-testid="card-precipitation">300mm</span></div><div><span class="rpm">rain per month</span></div></div><div><span aria-hidden="true" class="action-button"></span></div></div>
+                </a>
+              </div>
+              <div data-testarea="area-paginate" class="paginate-component">
+                <ul role="navigation" aria-label="Pagination">
+                  <li class="previous disabled"><a href="https://www.tui.co.uk/#" tabindex="-1" role="button" aria-disabled="true" aria-label="Previous page" rel="noindex, follow">Prev </a></li>
+                  <li class="selected"><a rel="noindex, follow" href="https://www.tui.co.uk/#5//hot/1" tabindex="-1" aria-label="Page 1 is your current page" aria-current="page">1</a></li>
+                  <li><a rel="noindex, follow" href="https://www.tui.co.uk/#5//hot/2" tabindex="0" aria-label="Page 2">2</a></li>
+                  <li class="break"><a role="button" tabindex="0" aria-label="Jump forward">...</a></li>
+                  <li><a href="https://www.tui.co.uk/#5//hot/5" tabindex="0" aria-label="Page 5">5</a></li>
+                  <li class="next"><a href="https://www.tui.co.uk/#5//hot/2" tabindex="0" role="button" aria-disabled="false" aria-label="Next page" rel="noindex, follow">Next</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
