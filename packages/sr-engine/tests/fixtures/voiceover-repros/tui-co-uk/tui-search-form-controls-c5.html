@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TUI search form controls C5 repro</title>
+</head>
+<body>
+  <main data-sr-scan-root>
+    <h1>TUI Homepage</h1>
+    <div>
+      <ul role="tablist">
+        <li role="tab" aria-selected="true"><span tabindex="-1"><span>Package Holidays</span></span></li>
+        <li role="tab" aria-selected="false"><span tabindex="-1"><span>Flights</span></span></li>
+        <li role="tab" aria-selected="false"><span tabindex="-1"><span>Hotels</span></span></li>
+        <li role="tab" aria-selected="false"><span tabindex="-1"><span>Marella Cruises</span></span></li>
+        <li role="tab" aria-selected="false"><span tabindex="-1"><span>River Cruises</span></span></li>
+        <li role="tab" aria-selected="false"><span tabindex="-1"><span>Ski</span></span></li>
+        <li role="tab" aria-selected="false"><span tabindex="-1"><span>Multi-Centres</span></span></li>
+      </ul>
+    </div>
+    <section>
+      <div>
+        <form aria-label="Package search">
+          <fieldset aria-roledescription="legend">
+            <legend>Assisted Travel can help with your search.</legend>
+            <div aria-live="polite" aria-atomic="true"></div>
+            <div>
+              <div>
+                <label for="departure-airport"><span>Flying from</span></label>
+                <div>
+                  <button tabindex="0" aria-label="Select departure airport(s), collapsed" type="button"><span>Choose airports</span></button>
+                  <button type="button" tabindex="-1" aria-hidden="true"></button>
+                </div>
+              </div>
+              <div>
+                <label for="destinations"><span>Destination or hotel</span></label>
+                <div>
+                  <button tabindex="-1" aria-label="Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete" type="button" aria-hidden="true"></button>
+                  <input type="text" placeholder="Any" id="destinations" tabindex="0" aria-label="Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete" aria-hidden="false">
+                  <button type="button" tabindex="-1" aria-hidden="true"></button>
+                </div>
+              </div>
+              <div>
+                <label for="duration"><span>Duration</span></label>
+                <div>
+                  <select aria-label="Select duration" id="duration">
+                    <option aria-label="2 nights" aria-disabled="false" value="1002">2 nights</option>
+                    <option aria-label="3 nights" aria-disabled="false" value="3115">3 nights</option>
+                    <option disabled aria-label="Day Trip" aria-disabled="true" value="1245">Day Trip</option>
+                  </select>
+                  <span aria-hidden="true"></span>
+                </div>
+              </div>
+              <div>
+                <label for="smart-search"><span>Tell us your preferences<span> (Optional)</span></span><span id="smart-search-helper" aria-hidden="true">e.g. all inclusive, spa, beachfront</span></label>
+                <div>
+                  <span><textarea id="smart-search" aria-describedby="smart-search-helper" aria-multiline="false"></textarea></span>
+                  <span aria-hidden="true"></span>
+                </div>
+                <span aria-live="polite" aria-atomic="true"></span>
+              </div>
+              <div><button aria-label="Search" type="button">Search</button></div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

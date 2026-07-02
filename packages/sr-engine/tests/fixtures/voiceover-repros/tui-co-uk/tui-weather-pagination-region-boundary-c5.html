@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TUI weather pagination region boundary C5 repro</title>
+</head>
+<body>
+  <main data-sr-scan-root>
+    <h1>TUI Homepage</h1>
+    <section>
+      <div>Where's hot when?</div>
+      <div aria-live="polite" role="region">
+        <div>
+          <a href="https://www.tui.co.uk/destinations/asia/thailand/thailand/koh-samui/holidays-koh-samui.html">
+            <div><span>Koh Samui, Thailand</span></div>
+            <div><span aria-hidden="true"></span><span>28ºC</span></div>
+          </a>
+        </div>
+        <div>
+          <ul role="navigation" aria-label="Pagination">
+            <li><a href="https://www.tui.co.uk/#" tabindex="-1" role="button" aria-disabled="true" aria-label="Previous page">Prev </a></li>
+            <li><a href="https://www.tui.co.uk/#5//hot/1" tabindex="-1" aria-label="Page 1 is your current page" aria-current="page">1</a></li>
+            <li><a href="https://www.tui.co.uk/#5//hot/2" tabindex="0" aria-label="Page 2">2</a></li>
+            <li><a role="button" tabindex="0" aria-label="Jump forward">...</a></li>
+            <li><a href="https://www.tui.co.uk/#5//hot/5" tabindex="0" aria-label="Page 5">5</a></li>
+            <li><a href="https://www.tui.co.uk/#5//hot/2" tabindex="0" role="button" aria-disabled="false" aria-label="Next page">Next</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
