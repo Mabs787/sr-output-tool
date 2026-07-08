@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TUI footer country dialog descendant traversal C5 repro</title>
+</head>
+<body>
+  <footer data-sr-scan-root>
+    <div>
+      <div>
+        <div>
+          <button aria-label="TUI UK" aria-haspopup="dialog" aria-expanded="false"><img alt="uk"><span>TUI UK</span></button>
+        </div>
+        <div role="dialog" aria-modal="true" aria-labelledby="flag-selector-header">
+          <span id="flag-selector-header">Hello, you are currently browsing:</span>
+        </div>
+        <div aria-label="Social media links">
+          <a href="https://www.facebook.com/TUIUnitedKingdom" aria-label="Facebook"><img alt="Facebook" aria-hidden="true"></a>
+        </div>
+        <p>Country dialog traversal end marker.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
