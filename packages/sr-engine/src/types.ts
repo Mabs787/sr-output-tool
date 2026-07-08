@@ -74,6 +74,7 @@ export interface ElementDescriptor {
   linkRoleFirst?: boolean;
   suppressContextEnd?: boolean;
   groupContext?: boolean;
+  richTextGroup?: boolean;
   groupedCollectionPosition?: boolean;
   parenthesizedCollectionPosition?: boolean;
   duplicateCollectionPosition?: boolean;

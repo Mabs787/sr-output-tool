@@ -162,7 +162,8 @@ function pushAutocomplete(parts: string[], autocomplete?: string): void {
 function pushComboBoxAutocomplete(parts: string[], el: ElementDescriptor): void {
   const autocomplete = normalizeText(el.autocomplete);
   if (autocomplete === "list" && el.expanded !== undefined) {
-    parts.push(`list box pop up ${el.expanded ? "expanded" : "collapsed"}`);
+    const popupState = `list box pop up ${el.expanded ? "expanded" : "collapsed"}`;
+    parts.push(el.required ? `required ${popupState}` : popupState);
     return;
   }
 
@@ -832,6 +833,10 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "group": {
+      if (el.richTextGroup && label) {
+        parts.push(`${label} group`);
+        break;
+      }
       pushIfPresent(parts, label);
       parts.push(genericGroupRoleLabel(el));
       pushCollectionPosition(parts, el);

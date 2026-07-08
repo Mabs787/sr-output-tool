@@ -1537,6 +1537,234 @@ test("scanSubtree does not group collapsed or popup navigation list item buttons
   );
 });
 
+test("scanSubtree keeps role presentation collapsed accordion lists transparent", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <ul role="presentation">
+          <li role="presentation">
+            <button aria-expanded="false">Popular Destinations</button>
+          </li>
+          <div aria-label="Popular Destinations">
+            <a href="/bodrum">Bodrum Holidays</a>
+            <a href="/canary-islands">Canary Islands Holidays</a>
+          </div>
+          <li role="presentation">
+            <button aria-expanded="false">Flights To</button>
+          </li>
+          <div aria-label="Flights To">
+            <a href="/alicante">Alicante Flights</a>
+          </div>
+        </ul>
+      </div>
+    `),
+    [
+      "Popular Destinations, collapsed, button",
+      "Popular Destinations, group",
+      "link, Bodrum Holidays",
+      "link, Canary Islands Holidays",
+      "end of, Popular Destinations, group",
+      "Flights To, collapsed, button",
+      "Flights To, group",
+      "link, Alicante Flights",
+      "end of, Flights To, group",
+    ],
+  );
+});
+
+test("scanSubtree traverses labelled role presentation list links inside groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <div aria-label="Company Information & Policies">
+          <span>Company Information & Policies</span>
+          <ul role="presentation">
+            <li role="presentation"><a role="link" href="/privacy">Privacy notice</a></li>
+            <li role="presentation"><a role="link" href="/terms">Booking terms & conditions</a></li>
+          </ul>
+        </div>
+        <div aria-labelledby="resources-heading">
+          <span id="resources-heading">Holiday Resources</span>
+          <ul role="presentation">
+            <li role="presentation"><a href="/insurance">Travel insurance</a></li>
+          </ul>
+        </div>
+      </footer>
+    `),
+    [
+      "footer",
+      "Company Information & Policies, group",
+      "Company Information & Policies",
+      "link, Privacy notice",
+      "link, Booking terms & conditions",
+      "end of, Company Information & Policies, group",
+      "Holiday Resources, group",
+      "Holiday Resources",
+      "link, Travel insurance",
+      "end of, Holiday Resources, group",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree groups focusable paragraph rich-text wrappers before sibling navigation", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <h2>Travel Aware - Staying Safe and Healthy Abroad</h2>
+        <span tabindex="0">
+          <p>FCDO and <b>Travel Health</b> have current advice for safe travel abroad.</p>
+          <p>For the latest advice, check <a href="/travel-aware">Travel Aware</a> and follow <a href="/fcdo">@FCDOtravelGovUK</a>.</p>
+          <p><a href="/documents">Travel documents</a></p>
+          <p>Advice can change so check regularly for updates.</p>
+        </span>
+        <span>
+          <nav aria-label="Travel Aware - Staying Safe and Healthy Abroad">
+            <img alt="fcdo" title="fcdo">
+          </nav>
+        </span>
+        <div tabindex="0">
+          <h2>Your holiday protection</h2>
+          <p>Protection sync marker.</p>
+        </div>
+      </footer>
+    `),
+    [
+      "footer",
+      "heading level 2, Travel Aware - Staying Safe and Healthy Abroad",
+      "FCDO and Travel Health have current advice for safe travel abroad. For the latest advice, check Travel Aware and follow @FCDOtravelGovUK. Travel documents Advice can change so check regularly for updates. group",
+      "Travel Aware - Staying Safe and Healthy Abroad, navigation",
+      "fcdo, image",
+      "end of, Travel Aware - Staying Safe and Healthy Abroad, navigation",
+      "heading level 2, Your holiday protection",
+      "Protection sync marker.",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree groups focusable heading rich-text wrappers with internal navigation", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div data-sr-scan-root>
+        <footer>
+          <div tabindex="0">
+            <h2>Your holiday protection</h2>
+            <div>
+              <span>
+                <div>
+                  <p><b>ATOL protection for flight-inclusive package holidays</b></p>
+                  <p>Flight-inclusive holidays are financially protected by the ATOL scheme.</p>
+                </div>
+                <div>
+                  <p><b>What this means for you</b></p>
+                  <p>You receive an ATOL certificate.</p>
+                </div>
+                <div>
+                  <p><b>More Information:</b></p>
+                  <p>Visit <a href="/caa">the Civil Aviation Authority website</a> for ATOL certificate information.</p>
+                </div>
+              </span>
+              <span>
+                <nav aria-label="Your holiday protection">
+                  <span><img alt="abta" title="ABTA - The Travel Association"></span>
+                  <span><img alt="atol" title="ATOL Protected"></span>
+                </nav>
+              </span>
+            </div>
+          </div>
+          <a href="/sync">Footer sync after protection</a>
+        </footer>
+      </div>
+    `),
+    [
+      "footer",
+      "Your holiday protection ATOL protection for flight-inclusive package holidays Flight-inclusive holidays are financially protected by the ATOL scheme. What this means for you You receive an ATOL certificate. More Information: Visit the Civil Aviation Authority website for ATOL certificate information. Your holiday protection group",
+      "link, Footer sync after protection",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree suppresses terminal footer end after final focusable rich-text group", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div data-sr-scan-root>
+        <footer>
+          <div tabindex="0">
+            <h2>Your holiday protection</h2>
+            <div>
+              <span>
+                <div>
+                  <p><b>ATOL protection for flight-inclusive package holidays</b></p>
+                  <p>Flight-inclusive holidays are financially protected by the ATOL scheme.</p>
+                </div>
+                <div>
+                  <p><b>What this means for you</b></p>
+                  <p>You receive an ATOL certificate.</p>
+                </div>
+                <div>
+                  <p><b>More Information:</b></p>
+                  <p>Visit <a href="/caa">the Civil Aviation Authority website</a> for ATOL certificate information.</p>
+                </div>
+              </span>
+              <span>
+                <nav aria-label="Your holiday protection">
+                  <span><img alt="abta" title="ABTA - The Travel Association"></span>
+                  <span><img alt="atol" title="ATOL Protected"></span>
+                </nav>
+              </span>
+            </div>
+          </div>
+        </footer>
+      </div>
+    `),
+    [
+      "footer",
+      "Your holiday protection ATOL protection for flight-inclusive package holidays Flight-inclusive holidays are financially protected by the ATOL scheme. What this means for you You receive an ATOL certificate. More Information: Visit the Civil Aviation Authority website for ATOL certificate information. Your holiday protection group",
+    ],
+  );
+});
+
+test("scanSubtree keeps unlabelled role presentation link lists as lists", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <span>Useful links</span>
+        <ul role="presentation">
+          <li role="presentation"><a href="/privacy">Privacy notice</a></li>
+          <li role="presentation"><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    `),
+    [
+      "Useful links",
+      "list",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree does not add a group suffix to collapsed dialog popup image text buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <button aria-label="TUI UK" aria-haspopup="dialog" aria-expanded="false">
+          <img alt="uk">
+          <span>TUI UK</span>
+        </button>
+        <p>Country button suffix sync marker.</p>
+      </footer>
+    `),
+    [
+      "content information",
+      "TUI UK, dialog pop up collapsed, button",
+      "Country button suffix sync marker.",
+      "end of, content information",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX-confirmed leading-space heading fragments", () => {
   assert.deepEqual(
     scanHtml(
@@ -2343,6 +2571,32 @@ test("scanSubtree splits described autocomplete search inputs", () => {
       "Enter a city, list box pop up collapsed, combo box",
       "Search, button",
       "end of, search",
+    ],
+  );
+});
+
+test("scanSubtree announces required state for list autocomplete combobox inputs", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <button type="submit" aria-label="Submit"></button>
+        <input
+          type="text"
+          name="term"
+          required
+          aria-autocomplete="list"
+          aria-expanded="false"
+          role="combobox"
+          aria-controls="suggestions"
+          tabindex="0"
+          id="faq-search-bar"
+        >
+        <ul id="suggestions" role="listbox" aria-hidden="true" aria-labelledby="faq-search-bar"></ul>
+      </form>
+    `),
+    [
+      "Submit, button",
+      "required list box pop up collapsed, combo box",
     ],
   );
 });
@@ -4012,6 +4266,59 @@ test("scanSubtree keeps native search control wrappers transparent inside search
       "end of list",
       "end of, Meta, navigation",
     ],
+  );
+});
+
+test("scanSubtree gives explicit aria-label precedence for native input and select controls", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <label for="destinations">Destination or hotel</label>
+        <input
+          id="destinations"
+          type="text"
+          aria-label="Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete"
+          placeholder="Any"
+        >
+        <label for="duration">Duration</label>
+        <select id="duration" aria-label="Select duration">
+          <option selected>2 nights</option>
+          <option>3 nights</option>
+        </select>
+      </form>
+    `),
+    [
+      "Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete Any, edit text",
+      "2 nights, Select duration, menu pop up collapsed, button",
+    ],
+  );
+});
+
+test("scanSubtree adds group suffix for adjacent direct span native weather buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <button type="button"><span>Any</span></button>
+        <button type="button"><span>Warm</span><span>16 - 22ºC</span></button>
+        <button type="button" class="active"><span>Hot</span><span>23 - 28ºC</span></button>
+        <button type="button"><span>Very Hot</span><span>29 - 40ºC</span></button>
+      </div>
+    `),
+    [
+      "Any, button",
+      "Warm16 - 22ºC, button, group",
+      "Hot23 - 28ºC, button, group",
+      "Very Hot29 - 40ºC, button, group",
+    ],
+  );
+});
+
+test("scanSubtree preserves real whitespace between direct span fragments in native button names", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <button type="button"><span>Warm</span> <span>16 - 22ºC</span></button>
+    `),
+    ["Warm 16 - 22ºC, button"],
   );
 });
 

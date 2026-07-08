@@ -61,3 +61,56 @@ test("runtime scan result renders output and enables copy", async () => {
   );
   assert.equal(document.querySelector("#copy-btn").disabled, false);
 });
+
+test("runtime scan start renders waiting output instead of empty output", async () => {
+  const { document, emitRuntimeMessage } = await loadPopup({
+    sessionData: {
+      sr_log: [],
+      sr_selected_element: "",
+      sr_scanning: false,
+    },
+  });
+
+  emitRuntimeMessage({
+    type: "SR_SCAN_STARTED",
+    selectedElement: "button#submit",
+  });
+
+  assert.equal(
+    document.querySelector("#selected-element-text").textContent,
+    "button#submit",
+  );
+  assert.equal(
+    document.querySelector("#log-list .announcement").textContent,
+    "Waiting for output...",
+  );
+  assert.equal(document.querySelector("#status").textContent, "");
+  assert.equal(document.querySelector("#copy-btn").disabled, true);
+  assert.equal(document.querySelector("#clear-btn").disabled, true);
+});
+
+test("empty scan result renders no-output message after loading finishes", async () => {
+  const { document, emitRuntimeMessage } = await loadPopup({
+    sessionData: {
+      sr_scanning: true,
+      sr_selected_element: "div.empty",
+    },
+  });
+
+  assert.equal(
+    document.querySelector("#log-list .announcement").textContent,
+    "Waiting for output...",
+  );
+
+  emitRuntimeMessage({
+    type: "SR_SCAN_RESULT",
+    selectedElement: "div.empty",
+    log: [],
+  });
+
+  assert.equal(
+    document.querySelector("#log-list .announcement").textContent,
+    "No output for element.",
+  );
+  assert.equal(document.querySelector("#clear-btn").disabled, false);
+});

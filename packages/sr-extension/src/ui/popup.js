@@ -17,11 +17,13 @@ const params = new URLSearchParams(window.location.search);
 const FEEDBACK_URL = "https://github.com/Mabs787/sr-output-tool/issues";
 const THEME_STORAGE_KEY = "sr_theme";
 const THEME_MODES = new Set(["system", "light", "dark"]);
+const WAITING_OUTPUT_TEXT = "Waiting for output...";
 
 let targetTabId = Number.parseInt(params.get("tabId") || "", 10);
 let currentLog = [];
 let currentSelectedElement = "";
 let isSelecting = false;
+let isScanning = false;
 let currentThemePreference = "system";
 const systemDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
@@ -89,6 +91,7 @@ function setStatus(text) {
 
 function hideOutput() {
   currentLog = [];
+  isScanning = false;
   logList.innerHTML = "";
   logContainer.classList.add("hidden");
   updateOutputActionState();
@@ -151,8 +154,34 @@ function updateSelectionState(selecting) {
 
 function updateOutputActionState() {
   const hasRenderedOutput = !logContainer.classList.contains("hidden");
-  clearBtn.disabled = isSelecting || !hasRenderedOutput;
+  clearBtn.disabled = isSelecting || isScanning || !hasRenderedOutput;
   copyBtn.disabled = isSelecting || currentLog.length === 0;
+}
+
+function renderWaitingOutput() {
+  logList.innerHTML = "";
+  logList.style.setProperty("--log-index-digits", "2");
+  logContainer.classList.remove("hidden");
+
+  const li = document.createElement("li");
+  li.className = "empty-output loading-output";
+
+  const annoSpan = document.createElement("span");
+  annoSpan.className = "announcement";
+  annoSpan.textContent = WAITING_OUTPUT_TEXT;
+  li.appendChild(annoSpan);
+  logList.appendChild(li);
+
+  setStatus("");
+  updateOutputActionState();
+}
+
+function startScanLoading(selectedElement = "") {
+  isScanning = true;
+  currentLog = [];
+  currentSelectedElement = selectedElement;
+  renderSelectedElement();
+  renderWaitingOutput();
 }
 
 function setSettingsMenuOpen(open) {
@@ -237,6 +266,7 @@ async function init() {
     "sr_log",
     "sr_selected_element",
     "sr_selecting",
+    "sr_scanning",
   ]);
 
   updateSelectionState(Boolean(data.sr_selecting));
@@ -247,7 +277,9 @@ async function init() {
     setStatus("Click back into the page and choose an element to scan.");
   }
 
-  if (data.sr_log && data.sr_log.length > 0) {
+  if (data.sr_scanning) {
+    startScanLoading(currentSelectedElement);
+  } else if (data.sr_log && data.sr_log.length > 0) {
     currentLog = data.sr_log;
     renderLog();
   }
@@ -267,7 +299,11 @@ selectBtn.addEventListener("click", async () => {
     return;
   }
 
-  await chrome.storage.session.set({ sr_selecting: true, sr_log: [] });
+  await chrome.storage.session.set({
+    sr_selecting: true,
+    sr_scanning: false,
+    sr_log: [],
+  });
   currentSelectedElement = "";
   renderSelectedElement();
   hideOutput();
@@ -284,15 +320,12 @@ scanPageBtn.addEventListener("click", async () => {
 
   await chrome.storage.session.set({
     sr_selecting: false,
+    sr_scanning: true,
     sr_log: [],
     sr_selected_element: "",
   });
-  currentLog = [];
-  currentSelectedElement = "";
-  renderSelectedElement();
-  renderLog();
+  startScanLoading("Full page");
   updateSelectionState(false);
-  setStatus("Scanning the full page...");
   await sendToContentScript({ type: "SR_SCAN_PAGE" });
 });
 
@@ -363,6 +396,7 @@ clearBtn.addEventListener("click", async () => {
     sr_log: [],
     sr_selected_element: "",
     sr_selecting: false,
+    sr_scanning: false,
   });
   await ensureContentScript();
   await sendToContentScript({ type: "SR_CLEAR" });
@@ -390,8 +424,14 @@ window.addEventListener("beforeunload", () => {
 });
 
 chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "SR_SCAN_STARTED") {
+    updateSelectionState(false);
+    startScanLoading(msg.selectedElement || "");
+  }
+
   if (msg.type === "SR_SCAN_RESULT") {
     updateSelectionState(false);
+    isScanning = false;
     currentLog = msg.log || [];
     currentSelectedElement = msg.selectedElement || "";
     renderSelectedElement();
@@ -400,11 +440,18 @@ chrome.runtime.onMessage.addListener((msg) => {
 
   if (msg.type === "SR_SELECTION_CANCELLED") {
     updateSelectionState(false);
+    isScanning = false;
     setStatus("");
+    updateOutputActionState();
   }
 });
 
 function renderLog() {
+  if (isScanning) {
+    renderWaitingOutput();
+    return;
+  }
+
   logList.innerHTML = "";
   logList.style.setProperty(
     "--log-index-digits",

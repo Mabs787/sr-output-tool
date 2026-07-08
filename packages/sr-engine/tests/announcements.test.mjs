@@ -84,6 +84,16 @@ test("generateAnnouncement formats interactive control states", () => {
     }),
     "Enter a product to search for Search, required list box pop up, search text field",
   );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      required: true,
+      autocomplete: "list",
+      expanded: false,
+    }),
+    "required list box pop up collapsed, combo box",
+  );
 });
 
 test("generateAnnouncement formats headings, links, and table cells", () => {

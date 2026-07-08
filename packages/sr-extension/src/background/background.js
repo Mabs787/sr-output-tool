@@ -109,11 +109,24 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sr_log: msg.log || [],
       sr_selected_element: msg.selectedElement || "",
       sr_selecting: false,
+      sr_scanning: false,
+    });
+  }
+
+  if (msg.type === "SR_SCAN_STARTED") {
+    chrome.storage.session.set({
+      sr_log: [],
+      sr_selected_element: msg.selectedElement || "",
+      sr_selecting: false,
+      sr_scanning: true,
     });
   }
 
   if (msg.type === "SR_SELECTION_CANCELLED") {
-    chrome.storage.session.set({ sr_selecting: false });
+    chrome.storage.session.set({
+      sr_selecting: false,
+      sr_scanning: false,
+    });
   }
 
   chrome.runtime.sendMessage(msg).catch(() => {

@@ -1025,7 +1025,74 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function buttonContentName(el: any): string | undefined {
-    return generatedPseudoName(el) || embeddedControlContentName(el);
+    return nativeButtonDirectSpanTextName(el) || generatedPseudoName(el) || embeddedControlContentName(el);
+  }
+
+  function nativeButtonDirectSpanTextName(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName?.toLowerCase() !== "button") return undefined;
+    if (el.getAttribute("role") && el.getAttribute("role") !== "button") return undefined;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
+    if (
+      el.hasAttribute("data-sr-pseudo-before") ||
+      el.hasAttribute("data-sr-pseudo-after")
+    ) {
+      return undefined;
+    }
+    if (el.querySelector(interactiveSelector)) return undefined;
+
+    let text = "";
+    let spanCount = 0;
+    let sawAdjacentTextSpans = false;
+    let previousWasTextSpan = false;
+    let interveningText = "";
+
+    for (const child of Array.from(el.childNodes || [])) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const value = child.textContent || "";
+        text += value;
+        interveningText += value;
+        continue;
+      }
+
+      if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) {
+        continue;
+      }
+
+      if (child.tagName?.toLowerCase() !== "span") return undefined;
+      if (child.querySelector(interactiveSelector)) return undefined;
+
+      const childText = readableText(child);
+      if (!childText) continue;
+
+      if (previousWasTextSpan && interveningText === "") {
+        sawAdjacentTextSpans = true;
+      }
+      text += childText;
+      spanCount += 1;
+      previousWasTextSpan = true;
+      interveningText = "";
+    }
+
+    if (spanCount < 2 || !sawAdjacentTextSpans) return undefined;
+    return normalize(text);
+  }
+
+  function isNativeButtonDirectSpanGroupButton(el: any): boolean {
+    if (!nativeButtonDirectSpanTextName(el)) return false;
+    if (el.disabled || el.hasAttribute?.("disabled")) return false;
+
+    return ![
+      "aria-checked",
+      "aria-controls",
+      "aria-current",
+      "aria-describedby",
+      "aria-disabled",
+      "aria-expanded",
+      "aria-haspopup",
+      "aria-pressed",
+      "aria-selected",
+    ].some((attribute) => el.hasAttribute?.(attribute));
   }
 
   function isFocusableImageListItem(el: any): boolean {
@@ -1328,6 +1395,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const rect = el.getBoundingClientRect?.();
     if (rect && (rect.width > 80 || rect.height > 80)) return false;
     return Boolean(positionInSet(el, "button"));
+  }
+
+  function isCollapsedDialogPopupImageTextButton(el: any): boolean {
+    if (implicitRole(el) !== "button") return false;
+    if (el.tagName?.toLowerCase() !== "button") return false;
+    if (!normalize(el.getAttribute("aria-label"))) return false;
+    if (normalizedPopup(el) !== "dialog") return false;
+    if (parseBooleanAttribute(el, "aria-expanded") !== false) return false;
+
+    const directVisibleElements = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    return (
+      directVisibleElements.some((child: any) => child.tagName?.toLowerCase() === "img") &&
+      directVisibleElements.some((child: any) => child.tagName?.toLowerCase() === "span")
+    );
   }
 
   function isIconFirstTextButton(el: any): boolean {
@@ -1771,6 +1854,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ? labelForControl(el)
       : undefined;
 
+    if (ariaLabel !== undefined && role !== "searchbox" && ["input", "select"].includes(tag)) {
+      return ariaLabel;
+    }
     if (nativeLabel) return nativeLabel;
     if (ariaLabel !== undefined) return ariaLabel;
     if (labelledBy) return axLabelBoundaryName(el, role, labelledBy) || labelledBy;
@@ -2021,6 +2107,282 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return contextRoles.has(role);
   }
 
+  function hasPresentationRole(el: any): boolean {
+    const role = normalize(el?.getAttribute?.("role"))?.toLowerCase();
+    return role === "none" || role === "presentation";
+  }
+
+  function presentationAccordionGroupForItem(item: any): any | null {
+    if (!item || item.nodeType !== Node.ELEMENT_NODE || isHidden(item)) return null;
+    if (item.tagName?.toLowerCase() !== "li" || !hasPresentationRole(item)) return null;
+
+    const visibleChildren = Array.from(item.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (visibleChildren.length !== 1) return null;
+
+    const button = visibleChildren[0] as any;
+    if (button.tagName?.toLowerCase() !== "button") return null;
+    if (parseBooleanAttribute(button, "aria-expanded") !== false) return null;
+    if (normalizedPopup(button)) return null;
+
+    const label = normalize(accessibleName(button, "button") || readableText(button));
+    if (!label) return null;
+
+    const group = nextVisibleElementSibling(item);
+    if (!group || group.parentElement !== item.parentElement) return null;
+    const groupLabel = normalize(
+      group.getAttribute?.("aria-label") || textFromIdRefs(group.getAttribute?.("aria-labelledby")),
+    );
+    if (groupLabel !== label) return null;
+
+    const links = Array.from(group.querySelectorAll?.("a[href], [role='link']") || []).filter(
+      (link: any) => !isHidden(link),
+    );
+    return links.length ? group : null;
+  }
+
+  function isPresentationCollapsedAccordionList(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!["ul", "ol"].includes(el.tagName?.toLowerCase())) return false;
+    if (!hasPresentationRole(el)) return false;
+
+    const items = Array.from(el.children || []).filter(
+      (child: any) =>
+        !isHidden(child) &&
+        child.tagName?.toLowerCase() === "li" &&
+        hasPresentationRole(child),
+    );
+    return Boolean(
+      items.length &&
+        items.every((item: any) => Boolean(presentationAccordionGroupForItem(item))),
+    );
+  }
+
+  function isPresentationCollapsedAccordionListItem(el: any): boolean {
+    const parent = el?.parentElement;
+    return Boolean(
+      presentationAccordionGroupForItem(el) &&
+        parent &&
+        isPresentationCollapsedAccordionList(parent),
+    );
+  }
+
+  function isPresentationCollapsedAccordionButton(el: any): boolean {
+    const item = el?.parentElement;
+    if (!item || presentationAccordionGroupForItem(item) === null) return false;
+    return isPresentationCollapsedAccordionListItem(item);
+  }
+
+  function isSingleLinkPresentationListItem(item: any): boolean {
+    if (!item || item.nodeType !== Node.ELEMENT_NODE || isHidden(item)) return false;
+    if (item.tagName?.toLowerCase() !== "li" || !hasPresentationRole(item)) return false;
+    if (directOwnText(item)) return false;
+
+    const visibleChildren = Array.from(item.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (visibleChildren.length !== 1) return false;
+
+    const link = visibleChildren[0] as any;
+    if (link.tagName?.toLowerCase() !== "a" && link.getAttribute?.("role") !== "link") {
+      return false;
+    }
+    if (!link.hasAttribute("href") && link.getAttribute?.("role") !== "link") return false;
+    return Boolean(readableText(link) || normalize(link.getAttribute?.("aria-label")));
+  }
+
+  function presentationLinkListGroupLabel(el: any): string | undefined {
+    const parent = el?.parentElement;
+    if (!parent || isHidden(parent)) return undefined;
+    if (!["div", "section"].includes(parent.tagName?.toLowerCase())) return undefined;
+
+    const label = normalize(
+      parent.getAttribute?.("aria-label") ||
+        textFromIdRefs(parent.getAttribute?.("aria-labelledby")),
+    );
+    if (!label) return undefined;
+
+    const visibleChildren = Array.from(parent.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (!visibleChildren.includes(el)) return undefined;
+    if (visibleChildren.some((child: any) => child !== el && child.matches?.(interactiveSelector))) {
+      return undefined;
+    }
+
+    const visibleTextChildren = visibleChildren.filter(
+      (child: any) =>
+        child !== el &&
+        !child.matches?.("script, style, template") &&
+        Boolean(readableText(child)),
+    );
+    if (visibleTextChildren.length !== 1) return undefined;
+    return normalize(readableText(visibleTextChildren[0])) === label ? label : undefined;
+  }
+
+  function isPresentationLinkList(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!["ul", "ol"].includes(el.tagName?.toLowerCase())) return false;
+    if (!hasPresentationRole(el)) return false;
+    if (directOwnText(el)) return false;
+    if (!presentationLinkListGroupLabel(el)) return false;
+
+    const items = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    return Boolean(
+      items.length &&
+        items.every((item: any) => isSingleLinkPresentationListItem(item)),
+    );
+  }
+
+  function isPresentationLinkListItem(el: any): boolean {
+    const parent = el?.parentElement;
+    return Boolean(
+      parent &&
+        isPresentationLinkList(parent) &&
+        isSingleLinkPresentationListItem(el),
+    );
+  }
+
+  function isFocusableRichTextParagraphGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName?.toLowerCase() !== "span") return false;
+    if (el.getAttribute("role")) return false;
+    if (el.getAttribute("tabindex") !== "0") return false;
+    if (
+      [
+        "aria-label",
+        "aria-labelledby",
+        "aria-controls",
+        "aria-describedby",
+        "aria-expanded",
+        "aria-haspopup",
+      ].some((attribute) => el.hasAttribute(attribute))
+    ) {
+      return false;
+    }
+
+    const visibleChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (visibleChildren.length < 2) return false;
+    if (visibleChildren.some((child: any) => child.tagName?.toLowerCase() !== "p")) {
+      return false;
+    }
+    if (!readableText(el)) return false;
+
+    return visibleChildren.some((child: any) =>
+      Boolean(
+        child.querySelector?.("a[href], [role='link'], b, strong, em, i") ||
+          (directOwnText(child) && child.children?.length),
+      ),
+    );
+  }
+
+  function isFocusableHeadingRichTextNavigationGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName?.toLowerCase() !== "div") return false;
+    if (el.getAttribute("role")) return false;
+    if (el.getAttribute("tabindex") !== "0") return false;
+    if (
+      [
+        "aria-label",
+        "aria-labelledby",
+        "aria-controls",
+        "aria-describedby",
+        "aria-expanded",
+        "aria-haspopup",
+      ].some((attribute) => el.hasAttribute(attribute))
+    ) {
+      return false;
+    }
+
+    const visibleChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    const directHeadings = visibleChildren.filter((child: any) =>
+      /^h[1-6]$/i.test(child.tagName || "") || child.getAttribute?.("role") === "heading",
+    );
+    if (directHeadings.length !== 1 || !readableText(directHeadings[0])) {
+      return false;
+    }
+
+    const navigation = Array.from(el.querySelectorAll("nav, [role='navigation']")).filter(
+      (candidate: any) => !isHidden(candidate),
+    );
+    if (navigation.length !== 1) return false;
+    if (!accessibleName(navigation[0], "navigation")) return false;
+    if (navigation[0].querySelector?.("a[href], button, [role='link'], [role='button']")) {
+      return false;
+    }
+
+    const richTextContainers = visibleChildren.filter(
+      (child: any) =>
+        child !== directHeadings[0] &&
+        child.contains?.(navigation[0]) &&
+        child.querySelector?.("p"),
+    );
+    if (richTextContainers.length !== 1) return false;
+
+    const paragraphs = Array.from(richTextContainers[0].querySelectorAll("p")).filter(
+      (paragraph: any) => !isHidden(paragraph) && Boolean(readableText(paragraph)),
+    );
+    if (paragraphs.length < 2) return false;
+    if (!paragraphs.some((paragraph: any) => paragraph.querySelector?.("a[href], [role='link']"))) {
+      return false;
+    }
+    if (
+      !paragraphs.some((paragraph: any) =>
+        paragraph.querySelector?.("b, strong, em, i"),
+      )
+    ) {
+      return false;
+    }
+
+    const controls = Array.from(el.querySelectorAll(interactiveSelector)).filter(
+      (control: any) => !isHidden(control),
+    );
+    return controls.every((control: any) => {
+      const role = implicitRole(control);
+      return role === "link" && paragraphs.some((paragraph: any) => paragraph.contains(control));
+    });
+  }
+
+  function focusableRichTextParagraphGroupText(el: any): string | undefined {
+    if (isFocusableHeadingRichTextNavigationGroup(el)) {
+      const navigation = Array.from(el.querySelectorAll("nav, [role='navigation']")).find(
+        (candidate: any) => !isHidden(candidate),
+      );
+      const navigationLabel = accessibleName(navigation, "navigation");
+      const directHeading = Array.from(el.children || []).find(
+        (child: any) =>
+          !isHidden(child) &&
+          (/^h[1-6]$/i.test(child.tagName || "") ||
+            child.getAttribute?.("role") === "heading"),
+      );
+      const paragraphs = Array.from(el.querySelectorAll("p")).filter(
+        (paragraph: any) => !isHidden(paragraph) && Boolean(readableText(paragraph)),
+      );
+      return normalize(
+        [
+          readableText(directHeading),
+          ...paragraphs.map((paragraph: any) => readableText(paragraph)),
+          navigationLabel,
+        ]
+          .filter(Boolean)
+          .join(" "),
+      );
+    }
+    if (!isFocusableRichTextParagraphGroup(el)) return undefined;
+    return normalize(
+      Array.from(el.children || [])
+        .filter((child: any) => !isHidden(child) && child.tagName?.toLowerCase() === "p")
+        .map((child: any) => readableText(child))
+        .filter(Boolean)
+        .join(" "),
+    );
+  }
+
   function isSiblingArticleCollectionItem(el: any): boolean {
     const parent = el?.parentElement;
     if (!parent) return false;
@@ -2034,6 +2396,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const tag = el.tagName.toLowerCase();
     const explicit = el.getAttribute("role");
     if (explicit === "img") return "image";
+    if (hasPresentationRole(el)) {
+      if (isPresentationCollapsedAccordionList(el)) return "";
+      if (isPresentationCollapsedAccordionListItem(el)) return "";
+      if (isPresentationLinkList(el)) return "";
+      if (isPresentationLinkListItem(el)) return "";
+    }
     if (explicit && explicit !== "none" && explicit !== "presentation") {
       return explicit;
     }
@@ -2044,6 +2412,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "button") return "button";
     if (isFocusableImageListItem(el)) return "group";
     if (isFocusableStructuredListItemGroup(el)) return "group";
+    if (isFocusableRichTextParagraphGroup(el)) return "group";
+    if (isFocusableHeadingRichTextNavigationGroup(el)) return "group";
     if (isSingleTitledIframeWrapper(el)) return "group";
     if (tag === "iframe" && singleTitledIframeChild(el.parentElement) === el) return "frame";
     if (tag === "select") return el.hasAttribute("multiple") ? "listbox" : "combobox";
@@ -7527,7 +7897,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       accessibleName(el, role) ||
       articleNameFromFirstHeading(el, role);
     const contextEndName = directListArticleCardContextEndName(el, role);
-    const rawText = readableText(el);
+    const richTextGroupText = focusableRichTextParagraphGroupText(el);
+    const rawText = richTextGroupText || readableText(el);
     const text =
       role === "group" && isCustomElement(el) && hasShadowRootContent(el)
         ? undefined
@@ -7681,6 +8052,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             (role === "button" &&
               !suppressPositionedChoiceGroup &&
               !isPositionedImageChoiceButton(el) &&
+              !isCollapsedDialogPopupImageTextButton(el) &&
               Boolean(nestedImageLabel(el))) ||
             (role === "button" &&
               Boolean(closestCustomElement(el)) &&
@@ -7694,6 +8066,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               el.hasAttribute("aria-expanded") &&
               !anonymousStructuralCustomElementHost &&
               !normalizedPopup(el) &&
+              !isPresentationCollapsedAccordionButton(el) &&
               !position &&
               !buttonSharesListItemWithLink(el) &&
               !isPlainUtilityDisclosureButton(el) &&
@@ -7707,12 +8080,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             (role === "button" && isTextWithTrailingIconButton(el)) ||
             (role === "button" && isGeneratedPseudoPopupButton(el)) ||
             (role === "button" && isShadowHostWrappedNativeButton(el)) ||
+            (role === "button" && isNativeButtonDirectSpanGroupButton(el)) ||
             (role === "button" &&
               !suppressPositionedChoiceGroup &&
               isIconFirstTextButton(el)) ||
             (role === "button" && isExpandedNavigationListItemButton(el)) ||
             (role === "text" && isFocusableCustomTooltipTrigger(el)))) ||
         undefined,
+      richTextGroup:
+        role === "group" && Boolean(richTextGroupText) || undefined,
       groupedCollectionPosition:
         role === "button" &&
           Boolean(nativeDetailsSummary) ||
@@ -7853,6 +8229,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "group" && isButtonShellGroup(el)) ||
         (role === "group" && isFocusableImageListItem(el)) ||
         (role === "group" && isFocusableStructuredListItemGroup(el)) ||
+        (role === "group" && isFocusableRichTextParagraphGroup(el)) ||
+        (role === "group" && isFocusableHeadingRichTextNavigationGroup(el)) ||
         (role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el)) ||
         (role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el)) ||
         (role === "group" && Boolean(fieldsetPromptText(el))) ||
@@ -8071,6 +8449,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "group" &&
       !accessibleName(el, role) &&
       !el.matches(interactiveSelector) &&
+      !isFocusableRichTextParagraphGroup(el) &&
+      !isFocusableHeadingRichTextNavigationGroup(el) &&
       !isSingleTitledIframeWrapper(el) &&
       !isButtonShellClusterGroup(el) &&
       !isButtonShellGroup(el) &&
@@ -8125,6 +8505,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
     if (role === "group" && isFocusableStructuredListItemGroup(el)) {
+      return false;
+    }
+    if (role === "group" && isFocusableRichTextParagraphGroup(el)) {
+      return false;
+    }
+    if (role === "group" && isFocusableHeadingRichTextNavigationGroup(el)) {
       return false;
     }
     if (role === "listbox" && singleSelectedListboxOption(el)) {
@@ -8676,6 +9062,80 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function isFocusableTerminalFooterGroup(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (implicitRole(el) !== "group") return false;
+    if (
+      !el.matches?.(interactiveSelector) &&
+      el.getAttribute?.("tabindex") !== "0" &&
+      !(typeof el.tabIndex === "number" && el.tabIndex >= 0)
+    ) {
+      return false;
+    }
+    return (
+      isFocusableRichTextParagraphGroup(el) ||
+      isFocusableHeadingRichTextNavigationGroup(el)
+    );
+  }
+
+  function lastScannerStopInSubtree(el: any): any | undefined {
+    let last: any | undefined;
+
+    function visit(node: any): void {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (isInsideCollapsedPopup(node)) return;
+      if (isSeparatorListItem(node)) return;
+      if (isInsideControlledTableGroupBody(node)) return;
+
+      if (isStopElement(node)) {
+        last = node;
+        if (!shouldDescendIntoStop(node)) return;
+      }
+
+      for (const child of walkChildren(node)) visit(child);
+    }
+
+    visit(el);
+    return last;
+  }
+
+  function hasVisibleFollowingContentBeforeBoundary(el: any, boundary: any): boolean {
+    for (let current = el; current && current !== boundary; current = current.parentElement) {
+      for (
+        let sibling = current.nextElementSibling;
+        sibling;
+        sibling = sibling.nextElementSibling
+      ) {
+        if (isHidden(sibling)) continue;
+        if (
+          readableText(sibling) ||
+          hasVisibleInteractiveDescendant(sibling) ||
+          isStopElement(sibling)
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function shouldSuppressTerminalFooterEnd(
+    root: any,
+    el: any,
+    descriptor: CapturedElementDescriptor,
+  ): boolean {
+    if (descriptor.role !== "contentinfo" || descriptor.roleDescription !== "footer") {
+      return false;
+    }
+
+    const scanRoot = el.closest?.("[data-sr-scan-root]");
+    if (!scanRoot || (scanRoot !== root && !root?.contains?.(scanRoot))) return false;
+    if (hasVisibleFollowingContentBeforeBoundary(el, scanRoot)) return false;
+
+    const lastStop = lastScannerStopInSubtree(el);
+    return Boolean(lastStop && lastStop !== el && isFocusableTerminalFooterGroup(lastStop));
+  }
+
   function scanSubtree(root: any): ScanLogEntry[] {
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
@@ -8864,7 +9324,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             });
           }
 
-          const endAnnouncement = getContextEndAnnouncement(descriptor);
+          const endAnnouncement = shouldSuppressTerminalFooterEnd(root, el, descriptor)
+            ? null
+            : getContextEndAnnouncement(descriptor);
           if (endAnnouncement) {
             log.push({
               index: log.length,

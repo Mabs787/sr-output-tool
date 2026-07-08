@@ -666,7 +666,7 @@
     );
   }
 
-  function scanElement(el) {
+  async function scanElement(el) {
     const scanRoot = getScanRoot(el);
     selectedScanRoot = scanRoot;
 
@@ -682,6 +682,15 @@
 
     clearSrIds();
     const selectedElement = describeSelectedElementTag(scanRoot);
+    await chrome.runtime
+      .sendMessage({
+        type: "SR_SCAN_STARTED",
+        selectedElement,
+      })
+      .catch(() => {
+        // The inspector UI may not be mounted.
+      });
+
     const log = scanSubtree(scanRoot);
     chrome.runtime.sendMessage({
       type: "SR_SCAN_RESULT",
