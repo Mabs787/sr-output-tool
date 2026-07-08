@@ -2401,6 +2401,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (isPresentationCollapsedAccordionListItem(el)) return "";
       if (isPresentationLinkList(el)) return "";
       if (isPresentationLinkListItem(el)) return "";
+      if (tag === "li" && !hasPresentationRole(el.parentElement)) return "";
     }
     if (explicit && explicit !== "none" && explicit !== "presentation") {
       return explicit;

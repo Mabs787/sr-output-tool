@@ -188,6 +188,39 @@ test("scanSubtree does not duplicate aria-label-only or out-of-flow navigation l
   );
 });
 
+test("scanSubtree traverses links inside presentation list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div class="oh-toolbar">
+        <button aria-label="Open menu"></button>
+        <a role="link" href="/" aria-label="TUI homepage">
+          <img alt="" src="/logo.svg">
+        </a>
+        <ul role="navigation" class="oh-service-links">
+          <li>
+            <a href="tel:02034512688">To book, call <strong>0203 451 2688</strong></a>
+          </li>
+          <li role="presentation" class="desktop">
+            <a role="link" href="/destinations/info/travel-information">Travel information</a>
+          </li>
+          <li role="presentation" class="desktop">
+            <a role="link" href="/destinations/faq">Help Centre</a>
+          </li>
+        </ul>
+      </div>
+    `),
+    [
+      "Open menu, button",
+      "link, TUI homepage",
+      "navigation",
+      "link, To book, call 0203 451 2688",
+      "link, Travel information",
+      "link, Help Centre",
+      "end of, navigation",
+    ],
+  );
+});
+
 test("scanSubtree splits direct text and one inline link in generic div blocks", () => {
   assert.deepEqual(
     scanHtml(`
