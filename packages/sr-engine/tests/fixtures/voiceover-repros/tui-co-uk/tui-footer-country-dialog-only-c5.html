@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TUI footer country dialog only C5 repro</title>
+</head>
+<body data-sr-scan-root>
+  <footer>
+    <div>
+      <div>
+        <div>
+          <button aria-label="TUI UK" aria-haspopup="dialog" aria-expanded="false">
+            <img alt="uk"><span>TUI UK</span>
+          </button>
+        </div>
+        <div role="dialog" aria-modal="true" aria-labelledby="flag-selector-header">
+          <div>
+            <div>
+              <div>
+                <span id="flag-selector-header">Hello, you are currently browsing:</span>
+                <div><img alt="uk"><span>TUI UK</span></div>
+              </div>
+              <button aria-label="Close country selector"></button>
+            </div>
+            <div>
+              <h4>Please choose your TUI website:</h4>
+              <ul aria-label="country List">
+                <li>
+                  <a href="https://www.tuiholidays.ie/" aria-label="TUI Republic of Ireland">
+                    <img alt="ie"><span>TUI Republic of Ireland</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p>Country dialog sync marker.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
