@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK inline code boundary repro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 32px;
+      max-width: 760px;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root>
+    <h1>Inline code boundary repro</h1>
+
+    <section aria-labelledby="fieldset-legend-heading">
+      <h2 id="fieldset-legend-heading">Fieldset and legend guidance</h2>
+      <p data-source-fixture="date-input" data-source-node-id="881" data-source-indexes="82,84">The 3 date fields are grouped together in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code> that describes them.</p>
+      <p data-source-fixture="radios" data-source-node-id="961" data-source-indexes="92,94,100">If you are asking just <a href="/patterns/question-pages/#start-by-asking-one-question-per-page">one question per page in your service</a>, set the contents of the <code>&lt;legend&gt;</code> as the page heading.</p>
+      <p data-source-fixture="checkboxes" data-source-node-id="958" data-source-indexes="94,96">Group checkboxes together in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code> that describes them.</p>
+    </section>
+
+    <section aria-labelledby="attribute-heading">
+      <h2 id="attribute-heading">Attribute token guidance</h2>
+      <p data-source-fixture="text-input" data-source-indexes="164,185,193">Set the <code>inputmode</code> attribute to <code>numeric</code> for whole numbers. For decimal values, set <code>inputmode</code> to <code>decimal</code>.</p>
+      <p data-source-fixture="textarea" data-source-indexes="97">Set the height of a textarea by specifying the <code>rows</code> attribute.</p>
+      <p data-source-fixture="text-input,password-input" data-source-indexes="258,260,261,127,129,132,138">Use the <code>autocomplete</code> attribute on inputs. Set the <code>autocomplete</code> attribute to <code>new-password</code> or <code>current-password</code>.</p>
+    </section>
+  </main>
+</body>
+</html>

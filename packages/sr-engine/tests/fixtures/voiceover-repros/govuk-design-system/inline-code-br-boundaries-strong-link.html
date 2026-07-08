@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK strong and link boundary repro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 32px;
+      max-width: 860px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    th,
+    td {
+      border: 1px solid #b1b4b6;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root>
+    <h1>Strong and link boundary repro</h1>
+
+    <section aria-labelledby="macro-options">
+      <h2 id="macro-options">Macro options table</h2>
+      <table>
+        <caption>Short option rows copied from GOV.UK component option tables</caption>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-source-fixture="text-input" data-source-node-id="551">
+            <th scope="row">label</th>
+            <td>object</td>
+            <td><strong>Required.</strong> The label used by the text input component. <a href="#label-options">See macro options for label</a>.</td>
+          </tr>
+          <tr data-source-fixture="password-input" data-source-node-id="706">
+            <th scope="row">prefix</th>
+            <td>object</td>
+            <td><strong>Required.</strong> Text to add before the input. If <code>html</code> is provided, the <code>text</code> option will be ignored.</td>
+          </tr>
+          <tr data-source-fixture="radios" data-source-node-id="726">
+            <th scope="row">beforeInputs</th>
+            <td>object</td>
+            <td><strong>Required.</strong> Text to add before all radio items. If <code>html</code> is provided, the <code>text</code> option will be ignored.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="link-adjacent-list">
+      <h2 id="link-adjacent-list">Link-adjacent list text</h2>
+      <p>To help make sure that this page is useful, relevant and up to date, you can:</p>
+      <ul>
+        <li data-source-fixture="password-input" data-source-node-id="1387">take part in the <a href="https://github.com/alphagov/govuk-design-system-backlog/issues/240">&lsquo;Password input&rsquo; discussion on GitHub</a> and share your research</li>
+        <li data-source-fixture="password-input" data-source-node-id="1389"><a href="https://github.com/alphagov/govuk-design-system/edit/main/src/components/password-input/index.md">propose a change on GitHub</a> &ndash; read more about <a href="/community/propose-a-content-change-using-github/">how to propose changes in GitHub</a></li>
+      </ul>
+      <p data-source-fixture="password-input" data-source-node-id="1354">If you must restrict the length of a password, show an error message instead using the <a href="/patterns/validation/">Validation pattern</a>.</p>
+    </section>
+  </main>
+</body>
+</html>

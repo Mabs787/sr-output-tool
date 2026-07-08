@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK validation br boundary repro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 32px;
+      max-width: 760px;
+    }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root>
+    <h1>Validation line break repro</h1>
+
+    <section aria-labelledby="text-input-errors">
+      <h2 id="text-input-errors">Text input validation</h2>
+      <p data-source-fixture="text-input" data-source-node-id="8453" data-source-indexes="330,331">Say &lsquo;Enter [whatever it is]&rsquo;.<br><br>For example, &lsquo;Enter your first name&rsquo;.</p>
+      <p data-source-fixture="text-input" data-source-node-id="8465" data-source-indexes="338">Say &lsquo;[whatever it is] must be between [number] and [number] characters&rsquo;.<br><br>For example, &lsquo;Last name must be between 2 and 35 characters&rsquo;.</p>
+      <p data-source-fixture="text-input" data-source-node-id="8479" data-source-indexes="348,349">Say &lsquo;[whatever it is] must be a number [optional example]&rsquo;.<br><br>For example, &lsquo;Hours worked a week must be a number, like 30&rsquo;.</p>
+    </section>
+
+    <section aria-labelledby="textarea-errors">
+      <h2 id="textarea-errors">Textarea validation</h2>
+      <p data-source-fixture="textarea" data-source-node-id="2230" data-source-indexes="136,137">Say &lsquo;Enter [whatever it is]&rsquo;.<br><br>For example, &lsquo;Enter summary&rsquo;.</p>
+      <p data-source-fixture="textarea" data-source-node-id="2246" data-source-indexes="146,147">Say &lsquo;[whatever it is] must not include [characters]&rsquo;.<br><br>For example, &lsquo;Summary must not include &egrave; and &pound;&rsquo;.</p>
+    </section>
+
+    <section aria-labelledby="choice-errors">
+      <h2 id="choice-errors">Choice validation</h2>
+      <p data-source-fixture="radios" data-source-indexes="212">Say &lsquo;Select yes if [whatever it is is true]&rsquo;.<br><br>For example, &lsquo;Select yes if Sarah normally lives with you&rsquo;.</p>
+      <p data-source-fixture="checkboxes" data-source-node-id="5322" data-source-indexes="211,212">Say &lsquo;Select if [whatever it is]&rsquo;.<br><br>For example, &lsquo;Select if you are British, Irish or a citizen of a different country&rsquo;.</p>
+    </section>
+  </main>
+</body>
+</html>

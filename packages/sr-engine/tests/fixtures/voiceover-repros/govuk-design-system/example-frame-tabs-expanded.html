@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK example frame tabs expanded repro</title>
+  <style>
+    .govuk-visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <div data-sr-scan-root>
+      <h1>Date input</h1>
+      <p>See the HTML and Nunjucks tabs in the example.</p>
+
+      <div>
+        <div>
+          <div>
+            <a href="/components/date-input/date-of-birth/">
+              Open this example in a new tab<span class="govuk-visually-hidden">: date input to ask for date of birth &ndash; date input</span>
+            </a>
+          </div>
+          <iframe
+            title="Date input to ask for date of birth &ndash; Date input example"
+            srcdoc='<!doctype html><html lang="en"><head><title>Date input to ask for date of birth &ndash; Date input - Example - GOV.UK Design System</title></head><body><main><h1>Date of birth example</h1></main></body></html>'>
+          </iframe>
+        </div>
+        <span></span>
+        <ul role="tablist">
+          <li role="presentation">
+            <a href="#default-2-open-html" role="tab" aria-controls="default-2-open-html" aria-expanded="true">HTML</a>
+          </li>
+          <li role="presentation">
+            <a href="#default-2-open-nunjucks" role="tab" aria-controls="default-2-open-nunjucks" aria-expanded="false">Nunjucks</a>
+          </li>
+        </ul>
+        <div style="display: none">
+          <button aria-controls="default-2-open-html" aria-expanded="true">HTML</button>
+        </div>
+        <div id="default-2-open-html" role="tabpanel">
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code tabindex="0">&lt;fieldset role="group" aria-describedby="dob-hint"&gt;DOB&lt;/fieldset&gt;</code></pre>
+          </div>
+        </div>
+        <div id="default-2-open-nunjucks" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>{{ govukDateInput({ id: "dob" }) }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <h2>After example</h2>
+    </div>
+  </main>
+</body>
+</html>

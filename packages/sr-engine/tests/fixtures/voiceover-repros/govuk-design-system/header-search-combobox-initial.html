@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK header search combobox C.5 repro</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div data-sr-scan-root>
+    <header>
+      <a href="/">GOV.UK Design System</a>
+
+      <div class="app-site-search">
+        <label for="app-site-search__input">Search Design system</label>
+        <a class="hidden" href="/sitemap/">Sitemap</a>
+        <div class="app-site-search__wrapper">
+          <div class="app-site-search__status">
+            <div role="status" aria-atomic="true" aria-live="polite"></div>
+            <div role="status" aria-atomic="true" aria-live="polite"></div>
+          </div>
+          <input
+            aria-describedby="app-site-search__input__assistiveHint"
+            aria-expanded="false"
+            aria-controls="app-site-search__input__listbox"
+            aria-autocomplete="both"
+            id="app-site-search__input"
+            name="input-autocomplete"
+            placeholder="Search Design System"
+            type="text"
+            role="combobox">
+          <ul
+            class="hidden"
+            aria-labelledby="app-site-search__input"
+            id="app-site-search__input__listbox"
+            role="listbox"></ul>
+          <span class="hidden" id="app-site-search__input__assistiveHint">When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</span>
+        </div>
+      </div>
+    </header>
+  </div>
+</body>
+</html>

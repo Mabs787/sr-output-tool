@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK example frame tabs collapsed repro</title>
+  <style>
+    .govuk-visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <div data-sr-scan-root>
+      <h1>Date input</h1>
+      <p>Short intro before the example.</p>
+
+      <div>
+        <div>
+          <div>
+            <a href="/components/date-input/default/">
+              Open this example in a new tab<span class="govuk-visually-hidden">: date input</span>
+            </a>
+          </div>
+          <iframe
+            title="Date input example"
+            srcdoc='<!doctype html><html lang="en"><head><title>Date input - Example - GOV.UK Design System</title></head><body><main><h1>Date input example</h1></main></body></html>'>
+          </iframe>
+        </div>
+        <span></span>
+        <ul role="tablist">
+          <li role="presentation">
+            <a href="#date-input-example-html" role="tab" aria-controls="date-input-example-html" aria-expanded="false">HTML</a>
+          </li>
+          <li role="presentation">
+            <a href="#date-input-example-nunjucks" role="tab" aria-controls="date-input-example-nunjucks" aria-expanded="false">Nunjucks</a>
+          </li>
+        </ul>
+        <div style="display: none">
+          <button aria-controls="date-input-example-html" aria-expanded="false">HTML</button>
+        </div>
+        <div id="date-input-example-html" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>&lt;div class="govuk-form-group"&gt;Example&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+        <div id="date-input-example-nunjucks" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>{{ govukDateInput({ id: "dob" }) }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <h2>After example</h2>
+    </div>
+  </main>
+</body>
+</html>
