@@ -91,6 +91,10 @@ export interface ElementDescriptor {
   leadingDecorativeTextCardGroups?: boolean;
   trailingStandaloneGroup?: boolean;
   splitLabelStop?: boolean;
+  nativeFormControlLabelStop?: boolean;
+  nativeFormInlineAlert?: boolean;
+  textEntryArea?: boolean;
+  emailTextField?: boolean;
   textboxPlaceholderBeforeRole?: boolean;
   footerCountrySelector?: boolean;
   fieldsetPromptText?: string;

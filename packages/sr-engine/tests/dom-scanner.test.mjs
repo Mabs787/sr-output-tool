@@ -4920,6 +4920,47 @@ test("scanSubtree keeps ordinary compact input action wrappers grouped", () => {
   );
 });
 
+test("scanSubtree matches VoiceOver stops for simple labelled contact forms", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form aria-label="Contact us">
+        <h2>Contact us</h2>
+        <div>
+          <label for="cf-name">Name <span aria-hidden="true">*</span></label>
+          <input id="cf-name" type="text" required aria-required="true" placeholder="Jane Smith">
+        </div>
+        <div>
+          <label for="cf-email">Email <span aria-hidden="true">*</span></label>
+          <input id="cf-email" type="email" required aria-required="true" placeholder="jane@example.com">
+        </div>
+        <div>
+          <label for="cf-subject">Subject</label>
+          <select id="cf-subject">
+            <option value="">Choose a topic</option>
+          </select>
+        </div>
+        <div>
+          <label for="cf-message">Message <span aria-hidden="true">*</span></label>
+          <textarea id="cf-message" required aria-required="true" placeholder="Your message..."></textarea>
+        </div>
+        <button type="submit">Send message</button>
+      </form>
+    `),
+    [
+      "heading level 2, Contact us",
+      "Name",
+      "Name Jane Smith, required, edit text",
+      "Email",
+      "Email jane@example.com, required, email",
+      "Subject",
+      "Choose a topic, Subject, menu pop up collapsed, button",
+      "Message",
+      "Message Your message..., required, text entry area",
+      "Send message, button",
+    ],
+  );
+});
+
 test("scanSubtree descends into labeled native selects inside list items", () => {
   assert.deepEqual(
     scanHtml(`

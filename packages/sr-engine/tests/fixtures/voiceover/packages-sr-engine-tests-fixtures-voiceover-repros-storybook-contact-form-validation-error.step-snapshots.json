@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-step-diagnostics",
+  "description": "Reduced per-step evidence for refining fixtures when final rendered HTML differs from the live DOM/AX state at the VoiceOver step.",
+  "partial": false,
+  "snapshots": []
+}

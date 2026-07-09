@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "name": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error",
+  "url": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/storybook/contact-form-validation-error.html",
+  "sourceRunId": "29011917758",
+  "html": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.html",
+  "accessibilityTree": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.ax.json",
+  "stepSnapshots": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.step-snapshots.json",
+  "expectedAnnouncements": [
+    "Open System Settings, button",
+    "heading level 2, Contact us",
+    "Name",
+    "Name Name is required., required invalid data, edit text",
+    "Name is required.",
+    "Email",
+    "Email jane@example.com, required, email",
+    "Send message, button"
+  ],
+  "refinedAnnouncements": [
+    "heading level 2, Contact us",
+    "Name",
+    "Name Name is required., required invalid data, edit text",
+    "Name is required.",
+    "Email",
+    "Email jane@example.com, required, email",
+    "Send message, button"
+  ],
+  "scan": {
+    "stopReason": "scan-end-marker",
+    "capturedSteps": 10
+  },
+  "stats": {
+    "voiceOverAnnouncementCount": 8,
+    "reducedHtml": {
+      "originalLength": 2080,
+      "reducedLength": 577,
+      "reductionPercent": 72
+    },
+    "accessibilityTree": {
+      "nodeCount": 0,
+      "ignoredNodeCount": 0,
+      "axMappedNodeCount": 0,
+      "domSnapshotMappedNodeCount": 0
+    }
+  },
+  "refinementNotes": [
+    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
+    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html.",
+    "Phase B correction: removed leading \"Open System Settings, button\" from refinedAnnouncements because it is a macOS system prompt artifact and is not present in the fixture HTML."
+  ],
+  "source": {
+    "manifestPath": "voiceover-smoke/autonomous-runs/29011917758/artifacts/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error/scans/packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error/refinement-manifest.json",
+    "scanDebug": {
+      "firstVoiceOverAnnouncement": "Open System Settings, button",
+      "lastVoiceOverAnnouncement": "Send message, button"
+    }
+  },
+  "sanitization": {
+    "status": "manual-refined",
+    "changedAnnouncementCount": 1,
+    "warningCount": 0,
+    "severeIssueCount": 0,
+    "warnings": [],
+    "severeIssues": [],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements remove one system prompt artifact from the raw VoiceOver capture."
+    ]
+  }
+}

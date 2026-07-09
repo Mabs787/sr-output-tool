@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "name": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default",
+  "url": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/storybook/contact-form-default.html",
+  "sourceRunId": "29011917758",
+  "html": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.html",
+  "accessibilityTree": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.ax.json",
+  "stepSnapshots": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.step-snapshots.json",
+  "expectedAnnouncements": [
+    "heading level 2, Contact us",
+    "Name",
+    "Name Jane Smith, required, edit text",
+    "Email",
+    "Email jane@example.com, required, email",
+    "Subject",
+    "Choose a topic, Subject, menu pop up collapsed, button",
+    "Message",
+    "Message Your message..., required, text entry area",
+    "Send message, button"
+  ],
+  "refinedAnnouncements": [
+    "heading level 2, Contact us",
+    "Name",
+    "Name Jane Smith, required, edit text",
+    "Email",
+    "Email jane@example.com, required, email",
+    "Subject",
+    "Choose a topic, Subject, menu pop up collapsed, button",
+    "Message",
+    "Message Your message..., required, text entry area",
+    "Send message, button"
+  ],
+  "scan": {
+    "stopReason": "scan-end-marker",
+    "capturedSteps": 12
+  },
+  "stats": {
+    "voiceOverAnnouncementCount": 10,
+    "reducedHtml": {
+      "originalLength": 2519,
+      "reducedLength": 908,
+      "reductionPercent": 64
+    },
+    "accessibilityTree": {
+      "nodeCount": 0,
+      "ignoredNodeCount": 0,
+      "axMappedNodeCount": 0,
+      "domSnapshotMappedNodeCount": 0
+    }
+  },
+  "refinementNotes": [
+    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
+    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html."
+  ],
+  "source": {
+    "manifestPath": "voiceover-smoke/autonomous-runs/29011917758/artifacts/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default/scans/packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default/refinement-manifest.json",
+    "scanDebug": {
+      "firstVoiceOverAnnouncement": "heading level 2, Contact us",
+      "lastVoiceOverAnnouncement": "Send message, button"
+    }
+  },
+  "sanitization": {
+    "status": "manual-refined",
+    "changedAnnouncementCount": 0,
+    "warningCount": 0,
+    "severeIssueCount": 0,
+    "warnings": [],
+    "severeIssues": [],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements were promoted after Phase D engine refinement reached exact zero mismatches."
+    ]
+  }
+}

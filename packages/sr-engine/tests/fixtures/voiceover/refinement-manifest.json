@@ -177,6 +177,14 @@
     "design-system-service-gov-uk-components-textarea": {
       "status": "refined",
       "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+    },
+    "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default": {
+      "status": "refined",
+      "reason": "Promoted from Storybook contact-form run 29011917758 after Phase B/D refinement reached exact zero mismatches; reusable engine fixes cover labelled native form controls."
+    },
+    "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error": {
+      "status": "refined",
+      "reason": "Promoted from Storybook contact-form run 29011917758 after Phase B removed a macOS System Settings artifact and Phase D reached exact zero mismatches."
     }
   }
 }

@@ -49,7 +49,7 @@
       "html": "www-nhs-uk-conditions.html",
       "accessibilityTree": "www-nhs-uk-conditions.ax.json",
       "voiceOverAnnouncementCount": 1040,
-      "sanitizationStatus": "needs-manual-refinement"
+      "sanitizationStatus": "manual-refined"
     },
     {
       "name": "www-nhs-uk",
@@ -218,7 +218,7 @@
       "accessibilityTree": "www-tesco-com.ax.json",
       "stepSnapshots": "www-tesco-com.step-snapshots.json",
       "voiceOverAnnouncementCount": 333,
-      "sanitizationStatus": "needs-manual-refinement"
+      "sanitizationStatus": "manual-refined"
     },
     {
       "name": "developer-mozilla-org-en-us",
@@ -372,6 +372,24 @@
       "stepSnapshots": "design-system-service-gov-uk-components-textarea.step-snapshots.json",
       "voiceOverAnnouncementCount": 183,
       "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default",
+      "expected": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.expected.json",
+      "html": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.html",
+      "accessibilityTree": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.ax.json",
+      "stepSnapshots": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default.step-snapshots.json",
+      "voiceOverAnnouncementCount": 10,
+      "sanitizationStatus": "needs-manual-refinement"
+    },
+    {
+      "name": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error",
+      "expected": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.expected.json",
+      "html": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.html",
+      "accessibilityTree": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.ax.json",
+      "stepSnapshots": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.step-snapshots.json",
+      "voiceOverAnnouncementCount": 8,
+      "sanitizationStatus": "needs-manual-refinement"
     }
   ],
   "skipped": [],

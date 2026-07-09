@@ -464,7 +464,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (el.invalid) {
           pushInvalidState(parts, el.invalid === true ? "data" : el.invalid);
         }
-        parts.push("edit text");
+        parts.push(el.textEntryArea ? "text entry area" : el.emailTextField ? "email" : "edit text");
         if (!el.invalid && !el.textboxPlaceholderBeforeRole) {
           pushIfPresent(parts, value ?? placeholderText);
         }

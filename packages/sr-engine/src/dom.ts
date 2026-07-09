@@ -623,6 +623,30 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(label && (textWithoutInteractive(label) || readableText(label)));
   }
 
+  function shouldSplitNativeControlLabelStop(el: any, role: string): boolean {
+    const tag = el?.tagName?.toLowerCase();
+    if (!["input", "select", "textarea"].includes(tag)) return false;
+    if (!["textbox", "combobox"].includes(role)) return false;
+    if (tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "hidden") {
+      return false;
+    }
+    if (el.getAttribute("aria-label")) return false;
+
+    const form = el.closest("form");
+    if (!form || !(form.getAttribute("aria-label") || form.getAttribute("aria-labelledby"))) {
+      return false;
+    }
+
+    const label = associatedLabelForControl(el);
+    if (!label) return false;
+    const labelText = normalize(textWithoutInteractive(label) || readableText(label));
+    if (!labelText) return false;
+
+    const parent = el.parentElement;
+    if (parent && compactInputActionGroupLabel(parent)) return false;
+    return true;
+  }
+
   function textboxShouldPlacePlaceholderBeforeRole(
     el: any,
     stateEl: any,
@@ -2693,7 +2717,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (expandedRegionInlineLinkFragments(el)) return "paragraph";
     if (inlineTextLinkFragments(el)) return "paragraph";
     if (
-      ["section", "div", "form"].includes(tag) &&
+      ["section", "div"].includes(tag) &&
       (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))
     ) {
       return tag === "section" ? "region" : "group";
@@ -8707,7 +8731,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               el.getAttribute("tabindex") === "-1" &&
               hasStructuredListItemContent(el.closest("li,[role='listitem']"))
             ? "empty group"
-            : normalize(el.getAttribute("aria-roledescription")),
+          : normalize(el.getAttribute("aria-roledescription")),
       level:
         role === "heading"
           ? Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2
@@ -8886,7 +8910,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           Boolean(
             name?.endsWith(":") ||
               (value && name?.endsWith(value)),
-          ))
+          )) ||
+        shouldSplitNativeControlLabelStop(el, role)
+          ? true
+          : undefined,
+      nativeFormControlLabelStop:
+        shouldSplitNativeControlLabelStop(el, role) ? true : undefined,
+      nativeFormInlineAlert:
+        role === "alert" &&
+        Boolean(el.closest("form[aria-label], form[aria-labelledby]"))
+          ? true
+          : undefined,
+      textEntryArea:
+        role === "textbox" && tag === "textarea" ? true : undefined,
+      emailTextField:
+        role === "textbox" &&
+        tag === "input" &&
+        (el.getAttribute("type") || "text").toLowerCase() === "email"
           ? true
           : undefined,
       textboxPlaceholderBeforeRole:
@@ -9383,6 +9423,34 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!descriptor.splitLabelStop) return undefined;
 
     const label = normalize(descriptor.name || descriptor.text);
+    if (descriptor.nativeFormControlLabelStop && descriptor.role === "textbox") {
+      const roleText = descriptor.textEntryArea
+        ? "text entry area"
+        : descriptor.emailTextField
+          ? "email"
+          : "edit text";
+      const value = normalize(descriptor.value || descriptor.placeholder);
+      const details = normalize(descriptor.details || descriptor.errorMessage);
+      const announcement = descriptor.invalid
+        ? normalize(
+            `${label || ""}${details ? ` ${details},` : ","} ${[
+              descriptor.required ? "required" : undefined,
+              descriptor.invalid
+                ? `invalid ${descriptor.invalid === true ? "data" : descriptor.invalid}`
+                : undefined,
+            ].filter(Boolean).join(" ")}, ${roleText}`,
+          )
+        : normalize(`${[label, value].filter(Boolean).join(" ")}${[
+            descriptor.required ? "required" : undefined,
+            roleText,
+          ].filter(Boolean).length ? `, ${[
+            descriptor.required ? "required" : undefined,
+            roleText,
+          ].filter(Boolean).join(", ")}` : ""}`);
+
+      return [label, announcement].filter((entry): entry is string => Boolean(entry));
+    }
+
     const announcement = generateAnnouncement(descriptor);
     if (descriptor.nativeSelect && label && descriptor.value) {
       const value = normalize(descriptor.value);
@@ -9396,6 +9464,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
     }
     return [label, announcement].filter((entry): entry is string => Boolean(entry));
+  }
+
+  function splitNativeFormInlineAlertAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (!descriptor.nativeFormInlineAlert) return undefined;
+    return [normalize(descriptor.name || descriptor.text)].filter(
+      (entry): entry is string => Boolean(entry),
+    );
   }
 
   function splitCompactInputActionGroupAnnouncements(
@@ -10096,6 +10173,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitClusteredVisualButtonAnnouncements(descriptor) ||
             splitCodeMirrorTextEntryAnnouncements(descriptor) ||
             splitLabelStopAnnouncements(descriptor) ||
+            splitNativeFormInlineAlertAnnouncements(descriptor) ||
             splitCompactResultCountAnnouncements(descriptor) ||
             splitComplexColumnHeaderAnnouncements(descriptor) ||
             splitComplexColumnHeaderContextCellAnnouncements(descriptor) ||
