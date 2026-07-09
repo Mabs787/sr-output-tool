@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>BA carousel roledescription and IDREF repro</title>
+    <style>
+      [data-sr-scan-root] {
+        max-width: 48rem;
+        margin: 2rem;
+        font-family: system-ui, sans-serif;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .decorative {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section role="region">
+        <div>
+          <section aria-roledescription="carousel" aria-label="Promotional carousel" data-original-dom-node-id="370">
+            <div>
+              <div aria-live="polite">
+                <div>
+                  <div
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label="1 of 4"
+                    aria-hidden="false"
+                    data-original-dom-node-id="374"
+                  >
+                    <div>
+                      <section>
+                        <section>
+                          <header>
+                            <h2
+                              aria-label="Summer offer Limited time offer."
+                              data-original-dom-node-id="379"
+                            >
+                              <span>Summer offer</span><span>Limited time offer</span>
+                            </h2>
+                          </header>
+                          <section>
+                            <div></div>
+                            <a aria-label="Find out more offer." tabindex="0" href="/offers">
+                              <button type="button" tabindex="-1">
+                                <div><span>Find out more</span></div>
+                              </button>
+                            </a>
+                            <p>Book by Friday</p>
+                          </section>
+                        </section>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              id="base-carousel-footer"
+              aria-label="Choose slide to display"
+              data-original-dom-node-id="462"
+            >
+              <button
+                aria-label="Previous slide"
+                aria-describedby="base-carousel-footer"
+                data-original-dom-node-id="463"
+              >
+                <div aria-hidden="false" class="decorative"></div>
+              </button>
+              <div>
+                <button aria-label="Slide 1"></button>
+                <button aria-label="Slide 2"></button>
+                <button aria-label="Slide 3"></button>
+                <button aria-label="Slide 4"></button>
+              </div>
+              <button
+                aria-label="Next slide"
+                aria-describedby="base-carousel-footer"
+                data-original-dom-node-id="470"
+              >
+                <div aria-hidden="false" class="decorative"></div>
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

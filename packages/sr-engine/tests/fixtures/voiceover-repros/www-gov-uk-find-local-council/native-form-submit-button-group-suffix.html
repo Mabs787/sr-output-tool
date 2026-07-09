@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GOV.UK native submit button suffix repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        padding: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1 data-sr-dom-node-id="161"> Find your local council </h1>
+      <p data-sr-dom-node-id="163">Find the website for your local council.</p>
+      <div data-sr-dom-node-id="164">
+        <form data-sr-dom-node-id="165">
+          <input
+            type="hidden"
+            name="authenticity_token"
+            value="token"
+            data-sr-dom-node-id="166"
+          >
+          <div data-sr-dom-node-id="167">
+            <label for="postcode" data-sr-dom-node-id="168">Enter a postcode</label>
+            <div id="hint-65cf0b9c" data-sr-dom-node-id="169"> For example SW1A 2AA </div>
+            <input
+              aria-describedby="hint-65cf0b9c"
+              id="postcode"
+              name="postcode"
+              type="text"
+              data-sr-dom-node-id="170"
+            >
+          </div>
+          <button
+            type="submit"
+            data-sr-dom-node-id="171"
+            data-sr-original-ax-node-id="206"
+          >Find</button>
+          <p data-sr-dom-node-id="172">
+            <a href="https://www.royalmail.com/find-a-postcode" data-sr-dom-node-id="173">Find a postcode on Royal Mail's postcode finder</a>
+          </p>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

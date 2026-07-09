@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>BA native search grouping tail repro</title>
+    <style>
+      [data-sr-scan-root] {
+        max-width: 42rem;
+        margin: 2rem;
+        font-family: system-ui, sans-serif;
+      }
+
+      label,
+      input,
+      button {
+        display: block;
+        margin-block: 0.25rem;
+      }
+
+      [role="dialog"][aria-hidden="true"] {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section>
+        <section role="tabpanel" id="tabpanel-0" aria-label="Search flights. option selected.">
+          <form>
+            <section>
+              <div>
+                <div data-original-dom-node-id="508">
+                  <div id="from--inputtypeahead--desc" aria-live="polite">From </div>
+                  <label for="from--inputtypeahead">From</label>
+                  <div>
+                    <input
+                      id="from--inputtypeahead"
+                      aria-label="input"
+                      type="text"
+                      name="from"
+                      placeholder="Departure city"
+                      aria-describedby="from--inputtypeahead--desc"
+                      value=""
+                      data-original-dom-node-id="512"
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div data-original-dom-node-id="555">
+                  <label for="passenger-selector">Select passengers</label>
+                  <button
+                    id="passenger-selector"
+                    type="button"
+                    aria-expanded="false"
+                    tabindex="0"
+                    aria-label="Select the type and number of passengers. Currently selected 1 Adult."
+                    aria-labelledby="Select the type and number of passengers. Currently selected 1 Adult."
+                    data-original-dom-node-id="557"
+                  >
+                    <span>1 Adult</span>
+                    <span aria-hidden="true"><div aria-hidden="false"></div></span>
+                  </button>
+                  <div aria-live="polite" aria-atomic="true"></div>
+                  <div role="dialog" aria-hidden="true">
+                    <span><span>Who are you travelling with?</span></span>
+                    <section>
+                      <header>
+                        <label for="adults">Adults</label>
+                        <span>16+ years</span>
+                      </header>
+                      <input id="adults" type="number" value="1" min="1" max="9">
+                      <button type="button">Done</button>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+              <div data-original-dom-node-id="622">
+                <button type="submit" data-original-dom-node-id="623">
+                  <div><span>Find flights</span></div>
+                </button>
+              </div>
+            </section>
+          </form>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

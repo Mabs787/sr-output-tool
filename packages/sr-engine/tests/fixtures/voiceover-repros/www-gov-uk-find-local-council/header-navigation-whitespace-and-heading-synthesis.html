@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GOV.UK header navigation whitespace repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        padding: 16px;
+      }
+
+      .govuk-visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header data-sr-scan-root data-sr-original-context="header">
+      <div data-sr-dom-node-id="26">
+        <div data-sr-dom-node-id="27">
+          <nav
+            aria-labelledby="super-navigation-menu-heading"
+            data-sr-dom-node-id="28"
+            data-sr-original-ax-node-id="69"
+          >
+            <div data-sr-dom-node-id="29">
+              <a aria-label="Go to the GOV.UK homepage" href="/" data-sr-dom-node-id="30">
+                <svg role="img" aria-label="GOV.UK" width="80" height="30" data-sr-dom-node-id="31"></svg>
+              </a>
+            </div>
+            <h2
+              id="super-navigation-menu-heading"
+              class="govuk-visually-hidden"
+              data-sr-dom-node-id="45"
+              data-sr-original-ax-node-id="86"
+            > Navigation menu </h2>
+            <div data-sr-dom-node-id="46">
+              <a href="/browse" hidden="hidden" data-sr-dom-node-id="47"><span data-sr-dom-node-id="48"> Menu </span></a>
+              <button
+                aria-controls="super-navigation-menu"
+                aria-expanded="false"
+                aria-label="Show navigation menu"
+                type="button"
+                data-sr-dom-node-id="49"
+              ><span data-sr-dom-node-id="50">Menu</span></button>
+            </div>
+            <div id="super-navigation-menu" hidden="hidden" data-sr-dom-node-id="51">
+              <h3 data-sr-dom-node-id="54"> Services and information </h3>
+              <ul data-sr-dom-node-id="55">
+                <li data-sr-dom-node-id="56"><a href="/browse/benefits" data-sr-dom-node-id="57">Benefits</a></li>
+              </ul>
+            </div>
+            <div data-sr-dom-node-id="109">
+              <button
+                aria-controls="super-search-menu"
+                aria-expanded="false"
+                aria-label="Show search menu"
+                type="button"
+                data-sr-dom-node-id="110"
+              ><span data-sr-dom-node-id="111"> Search GOV.UK </span></button>
+              <a href="/search" hidden="hidden" data-sr-dom-node-id="116"><span data-sr-dom-node-id="117"> Search GOV.UK </span></a>
+            </div>
+            <div id="super-search-menu" hidden="hidden" data-sr-dom-node-id="121">
+              <form role="search" aria-label="Site-wide" data-sr-dom-node-id="126">
+                <label for="search-main">Search GOV.UK</label>
+                <input id="search-main" name="keywords" type="search" role="combobox" aria-expanded="false">
+                <button type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+  </body>
+</html>
