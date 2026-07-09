@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Storybook contact form validation error repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 32px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 420px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 0;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      label {
+        color: #111;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      input {
+        border: 1.5px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 14px;
+        padding: 8px 10px;
+        width: 100%;
+      }
+      [aria-invalid="true"] {
+        border-color: #c00;
+      }
+      .error {
+        color: #c00;
+        font-size: 12px;
+      }
+      button {
+        align-self: flex-start;
+        background: #0070f3;
+        border: 0;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <form aria-label="Contact us" data-sr-scan-root>
+      <h2>Contact us</h2>
+
+      <div class="field">
+        <label for="cfe-name">Name <span aria-hidden="true">*</span></label>
+        <input
+          id="cfe-name"
+          type="text"
+          required
+          aria-required="true"
+          aria-invalid="true"
+          aria-describedby="cfe-name-error"
+        />
+        <span id="cfe-name-error" role="alert" class="error">
+          Name is required.
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="cfe-email">Email <span aria-hidden="true">*</span></label>
+        <input
+          id="cfe-email"
+          type="email"
+          required
+          aria-required="true"
+          placeholder="jane@example.com"
+        />
+      </div>
+
+      <button type="submit">Send message</button>
+    </form>
+  </body>
+</html>
