@@ -8,12 +8,18 @@
 async function ensureContentScript(tabId) {
   try {
     await chrome.scripting.executeScript({
-      target: { tabId },
+      target: { tabId, allFrames: true },
       files: ["src/content/engine-runtime.js", "src/content/content.js"],
     });
   } catch {
     // Unsupported pages such as chrome:// pages.
   }
+}
+
+function sendToAllTabFrames(tabId, msg) {
+  chrome.tabs.sendMessage(tabId, msg).catch(() => {
+    // Ignore pages or frames that cannot receive extension messages.
+  });
 }
 
 let creatingOffscreenDocument = null;
@@ -80,6 +86,8 @@ chrome.action.onClicked.addListener(async (tab) => {
     .sendMessage(tab.id, {
       type: "SR_TOGGLE_PANEL",
       tabId: tab.id,
+    }, {
+      frameId: 0,
     })
     .catch(() => {
       // Ignore if the page cannot host the inspector.
@@ -120,12 +128,20 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       sr_selecting: false,
       sr_scanning: true,
     });
+    sendToAllTabFrames(sender.tab.id, {
+      type: "SR_CANCEL_SELECTION",
+      notify: false,
+    });
   }
 
   if (msg.type === "SR_SELECTION_CANCELLED") {
     chrome.storage.session.set({
       sr_selecting: false,
       sr_scanning: false,
+    });
+    sendToAllTabFrames(sender.tab.id, {
+      type: "SR_CANCEL_SELECTION",
+      notify: false,
     });
   }
 

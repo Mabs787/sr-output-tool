@@ -24,6 +24,8 @@
     "footer",
     "form",
     "dialog",
+    "iframe",
+    "frame",
     "button",
     "a[href]",
     'input:not([type="hidden"])',
@@ -63,6 +65,74 @@
   let overlay = null;
   // Highlight element for log hover
   let highlight = null;
+
+  function isTopFrame() {
+    try {
+      return window.top === window;
+    } catch {
+      return false;
+    }
+  }
+
+  function isFrameElement(el) {
+    const tag = el?.tagName?.toLowerCase();
+    return tag === "iframe" || tag === "frame";
+  }
+
+  function getSameOriginFrameDocument(frameEl) {
+    if (!isFrameElement(frameEl) || frameEl === panelFrame) {
+      return null;
+    }
+
+    try {
+      return frameEl.contentDocument || frameEl.contentWindow?.document || null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getSameOriginFrameScanRoot(frameEl) {
+    const frameDocument = getSameOriginFrameDocument(frameEl);
+    if (!frameDocument?.body) {
+      return null;
+    }
+
+    return (
+      frameDocument.querySelector("[data-sr-scan-root]") || frameDocument.body
+    );
+  }
+
+  function getSelectableScanRoot(rawEl) {
+    if (isFrameElement(rawEl)) {
+      return rawEl;
+    }
+
+    return getScanRoot(rawEl);
+  }
+
+  function getElementViewportRect(el) {
+    let rect = el.getBoundingClientRect();
+    let currentWindow = el.ownerDocument?.defaultView;
+
+    while (currentWindow && currentWindow !== window) {
+      const frameEl = currentWindow.frameElement;
+      if (!frameEl) {
+        break;
+      }
+
+      const frameRect = frameEl.getBoundingClientRect();
+      rect = {
+        left: rect.left + frameRect.left,
+        top: rect.top + frameRect.top,
+        width: rect.width,
+        height: rect.height,
+      };
+
+      currentWindow = currentWindow.parent;
+    }
+
+    return rect;
+  }
 
   // ── Overlay helpers ────────────────────────
 
@@ -144,6 +214,14 @@
             return templateMatch;
           }
         }
+
+        const frameDocument = getSameOriginFrameDocument(el);
+        if (frameDocument) {
+          const frameMatch = queryWithin(frameDocument);
+          if (frameMatch) {
+            return frameMatch;
+          }
+        }
       }
 
       return null;
@@ -165,6 +243,11 @@
 
         if (el.tagName?.toLowerCase() === "template" && el.content) {
           clearWithin(el.content);
+        }
+
+        const frameDocument = getSameOriginFrameDocument(el);
+        if (frameDocument) {
+          clearWithin(frameDocument);
         }
       }
     }
@@ -188,6 +271,7 @@
   }
 
   function createPanel(tabId) {
+    if (!isTopFrame()) return;
     if (panelHost) return;
 
     panelHost = document.createElement("div");
@@ -343,6 +427,10 @@
   }
 
   function togglePanel(tabId) {
+    if (!isTopFrame()) {
+      return;
+    }
+
     if (panelHost) {
       removePanel();
       return;
@@ -533,6 +621,23 @@
   }
 
   function getElementName(el) {
+    if (isFrameElement(el)) {
+      const title = el.getAttribute("title")?.trim();
+      if (title) {
+        return title;
+      }
+
+      const name = el.getAttribute("name")?.trim();
+      if (name) {
+        return name;
+      }
+
+      const src = el.getAttribute("src")?.trim();
+      if (src) {
+        return src.split(/[/?#]/).filter(Boolean).pop() || src;
+      }
+    }
+
     const ariaLabel = el.getAttribute("aria-label");
     if (ariaLabel) {
       return ariaLabel.trim();
@@ -595,6 +700,16 @@
     return [`<${tag}`, ...attrs].join(" ") + ">";
   }
 
+  function describeFrameSelection(frameEl, scanRoot) {
+    const frameDescription = describeSelectedElementTag(frameEl);
+    const rootDescription =
+      scanRoot && scanRoot !== frameEl
+        ? describeSelectedElementTag(scanRoot)
+        : "";
+
+    return [frameDescription, rootDescription].filter(Boolean).join(" → ");
+  }
+
   const generateAnnouncement = window.__srEngineGenerateAnnouncement;
   const getContextEndAnnouncement = window.__srEngineGetContextEndAnnouncement;
   const createDomScanner = window.__srEngineCreateDomScanner;
@@ -620,6 +735,33 @@
     now: () => Date.now(),
   });
 
+  function collectSameOriginFrameRoots(root) {
+    const roots = [];
+    const frames = root.querySelectorAll?.("iframe, frame") || [];
+
+    for (const frameEl of frames) {
+      const frameRoot = getSameOriginFrameScanRoot(frameEl);
+      if (!frameRoot) {
+        continue;
+      }
+
+      roots.push(frameRoot);
+      roots.push(...collectSameOriginFrameRoots(frameRoot));
+    }
+
+    return roots;
+  }
+
+  function scanSubtreeWithSameOriginFrames(root) {
+    const log = [...scanSubtree(root)];
+
+    for (const frameRoot of collectSameOriginFrameRoots(root)) {
+      log.push(...scanSubtree(frameRoot));
+    }
+
+    return log;
+  }
+
   function clearCandidateIds() {
     document.querySelectorAll("[data-sr-candidate-id]").forEach((el) => {
       el.removeAttribute("data-sr-candidate-id");
@@ -634,7 +776,11 @@
     const elements = document.querySelectorAll(SELECTABLE_ROOT_SELECTOR);
 
     for (const rawEl of elements) {
-      const el = getScanRoot(rawEl);
+      if (isPanelTarget(rawEl)) {
+        continue;
+      }
+
+      const el = getSelectableScanRoot(rawEl);
       if (seen.has(el) || !isVisible(el)) {
         continue;
       }
@@ -667,8 +813,9 @@
   }
 
   async function scanElement(el) {
-    const scanRoot = getScanRoot(el);
-    selectedScanRoot = scanRoot;
+    const frameScanRoot = getSameOriginFrameScanRoot(el);
+    const scanRoot = frameScanRoot || getScanRoot(el);
+    selectedScanRoot = frameScanRoot ? el : scanRoot;
 
     if (!scanRoot) {
       selectedScanRoot = null;
@@ -681,7 +828,9 @@
     }
 
     clearSrIds();
-    const selectedElement = describeSelectedElementTag(scanRoot);
+    const selectedElement = frameScanRoot
+      ? describeFrameSelection(el, scanRoot)
+      : describeSelectedElementTag(scanRoot);
     await chrome.runtime
       .sendMessage({
         type: "SR_SCAN_STARTED",
@@ -691,7 +840,7 @@
         // The inspector UI may not be mounted.
       });
 
-    const log = scanSubtree(scanRoot);
+    const log = scanSubtreeWithSameOriginFrames(scanRoot);
     chrome.runtime.sendMessage({
       type: "SR_SCAN_RESULT",
       log,
@@ -705,7 +854,7 @@
     clearSrIds();
     selectedScanRoot = document.body;
 
-    const log = scanSubtree(document.body);
+    const log = scanSubtreeWithSameOriginFrames(document.body);
     chrome.runtime.sendMessage({
       type: "SR_SCAN_RESULT",
       log,
@@ -736,7 +885,7 @@
       hideHighlight();
       return;
     }
-    const rect = el.getBoundingClientRect();
+    const rect = getElementViewportRect(el);
     positionBox(highlight, rect);
     el.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
@@ -834,7 +983,7 @@
       return null;
     }
 
-    const scanRoot = getScanRoot(matched);
+    const scanRoot = getSelectableScanRoot(matched);
     return scanRoot && isVisible(scanRoot) ? scanRoot : null;
   }
 
@@ -949,13 +1098,21 @@
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
     switch (msg.type) {
       case "SR_TOGGLE_PANEL":
-        togglePanel(msg.tabId);
-        sendResponse({ ok: true });
+        if (isTopFrame()) {
+          togglePanel(msg.tabId);
+          sendResponse({ ok: true });
+        } else {
+          sendResponse({ ok: false });
+        }
         break;
 
       case "SR_CLOSE_PANEL":
-        removePanel();
-        sendResponse({ ok: true });
+        if (isTopFrame()) {
+          removePanel();
+          sendResponse({ ok: true });
+        } else {
+          sendResponse({ ok: false });
+        }
         break;
 
       case "SR_START_SELECTION":
@@ -964,22 +1121,30 @@
         break;
 
       case "SR_CANCEL_SELECTION":
-        exitSelectionMode();
+        exitSelectionMode({ notify: msg.notify !== false });
         sendResponse({ ok: true });
         break;
 
       case "SR_GET_SELECTABLE_ELEMENTS":
-        sendResponse({ elements: getSelectableElements() });
+        sendResponse({ elements: isTopFrame() ? getSelectableElements() : [] });
         break;
 
       case "SR_SCAN_ELEMENT":
-        scanElement(getCandidateElement(msg.candidateId));
-        sendResponse({ ok: true });
+        if (isTopFrame()) {
+          scanElement(getCandidateElement(msg.candidateId));
+          sendResponse({ ok: true });
+        } else {
+          sendResponse({ ok: false });
+        }
         break;
 
       case "SR_SCAN_PAGE":
-        scanPage();
-        sendResponse({ ok: true });
+        if (isTopFrame()) {
+          scanPage();
+          sendResponse({ ok: true });
+        } else {
+          sendResponse({ ok: false });
+        }
         break;
 
       case "SR_HIGHLIGHT":
@@ -1000,7 +1165,7 @@
         }
 
         createHighlight();
-        positionBox(highlight, el.getBoundingClientRect());
+        positionBox(highlight, getElementViewportRect(el));
         el.scrollIntoView({ block: "nearest", behavior: "smooth" });
         sendResponse({ ok: true });
         break;
@@ -1012,8 +1177,12 @@
         break;
 
       case "SR_SET_PANEL_THEME":
-        applyPanelTheme(msg.theme);
-        sendResponse({ ok: true });
+        if (isTopFrame()) {
+          applyPanelTheme(msg.theme);
+          sendResponse({ ok: true });
+        } else {
+          sendResponse({ ok: false });
+        }
         break;
 
       case "SR_CLEAR":

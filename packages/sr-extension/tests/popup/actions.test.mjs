@@ -22,7 +22,7 @@ test("pick button starts and cancels page selection", async () => {
     message: { type: "SR_START_SELECTION" },
   });
   assert.deepEqual(toPlain(calls.executeScript.at(-1)), {
-    target: { tabId: 123 },
+    target: { tabId: 123, allFrames: true },
     files: ["src/content/engine-runtime.js", "src/content/content.js"],
   });
 

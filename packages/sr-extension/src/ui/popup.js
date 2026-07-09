@@ -122,7 +122,7 @@ async function ensureContentScript() {
 
   try {
     await chrome.scripting.executeScript({
-      target: { tabId },
+      target: { tabId, allFrames: true },
       files: ["src/content/engine-runtime.js", "src/content/content.js"],
     });
     return true;
