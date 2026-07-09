@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GOV.UK feedback panel focusable group repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        padding: 24px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Find your local council</h1>
+      <div tabindex="-1" data-sr-dom-node-id="184" data-sr-original-ax-node-id="219">
+        <div>
+          <div>
+            <div>
+              <h2 data-sr-dom-node-id="188">Is this page useful?</h2>
+              <ul data-sr-dom-node-id="189">
+                <li hidden>
+                  <a role="button" hidden href="/contact/govuk">Maybe</a>
+                </li>
+                <li><button data-sr-dom-node-id="193">Yes <span>this page is useful</span></button></li>
+                <li><button aria-controls="page-is-not-useful" data-sr-dom-node-id="196">No <span>this page is not useful</span></button></li>
+              </ul>
+            </div>
+          </div>
+          <div role="alert" hidden>Thank you for your feedback</div>
+          <div>
+            <button aria-controls="something-is-wrong" data-sr-dom-node-id="200">Report a problem with this page</button>
+          </div>
+        </div>
+      </div>
+      <form id="something-is-wrong" hidden>
+        <h2>Help us improve GOV.UK</h2>
+        <input type="hidden" name="url" value="https://www.gov.uk/find-local-council">
+      </form>
+      <div id="page-is-not-useful" hidden>
+        <h2>Help us improve GOV.UK</h2>
+      </div>
+    </main>
+  </body>
+</html>

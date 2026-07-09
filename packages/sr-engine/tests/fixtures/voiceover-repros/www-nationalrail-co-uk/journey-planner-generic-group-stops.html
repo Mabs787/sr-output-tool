@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>National Rail journey planner generic groups repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      main {
+        padding: 24px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <form id="jp-form-preview" data-sr-dom-node-id="104">
+        <section data-sr-dom-node-id="105" data-sr-original-ax-node-id="550">
+          <div>
+            <h1 data-sr-dom-node-id="107" data-sr-original-ax-node-id="552">Plan Your Journey</h1>
+            <div>
+              <div>
+                <div>
+                  <div>
+                    <label for="jp-preview-origin" aria-hidden="true">Departing from</label>
+                    <input type="text" id="jp-preview-origin" placeholder="Station name or code" disabled role="combobox" aria-required="true" aria-invalid="false" aria-expanded="false" aria-autocomplete="list" aria-hidden="true" name="jp_preview_origin" value="">
+                  </div>
+                  <div aria-live="assertive"></div>
+                  <input type="hidden" name="hidden_jp_preview_origin" value="">
+                  <input type="hidden" name="hidden_classification_jp_preview_origin" value="">
+                </div>
+                <div role="status" aria-atomic="true" aria-live="polite"></div>
+                <button type="button" disabled aria-hidden="true" class="hidden" data-sr-dom-node-id="119">
+                  <span aria-hidden="true"></span><span>Swap from and to stations</span>
+                </button>
+              </div>
+              <div>
+                <div>
+                  <label for="jp-preview-destination" aria-hidden="true">Going to</label>
+                  <input type="text" id="jp-preview-destination" placeholder="Station name or code" disabled role="combobox" aria-required="true" aria-invalid="false" aria-expanded="false" aria-autocomplete="list" aria-hidden="true" name="jp_preview_destination" value="">
+                </div>
+                <div aria-live="assertive"></div>
+                <input type="hidden" name="hidden_jp_preview_destination" value="">
+                <input type="hidden" name="hidden_classification_jp_preview_destination" value="">
+              </div>
+              <div role="status" aria-atomic="true" aria-live="polite"></div>
+              <button type="button" disabled data-sr-dom-node-id="132" data-sr-original-ax-node-id="579">
+                <span aria-hidden="true"></span><span>Swap from and to stations</span>
+              </button>
+            </div>
+            <button aria-label="Plan Your Journey" data-sr-dom-node-id="137" data-sr-original-ax-node-id="584"></button>
+          </div>
+        </section>
+      </form>
+      <section>
+        <h2>Live Departures</h2>
+      </section>
+    </main>
+  </body>
+</html>

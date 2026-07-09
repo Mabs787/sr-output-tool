@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NHS native form button group suffix repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      main {
+        max-width: 680px;
+        padding: 24px;
+      }
+
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Find a pharmacy</h1>
+      <form name="ServiceSearchForm" action="/service-search/pharmacy/find-a-pharmacy/results" method="get" data-sr-dom-node-id="71" data-sr-original-ax-node-id="149">
+        <label for="search" data-sr-dom-node-id="72">Enter a town, city or postcode in England</label>
+        <input id="search" name="search" type="text" autocomplete="postal-code" data-sr-dom-node-id="74">
+        <button type="submit" data-sr-dom-node-id="75" data-sr-original-ax-node-id="171">Search</button>
+        <br>
+        <input type="hidden" name="latitude" value="" data-sr-dom-node-id="77">
+        <input type="hidden" name="longitude" value="" data-sr-dom-node-id="78">
+        <button type="button" data-sr-dom-node-id="79" data-sr-original-ax-node-id="232">Use your location</button>
+      </form>
+      <ul>
+        <li><a href="/service-search/online-pharmacies">See all online-only pharmacies.</a></li>
+        <li><a href="/service-search/dispensing-appliance-contractors">See all dispensing appliance contractors.</a></li>
+      </ul>
+    </main>
+  </body>
+</html>
