@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK expanded code panel text input repro</title>
+</head>
+<body>
+  <main role="main">
+    <div data-sr-scan-root>
+      <h1>Text input</h1>
+
+      <h3>Use the autocomplete attribute</h3>
+      <p>
+        For example, to enable autofill on a postcode field, set the
+        <code>autocomplete</code> attribute to <code>postal-code</code>.
+        See how to do this in the HTML and Nunjucks tabs in the following example.
+      </p>
+      <div>
+        <span></span>
+        <ul role="tablist">
+          <li role="presentation">
+            <a href="#text-input-with-autocomplete-attribute-text-input-example-open-html" role="tab" aria-controls="text-input-with-autocomplete-attribute-text-input-example-open-html" aria-expanded="true">HTML</a>
+          </li>
+          <li role="presentation">
+            <a href="#text-input-with-autocomplete-attribute-text-input-example-open-nunjucks" role="tab" aria-controls="text-input-with-autocomplete-attribute-text-input-example-open-nunjucks" aria-expanded="false">Nunjucks</a>
+          </li>
+        </ul>
+        <div style="display: none">
+          <button aria-controls="text-input-with-autocomplete-attribute-text-input-example-open-html" aria-expanded="true">HTML</button>
+        </div>
+        <div id="text-input-with-autocomplete-attribute-text-input-example-open-html" role="tabpanel">
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code tabindex="0"><span>&lt;<span>div</span> <span>class</span>=<span>"govuk-form-group"</span>&gt;</span>
+  <span>&lt;<span>label</span> <span>class</span>=<span>"govuk-label"</span> <span>for</span>=<span>"postcode"</span>&gt;</span>Postcode<span>&lt;/<span>label</span>&gt;</span>
+  <span>&lt;<span>input</span> <span>class</span>=<span>"govuk-input govuk-input--width-10"</span> <span>id</span>=<span>"postcode"</span> <span>name</span>=<span>"postcode"</span> <span>type</span>=<span>"text"</span> <span>autocomplete</span>=<span>"postal-code"</span>&gt;</span>
+<span>&lt;/<span>div</span>&gt;</span></code></pre>
+          </div>
+        </div>
+        <div id="text-input-with-autocomplete-attribute-text-input-example-open-nunjucks" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>{{ govukInput({ id: "postcode", autocomplete: "postal-code" }) }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        If you are working in production and there is a relevant
+        <a href="https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html">input purpose</a>,
+        you will need to use the <code>autocomplete</code> attribute.
+      </p>
+
+      <h3>How and when to spellcheck a user's input</h3>
+      <p>
+        If you are asking users for information which is not appropriate to spellcheck,
+        disable the spellcheck. To do this set the <code>spellcheck</code> attribute to
+        <code>false</code> as shown in this example.
+      </p>
+      <div>
+        <span></span>
+        <ul role="tablist">
+          <li role="presentation">
+            <a href="#text-input-with-spellcheck-disabled-text-input-example-open-html" role="tab" aria-controls="text-input-with-spellcheck-disabled-text-input-example-open-html" aria-expanded="true">HTML</a>
+          </li>
+          <li role="presentation">
+            <a href="#text-input-with-spellcheck-disabled-text-input-example-open-nunjucks" role="tab" aria-controls="text-input-with-spellcheck-disabled-text-input-example-open-nunjucks" aria-expanded="false">Nunjucks</a>
+          </li>
+        </ul>
+        <div style="display: none">
+          <button aria-controls="text-input-with-spellcheck-disabled-text-input-example-open-html" aria-expanded="true">HTML</button>
+        </div>
+        <div id="text-input-with-spellcheck-disabled-text-input-example-open-html" role="tabpanel">
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code tabindex="0"><span>&lt;<span>div</span> <span>class</span>=<span>"govuk-form-group"</span>&gt;</span>
+  <span>&lt;<span>label</span> <span>class</span>=<span>"govuk-label"</span> <span>for</span>=<span>"name"</span>&gt;</span>Reference number<span>&lt;/<span>label</span>&gt;</span>
+  <span>&lt;<span>input</span> <span>class</span>=<span>"govuk-input"</span> <span>id</span>=<span>"name"</span> <span>name</span>=<span>"name"</span> <span>type</span>=<span>"text"</span> <span>spellcheck</span>=<span>"false"</span>&gt;</span>
+<span>&lt;/<span>div</span>&gt;</span></code></pre>
+          </div>
+        </div>
+        <div id="text-input-with-spellcheck-disabled-text-input-example-open-nunjucks" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>{{ govukInput({ id: "name", spellcheck: false }) }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <p>Browsers do not consistently spellcheck user's input by default.</p>
+    </div>
+  </main>
+</body>
+</html>

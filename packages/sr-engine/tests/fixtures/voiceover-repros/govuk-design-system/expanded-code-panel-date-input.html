@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GOV.UK expanded code panel date input repro</title>
+  <style>
+    .govuk-visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <div data-sr-scan-root>
+      <h1>Date input</h1>
+      <p>
+        To do this, set the <code>autocomplete</code> attribute on the 3 fields to
+        <code>bday-day</code>, <code>bday-month</code> and <code>bday-year</code>.
+        See how to do this in the HTML and Nunjucks tabs in the following example.
+      </p>
+
+      <div>
+        <div>
+          <div>
+            <a href="/components/date-input/date-of-birth/">
+              Open this example in a new tab<span class="govuk-visually-hidden">: date input to ask for date of birth &ndash; date input</span>
+            </a>
+          </div>
+          <iframe
+            title="Date input to ask for date of birth &ndash; Date input example"
+            srcdoc='<!doctype html><html lang="en"><head><title>Date input to ask for date of birth &ndash; Date input - Example - GOV.UK Design System</title></head><body><main><h1>Date of birth example</h1></main></body></html>'>
+          </iframe>
+        </div>
+        <span></span>
+        <ul role="tablist">
+          <li role="presentation">
+            <a href="#default-2-open-html" role="tab" aria-controls="default-2-open-html" aria-expanded="true">HTML</a>
+          </li>
+          <li role="presentation">
+            <a href="#default-2-open-nunjucks" role="tab" aria-controls="default-2-open-nunjucks" aria-expanded="false">Nunjucks</a>
+          </li>
+        </ul>
+        <div style="display: none">
+          <button aria-controls="default-2-open-html" aria-expanded="true">HTML</button>
+        </div>
+        <div id="default-2-open-html" role="tabpanel">
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code tabindex="0"><span>&lt;<span>div</span> <span>class</span>=<span>"govuk-form-group"</span>&gt;</span>
+<span>&lt;<span>fieldset</span> <span>class</span>=<span>"govuk-fieldset"</span> <span>role</span>=<span>"group"</span> <span>aria-describedby</span>=<span>"dob-hint"</span>&gt;</span>
+  <span>&lt;<span>legend</span> <span>class</span>=<span>"govuk-fieldset__legend govuk-fieldset__legend--l"</span>&gt;</span>
+    <span>&lt;<span>h1</span> <span>class</span>=<span>"govuk-fieldset__heading"</span>&gt;</span>What is your date of birth?<span>&lt;/<span>h1</span>&gt;</span>
+  <span>&lt;/<span>legend</span>&gt;</span>
+  <span>&lt;<span>div</span> <span>id</span>=<span>"dob-hint"</span> <span>class</span>=<span>"govuk-hint"</span>&gt;</span>For example, 31 3 1980<span>&lt;/<span>div</span>&gt;</span>
+  <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-date-input"</span> <span>id</span>=<span>"dob"</span>&gt;</span>
+    <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-date-input__item"</span>&gt;</span>
+      <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-form-group"</span>&gt;</span>
+        <span>&lt;<span>label</span> <span>class</span>=<span>"govuk-label govuk-date-input__label"</span> <span>for</span>=<span>"dob-day"</span>&gt;</span>Day<span>&lt;/<span>label</span>&gt;</span>
+        <span>&lt;<span>input</span> <span>class</span>=<span>"govuk-input govuk-date-input__input govuk-input--width-2"</span> <span>id</span>=<span>"dob-day"</span> <span>name</span>=<span>"dob-day"</span> <span>type</span>=<span>"text"</span> <span>autocomplete</span>=<span>"bday-day"</span> <span>inputmode</span>=<span>"numeric"</span>&gt;</span>
+      <span>&lt;/<span>div</span>&gt;</span>
+    <span>&lt;/<span>div</span>&gt;</span>
+    <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-date-input__item"</span>&gt;</span>
+      <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-form-group"</span>&gt;</span>
+        <span>&lt;<span>label</span> <span>class</span>=<span>"govuk-label govuk-date-input__label"</span> <span>for</span>=<span>"dob-month"</span>&gt;</span>Month<span>&lt;/<span>label</span>&gt;</span>
+        <span>&lt;<span>input</span> <span>class</span>=<span>"govuk-input govuk-date-input__input govuk-input--width-2"</span> <span>id</span>=<span>"dob-month"</span> <span>name</span>=<span>"dob-month"</span> <span>type</span>=<span>"text"</span> <span>autocomplete</span>=<span>"bday-month"</span> <span>inputmode</span>=<span>"numeric"</span>&gt;</span>
+      <span>&lt;/<span>div</span>&gt;</span>
+    <span>&lt;/<span>div</span>&gt;</span>
+    <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-date-input__item"</span>&gt;</span>
+      <span>&lt;<span>div</span> <span>class</span>=<span>"govuk-form-group"</span>&gt;</span>
+        <span>&lt;<span>label</span> <span>class</span>=<span>"govuk-label govuk-date-input__label"</span> <span>for</span>=<span>"dob-year"</span>&gt;</span>Year<span>&lt;/<span>label</span>&gt;</span>
+        <span>&lt;<span>input</span> <span>class</span>=<span>"govuk-input govuk-date-input__input govuk-input--width-4"</span> <span>id</span>=<span>"dob-year"</span> <span>name</span>=<span>"dob-year"</span> <span>type</span>=<span>"text"</span> <span>autocomplete</span>=<span>"bday-year"</span> <span>inputmode</span>=<span>"numeric"</span>&gt;</span>
+      <span>&lt;/<span>div</span>&gt;</span>
+    <span>&lt;/<span>div</span>&gt;</span>
+  <span>&lt;/<span>div</span>&gt;</span>
+<span>&lt;/<span>fieldset</span>&gt;</span>
+<span>&lt;/<span>div</span>&gt;</span></code></pre>
+          </div>
+        </div>
+        <div id="default-2-open-nunjucks" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>{{ govukDateInput({ id: "dob" }) }}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        If you are working in production you will need to do this to meet
+        <a href="https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html">WCAG 2.2 success criterion 1.3.5: Identify input purpose, level AA</a>.
+      </p>
+      <h3>Error messages</h3>
+      <p>If you are highlighting the whole date, style all the fields like this:</p>
+
+      <div>
+        <div>
+          <div>
+            <a href="/components/date-input/with-errors/">
+              Open this example in a new tab<span class="govuk-visually-hidden">: date input with errors &ndash; date input</span>
+            </a>
+          </div>
+          <iframe
+            title="Date input with errors &ndash; Date input example"
+            srcdoc='<!doctype html><html lang="en"><head><title>Date input with errors &ndash; Date input - Example - GOV.UK Design System</title></head><body><main><h1>Date input with errors</h1></main></body></html>'>
+          </iframe>
+        </div>
+        <span></span>
+        <ul role="tablist">
+          <li role="presentation">
+            <a href="#date-input-errors-html" role="tab" aria-controls="date-input-errors-html" aria-expanded="false">HTML</a>
+          </li>
+          <li role="presentation">
+            <a href="#date-input-errors-nunjucks" role="tab" aria-controls="date-input-errors-nunjucks" aria-expanded="false">Nunjucks</a>
+          </li>
+        </ul>
+        <div id="date-input-errors-html" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>&lt;div class="govuk-form-group govuk-form-group--error"&gt;Error&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+        <div id="date-input-errors-nunjucks" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code>{{ govukDateInput({ errorMessage: { text: "Error" } }) }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
