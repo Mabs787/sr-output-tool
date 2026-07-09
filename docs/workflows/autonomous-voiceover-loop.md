@@ -33,7 +33,7 @@ Refinement lane:
   -> Phase C fixture judge
   -> Phase C.5 when required
   -> Phase D engine refinement
-  -> Phase E promotion/status
+  -> Phase E canonical fixture promotion/status
   -> learning ledger
   -> next ready artifact
 ```
@@ -77,6 +77,17 @@ The orchestrator may move to the next site only after the current site has a
 recorded state and next action. It may continue refining one site while a later
 site is in `scan-running`.
 
+Use the workflow status helper before resuming a paused run, before declaring a
+target complete, and before final handoff:
+
+```sh
+yarn voiceover:workflow-status --run-id <run-id>
+```
+
+The command summarizes active workers/scans, corpus status counts, and
+promotion gaps where an isolated fixture set has reached zero mismatches but has
+not yet been copied into the canonical VoiceOver corpus.
+
 ## Handoff Modes
 
 Use the lightest continuation mechanism that matches the thing being waited on:
@@ -119,6 +130,11 @@ The top-level session or orchestrator agent must:
   confirm the expected refined line is replayable from initial
   `rendered-html.html`, not only from a later `htmlAfterStep` mutation.
 - Validate phase receipts before promotion.
+- When refinement used an isolated fixture directory, treat zero mismatches as
+  "ready for Phase E," not "done." Phase E must copy the approved fixture files
+  into `packages/sr-engine/tests/fixtures/voiceover/`, merge `index.json`,
+  update `refinement-manifest.json`, and verify the canonical corpus before the
+  target may move to `refined`.
 - Append learnings after each target outcome or reusable engine decision.
 - Stop instead of guessing when evidence is missing or a rule would become
   site-specific.

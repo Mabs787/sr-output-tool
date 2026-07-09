@@ -9,7 +9,6 @@ It owns the rules that decide how DOM structure, roles, labels, states, grouping
 - [Engine architecture](../../docs/design/engine-architecture.md)
 - [Multi-agent VoiceOver refinement workflow](../../docs/workflows/voiceover-refinement.md)
 - [VoiceOver corpus baseline](../../docs/status/voiceover-corpus-baseline.md)
-- [Sky refinement status](../../docs/status/sky-refinement-status.md)
 
 ## Build
 
@@ -49,6 +48,13 @@ To compare one fixture and inspect mismatch windows:
 
 ```bash
 yarn workspace @sr-output/engine voiceover:compare www-sky-com
+```
+
+To inspect the current autonomous VoiceOver workflow state and catch isolated
+fixture promotion gaps:
+
+```bash
+yarn voiceover:workflow-status --run-id 28971764455
 ```
 
 ## Refining The Engine

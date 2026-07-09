@@ -279,6 +279,100 @@ test("scanSubtree splits paragraph text around code-backed inline links", () => 
   );
 });
 
+test("scanSubtree splits C5-confirmed GOV.UK paragraph inline code tokens", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div aria-hidden="true">GOV.UK Design System team</div>
+        <p>The 3 date fields are grouped together in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code> that describes them.</p>
+        <p>Set the <code>inputmode</code> attribute to <code>numeric</code> for whole numbers. For decimal values, set <code>inputmode</code> to <code>decimal</code>.</p>
+        <p data-sr-rendered-position="offscreen">To do this, set the <code data-sr-rendered-position="offscreen">autocomplete</code> attribute on the 3 fields to <code data-sr-rendered-position="offscreen">bday-day</code>, <code data-sr-rendered-position="offscreen">bday-month</code> and <code data-sr-rendered-position="offscreen">bday-year</code>.</p>
+      </main>
+    `),
+    [
+      "main",
+      "The 3 date fields are grouped together in a",
+      "<fieldset>",
+      "with a",
+      "<legend>",
+      "that describes them.",
+      "Set the",
+      "inputmode",
+      "attribute to",
+      "numeric",
+      "for whole numbers. For decimal values, set",
+      "inputmode",
+      "to",
+      "decimal",
+      "To do this, set the",
+      "autocomplete",
+      "attribute on the 3 fields to",
+      "bday-day",
+      "bday-month",
+      "and",
+      "bday-year",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree splits C5-confirmed GOV.UK validation br examples", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>Say 'Enter [whatever it is]'.<br><br>For example, 'Enter your first name'.</p>
+        <p>Say 'Select if [whatever it is]'.<br><br>For example, 'Select if you are British, Irish or a citizen of a different country'.</p>
+      </main>
+    `),
+    [
+      "main",
+      "Say 'Enter [whatever it is]'.",
+      "For example, 'Enter your first name'.",
+      "Say 'Select if [whatever it is]'.",
+      "For example, 'Select if you are British, Irish or a citizen of a different country'.",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree splits C5-confirmed GOV.UK strong and link adjacent paragraph boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p><strong>Description Required.</strong> The label used by the text input component. <a href="/options">See macro options for label</a>.</p>
+        <p>Text to add before the input. If <strong>html</strong> is provided, the <strong>text</strong> option will be ignored.</p>
+      </main>
+    `),
+    [
+      "main",
+      "Description Required.",
+      "The label used by the text input component.",
+      "link, See macro options for label",
+      "Text to add before the input. If",
+      "html",
+      "is provided, the",
+      "text",
+      "option will be ignored.",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree does not split ordinary prose around emphasized titles", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>There’s plenty more to enjoy, with a new episode of <strong>FROM</strong>, while new comedy <strong>Best Medicine</strong> continues.</p>
+      </main>
+    `),
+    [
+      "main",
+      "There’s plenty more to enjoy, with a new episode of FROM, while new comedy Best Medicine continues.",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree splits AX-confirmed direct paragraph text/link boundaries", () => {
   assert.deepEqual(
     scanHtml(
@@ -412,6 +506,113 @@ test("scanSubtree splits C5-confirmed one-link direct paragraph text boundaries"
   );
 });
 
+test("scanSubtree keeps one-link article prose as paragraph text plus link stop", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <article>
+          <p data-sr-dom-node-id="news-copy">
+            While the text leaves questions unanswered - and <a href="/key-issues" data-sr-dom-node-id="key-link">many</a> - here's what we know.
+          </p>
+        </article>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article",
+              role: "article",
+              name: "",
+              childIds: ["paragraph"],
+            },
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "news-copy",
+              childIds: ["before", "key", "after"],
+            },
+            {
+              nodeId: "before",
+              role: "StaticText",
+              name: "While the text leaves questions unanswered - and ",
+            },
+            {
+              nodeId: "key",
+              role: "link",
+              name: "many",
+              domNodeId: "key-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "after",
+              role: "StaticText",
+              name: " - here's what we know.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "article",
+      "While the text leaves questions unanswered - and - here's what we know.",
+      "link, many",
+      "end of, article",
+    ],
+  );
+});
+
+test("scanSubtree normalizes AX inline link spacing before external punctuation", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer>
+          <p data-sr-dom-node-id="weather-credit">
+            Weather data supplied by <a href="/provider" data-sr-dom-node-id="meteo-link">MeteoGroup</a>.
+          </p>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "contentinfo",
+              role: "contentinfo",
+              name: "",
+              childIds: ["paragraph"],
+            },
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "weather-credit",
+              childIds: ["before", "meteo"],
+            },
+            {
+              nodeId: "before",
+              role: "StaticText",
+              name: "Weather data supplied by ",
+            },
+            {
+              nodeId: "meteo",
+              role: "link",
+              name: "MeteoGroup , external",
+              domNodeId: "meteo-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "content information",
+      "Weather data supplied by",
+      "link, MeteoGroup, external",
+      "end of, content information",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX-confirmed short one-link paragraph tails", () => {
   assert.deepEqual(
     scanHtml(
@@ -494,6 +695,90 @@ test("scanSubtree preserves AX-confirmed comma-tail one-link paragraph boundarie
       "WCAG 2.2 is an approved International Organization for Standardization (ISO) standard:",
       "link, ISO/IEC 40500:2025",
       ", and is available free from ISO.",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX-confirmed punctuation-tail one-link paragraph boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="issue-copy">
+          Also, this component <a href="/issue" data-sr-dom-node-id="issue-link">counts some characters as multiple characters</a>. For example, emoji may be counted differently.
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "issue-copy",
+              childIds: ["before", "issue", "after"],
+            },
+            { nodeId: "before", role: "StaticText", name: "Also, this component " },
+            {
+              nodeId: "issue",
+              role: "link",
+              name: "counts some characters as multiple characters",
+              domNodeId: "issue-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "after",
+              role: "StaticText",
+              name: ". For example, emoji may be counted differently.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Also, this component",
+      "link, counts some characters as multiple characters",
+      ". For example, emoji may be counted differently.",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX-confirmed link-first paragraph boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="research-copy">
+          <a href="/research" data-sr-dom-node-id="research-link">Research findings</a> showed that users understood the updated wording.
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "research-copy",
+              childIds: ["research", "after"],
+            },
+            {
+              nodeId: "research",
+              role: "link",
+              name: "Research findings",
+              domNodeId: "research-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "after",
+              role: "StaticText",
+              name: " showed that users understood the updated wording.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, Research findings",
+      "showed that users understood the updated wording.",
     ],
   );
 });
@@ -998,6 +1283,28 @@ test("scanSubtree preserves small footer static text before inline links", () =>
   );
 });
 
+test("scanSubtree preserves footer static text around direct inline links", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <div>Built by the <a href="/team">GOV.UK Design System team</a></div>
+        <span>All content is available under the <a href="/license">Open Government Licence v3.0</a>, except where otherwise stated</span>
+        <div><a href="/copyright">© Crown copyright</a></div>
+      </footer>
+    `),
+    [
+      "footer",
+      "Built by the",
+      "link, GOV.UK Design System team",
+      "All content is available under the",
+      "link, Open Government Licence v3.0",
+      ", except where otherwise stated",
+      "link, © Crown copyright",
+      "end of, footer",
+    ],
+  );
+});
+
 test("scanSubtree keeps list positions on direct article card stops", () => {
   assert.deepEqual(
     scanHtml(`
@@ -1319,6 +1626,68 @@ test("scanSubtree preserves exact AX parenthetical link names", () => {
   );
 });
 
+test("scanSubtree keeps AX casing scoped to duplicate same-href link DOM nodes", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p>If you need help, <a href="/contact/" data-sr-dom-node-id="main-contact">contact the team</a>.</p>
+        </main>
+        <footer>
+          <ul>
+            <li><a href="/accessibility">Accessibility statement</a></li>
+            <li><a href="/sitemap">Sitemap</a></li>
+            <li><a href="/cookies">Cookies</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/contact/" data-sr-dom-node-id="footer-contact">Contact the team</a></li>
+          </ul>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "main-contact-node",
+              role: "link",
+              name: "contact the team",
+              domNodeId: "main-contact",
+              properties: {
+                focusable: true,
+                url: "https://example.test/contact/",
+              },
+            },
+            {
+              nodeId: "footer-contact-node",
+              role: "link",
+              name: "Contact the team",
+              domNodeId: "footer-contact",
+              properties: {
+                focusable: true,
+                url: "https://example.test/contact/",
+              },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "If you need help,",
+      "link, contact the team",
+      "end of, main",
+      "footer",
+      "list 5 items",
+      "link, Accessibility statement, 1 of 5",
+      "link, Sitemap, 2 of 5",
+      "link, Cookies, 3 of 5",
+      "link, Privacy, 4 of 5",
+      "link, Contact the team, 5 of 5",
+      "end of list",
+      "end of, footer",
+    ],
+  );
+});
+
 test("scanSubtree uses AX-backed body names for focusable linked cards with headings", () => {
   assert.deepEqual(
     scanHtml(
@@ -1469,6 +1838,158 @@ test("scanSubtree announces titled iframes inside generic single-child wrappers 
       "end of, Video, group",
       "Caption body follows the embedded video.",
       "end of, Video example, region",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX-confirmed spacing for open-example hidden suffix links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <a href="/examples/contact" data-sr-dom-node-id="example-link">
+            Open this example in a new tab<span data-sr-rendered-position="offscreen">: contact form</span>
+          </a>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "example-link-node",
+              role: "link",
+              name: "Open this example in a new tab : contact form",
+              domNodeId: "example-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, Open this example in a new tab : contact form",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree announces preview iframe groups before collapsed example tabs", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <div>
+            <div>
+              <div>
+                <a href="/components/date-input/default/" data-sr-dom-node-id="example-link">
+                  Open this example in a new tab<span data-sr-rendered-position="offscreen">: date input</span>
+                </a>
+              </div>
+              <iframe title="Date input example"></iframe>
+            </div>
+            <span></span>
+            <ul role="tablist">
+              <li role="presentation"><a href="#html" role="tab" aria-controls="html" aria-expanded="false">HTML</a></li>
+              <li role="presentation"><a href="#nunjucks" role="tab" aria-controls="nunjucks" aria-expanded="false">Nunjucks</a></li>
+            </ul>
+          </div>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "example-link-node",
+              role: "link",
+              name: "Open this example in a new tab : date input",
+              domNodeId: "example-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, Open this example in a new tab : date input",
+      "Date input example, group",
+      "Date input - Example - GOV.UK Design System, frame",
+      "end of, Date input example, group",
+      "HTML, collapsed, tab, 1 of 2",
+      "Nunjucks, collapsed, tab, 2 of 2",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree announces expanded state for preview example tabs", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div>
+          <div>
+            <div>
+              <a href="/components/date-input/date-of-birth/">
+                Open this example in a new tab<span>: date input to ask for date of birth - date input</span>
+              </a>
+            </div>
+            <iframe title="Date input to ask for date of birth – Date input example"></iframe>
+          </div>
+          <span></span>
+          <ul role="tablist">
+            <li role="presentation"><a href="#html" role="tab" aria-controls="html" aria-expanded="true">HTML</a></li>
+            <li role="presentation"><a href="#nunjucks" role="tab" aria-controls="nunjucks" aria-expanded="false">Nunjucks</a></li>
+          </ul>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "link, Open this example in a new tab: date input to ask for date of birth - date input",
+      "Date input to ask for date of birth - Date input example, group",
+      "Date input to ask for date of birth - Date input - Example - GOV.UK Design System, frame",
+      "end of, Date input to ask for date of birth - Date input example, group",
+      "HTML, expanded, tab, 1 of 2",
+      "Nunjucks, collapsed, tab, 2 of 2",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree compacts expanded code panel syntax descendants", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul role="tablist">
+          <li role="presentation"><a href="#html" role="tab" aria-controls="html-panel" aria-expanded="true">HTML</a></li>
+          <li role="presentation"><a href="#nunjucks" role="tab" aria-controls="nunjucks-panel" aria-expanded="false">Nunjucks</a></li>
+        </ul>
+        <div id="html-panel" role="tabpanel">
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre tabindex="0"><code tabindex="0"><span>&lt;div class="govuk-form-group"&gt;</span> <span>&lt;label class="govuk-label" for="postcode"&gt;Postcode&lt;/label&gt;</span> <span>&lt;input class="govuk-input" id="postcode" name="postcode" type="text" autocomplete="postal-code"&gt;</span> <span>&lt;/div&gt;</span></code></pre>
+          </div>
+        </div>
+        <div id="nunjucks-panel" role="tabpanel" hidden>
+          <div>
+            <button>Copy code</button>
+            <span aria-live="assertive"></span>
+            <pre><code><span>{{ govukInput({ id: "postcode" }) }}</span></code></pre>
+          </div>
+        </div>
+        <p>After panel.</p>
+      </main>
+    `),
+    [
+      "main",
+      "HTML, expanded, tab, 1 of 2",
+      "Nunjucks, collapsed, tab, 2 of 2",
+      "Copy code, button",
+      '<div class="govuk-form-group"> <label class="govuk-label" for="postcode">Postcode</label> <input class="govuk-input" id="postcode" name="postcode" type="text" autocomplete="postal-code"> </div>',
+      "After panel.",
       "end of, main",
     ],
   );
@@ -2604,6 +3125,37 @@ test("scanSubtree splits described autocomplete search inputs", () => {
       "Enter a city, list box pop up collapsed, combo box",
       "Search, button",
       "end of, search",
+    ],
+  );
+});
+
+test("scanSubtree splits labelled header search comboboxes with both autocomplete", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <header>
+        <a href="/">GOV.UK Design System</a>
+        <div>
+          <label for="site-search">Search Design system</label>
+          <input
+            id="site-search"
+            type="text"
+            role="combobox"
+            aria-autocomplete="both"
+            aria-expanded="false"
+            aria-controls="site-search-listbox"
+            aria-describedby="site-search-hint"
+          >
+          <ul id="site-search-listbox" role="listbox" style="display: none"></ul>
+          <span id="site-search-hint" style="display: none">When autocomplete results are available use up and down arrows to review and enter to select.</span>
+        </div>
+      </header>
+    `),
+    [
+      "banner",
+      "link, GOV.UK Design System",
+      "Search Design system",
+      "Search Design system When autocomplete results are available use up and down arrows to review and enter to select.",
+      "end of, banner",
     ],
   );
 });
@@ -4783,6 +5335,7 @@ test("scanSubtree expands AX-confirmed one-item inline two-link list items", () 
   assert.deepEqual(
     scanHtml(
       `
+        <div aria-hidden="true">GOV.UK Design System team</div>
         <ul data-sr-dom-node-id="10">
           <li
             data-sr-dom-node-id="11"
@@ -4843,6 +5396,89 @@ test("scanSubtree expands AX-confirmed one-item inline two-link list items", () 
       "link, Alpha Foundation",
       "You are currently on a selectable list item.",
       "link, Beta Program",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree splits AX-confirmed marker code list items", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div aria-hidden="true">GOV.UK Design System team</div>
+        <ul data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><code data-sr-dom-node-id="12" data-sr-rendered-position="offscreen">id</code> and its value are copied</li>
+          <li
+            data-sr-dom-node-id="13"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><code data-sr-dom-node-id="14" data-sr-rendered-position="offscreen">multiple</code>, which changes the button text</li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              childIds: ["21", "25"],
+            },
+            {
+              nodeId: "21",
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              childIds: ["22", "23", "24"],
+              properties: { level: 1 },
+            },
+            { nodeId: "22", role: "ListMarker", name: "• " },
+            {
+              nodeId: "23",
+              role: "code",
+              name: "",
+              domNodeId: "12",
+              childIds: ["23-text"],
+            },
+            { nodeId: "23-text", role: "StaticText", name: "id" },
+            { nodeId: "24", role: "StaticText", name: " and its value are copied" },
+            {
+              nodeId: "25",
+              role: "listitem",
+              name: "",
+              domNodeId: "13",
+              childIds: ["26", "27", "28"],
+              properties: { level: 1 },
+            },
+            { nodeId: "26", role: "ListMarker", name: "• " },
+            {
+              nodeId: "27",
+              role: "code",
+              name: "",
+              domNodeId: "14",
+              childIds: ["27-text"],
+            },
+            { nodeId: "27-text", role: "StaticText", name: "multiple" },
+            { nodeId: "28", role: "StaticText", name: ", which changes the button text" },
+          ],
+        },
+      },
+    ),
+    [
+      "list 2 items",
+      "•, 1 of 2",
+      "id",
+      "and its value are copied",
+      "•, 2 of 2",
+      "multiple",
+      ", which changes the button text",
       "end of list",
     ],
   );
@@ -5006,6 +5642,105 @@ test("scanSubtree prefixes AX-confirmed leading text in mixed text-link list ite
       "• Plain marker text, 1 of 2",
       "• Text before, 2 of 2",
       "link, linked detail",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree decomposes AX-confirmed mixed text-link list item boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          >take part in the <a href="/discussion" data-sr-dom-node-id="12">‘Date input’ discussion on GitHub</a> and share your research</li>
+          <li
+            data-sr-dom-node-id="13"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><a href="/edit" data-sr-dom-node-id="14">propose a change on GitHub</a> – read more about <a href="/help" data-sr-dom-node-id="15">how to propose changes in GitHub</a></li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ul",
+              childIds: ["21", "26"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23", "24", "25"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "23", ignored: false, role: "StaticText", name: "take part in the " },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "link",
+              name: "‘Date input’ discussion on GitHub ",
+              domNodeId: "12",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "25", ignored: false, role: "StaticText", name: "and share your research" },
+            {
+              nodeId: "26",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "13",
+              tagName: "li",
+              childIds: ["27", "28", "29", "30"],
+            },
+            { nodeId: "27", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "28",
+              ignored: false,
+              role: "link",
+              name: "propose a change on GitHub",
+              domNodeId: "14",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "29", ignored: false, role: "StaticText", name: " – read more about " },
+            {
+              nodeId: "30",
+              ignored: false,
+              role: "link",
+              name: "how to propose changes in GitHub",
+              domNodeId: "15",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "list 2 items",
+      "• take part in the, 1 of 2",
+      "link, ‘Date input’ discussion on GitHub",
+      "and share your research",
+      "•, 2 of 2",
+      "link, propose a change on GitHub",
+      "– read more about",
+      "link, how to propose changes in GitHub",
       "end of list",
     ],
   );

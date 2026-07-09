@@ -282,6 +282,96 @@
       "stepSnapshots": "www-w3-org-wai-standards-guidelines-wcag.step-snapshots.json",
       "voiceOverAnnouncementCount": 320,
       "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-character-count",
+      "expected": "design-system-service-gov-uk-components-character-count.expected.json",
+      "html": "design-system-service-gov-uk-components-character-count.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-character-count.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-character-count.step-snapshots.json",
+      "voiceOverAnnouncementCount": 229,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-checkboxes",
+      "expected": "design-system-service-gov-uk-components-checkboxes.expected.json",
+      "html": "design-system-service-gov-uk-components-checkboxes.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-checkboxes.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-checkboxes.step-snapshots.json",
+      "voiceOverAnnouncementCount": 257,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-date-input",
+      "expected": "design-system-service-gov-uk-components-date-input.expected.json",
+      "html": "design-system-service-gov-uk-components-date-input.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-date-input.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-date-input.step-snapshots.json",
+      "voiceOverAnnouncementCount": 244,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-error-summary",
+      "expected": "design-system-service-gov-uk-components-error-summary.expected.json",
+      "html": "design-system-service-gov-uk-components-error-summary.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-error-summary.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-error-summary.step-snapshots.json",
+      "voiceOverAnnouncementCount": 173,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-file-upload",
+      "expected": "design-system-service-gov-uk-components-file-upload.expected.json",
+      "html": "design-system-service-gov-uk-components-file-upload.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-file-upload.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-file-upload.step-snapshots.json",
+      "voiceOverAnnouncementCount": 263,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-password-input",
+      "expected": "design-system-service-gov-uk-components-password-input.expected.json",
+      "html": "design-system-service-gov-uk-components-password-input.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-password-input.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-password-input.step-snapshots.json",
+      "voiceOverAnnouncementCount": 225,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-radios",
+      "expected": "design-system-service-gov-uk-components-radios.expected.json",
+      "html": "design-system-service-gov-uk-components-radios.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-radios.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-radios.step-snapshots.json",
+      "voiceOverAnnouncementCount": 265,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-select",
+      "expected": "design-system-service-gov-uk-components-select.expected.json",
+      "html": "design-system-service-gov-uk-components-select.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-select.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-select.step-snapshots.json",
+      "voiceOverAnnouncementCount": 166,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-text-input",
+      "expected": "design-system-service-gov-uk-components-text-input.expected.json",
+      "html": "design-system-service-gov-uk-components-text-input.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-text-input.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-text-input.step-snapshots.json",
+      "voiceOverAnnouncementCount": 404,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "design-system-service-gov-uk-components-textarea",
+      "expected": "design-system-service-gov-uk-components-textarea.expected.json",
+      "html": "design-system-service-gov-uk-components-textarea.html",
+      "accessibilityTree": "design-system-service-gov-uk-components-textarea.ax.json",
+      "stepSnapshots": "design-system-service-gov-uk-components-textarea.step-snapshots.json",
+      "voiceOverAnnouncementCount": 183,
+      "sanitizationStatus": "sanitized"
     }
   ],
   "skipped": [],
@@ -292,5 +382,22 @@
       "Tests prefer refinedAnnouncements when present.",
       "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
     ]
+  },
+  "lastPromotion": {
+    "sourceRunId": "28971764455",
+    "promotedAt": "2026-07-09T07:21:01Z",
+    "cases": [
+      "design-system-service-gov-uk-components-character-count",
+      "design-system-service-gov-uk-components-checkboxes",
+      "design-system-service-gov-uk-components-date-input",
+      "design-system-service-gov-uk-components-error-summary",
+      "design-system-service-gov-uk-components-file-upload",
+      "design-system-service-gov-uk-components-password-input",
+      "design-system-service-gov-uk-components-radios",
+      "design-system-service-gov-uk-components-select",
+      "design-system-service-gov-uk-components-text-input",
+      "design-system-service-gov-uk-components-textarea"
+    ],
+    "receipt": "voiceover-smoke/agent-work/28971764455/govuk-design-system/30-engine-and-evidence-final-zero.json"
   }
 }

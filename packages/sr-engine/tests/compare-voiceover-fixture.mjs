@@ -12,7 +12,8 @@ const {
 } = require("../dist/index.js");
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
-const fixturesDir = path.join(testDir, "fixtures/voiceover");
+const fixturesDir =
+  process.env.SR_VOICEOVER_FIXTURES_DIR || path.join(testDir, "fixtures/voiceover");
 const fixtureName = process.argv[2];
 const contextSize = Number.parseInt(process.argv[3] || "3", 10);
 

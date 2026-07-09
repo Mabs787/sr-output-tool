@@ -9,6 +9,15 @@ function normalizeText(value?: string): string | undefined {
   return normalized || undefined;
 }
 
+function normalizeTextPreservingSpaceBeforeColon(value?: string): string | undefined {
+  const normalized = value
+    ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s+([.,!?;])/g, "$1")
+    .trim();
+  return normalized || undefined;
+}
+
 function pushIfPresent(parts: string[], value?: string): void {
   const normalized = normalizeText(value);
   if (normalized) {
@@ -361,6 +370,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "link": {
+      const linkLabel = el.preserveSpaceBeforeColonName
+        ? normalizeTextPreservingSpaceBeforeColon(el.preserveSpaceBeforeColonName)
+        : label;
       const popupType = formatPopupType(el.hasPopup);
       if (el.disabled && el.current) {
         parts.push(
@@ -403,7 +415,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (el.linkHeadingLevel) {
           parts.push(`heading level ${el.linkHeadingLevel}`);
         }
-        pushIfPresent(parts, label);
+        if (el.preserveSpaceBeforeColonName && linkLabel) {
+          parts.push(linkLabel);
+        } else {
+          pushIfPresent(parts, linkLabel);
+        }
       }
       pushCollectionPosition(parts, el);
       pushTableColumnContext(parts, el);
@@ -818,6 +834,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       pushIfPresent(parts, label);
       if (el.selected) {
         parts.push("selected");
+      }
+      if (el.tabExpandedState && el.expanded !== undefined) {
+        parts.push(el.expanded ? "expanded" : "collapsed");
       }
       const popupType = formatPopupType(el.hasPopup);
       if (popupType) {

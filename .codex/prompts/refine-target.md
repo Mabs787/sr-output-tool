@@ -8,7 +8,7 @@ Read:
 - `docs/workflows/agent-receipts.md`
 - the relevant phase docs in `docs/workflows/`
 - `docs/status/voiceover-corpus-baseline.md`
-- the relevant target status document in `docs/status/`
+- the relevant target status document in `docs/status/`, when present
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
 
 Run the target through the required phases. For preprocessed targets, start at Phase B.

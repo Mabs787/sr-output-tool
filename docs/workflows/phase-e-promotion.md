@@ -9,9 +9,21 @@ Use `.codex/agents/promoter.toml`.
 ## Update
 
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
+- `packages/sr-engine/tests/fixtures/voiceover/index.json`
+- `packages/sr-engine/tests/fixtures/voiceover/<target>.*`
 - `docs/status/voiceover-corpus-baseline.md`
-- target-specific status docs in `docs/status/`
+- target-specific status docs in `docs/status/`, when present
 - `voiceover-smoke/agent-work/<run-id>/<target>/06-promotion.json`
+
+If refinement was performed in an isolated fixture directory, Phase E is not
+complete when that isolated compare reaches zero. Promotion must explicitly copy
+the approved `.html`, `.expected.json`, `.ax.json`, and any
+`.step-snapshots.json` files into
+`packages/sr-engine/tests/fixtures/voiceover/`, merge their entries into
+`index.json`, and update `refinement-manifest.json`. Record the source run,
+target names, and receipt path in the promotion receipt. Do not report the
+target as fully promoted until the canonical fixture corpus, not just the
+isolated directory, has been compared.
 
 ## Classes
 
@@ -78,6 +90,8 @@ The preferred promotion outcome is `refined` with zero mismatches. Use
 `candidate`, `partial`, or `skip` only as a controlled fallback, not as a way to
 end a hard mismatch. The promotion receipt must show:
 
+- whether the canonical corpus fixtures were added or updated
+- the isolated source directory, if any
 - the latest compare count and mismatch families
 - which resources were rechecked for each unresolved family
 - whether Phase C.5 was run, requested, or impossible

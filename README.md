@@ -92,6 +92,16 @@ yarn voiceover:create-refinement-prompt --list
 yarn voiceover:create-refinement-prompt --target www-example-com-page
 ```
 
+To inspect an autonomous run before resuming or declaring it complete:
+
+```bash
+yarn voiceover:workflow-status --run-id 28971764455
+```
+
+The status command reports active local/remote work, corpus refined/candidate
+counts, and whether an isolated exact-zero fixture set still needs Phase E
+promotion into the canonical corpus.
+
 The refinement workflow treats the raw VoiceOver stream as the primary evidence. Rendered HTML, step snapshots, AX tree data, computed style evidence, and source diagnostics explain surprising output or repair clear capture noise; they should not be used to reshape valid VoiceOver output to match the current engine.
 
 For the full multi-agent process, use

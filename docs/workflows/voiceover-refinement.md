@@ -271,7 +271,7 @@ These files are ignored scratch output. Checked-in source of truth remains in:
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
 - `docs/status/voiceover-corpus-baseline.md`
 - `docs/status/voiceover-learnings.md`
-- target-specific status docs in `docs/status/`
+- target-specific status docs in `docs/status/`, when present
 
 ## Fresh Chat Entry
 

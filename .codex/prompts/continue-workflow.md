@@ -11,7 +11,7 @@ Read:
 - `docs/workflows/voiceover-refinement.md`
 - `docs/workflows/agent-receipts.md`
 - `docs/status/voiceover-corpus-baseline.md`
-- target-specific status docs in `docs/status/`
+- target-specific status docs in `docs/status/`, when present
 - `packages/sr-engine/tests/fixtures/voiceover/refinement-manifest.json`
 
 This prompt requires a real multi-agent run. The repository scripts cannot

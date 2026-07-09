@@ -95,12 +95,17 @@ export interface ElementDescriptor {
   footerCountrySelector?: boolean;
   fieldsetPromptText?: string;
   labelledNavigationHeaderText?: string;
+  examplePreviewFrameAnnouncements?: string[];
+  tabExpandedState?: boolean;
   axInlineTwoLinkListItemAnnouncements?: string[];
+  axMixedInlineListItemAnnouncements?: string[];
   contributionListItemAnnouncements?: string[];
   metadataListItemValueAnnouncements?: string[];
   wrappedDefinitionListTermChildAnnouncements?: string[];
   inlineEmphasisListItemFragments?: string[];
   inlineEmphasisTextFragments?: string[];
+  inlineCodeBreakTextFragments?: string[];
+  footerInlineBoundaryTextFragments?: string[];
   inlineTextLinkFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];
   priceDisclosureFragments?: string[];
@@ -112,6 +117,7 @@ export interface ElementDescriptor {
   complexColumnHeaderFragments?: string[];
   complexColumnHeaderRawText?: string;
   codeMirrorTextEntryText?: string;
+  preserveSpaceBeforeColonName?: string;
 }
 
 /** Types of screen reader events. */

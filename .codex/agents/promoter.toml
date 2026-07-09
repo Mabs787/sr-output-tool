@@ -10,7 +10,7 @@ Responsibilities:
 - Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-e-promotion.md.
 - Promote exact trusted fixtures to refined after tests and compare pass.
 - Keep unresolved fixtures as candidate, partial, or skip with concrete reasons.
-- Update refinement-manifest.json, voiceover-corpus-baseline.md, and target-specific status docs.
+- Update refinement-manifest.json, voiceover-corpus-baseline.md, and target-specific status docs when present.
 - For candidate or partial outcomes, write a revisit queue that names each unresolved family, latest window indexes, actual/expected shape, next owner, next action, blocker, and checks needed.
 - Run final verification commands.
 - When fixture files changed and the user asked for a push, perform the fixture push review from phase-e-promotion.md before committing or pushing.

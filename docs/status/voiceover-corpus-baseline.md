@@ -1,6 +1,6 @@
 # VoiceOver Corpus Baseline
 
-Last refreshed: 2026-07-01
+Last refreshed: 2026-07-09
 
 This baseline uses the VoiceOver-first refinement workflow:
 
@@ -19,6 +19,16 @@ These fixtures currently match the engine exactly against `refinedAnnouncements`
 - `www-gov-uk`
 - `www-microsoft-com-en-us-accessibility`
 - `developer-mozilla-org-en-us`
+- `design-system-service-gov-uk-components-character-count`
+- `design-system-service-gov-uk-components-checkboxes`
+- `design-system-service-gov-uk-components-date-input`
+- `design-system-service-gov-uk-components-error-summary`
+- `design-system-service-gov-uk-components-file-upload`
+- `design-system-service-gov-uk-components-password-input`
+- `design-system-service-gov-uk-components-radios`
+- `design-system-service-gov-uk-components-select`
+- `design-system-service-gov-uk-components-text-input`
+- `design-system-service-gov-uk-components-textarea`
 - `www-nhs-uk-conditions`
 - `www-nhs-uk`
 - `www-sky-com`
@@ -56,7 +66,7 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 - `www-sky-com-watch`
 - `www-tesco-com`
 
-The Sky candidates listed here have completed Phase B evidence review. A 2026-06-28 fixture-trust audit restored several refined-output edits that could have hidden true VoiceOver output, so remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating. See `docs/status/sky-refinement-status.md`.
+The Sky candidates listed here have completed Phase B evidence review. A 2026-06-28 fixture-trust audit restored several refined-output edits that could have hidden true VoiceOver output, so remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating.
 
 `web-dev` remains partial because the direct compare is exact, but the 60-second settle rescan still has capture-timing evidence under review. Do not edit the refined announcements from that rescan unless a future receipt documents a fresh evidence-backed correction.
 
@@ -67,6 +77,14 @@ The Sky candidates listed here have completed Phase B evidence review. A 2026-06
 `www-w3-org-wai` was promoted after the final Phase E review landed at 207 expected, 207 actual, and 0 mismatch windows.
 
 `www-w3-org-wai-standards-guidelines-wcag` was promoted after receipt 27 closed the footer punctuation family and the final compare landed at 320 expected, 320 actual, and 0 mismatch windows.
+
+The GOV.UK Design System component fixtures from run `28971764455` were first
+refined in an isolated fixture directory, then promoted into the canonical
+VoiceOver corpus on 2026-07-09 after Phase B/C/C.5/D/E review. The promoted set
+covers character count, checkboxes, date input, error summary, file upload,
+password input, radios, select, text input, and textarea. The final isolated
+and canonical compare landed at 0 mismatch windows across all ten component
+fixtures.
 
 `www-bbc-co-uk-news` is listed as a known unrelated corpus failure until its
 card-link ordering mismatch is revisited. The latest Phase E receipt for run
