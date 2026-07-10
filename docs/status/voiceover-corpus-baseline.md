@@ -9,6 +9,37 @@ This baseline uses the VoiceOver-first refinement workflow:
 - Rendered HTML, AX tree, and step snapshots explain or repair capture issues; they do not override page-backed VoiceOver output.
 - Surprising output, such as `link, undefined page link`, remains valid when live page evidence backs it.
 
+## Corpus Tiers
+
+The repository intentionally keeps real captured fixtures because they expose
+messy framework, content, and browser/VoiceOver behavior that synthetic tests
+miss. The corpus should still be curated:
+
+- Exact fixtures are full-page golden gates. They should protect distinct
+  behavior or meaningful live-site diversity.
+- Focused exact fixtures are compact or component-focused gates for one narrow
+  behavior family. They are exact tests, but they are not counted as full-page
+  live-site diversity.
+- Partial fixtures protect reliable slices while unresolved regions remain out
+  of exact gating.
+- Candidate fixtures preserve useful evidence and revisit queues, but do not
+  block normal exact corpus expectations.
+- Focused repro fixtures live under `voiceover-repros/` and should be preferred
+  when a new scan only repeats an already-covered behavior.
+
+When adding a scanned site, Phase E must record the unique coverage it adds and
+whether an existing exact fixture or focused repro already covers the same
+logic. If the value is duplicated, keep the site as candidate evidence or
+distill the behavior into a focused repro instead of expanding the golden
+corpus by default.
+
+The 2026-07-10 curation pass added explicit tier and coverage-cluster metadata
+to every existing manifest entry: 33 full-page golden exact fixtures, 2 focused
+exact fixtures, 13 candidate/parked fixtures, and 1 partial fixture. The largest
+overlap cluster is the Sky commerce family; keep its exact anchors for now, but
+review that cluster first when pruning full-page gates or replacing duplicate
+coverage with focused repros.
+
 ## Exact Fixtures
 
 These fixtures currently match the engine exactly against `refinedAnnouncements`:
@@ -99,3 +130,5 @@ metadata.
 `www-sky-com-tv` was promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare is now 177 expected, 177 actual, and 0 mismatch windows.
 
 `www-tesco-com` was processed through Phase E on 2026-06-28. The target remains candidate: the Tesco compare improved from 28 to 2 mismatch windows after reusable carousel/slideshow, linked-heading, quantity-label, fieldset-radio, structured native-footer, searchbox wording, Clubcard list-position spacing, Pets roundel fixture, and promo punctuation cleanup. The target-specific status doc now carries a revisit queue for the remaining saved/live header DOM-state divergence; exact gating is still unresolved and the full corpus test remains red on unrelated Sky fixtures.
+
+Run `29014999637` promoted four exact targets into the canonical corpus: `www-britishairways-com-travel-home-public-en-gb`, `www-gov-uk-find-local-council`, `www-nationalrail-co-uk`, and `www-nhs-uk-service-search-pharmacy-find-a-pharmacy`. `www-royalmail-com-find-a-postcode` stayed candidate with the parked `footer-empty-name-url-path-fallbacks` family at 99 expected, 100 actual, and 2 mismatch windows.

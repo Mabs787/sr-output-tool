@@ -277,6 +277,35 @@ test("VoiceOver corpus refinement manifest covers every fixture", () => {
   assert.deepEqual(missing, []);
 });
 
+test("VoiceOver corpus refinement manifest records fixture tiers", () => {
+  const validTiers = new Set(Object.keys(refinementManifest.fixtureTierDefinitions || {}));
+  assert.ok(
+    validTiers.size > 0,
+    "refinement-manifest.json must define fixtureTierDefinitions.",
+  );
+
+  const missingTierMetadata = cases
+    .map((fixture) => {
+      const refinement = refinementManifest.cases?.[fixture.name];
+      if (!refinement) return null;
+      const coverageCheck = refinement.existingCoverageChecked;
+      const validCoverageCheck =
+        typeof coverageCheck === "string"
+          ? coverageCheck.length > 0
+          : Boolean(coverageCheck?.status);
+
+      return validTiers.has(refinement.fixtureTier) &&
+        typeof refinement.uniqueCoverage === "string" &&
+        refinement.uniqueCoverage.length > 0 &&
+        validCoverageCheck
+        ? null
+        : fixture.name;
+    })
+    .filter(Boolean);
+
+  assert.deepEqual(missingTierMetadata, []);
+});
+
 for (const fixture of cases) {
   const refinement = getRefinementStatus(fixture);
   const gateFixture =

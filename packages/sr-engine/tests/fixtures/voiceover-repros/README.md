@@ -10,6 +10,11 @@ These files are intentionally separate from captured live-site fixtures in
 - `voiceover-repros/`: small hand-authored reproductions for one mismatch
   family, scanned through the VoiceOver GitHub Action.
 
+Prefer a focused repro over another full-page corpus fixture when the live site
+only repeats behavior already covered elsewhere. Full-page fixtures belong in
+the corpus when they add distinct behavior or meaningful live-site diversity;
+focused repros are the lighter guardrail for one proven DOM/AX contract.
+
 Each repro should use a `data-sr-scan-root` wrapper and preserve the
 accessibility-relevant DOM, ARIA, focusability, hidden state, text boundaries,
 and AX-derived role/name/state relationships from the original issue.

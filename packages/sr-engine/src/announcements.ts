@@ -18,6 +18,14 @@ function normalizeTextPreservingSpaceBeforeColon(value?: string): string | undef
   return normalized || undefined;
 }
 
+function normalizeTextPreservingSpaceBeforePunctuation(value?: string): string | undefined {
+  const normalized = value
+    ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return normalized || undefined;
+}
+
 function pushIfPresent(parts: string[], value?: string): void {
   const normalized = normalizeText(value);
   if (normalized) {
@@ -78,7 +86,9 @@ function tableColumnPosition(el: ElementDescriptor): string | undefined {
 
 function genericGroupRoleLabel(el?: ElementDescriptor): string {
   const roleDescription = normalizeText(el?.roleDescription)?.toLowerCase();
-  return roleDescription === "carousel" || roleDescription === "slideshow"
+  return roleDescription === "carousel" ||
+    roleDescription === "slideshow" ||
+    roleDescription === "slide"
     ? roleDescription
     : "group";
 }
@@ -276,7 +286,10 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         el.headingLink || el.headingButton
           ? formatInteractiveHeadingFragments(el.headingFragments)
           : formatHeadingFragments(level, el.headingFragments, el.headingFragmentCount);
-      const headingLabel = headingWithFragments ?? label;
+      const headingLabel = headingWithFragments ??
+        (el.preserveSpaceBeforePunctuationName
+          ? normalizeTextPreservingSpaceBeforePunctuation(el.preserveSpaceBeforePunctuationName)
+          : label);
       if (headingWithFragments && !el.headingLink && !el.headingButton) {
         parts.push(headingWithFragments);
         pushSupplementalText(parts, el);
@@ -294,8 +307,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
         pushCollectionPosition(parts, el);
       } else {
-        pushIfPresent(parts, headingLabel);
+        if (el.preserveSpaceBeforePunctuationName && headingLabel) {
+          parts.push(headingLabel);
+        } else {
+          pushIfPresent(parts, headingLabel);
+        }
         if (!el.headingButton) {
+          if (!headingWithFragments && el.headingFragmentCount && el.headingFragmentCount > 1) {
+            parts.push(`${el.headingFragmentCount} items`);
+          }
           if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
             parts.push(`(${el.positionInSet} of ${el.setSize})`);
           }
@@ -741,7 +761,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
       if (usesTableFormatting) {
         if (role === "columnheader") {
-          parts.push(label ?? "blank");
+          parts.push(
+            el.simpleNativeTwoColumnHeaderContext &&
+              el.columnIndex &&
+              el.columnIndex > 1 &&
+              label
+              ? `${label} ${label}`
+              : label ?? "blank",
+          );
           parts.push(`column ${el.columnIndex} of ${el.columnCount}`);
         } else {
           if (
@@ -765,13 +792,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
               `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${label}`,
             );
           } else if (el.columnIndex === 1 && el.rowIndex) {
-            parts.push(
-              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`,
-            );
-            pushIfPresent(
-              parts,
+            const rowLabel = `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`;
+            const cellContext = normalizeText(
               [el.columnHeaderText, label].filter(Boolean).join(" "),
             );
+            if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+              parts.push(`${rowLabel} ${cellContext}`);
+            } else {
+              parts.push(rowLabel);
+              pushIfPresent(parts, cellContext);
+            }
           } else {
             pushIfPresent(
               parts,
@@ -888,6 +918,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (!label && !el.details && !el.errorMessage && !el.busy) {
         break;
       }
+      if (el.suppressStatusRolePrefix && label) {
+        pushIfPresent(parts, label);
+        pushSupplementalText(parts, el);
+        break;
+      }
       parts.push("status");
       pushIfPresent(parts, label);
       pushSupplementalText(parts, el);
@@ -930,6 +965,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushCollectionPosition(parts, el);
       }
       pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "sectionfooter": {
+      pushIfPresent(parts, el.name);
       break;
     }
 
@@ -1006,6 +1046,10 @@ export function getContextEndAnnouncement(
       : "end of, content information";
   }
 
+  if (role === "sectionfooter") {
+    return descriptor?.name ? `end of, ${descriptor.name}` : "end of";
+  }
+
   if (role === "main") {
     return descriptor?.name ? `end of, ${descriptor.name}, main` : "end of, main";
   }
@@ -1014,6 +1058,12 @@ export function getContextEndAnnouncement(
     return descriptor?.name
       ? `end of, ${descriptor.name}, navigation`
       : "end of, navigation";
+  }
+
+  if (role === "region" && descriptor?.roleDescription === "carousel") {
+    return descriptor.name
+      ? `end of, ${descriptor.name}, ${descriptor.roleDescription}`
+      : `end of, ${descriptor.roleDescription}`;
   }
 
   if (role === "search") {

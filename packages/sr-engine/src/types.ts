@@ -25,6 +25,7 @@ export interface ElementDescriptor {
   level?: number;
   headingFragments?: string[];
   headingFragmentCount?: number;
+  preserveSpaceBeforePunctuationName?: string;
   setSize?: number;
   positionInSet?: number;
   parentSetSize?: number;
@@ -38,6 +39,7 @@ export interface ElementDescriptor {
   tableGroupedHeaderRow?: boolean;
   tableFirstGroupedHeaderRow?: boolean;
   tableHasComplexColumnHeaders?: boolean;
+  simpleNativeTwoColumnHeaderContext?: boolean;
   rowSpan?: number;
   columnSpan?: number;
   tableLabel?: string;
@@ -93,6 +95,7 @@ export interface ElementDescriptor {
   splitLabelStop?: boolean;
   nativeFormControlLabelStop?: boolean;
   nativeFormInlineAlert?: boolean;
+  suppressStatusRolePrefix?: boolean;
   textEntryArea?: boolean;
   emailTextField?: boolean;
   textboxPlaceholderBeforeRole?: boolean;

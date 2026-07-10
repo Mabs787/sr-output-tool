@@ -39,6 +39,42 @@ Use one of these exact machine enum values in `06-promotion.json`:
 - `candidate`
 - `skip`
 
+## Fixture Tiers
+
+Phase E is also the fixture curation gate. Do not treat every successful scan
+as a permanent full-page golden fixture. Before copying a target into the
+canonical corpus, decide which tier it belongs to and record the decision in
+the promotion receipt.
+
+- Golden exact corpus: full-page fixtures that are exact, trusted, and protect
+  behavior not already covered by smaller or clearer fixtures. These may block
+  normal corpus runs.
+- Focused exact corpus: compact or component-focused exact fixtures that gate a
+  narrow behavior family without claiming full-page live-site breadth.
+- Candidate or parked corpus: useful full-page evidence with unresolved
+  windows, unstable live/saved state, or known evidence gaps. These stay
+  documented and runnable, but must not be described as exact gates.
+- Focused repro fixtures: small Phase C.5 or distilled HTML cases that preserve
+  one DOM/AX/ARIA behavior. Prefer this tier when a new page only repeats a
+  rule already covered by another full-page fixture.
+- Archived scan artifacts: raw or bulky scan output that is useful for
+  investigation but not curated enough for the repo corpus. Keep these outside
+  the canonical fixture index unless Phase E promotes them.
+
+Each promotion receipt must answer:
+
+- What unique engine or scanner behavior does this fixture protect?
+- Is that behavior already covered by an existing exact fixture or focused
+  repro?
+- Would a smaller repro protect the same behavior with less corpus cost?
+- Does the fixture add meaningful live-site diversity, such as a new framework,
+  control family, landmark pattern, table/list shape, or dynamic-state risk?
+
+If the answer is "same behavior as an existing fixture", do not promote another
+full-page golden fixture by default. Either keep the target as candidate
+evidence, add or update a focused repro, or record that existing coverage is
+sufficient.
+
 ## Decision Fields
 
 `06-promotion.json` must include:
@@ -51,6 +87,9 @@ Use one of these exact machine enum values in `06-promotion.json`:
 - `blockers`
 - `manifestChanges`
 - `statusDocsUpdated`
+- `fixtureTier`
+- `uniqueCoverage`
+- `existingCoverageChecked`
 - `fixturePushReview`
 - `checks`: commands with status, exit code, summary, and skip reason
 - `agentWorkflowValidation`: command, required phases, status, exit code,

@@ -390,6 +390,51 @@
       "stepSnapshots": "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error.step-snapshots.json",
       "voiceOverAnnouncementCount": 8,
       "sanitizationStatus": "needs-manual-refinement"
+    },
+    {
+      "name": "www-britishairways-com-travel-home-public-en-gb",
+      "expected": "www-britishairways-com-travel-home-public-en-gb.expected.json",
+      "html": "www-britishairways-com-travel-home-public-en-gb.html",
+      "accessibilityTree": "www-britishairways-com-travel-home-public-en-gb.ax.json",
+      "stepSnapshots": "www-britishairways-com-travel-home-public-en-gb.step-snapshots.json",
+      "voiceOverAnnouncementCount": 213,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-gov-uk-find-local-council",
+      "expected": "www-gov-uk-find-local-council.expected.json",
+      "html": "www-gov-uk-find-local-council.html",
+      "accessibilityTree": "www-gov-uk-find-local-council.ax.json",
+      "stepSnapshots": "www-gov-uk-find-local-council.step-snapshots.json",
+      "voiceOverAnnouncementCount": 80,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-nationalrail-co-uk",
+      "expected": "www-nationalrail-co-uk.expected.json",
+      "html": "www-nationalrail-co-uk.html",
+      "accessibilityTree": "www-nationalrail-co-uk.ax.json",
+      "stepSnapshots": "www-nationalrail-co-uk.step-snapshots.json",
+      "voiceOverAnnouncementCount": 137,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "expected": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy.expected.json",
+      "html": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy.html",
+      "accessibilityTree": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy.ax.json",
+      "stepSnapshots": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy.step-snapshots.json",
+      "voiceOverAnnouncementCount": 66,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-royalmail-com-find-a-postcode",
+      "expected": "www-royalmail-com-find-a-postcode.expected.json",
+      "html": "www-royalmail-com-find-a-postcode.html",
+      "accessibilityTree": "www-royalmail-com-find-a-postcode.ax.json",
+      "stepSnapshots": "www-royalmail-com-find-a-postcode.step-snapshots.json",
+      "voiceOverAnnouncementCount": 100,
+      "sanitizationStatus": "sanitized"
     }
   ],
   "skipped": [],
@@ -402,20 +447,14 @@
     ]
   },
   "lastPromotion": {
-    "sourceRunId": "28971764455",
-    "promotedAt": "2026-07-09T07:21:01Z",
+    "sourceRunId": "29014999637",
+    "promotedAt": "2026-07-10T14:46:18Z",
     "cases": [
-      "design-system-service-gov-uk-components-character-count",
-      "design-system-service-gov-uk-components-checkboxes",
-      "design-system-service-gov-uk-components-date-input",
-      "design-system-service-gov-uk-components-error-summary",
-      "design-system-service-gov-uk-components-file-upload",
-      "design-system-service-gov-uk-components-password-input",
-      "design-system-service-gov-uk-components-radios",
-      "design-system-service-gov-uk-components-select",
-      "design-system-service-gov-uk-components-text-input",
-      "design-system-service-gov-uk-components-textarea"
+      "www-britishairways-com-travel-home-public-en-gb",
+      "www-gov-uk-find-local-council",
+      "www-nationalrail-co-uk",
+      "www-nhs-uk-service-search-pharmacy-find-a-pharmacy"
     ],
-    "receipt": "voiceover-smoke/agent-work/28971764455/govuk-design-system/30-engine-and-evidence-final-zero.json"
+    "receipt": "voiceover-smoke/agent-work/29014999637/06-promotion-rollup.json"
   }
 }

@@ -184,6 +184,11 @@ the receipts explain why those phases were not required.
   external blocker or risk that prevents safe progress.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
+- Do not promote every scanned site as a full-page golden fixture by default.
+  Phase E must decide whether the result belongs in the golden exact corpus,
+  candidate/parked corpus, a focused repro fixture, or artifact archive. Promote
+  a full-page exact fixture only when it adds useful coverage beyond existing
+  fixtures or materially increases live-site diversity.
 
 ## Fixture Purity
 

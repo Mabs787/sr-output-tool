@@ -239,6 +239,90 @@ test("scanSubtree splits direct text and one inline link in generic div blocks",
   );
 });
 
+test("scanSubtree names native submit controls from AX-confirmed form values", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <form>
+          <label for="site-search">Search</label>
+          <input id="site-search" type="text" placeholder="Search Royal Mail" value="" data-sr-dom-node-id="search-input">
+          <input type="submit" value="Search" data-sr-dom-node-id="search-submit">
+        </form>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "input",
+              role: "textbox",
+              name: "Search",
+              domNodeId: "search-input",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "submit",
+              role: "button",
+              name: "Search",
+              domNodeId: "search-submit",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Search Search Royal Mail, edit text",
+      "Search, button",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <label for="site-search">Search</label>
+        <input id="site-search" type="text" placeholder="Search Royal Mail" value="">
+        <input type="submit" value="Search">
+      </form>
+    `),
+    [
+      "Search Search Royal Mail, edit text",
+      "button",
+    ],
+  );
+});
+
+test("scanSubtree ignores native search-form shortcut when no label exists", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <input type="text" aria-label="input" placeholder="Departure city" data-sr-dom-node-id="ba-input">
+        <input type="submit" value="Find flights" data-sr-dom-node-id="ba-submit">
+      </form>
+    `),
+    [
+      "input, edit text, Departure city",
+      "button",
+    ],
+  );
+});
+
+test("scanSubtree announces native horizontal rules as splitters", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <hr>
+        <h2>Support links</h2>
+      </footer>
+    `),
+    [
+      "content information",
+      "horizontal splitter",
+      "heading level 2, Support links",
+      "end of, content information",
+    ],
+  );
+});
+
 test("scanSubtree splits paragraph text around inline semantic and link boundaries", () => {
   assert.deepEqual(
     scanHtml(`
@@ -609,6 +693,34 @@ test("scanSubtree normalizes AX inline link spacing before external punctuation"
       "Weather data supplied by",
       "link, MeteoGroup, external",
       "end of, content information",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX-confirmed whitespace inside link names", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p>
+          <a href="/paf" data-sr-dom-node-id="paf-link">Read our PAF Code of Practice (PDF)<span>Opens in a new window</span></a>
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "link",
+              role: "link",
+              name: "Read our PAF Code of Practice (PDF) Opens in a new window",
+              domNodeId: "paf-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, Read our PAF Code of Practice (PDF) Opens in a new window",
     ],
   );
 });
@@ -1285,13 +1397,71 @@ test("scanSubtree preserves small footer static text before inline links", () =>
 
 test("scanSubtree preserves footer static text around direct inline links", () => {
   assert.deepEqual(
-    scanHtml(`
-      <footer>
-        <div>Built by the <a href="/team">GOV.UK Design System team</a></div>
-        <span>All content is available under the <a href="/license">Open Government Licence v3.0</a>, except where otherwise stated</span>
-        <div><a href="/copyright">© Crown copyright</a></div>
-      </footer>
-    `),
+    scanHtml(
+      `
+        <footer>
+          <div data-sr-dom-node-id="built">Built by the <a href="/team" data-sr-dom-node-id="team">GOV.UK Design System team</a></div>
+          <span data-sr-dom-node-id="license-text">All content is available under the <a href="/license" data-sr-dom-node-id="license">Open Government Licence v3.0</a>, except where otherwise stated</span>
+          <div><a href="/copyright" data-sr-dom-node-id="copyright">© Crown copyright</a></div>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "built-node",
+              role: "generic",
+              name: "",
+              domNodeId: "built",
+              childIds: ["built-text", "team-link"],
+            },
+            {
+              nodeId: "built-text",
+              role: "StaticText",
+              name: "Built by the ",
+            },
+            {
+              nodeId: "team-link",
+              role: "link",
+              name: "GOV.UK Design System team",
+              domNodeId: "team",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "license-node",
+              role: "generic",
+              name: "",
+              domNodeId: "license-text",
+              childIds: ["license-before", "license-link", "license-after"],
+            },
+            {
+              nodeId: "license-before",
+              role: "StaticText",
+              name: "All content is available under the ",
+            },
+            {
+              nodeId: "license-link",
+              role: "link",
+              name: "Open Government Licence v3.0",
+              domNodeId: "license",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "license-after",
+              role: "StaticText",
+              name: ", except where otherwise stated",
+            },
+            {
+              nodeId: "copyright-link",
+              role: "link",
+              name: "© Crown copyright",
+              domNodeId: "copyright",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
     [
       "footer",
       "Built by the",
@@ -1460,6 +1630,38 @@ test("scanSubtree counts list items through neutral list wrappers", () => {
       "Last updated",
       "5 hours ago",
       "end of list",
+    ],
+  );
+});
+
+test("scanSubtree excludes hidden consent-only list items from list summary counts", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <ul>
+          <li><a href="/about">About us</a></li>
+          <li><a href="/report">Report an issue with the NHS website</a></li>
+          <li><a href="/accessibility">Accessibility statement</a></li>
+          <li><a href="/policies">Our policies</a></li>
+          <li>
+            <a
+              href="/cookies"
+              data-sr-voiceover-hidden-consent="true"
+              data-sr-computed-hidden="display:none visibility:hidden"
+            >Cookies</a>
+          </li>
+        </ul>
+      </footer>
+    `),
+    [
+      "footer",
+      "list 4 items",
+      "link, About us, 1 of 5",
+      "link, Report an issue with the NHS website, 2 of 5",
+      "link, Accessibility statement, 3 of 5",
+      "link, Our policies, 4 of 5",
+      "end of list",
+      "end of, footer",
     ],
   );
 });
@@ -2319,6 +2521,160 @@ test("scanSubtree does not add a group suffix to collapsed dialog popup image te
   );
 });
 
+test("scanSubtree does not add a group suffix to AX-confirmed empty offscreen collapsed buttons", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <a href="/cy">Fersiwn Cymraeg</a>
+          <div
+            role="button"
+            aria-controls="result-content"
+            aria-expanded="false"
+            data-sr-dom-node-id="collapsed-result"
+            data-sr-rendered-position="offscreen"
+          ></div>
+          <p>Postcodes are not intended to pinpoint an exact geographical location.</p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "collapsed-result-ax",
+              role: "button",
+              name: "",
+              domNodeId: "collapsed-result",
+              properties: { expanded: false },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, Fersiwn Cymraeg",
+      "collapsed, button",
+      "Postcodes are not intended to pinpoint an exact geographical location.",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree does not add a group suffix to AX-confirmed collapsed native buttons with hidden controlled regions", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "menu-button",
+        role: "button",
+        name: "Show navigation menu",
+        domNodeId: "menu-button",
+        tagName: "button",
+        properties: { focusable: true, expanded: false },
+      },
+      {
+        nodeId: "search-button",
+        role: "button",
+        name: "Show search menu",
+        domNodeId: "search-button",
+        tagName: "button",
+        properties: { focusable: true, expanded: false },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <header>
+          <nav aria-label="Primary">
+            <button
+              type="button"
+              aria-controls="primary-menu"
+              aria-expanded="false"
+              aria-label="Show navigation menu"
+              data-sr-dom-node-id="menu-button"
+            >
+              <span>Menu</span>
+            </button>
+            <div id="primary-menu" hidden data-sr-computed-hidden="display:none">
+              <a href="/services">Services</a>
+            </div>
+            <button
+              type="button"
+              aria-controls="site-search"
+              aria-expanded="false"
+              aria-label="Show search menu"
+              data-sr-dom-node-id="search-button"
+            >
+              <span>Search</span>
+              <svg aria-hidden="true"></svg>
+            </button>
+            <div id="site-search" data-sr-computed-hidden="display:none">
+              <form role="search"><input type="search" aria-label="Search"></form>
+            </div>
+          </nav>
+        </header>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "banner",
+      "Primary, navigation",
+      "Show navigation menu, collapsed, button",
+      "Show search menu, collapsed, button",
+      "end of, Primary, navigation",
+      "end of, banner",
+    ],
+  );
+});
+
+test("scanSubtree keeps a group suffix on collapsed native buttons with visible controlled regions", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <header>
+          <nav aria-label="Primary">
+            <button
+              type="button"
+              aria-controls="primary-menu"
+              aria-expanded="false"
+              aria-label="Show navigation menu"
+              data-sr-dom-node-id="menu-button"
+            >
+              <span>Menu</span>
+            </button>
+            <div id="primary-menu">
+              <a href="/services">Services</a>
+            </div>
+          </nav>
+        </header>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "menu-button",
+              role: "button",
+              name: "Show navigation menu",
+              domNodeId: "menu-button",
+              tagName: "button",
+              properties: { focusable: true, expanded: false },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "banner",
+      "Primary, navigation",
+      "Show navigation menu, collapsed, button, group",
+      "end of, Primary, navigation",
+      "end of, banner",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX-confirmed leading-space heading fragments", () => {
   assert.deepEqual(
     scanHtml(
@@ -2653,6 +3009,64 @@ test("scanSubtree treats native footer inside role main as section footer conten
   );
 });
 
+test("scanSubtree preserves AX-confirmed named section footer stops", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <section>
+            <article>
+              <h3>Beach holidays</h3>
+            </article>
+            <footer aria-label="ATOL Protected holidays | Terms and Conditions apply" data-sr-dom-node-id="footer">
+              <small data-sr-dom-node-id="small">ATOL Protected holidays | Terms and Conditions apply</small>
+            </footer>
+          </section>
+          <h2>With you every step of the journey.</h2>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "footer-node",
+              role: "sectionfooter",
+              name: "ATOL Protected holidays | Terms and Conditions apply",
+              domNodeId: "footer",
+              tagName: "footer",
+              childIds: ["small-node"],
+            },
+            {
+              nodeId: "small-node",
+              role: "generic",
+              name: "",
+              domNodeId: "small",
+              tagName: "small",
+              childIds: ["small-text"],
+            },
+            {
+              nodeId: "small-text",
+              role: "StaticText",
+              name: "ATOL Protected holidays | Terms and Conditions apply",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "article",
+      "heading level 3, Beach holidays",
+      "end of, article",
+      "ATOL Protected holidays | Terms and Conditions apply",
+      "ATOL Protected holidays | Terms and Conditions apply",
+      "end of, ATOL Protected holidays | Terms and Conditions apply",
+      "heading level 2, With you every step of the journey.",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree preserves line break heading fragments", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2793,6 +3207,35 @@ test("scanSubtree uses singular column wording for one-column tables", () => {
       "table, 1 column, 2 rows",
       "Specification, column 1 of 1",
       "row 2 of 2, Specification HTML, column 1 of 1",
+      "end of table",
+    ],
+  );
+});
+
+test("scanSubtree matches VoiceOver context for simple native two-column header tables", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <table>
+        <thead>
+          <tr>
+            <th>When to call</th>
+            <th>Here's the number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Monday to Friday 2pm to 6pm</td>
+            <td>0345 7111 222*</td>
+          </tr>
+        </tbody>
+      </table>
+    `),
+    [
+      "table, 2 columns, 2 rows",
+      "When to call, column 1 of 2",
+      "Here's the number Here's the number, column 2 of 2",
+      "row 2 of 2 When to call Monday to Friday 2pm to 6pm, column 1 of 2",
+      "Here's the number 0345 7111 222*, column 2 of 2",
       "end of table",
     ],
   );
@@ -4034,8 +4477,8 @@ test("scanSubtree ignores false current state and keeps choice buttons ungrouped
       </fieldset>
     `),
     [
-      "76 Mb/s, radio button, selected, 1 of 2",
-      "150 Mb/s, radio button, not selected, 2 of 2",
+      "76 Mb/s, selected, radio button, 1 of 2",
+      "150 Mb/s, radio button, 2 of 2",
     ],
   );
 
@@ -4224,6 +4667,139 @@ test("scanSubtree keeps aria-controlled carousel navigation buttons ungrouped", 
   );
 });
 
+test("scanSubtree preserves carousel and slide roledescriptions with described controls", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section aria-roledescription="carousel" aria-label="Promotional carousel" data-sr-dom-node-id="carousel">
+          <div role="group" aria-roledescription="slide" aria-label="1 of 4" data-sr-dom-node-id="slide"></div>
+          <div id="base-carousel-footer" aria-label="Choose slide to display" data-sr-dom-node-id="footer">
+            <button aria-label="Previous slide" aria-describedby="base-carousel-footer" data-sr-dom-node-id="previous"></button>
+            <button aria-label="Next slide" aria-describedby="base-carousel-footer" data-sr-dom-node-id="next"></button>
+          </div>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "carousel-ax",
+              role: "region",
+              name: "Promotional carousel",
+              domNodeId: "carousel",
+              properties: { roledescription: "carousel" },
+            },
+            {
+              nodeId: "slide-ax",
+              role: "group",
+              name: "1 of 4",
+              domNodeId: "slide",
+              properties: { roledescription: "slide" },
+            },
+            {
+              nodeId: "footer-ax",
+              role: "generic",
+              name: "Choose slide to display",
+              domNodeId: "footer",
+            },
+            {
+              nodeId: "previous-ax",
+              role: "button",
+              name: "Previous slide",
+              description: "Choose slide to display",
+              domNodeId: "previous",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "next-ax",
+              role: "button",
+              name: "Next slide",
+              description: "Choose slide to display",
+              domNodeId: "next",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Promotional carousel, carousel",
+      "1 of 4, slide",
+      "end of, 1 of 4, slide",
+      "Previous slide Choose slide to display, button",
+      "Next slide Choose slide to display, button",
+      "end of, Promotional carousel, carousel",
+    ],
+  );
+});
+
+test("scanSubtree suppresses leading groups for labelled info-card headings after hidden media", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section aria-label="All you have to know before you fly">
+          <picture>
+            <source type="image/webp">
+            <img alt="Before you fly" aria-hidden="true">
+          </picture>
+          <section>
+            <div>
+              <h3>Before you fly</h3>
+              <p>Check baggage and entry requirements.</p>
+            </div>
+            <footer>
+              <a href="/before-you-fly" aria-label="Plan your journey">
+                <p>Plan your journey</p>
+              </a>
+            </footer>
+          </section>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "All you have to know before you fly, region",
+      "heading level 3, Before you fly",
+      "Check baggage and entry requirements.",
+      "link, Plan your journey",
+      "end of, All you have to know before you fly, region",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps leading groups for labelled cards without hidden media", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section aria-label="Help card">
+          <section>
+            <div>
+              <h3>Need help</h3>
+              <p>Contact the support team.</p>
+            </div>
+            <footer>
+              <a href="/help" aria-label="Contact support">
+                <p>Contact support</p>
+              </a>
+            </footer>
+          </section>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "Help card, region",
+      "group",
+      "heading level 3, Need help",
+      "Contact the support team.",
+      "link, Contact support",
+      "end of, Help card, region",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree keeps aria-label-only decorative icon buttons ungrouped", () => {
   assert.deepEqual(
     scanHtml(`
@@ -4274,6 +4850,90 @@ test("scanSubtree emits standalone groups for clustered visual button shells", (
   );
 });
 
+test("scanSubtree groups AX-confirmed focusable feedback panels", () => {
+  const html = `
+    <div tabindex="-1" data-sr-dom-node-id="feedback">
+      <div>
+        <h2 data-sr-dom-node-id="feedback-heading">Is this page useful?</h2>
+        <ul data-sr-dom-node-id="feedback-list">
+          <li hidden><a role="button" hidden href="/contact">Maybe</a></li>
+          <li><button data-sr-dom-node-id="yes">Yes <span>this page is useful</span></button></li>
+          <li><button data-sr-dom-node-id="no">No <span>this page is not useful</span></button></li>
+        </ul>
+      </div>
+      <div role="alert" hidden>Thank you for your feedback</div>
+      <div><button data-sr-dom-node-id="report">Report a problem with this page</button></div>
+      <form hidden data-sr-computed-hidden="display:none"><button>Send</button></form>
+    </div>
+  `;
+
+  assert.deepEqual(
+    scanHtml(html, {
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "feedback-ax",
+            role: "generic",
+            name: "",
+            domNodeId: "feedback",
+            childIds: ["feedback-heading-ax", "feedback-list-ax", "report-ax"],
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "feedback-heading-ax",
+            role: "heading",
+            name: "Is this page useful?",
+            domNodeId: "feedback-heading",
+            properties: { level: 2 },
+          },
+          {
+            nodeId: "feedback-list-ax",
+            role: "list",
+            name: "",
+            domNodeId: "feedback-list",
+          },
+          {
+            nodeId: "yes-ax",
+            role: "button",
+            name: "Yes this page is useful",
+            domNodeId: "yes",
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "no-ax",
+            role: "button",
+            name: "No this page is not useful",
+            domNodeId: "no",
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "report-ax",
+            role: "button",
+            name: "Report a problem with this page",
+            domNodeId: "report",
+            properties: { focusable: true },
+          },
+        ],
+      },
+    }),
+    [
+      "Is this page useful? Yes this page is useful No this page is not useful Report a problem with this page, group",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(html),
+    [
+      "heading level 2, Is this page useful?",
+      "list 2 items",
+      "Yes this page is useful, button, 1 of 2",
+      "No this page is not useful, button, 2 of 2",
+      "end of list",
+      "Report a problem with this page, button",
+    ],
+  );
+});
+
 test("scanSubtree preserves heading context inside linked promo cards", () => {
   assert.deepEqual(
     scanHtml(`
@@ -4283,6 +4943,161 @@ test("scanSubtree preserves heading context inside linked promo cards", () => {
       </a>
     `),
     ["link, heading level 3, Ready for kick-off?. Shop now."],
+  );
+});
+
+test("scanSubtree preserves AX-confirmed aria-label names in linked headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section>
+          <h2 data-sr-dom-node-id="offers-heading" aria-label="Take your pick from  our best offers .">
+            Take your pick from our best offers
+          </h2>
+          <h3 data-sr-dom-node-id="plain-heading">
+            <a data-sr-dom-node-id="plain-link" href="/plain" aria-label="The British Airways Holidays Promise.">
+              The British Airways Holidays Promise
+            </a>
+          </h3>
+          <h3 data-sr-dom-node-id="offer-heading">
+            <a data-sr-dom-node-id="offer-link" href="/offer" aria-label="Last-minute deals. From £79. Each-way, from London, Jul 2026">
+              Last-minute deals
+            </a>
+          </h3>
+          <h3 data-sr-dom-node-id="external-heading">
+            <a data-sr-dom-node-id="external-link" href="/external" aria-label="Read more. Opens in a new window">
+              Read more
+            </a>
+          </h3>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "offers-heading-ax",
+              ignored: false,
+              role: "heading",
+              name: "Take your pick from our best offers .",
+              domNodeId: "offers-heading",
+              childIds: ["offers-heading-text-1", "offers-heading-text-2"],
+              properties: { level: 2 },
+            },
+            {
+              nodeId: "offers-heading-text-1",
+              ignored: false,
+              role: "StaticText",
+              name: "Take your pick from ",
+            },
+            {
+              nodeId: "offers-heading-text-2",
+              ignored: false,
+              role: "StaticText",
+              name: "our best offers",
+            },
+            {
+              nodeId: "plain-ax",
+              ignored: false,
+              role: "link",
+              name: "The British Airways Holidays Promise.",
+              domNodeId: "plain-link",
+            },
+            {
+              nodeId: "offer-heading-ax",
+              ignored: false,
+              role: "heading",
+              name: "Last-minute deals. From £79. Each-way, from London, Jul 2026",
+              domNodeId: "offer-heading",
+              properties: { level: 3 },
+            },
+            {
+              nodeId: "offer-ax",
+              ignored: false,
+              role: "link",
+              name: "Last-minute deals. From £79. Each-way, from London, Jul 2026",
+              domNodeId: "offer-link",
+            },
+            {
+              nodeId: "external-heading-ax",
+              ignored: false,
+              role: "heading",
+              name: "Read more. Opens in a new window",
+              domNodeId: "external-heading",
+              properties: { level: 3 },
+            },
+            {
+              nodeId: "external-ax",
+              ignored: false,
+              role: "link",
+              name: "Read more. Opens in a new window",
+              domNodeId: "external-link",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 2, Take your pick from our best offers ., 2 items",
+      "heading level 3, level 2, link, The British Airways Holidays Promise.",
+      "heading level 3, Last-minute deals. From £79. Each-way, from London, Jul 2026",
+      "heading level 3, level 2, link, Read more",
+    ],
+  );
+});
+
+test("scanSubtree uses AX-confirmed aria-label heading names with visible fragment counts", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section>
+          <h2
+            data-sr-dom-node-id="hero-heading"
+            aria-label="Summer's sorted: Your Avios are worth 33% more on holidays Limited time offer."
+          >
+            <span>Summer's sorted: Your Avios are worth 33% more on holidays</span><span>Limited time offer</span>
+          </h2>
+          <h2
+            data-sr-dom-node-id="world-heading"
+            aria-label="The world is yours to discover."
+          >The world is yours<span hidden>you should not hear this</span><span> to discover.</span></h2>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "hero-heading-ax",
+              ignored: false,
+              role: "heading",
+              name: "Summer's sorted: Your Avios are worth 33% more on holidays Limited time offer.",
+              domNodeId: "hero-heading",
+              properties: { level: 2 },
+            },
+            {
+              nodeId: "world-heading-ax",
+              ignored: false,
+              role: "heading",
+              name: "The world is yours to discover.",
+              domNodeId: "world-heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 2, Summer's sorted: Your Avios are worth 33% more on holidays Limited time offer., 2 items",
+      "heading level 2, The world is yours to discover., 2 items",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <h2 aria-label="Accessible combined."><span>Visible one</span><span>Visible two</span></h2>
+    `),
+    [
+      "heading level 2 Visible one, level 1 Visible two, level 1, 2 items",
+    ],
   );
 });
 
@@ -4301,6 +5116,59 @@ test("scanSubtree emits quantity labels before add buttons", () => {
   );
 });
 
+test("scanSubtree suppresses empty alert live regions", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p>Ready.</p>
+          <p data-sr-dom-node-id="alert" role="alert" aria-live="assertive"></p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: false,
+              role: "alert",
+              name: "",
+              domNodeId: "alert",
+              properties: { live: "assertive", atomic: true },
+            },
+          ],
+        },
+      },
+    ),
+    ["main", "Ready.", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p role="alert" aria-live="assertive">Saved.</p>
+        <p role="alert" aria-live="assertive" aria-label="Upload failed"></p>
+      </main>
+    `),
+    ["main", "alert, Saved.", "alert, Upload failed", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <footer>
+          <a href="#top">back to top</a>
+        </footer>
+        <div>
+          <p id="__next-route-announcer__" role="alert" aria-live="assertive"></p>
+        </div>
+        <div role="dialog"></div>
+      </main>
+    `),
+    ["main", "link, back to top", "group", "dialog", "end of, main"],
+  );
+});
+
 test("scanSubtree keeps labeled fieldset radio groups and VoiceOver radio phrasing", () => {
   assert.deepEqual(
     scanHtml(`
@@ -4314,6 +5182,43 @@ test("scanSubtree keeps labeled fieldset radio groups and VoiceOver radio phrasi
       "All, selected, radio button",
       "Electronics & Gaming, radio button",
       "end of, Filter tabs, group",
+    ],
+  );
+});
+
+test("scanSubtree uses AX-confirmed VoiceOver phrasing for native fieldset radios", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "departures",
+        role: "radio",
+        name: "Departures",
+        domNodeId: "departures",
+        properties: { checked: true, focusable: true },
+      },
+      {
+        nodeId: "arrivals",
+        role: "radio",
+        name: "Arrivals",
+        domNodeId: "arrivals",
+        properties: { checked: false, focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <fieldset>
+        <legend data-sr-computed-hidden="display:none">Radio buttons live-trains-finder-type</legend>
+        <input id="departures" data-sr-dom-node-id="departures" type="radio" name="board" checked>
+        <label for="departures">Departures</label>
+        <input id="arrivals" data-sr-dom-node-id="arrivals" type="radio" name="board">
+        <label for="arrivals">Arrivals</label>
+      </fieldset>
+    `, { accessibilityTree }),
+    [
+      "Departures, selected, radio button, 1 of 2",
+      "Arrivals, radio button, 2 of 2",
     ],
   );
 });
@@ -4854,6 +5759,173 @@ test("scanSubtree keeps native search control wrappers transparent inside search
   );
 });
 
+test("scanSubtree uses AX-backed names and label stops for native search panels", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "panel",
+        role: "tabpanel",
+        name: "Search flights. option selected.",
+        domNodeId: "panel",
+      },
+      {
+        nodeId: "trip",
+        role: "combobox",
+        name: "Trip type",
+        value: "Return trip",
+        domNodeId: "trip",
+        properties: { focusable: true, hasPopup: "menu", expanded: false },
+      },
+      {
+        nodeId: "from-input",
+        role: "textbox",
+        name: "input",
+        description: "From",
+        domNodeId: "from-input",
+        properties: { focusable: true },
+      },
+      {
+        nodeId: "depart",
+        role: "textbox",
+        name: "Depart",
+        domNodeId: "depart",
+        properties: { focusable: true },
+      },
+      {
+        nodeId: "travel",
+        role: "combobox",
+        name: "Select a travel class. Currently selected Economy",
+        value: "Economy",
+        domNodeId: "travel",
+        properties: { focusable: true, hasPopup: "menu", expanded: false },
+      },
+      {
+        nodeId: "passengers-label",
+        role: "LabelText",
+        name: "",
+        domNodeId: "passengers-label",
+        childIds: ["passengers-label-text"],
+      },
+      {
+        nodeId: "passengers-label-text",
+        role: "StaticText",
+        name: "Select passengers",
+      },
+      {
+        nodeId: "passengers",
+        role: "button",
+        name: "Select the type and number of passengers. Currently selected 1 Adult.",
+        domNodeId: "passengers",
+        properties: { focusable: true, expanded: false },
+      },
+      {
+        nodeId: "submit",
+        role: "button",
+        name: "Find flights",
+        domNodeId: "submit",
+        properties: { focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <button id="tab-0" aria-label="Search flights. option selected." aria-controls="panel-0">
+          Flights
+        </button>
+        <section id="panel-0" role="tabpanel" aria-labelledby="tab-0" data-sr-dom-node-id="panel">
+          <form>
+            <div>
+              <label for="trip">Trip type</label>
+              <div>
+                <select
+                  id="trip"
+                  aria-label="Select your trip. Currently selected Return trip."
+                  data-sr-dom-node-id="trip"
+                >
+                  <option selected>Return trip</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <div id="from-description" aria-live="polite">From</div>
+              <label for="from-typeahead">From</label>
+              <div>
+                <input
+                  aria-label="input"
+                  type="text"
+                  placeholder="Departure city"
+                  aria-describedby="from-description"
+                  data-sr-dom-node-id="from-input"
+                >
+              </div>
+            </div>
+            <section>
+              <label for="depart">Depart</label>
+              <div>
+                <input
+                  id="depart"
+                  placeholder="dd/mm/yyyy"
+                  data-sr-dom-node-id="depart"
+                >
+                <button type="button" aria-hidden="true" tabindex="-1"></button>
+              </div>
+            </section>
+            <div>
+              <label for="travel">Travel class</label>
+              <div>
+                <select
+                  id="travel"
+                  aria-label="Select a travel class. Currently selected Economy"
+                  data-sr-dom-node-id="travel"
+                >
+                  <option selected>Economy</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for=":passengers:" data-sr-dom-node-id="passengers-label">Select passengers</label>
+              <button
+                type="button"
+                aria-expanded="false"
+                aria-label="Select the type and number of passengers. Currently selected 1 Adult."
+                aria-labelledby="Select the type and number of passengers. Currently selected 1 Adult."
+                data-sr-dom-node-id="passengers"
+              >
+                <span>1 Adult</span>
+              </button>
+            </div>
+            <div>
+              <button type="submit" data-sr-dom-node-id="submit">
+                <div><span>Find flights</span></div>
+              </button>
+            </div>
+          </form>
+        </section>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "Search flights. option selected., button",
+      "Search flights. option selected., tab panel",
+      "Trip type",
+      "Return trip, Trip type, menu pop up collapsed, button",
+      "From",
+      "From",
+      "input From, edit text",
+      "Depart",
+      "Depart dd/mm/yyyy, edit text",
+      "Travel class",
+      "Economy, Select a travel class. Currently selected Economy, menu pop up collapsed, button",
+      "Select passengers",
+      "Select the type and number of passengers. Currently selected 1 Adult., collapsed, button",
+      "Find flights, button, group",
+      "end of, Search flights. option selected., tab panel",
+    ],
+  );
+});
+
 test("scanSubtree gives explicit aria-label precedence for native input and select controls", () => {
   assert.deepEqual(
     scanHtml(`
@@ -4876,6 +5948,34 @@ test("scanSubtree gives explicit aria-label precedence for native input and sele
       "Search for destinations or accommodation, start typing for autocomplete or tab to the next element to get a list of destinations, Autocomplete Any, edit text",
       "2 nights, Select duration, menu pop up collapsed, button",
     ],
+  );
+});
+
+test("scanSubtree does not add native tab-panel submit grouping outside tab panels", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "submit",
+        role: "button",
+        name: "Find",
+        domNodeId: "submit",
+        properties: { focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <form>
+          <button type="submit" data-sr-dom-node-id="submit">
+            <div><span>Find</span></div>
+          </button>
+        </form>
+      `,
+      { accessibilityTree },
+    ),
+    ["Find, button"],
   );
 });
 
@@ -4917,6 +6017,87 @@ test("scanSubtree keeps ordinary compact input action wrappers grouped", () => {
       </div>
     `),
     ["Email, group", "Email", "end of, Email, group", "Email, edit text", "Submit, button, group"],
+  );
+});
+
+test("scanSubtree emits direct visible label stops before named native textboxes", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <div>
+          <label for="location">Enter a town, city or postcode in England</label>
+          <input id="location" name="Location" type="text">
+        </div>
+        <button type="submit">Search</button>
+      </form>
+    `),
+    [
+      "Enter a town, city or postcode in England",
+      "Enter a town, city or postcode in England, edit text",
+      "Search, button",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <div>
+          <label for="location">Visible label</label>
+          <input id="location" type="text" aria-label="ARIA name">
+        </div>
+      </form>
+    `),
+    ["ARIA name, edit text"],
+  );
+});
+
+test("scanSubtree emits visible label and described hint before native textboxes", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "label",
+        role: "LabelText",
+        name: "",
+        domNodeId: "label",
+        childIds: ["label-text"],
+      },
+      { nodeId: "label-text", role: "StaticText", name: "Enter a postcode" },
+      {
+        nodeId: "hint",
+        role: "generic",
+        name: "",
+        domNodeId: "hint",
+        childIds: ["hint-text"],
+      },
+      { nodeId: "hint-text", role: "StaticText", name: "For example SW1A 2AA" },
+      {
+        nodeId: "input",
+        role: "textbox",
+        name: "Enter a postcode",
+        description: "For example SW1A 2AA",
+        domNodeId: "input",
+        properties: { focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <div>
+          <label for="postcode" data-sr-dom-node-id="label">Enter a postcode</label>
+          <div id="postcode-hint" data-sr-dom-node-id="hint">For example SW1A 2AA</div>
+          <input id="postcode" type="text" aria-describedby="postcode-hint" data-sr-dom-node-id="input">
+        </div>
+        <button type="submit">Find</button>
+      </form>
+    `, { accessibilityTree }),
+    [
+      "Enter a postcode",
+      "For example SW1A 2AA",
+      "Enter a postcode For example SW1A 2AA, edit text",
+      "Find, button",
+    ],
   );
 });
 
@@ -5090,6 +6271,199 @@ test("scanSubtree does not carry navigation list item position onto nested list 
       "Contribute, 2 of 2",
       "end of list",
       "end of, Footer links, navigation",
+    ],
+  );
+});
+
+test("scanSubtree groups AX-named navigation listitems around matching child links", () => {
+  const html = `
+    <nav aria-label="header">
+      <ul>
+        <li aria-labelledby="live-label" data-sr-dom-node-id="live-item">
+          <a href="/live" aria-label="Live Departures" data-sr-dom-node-id="live-link">
+            <span aria-hidden="true"></span>
+            <span id="live-label">Live Departures</span>
+          </a>
+        </li>
+        <li aria-labelledby="status-label" data-sr-dom-node-id="status-item">
+          <a href="/status" aria-label="Status and Disruptions" data-sr-dom-node-id="status-link">
+            <span aria-hidden="true"></span>
+            <span id="status-label">Status and Disruptions</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  `;
+
+  assert.deepEqual(
+    scanHtml(html, {
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "live-item-ax",
+            role: "listitem",
+            name: "Live Departures",
+            domNodeId: "live-item",
+            childIds: ["live-link-ax"],
+          },
+          {
+            nodeId: "live-link-ax",
+            role: "link",
+            name: "Live Departures",
+            domNodeId: "live-link",
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "status-item-ax",
+            role: "listitem",
+            name: "Status and Disruptions",
+            domNodeId: "status-item",
+            childIds: ["status-link-ax"],
+          },
+          {
+            nodeId: "status-link-ax",
+            role: "link",
+            name: "Status and Disruptions",
+            domNodeId: "status-link",
+            properties: { focusable: true },
+          },
+        ],
+      },
+    }),
+    [
+      "header, navigation",
+      "list 2 items",
+      "Live Departures, group, (1 of 2), 1 of 2",
+      "link, Live Departures",
+      "end of, Live Departures, group, (1 of 2)",
+      "Status and Disruptions, group, (2 of 2), 2 of 2",
+      "link, Status and Disruptions",
+      "end of, Status and Disruptions, group, (2 of 2)",
+      "end of list",
+      "end of, header, navigation",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(html),
+    [
+      "header, navigation",
+      "list 2 items",
+      "link, Live Departures, 1 of 2",
+      "link, Status and Disruptions, 2 of 2",
+      "end of list",
+      "end of, header, navigation",
+    ],
+  );
+});
+
+test("scanSubtree prefixes AX-confirmed generic form groups before disabled controls", () => {
+  const html = `
+    <form>
+      <section data-sr-dom-node-id="section">
+        <div data-sr-dom-node-id="wrapper">
+          <h1 data-sr-dom-node-id="heading">Plan Your Journey</h1>
+          <div data-sr-dom-node-id="controls">
+            <div role="status" aria-live="polite"></div>
+            <button type="button" disabled data-sr-dom-node-id="swap">
+              <svg aria-hidden="true"></svg>
+              <span>Swap from and to stations</span>
+            </button>
+          </div>
+          <button aria-label="Plan Your Journey" data-sr-dom-node-id="plan"></button>
+        </div>
+      </section>
+    </form>
+  `;
+
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "section-ax",
+        role: "generic",
+        name: "",
+        domNodeId: "section",
+        childIds: ["wrapper-ax"],
+      },
+      {
+        nodeId: "wrapper-ax",
+        ignored: true,
+        role: "none",
+        name: "",
+        domNodeId: "wrapper",
+        childIds: ["heading-ax", "controls-ax", "plan-ax"],
+      },
+      {
+        nodeId: "heading-ax",
+        role: "heading",
+        name: "Plan Your Journey",
+        domNodeId: "heading",
+        properties: { level: 1 },
+      },
+      {
+        nodeId: "controls-ax",
+        role: "generic",
+        name: "",
+        domNodeId: "controls",
+        childIds: ["swap-ax"],
+      },
+      {
+        nodeId: "swap-ax",
+        role: "button",
+        name: "Swap from and to stations",
+        domNodeId: "swap",
+        properties: { disabled: true },
+      },
+      {
+        nodeId: "plan-ax",
+        role: "button",
+        name: "Plan Your Journey",
+        domNodeId: "plan",
+        properties: { focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(html, { accessibilityTree }),
+    [
+      "heading level 1, Plan Your Journey",
+      "group",
+      "group",
+      "Swap from and to stations, dimmed, button",
+      "Plan Your Journey, button",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(html),
+    [
+      "heading level 1, Plan Your Journey",
+      "Swap from and to stations, dimmed, button, group",
+      "Plan Your Journey, button",
+    ],
+  );
+});
+
+test("scanSubtree suppresses status role prefix for plain post-footer text status", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <footer>
+          <p>Copyright 2026</p>
+        </footer>
+      </div>
+      <div role="status">National Rail Enquiries - Official source for UK train times and timetables</div>
+      <form>
+        <div role="status">Type to filter stations</div>
+      </form>
+    `),
+    [
+      "content information",
+      "Copyright 2026",
+      "end of, content information",
+      "National Rail Enquiries - Official source for UK train times and timetables",
+      "status, Type to filter stations",
     ],
   );
 });

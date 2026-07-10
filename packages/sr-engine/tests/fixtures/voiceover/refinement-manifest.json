@@ -12,179 +12,806 @@
   "cases": {
     "developer-mozilla-org-en-us-docs-web-html": {
       "status": "candidate",
-      "reason": "Parking at 26 mismatch windows; remaining MDN docs families still need evidence-backed review before exact gating."
+      "reason": "Parking at 26 mismatch windows; remaining MDN docs families still need evidence-backed review before exact gating.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Large MDN docs article evidence for tokenized code, tables, details, and documentation-layout gaps; parked until remaining evidence-needed families close.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "mdn-docs-code-reference"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "mdn-docs-code-reference",
+        "rationale": "Large MDN docs article evidence for tokenized code, tables, details, and documentation-layout gaps; parked until remaining evidence-needed families close."
+      }
     },
     "developer-mozilla-org-en-us": {
       "status": "refined",
-      "reason": "Direct compare is exact at 180 expected, 180 actual, and 0 mismatch windows after the final Phase E review."
+      "reason": "Direct compare is exact at 180 expected, 180 actual, and 0 mismatch windows after the final Phase E review.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "MDN home-page cards, article/list positions, header search controls, recent contribution lists, and footer/social link evidence.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "developer-portal-home"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "developer-portal-home",
+        "rationale": "MDN home-page cards, article/list positions, header search controls, recent contribution lists, and footer/social link evidence."
+      }
     },
     "web-dev": {
       "status": "partial",
-      "reason": "Direct compare is exact at 180 expected, 180 actual, and 0 mismatch windows, but capture timing remains under evidence review so only the reviewed slice stays trusted."
+      "reason": "Direct compare is exact at 180 expected, 180 actual, and 0 mismatch windows, but capture timing remains under evidence review so only the reviewed slice stays trusted.",
+      "fixtureTier": "partial-corpus",
+      "uniqueCoverage": "Reviewed web.dev header/settings slice remains useful, but full-page capture timing/hydration drift prevents treating the page as a full exact gate.",
+      "existingCoverageChecked": {
+        "status": "reviewed-partial-slice",
+        "coverageCluster": "webdev-hydration-sensitive-page"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "partial-corpus",
+        "coverageCluster": "webdev-hydration-sensitive-page",
+        "rationale": "Reviewed web.dev header/settings slice remains useful, but full-page capture timing/hydration drift prevents treating the page as a full exact gate."
+      }
     },
     "www-apple-com-accessibility": {
       "status": "candidate",
-      "reason": "Parking at 22 mismatch windows; unresolved Apple gallery/footer families still need evidence-backed review before exact gating."
+      "reason": "Parking at 22 mismatch windows; unresolved Apple gallery/footer families still need evidence-backed review before exact gating.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Apple accessibility marketing/gallery evidence with unresolved gallery/footer families; useful cross-brand page evidence but not exact.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "accessibility-marketing-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "accessibility-marketing-pages",
+        "rationale": "Apple accessibility marketing/gallery evidence with unresolved gallery/footer families; useful cross-brand page evidence but not exact."
+      }
     },
     "www-bbc-co-uk-news": {
       "status": "candidate",
-      "reason": "Known unrelated card-link ordering mismatch remains after run 28405210071; latest protected compare reported 2 mismatch windows and firstMismatchIndex 130, so keep as candidate until evidence/refinement closes that gap."
+      "reason": "Known unrelated card-link ordering mismatch remains after run 28405210071; latest protected compare reported 2 mismatch windows and firstMismatchIndex 130, so keep as candidate until evidence/refinement closes that gap.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "BBC news article/card ordering evidence with known unresolved card-link mismatch.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "bbc-news-article"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "bbc-news-article",
+        "rationale": "BBC news article/card ordering evidence with known unresolved card-link mismatch."
+      }
     },
     "www-bbc-co-uk-weather": {
       "status": "refined",
-      "reason": "Direct compare is exact at 181 expected, 181 actual, and 0 mismatch windows after the final Phase E review."
+      "reason": "Direct compare is exact at 181 expected, 181 actual, and 0 mismatch windows after the final Phase E review.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Weather app settings select, forecast media controls, nested lists, feature cards, and BBC footer behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "bbc-weather-app"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "bbc-weather-app",
+        "rationale": "Weather app settings select, forecast media controls, nested lists, feature cards, and BBC footer behavior."
+      }
     },
     "www-google-com-accessibility": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Legacy accessibility marketing page with slideshow/link/button caption cleanup; no step snapshots, keep as broad legacy browser/content sentinel.",
+      "existingCoverageChecked": {
+        "status": "reviewed-legacy-distinct",
+        "coverageCluster": "accessibility-marketing-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "accessibility-marketing-pages",
+        "rationale": "Legacy accessibility marketing page with slideshow/link/button caption cleanup; no step snapshots, keep as broad legacy browser/content sentinel."
+      }
     },
     "www-gov-uk-apply-blue-badge": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK service application page coverage for header/navigation, service content, and feedback/footer behavior; overlaps with other GOV pages but keeps application-flow diversity.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "govuk-service-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-service-pages",
+        "rationale": "GOV.UK service application page coverage for header/navigation, service content, and feedback/footer behavior; overlaps with other GOV pages but keeps application-flow diversity."
+      }
     },
     "www-gov-uk": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK home/service shell sentinel for header, cookie region, navigation, feedback, and footer behavior; overlaps with local-council and Blue Badge but remains a baseline GOV shell gate.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "govuk-service-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-service-pages",
+        "rationale": "GOV.UK home/service shell sentinel for header, cookie region, navigation, feedback, and footer behavior; overlaps with local-council and Blue Badge but remains a baseline GOV shell gate."
+      }
     },
     "www-microsoft-com-en-us-accessibility": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Legacy Microsoft accessibility marketing page with carousel/slideshow and heading/link cleanup; complements Google/Apple brand implementations.",
+      "existingCoverageChecked": {
+        "status": "reviewed-legacy-distinct",
+        "coverageCluster": "accessibility-marketing-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "accessibility-marketing-pages",
+        "rationale": "Legacy Microsoft accessibility marketing page with carousel/slideshow and heading/link cleanup; complements Google/Apple brand implementations."
+      }
     },
     "www-nhs-uk-conditions": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after manual HTML-backed OCR and truncation cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after manual HTML-backed OCR and truncation cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Large NHS conditions article fixture protects long medical content, search/navigation, and extensive static text traversal; expensive but distinct from smaller NHS pages.",
+      "existingCoverageChecked": {
+        "status": "reviewed-large-keep",
+        "coverageCluster": "nhs-content-and-service-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "nhs-content-and-service-pages",
+        "rationale": "Large NHS conditions article fixture protects long medical content, search/navigation, and extensive static text traversal; expensive but distinct from smaller NHS pages."
+      }
     },
     "www-nhs-uk": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "NHS home/header/search/card-list slice coverage with partial assertions and exact refined gate for core NHS shell.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "nhs-content-and-service-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "nhs-content-and-service-pages",
+        "rationale": "NHS home/header/search/card-list slice coverage with partial assertions and exact refined gate for core NHS shell."
+      }
     },
     "www-sky-com": {
       "status": "refined",
-      "reason": "Latest 1200px Sky artifact matched the engine exactly after reusable engine fixes; promoted as a refined full-page gate."
+      "reason": "Latest 1200px Sky artifact matched the engine exactly after reusable engine fixes; promoted as a refined full-page gate.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky home shell exact gate for navigation, generic wrappers, and marketing card behavior; retained as the primary Sky baseline.",
+      "existingCoverageChecked": {
+        "status": "reviewed-sky-anchor",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky home shell exact gate for navigation, generic wrappers, and marketing card behavior; retained as the primary Sky baseline."
+      }
     },
     "www-w3-org-wai-standards-guidelines-wcag": {
       "status": "refined",
-      "reason": "Direct compare is exact at 320 expected, 320 actual, and 0 mismatch windows after the footer punctuation Phase D finish."
+      "reason": "Direct compare is exact at 320 expected, 320 actual, and 0 mismatch windows after the footer punctuation Phase D finish.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "WAI WCAG standards page coverage for word-break names, nested/list marker behavior, paragraph/link boundaries, publication lists, and footer punctuation.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "wai-standards-content"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "wai-standards-content",
+        "rationale": "WAI WCAG standards page coverage for word-break names, nested/list marker behavior, paragraph/link boundaries, publication lists, and footer punctuation."
+      }
     },
     "www-w3-org-wai": {
       "status": "refined",
-      "reason": "Direct compare is exact at 207 expected, 207 actual, and 0 mismatch windows after the final Phase E review."
+      "reason": "Direct compare is exact at 207 expected, 207 actual, and 0 mismatch windows after the final Phase E review.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "WAI home/news/resources page coverage for article cards, resources markers, media groups, sponsors lists, and footer landmarks.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "wai-standards-content"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "wai-standards-content",
+        "rationale": "WAI home/news/resources page coverage for article cards, resources markers, media groups, sponsors lists, and footer landmarks."
+      }
     },
     "www-wikipedia-org": {
       "status": "refined",
-      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup."
+      "reason": "Rendered HTML and refinedAnnouncements now match exactly after HTML-backed caption/OCR cleanup.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Compact multilingual portal/search fixture with simple legacy no-step coverage distinct from marketing and service pages.",
+      "existingCoverageChecked": {
+        "status": "reviewed-legacy-distinct",
+        "coverageCluster": "wikipedia-portal"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "wikipedia-portal",
+        "rationale": "Compact multilingual portal/search fixture with simple legacy no-step coverage distinct from marketing and service pages."
+      }
     },
     "business-sky-com-s": {
       "status": "candidate",
-      "reason": "Refreshed from run 28305378853 and evidence-refined; hover-open nav submenu announcements were removed because the fixture replays the initial non-hover DOM state. Keep candidate because the current compare still reports 193 expected, 233 actual, and 31 mismatch windows. The primary package-card collapse/list-count gap is fixed; unresolved trusted initial-DOM families still cover carousel/list-position, wrapper groups, legal/tail traversal, and timer volatility."
+      "reason": "Refreshed from run 28305378853 and evidence-refined; hover-open nav submenu announcements were removed because the fixture replays the initial non-hover DOM state. Keep candidate because the current compare still reports 193 expected, 233 actual, and 31 mismatch windows. The primary package-card collapse/list-count gap is fixed; unresolved trusted initial-DOM families still cover carousel/list-position, wrapper groups, legal/tail traversal, and timer volatility.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Business Sky candidate evidence for package-card decomposition, carousel/list positions, wrappers, legal tail traversal, and timer volatility.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Business Sky candidate evidence for package-card decomposition, carousel/list positions, wrappers, legal tail traversal, and timer volatility."
+      }
     },
     "www-sky-com-broadband-gaming": {
       "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found product-card/list-position edits could mask true VO output. Current compare is 130 expected, 130 actual, and 11 mismatch windows; keep as candidate until the 2-of-6/product-card behavior is resolved in the engine or with stronger evidence."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found product-card/list-position edits could mask true VO output. Current compare is 130 expected, 130 actual, and 11 mismatch windows; keep as candidate until the 2-of-6/product-card behavior is resolved in the engine or with stronger evidence.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for product-card/list-position behavior still under review.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for product-card/list-position behavior still under review."
+      }
     },
     "www-sky-com-broadband": {
       "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found fixture edits could mask true VO output. Current compare is 154 expected, 154 actual, and 11 mismatch windows; keep as candidate until gaps are resolved in the engine or evidence-backed refinements are re-established."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found fixture edits could mask true VO output. Current compare is 154 expected, 154 actual, and 11 mismatch windows; keep as candidate until gaps are resolved in the engine or evidence-backed refinements are re-established.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for marketing list cards, FAQ body snippets, invalid text-field phrasing, and accordion ordering.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for marketing list cards, FAQ body snippets, invalid text-field phrasing, and accordion ordering."
+      }
     },
     "www-sky-com-deals": {
       "status": "refined",
-      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after reusable footer country-selector grouping and empty-alert group handling."
+      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after reusable footer country-selector grouping and empty-alert group handling.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky deals exact gate for country-selector grouping, empty-alert handling, deal/product marketing structures, and footer behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky deals exact gate for country-selector grouping, empty-alert handling, deal/product marketing structures, and footer behavior."
+      }
     },
     "www-sky-com-glass-43-inch": {
       "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only refinements. Current compare is 127 expected, 127 actual, and 4 mismatch windows; keep as candidate until remaining table/card text gaps are engine-backed or evidence-backed."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit of unsafe fixture-only refinements. Current compare is 127 expected, 127 actual, and 4 mismatch windows; keep as candidate until remaining table/card text gaps are engine-backed or evidence-backed.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for table/card text gaps on product detail content.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for table/card text gaps on product detail content."
+      }
     },
     "www-sky-com-glass-air": {
       "status": "candidate",
-      "reason": "Current compare is 257 expected, 265 actual, and 11 mismatch windows after the Phase D engine pass. Remaining page-backed gaps still include color/price boundaries, hero/carousel grouping, comparison-table segmentation, and tab-panel/list boundary issues; keep as candidate evidence rather than an exact gate."
+      "reason": "Current compare is 257 expected, 265 actual, and 11 mismatch windows after the Phase D engine pass. Remaining page-backed gaps still include color/price boundaries, hero/carousel grouping, comparison-table segmentation, and tab-panel/list boundary issues; keep as candidate evidence rather than an exact gate.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for color/price, hero/carousel, comparison-table segmentation, and tab-panel/list boundaries.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for color/price, hero/carousel, comparison-table segmentation, and tab-panel/list boundaries."
+      }
     },
     "www-sky-com-glass": {
       "status": "candidate",
-      "reason": "Restored fixture-audit snapshot shows current compare is 149 expected, 136 actual, and 28 mismatch windows. Remaining page-backed gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation; keep as candidate evidence rather than an exact gate."
+      "reason": "Restored fixture-audit snapshot shows current compare is 149 expected, 136 actual, and 28 mismatch windows. Remaining page-backed gaps include hero group announcements, heading/card decomposition, button/group phrasing, and list/marker segmentation; keep as candidate evidence rather than an exact gate.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for hero groups, heading/card decomposition, button/group phrasing, and marker segmentation.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for hero groups, heading/card decomposition, button/group phrasing, and marker segmentation."
+      }
     },
     "www-sky-com-protect": {
       "status": "refined",
-      "reason": "Matches exactly after Phase B removed a zero-width heading artifact and Phase C.5 run 28370885731 confirmed the feature-row text should be split into separate refined announcements. Current compare is 106 expected, 106 actual, and 0 mismatch windows."
+      "reason": "Matches exactly after Phase B removed a zero-width heading artifact and Phase C.5 run 28370885731 confirmed the feature-row text should be split into separate refined announcements. Current compare is 106 expected, 106 actual, and 0 mismatch windows.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky Protect exact gate for feature-row text split behavior and product-card/protection page structures.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky Protect exact gate for feature-row text split behavior and product-card/protection page structures."
+      }
     },
     "www-sky-com-shop-mobile": {
       "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/group/card fixture edits could mask true VO output. Current compare is 165 expected, 160 actual, and 12 mismatch windows; keep as candidate until the carousel and product-card traversal gaps are resolved in the engine or with stronger evidence."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/group/card fixture edits could mask true VO output. Current compare is 165 expected, 160 actual, and 12 mismatch windows; keep as candidate until the carousel and product-card traversal gaps are resolved in the engine or with stronger evidence.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for carousel and product-card traversal gaps.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for carousel and product-card traversal gaps."
+      }
     },
     "www-sky-com-smart-home": {
       "status": "refined",
-      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after reusable footer country-selector grouping, empty-alert group handling, first previous-slide disabled-state inference, and media/text list-card decomposition."
+      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after reusable footer country-selector grouping, empty-alert group handling, first previous-slide disabled-state inference, and media/text list-card decomposition.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky Smart Home exact gate for footer selector grouping, empty alerts, previous-slide disabled inference, and media/text list-card decomposition.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky Smart Home exact gate for footer selector grouping, empty alerts, previous-slide disabled inference, and media/text list-card decomposition."
+      }
     },
     "www-sky-com-tv-stream": {
       "status": "refined",
-      "reason": "Matches exactly after VO-backed engine fixes for empty headings and parenthesized focusable image-card list positions, plus existing ARIA tab/focusable image-card traversal support. Current compare is 116 expected, 116 actual, and 0 mismatch windows."
+      "reason": "Matches exactly after VO-backed engine fixes for empty headings and parenthesized focusable image-card list positions, plus existing ARIA tab/focusable image-card traversal support. Current compare is 116 expected, 116 actual, and 0 mismatch windows.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky TV Stream exact gate for empty headings, focusable image-card list positions, ARIA tabs, and product-card traversal.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky TV Stream exact gate for empty headings, focusable image-card list positions, ARIA tabs, and product-card traversal."
+      }
     },
     "www-sky-com-tv": {
       "status": "refined",
-      "reason": "Promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare now reads 177 expected, 177 actual, and 0 mismatch windows."
+      "reason": "Promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare now reads 177 expected, 177 actual, and 0 mismatch windows.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky TV exact gate for generic wrapper group-boundary traversal; overlaps with other Sky pages but protects a distinct regression fix.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky TV exact gate for generic wrapper group-boundary traversal; overlaps with other Sky pages but protects a distinct regression fix."
+      }
     },
     "www-sky-com-tvandbroadband": {
       "status": "refined",
-      "reason": "Exact compare now reads 351 expected, 351 actual, and 0 mismatch windows after Phase D engine narrowing plus Phase E validation. The four disputed families were confirmed by Phase C.5 as reusable engine gaps, and the target now passes the exact VoiceOver corpus gate."
+      "reason": "Exact compare now reads 351 expected, 351 actual, and 0 mismatch windows after Phase D engine narrowing plus Phase E validation. The four disputed families were confirmed by Phase C.5 as reusable engine gaps, and the target now passes the exact VoiceOver corpus gate.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky TV and broadband exact gate for package-card list markers/positions, price/disclosure splits, and C.5-backed hero/included-content behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky TV and broadband exact gate for package-card list markers/positions, price/disclosure splits, and C.5-backed hero/included-content behavior."
+      }
     },
     "www-sky-com-watch-what-to-watch-this-week": {
       "status": "refined",
-      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after article/show-description cleanup plus reusable footer country-selector grouping and first previous-slide disabled-state inference."
+      "reason": "Rendered HTML, AX evidence, and refinedAnnouncements now match the engine exactly after article/show-description cleanup plus reusable footer country-selector grouping and first previous-slide disabled-state inference.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Sky Watch editorial exact gate for article/show-description cleanup plus shared Sky footer/country-selector behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky Watch editorial exact gate for article/show-description cleanup plus shared Sky footer/country-selector behavior."
+      }
     },
     "www-sky-com-watch": {
       "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/text fixture edits could mask true VO output. Current compare is 259 expected, 259 actual, and 8 mismatch windows; keep as candidate until remaining carousel and text-boundary gaps are resolved in the engine or with stronger evidence."
+      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/text fixture edits could mask true VO output. Current compare is 259 expected, 259 actual, and 8 mismatch windows; keep as candidate until remaining carousel and text-boundary gaps are resolved in the engine or with stronger evidence.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Sky candidate evidence for carousel and text-boundary gaps.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "sky-commerce-family"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "sky-commerce-family",
+        "rationale": "Sky candidate evidence for carousel and text-boundary gaps."
+      }
     },
     "www-tesco-com": {
       "status": "candidate",
-      "reason": "Phase E promotion keeps the fixture as candidate: Tesco compare improved to 2 mismatch windows after reusable carousel/slideshow, linked-heading, quantity-label, fieldset-radio, structured native-footer, searchbox wording, Clubcard list-position spacing, Pets roundel fixture, and promo punctuation cleanup. Remaining revisit queue covers saved/live header DOM-state divergence; exact gating is still unresolved."
+      "reason": "Phase E promotion keeps the fixture as candidate: Tesco compare improved to 2 mismatch windows after reusable carousel/slideshow, linked-heading, quantity-label, fieldset-radio, structured native-footer, searchbox wording, Clubcard list-position spacing, Pets roundel fixture, and promo punctuation cleanup. Remaining revisit queue covers saved/live header DOM-state divergence; exact gating is still unresolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Tesco retail candidate evidence for carousel/slideshow, quantity labels, fieldset radios, searchbox, Clubcard list positions, and saved/live header divergence.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "retail-commerce-forms"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "retail-commerce-forms",
+        "rationale": "Tesco retail candidate evidence for carousel/slideshow, quantity labels, fieldset radios, searchbox, Clubcard list positions, and saved/live header divergence."
+      }
     },
     "design-system-service-gov-uk-components-character-count": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-checkboxes": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-date-input": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-error-summary": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-file-upload": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-password-input": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-radios": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-select": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-text-input": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "design-system-service-gov-uk-components-textarea": {
       "status": "refined",
-      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture."
+      "reason": "Promoted from isolated GOV.UK Design System run 28971764455 after Phase B/C/C.5/D/E refinement reached exact zero mismatches for this component fixture.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-component-set",
+        "coverageCluster": "govuk-component-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-component-field-examples",
+        "rationale": "GOV.UK Design System component fixture for one form/control/error pattern; retained as exact component-page coverage rather than broad live-site coverage."
+      }
     },
     "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-default": {
       "status": "refined",
-      "reason": "Promoted from Storybook contact-form run 29011917758 after Phase B/D refinement reached exact zero mismatches; reusable engine fixes cover labelled native form controls."
+      "reason": "Promoted from Storybook contact-form run 29011917758 after Phase B/D refinement reached exact zero mismatches; reusable engine fixes cover labelled native form controls.",
+      "fixtureTier": "focused-exact-corpus",
+      "uniqueCoverage": "Compact Storybook contact-form fixture for labelled native form control announcements; exact but not full-page live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-focused-fixture",
+        "coverageCluster": "focused-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "focused-exact-corpus",
+        "coverageCluster": "focused-field-examples",
+        "rationale": "Compact Storybook contact-form fixture for labelled native form control announcements; exact but not full-page live-site coverage."
+      }
     },
     "packages-sr-engine-tests-fixtures-voiceover-repros-storybook-contact-form-validation-error": {
       "status": "refined",
-      "reason": "Promoted from Storybook contact-form run 29011917758 after Phase B removed a macOS System Settings artifact and Phase D reached exact zero mismatches."
+      "reason": "Promoted from Storybook contact-form run 29011917758 after Phase B removed a macOS System Settings artifact and Phase D reached exact zero mismatches.",
+      "fixtureTier": "focused-exact-corpus",
+      "uniqueCoverage": "Compact Storybook contact-form validation fixture for error/state field announcements; exact but not full-page live-site coverage.",
+      "existingCoverageChecked": {
+        "status": "reviewed-focused-fixture",
+        "coverageCluster": "focused-field-examples"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "focused-exact-corpus",
+        "coverageCluster": "focused-field-examples",
+        "rationale": "Compact Storybook contact-form validation fixture for error/state field announcements; exact but not full-page live-site coverage."
+      }
+    },
+    "www-britishairways-com-travel-home-public-en-gb": {
+      "status": "refined",
+      "reason": "Canonical compare is exact at 208 expected, 208 actual, and 0 mismatch windows after Phase E promotion.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "British Airways live travel page coverage for native search controls, passenger selector, carousel/list card behavior, info-card groups, legal footer, and heading fragments.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "travel-commerce-forms"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "travel-commerce-forms",
+        "rationale": "British Airways live travel page coverage for native search controls, passenger selector, carousel/list card behavior, info-card groups, legal footer, and heading fragments."
+      }
+    },
+    "www-gov-uk-find-local-council": {
+      "status": "refined",
+      "reason": "Canonical compare is exact at 80 expected, 80 actual, and 0 mismatch windows after Phase E promotion.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Fresh GOV service-page fixture covering postcode search label/hint, feedback panel grouping, footer boundaries, and C.5-backed header disclosure suffix behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-overlap-keep",
+        "coverageCluster": "govuk-service-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "govuk-service-pages",
+        "rationale": "Fresh GOV service-page fixture covering postcode search label/hint, feedback panel grouping, footer boundaries, and C.5-backed header disclosure suffix behavior."
+      }
+    },
+    "www-nationalrail-co-uk": {
+      "status": "refined",
+      "reason": "Canonical compare is exact at 137 expected, 137 actual, and 0 mismatch windows after Phase E promotion.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "National Rail journey-planner coverage for radio state, autocomplete/ad corrections, journey-planner groups, disabled buttons, and footer status.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "travel-commerce-forms"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "travel-commerce-forms",
+        "rationale": "National Rail journey-planner coverage for radio state, autocomplete/ad corrections, journey-planner groups, disabled buttons, and footer status."
+      }
+    },
+    "www-nhs-uk-service-search-pharmacy-find-a-pharmacy": {
+      "status": "refined",
+      "reason": "Canonical compare is exact at 66 expected, 66 actual, and 0 mismatch windows after Phase E promotion.",
+      "fixtureTier": "golden-exact-corpus",
+      "uniqueCoverage": "Real-world NHS pharmacy finder form coverage for labels, hints, search/use-location buttons, and consent/search structure.",
+      "existingCoverageChecked": {
+        "status": "reviewed-distinct",
+        "coverageCluster": "nhs-content-and-service-pages"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "golden-exact-corpus",
+        "coverageCluster": "nhs-content-and-service-pages",
+        "rationale": "Real-world NHS pharmacy finder form coverage for labels, hints, search/use-location buttons, and consent/search structure."
+      }
+    },
+    "www-royalmail-com-find-a-postcode": {
+      "status": "candidate",
+      "reason": "Known footer-empty-name-url-path-fallbacks remain parked after run 29014999637; the canonical compare is 99 expected, 100 actual, and 2 mismatch windows, so keep as candidate until the parked footer family is revisited.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Royal Mail postcode finder candidate evidence for search form, PAF link spacing, collapsed button table, and parked footer URL fallback behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "postcode-and-delivery-forms"
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-07-10",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "postcode-and-delivery-forms",
+        "rationale": "Royal Mail postcode finder candidate evidence for search form, PAF link spacing, collapsed button table, and parked footer URL fallback behavior."
+      }
     }
+  },
+  "fixtureTierDefinitions": {
+    "golden-exact-corpus": "Trusted full-page exact fixture that may gate normal corpus runs.",
+    "focused-exact-corpus": "Trusted compact or component-focused exact fixture that gates one narrow behavior family without claiming full-page live-site breadth.",
+    "partial-corpus": "Fixture with documented reliable slices, but not a full-page exact gate.",
+    "candidate-parked-corpus": "Useful full-page evidence with unresolved windows or evidence gaps; runnable but not an exact gate.",
+    "artifact-archive": "Evidence kept for investigation but not used for corpus gating."
+  },
+  "fixtureTierMigration": {
+    "migratedAt": "2026-07-10",
+    "method": "Backfilled fixtureTier from existing refinement status. Exact refined/trusted entries became golden-exact-corpus, partial entries became partial-corpus, candidate entries became candidate-parked-corpus, and skip entries became artifact-archive.",
+    "coverageReview": "pending-retroactive-review",
+    "note": "This migration records the current tier structure without claiming a full duplicate-coverage audit for legacy fixtures. Future Phase E receipts must record uniqueCoverage and existingCoverageChecked before adding new full-page fixtures."
+  },
+  "fixtureCuration": {
+    "reviewedAt": "2026-07-10",
+    "scope": "First-pass corpus curation over all current manifest entries.",
+    "method": "Grouped fixtures by site family and behavior coverage, marked exact focused examples separately from full-page golden fixtures, and recorded overlap/pruning recommendations without deleting historical evidence.",
+    "nextAudit": "Review high-overlap Sky and legacy no-step exact fixtures after the next full corpus timing report; replace duplicate full-page gates with focused repros where the same engine rule is already protected."
   }
 }
