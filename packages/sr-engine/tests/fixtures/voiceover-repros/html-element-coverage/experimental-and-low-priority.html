@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML element coverage: experimental and low-priority elements</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Experimental and low-priority element coverage</h1>
+
+    <section aria-labelledby="portal-example">
+      <h2 id="portal-example">Portal example</h2>
+      <p>The portal element is included only to observe unsupported or ignored behavior.</p>
+      <portal src="https://example.test/preview">Portal fallback text</portal>
+    </section>
+
+    <section class="bad" aria-labelledby="hidden-low-priority">
+      <h2 id="hidden-low-priority">Hidden low-priority examples</h2>
+      <p hidden><bdo dir="rtl">Hidden bidirectional text</bdo></p>
+      <object hidden data="hidden-object.bin">Hidden object fallback</object>
+      <embed hidden src="hidden-embed.bin">
+    </section>
+  </main>
+</body>
+</html>

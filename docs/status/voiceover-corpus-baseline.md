@@ -40,6 +40,10 @@ overlap cluster is the Sky commerce family; keep its exact anchors for now, but
 review that cluster first when pruning full-page gates or replacing duplicate
 coverage with focused repros.
 
+Run `yarn voiceover:element-coverage` when planning new scans or focused repros
+to see which HTML element types are already covered by the fixture corpus and
+which gaps are still worth targeting.
+
 ## Exact Fixtures
 
 These fixtures currently match the engine exactly against `refinedAnnouncements`:

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML element coverage: media, graphics, and fallbacks</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    canvas { border: 1px solid #777; display: block; margin: 0.5rem 0; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Media, graphics, and fallback coverage</h1>
+
+    <section aria-labelledby="audio-good">
+      <h2 id="audio-good">Good audio and track examples</h2>
+      <figure>
+        <figcaption>Example help recording</figcaption>
+        <audio controls preload="metadata">
+          <source src="data:audio/mpeg;base64," type="audio/mpeg">
+          <track kind="captions" srclang="en" label="English captions" src="data:text/vtt,WEBVTT%0A%0A00:00.000%20--%3E%2000:01.000%0AExample%20caption">
+          <p>Your browser cannot play this recording. <a href="recording-transcript.html">Read the transcript</a>.</p>
+        </audio>
+      </figure>
+
+      <video controls width="320" height="180" aria-label="Captioned demo video">
+        <source src="data:video/mp4;base64," type="video/mp4">
+        <track default kind="captions" srclang="en" label="English captions" src="data:text/vtt,WEBVTT%0A%0A00:00.000%20--%3E%2000:01.000%0ADemo%20caption">
+        <p>Your browser cannot play this video. <a href="video-transcript.html">Read the video transcript</a>.</p>
+      </video>
+    </section>
+
+    <section class="bad" aria-labelledby="audio-bad">
+      <h2 id="audio-bad">Bad audio and track examples</h2>
+      <audio src="data:audio/mpeg;base64,"></audio>
+      <video controls width="320" height="180">
+        <track kind="captions">
+      </video>
+    </section>
+
+    <section aria-labelledby="canvas-good">
+      <h2 id="canvas-good">Good canvas examples</h2>
+      <canvas id="sales-chart" width="320" height="120" role="img" aria-label="Sales chart: January 10, February 20, March 30">
+        Sales chart fallback: January 10, February 20, March 30.
+      </canvas>
+      <canvas width="320" height="80">
+        Canvas fallback text describing the drawing.
+      </canvas>
+    </section>
+
+    <section class="bad" aria-labelledby="canvas-bad">
+      <h2 id="canvas-bad">Bad canvas example</h2>
+      <canvas width="320" height="120"></canvas>
+    </section>
+
+    <section aria-labelledby="object-good">
+      <h2 id="object-good">Good object and embed examples</h2>
+      <object type="image/svg+xml" data="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Ctext x='10' y='35'%3EObject demo%3C/text%3E%3C/svg%3E">
+        Object fallback text for SVG content.
+      </object>
+      <embed type="image/svg+xml" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Ctext x='10' y='35'%3EEmbed demo%3C/text%3E%3C/svg%3E" aria-label="Embedded SVG demo">
+    </section>
+
+    <section class="bad" aria-labelledby="object-bad">
+      <h2 id="object-bad">Bad object and embed examples</h2>
+      <object data="missing-plugin.bin"></object>
+      <embed src="missing-plugin.bin">
+    </section>
+
+    <section aria-labelledby="fallbacks">
+      <h2 id="fallbacks">Script and noscript examples</h2>
+      <noscript>JavaScript is disabled. Use the standard form below.</noscript>
+      <script type="application/json" id="fixture-metadata">
+        {"fixture":"html-element-coverage-media"}
+      </script>
+    </section>
+  </main>
+</body>
+</html>
+
