@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GOV.UK sentinel header disclosure suffix repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        padding: 16px;
+      }
+
+      .govuk-visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root data-sr-repro-family="GOV checked-in sentinel header disclosure button suffixes">
+      <section aria-label="Cookies on GOV.UK" role="region" data-sr-original-dom-node-id="2">
+        <h2 hidden>Cookies on GOV.UK</h2>
+        <div tabindex="-1" data-sr-original-dom-node-id="7">
+          <div hidden>
+            <p>We use some essential cookies to make this website work.</p>
+          </div>
+          <p>
+            You have accepted additional cookies.
+            <span>You can <a href="/help/cookies">change your cookie settings</a> at any time.</span>
+          </p>
+          <p hidden>You have rejected additional cookies.</p>
+        </div>
+        <div hidden>
+          <button type="submit">Accept additional cookies</button>
+          <button type="submit">Reject additional cookies</button>
+          <a href="/help/cookies">View cookies</a>
+        </div>
+        <div>
+          <button> Hide cookie message </button>
+        </div>
+      </section>
+
+      <a href="#content" data-sr-original-dom-node-id="24">Skip to main content</a>
+
+      <header data-sr-original-dom-node-id="25">
+        <div data-sr-original-dom-node-id="26">
+          <div data-sr-original-dom-node-id="27">
+            <nav
+              aria-labelledby="super-navigation-menu-heading"
+              data-sr-original-dom-node-id="28"
+              data-sr-original-ax-node-id-www-gov-uk="69"
+              data-sr-original-ax-node-id-apply-blue-badge="72"
+            >
+              <div data-sr-original-dom-node-id="29">
+                <a
+                  aria-label="Go to the GOV.UK homepage"
+                  href="/"
+                  data-sr-original-dom-node-id="30"
+                >
+                  <svg
+                    role="img"
+                    aria-label="GOV.UK"
+                    width="80"
+                    height="30"
+                    data-sr-original-dom-node-id="31"
+                  ></svg>
+                </a>
+              </div>
+
+              <h2
+                id="super-navigation-menu-heading"
+                class="govuk-visually-hidden"
+                data-sr-original-dom-node-id="45"
+                data-sr-original-ax-node-id-www-gov-uk="40"
+                data-sr-original-ax-node-id-apply-blue-badge="43"
+              > Navigation menu </h2>
+
+              <div data-sr-original-dom-node-id="46">
+                <a href="/browse" hidden="hidden" data-sr-original-dom-node-id="47">
+                  <span data-sr-original-dom-node-id="48"> Menu </span>
+                </a>
+                <button
+                  aria-controls="super-navigation-menu"
+                  aria-expanded="false"
+                  aria-label="Show navigation menu"
+                  type="button"
+                  data-sr-original-dom-node-id="49"
+                  data-sr-original-ax-node-id-www-gov-uk="42"
+                  data-sr-original-ax-node-id-apply-blue-badge="45"
+                ><span data-sr-original-dom-node-id="50">Menu</span></button>
+              </div>
+
+              <div id="super-navigation-menu" hidden="hidden" data-sr-original-dom-node-id="51">
+                <div>
+                  <div>
+                    <h3 data-sr-original-dom-node-id="54"> Services and information </h3>
+                    <ul data-sr-original-dom-node-id="55">
+                      <li><a href="/browse/benefits">Benefits</a></li>
+                      <li><a href="/browse/business">Business and self-employed</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 data-sr-original-dom-node-id="89"> Government activity </h3>
+                    <ul data-sr-original-dom-node-id="90">
+                      <li><a href="/government/organisations">Departments</a></li>
+                      <li><a href="/search/news-and-communications">News</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div data-sr-original-dom-node-id="109">
+                <button
+                  aria-controls="super-search-menu"
+                  aria-expanded="false"
+                  aria-label="Show search menu"
+                  type="button"
+                  data-sr-original-dom-node-id="110"
+                  data-sr-original-ax-node-id-www-gov-uk="44"
+                  data-sr-original-ax-node-id-apply-blue-badge="47"
+                ><span data-sr-original-dom-node-id="111"> Search GOV.UK </span><svg aria-hidden="true"></svg><span aria-hidden="true"> x </span></button>
+                <a href="/search" hidden="hidden" data-sr-original-dom-node-id="116">
+                  <span data-sr-original-dom-node-id="117"> Search GOV.UK </span><svg aria-hidden="true"></svg>
+                </a>
+              </div>
+
+              <div id="super-search-menu" hidden="hidden" data-sr-original-dom-node-id="121">
+                <div>
+                  <h3 data-sr-original-dom-node-id="123"> Search </h3>
+                  <form role="search" aria-label="Site-wide" data-sr-original-dom-node-id="126">
+                    <label for="search-main-sentinel">Search GOV.UK</label>
+                    <div role="status" aria-atomic="true" aria-live="polite"></div>
+                    <div role="status" aria-atomic="true" aria-live="polite"></div>
+                    <input
+                      aria-describedby="search-main-sentinel__assistiveHint"
+                      aria-expanded="false"
+                      aria-controls="search-main-sentinel__listbox"
+                      aria-autocomplete="list"
+                      id="search-main-sentinel"
+                      name="keywords"
+                      type="search"
+                      role="combobox"
+                    >
+                    <ul
+                      aria-labelledby="search-main-sentinel"
+                      id="search-main-sentinel__listbox"
+                      role="listbox"
+                    ></ul>
+                    <span id="search-main-sentinel__assistiveHint" hidden>
+                      When search suggestions are available use up and down arrows to review and enter to select.
+                    </span>
+                    <button type="submit"> Search </button>
+                  </form>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main id="content" tabindex="-1">
+        <h1>GOV.UK sentinel header repro</h1>
+      </main>
+    </div>
+  </body>
+</html>
