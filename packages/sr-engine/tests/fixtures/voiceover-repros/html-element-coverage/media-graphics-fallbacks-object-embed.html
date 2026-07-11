@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Object and embed frame replayability</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Object and embed frame replayability</h1>
+
+    <section aria-labelledby="object-good-reduced">
+      <h2 id="object-good-reduced">Good object and embed examples</h2>
+      <object type="image/svg+xml">
+        Object fallback text for SVG content.
+      </object>
+      <embed type="image/svg+xml" aria-label="Embedded SVG demo">
+    </section>
+
+    <section aria-labelledby="object-good-source">
+      <h2 id="object-good-source">Good object and embed examples with resources</h2>
+      <object type="image/svg+xml" data="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Ctext x='10' y='35'%3EObject demo%3C/text%3E%3C/svg%3E">
+        Object fallback text for SVG content.
+      </object>
+      <embed type="image/svg+xml" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='60'%3E%3Ctext x='10' y='35'%3EEmbed demo%3C/text%3E%3C/svg%3E" aria-label="Embedded SVG demo">
+    </section>
+
+    <section class="bad" aria-labelledby="object-bad">
+      <h2 id="object-bad">Bad object and embed examples</h2>
+      <object></object>
+      <embed>
+    </section>
+  </main>
+</body>
+</html>
