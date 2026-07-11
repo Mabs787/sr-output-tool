@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Phase C.5: output number range and progress values</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    label { display: block; margin-top: 0.75rem; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Output number range and progress values</h1>
+
+    <section aria-labelledby="number-output-good">
+      <h2 id="number-output-good">Good number and output examples</h2>
+      <label for="price">Price</label>
+      <input id="price" type="number" value="10" min="0" max="99">
+
+      <label for="fee">Fee</label>
+      <input id="fee" type="number" value="2" min="0" max="20">
+
+      <p>Total: <output for="price fee" id="total">12</output></p>
+      <p>Status: <output id="status-output">No changes saved yet.</output></p>
+    </section>
+
+    <section aria-labelledby="range-meter-progress-good">
+      <h2 id="range-meter-progress-good">Good range meter and progress examples</h2>
+      <label for="volume">Volume</label>
+      <input id="volume" type="range" min="0" max="100" value="40">
+
+      <label for="storage-used">Storage used</label>
+      <meter id="storage-used" min="0" max="100" low="50" high="80" optimum="20" value="64">64%</meter>
+
+      <label for="upload-progress">Upload progress</label>
+      <progress id="upload-progress" max="100" value="70">70%</progress>
+
+      <label for="loading-progress">Loading progress</label>
+      <progress id="loading-progress">Loading</progress>
+    </section>
+
+    <section class="bad" aria-labelledby="range-meter-progress-bad">
+      <h2 id="range-meter-progress-bad">Reduced/default value examples</h2>
+      <meter value="0.7"></meter>
+      <progress value="40"></progress>
+      <input type="range" value="25">
+    </section>
+  </main>
+</body>
+</html>
