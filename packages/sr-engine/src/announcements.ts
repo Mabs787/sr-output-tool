@@ -579,12 +579,31 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             parts.push(`${comboLabel} ${popupType}`);
           }
         } else {
-          pushIfPresent(parts, comboLabel);
+          if (
+            comboLabelFromPlaceholder &&
+            comboLabel &&
+            !popupType &&
+            normalizeText(el.autocomplete) === "list" &&
+            el.expanded !== undefined
+          ) {
+            const popupState = `list box pop up ${el.expanded ? "expanded" : "collapsed"}`;
+            parts.push(`${comboLabel} ${el.required ? `required ${popupState}` : popupState}`);
+          } else {
+            pushIfPresent(parts, comboLabel);
+          }
           if (popupType && el.expanded !== undefined) {
             parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
           } else if (popupType) {
             parts.push(popupType);
-          } else if (!popupType) {
+          } else if (
+            !popupType &&
+            !(
+              comboLabelFromPlaceholder &&
+              comboLabel &&
+              normalizeText(el.autocomplete) === "list" &&
+              el.expanded !== undefined
+            )
+          ) {
             pushComboBoxAutocomplete(parts, el);
           }
         }

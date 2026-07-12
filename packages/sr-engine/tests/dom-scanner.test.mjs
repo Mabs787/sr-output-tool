@@ -5391,6 +5391,15 @@ test("scanSubtree keeps aria-label-only decorative icon buttons ungrouped", () =
     `),
     ["Guide, button"],
   );
+
+  assert.deepEqual(
+    scanHtml(`
+      <x-toolbar-button>
+        <button aria-label="Search"><x-empty-icon></x-empty-icon></button>
+      </x-toolbar-button>
+    `),
+    ["Search, button"],
+  );
 });
 
 test("scanSubtree emits standalone groups for clustered visual button shells", () => {

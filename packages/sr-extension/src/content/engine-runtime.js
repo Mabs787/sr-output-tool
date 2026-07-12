@@ -489,12 +489,17 @@
                   parts.push(`${comboLabel} ${popupType}`);
                 }
               } else {
-                pushIfPresent(parts, comboLabel);
+                if (comboLabelFromPlaceholder && comboLabel && !popupType && normalizeText(el.autocomplete) === "list" && el.expanded !== void 0) {
+                  const popupState = `list box pop up ${el.expanded ? "expanded" : "collapsed"}`;
+                  parts.push(`${comboLabel} ${el.required ? `required ${popupState}` : popupState}`);
+                } else {
+                  pushIfPresent(parts, comboLabel);
+                }
                 if (popupType && el.expanded !== void 0) {
                   parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
                 } else if (popupType) {
                   parts.push(popupType);
-                } else if (!popupType) {
+                } else if (!popupType && !(comboLabelFromPlaceholder && comboLabel && normalizeText(el.autocomplete) === "list" && el.expanded !== void 0)) {
                   pushComboBoxAutocomplete(parts, el);
                 }
               }
@@ -2811,7 +2816,7 @@
             return false;
           if (readableText(el) || nestedImageLabel(el))
             return false;
-          return Boolean(el.querySelector("svg, [role='img'], img"));
+          return Boolean(el.querySelector("svg, [role='img'], img") || Array.from(el.children).some((child) => isCustomElement(child) && !readableText(child) && !nestedImageLabel(child) && !child.querySelector?.(interactiveSelector)));
         }
         function isPositionedImageChoiceButton(el) {
           if (implicitRole(el) !== "button")

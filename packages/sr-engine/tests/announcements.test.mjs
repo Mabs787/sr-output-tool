@@ -154,6 +154,16 @@ test("generateAnnouncement formats interactive control states", () => {
   assert.equal(
     generateAnnouncement({
       role: "combobox",
+      placeholder: "Search",
+      autocomplete: "list",
+      expanded: true,
+    }),
+    "Search list box pop up expanded, combo box",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
       nativeSelect: true,
       value: "All Departments",
       name: "Search in",

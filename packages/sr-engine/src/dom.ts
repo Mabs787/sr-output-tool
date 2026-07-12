@@ -2113,7 +2113,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (implicitRole(el) !== "button") return false;
     if (!el.hasAttribute("aria-label")) return false;
     if (readableText(el) || nestedImageLabel(el)) return false;
-    return Boolean(el.querySelector("svg, [role='img'], img"));
+    return Boolean(
+      el.querySelector("svg, [role='img'], img") ||
+        Array.from(el.children).some(
+          (child: any) =>
+            isCustomElement(child) &&
+            !readableText(child) &&
+            !nestedImageLabel(child) &&
+            !child.querySelector?.(interactiveSelector),
+        ),
+    );
   }
 
   function isPositionedImageChoiceButton(el: any): boolean {
