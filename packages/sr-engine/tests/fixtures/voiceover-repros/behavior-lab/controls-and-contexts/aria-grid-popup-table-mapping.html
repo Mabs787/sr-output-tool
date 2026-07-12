@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ARIA grid popup table mapping behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      label, input { font: inherit; margin: 4px; padding: 8px; }
+      [role="grid"] { border: 1px solid #777; margin-top: 8px; padding: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>ARIA grid popup table mapping</h1>
+      <label for="store-search">Search store</label>
+      <input id="store-search" role="combobox" aria-label="Search store" aria-autocomplete="list" aria-haspopup="grid" aria-controls="store-results" aria-expanded="true" placeholder="Search store">
+      <div id="store-results" role="grid" aria-label="Store suggestions">
+        <div role="row">
+          <span role="gridcell">Headphones</span>
+          <span role="gridcell">Electronics</span>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

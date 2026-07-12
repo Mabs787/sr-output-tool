@@ -103,6 +103,26 @@ Parked families:
   popup table/grid wording, and row/cell decomposition. Keep parked for a
   separate form-popup behavior batch.
 
+## Side-by-side Follow-up Batches
+
+Draft tooltip/icon-button repros:
+
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/tooltip-associated-describedby.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/tooltip-hidden-custom-wrapper.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/tooltip-empty-boundary.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/leading-icon-text-button.html`
+
+Draft combobox/search-popup repros:
+
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/search-label-stop.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/expanded-listbox-popup.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/aria-grid-popup-table-mapping.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/grid-popup-row-cell-decomposition.html`
+
+Run these side by side as fixture-only C.5 evidence gathering. Do not make a
+tooltip or combobox engine change until each sub-family is backed by its own
+scan receipt.
+
 Validation after the dialog engine refinement:
 
 - `yarn workspace @sr-output/engine build`: passed.

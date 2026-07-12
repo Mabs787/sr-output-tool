@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Associated tooltip behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      button { font: inherit; padding: 8px 12px; }
+      [role="tooltip"] { border: 1px solid #777; margin-top: 8px; padding: 4px 8px; width: max-content; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Associated tooltip</h1>
+      <button aria-label="Search with your voice" aria-describedby="voice-tip">
+        <svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"></circle></svg>
+      </button>
+      <div id="voice-tip" role="tooltip">Search with your voice</div>
+    </main>
+  </body>
+</html>

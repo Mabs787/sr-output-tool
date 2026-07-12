@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search label stop behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      label, input, button { font: inherit; margin: 4px; padding: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Search label stop</h1>
+      <form role="search">
+        <label for="video-search">Search videos</label>
+        <input id="video-search" type="search" placeholder="Search" aria-autocomplete="list" aria-controls="video-suggestions" aria-expanded="true">
+        <button type="submit" aria-label="Search">Search</button>
+      </form>
+    </main>
+  </body>
+</html>
