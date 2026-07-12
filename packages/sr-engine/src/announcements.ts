@@ -561,7 +561,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       } else {
         const popupType = formatPopupType(el.hasPopup);
         const comboLabel = label ?? placeholder;
-        const comboLabelFromPlaceholder = !label && Boolean(placeholder);
+        const comboLabelFromPlaceholder =
+          !label && Boolean(placeholder) ||
+          Boolean(
+            label &&
+              placeholder &&
+              normalizeText(label) === normalizeText(placeholder) &&
+              !normalizeText(el.description) &&
+              !normalizeText(el.details),
+          );
         if (el.nativeDatalistPlaceholderName && comboLabel && popupType) {
           parts.push(`${comboLabel} ${popupType}`);
         } else if (comboLabelFromPlaceholder && comboLabel && popupType) {

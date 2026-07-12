@@ -479,7 +479,7 @@
             } else {
               const popupType = formatPopupType(el.hasPopup);
               const comboLabel = label ?? placeholder;
-              const comboLabelFromPlaceholder = !label && Boolean(placeholder);
+              const comboLabelFromPlaceholder = !label && Boolean(placeholder) || Boolean(label && placeholder && normalizeText(label) === normalizeText(placeholder) && !normalizeText(el.description) && !normalizeText(el.details));
               if (el.nativeDatalistPlaceholderName && comboLabel && popupType) {
                 parts.push(`${comboLabel} ${popupType}`);
               } else if (comboLabelFromPlaceholder && comboLabel && popupType) {
@@ -9800,6 +9800,7 @@
           const announcementName = role === "link" && linkContentNameForSpacing && postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing ? linkContentNameForSpacing : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name) ? finalPostPunctuationWhitespaceCollapsedText(name) : name;
           const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
           const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag) ? labelForControl(stateEl) : void 0;
+          const nativeInputComboboxPlaceholderName = role === "combobox" && tag === "input" && Boolean(normalize(stateEl.getAttribute("placeholder"))) && normalize(stateEl.getAttribute("placeholder")) === name && !nativeDescriptorLabel && !hasExplicitAriaName(stateEl);
           const nativeValueControlLabelStopText = nativeDescriptorLabel && ["combobox", "spinbutton", "slider", "meter", "progressbar"].includes(role) && !hasExplicitAriaName(stateEl) && !nativeValueControlLabelStopIsHidden(stateEl) && !nativeLabelAlreadyAnnouncedByListItem(stateEl, nativeDescriptorLabel) ? nativeDescriptorLabel : void 0;
           const nativeSubmitTabPanelGroup = isAxConfirmedNestedSubmitButtonInTabPanelGroup(el, role, name);
           const carouselControlName = carouselControlNameWithDescription(el, role, name);
@@ -9832,7 +9833,7 @@
           const leadingGenericGroupStops = leadingGenericGroupStopCountBeforeDisabledControl(el, role);
           const descriptor = {
             role,
-            name: carouselControlName || announcementName || nativeSelectTitleName || focusableFeedbackGroupText,
+            name: carouselControlName || (nativeInputComboboxPlaceholderName ? void 0 : announcementName) || nativeSelectTitleName || focusableFeedbackGroupText,
             contextEndName,
             text,
             description: normalize(stateEl.getAttribute("aria-description") ?? el.getAttribute("aria-description")),
@@ -9862,7 +9863,7 @@
             sort: normalize(el.getAttribute("aria-sort")),
             selectedCount: listboxSelectedCount,
             nativeSelect: tag === "select" || void 0,
-            nativeDatalistPlaceholderName: role === "combobox" && tag === "input" && Boolean(nativeDatalistElement(stateEl)) && !nativeDescriptorLabel && normalize(stateEl.getAttribute("placeholder")) === name || void 0,
+            nativeDatalistPlaceholderName: role === "combobox" && tag === "input" && Boolean(nativeDatalistElement(stateEl)) && nativeInputComboboxPlaceholderName || void 0,
             headingButton: Boolean(headingButton) || void 0,
             headingLink: Boolean(headingLink) && !axLinkedOfferHeadingName || void 0,
             linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : void 0,

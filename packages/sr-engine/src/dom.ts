@@ -10528,6 +10528,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag)
       ? labelForControl(stateEl)
       : undefined;
+    const nativeInputComboboxPlaceholderName =
+      role === "combobox" &&
+      tag === "input" &&
+      Boolean(normalize(stateEl.getAttribute("placeholder"))) &&
+      normalize(stateEl.getAttribute("placeholder")) === name &&
+      !nativeDescriptorLabel &&
+      !hasExplicitAriaName(stateEl);
     const nativeValueControlLabelStopText =
       nativeDescriptorLabel &&
       ["combobox", "spinbutton", "slider", "meter", "progressbar"].includes(role) &&
@@ -10611,7 +10618,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const descriptor: CapturedElementDescriptor = {
       role,
-      name: carouselControlName || announcementName || nativeSelectTitleName || focusableFeedbackGroupText,
+      name:
+        carouselControlName ||
+        (nativeInputComboboxPlaceholderName ? undefined : announcementName) ||
+        nativeSelectTitleName ||
+        focusableFeedbackGroupText,
       contextEndName,
       text,
       description: normalize(
@@ -10708,8 +10719,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "combobox" &&
           tag === "input" &&
           Boolean(nativeDatalistElement(stateEl)) &&
-          !nativeDescriptorLabel &&
-          normalize(stateEl.getAttribute("placeholder")) === name) ||
+          nativeInputComboboxPlaceholderName) ||
         undefined,
       headingButton: Boolean(headingButton) || undefined,
       headingLink: (Boolean(headingLink) && !axLinkedOfferHeadingName) || undefined,
