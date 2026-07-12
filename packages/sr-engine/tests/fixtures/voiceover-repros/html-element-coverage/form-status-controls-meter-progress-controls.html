@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Phase C.5: meter and progress control semantics</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    label { display: block; margin-top: 0.75rem; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Meter and progress control semantics</h1>
+
+    <section aria-labelledby="reduced-meter-progress-good">
+      <h2 id="reduced-meter-progress-good">Good meter and progress examples</h2>
+      <label for="reduced-storage-used">Storage used</label>
+      <meter id="reduced-storage-used" value="64">64%</meter>
+
+      <label for="reduced-upload-progress">Upload progress</label>
+      <progress id="reduced-upload-progress" value="70">70%</progress>
+
+      <label for="reduced-loading-progress">Loading progress</label>
+      <progress id="reduced-loading-progress">Loading</progress>
+    </section>
+
+    <section class="bad" aria-labelledby="reduced-meter-progress-bad">
+      <h2 id="reduced-meter-progress-bad">Bad meter and progress examples</h2>
+      <meter value="0.7"></meter>
+      <progress value="40"></progress>
+    </section>
+
+    <section aria-labelledby="source-meter-progress-good">
+      <h2 id="source-meter-progress-good">Good meter and progress examples</h2>
+      <label for="source-storage-used">Storage used</label>
+      <meter id="source-storage-used" min="0" max="100" low="50" high="80" optimum="20" value="64">64%</meter>
+
+      <label for="source-upload-progress">Upload progress</label>
+      <progress id="source-upload-progress" max="100" value="70">70%</progress>
+
+      <label for="source-loading-progress">Loading progress</label>
+      <progress id="source-loading-progress">Loading</progress>
+    </section>
+
+    <section class="bad" aria-labelledby="source-meter-progress-bad">
+      <h2 id="source-meter-progress-bad">Bad meter and progress examples</h2>
+      <meter value="0.7"></meter>
+      <progress max="100" value="40"></progress>
+    </section>
+  </main>
+</body>
+</html>

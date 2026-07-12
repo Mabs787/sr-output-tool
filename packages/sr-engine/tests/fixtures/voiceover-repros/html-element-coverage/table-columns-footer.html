@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML element coverage: table columns and footer</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    table { border-collapse: collapse; margin: 1rem 0; }
+    caption { font-weight: bold; text-align: left; }
+    th, td { border: 1px solid #888; padding: 0.4rem; }
+    .amount { text-align: right; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Table column and footer coverage</h1>
+
+    <section aria-labelledby="table-good">
+      <h2 id="table-good">Good table example</h2>
+      <table>
+        <caption>Monthly travel costs</caption>
+        <colgroup>
+          <col span="1">
+          <col span="2" class="amount">
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">Month</th>
+            <th scope="col">Rail</th>
+            <th scope="col">Hotel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">January</th>
+            <td>100</td>
+            <td>200</td>
+          </tr>
+          <tr>
+            <th scope="row">February</th>
+            <td>120</td>
+            <td>180</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row">Total</th>
+            <td>220</td>
+            <td>380</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <section class="bad" aria-labelledby="table-bad">
+      <h2 id="table-bad">Bad table examples</h2>
+      <table>
+        <colgroup>
+          <col>
+          <col>
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>London</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>Paris</td>
+            <td>20</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td>30</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
+

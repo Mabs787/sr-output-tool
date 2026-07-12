@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Amazon no suggestions and category nav repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; }
+      [data-sr-scan-root] { padding: 24px; }
+      nav { display: grid; gap: 12px; }
+      ul { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; padding: 0; }
+      [role="dialog"] { border: 1px solid #ccc; padding: 8px; }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root data-sr-fixture-status="draft">
+      <nav aria-label="Primary">
+        <a href="/cart" aria-label="0 items in cart">Cart</a>
+        <div role="dialog" aria-label="No suggestions">No suggestions</div>
+        <button aria-expanded="false" aria-label="Open All Categories Menu">All</button>
+        <ul>
+          <li><a href="/health-ai">Health AI</a></li>
+          <li><a href="/amazon-haul">Amazon Haul</a></li>
+          <li><a href="/medical-care">Medical Care</a></li>
+          <li><button aria-expanded="false">Medical Care Details</button></li>
+          <li><a href="/amazon-basics">Amazon Basics</a></li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>

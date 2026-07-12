@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Amazon header search groups repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; }
+      [data-sr-scan-root] { padding: 24px; }
+      header { background: #131921; color: white; padding: 12px; }
+      nav, form { display: flex; align-items: center; gap: 8px; }
+      a { color: white; }
+      select, input, button { font: inherit; padding: 8px; }
+      #search-help { display: none; }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root data-sr-fixture-status="draft">
+      <header role="banner">
+        <nav aria-label="Primary">
+          <a href="/" aria-label="Amazon">amazon</a>
+          <button aria-label="Delivering to San Antonio 78288 Update location">
+            <span aria-hidden="true">Delivering to San Antonio 78288</span>
+            <strong aria-hidden="true">Update location</strong>
+          </button>
+          <form role="search">
+            <span>All</span>
+            <select title="Search in" aria-describedby="search-help">
+              <option selected>All Departments</option>
+              <option>Books</option>
+            </select>
+            <span id="search-help" hidden>Select the department you want to search in</span>
+            <input
+              id="twotabsearchtextbox"
+              type="text"
+              role="searchbox"
+              aria-label="Search Amazon"
+              placeholder="Search Amazon"
+              aria-autocomplete="list"
+              aria-controls="sac-autocomplete-results-container"
+              aria-expanded="true"
+              aria-haspopup="grid"
+            >
+            <button type="submit" aria-label="Go">Go</button>
+          </form>
+        </nav>
+      </header>
+    </div>
+  </body>
+</html>

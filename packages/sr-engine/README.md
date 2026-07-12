@@ -57,6 +57,12 @@ fixture promotion gaps:
 yarn voiceover:workflow-status --run-id 28971764455
 ```
 
+To audit which HTML element types are covered by the VoiceOver fixture corpus:
+
+```bash
+yarn voiceover:element-coverage
+```
+
 ## Refining The Engine
 
 The most reliable way to improve the engine is to compare actual Chrome + VoiceOver output against rendered DOM/AX evidence, then lock reusable behavior into unit tests and corpus fixtures.

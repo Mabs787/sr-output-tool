@@ -18,3 +18,11 @@ focused repros are the lighter guardrail for one proven DOM/AX contract.
 Each repro should use a `data-sr-scan-root` wrapper and preserve the
 accessibility-relevant DOM, ARIA, focusability, hidden state, text boundaries,
 and AX-derived role/name/state relationships from the original issue.
+
+Draft scan targets may use `data-sr-fixture-status="draft"` on their
+`data-sr-scan-root` wrapper. Drafts are useful for planning local fixture scans,
+but they are excluded from `yarn voiceover:element-coverage` by default so they
+do not look like VoiceOver-verified coverage before a scan has actually run. Use
+`yarn voiceover:element-coverage --include-drafts` to include them during
+coverage planning, then remove the draft marker after the scan and evidence
+review accepts the fixture.

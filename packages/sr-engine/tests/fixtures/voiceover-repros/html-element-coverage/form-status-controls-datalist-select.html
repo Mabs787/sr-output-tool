@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Phase C.5: datalist and select native semantics</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    label { display: block; margin-top: 0.75rem; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Datalist and select native semantics</h1>
+
+    <section aria-labelledby="datalist-good">
+      <h2 id="datalist-good">Good datalist examples</h2>
+      <label for="city-choice">Choose a city</label>
+      <input id="city-choice" list="city-options" autocomplete="off">
+      <datalist id="city-options">
+        <option value="London"></option>
+        <option value="Manchester"></option>
+      </datalist>
+
+      <label for="delivery-window">Preferred delivery window</label>
+      <input id="delivery-window" list="delivery-options" value="Morning">
+      <datalist id="delivery-options">
+        <option value="Morning"></option>
+        <option value="Afternoon"></option>
+      </datalist>
+    </section>
+
+    <section class="bad" aria-labelledby="datalist-bad">
+      <h2 id="datalist-bad">Bad datalist examples</h2>
+      <input aria-label="No visible label" list="missing-options">
+      <label for="missing-datalist-target">Input with missing datalist target</label>
+      <input id="missing-datalist-target" list="does-not-exist">
+    </section>
+
+    <section aria-labelledby="select-good">
+      <h2 id="select-good">Good select and optgroup examples</h2>
+      <label for="support-topic">Support topic</label>
+      <select id="support-topic">
+        <option>Select a topic</option>
+        <optgroup label="Accounts">
+          <option>Billing</option>
+          <option>Password reset</option>
+        </optgroup>
+        <optgroup label="Travel">
+          <option>Flights</option>
+          <option>Hotels</option>
+        </optgroup>
+      </select>
+    </section>
+
+    <section class="bad" aria-labelledby="select-bad">
+      <h2 id="select-bad">Bad select examples</h2>
+      <select aria-label="Unlabelled topic picker">
+        <option>Choose one</option>
+        <option>General</option>
+      </select>
+    </section>
+  </main>
+</body>
+</html>

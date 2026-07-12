@@ -198,13 +198,31 @@ function pushSortState(parts: string[], sort?: string): void {
   parts.push(`sorted ${normalized}`);
 }
 
-function pushSupplementalText(parts: string[], el: ElementDescriptor): void {
-  pushIfPresent(parts, el.details);
+function pushSupplementalText(
+  parts: string[],
+  el: ElementDescriptor,
+  options: { skipDetails?: boolean } = {},
+): void {
+  if (!options.skipDetails) {
+    pushIfPresent(parts, el.details);
+  }
   pushInvalidState(parts, el.invalid);
   pushIfPresent(parts, el.errorMessage);
   if (el.busy) {
     parts.push("busy");
   }
+}
+
+function appendInlineDetails(label: string | undefined, details: string | undefined): string | undefined {
+  const normalizedDetails = normalizeText(details);
+  if (!normalizedDetails) {
+    return label;
+  }
+  const normalizedLabel = normalizeText(label);
+  if (!normalizedLabel) {
+    return normalizedDetails;
+  }
+  return normalizeText(`${normalizedLabel} ${normalizedDetails}`);
 }
 
 function formatHeadingFragments(
@@ -337,7 +355,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "button": {
-      pushIfPresent(parts, label);
+      const announcedButtonLabel = appendInlineDetails(label, el.details);
+      const buttonDetailsAreInline = Boolean(normalizeText(el.details));
+      pushIfPresent(parts, announcedButtonLabel);
       const popupType = formatPopupType(el.hasPopup);
       const isToggleButton =
         el.roleDescription === "toggle button" || el.pressed !== undefined;
@@ -385,7 +405,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push("mixed");
       }
       pushTableColumnContext(parts, el);
-      pushSupplementalText(parts, el);
+      pushSupplementalText(parts, el, { skipDetails: buttonDetailsAreInline });
       break;
     }
 
@@ -393,6 +413,8 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       const linkLabel = el.preserveSpaceBeforeColonName
         ? normalizeTextPreservingSpaceBeforeColon(el.preserveSpaceBeforeColonName)
         : label;
+      const announcedLinkLabel = appendInlineDetails(linkLabel, el.details);
+      const linkDetailsAreInline = Boolean(normalizeText(el.details));
       const popupType = formatPopupType(el.hasPopup);
       if (el.disabled && el.current) {
         parts.push(
@@ -425,25 +447,25 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (el.iconOnlyLink) {
           parts.push("image");
         }
-        pushIfPresent(parts, label);
+        pushIfPresent(parts, announcedLinkLabel);
       } else if (el.iconOnlyLink) {
         parts.push("link");
         parts.push("image");
-        pushIfPresent(parts, label);
+        pushIfPresent(parts, announcedLinkLabel);
       } else {
         parts.push("link");
         if (el.linkHeadingLevel) {
           parts.push(`heading level ${el.linkHeadingLevel}`);
         }
-        if (el.preserveSpaceBeforeColonName && linkLabel) {
-          parts.push(linkLabel);
+        if (el.preserveSpaceBeforeColonName && announcedLinkLabel) {
+          parts.push(announcedLinkLabel);
         } else {
-          pushIfPresent(parts, linkLabel);
+          pushIfPresent(parts, announcedLinkLabel);
         }
       }
       pushCollectionPosition(parts, el);
       pushTableColumnContext(parts, el);
-      pushSupplementalText(parts, el);
+      pushSupplementalText(parts, el, { skipDetails: linkDetailsAreInline });
       break;
     }
 
@@ -454,12 +476,12 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "textbox":
-    case "searchbox":
-    case "spinbutton": {
+    case "searchbox": {
       if (role === "searchbox") {
+        const searchPlaceholder = placeholder !== label ? placeholder : undefined;
         pushIfPresent(
           parts,
-          [label, value ?? el.placeholder].filter(Boolean).join(" "),
+          [label, value ?? searchPlaceholder].filter(Boolean).join(" "),
         );
         const popupType = formatPopupType(el.hasPopup);
         if (el.required && popupType) {
@@ -470,7 +492,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts.push(popupType);
         }
         parts.push("search text field");
-        if (popupType !== "list box pop up") {
+        if (popupType !== "list box pop up" && popupType !== "grid pop up") {
           pushAutocomplete(parts, el.autocomplete);
         }
       } else {
@@ -508,22 +530,85 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "spinbutton": {
+      pushIfPresent(parts, [value, label].filter(Boolean).join(", "));
+      parts.push("stepper");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "slider": {
+      pushIfPresent(parts, [value, label].filter(Boolean).join(", "));
+      parts.push("slider");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "combobox": {
+      let detailsAreInline = false;
       if (el.nativeSelect) {
         const selectLabel = normalizeText(el.name);
+        const selectDetails = normalizeText(el.details);
         pushIfPresent(parts, value);
         if (selectLabel && selectLabel !== value) {
-          pushIfPresent(parts, selectLabel);
+          pushIfPresent(parts, [selectLabel, selectDetails].filter(Boolean).join(" "));
+          detailsAreInline = Boolean(selectDetails);
         }
         parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
         parts.push("button");
       } else {
-        pushIfPresent(parts, label);
         const popupType = formatPopupType(el.hasPopup);
-        if (popupType && el.expanded !== undefined) {
+        const comboLabel = label ?? placeholder;
+        const comboLabelFromPlaceholder =
+          !label && Boolean(placeholder) ||
+          Boolean(
+            label &&
+              placeholder &&
+              normalizeText(label) === normalizeText(placeholder) &&
+              !normalizeText(el.description) &&
+              !normalizeText(el.details),
+          );
+        if (el.nativeDatalistPlaceholderName && comboLabel && popupType) {
+          parts.push(`${comboLabel} ${popupType}`);
+        } else if (comboLabelFromPlaceholder && comboLabel && popupType) {
+          if (el.expanded !== undefined) {
+            parts.push(`${comboLabel} ${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+          } else {
+            parts.push(`${comboLabel} ${popupType}`);
+          }
+        } else {
+          if (
+            comboLabelFromPlaceholder &&
+            comboLabel &&
+            !popupType &&
+            normalizeText(el.autocomplete) === "list" &&
+            el.expanded !== undefined
+          ) {
+            const popupState = `list box pop up ${el.expanded ? "expanded" : "collapsed"}`;
+            parts.push(`${comboLabel} ${el.required ? `required ${popupState}` : popupState}`);
+          } else {
+            pushIfPresent(parts, comboLabel);
+          }
+          if (popupType && el.expanded !== undefined) {
+            parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+          } else if (popupType) {
+            parts.push(popupType);
+          } else if (
+            !popupType &&
+            !(
+              comboLabelFromPlaceholder &&
+              comboLabel &&
+              normalizeText(el.autocomplete) === "list" &&
+              el.expanded !== undefined
+            )
+          ) {
+            pushComboBoxAutocomplete(parts, el);
+          }
+        }
+        if (popupType && el.expanded !== undefined && el.nativeDatalistPlaceholderName && comboLabel) {
           parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
-        } else if (!popupType) {
-          pushComboBoxAutocomplete(parts, el);
         }
         parts.push("combo box");
         pushIfPresent(parts, value);
@@ -535,7 +620,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           }
         }
       }
-      pushSupplementalText(parts, el);
+      pushSupplementalText(parts, el, { skipDetails: detailsAreInline });
       break;
     }
 
@@ -591,6 +676,22 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       pushIfPresent(parts, value);
       parts.push("progress indicator");
       pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "meter": {
+      pushIfPresent(parts, value);
+      pushIfPresent(parts, label);
+      parts.push("level indicator");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "object": {
+      pushIfPresent(parts, label);
+      parts.push(el.emptyObject ? "empty object" : "object");
       pushSupplementalText(parts, el);
       break;
     }
@@ -762,7 +863,8 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (usesTableFormatting) {
         if (role === "columnheader") {
           parts.push(
-            el.simpleNativeTwoColumnHeaderContext &&
+            (el.simpleNativeTwoColumnHeaderContext ||
+              el.simpleNativeColumnHeaderContext) &&
               el.columnIndex &&
               el.columnIndex > 1 &&
               label
@@ -786,6 +888,17 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             el.columnIndex === 1 &&
             el.rowIndex &&
             label &&
+            el.columnHeaderText &&
+            el.simpleNativeColumnHeaderContext
+          ) {
+            parts.push(
+              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${el.columnHeaderText} ${label}`,
+            );
+          } else if (
+            role === "rowheader" &&
+            el.columnIndex === 1 &&
+            el.rowIndex &&
+            label &&
             el.tableHasComplexColumnHeaders
           ) {
             parts.push(
@@ -794,9 +907,13 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           } else if (el.columnIndex === 1 && el.rowIndex) {
             const rowLabel = `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`;
             const cellContext = normalizeText(
-              [el.columnHeaderText, label].filter(Boolean).join(" "),
+              [el.columnHeaderText, label ?? "blank"].filter(Boolean).join(" "),
             );
-            if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+            if (el.rowIndex === 1 && label) {
+              parts.push(label);
+            } else if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+              parts.push(`${rowLabel} ${cellContext}`);
+            } else if (el.nativeUnheadedFirstColumnContext && cellContext) {
               parts.push(`${rowLabel} ${cellContext}`);
             } else {
               parts.push(rowLabel);
@@ -936,6 +1053,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push("modal");
       }
       pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "tooltip": {
+      parts.push("tooltip");
       break;
     }
 
@@ -1101,6 +1223,16 @@ export function getContextEndAnnouncement(
   if (role === "article") {
     const name = descriptor?.contextEndName || descriptor?.name;
     return name ? `end of, ${name}, article` : "end of, article";
+  }
+
+  if (role === "dialog") {
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, dialog`
+      : "end of, dialog";
+  }
+
+  if (role === "tooltip") {
+    return "end of, tooltip";
   }
 
   if (role === "group") {

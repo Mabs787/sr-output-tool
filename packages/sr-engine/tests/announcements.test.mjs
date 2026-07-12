@@ -21,6 +21,28 @@ test("generateAnnouncement formats interactive control states", () => {
 
   assert.equal(
     generateAnnouncement({
+      role: "button",
+      name: "Show/hide shortcuts, shift, option, z",
+      details: "To move between items, use your keyboard's up or down arrows.",
+      positionInSet: 5,
+      setSize: 5,
+    }),
+    "Show/hide shortcuts, shift, option, z To move between items, use your keyboard's up or down arrows., button, 5 of 5",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "button",
+      name: "All Departments",
+      details: "Select the department you want to search in",
+      hasPopup: "menu",
+      expanded: false,
+    }),
+    "All Departments Select the department you want to search in, menu pop up collapsed, button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
       role: "checkbox",
       name: "Email alerts",
       checked: "mixed",
@@ -87,12 +109,68 @@ test("generateAnnouncement formats interactive control states", () => {
 
   assert.equal(
     generateAnnouncement({
+      role: "searchbox",
+      name: "Search Amazon",
+      placeholder: "Search Amazon",
+      hasPopup: "grid",
+      autocomplete: "list",
+    }),
+    "Search Amazon, grid pop up, search text field",
+  );
+
+  assert.equal(
+    generateAnnouncement({
       role: "combobox",
       required: true,
       autocomplete: "list",
       expanded: false,
     }),
     "required list box pop up collapsed, combo box",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      placeholder: "Search",
+      hasPopup: "listbox",
+      autocomplete: "list",
+      expanded: true,
+    }),
+    "Search list box pop up expanded, combo box",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      name: "Search",
+      placeholder: "Search",
+      hasPopup: "listbox",
+      autocomplete: "list",
+      expanded: true,
+    }),
+    "Search list box pop up expanded, combo box",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      placeholder: "Search",
+      autocomplete: "list",
+      expanded: true,
+    }),
+    "Search list box pop up expanded, combo box",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      nativeSelect: true,
+      value: "All Departments",
+      name: "Search in",
+      details: "Select the department you want to search in",
+      expanded: false,
+    }),
+    "All Departments, Search in Select the department you want to search in, menu pop up collapsed, button",
   );
 });
 
@@ -130,6 +208,28 @@ test("generateAnnouncement formats headings, links, and table cells", () => {
       setSize: 5,
     }),
     "current item, link, Health A to Z, 1 of 5",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "main content",
+      details: "To move between items, use your keyboard's up or down arrows.",
+      positionInSet: 1,
+      setSize: 1,
+    }),
+    "link, main content To move between items, use your keyboard's up or down arrows.",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "Search, option, forward slash",
+      details: "To move between items, use your keyboard's up or down arrows.",
+      positionInSet: 1,
+      setSize: 5,
+    }),
+    "link, Search, option, forward slash To move between items, use your keyboard's up or down arrows., 1 of 5",
   );
 
   assert.equal(
@@ -244,6 +344,19 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
       role: "main",
     }),
     "end of, main",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "dialog",
+      name: "No suggestions",
+    }),
+    "end of, No suggestions, dialog",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
+      role: "tooltip",
+    }),
+    "end of, tooltip",
   );
   assert.equal(
     getContextEndAnnouncement({

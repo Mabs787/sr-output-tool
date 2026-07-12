@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML element coverage: image map</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 2rem; }
+    section { border-top: 1px solid #ccc; padding: 1rem 0; }
+    img { display: block; margin: 0.5rem 0; max-width: 320px; }
+    .bad { border-left: 4px solid #b10e1e; padding-left: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Image map coverage</h1>
+
+    <section aria-labelledby="map-good">
+      <h2 id="map-good">Good image map example</h2>
+      <img
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Crect width='160' height='160' fill='%23e8f4ff'/%3E%3Crect x='160' width='160' height='160' fill='%23fff3cd'/%3E%3Ctext x='40' y='85'%3EFlights%3C/text%3E%3Ctext x='205' y='85'%3EHotels%3C/text%3E%3C/svg%3E"
+        alt="Travel services map"
+        usemap="#travel-map">
+      <map name="travel-map">
+        <area shape="rect" coords="0,0,159,160" href="#flights" alt="Flights">
+        <area shape="rect" coords="160,0,320,160" href="#hotels" alt="Hotels">
+      </map>
+      <p id="flights">Flights section target.</p>
+      <p id="hotels">Hotels section target.</p>
+    </section>
+
+    <section class="bad" aria-labelledby="map-bad">
+      <h2 id="map-bad">Bad image map examples</h2>
+      <img
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='80'%3E%3Crect width='320' height='80' fill='%23eee'/%3E%3C/svg%3E"
+        alt=""
+        usemap="#empty-alt-map">
+      <map name="empty-alt-map">
+        <area shape="rect" coords="0,0,160,80" href="#missing-area-alt">
+        <area shape="rect" coords="160,0,320,80" alt="" href="#empty-area-alt">
+      </map>
+
+      <img
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='80'%3E%3Crect width='320' height='80' fill='%23ddd'/%3E%3C/svg%3E"
+        alt="Image with broken map reference"
+        usemap="#missing-map">
+    </section>
+  </main>
+</body>
+</html>
+
