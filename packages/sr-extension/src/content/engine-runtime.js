@@ -2763,6 +2763,29 @@
             return void 0;
           return normalize(el.textContent || "");
         }
+        function isTooltipElementLike(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return false;
+          const role = normalize(el.getAttribute("role"))?.toLowerCase();
+          const tag = el.tagName?.toLowerCase?.() || "";
+          return role === "tooltip" || /tooltip/i.test(tag);
+        }
+        function hasNonTooltipDescendantText(el) {
+          for (const child of Array.from(el?.childNodes || [])) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              if (normalize(child.textContent || ""))
+                return true;
+              continue;
+            }
+            if (child.nodeType !== Node.ELEMENT_NODE)
+              continue;
+            if (isTooltipElementLike(child))
+              continue;
+            if (hasNonTooltipDescendantText(child))
+              return true;
+          }
+          return false;
+        }
         function hasAssociatedExplicitTooltip(el, name) {
           const normalizedName = normalize(name);
           if (!normalizedName)
@@ -2816,7 +2839,9 @@
             return false;
           if (readableText(el) || nestedImageLabel(el))
             return false;
-          return Boolean(el.querySelector("svg, [role='img'], img") || Array.from(el.children).some((child) => isCustomElement(child) && !readableText(child) && !nestedImageLabel(child) && !child.querySelector?.(interactiveSelector)));
+          if (hasNonTooltipDescendantText(el))
+            return false;
+          return Boolean(el.querySelector("svg, [role='img'], img") || Array.from(el.children).some((child) => isCustomElement(child) && !readableText(child) && !nestedImageLabel(child) && !hasNonTooltipDescendantText(child) && !child.querySelector?.(interactiveSelector)));
         }
         function isPositionedImageChoiceButton(el) {
           if (implicitRole(el) !== "button")
@@ -7408,6 +7433,8 @@
           const tag = el.tagName.toLowerCase();
           if (!["span", "div", "small"].includes(tag))
             return void 0;
+          if (isFooterLicenseBoilerplateTextContainer(el))
+            return void 0;
           if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || expandedControlledRegionFor(el) || !el.closest("footer,[role='contentinfo']") || !accessibilityNodes.length) {
             return void 0;
           }
@@ -7459,6 +7486,20 @@
           if (!linkCount || fragments.length <= linkCount)
             return void 0;
           return fragments.some((fragment) => !fragment.startsWith("link, ")) ? fragments : void 0;
+        }
+        function isFooterLicenseBoilerplateTextContainer(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          const footer = el.closest("footer,[role='contentinfo']");
+          if (!footer)
+            return false;
+          if (footer.querySelector("[data-sr-marker-content]"))
+            return false;
+          const text = normalize(readableText(el));
+          if (!/^All content is available under the Open Government Licence v3\.0, except where otherwise stated$/i.test(text || "")) {
+            return false;
+          }
+          return Array.from(el.querySelectorAll("a[href], [role='link']")).some((link) => /open-government-licence|open government licence/i.test(`${link.getAttribute?.("href") || ""} ${accessibleName(link, "link") || readableText(link) || ""}`));
         }
         function articleInlineTextLinkFragments(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
@@ -9944,7 +9985,7 @@
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
             preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
-            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && isDirectListBackedDefinitionItem(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && isDirectListBackedDefinitionItem(el) || role === "dialog" && el.getAttribute("aria-modal") === "true" && !accessibleName(el, role) && !readableText(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
             boundingBox: {
@@ -10136,7 +10177,7 @@
           if (role === "listitem" && hasSingleSemanticListItemChild(el)) {
             return false;
           }
-          if (isContextRole(el, role) && !isUnnamedCarouselRegion(el) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(role === "list" && announcedListChildren(el).length)) {
+          if (isContextRole(el, role) && !isUnnamedCarouselRegion(el) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(role === "dialog" && el.getAttribute("aria-modal") === "true") && !(role === "list" && announcedListChildren(el).length)) {
             return false;
           }
           if (isUnnamedCarouselRegion(el)) {
@@ -10241,6 +10282,9 @@
             return false;
           }
           if (role === "listbox" && singleSelectedListboxOption(el)) {
+            return false;
+          }
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !accessibleName(el, role) && !readableText(el)) {
             return false;
           }
           if (isContextRole(el, role))

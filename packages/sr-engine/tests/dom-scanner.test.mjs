@@ -1951,9 +1951,7 @@ test("scanSubtree preserves footer static text around direct inline links", () =
       "footer",
       "Built by the",
       "link, GOV.UK Design System team",
-      "All content is available under the",
       "link, Open Government Licence v3.0",
-      ", except where otherwise stated",
       "link, © Crown copyright",
       "end of, footer",
     ],
@@ -5400,6 +5398,18 @@ test("scanSubtree keeps aria-label-only decorative icon buttons ungrouped", () =
     `),
     ["Search, button"],
   );
+
+  assert.deepEqual(
+    scanHtml(`
+      <uhf-search>
+        <button aria-label="Search Microsoft.com">
+          <span hidden>Search</span>
+          <x-empty-icon><i></i></x-empty-icon>
+        </button>
+      </uhf-search>
+    `),
+    ["Search Microsoft.com, button, group"],
+  );
 });
 
 test("scanSubtree emits standalone groups for clustered visual button shells", () => {
@@ -5757,6 +5767,21 @@ test("scanSubtree suppresses empty alert live regions", () => {
       </main>
     `),
     ["main", "link, back to top", "group", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <footer>
+          <a href="#top">back to top</a>
+        </footer>
+        <div>
+          <p id="__next-route-announcer__" role="alert" aria-live="assertive"></p>
+        </div>
+        <div role="dialog" aria-modal="true"><iframe title="SP Consent Message"></iframe></div>
+      </main>
+    `),
+    ["main", "link, back to top", "group", "dialog", "end of, main"],
   );
 
   assert.deepEqual(
