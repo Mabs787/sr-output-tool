@@ -10760,6 +10760,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       hasPopup: nativeDatalistElement(stateEl) ? "listbox" : normalizedPopup(stateEl) ?? normalizedPopup(el),
       autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
       modal: el.getAttribute("aria-modal") === "true" || undefined,
+      modalDialogSummaryItemCount:
+        role === "dialog" &&
+        el.getAttribute("aria-modal") === "true" &&
+        hasExplicitDialogName(el)
+          ? modalDialogSummaryItemCount(el)
+          : undefined,
       sort: normalize(el.getAttribute("aria-sort")),
       selectedCount: listboxSelectedCount,
       nativeSelect: tag === "select" || undefined,
@@ -11040,8 +11046,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "term" && isDirectListBackedDefinitionItem(el)) ||
         (role === "dialog" &&
           el.getAttribute("aria-modal") === "true" &&
-          !accessibleName(el, role) &&
-          !readableText(el)) ||
+          ((hasExplicitDialogName(el) && modalDialogSummaryItemCount(el)) ||
+            (!hasExplicitDialogName(el) && !readableText(el)))) ||
         (role === "group" &&
           isCustomElement(el) &&
           hasShadowRootContent(el) &&
@@ -11302,6 +11308,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (
+      role === "dialog" &&
+      el.getAttribute("aria-modal") === "true" &&
+      !hasExplicitDialogName(el) &&
+      hasVisibleInteractiveDescendant(el)
+    ) {
+      return false;
+    }
+
     if (isUnnamedCarouselRegion(el)) {
       return false;
     }
@@ -11468,7 +11483,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (
       role === "dialog" &&
       el.getAttribute("aria-modal") === "true" &&
-      !accessibleName(el, role) &&
+      !hasExplicitDialogName(el) &&
+      hasVisibleInteractiveDescendant(el)
+    ) {
+      return false;
+    }
+    if (
+      role === "dialog" &&
+      el.getAttribute("aria-modal") === "true" &&
+      !hasExplicitDialogName(el) &&
       !readableText(el)
     ) {
       return false;
@@ -11655,6 +11678,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     el: any,
   ): string[] | undefined {
     if (!["dialog", "tooltip"].includes(descriptor.role || "")) return undefined;
+    if (descriptor.role === "dialog" && descriptor.modalDialogSummaryItemCount) {
+      return [generateAnnouncement(descriptor)];
+    }
     const directText =
       descriptor.role === "tooltip"
         ? normalize(el.textContent || "")
@@ -11666,6 +11692,31 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           );
     if (!directText) return undefined;
     return [generateAnnouncement(descriptor), directText];
+  }
+
+  function modalDialogSummaryItemCount(el: any): number | undefined {
+    const count = walkChildren(el).filter((child: any) => !isHidden(child)).length;
+    return count > 0 ? count : undefined;
+  }
+
+  function hasExplicitDialogName(el: any): boolean {
+    return Boolean(
+      normalize(el.getAttribute?.("aria-label")) ||
+        textFromIdRefs(el.getAttribute?.("aria-labelledby")),
+    );
+  }
+
+  function modalDialogSummaryAnnouncement(
+    descriptor: CapturedElementDescriptor,
+  ): string | undefined {
+    if (!descriptor.modalDialogSummaryItemCount) return undefined;
+    return `dialog, with ${descriptor.modalDialogSummaryItemCount} ${descriptor.modalDialogSummaryItemCount === 1 ? "item" : "items"}`;
+  }
+
+  function modalDialogHeadingChildren(el: any): any[] {
+    return walkChildren(el).filter(
+      (child: any) => !isHidden(child) && implicitRole(child) === "heading",
+    );
   }
 
   function splitCompactInputActionGroupAnnouncements(
@@ -12549,7 +12600,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         }
 
         if (shouldDescendIntoStop(el)) {
-          for (const child of walkChildren(el)) walk(child);
+          const children = descriptor?.modalDialogSummaryItemCount
+            ? modalDialogHeadingChildren(el)
+            : walkChildren(el);
+          for (const child of children) walk(child);
         }
 
         if (descriptor) {
@@ -12559,6 +12613,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               index: log.length,
               srId: id,
               announcement: descriptor.axMarkerLinkTrailingTextListItemAnnouncement,
+              role: descriptor.role,
+              name: descriptor.name,
+              boundingBox: {
+                x: Math.round(rect.x),
+                y: Math.round(rect.y),
+                width: Math.round(rect.width),
+                height: Math.round(rect.height),
+              },
+            });
+          }
+
+          const modalSummary = modalDialogSummaryAnnouncement(descriptor);
+          if (modalSummary) {
+            const rect = el.getBoundingClientRect();
+            log.push({
+              index: log.length,
+              srId: id,
+              announcement: modalSummary,
               role: descriptor.role,
               name: descriptor.name,
               boundingBox: {

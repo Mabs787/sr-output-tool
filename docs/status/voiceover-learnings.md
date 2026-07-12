@@ -34,6 +34,22 @@ decision, tests added or updated, and what future agents must avoid.
 - Do not encode site-specific selectors, class names, copy, or layout accidents
   in scanner or engine logic.
 
+## 2026-07-12 Behavior Lab: Modal Dialogs
+
+- Target: behavior-lab controls/context fixtures on branch
+  `codex/voiceover-behavior-lab`.
+- Evidence: runs `29203076966` and `29207406381`; receipts under
+  `voiceover-smoke/agent-work/<run>/behavior-lab/`.
+- Decision: VoiceOver-backed reusable rule for `aria-modal="true"` dialogs.
+  Do not announce `modal`. Explicitly named modal dialogs announce the dialog
+  stop, heading child, and `dialog, with N items`; suppress body descendants and
+  the dialog end boundary for that narrow shape. Unnamed modal dialogs with
+  visible interactive descendants are transparent wrappers.
+- Tests: added focused DOM scanner coverage; protected corpus remained exact.
+- Avoid: applying this rule to ordinary non-modal dialogs such as the Amazon
+  no-suggestions dialog, or to unnamed modal shells that exist only to wrap
+  iframe/consent content without visible interactive descendants.
+
 ## 2026-07-01 Autonomous Workflow Notes
 
 - Use `wait_agent` for critical-path subagent handoff. Subagent completion

@@ -5823,6 +5823,46 @@ test("scanSubtree suppresses empty alert live regions", () => {
   );
 });
 
+test("scanSubtree matches VoiceOver modal dialog summaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+          <h1 id="dialog-title">Main menu</h1>
+          <p>Choose a section to continue.</p>
+          <button type="button">Close</button>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Main menu, dialog",
+      "heading level 1, Main menu",
+      "dialog, with 3 items",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="dialog" aria-modal="true">
+          <button type="button" aria-label="Back">Back</button>
+          <a href="/orders">Orders</a>
+          <a href="/account">Account</a>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Back, button",
+      "link, Orders",
+      "link, Account",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree keeps labeled fieldset radio groups and VoiceOver radio phrasing", () => {
   assert.deepEqual(
     scanHtml(`

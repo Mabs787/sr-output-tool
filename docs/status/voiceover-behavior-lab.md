@@ -67,6 +67,50 @@ and grouped-control fixtures, but the original combined
 2h10m before cancellation. Treat that as fixture-design evidence only. The
 combined dialog fixture was replaced with one-dialog-per-page targets above.
 
+## 2026-07-12 Processing Results
+
+Artifact receipts:
+
+- `voiceover-smoke/agent-work/29203076966/behavior-lab/`
+- `voiceover-smoke/agent-work/29207406381/behavior-lab/`
+- `voiceover-smoke/agent-work/behavior-lab-controls-and-contexts-aggregate.json`
+
+Accepted exact fixtures after engine refinement:
+
+- `grouped-control-wrapper-boundaries`: exact before engine changes, 22/22.
+- `named-modal-dialog`: exact after modal dialog summary refinement, 3/3.
+- `unnamed-modal-dialog`: exact after unnamed modal flattening, 3/3.
+- `dialog-with-navigation-list`: exact after modal dialog summary refinement, 3/3.
+
+Reusable engine behavior accepted:
+
+- VoiceOver does not announce `modal` for `aria-modal="true"` dialogs in the
+  focused behavior-lab evidence.
+- Explicitly named modal dialogs announce the dialog stop, heading child, then
+  a summary such as `dialog, with 3 items`; the engine now suppresses the modal
+  body descendants and end boundary for this narrow shape.
+- Unnamed modal dialogs with visible interactive descendants are transparent
+  wrappers; their child controls are announced directly.
+
+Parked families:
+
+- `icon-button-tooltip-contexts`: 3 tooltip-context windows remain. The windows
+  mix associated tooltip naming, hidden tooltip text, tooltip end boundaries,
+  and a simple leading-icon text button group suffix. Keep parked until smaller
+  repros isolate each sub-family.
+- `combobox-popup-search-controls`: 4 combobox/search-popup windows remain. The
+  windows mix native search label stops, listbox option traversal, ARIA grid
+  popup table/grid wording, and row/cell decomposition. Keep parked for a
+  separate form-popup behavior batch.
+
+Validation after the dialog engine refinement:
+
+- `yarn workspace @sr-output/engine build`: passed.
+- `yarn workspace @sr-output/engine test:unit`: passed, 244 passed, 49 skipped.
+- `yarn build:extension-runtime`: passed.
+- `yarn workspace @sr-output/engine test:voiceover`: passed, 38 passed,
+  14 skipped.
+
 ## Scan Command Template
 
 Use the VoiceOver scan workflow on the current branch with:

@@ -1049,9 +1049,6 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "dialog": {
       pushIfPresent(parts, label);
       parts.push("dialog");
-      if (el.modal && label) {
-        parts.push("modal");
-      }
       pushSupplementalText(parts, el);
       break;
     }

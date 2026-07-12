@@ -854,9 +854,6 @@
           case "dialog": {
             pushIfPresent(parts, label);
             parts.push("dialog");
-            if (el.modal && label) {
-              parts.push("modal");
-            }
             pushSupplementalText(parts, el);
             break;
           }
@@ -9906,6 +9903,7 @@
             hasPopup: nativeDatalistElement(stateEl) ? "listbox" : normalizedPopup(stateEl) ?? normalizedPopup(el),
             autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
             modal: el.getAttribute("aria-modal") === "true" || void 0,
+            modalDialogSummaryItemCount: role === "dialog" && el.getAttribute("aria-modal") === "true" && hasExplicitDialogName(el) ? modalDialogSummaryItemCount(el) : void 0,
             sort: normalize(el.getAttribute("aria-sort")),
             selectedCount: listboxSelectedCount,
             nativeSelect: tag === "select" || void 0,
@@ -9985,7 +9983,7 @@
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
             preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
-            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && isDirectListBackedDefinitionItem(el) || role === "dialog" && el.getAttribute("aria-modal") === "true" && !accessibleName(el, role) && !readableText(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && isDirectListBackedDefinitionItem(el) || role === "dialog" && el.getAttribute("aria-modal") === "true" && (hasExplicitDialogName(el) && modalDialogSummaryItemCount(el) || !hasExplicitDialogName(el) && !readableText(el)) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
             boundingBox: {
@@ -10180,6 +10178,9 @@
           if (isContextRole(el, role) && !isUnnamedCarouselRegion(el) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(role === "dialog" && el.getAttribute("aria-modal") === "true") && !(role === "list" && announcedListChildren(el).length)) {
             return false;
           }
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && hasVisibleInteractiveDescendant(el)) {
+            return false;
+          }
           if (isUnnamedCarouselRegion(el)) {
             return false;
           }
@@ -10284,7 +10285,10 @@
           if (role === "listbox" && singleSelectedListboxOption(el)) {
             return false;
           }
-          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !accessibleName(el, role) && !readableText(el)) {
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && hasVisibleInteractiveDescendant(el)) {
+            return false;
+          }
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && !readableText(el)) {
             return false;
           }
           if (isContextRole(el, role))
@@ -10396,10 +10400,28 @@
         function splitDialogDirectTextAnnouncements(descriptor, el) {
           if (!["dialog", "tooltip"].includes(descriptor.role || ""))
             return void 0;
+          if (descriptor.role === "dialog" && descriptor.modalDialogSummaryItemCount) {
+            return [generateAnnouncement2(descriptor)];
+          }
           const directText = descriptor.role === "tooltip" ? normalize(el.textContent || "") : normalize(Array.from(el.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
           if (!directText)
             return void 0;
           return [generateAnnouncement2(descriptor), directText];
+        }
+        function modalDialogSummaryItemCount(el) {
+          const count = walkChildren(el).filter((child) => !isHidden(child)).length;
+          return count > 0 ? count : void 0;
+        }
+        function hasExplicitDialogName(el) {
+          return Boolean(normalize(el.getAttribute?.("aria-label")) || textFromIdRefs(el.getAttribute?.("aria-labelledby")));
+        }
+        function modalDialogSummaryAnnouncement(descriptor) {
+          if (!descriptor.modalDialogSummaryItemCount)
+            return void 0;
+          return `dialog, with ${descriptor.modalDialogSummaryItemCount} ${descriptor.modalDialogSummaryItemCount === 1 ? "item" : "items"}`;
+        }
+        function modalDialogHeadingChildren(el) {
+          return walkChildren(el).filter((child) => !isHidden(child) && implicitRole(child) === "heading");
         }
         function splitCompactInputActionGroupAnnouncements(descriptor) {
           if (!descriptor.compactInputActionGroup)
@@ -11034,7 +11056,8 @@
                 }
               }
               if (shouldDescendIntoStop(el)) {
-                for (const child of walkChildren(el))
+                const children = descriptor?.modalDialogSummaryItemCount ? modalDialogHeadingChildren(el) : walkChildren(el);
+                for (const child of children)
                   walk(child);
               }
               if (descriptor) {
@@ -11044,6 +11067,23 @@
                     index: log.length,
                     srId: id,
                     announcement: descriptor.axMarkerLinkTrailingTextListItemAnnouncement,
+                    role: descriptor.role,
+                    name: descriptor.name,
+                    boundingBox: {
+                      x: Math.round(rect.x),
+                      y: Math.round(rect.y),
+                      width: Math.round(rect.width),
+                      height: Math.round(rect.height)
+                    }
+                  });
+                }
+                const modalSummary = modalDialogSummaryAnnouncement(descriptor);
+                if (modalSummary) {
+                  const rect = el.getBoundingClientRect();
+                  log.push({
+                    index: log.length,
+                    srId: id,
+                    announcement: modalSummary,
                     role: descriptor.role,
                     name: descriptor.name,
                     boundingBox: {

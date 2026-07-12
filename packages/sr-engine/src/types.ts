@@ -79,6 +79,7 @@ export interface ElementDescriptor {
   fieldsetRadioGroup?: boolean;
   linkRoleFirst?: boolean;
   suppressContextEnd?: boolean;
+  modalDialogSummaryItemCount?: number;
   groupContext?: boolean;
   richTextGroup?: boolean;
   groupedCollectionPosition?: boolean;
