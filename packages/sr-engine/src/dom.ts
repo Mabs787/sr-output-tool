@@ -2042,6 +2042,47 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return /tooltip/i.test(host.tagName.toLowerCase());
   }
 
+  function explicitTooltipText(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    const role = normalize(el.getAttribute("role"))?.toLowerCase();
+    const tag = el.tagName?.toLowerCase?.() || "";
+    if (role !== "tooltip" && !/tooltip/i.test(tag)) return undefined;
+    return normalize(el.textContent || "");
+  }
+
+  function hasAssociatedExplicitTooltip(el: any, name?: string): boolean {
+    const normalizedName = normalize(name);
+    if (!normalizedName) return false;
+
+    const ids = new Set<string>();
+    for (
+      let current = el;
+      current && current.nodeType === Node.ELEMENT_NODE;
+      current = current.parentElement
+    ) {
+      const id = normalize(current.getAttribute?.("id"));
+      if (id) ids.add(id);
+      if (current === document.body || current === document.documentElement) break;
+    }
+
+    for (
+      let current = el?.parentElement, depth = 0;
+      current && depth < 4;
+      current = current.parentElement, depth += 1
+    ) {
+      const tooltips = Array.from(
+        current.querySelectorAll?.("[role='tooltip'], *") || [],
+      ).filter((candidate: any) => explicitTooltipText(candidate) === normalizedName);
+      for (const tooltip of tooltips as any[]) {
+        const target = normalize(tooltip.getAttribute?.("for"));
+        if (target && !ids.has(target)) continue;
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function hasShadowRootContent(el: any): boolean {
     return Boolean(
       el?.shadowRoot ||
@@ -10700,6 +10741,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               !anonymousStructuralCustomElementHost &&
               !hasSameNameCustomGroupAncestor(el, name) &&
               !normalizedPopup(el) &&
+              !hasAssociatedExplicitTooltip(el, name) &&
               !isPlainUtilityDisclosureButton(el) &&
               !suppressPositionedChoiceGroup &&
               el.hasAttribute("aria-label")) ||

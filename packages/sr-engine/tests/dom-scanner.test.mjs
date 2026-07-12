@@ -5755,10 +5755,14 @@ test("scanSubtree suppresses empty alert live regions", () => {
   assert.deepEqual(
     scanHtml(`
       <header>
-        <button aria-label="Settings"></button>
-        <div role="tooltip" aria-label="tooltip">
-          <span hidden>Settings</span>
-        </div>
+        <x-action>
+          <span>
+            <button aria-label="Settings"></button>
+          </span>
+          <div role="tooltip" aria-label="tooltip">
+            <span hidden>Settings</span>
+          </div>
+        </x-action>
       </header>
     `),
     [
