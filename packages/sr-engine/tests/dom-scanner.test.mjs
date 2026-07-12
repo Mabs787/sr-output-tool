@@ -5756,7 +5756,9 @@ test("scanSubtree suppresses empty alert live regions", () => {
     scanHtml(`
       <header>
         <button aria-label="Settings"></button>
-        <div role="tooltip" aria-label="tooltip">Settings</div>
+        <div role="tooltip" aria-label="tooltip">
+          <span hidden>Settings</span>
+        </div>
       </header>
     `),
     [

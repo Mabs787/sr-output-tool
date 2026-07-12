@@ -10314,7 +10314,7 @@
         function splitDialogDirectTextAnnouncements(descriptor, el) {
           if (!["dialog", "tooltip"].includes(descriptor.role || ""))
             return void 0;
-          const directText = normalize(Array.from(el.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
+          const directText = descriptor.role === "tooltip" ? normalize(el.textContent || "") : normalize(Array.from(el.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
           if (!directText)
             return void 0;
           return [generateAnnouncement2(descriptor), directText];

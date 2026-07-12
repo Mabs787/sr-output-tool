@@ -11541,12 +11541,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     el: any,
   ): string[] | undefined {
     if (!["dialog", "tooltip"].includes(descriptor.role || "")) return undefined;
-    const directText = normalize(
-      Array.from(el.childNodes || [])
-        .filter((child: any) => child.nodeType === Node.TEXT_NODE)
-        .map((child: any) => child.textContent || "")
-        .join(" "),
-    );
+    const directText =
+      descriptor.role === "tooltip"
+        ? normalize(el.textContent || "")
+        : normalize(
+            Array.from(el.childNodes || [])
+              .filter((child: any) => child.nodeType === Node.TEXT_NODE)
+              .map((child: any) => child.textContent || "")
+              .join(" "),
+          );
     if (!directText) return undefined;
     return [generateAnnouncement(descriptor), directText];
   }
