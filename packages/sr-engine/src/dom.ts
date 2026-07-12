@@ -10742,6 +10742,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               !hasSameNameCustomGroupAncestor(el, name) &&
               !normalizedPopup(el) &&
               !hasAssociatedExplicitTooltip(el, name) &&
+              !isAriaLabelOnlyDecorativeIconButton(el) &&
               !isPlainUtilityDisclosureButton(el) &&
               !suppressPositionedChoiceGroup &&
               el.hasAttribute("aria-label")) ||
