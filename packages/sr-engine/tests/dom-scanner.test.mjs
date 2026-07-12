@@ -342,6 +342,338 @@ test("scanSubtree splits paragraph text around inline semantic and link boundari
   );
 });
 
+test("scanSubtree tolerates MathML computed style gaps in JSDOM", () => {
+  const announcements = scanHtml(`
+    <main>
+      <p>The equation is <math aria-label="x plus y equals z over one half"><mi>x</mi><mo>+</mo><mi>y</mi><mo>=</mo><mi>z</mi><mfrac><mn>1</mn><mn>2</mn></mfrac></math>.</p>
+    </main>
+  `);
+
+  assert.ok(
+    announcements.some((announcement) => announcement.includes("The equation is")),
+    "expected scanner to traverse text around inline MathML",
+  );
+});
+
+test("scanSubtree suppresses unnamed scan-root main wrapper boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Fixture root</h1>
+        <section aria-label="Details"><p>Reusable content.</p></section>
+      </main>
+    `),
+    [
+      "heading level 1, Fixture root",
+      "Details, region",
+      "Reusable content.",
+      "end of, Details, region",
+    ],
+  );
+});
+
+test("scanSubtree exposes portal fallback text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Portal coverage</h1>
+        <section aria-label="Portal example">
+          <p>Before portal.</p>
+          <portal src="https://example.test/preview">Portal fallback text</portal>
+        </section>
+      </main>
+    `),
+    [
+      "heading level 1, Portal coverage",
+      "Portal example, region",
+      "Before portal.",
+      "Portal fallback text",
+      "end of, Portal example, region",
+    ],
+  );
+});
+
+test("scanSubtree announces native meter and progress semantics", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Meter and progress controls</h1>
+        <label for="storage-used">Storage used</label>
+        <meter id="storage-used" min="0" max="100" value="64">64%</meter>
+        <label for="reduced-storage">Reduced storage</label>
+        <meter id="reduced-storage" value="64">64%</meter>
+        <label for="upload-progress">Upload progress</label>
+        <progress id="upload-progress" max="100" value="70">70%</progress>
+        <label for="loading-progress">Loading progress</label>
+        <progress id="loading-progress">Loading</progress>
+      </main>
+    `),
+    [
+      "heading level 1, Meter and progress controls",
+      "Storage used",
+      "64%, Storage used, level indicator",
+      "Reduced storage",
+      "64%, Reduced storage, level indicator",
+      "Upload progress",
+      "Upload progress, 70%, progress indicator",
+      "Loading progress",
+      "Loading progress, indeterminate, progress indicator",
+    ],
+  );
+});
+
+test("scanSubtree exposes named object and embed elements as objects", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Object coverage</h1>
+        <embed aria-label="Embedded SVG demo" type="image/svg+xml">
+        <embed aria-label="Loaded SVG demo" type="image/svg+xml" src="data:image/svg+xml,%3Csvg/%3E">
+        <object data="data:image/svg+xml,%3Csvg/%3E" aria-label="Loaded object demo"></object>
+        <object>Fallback text that VoiceOver does not expose as object name.</object>
+      </main>
+    `),
+    [
+      "heading level 1, Object coverage",
+      "Embedded SVG demo, empty object",
+      "Loaded SVG demo, object",
+      "Loaded object demo, object",
+    ],
+  );
+});
+
+test("scanSubtree exposes image map areas as grouped links from native and reduced HTML", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Image map coverage</h1>
+        <img alt="Travel services map">
+        <map name="travel-map">
+          <area href="#flights" alt="Flights">
+          <area href="#hotels" alt="Hotels">
+          <area href="#missing-name">
+          <area href="plain-target.html">
+          <area href="/absolute/path-target.html" alt="">
+        </map>
+        <p id="flights">Flights section target.</p>
+        <p id="hotels">Hotels section target.</p>
+        <img alt="Image with broken map reference" usemap="#missing-map">
+      </main>
+    `),
+    [
+      "heading level 1, Image map coverage",
+      "Travel services map, group",
+      "link, Flights",
+      "link, Hotels",
+      "link, blank",
+      "link, plain-target.html",
+      "link, path-target.html",
+      "end of, Travel services map, group",
+      "Flights section target.",
+      "Hotels section target.",
+      "Image with broken map reference, image",
+    ],
+  );
+});
+
+test("scanSubtree announces native datalist, select, number, and range controls", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Native form controls</h1>
+        <label for="city-choice">Choose a city</label>
+        <input id="city-choice" list="city-options">
+        <datalist id="city-options"><option value="London"></option></datalist>
+        <input placeholder="No visible label" list="colour-options">
+        <datalist id="colour-options"><option value="Red"></option></datalist>
+        <input aria-label="No visible label" list="missing-options">
+        <label for="broken-list-input">Input with missing datalist target</label>
+        <input id="broken-list-input" list="missing-list">
+        <label for="support-topic">Support topic</label>
+        <select id="support-topic"><option>Select a topic</option></select>
+        <label for="price">Price</label>
+        <input id="price" type="number" value="10">
+        <label for="volume">Volume</label>
+        <input id="volume" type="range" min="0" max="100" value="40">
+      </main>
+    `),
+    [
+      "heading level 1, Native form controls",
+      "Choose a city",
+      "Choose a city, list box pop up, combo box",
+      "No visible label list box pop up, combo box",
+      "No visible label, edit text",
+      "Input with missing datalist target",
+      "Input with missing datalist target, edit text",
+      "Support topic",
+      "Select a topic, Support topic, menu pop up collapsed, button",
+      "Price",
+      "10, Price, stepper",
+      "Volume",
+      "40, Volume, slider",
+    ],
+  );
+});
+
+test("scanSubtree splits direct HTML phrasing element text boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <p><dfn>Cache</dfn> means stored data.</p>
+        <p>The product is <mark>available today</mark> from selected stores.</p>
+        <p>The policy says <q>bring one photo ID</q>.</p>
+        <p>The old word was <del>voucher</del> and the new word is <ins>credit</ins>.</p>
+        <p>Water is H<sub>2</sub>O.</p>
+        <p><s>Sold out</s> Reopened for booking.</p>
+      </main>
+    `),
+    [
+      "Cache, empty term",
+      "means stored data.",
+      "The product is",
+      "available today",
+      "from selected stores.",
+      "The policy says “bring one photo ID”.",
+      "The old word was",
+      "voucher",
+      "• and the new word is",
+      "credit",
+      "Water is H",
+      "O.",
+      "Sold out",
+      "Reopened for booking.",
+    ],
+  );
+});
+
+test("scanSubtree splits output values, address lines, and canvas fallback text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <h1>Authored fallback coverage</h1>
+        <p>Total: <output>12</output></p>
+        <p>Status: <output role="status">No changes saved yet.</output></p>
+        <canvas>Canvas fallback text describing the drawing.</canvas>
+        <address>
+          Example Travel Ltd<br>
+          1 Station Road<br>
+          London
+        </address>
+      </main>
+    `),
+    [
+      "heading level 1, Authored fallback coverage",
+      "Total:",
+      "12",
+      "Status:",
+      "No changes saved yet.",
+      "Canvas fallback text describing the drawing.",
+      "Example Travel Ltd",
+      "1 Station Road",
+      "London",
+    ],
+  );
+});
+
+test("scanSubtree includes native table captions and VoiceOver-style first-column context", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <table>
+          <caption>Monthly travel costs</caption>
+          <thead>
+            <tr><th scope="col">Month</th><th scope="col">Rail</th><th scope="col">Hotel</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">January</th><td>100</td><td>200</td></tr>
+            <tr><th scope="row">February</th><td>120</td><td>180</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th scope="row">Total</th><td>220</td><td>380</td></tr>
+          </tfoot>
+        </table>
+        <table>
+          <tbody>
+            <tr><td>London</td><td>10</td></tr>
+            <tr><td>Paris</td><td>20</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td></td><td>30</td></tr>
+          </tfoot>
+        </table>
+      </main>
+    `),
+    [
+      "Monthly travel costs, table, 3 columns, 4 rows",
+      "Month, column 1 of 3",
+      "Rail Rail, column 2 of 3",
+      "Hotel Hotel, column 3 of 3",
+      "row 2 of 4 January Month January, column 1 of 3",
+      "Rail 100, column 2 of 3",
+      "Hotel 200, column 3 of 3",
+      "row 3 of 4 February Month February, column 1 of 3",
+      "Rail 120, column 2 of 3",
+      "Hotel 180, column 3 of 3",
+      "row 4 of 4 Total Month Total, column 1 of 3",
+      "Rail 220, column 2 of 3",
+      "Hotel 380, column 3 of 3",
+      "end of table",
+      "table, 2 columns, 3 rows",
+      "London, column 1 of 2",
+      "10, column 2 of 2",
+      "row 2 of 3 Paris, column 1 of 2",
+      "20, column 2 of 2",
+      "row 3 of 3 blank, column 1 of 2",
+      "30, column 2 of 2",
+      "end of table",
+    ],
+  );
+});
+
+test("scanSubtree preserves DOM card spacing when AX only inserts post-punctuation whitespace", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section aria-labelledby="card-heading" data-sr-dom-node-id="region">
+          <ul>
+            <li>
+              <a href="/join" data-sr-dom-node-id="card-link">
+                <p id="card-heading">Join the panel</p><p>Available in the U.S., U.K., and Germany.</p><span>Join now</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "region",
+              role: "region",
+              name: "Join the panel",
+              domNodeId: "region",
+            },
+            {
+              nodeId: "link",
+              role: "link",
+              name: "Join the panel Available in the U.S., U.K., and Germany. Join now",
+              domNodeId: "card-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Join the panel, region",
+      "list 1 item",
+      "link, Join the panel Available in the U.S., U.K., and Germany.Join now",
+      "end of list",
+      "end of, Join the panel, region",
+    ],
+  );
+});
+
 test("scanSubtree splits paragraph text around code-backed inline links", () => {
   assert.deepEqual(
     scanHtml(`
@@ -1634,7 +1966,7 @@ test("scanSubtree counts list items through neutral list wrappers", () => {
   );
 });
 
-test("scanSubtree excludes hidden consent-only list items from list summary counts", () => {
+test("scanSubtree counts hidden consent-only list items in list summaries", () => {
   assert.deepEqual(
     scanHtml(`
       <footer>
@@ -1655,7 +1987,7 @@ test("scanSubtree excludes hidden consent-only list items from list summary coun
     `),
     [
       "footer",
-      "list 4 items",
+      "list 5 items",
       "link, About us, 1 of 5",
       "link, Report an issue with the NHS website, 2 of 5",
       "link, Accessibility statement, 3 of 5",
@@ -2625,6 +2957,51 @@ test("scanSubtree does not add a group suffix to AX-confirmed collapsed native b
       "Show search menu, collapsed, button",
       "end of, Primary, navigation",
       "end of, banner",
+    ],
+  );
+});
+
+test("scanSubtree keeps a group suffix on collapsed native buttons with visibility-hidden controlled regions", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <nav aria-label="Languages">
+            <button
+              type="button"
+              aria-controls="language-list"
+              aria-expanded="false"
+              data-sr-dom-node-id="language-button"
+            >
+              <span>Read in your language</span>
+            </button>
+            <div id="language-list" data-sr-computed-hidden="visibility:hidden">
+              <a href="/es" data-sr-computed-hidden="visibility:hidden">Spanish</a>
+            </div>
+          </nav>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "language-button",
+              role: "button",
+              name: "Read in your language",
+              domNodeId: "language-button",
+              tagName: "button",
+              properties: { focusable: true, expanded: false },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Languages, navigation",
+      "Read in your language, collapsed, button, group",
+      "end of, Languages, navigation",
+      "end of, main",
     ],
   );
 });
@@ -6174,6 +6551,20 @@ test("scanSubtree descends into labeled native selects inside list items", () =>
       "Celsius, Temperature, menu pop up collapsed, button",
       "end of list",
     ],
+  );
+});
+
+test("scanSubtree does not emit separate native select label stops for hidden labels", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <label for="language" data-sr-rendered-position="offscreen">en</label>
+        <select id="language" data-sr-computed-hidden="opacity:0">
+          <option selected>English</option>
+        </select>
+      </form>
+    `),
+    ["English, en, menu pop up collapsed, button"],
   );
 });
 

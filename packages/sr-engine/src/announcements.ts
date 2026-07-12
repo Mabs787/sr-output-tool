@@ -454,8 +454,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "textbox":
-    case "searchbox":
-    case "spinbutton": {
+    case "searchbox": {
       if (role === "searchbox") {
         pushIfPresent(
           parts,
@@ -508,6 +507,22 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "spinbutton": {
+      pushIfPresent(parts, [value, label].filter(Boolean).join(", "));
+      parts.push("stepper");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "slider": {
+      pushIfPresent(parts, [value, label].filter(Boolean).join(", "));
+      parts.push("slider");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "combobox": {
       if (el.nativeSelect) {
         const selectLabel = normalizeText(el.name);
@@ -518,12 +533,21 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
         parts.push("button");
       } else {
-        pushIfPresent(parts, label);
         const popupType = formatPopupType(el.hasPopup);
-        if (popupType && el.expanded !== undefined) {
+        if (el.nativeDatalistPlaceholderName && label && popupType) {
+          parts.push(`${label} ${popupType}`);
+        } else {
+          pushIfPresent(parts, label);
+          if (popupType && el.expanded !== undefined) {
+            parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+          } else if (popupType) {
+            parts.push(popupType);
+          } else if (!popupType) {
+            pushComboBoxAutocomplete(parts, el);
+          }
+        }
+        if (popupType && el.expanded !== undefined && el.nativeDatalistPlaceholderName && label) {
           parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
-        } else if (!popupType) {
-          pushComboBoxAutocomplete(parts, el);
         }
         parts.push("combo box");
         pushIfPresent(parts, value);
@@ -591,6 +615,22 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       pushIfPresent(parts, value);
       parts.push("progress indicator");
       pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "meter": {
+      pushIfPresent(parts, value);
+      pushIfPresent(parts, label);
+      parts.push("level indicator");
+      pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "object": {
+      pushIfPresent(parts, label);
+      parts.push(el.emptyObject ? "empty object" : "object");
       pushSupplementalText(parts, el);
       break;
     }
@@ -762,7 +802,8 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (usesTableFormatting) {
         if (role === "columnheader") {
           parts.push(
-            el.simpleNativeTwoColumnHeaderContext &&
+            (el.simpleNativeTwoColumnHeaderContext ||
+              el.simpleNativeColumnHeaderContext) &&
               el.columnIndex &&
               el.columnIndex > 1 &&
               label
@@ -786,6 +827,17 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             el.columnIndex === 1 &&
             el.rowIndex &&
             label &&
+            el.columnHeaderText &&
+            el.simpleNativeColumnHeaderContext
+          ) {
+            parts.push(
+              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${el.columnHeaderText} ${label}`,
+            );
+          } else if (
+            role === "rowheader" &&
+            el.columnIndex === 1 &&
+            el.rowIndex &&
+            label &&
             el.tableHasComplexColumnHeaders
           ) {
             parts.push(
@@ -794,9 +846,13 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           } else if (el.columnIndex === 1 && el.rowIndex) {
             const rowLabel = `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`;
             const cellContext = normalizeText(
-              [el.columnHeaderText, label].filter(Boolean).join(" "),
+              [el.columnHeaderText, label ?? "blank"].filter(Boolean).join(" "),
             );
-            if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+            if (el.rowIndex === 1 && label) {
+              parts.push(label);
+            } else if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+              parts.push(`${rowLabel} ${cellContext}`);
+            } else if (el.nativeUnheadedFirstColumnContext && cellContext) {
               parts.push(`${rowLabel} ${cellContext}`);
             } else {
               parts.push(rowLabel);

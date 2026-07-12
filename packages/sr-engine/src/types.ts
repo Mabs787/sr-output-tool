@@ -22,6 +22,7 @@ export interface ElementDescriptor {
   roleDescription?: string;
   value?: string;
   valueText?: string;
+  emptyObject?: boolean;
   level?: number;
   headingFragments?: string[];
   headingFragmentCount?: number;
@@ -40,6 +41,8 @@ export interface ElementDescriptor {
   tableFirstGroupedHeaderRow?: boolean;
   tableHasComplexColumnHeaders?: boolean;
   simpleNativeTwoColumnHeaderContext?: boolean;
+  simpleNativeColumnHeaderContext?: boolean;
+  nativeUnheadedFirstColumnContext?: boolean;
   rowSpan?: number;
   columnSpan?: number;
   tableLabel?: string;
@@ -65,6 +68,7 @@ export interface ElementDescriptor {
   sort?: string;
   selectedCount?: number;
   nativeSelect?: boolean;
+  nativeDatalistPlaceholderName?: boolean;
   headingButton?: boolean;
   headingLink?: boolean;
   linkHeadingLevel?: number;
@@ -114,6 +118,7 @@ export interface ElementDescriptor {
   inlineCodeBreakTextFragments?: string[];
   footerInlineBoundaryTextFragments?: string[];
   inlineTextLinkFragments?: string[];
+  inlinePhrasingBoundaryFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];
   priceDisclosureFragments?: string[];
   richProductCardFeatureRowFragments?: string[];

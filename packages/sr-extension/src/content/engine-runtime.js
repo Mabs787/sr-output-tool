@@ -388,8 +388,7 @@
             break;
           }
           case "textbox":
-          case "searchbox":
-          case "spinbutton": {
+          case "searchbox": {
             if (role === "searchbox") {
               pushIfPresent(parts, [label, value ?? el.placeholder].filter(Boolean).join(" "));
               const popupType = formatPopupType(el.hasPopup);
@@ -433,6 +432,20 @@
             }
             break;
           }
+          case "spinbutton": {
+            pushIfPresent(parts, [value, label].filter(Boolean).join(", "));
+            parts.push("stepper");
+            pushCollectionPosition(parts, el);
+            pushSupplementalText(parts, el);
+            break;
+          }
+          case "slider": {
+            pushIfPresent(parts, [value, label].filter(Boolean).join(", "));
+            parts.push("slider");
+            pushCollectionPosition(parts, el);
+            pushSupplementalText(parts, el);
+            break;
+          }
           case "combobox": {
             if (el.nativeSelect) {
               const selectLabel = normalizeText(el.name);
@@ -443,12 +456,21 @@
               parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
               parts.push("button");
             } else {
-              pushIfPresent(parts, label);
               const popupType = formatPopupType(el.hasPopup);
-              if (popupType && el.expanded !== void 0) {
+              if (el.nativeDatalistPlaceholderName && label && popupType) {
+                parts.push(`${label} ${popupType}`);
+              } else {
+                pushIfPresent(parts, label);
+                if (popupType && el.expanded !== void 0) {
+                  parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+                } else if (popupType) {
+                  parts.push(popupType);
+                } else if (!popupType) {
+                  pushComboBoxAutocomplete(parts, el);
+                }
+              }
+              if (popupType && el.expanded !== void 0 && el.nativeDatalistPlaceholderName && label) {
                 parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
-              } else if (!popupType) {
-                pushComboBoxAutocomplete(parts, el);
               }
               parts.push("combo box");
               pushIfPresent(parts, value);
@@ -512,6 +534,20 @@
             pushIfPresent(parts, value);
             parts.push("progress indicator");
             pushCollectionPosition(parts, el);
+            pushSupplementalText(parts, el);
+            break;
+          }
+          case "meter": {
+            pushIfPresent(parts, value);
+            pushIfPresent(parts, label);
+            parts.push("level indicator");
+            pushCollectionPosition(parts, el);
+            pushSupplementalText(parts, el);
+            break;
+          }
+          case "object": {
+            pushIfPresent(parts, label);
+            parts.push(el.emptyObject ? "empty object" : "object");
             pushSupplementalText(parts, el);
             break;
           }
@@ -651,17 +687,23 @@
             const usesTableFormatting = el.tableRole === "table" && el.columnIndex && el.columnCount && (role !== "columnheader" || (el.rowCount ?? 0) > 1);
             if (usesTableFormatting) {
               if (role === "columnheader") {
-                parts.push(el.simpleNativeTwoColumnHeaderContext && el.columnIndex && el.columnIndex > 1 && label ? `${label} ${label}` : label ?? "blank");
+                parts.push((el.simpleNativeTwoColumnHeaderContext || el.simpleNativeColumnHeaderContext) && el.columnIndex && el.columnIndex > 1 && label ? `${label} ${label}` : label ?? "blank");
                 parts.push(`column ${el.columnIndex} of ${el.columnCount}`);
               } else {
                 if (role === "rowheader" && el.columnIndex === 1 && el.rowIndex && label && el.tableGroupHeaderText) {
                   parts.push(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label}, ${el.tableGroupHeaderText} ${label}`);
+                } else if (role === "rowheader" && el.columnIndex === 1 && el.rowIndex && label && el.columnHeaderText && el.simpleNativeColumnHeaderContext) {
+                  parts.push(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${el.columnHeaderText} ${label}`);
                 } else if (role === "rowheader" && el.columnIndex === 1 && el.rowIndex && label && el.tableHasComplexColumnHeaders) {
                   parts.push(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${label}`);
                 } else if (el.columnIndex === 1 && el.rowIndex) {
                   const rowLabel = `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`;
-                  const cellContext = normalizeText([el.columnHeaderText, label].filter(Boolean).join(" "));
-                  if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+                  const cellContext = normalizeText([el.columnHeaderText, label ?? "blank"].filter(Boolean).join(" "));
+                  if (el.rowIndex === 1 && label) {
+                    parts.push(label);
+                  } else if (el.simpleNativeTwoColumnHeaderContext && cellContext) {
+                    parts.push(`${rowLabel} ${cellContext}`);
+                  } else if (el.nativeUnheadedFirstColumnContext && cellContext) {
                     parts.push(`${rowLabel} ${cellContext}`);
                   } else {
                     parts.push(rowLabel);
@@ -951,6 +993,26 @@
           const normalized = normalize(value)?.replace(/\s+([.,!?;])/g, "$1");
           return normalized || void 0;
         }
+        function isOptionalComputedStyleElement(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return false;
+          if (el.namespaceURI === "http://www.w3.org/1998/Math/MathML")
+            return true;
+          if (el.tagName?.toLowerCase?.() === "math" || el.closest?.("math"))
+            return true;
+          return false;
+        }
+        function safeComputedStyle(el, pseudoElt) {
+          if (typeof getComputedStyle !== "function")
+            return void 0;
+          try {
+            return getComputedStyle(el, pseudoElt);
+          } catch (error) {
+            if (!isOptionalComputedStyleElement(el))
+              throw error;
+            return void 0;
+          }
+        }
         const accessibilityNodes = Array.isArray(accessibilityTree?.nodes) ? accessibilityTree.nodes : [];
         const accessibilityNodeById = new Map(accessibilityNodes.map((node) => [normalize(node.nodeId), node]).filter((entry) => Boolean(entry[0])));
         function normalizedAxRole(role) {
@@ -993,7 +1055,7 @@
         function cssRenderedCaseName(el, role, name) {
           if (role !== "link" || !name)
             return void 0;
-          const textTransform = normalize(getComputedStyle(el).textTransform)?.toLowerCase();
+          const textTransform = normalize(safeComputedStyle(el)?.textTransform)?.toLowerCase();
           if (textTransform === "uppercase" && /[a-z]/.test(name)) {
             return name.toLocaleUpperCase("en-US");
           }
@@ -1152,6 +1214,8 @@
             return false;
           if (controlledRegions.some((region) => !isHidden(region)))
             return false;
+          if (controlledRegions.some((region) => !isRenderedDisplayHidden(region)))
+            return false;
           const axNode = axNodeForElementRole(el, "button");
           if (!axNode || axNode.properties?.focusable !== true)
             return false;
@@ -1197,6 +1261,14 @@
         }
         function isOpacityHiddenOnly(el) {
           return renderedHiddenValue(el) === "opacity:0";
+        }
+        function isRenderedDisplayHidden(el) {
+          const marker = renderedHiddenValue(el);
+          if (marker && /\bdisplay\s*:\s*none\b/i.test(marker))
+            return true;
+          if (el?.hasAttribute?.("hidden"))
+            return true;
+          return safeComputedStyle(el)?.display === "none";
         }
         function isFocusableOpacityHiddenControl(el) {
           return Boolean(el?.matches?.(interactiveSelector)) && isOpacityHiddenOnly(el);
@@ -1247,7 +1319,9 @@
           if (el.closest("[aria-hidden='true']") || hiddenAncestor && hiddenAncestor !== el) {
             return true;
           }
-          const style = getComputedStyle(el);
+          const style = safeComputedStyle(el);
+          if (!style)
+            return false;
           return style.display === "none" || style.visibility === "hidden";
         }
         function isGovukDesignSystemDocument() {
@@ -1357,6 +1431,10 @@
             if (node.tagName?.toLowerCase() === "slot") {
               return assignedSlotNodes(node).map((child) => collect(child)).filter(Boolean).join(" ");
             }
+            if (node.tagName?.toLowerCase() === "q") {
+              const quoteText = collectElementText(node);
+              return quoteText ? `\u201C${quoteText}\u201D` : "''''";
+            }
             let text = "";
             const shadowChildren = shadowContentChildren(node);
             const children = shadowChildren.length ? shadowChildren : Array.from(node.childNodes);
@@ -1370,7 +1448,21 @@
             }
             return text;
           }
-          return normalize(collect(el));
+          function collectElementText(node) {
+            let text = "";
+            const shadowChildren = shadowContentChildren(node);
+            const children = shadowChildren.length ? shadowChildren : Array.from(node.childNodes);
+            for (const child of children) {
+              const part = collect(child);
+              if (!part)
+                continue;
+              if (text && needsBoundary(text, part))
+                text += " ";
+              text += part;
+            }
+            return normalize(text) || "";
+          }
+          return normalize(collect(el))?.replace(/''''\s+/g, "''''");
         }
         function directOwnText(el) {
           return normalize(Array.from(el?.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
@@ -1427,6 +1519,28 @@
             return void 0;
           const label = document.querySelector(`label[for="${cssEscape(id)}"]`);
           return label ? normalize((textWithoutInteractive(label) || readableText(label))?.replace(/:\s*/g, ": ")) : void 0;
+        }
+        function hasExplicitAriaName(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return false;
+          return Boolean(normalize(el.getAttribute("aria-label")) || textFromIdRefs(el.getAttribute("aria-labelledby")));
+        }
+        function nativeLabelAlreadyAnnouncedByListItem(el, label) {
+          if (!label || !el || el.nodeType !== Node.ELEMENT_NODE)
+            return false;
+          const listItem = el.closest("li,[role='listitem']");
+          if (!isListItem(listItem) || !listItem.contains(el))
+            return false;
+          if (!positionInSet(listItem, "listitem") || !setSize(listItem, "listitem"))
+            return false;
+          const listItemText = textWithoutInteractive(listItem) || directLeadingText(listItem);
+          return normalize(listItemText) === label;
+        }
+        function nativeValueControlLabelStopIsHidden(el) {
+          const label = associatedLabelForControl(el);
+          if (!label)
+            return false;
+          return Boolean(normalize(label.getAttribute("data-sr-computed-hidden")) || normalize(label.getAttribute("data-sr-rendered-position")) === "offscreen");
         }
         function associatedLabelForControl(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE)
@@ -1488,6 +1602,11 @@
           const label = associatedLabelForControl(el);
           if (!label || label.tagName?.toLowerCase() !== "label" || isHidden(label))
             return false;
+          if (el.hasAttribute("list") && !nativeDatalistElement(el) && el.previousElementSibling === label) {
+            const labelText2 = normalize(textWithoutInteractive(label) || readableText(label));
+            const controlName2 = accessibleName(el, role);
+            return Boolean(labelText2 && controlName2 === labelText2);
+          }
           if (label.parentElement !== el.parentElement || el.previousElementSibling !== label) {
             return false;
           }
@@ -2093,6 +2212,27 @@
         function comparableLinkedCardText(value) {
           return normalize(value)?.replace(/\s+([.,;:!?])/g, "$1").replace(/([.,;:!?])\s+/g, "$1").toLocaleLowerCase("en-US");
         }
+        function postPunctuationWhitespaceCollapsedText(value) {
+          return normalize(value)?.replace(/([.!?])\s+(?=[\p{L}\p{N}])/gu, "$1");
+        }
+        function finalPostPunctuationWhitespaceCollapsedText(value) {
+          return normalize(value)?.replace(/([.!?])\s+(?=[\p{L}\p{N}][^.!?]*$)/u, "$1");
+        }
+        function shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name) {
+          if (role !== "link" || !name)
+            return false;
+          if (!el?.closest?.("li,[role='listitem']"))
+            return false;
+          if (postPunctuationWhitespaceCollapsedText(name) === name)
+            return false;
+          if (!el.querySelector?.("p + div, p + span, p + p + div, p + p + span")) {
+            return false;
+          }
+          const paragraphs = Array.from(el.querySelectorAll("p")).filter((paragraph) => !isHidden(paragraph) && readableText(paragraph));
+          const lastParagraph = paragraphs[paragraphs.length - 1];
+          const punctuationCount = readableText(lastParagraph)?.match(/[.!?]/gu)?.length || 0;
+          return punctuationCount >= 2;
+        }
         function descendantLinkCardHeading(el) {
           return Array.from(el?.querySelectorAll?.("h1, h2, h3, h4, h5, h6, [role='heading']") || []).find((candidate) => !isHidden(candidate) && Boolean(readableText(candidate)));
         }
@@ -2116,6 +2256,9 @@
           const bodyText = normalize(contentName.slice(headingText.length));
           if (comparableLinkedCardText(bodyText) !== comparableLinkedCardText(axName)) {
             return void 0;
+          }
+          if (postPunctuationWhitespaceCollapsedText(axName) === contentName) {
+            return contentName;
           }
           return axName;
         }
@@ -2648,8 +2791,8 @@
               continue;
             }
             const marker = renderedHiddenValue(child);
-            const style = getComputedStyle(child);
-            if (marker && marker !== "false" || style.display === "none")
+            const style = safeComputedStyle(child);
+            if (marker && marker !== "false" || style?.display === "none")
               continue;
             const selector = "svg, img, [role='img']";
             return child.matches(selector) || Boolean(child.querySelector(selector));
@@ -3121,6 +3264,8 @@
           const axName = normalize(axNodeForElementRole(el, "link")?.name);
           if (!axName || axName === name)
             return void 0;
+          if (postPunctuationWhitespaceCollapsedText(axName) === name)
+            return void 0;
           const compact = (value) => normalize(value).replace(/\s+/g, "");
           return compact(axName) === compact(name) ? axName : void 0;
         }
@@ -3252,7 +3397,7 @@
           const tag = el.tagName.toLowerCase();
           const ariaLabel = normalize(el.getAttribute("aria-label"));
           const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
-          const nativeLabel = ["input", "select", "textarea"].includes(tag) ? labelForControl(el) : void 0;
+          const nativeLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag) ? labelForControl(el) : void 0;
           const axNativeSelectLabelName = axConfirmedNativeSelectLabelName(el, role, labelledBy || nativeLabel);
           if (axNativeSelectLabelName)
             return axNativeSelectLabelName;
@@ -3280,9 +3425,17 @@
             "tabpanel",
             "article"
           ].includes(role)) {
+            if ((role === "table" || role === "grid") && tag === "table") {
+              const caption = Array.from(el.children || []).find((child) => child.tagName?.toLowerCase() === "caption" && !isHidden(child));
+              const captionText = caption ? readableText(caption) : void 0;
+              if (captionText)
+                return captionText;
+            }
             return normalize(el.getAttribute("title"));
           }
           if (role === "group" && !el.matches(interactiveSelector)) {
+            if (tag === "map")
+              return imageMapGroupName(el);
             const compactLabel = compactInputActionGroupLabel(el);
             if (compactLabel)
               return compactLabel;
@@ -3298,7 +3451,14 @@
           }
           if (tag === "img")
             return normalize(el.getAttribute("alt"));
+          if (tag === "area")
+            return normalize(el.getAttribute("alt")) || areaHrefFallbackName(el);
+          if (tag === "object" || tag === "embed")
+            return normalize(el.getAttribute("title"));
           if (["input", "select", "textarea"].includes(tag) && role !== "button") {
+            if (tag === "input" && nativeDatalistElement(el)) {
+              return nativeLabel || normalize(el.getAttribute("placeholder"));
+            }
             return nativeLabel;
           }
           if (role === "link") {
@@ -3794,6 +3954,20 @@
             return "textbox";
           if (tag === "hr")
             return "separator";
+          if (tag === "progress")
+            return "progressbar";
+          if (tag === "meter")
+            return "meter";
+          if (tag === "address")
+            return "paragraph";
+          if (tag === "object" || tag === "embed")
+            return "object";
+          if (tag === "canvas" && readableText(el))
+            return "text";
+          if (tag === "area" && el.hasAttribute("href"))
+            return "link";
+          if (tag === "map" && imageMapGroupName(el))
+            return "group";
           if (tag === "input") {
             const type = (el.getAttribute("type") || "text").toLowerCase();
             if (type === "checkbox")
@@ -3804,6 +3978,12 @@
               return "searchbox";
             if (["button", "submit", "reset"].includes(type))
               return "button";
+            if (type === "number")
+              return "spinbutton";
+            if (type === "range")
+              return "slider";
+            if (nativeDatalistElement(el))
+              return "combobox";
             return "textbox";
           }
           if (tag === "header") {
@@ -3830,6 +4010,8 @@
             return "list";
           if (tag === "li")
             return "listitem";
+          if (tag === "portal" && directOwnText(el))
+            return "text";
           if (tag === "dt")
             return "term";
           if (tag === "dd")
@@ -3850,6 +4032,8 @@
           }
           if (tag === "td")
             return "cell";
+          if (tag === "img" && isImageMapImage(el))
+            return "";
           if (tag === "img")
             return "image";
           if (tag === "svg")
@@ -3861,7 +4045,7 @@
           }
           if (tag === "blockquote")
             return el.closest("figure") ? "blockquote" : "paragraph";
-          if (tag === "p" || tag === "figcaption" || tag === "time" || tag === "small" && (inlineSemanticTextLinkFragments(el) || isDirectTextChildOfNamedSectionFooter(el)) || isRichProductCardOfferBanner(el) || isStructuredListBodyText(el) || isInteractiveListBodyText(el) || priceDisclosureFragments(el)) {
+          if (tag === "p" || tag === "figcaption" || tag === "time" || tag === "small" && (inlineSemanticTextLinkFragments(el) || isDirectTextChildOfNamedSectionFooter(el)) || isRichProductCardOfferBanner(el) || isStructuredListBodyText(el) || isInteractiveListBodyText(el) || priceDisclosureFragments(el) || inlinePhrasingBoundaryFragments(el)) {
             return "paragraph";
           }
           if (joinedPriceDisclosureText(el))
@@ -3906,6 +4090,88 @@
             "[role='navigation']",
             "[role='region']"
           ].join(",")));
+        }
+        function imageMapNameFromUseMap(el) {
+          const raw = normalize(el?.getAttribute?.("usemap"));
+          if (!raw?.startsWith("#"))
+            return void 0;
+          return normalize(raw.slice(1));
+        }
+        function mapElementByName(name) {
+          if (!name)
+            return null;
+          return document.querySelector(`map[name='${cssEscape(name)}']`);
+        }
+        function adjacentImageMapForImage(el) {
+          const next = el?.nextElementSibling;
+          return next?.tagName?.toLowerCase?.() === "map" ? next : null;
+        }
+        function imageForMap(el) {
+          const name = normalize(el?.getAttribute?.("name"));
+          if (!name)
+            return null;
+          return document.querySelector(`img[usemap='#${cssEscape(name)}']`) || (el.previousElementSibling?.tagName?.toLowerCase?.() === "img" ? el.previousElementSibling : null);
+        }
+        function isImageMapImage(el) {
+          const map = mapElementByName(imageMapNameFromUseMap(el)) || adjacentImageMapForImage(el);
+          return Boolean(map && map.querySelector("area[href]"));
+        }
+        function imageMapGroupName(el) {
+          if (el?.tagName?.toLowerCase?.() !== "map")
+            return void 0;
+          const image = imageForMap(el);
+          return image && !isHidden(image) ? normalize(image.getAttribute("alt")) : void 0;
+        }
+        function nativeRangeValueText(el, role) {
+          const tag = el?.tagName?.toLowerCase?.();
+          if (role !== "progressbar" && role !== "meter")
+            return void 0;
+          if (tag === "progress" && !el.hasAttribute("value"))
+            return "indeterminate";
+          const rawValue = Number.parseFloat(el.getAttribute("value") || "");
+          if (!Number.isFinite(rawValue))
+            return void 0;
+          const rawMin = tag === "meter" ? Number.parseFloat(el.getAttribute("min") || "0") : 0;
+          const min = Number.isFinite(rawMin) ? rawMin : 0;
+          if (!el.hasAttribute("max") && rawValue > 1) {
+            return `${Math.round(Math.max(0, Math.min(100, rawValue)))}%`;
+          }
+          const rawMax = Number.parseFloat(el.getAttribute("max") || "1");
+          const max = Number.isFinite(rawMax) && rawMax > min ? rawMax : 1;
+          const percent = Math.max(0, Math.min(100, (rawValue - min) / (max - min) * 100));
+          return `${Math.round(percent)}%`;
+        }
+        function nativeDatalistElement(el) {
+          if (el?.tagName?.toLowerCase?.() !== "input")
+            return null;
+          const listId = normalize(el.getAttribute("list"));
+          if (!listId)
+            return null;
+          const list = document.getElementById(listId);
+          return list?.tagName?.toLowerCase?.() === "datalist" ? list : null;
+        }
+        function urlBasename(value) {
+          const normalized = normalize(value);
+          if (!normalized)
+            return void 0;
+          const withoutQuery = normalized.split(/[?#]/u)[0];
+          const basename = withoutQuery.split("/").filter(Boolean).pop();
+          return normalize(basename);
+        }
+        function documentUrlBasename() {
+          return urlBasename(document.location?.pathname || document.location?.href);
+        }
+        function areaHrefFallbackName(el) {
+          if (el?.tagName?.toLowerCase?.() !== "area")
+            return void 0;
+          if (normalize(el.getAttribute("alt")))
+            return void 0;
+          const href = normalize(el.getAttribute("href"));
+          if (!href)
+            return void 0;
+          if (href.startsWith("#"))
+            return documentUrlBasename();
+          return urlBasename(href);
         }
         function isListItem(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
@@ -4150,19 +4416,8 @@
         function announcedListChildren(list) {
           return listChildren(list).filter((child) => !isSeparatorListItem(child));
         }
-        function isHiddenConsentOnlyListSummaryItem(el) {
-          if (!isListItem(el))
-            return false;
-          const list = listForItem(el);
-          if (!list || el.parentElement !== list)
-            return false;
-          const meaningfulElements = Array.from(el.querySelectorAll("*")).filter((child) => !child.matches?.("script, style, template"));
-          if (!meaningfulElements.length)
-            return false;
-          return meaningfulElements.every((child) => child.hasAttribute?.("data-sr-voiceover-hidden-consent") && Boolean(renderedHiddenValue(child)) && isHidden(child));
-        }
         function listSummaryChildren(list) {
-          return announcedListChildren(list).filter((child) => !isHiddenConsentOnlyListSummaryItem(child));
+          return announcedListChildren(list);
         }
         function isListContainer(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
@@ -4361,14 +4616,14 @@
             return false;
           }
           try {
-            const pseudo = getComputedStyle(el, `::${side}`);
+            const pseudo = safeComputedStyle(el, `::${side}`);
             const content = normalize(pseudo?.content);
             if (!content || content === "none" || content === "normal")
               return false;
             if (pseudo.display === "none" || pseudo.display === "contents" || pseudo.visibility === "hidden" || pseudo.position === "absolute" || pseudo.position === "fixed") {
               return false;
             }
-            const display = normalize(getComputedStyle(el).display) || "";
+            const display = normalize(safeComputedStyle(el)?.display) || "";
             if (!/^(inline-)?(grid|flex)$/.test(display))
               return false;
             return true;
@@ -4388,7 +4643,7 @@
             return void 0;
           }
           try {
-            const pseudo = getComputedStyle(el, `::${side}`);
+            const pseudo = safeComputedStyle(el, `::${side}`);
             const content = normalize(pseudo?.content?.replace(/^['"]|['"]$/g, ""));
             if (!content || content === "none" || content === "normal")
               return void 0;
@@ -7215,12 +7470,179 @@
           }
           return fragments;
         }
+        function inlinePhrasingBoundaryFragments(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          const tag = el.tagName?.toLowerCase();
+          if (tag !== "p" && tag !== "small")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || expandedControlledRegionFor(el)) {
+            return void 0;
+          }
+          if (el.querySelector("a[href], [role='link'], button, input, select, textarea")) {
+            return void 0;
+          }
+          const boundarySelector = "dfn, mark, del, ins, sub, sup, s, ruby, math, output";
+          const directBoundaries = Array.from(el.children || []).filter((child) => !isHidden(child) && child.matches?.(boundarySelector) && !child.querySelector?.("a[href], [role='link'], button, input, select, textarea"));
+          if (!directBoundaries.length)
+            return void 0;
+          const fragments = [];
+          const comparableFragments = [];
+          let plainText = "";
+          let sawBoundary = false;
+          let disallowed = false;
+          let sawSuppressedSubSup = false;
+          function flushPlainText() {
+            const text = normalize(plainText);
+            if (text && !/^[.。]+$/u.test(text)) {
+              fragments.push(text);
+              comparableFragments.push(text);
+            }
+            plainText = "";
+          }
+          function collect(node) {
+            if (!node || disallowed)
+              return;
+            if (node.nodeType === Node.TEXT_NODE) {
+              plainText = `${plainText}${node.textContent || ""}`;
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node.matches("[aria-hidden='true']"))
+              return;
+            if (node !== el && node.matches(boundarySelector)) {
+              const nodeTag = node.tagName?.toLowerCase();
+              if (nodeTag === "ins") {
+                const leadingText = normalize(plainText);
+                if (leadingText) {
+                  fragments.push(`\u2022 ${leadingText}`);
+                  comparableFragments.push(leadingText);
+                  plainText = "";
+                } else {
+                  flushPlainText();
+                }
+              } else {
+                flushPlainText();
+              }
+              if (nodeTag === "ruby") {
+                const baseText = rubyBaseText(node);
+                if (baseText) {
+                  fragments.push(baseText);
+                  comparableFragments.push(readableText(node) || baseText);
+                  sawBoundary = true;
+                  return;
+                }
+              }
+              if (nodeTag === "math") {
+                const mathText = mathAnnouncementText(node);
+                if (mathText) {
+                  fragments.push(mathText);
+                  comparableFragments.push(readableText(node) || normalize(node.textContent || "") || mathText);
+                  sawBoundary = true;
+                  return;
+                }
+              }
+              const text = readableText(node);
+              if (text) {
+                if (nodeTag === "sub" || nodeTag === "sup") {
+                  comparableFragments.push(text);
+                  sawSuppressedSubSup = true;
+                  sawBoundary = true;
+                  return;
+                }
+                const fragment = nodeTag === "dfn" ? `${text}, empty term` : text;
+                fragments.push(fragment);
+                comparableFragments.push(text);
+                sawBoundary = true;
+              }
+              return;
+            }
+            const role = node !== el ? implicitRole(node) : "";
+            if (role && role !== "paragraph") {
+              disallowed = true;
+              return;
+            }
+            for (const child of Array.from(node.childNodes || []))
+              collect(child);
+          }
+          collect(el);
+          flushPlainText();
+          if (disallowed || !sawBoundary || fragments.length < 2)
+            return void 0;
+          const comparable = (value) => normalize(value)?.replace(/\s+([.,;:!?])/g, "$1").replace(/\s+(?=<)/g, "").replace(/(?<=>)\s+/g, "").replace(/[.。]$/u, "");
+          const fragmentComparable = comparable(comparableFragments.join(" "));
+          const actualComparable = comparable(readableText(el));
+          if (sawSuppressedSubSup ? fragmentComparable?.replace(/\s+/g, "") !== actualComparable?.replace(/\s+/g, "") : fragmentComparable !== actualComparable) {
+            return void 0;
+          }
+          return fragments;
+        }
+        function rubyBaseText(el) {
+          const parts = [];
+          for (const child of Array.from(el.childNodes || [])) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              const text2 = normalize(child.textContent || "");
+              if (text2)
+                parts.push(text2);
+              continue;
+            }
+            if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child))
+              continue;
+            const tag = child.tagName?.toLowerCase();
+            if (tag === "rt" || tag === "rp")
+              continue;
+            const text = readableText(child);
+            if (text)
+              parts.push(text);
+          }
+          return normalize(parts.join(" "));
+        }
+        function mathAnnouncementText(el) {
+          const ariaLabel = normalize(el.getAttribute("aria-label"));
+          const symbols = Array.from(el.querySelectorAll("mi, mn, mo")).map((node) => normalize(node.textContent || "")).filter((text) => Boolean(text));
+          const expression = symbols.length ? symbols.join("") : normalize(el.textContent || "");
+          if (!expression)
+            return ariaLabel;
+          const itemCount = Array.from(el.querySelectorAll("*")).filter((node) => !isHidden(node)).length;
+          return itemCount > 0 ? `${expression}, with ${itemCount} items, math` : expression;
+        }
         function inlineCodeBreakTextFragments(el, role) {
           if (!["paragraph", "text"].includes(role))
             return void 0;
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
           const tag = el.tagName?.toLowerCase();
+          if (tag === "address") {
+            let flushLine = function() {
+              const text = normalize(line);
+              if (text)
+                fragments2.push(text);
+              line = "";
+            }, collectAddressLine = function(node) {
+              if (!node)
+                return;
+              if (node.nodeType === Node.TEXT_NODE) {
+                line = `${line}${node.textContent || ""}`;
+                return;
+              }
+              if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+                return;
+              if (node.matches?.("[aria-hidden='true']"))
+                return;
+              if (node.tagName?.toLowerCase() === "br") {
+                flushLine();
+                return;
+              }
+              for (const child of Array.from(node.childNodes || []))
+                collectAddressLine(child);
+            };
+            const fragments2 = [];
+            let line = "";
+            collectAddressLine(el);
+            flushLine();
+            return fragments2.length ? fragments2 : void 0;
+          }
           if (tag !== "p" && tag !== "small")
             return void 0;
           if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || expandedControlledRegionFor(el)) {
@@ -8500,6 +8922,8 @@
           const tableFirstGroupedHeaderRow = tableGroupedHeaderRow && row === groupedTableHeaders(table)[0]?.querySelector("tr,[role='row']");
           const insideColumnHeaderContent = role !== "columnheader" && cellRole === "columnheader" && isComplexColumnHeaderContext(cell);
           const simpleNativeTwoColumnHeaderContext = isSimpleNativeTwoColumnHeaderTable(table, rows, headerCells, columnCount);
+          const simpleNativeColumnHeaderContext = isSimpleNativeColumnHeaderTable(table, rows, headerCells, columnCount);
+          const nativeUnheadedFirstColumnContext = isNativeUnheadedFirstColumnTable(table, rows, headerCells, columnCount);
           return {
             tableRole: implicitRole(table),
             tableLabel: accessibleName(table, implicitRole(table)),
@@ -8513,8 +8937,49 @@
             tableGroupedHeaderRow,
             tableFirstGroupedHeaderRow,
             tableHasComplexColumnHeaders,
-            simpleNativeTwoColumnHeaderContext
+            simpleNativeTwoColumnHeaderContext,
+            simpleNativeColumnHeaderContext,
+            nativeUnheadedFirstColumnContext
           };
+        }
+        function tableHasInteractiveDescendant(table) {
+          return Boolean(table?.querySelector?.("a[href], button, input, select, textarea, [role='link'], [role='button']"));
+        }
+        function isSimpleNativeColumnHeaderTable(table, rows, headerCells, columnCount) {
+          if (table?.tagName?.toLowerCase() !== "table")
+            return false;
+          if (implicitRole(table) !== "table")
+            return false;
+          if (!columnCount || columnCount < 2 || !headerCells.length)
+            return false;
+          if (tableHasInteractiveDescendant(table))
+            return false;
+          if (groupedTableHeaders(table).length)
+            return false;
+          const firstRow = rows[0];
+          if (!firstRow?.closest?.("thead"))
+            return false;
+          const headerRows = rows.filter((row) => row.closest?.("thead"));
+          if (headerRows.length !== 1)
+            return false;
+          if (headerCells.length !== columnCount)
+            return false;
+          return headerCells.every((cell) => cell.tagName?.toLowerCase() === "th" && implicitRole(cell) === "columnheader" && Boolean(accessibleName(cell, "columnheader") || readableText(cell)));
+        }
+        function isNativeUnheadedFirstColumnTable(table, rows, headerCells, columnCount) {
+          if (table?.tagName?.toLowerCase() !== "table")
+            return false;
+          if (implicitRole(table) !== "table")
+            return false;
+          if (!columnCount || columnCount < 2)
+            return false;
+          if (headerCells.length)
+            return false;
+          if (table.querySelector(":scope > thead"))
+            return false;
+          if (tableHasInteractiveDescendant(table))
+            return false;
+          return rows.length > 0;
         }
         function isSimpleNativeTwoColumnHeaderTable(table, rows, headerCells, columnCount) {
           if (table?.tagName?.toLowerCase() !== "table")
@@ -9185,7 +9650,11 @@
           const stateEl = control || el;
           const axLinkedOfferHeadingName = role === "heading" ? axConfirmedLinkedOfferHeadingName(el, role) : void 0;
           const name = tableCellAbbrTitleButtonName(el, role) || axLinkedOfferHeadingName || axConfirmedTerminalPunctuationLinkedHeadingName(el, role) || accessibleName(el, role) || articleNameFromFirstHeading(el, role);
+          const linkContentNameForSpacing = role === "link" ? linkContentName(el) : void 0;
+          const announcementName = role === "link" && linkContentNameForSpacing && postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing ? linkContentNameForSpacing : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name) ? finalPostPunctuationWhitespaceCollapsedText(name) : name;
           const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
+          const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag) ? labelForControl(stateEl) : void 0;
+          const nativeValueControlLabelStopText = nativeDescriptorLabel && ["combobox", "spinbutton", "slider", "meter", "progressbar"].includes(role) && !hasExplicitAriaName(stateEl) && !nativeValueControlLabelStopIsHidden(stateEl) && !nativeLabelAlreadyAnnouncedByListItem(stateEl, nativeDescriptorLabel) ? nativeDescriptorLabel : void 0;
           const nativeSubmitTabPanelGroup = isAxConfirmedNestedSubmitButtonInTabPanelGroup(el, role, name);
           const carouselControlName = carouselControlNameWithDescription(el, role, name);
           const nativeHiddenControlledCollapsedButton = isAxConfirmedNativeCollapsedButtonWithHiddenControlledRegions(el, role, name);
@@ -9209,14 +9678,15 @@
           const anonymousStructuralCustomElementHost = closestAnonymousStructuralCustomElementGroup(el);
           const suppressPositionedChoiceGroup = role === "button" && Boolean(position) && !el.hasAttribute("aria-expanded") && !normalizedPopup(el) && !isSlideshowNavigationButton(el) && (isIconFirstTextButton(el) || el.hasAttribute("aria-label") && !rawText);
           const suppressNativeCardActionGroup = role === "button" && isNativeCardActionDisclosureButton(el);
-          const value = tag === "select" ? nativeSelectValue(stateEl) : selectedListboxOption ? accessibleName(selectedListboxOption, "option") || readableText(selectedListboxOption) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
+          const nativeRangeValue = nativeRangeValueText(stateEl, role);
+          const value = tag === "select" ? nativeSelectValue(stateEl) : nativeRangeValue ? nativeRangeValue : selectedListboxOption ? accessibleName(selectedListboxOption, "option") || readableText(selectedListboxOption) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
           const listboxSelectedCount = role === "listbox" ? selectedListboxOptions(el).length || void 0 : void 0;
           const selectedListboxPosition = selectedListboxOption ? positionInSet(selectedListboxOption, "option") : void 0;
           const selectedListboxSize = selectedListboxOption ? setSize(selectedListboxOption, "option") : void 0;
           const leadingGenericGroupStops = leadingGenericGroupStopCountBeforeDisabledControl(el, role);
           const descriptor = {
             role,
-            name: carouselControlName || name || focusableFeedbackGroupText,
+            name: carouselControlName || announcementName || focusableFeedbackGroupText,
             contextEndName,
             text,
             description: normalize(stateEl.getAttribute("aria-description") ?? el.getAttribute("aria-description")),
@@ -9229,6 +9699,7 @@
             ...parentListMeta,
             value,
             valueText: normalize(stateEl.getAttribute("aria-valuetext")),
+            emptyObject: role === "object" && (tag === "object" && !el.hasAttribute("data") || tag === "embed" && !el.hasAttribute("src")) ? true : void 0,
             placeholder: normalize(stateEl.getAttribute("placeholder")),
             required: stateEl.required || stateEl.getAttribute("aria-required") === "true" || void 0,
             invalid: stateEl.getAttribute("aria-invalid") && stateEl.getAttribute("aria-invalid") !== "false" ? stateEl.getAttribute("aria-invalid") === "true" ? true : stateEl.getAttribute("aria-invalid") : void 0,
@@ -9239,12 +9710,13 @@
             disabled: el.disabled || el.hasAttribute("disabled") || el.getAttribute("aria-disabled") === "true" || isImplicitDisabledPreviousSlideButton(el) || void 0,
             readOnly: el.readOnly || el.getAttribute("aria-readonly") === "true" || void 0,
             current: el.hasAttribute("aria-current") ? el.getAttribute("aria-current") === "false" ? void 0 : el.getAttribute("aria-current") === "true" ? true : el.getAttribute("aria-current") : void 0,
-            hasPopup: normalizedPopup(stateEl) ?? normalizedPopup(el),
+            hasPopup: nativeDatalistElement(stateEl) ? "listbox" : normalizedPopup(stateEl) ?? normalizedPopup(el),
             autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
             modal: el.getAttribute("aria-modal") === "true" || void 0,
             sort: normalize(el.getAttribute("aria-sort")),
             selectedCount: listboxSelectedCount,
             nativeSelect: tag === "select" || void 0,
+            nativeDatalistPlaceholderName: role === "combobox" && tag === "input" && Boolean(nativeDatalistElement(stateEl)) && !nativeDescriptorLabel && normalize(stateEl.getAttribute("placeholder")) === name || void 0,
             headingButton: Boolean(headingButton) || void 0,
             headingLink: Boolean(headingLink) && !axLinkedOfferHeadingName || void 0,
             linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : void 0,
@@ -9274,9 +9746,9 @@
             leadingDecorativeTextCardGroups: isLeadingDecorativeTextCardGroupStop(el, role) || void 0,
             leadingGenericGroupStops: leadingGenericGroupStops || void 0,
             trailingStandaloneGroup: role === "button" && isAxConfirmedSingleButtonShadowWrapperGroup(el) || void 0,
-            splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || isAxConfirmedNativeSearchFormTextInput(el, role) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) || Boolean(nativeButtonLabelStopText) ? true : void 0,
-            nativeFormControlLabelStop: shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) ? true : void 0,
-            nativeControlLabelText: nativeButtonLabelStopText || axConfirmedNativeControlLabelStopText(el, role),
+            splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || isAxConfirmedNativeSearchFormTextInput(el, role) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) || Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) || Boolean(nativeButtonLabelStopText) ? true : void 0,
+            nativeFormControlLabelStop: Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) ? true : void 0,
+            nativeControlLabelText: nativeButtonLabelStopText || nativeValueControlLabelStopText || axConfirmedNativeControlLabelStopText(el, role),
             nativeSearchFormInputStop: isAxConfirmedNativeSearchFormTextInput(el, role) ? true : void 0,
             nativeFormInlineAlert: role === "alert" && Boolean(el.closest("form[aria-label], form[aria-labelledby]")) ? true : void 0,
             suppressStatusRolePrefix: isPostFooterTextStatus(el, role) || void 0,
@@ -9314,6 +9786,7 @@
             inlineCodeBreakTextFragments: inlineCodeBreakTextFragments(el, role),
             footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
             inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
+            inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
@@ -9454,6 +9927,9 @@
           if (role === "paragraph" && isConsumedAdjacentParagraphValue(el)) {
             return false;
           }
+          if (role === "object" && !accessibleName(el, role) || role === "link" && el.tagName?.toLowerCase() === "area" && !accessibleName(el, role)) {
+            return false;
+          }
           if (role === "image" && el.tagName?.toLowerCase() === "img" && el.hasAttribute("alt") && !normalize(el.getAttribute("alt"))) {
             return false;
           }
@@ -9469,6 +9945,7 @@
             "link",
             "textbox",
             "searchbox",
+            "spinbutton",
             "combobox",
             "checkbox",
             "radio",
@@ -9476,6 +9953,9 @@
             "option",
             "tab",
             "progressbar",
+            "meter",
+            "slider",
+            "object",
             "listitem",
             "term",
             "paragraph",
@@ -9895,6 +10375,13 @@
           }
           return fragments;
         }
+        function splitInlinePhrasingBoundaryAnnouncements(descriptor) {
+          const fragments = descriptor.inlinePhrasingBoundaryFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
         function splitExpandedRegionInlineLinkAnnouncements(descriptor) {
           const fragments = descriptor.expandedRegionInlineLinkFragments;
           if (descriptor.role !== "paragraph" || !fragments?.length) {
@@ -9977,6 +10464,19 @@
             return false;
           const lastStop = lastScannerStopInSubtree(el);
           return Boolean(lastStop && lastStop !== el && isFocusableTerminalFooterGroup(lastStop));
+        }
+        function isSuppressedScanRootMainBoundary(root, el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.tagName?.toLowerCase() !== "main")
+            return false;
+          if (!el.hasAttribute("data-sr-scan-root"))
+            return false;
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))
+            return false;
+          if (accessibleName(el, "main"))
+            return false;
+          return root === el || root?.contains?.(el);
         }
         function scanSubtree(root) {
           const log = [];
@@ -10195,13 +10695,18 @@
               }
               return;
             }
+            if (isSuppressedScanRootMainBoundary(root, el)) {
+              for (const child of walkChildren(el))
+                walk(child);
+              return;
+            }
             if (isStopElement(el)) {
               const id = `__sr_el_${stopIndex}_${now()}`;
               stopIndex += 1;
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitFieldsetPromptAnnouncements(descriptor) || splitLabelledNavigationHeaderAnnouncements(descriptor) || splitExamplePreviewFrameAnnouncements(descriptor) || splitWrappedDefinitionListTermAnnouncements(descriptor) || splitAxInlineTwoLinkListItemAnnouncements(descriptor) || splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) || splitAxPublicationListItemBoundaryAnnouncements(descriptor) || splitAxMixedInlineListItemAnnouncements(descriptor) || splitAxStrongWrappedMarkerListItemAnnouncements(descriptor) || splitAxPlainTextMarkerListItemAnnouncements(descriptor) || splitAxMarkerOnlyListItemAnnouncements(descriptor) || splitContributionListItemAnnouncements(descriptor) || splitMetadataListItemAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitMarkerSeparatedListRegionAnnouncements(descriptor) || splitMarkerSeparatedListLinkAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLeadingGenericGroupStopAnnouncements(descriptor) || splitTrailingStandaloneGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitCodeMirrorTextEntryAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitNativeFormInlineAlertAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitInlineCodeBreakTextAnnouncements(descriptor) || splitFooterInlineBoundaryTextAnnouncements(descriptor) || splitInlineTextLinkAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitPriceDisclosureAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitFieldsetPromptAnnouncements(descriptor) || splitLabelledNavigationHeaderAnnouncements(descriptor) || splitExamplePreviewFrameAnnouncements(descriptor) || splitWrappedDefinitionListTermAnnouncements(descriptor) || splitAxInlineTwoLinkListItemAnnouncements(descriptor) || splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) || splitAxPublicationListItemBoundaryAnnouncements(descriptor) || splitAxMixedInlineListItemAnnouncements(descriptor) || splitAxStrongWrappedMarkerListItemAnnouncements(descriptor) || splitAxPlainTextMarkerListItemAnnouncements(descriptor) || splitAxMarkerOnlyListItemAnnouncements(descriptor) || splitContributionListItemAnnouncements(descriptor) || splitMetadataListItemAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitMarkerSeparatedListRegionAnnouncements(descriptor) || splitMarkerSeparatedListLinkAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLeadingGenericGroupStopAnnouncements(descriptor) || splitTrailingStandaloneGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitCodeMirrorTextEntryAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitNativeFormInlineAlertAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitInlineCodeBreakTextAnnouncements(descriptor) || splitFooterInlineBoundaryTextAnnouncements(descriptor) || splitInlinePhrasingBoundaryAnnouncements(descriptor) || splitInlineTextLinkAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitPriceDisclosureAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;

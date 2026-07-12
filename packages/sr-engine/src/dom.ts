@@ -103,6 +103,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalized || undefined;
   }
 
+  function isOptionalComputedStyleElement(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
+    if (el.namespaceURI === "http://www.w3.org/1998/Math/MathML") return true;
+    if (el.tagName?.toLowerCase?.() === "math" || el.closest?.("math")) return true;
+    return false;
+  }
+
+  function safeComputedStyle(el: any, pseudoElt?: string): CSSStyleDeclaration | undefined {
+    if (typeof getComputedStyle !== "function") return undefined;
+    try {
+      return getComputedStyle(el, pseudoElt);
+    } catch (error) {
+      if (!isOptionalComputedStyleElement(el)) throw error;
+      return undefined;
+    }
+  }
+
   const accessibilityNodes = Array.isArray(accessibilityTree?.nodes)
     ? accessibilityTree.nodes
     : [];
@@ -163,7 +180,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function cssRenderedCaseName(el: any, role: string, name?: string): string | undefined {
     if (role !== "link" || !name) return undefined;
-    const textTransform = normalize(getComputedStyle(el).textTransform)?.toLowerCase();
+    const textTransform = normalize(safeComputedStyle(el)?.textTransform)?.toLowerCase();
     if (textTransform === "uppercase" && /[a-z]/.test(name)) {
       return name.toLocaleUpperCase("en-US");
     }
@@ -359,6 +376,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       .filter(Boolean);
     if (!controlledRegions.length) return false;
     if (controlledRegions.some((region) => !isHidden(region))) return false;
+    if (controlledRegions.some((region) => !isRenderedDisplayHidden(region))) return false;
 
     const axNode = axNodeForElementRole(el, "button");
     if (!axNode || axNode.properties?.focusable !== true) return false;
@@ -408,6 +426,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function isOpacityHiddenOnly(el: any): boolean {
     return renderedHiddenValue(el) === "opacity:0";
+  }
+
+  function isRenderedDisplayHidden(el: any): boolean {
+    const marker = renderedHiddenValue(el);
+    if (marker && /\bdisplay\s*:\s*none\b/i.test(marker)) return true;
+    if (el?.hasAttribute?.("hidden")) return true;
+    return safeComputedStyle(el)?.display === "none";
   }
 
   function isFocusableOpacityHiddenControl(el: any): boolean {
@@ -480,7 +505,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return true;
     }
 
-    const style = getComputedStyle(el);
+    const style = safeComputedStyle(el);
+    if (!style) return false;
     return style.display === "none" || style.visibility === "hidden";
   }
 
@@ -611,6 +637,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           .join(" ");
       }
 
+      if (node.tagName?.toLowerCase() === "q") {
+        const quoteText = collectElementText(node);
+        return quoteText ? `“${quoteText}”` : "''''";
+      }
+
       let text = "";
       const shadowChildren = shadowContentChildren(node);
       const children = shadowChildren.length
@@ -625,7 +656,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return text;
     }
 
-    return normalize(collect(el));
+    function collectElementText(node: any): string {
+      let text = "";
+      const shadowChildren = shadowContentChildren(node);
+      const children = shadowChildren.length
+        ? shadowChildren
+        : Array.from(node.childNodes);
+      for (const child of children) {
+        const part = collect(child);
+        if (!part) continue;
+        if (text && needsBoundary(text, part)) text += " ";
+        text += part;
+      }
+      return normalize(text) || "";
+    }
+
+    return normalize(collect(el))?.replace(/''''\s+/g, "''''");
   }
 
   function directOwnText(el: any): string | undefined {
@@ -704,6 +750,32 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       : undefined;
   }
 
+  function hasExplicitAriaName(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
+    return Boolean(
+      normalize(el.getAttribute("aria-label")) ||
+        textFromIdRefs(el.getAttribute("aria-labelledby")),
+    );
+  }
+
+  function nativeLabelAlreadyAnnouncedByListItem(el: any, label?: string): boolean {
+    if (!label || !el || el.nodeType !== Node.ELEMENT_NODE) return false;
+    const listItem = el.closest("li,[role='listitem']");
+    if (!isListItem(listItem) || !listItem.contains(el)) return false;
+    if (!positionInSet(listItem, "listitem") || !setSize(listItem, "listitem")) return false;
+    const listItemText = textWithoutInteractive(listItem) || directLeadingText(listItem);
+    return normalize(listItemText) === label;
+  }
+
+  function nativeValueControlLabelStopIsHidden(el: any): boolean {
+    const label = associatedLabelForControl(el);
+    if (!label) return false;
+    return Boolean(
+      normalize(label.getAttribute("data-sr-computed-hidden")) ||
+        normalize(label.getAttribute("data-sr-rendered-position")) === "offscreen",
+    );
+  }
+
   function associatedLabelForControl(el: any): any | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE) return undefined;
     if ("labels" in el && el.labels?.length) {
@@ -760,6 +832,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const label = associatedLabelForControl(el);
     if (!label || label.tagName?.toLowerCase() !== "label" || isHidden(label)) return false;
+    if (el.hasAttribute("list") && !nativeDatalistElement(el) && el.previousElementSibling === label) {
+      const labelText = normalize(textWithoutInteractive(label) || readableText(label));
+      const controlName = accessibleName(el, role);
+      return Boolean(labelText && controlName === labelText);
+    }
     if (label.parentElement !== el.parentElement || el.previousElementSibling !== label) {
       return false;
     }
@@ -1411,6 +1488,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       .toLocaleLowerCase("en-US");
   }
 
+  function postPunctuationWhitespaceCollapsedText(value?: string): string | undefined {
+    return normalize(value)?.replace(/([.!?])\s+(?=[\p{L}\p{N}])/gu, "$1");
+  }
+
+  function finalPostPunctuationWhitespaceCollapsedText(value?: string): string | undefined {
+    return normalize(value)?.replace(/([.!?])\s+(?=[\p{L}\p{N}][^.!?]*$)/u, "$1");
+  }
+
+  function shouldCollapseLinkedListCardPostPunctuationWhitespace(
+    el: any,
+    role: string,
+    name?: string,
+  ): boolean {
+    if (role !== "link" || !name) return false;
+    if (!el?.closest?.("li,[role='listitem']")) return false;
+    if (postPunctuationWhitespaceCollapsedText(name) === name) return false;
+    if (
+      !el.querySelector?.("p + div, p + span, p + p + div, p + p + span")
+    ) {
+      return false;
+    }
+    const paragraphs = Array.from(el.querySelectorAll("p")).filter(
+      (paragraph: any) => !isHidden(paragraph) && readableText(paragraph),
+    );
+    const lastParagraph = paragraphs[paragraphs.length - 1];
+    const punctuationCount = readableText(lastParagraph)?.match(/[.!?]/gu)?.length || 0;
+    return punctuationCount >= 2;
+  }
+
   function descendantLinkCardHeading(el: any): any | undefined {
     return Array.from(
       el?.querySelectorAll?.("h1, h2, h3, h4, h5, h6, [role='heading']") || [],
@@ -1436,6 +1542,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       comparableLinkedCardText(bodyText) !== comparableLinkedCardText(axName)
     ) {
       return undefined;
+    }
+
+    if (postPunctuationWhitespaceCollapsedText(axName) === contentName) {
+      return contentName;
     }
 
     return axName;
@@ -2006,8 +2116,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         continue;
       }
       const marker = renderedHiddenValue(child);
-      const style = getComputedStyle(child);
-      if ((marker && marker !== "false") || style.display === "none") continue;
+      const style = safeComputedStyle(child);
+      if ((marker && marker !== "false") || style?.display === "none") continue;
       const selector = "svg, img, [role='img']";
       return child.matches(selector) || Boolean(child.querySelector(selector));
     }
@@ -2609,6 +2719,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (hasOffscreenColonSuffix(el)) return undefined;
     const axName = normalize(axNodeForElementRole(el, "link")?.name);
     if (!axName || axName === name) return undefined;
+    if (postPunctuationWhitespaceCollapsedText(axName) === name) return undefined;
     const compact = (value: string) => normalize(value).replace(/\s+/g, "");
     return compact(axName) === compact(name) ? axName : undefined;
   }
@@ -2774,7 +2885,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const tag = el.tagName.toLowerCase();
     const ariaLabel = normalize(el.getAttribute("aria-label"));
     const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
-    const nativeLabel = ["input", "select", "textarea"].includes(tag)
+    const nativeLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag)
       ? labelForControl(el)
       : undefined;
 
@@ -2814,10 +2925,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "article",
       ].includes(role)
     ) {
+      if ((role === "table" || role === "grid") && tag === "table") {
+        const caption = Array.from(el.children || []).find(
+          (child: any) => child.tagName?.toLowerCase() === "caption" && !isHidden(child),
+        );
+        const captionText = caption ? readableText(caption) : undefined;
+        if (captionText) return captionText;
+      }
       return normalize(el.getAttribute("title"));
     }
 
     if (role === "group" && !el.matches(interactiveSelector)) {
+      if (tag === "map") return imageMapGroupName(el);
       const compactLabel = compactInputActionGroupLabel(el);
       if (compactLabel) return compactLabel;
       const iframe = singleTitledIframeChild(el);
@@ -2830,7 +2949,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (tag === "img") return normalize(el.getAttribute("alt"));
+    if (tag === "area") return normalize(el.getAttribute("alt")) || areaHrefFallbackName(el);
+    if (tag === "object" || tag === "embed") return normalize(el.getAttribute("title"));
     if (["input", "select", "textarea"].includes(tag) && role !== "button") {
+      if (tag === "input" && nativeDatalistElement(el)) {
+        return nativeLabel || normalize(el.getAttribute("placeholder"));
+      }
       return nativeLabel;
     }
 
@@ -3445,12 +3569,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "select") return el.hasAttribute("multiple") ? "listbox" : "combobox";
     if (tag === "textarea") return "textbox";
     if (tag === "hr") return "separator";
+    if (tag === "progress") return "progressbar";
+    if (tag === "meter") return "meter";
+    if (tag === "address") return "paragraph";
+    if (tag === "object" || tag === "embed") return "object";
+    if (tag === "canvas" && readableText(el)) return "text";
+    if (tag === "area" && el.hasAttribute("href")) return "link";
+    if (tag === "map" && imageMapGroupName(el)) return "group";
     if (tag === "input") {
       const type = (el.getAttribute("type") || "text").toLowerCase();
       if (type === "checkbox") return "checkbox";
       if (type === "radio") return "radio";
       if (type === "search") return "searchbox";
       if (["button", "submit", "reset"].includes(type)) return "button";
+      if (type === "number") return "spinbutton";
+      if (type === "range") return "slider";
+      if (nativeDatalistElement(el)) return "combobox";
       return "textbox";
     }
     if (tag === "header") {
@@ -3468,6 +3602,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "form" && explicit === "search") return "search";
     if (tag === "ul" || tag === "ol" || tag === "dl") return "list";
     if (tag === "li") return "listitem";
+    if (tag === "portal" && directOwnText(el)) return "text";
     if (tag === "dt") return "term";
     if (tag === "dd") return isWrappedDefinitionListItem(el) ? "paragraph" : "";
     if (tag === "table") return "table";
@@ -3480,6 +3615,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return "columnheader";
     }
     if (tag === "td") return "cell";
+    if (tag === "img" && isImageMapImage(el)) return "";
     if (tag === "img") return "image";
     if (tag === "svg") return "image";
     if (tag === "dialog") return "dialog";
@@ -3501,7 +3637,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       isRichProductCardOfferBanner(el) ||
       isStructuredListBodyText(el) ||
       isInteractiveListBodyText(el) ||
-      priceDisclosureFragments(el)
+      priceDisclosureFragments(el) ||
+      inlinePhrasingBoundaryFragments(el)
     ) {
       return "paragraph";
     }
@@ -3561,6 +3698,93 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ].join(","),
       ),
     );
+  }
+
+  function imageMapNameFromUseMap(el: any): string | undefined {
+    const raw = normalize(el?.getAttribute?.("usemap"));
+    if (!raw?.startsWith("#")) return undefined;
+    return normalize(raw.slice(1));
+  }
+
+  function mapElementByName(name?: string): any | null {
+    if (!name) return null;
+    return document.querySelector(`map[name='${cssEscape(name)}']`);
+  }
+
+  function adjacentImageMapForImage(el: any): any | null {
+    const next = el?.nextElementSibling;
+    return next?.tagName?.toLowerCase?.() === "map" ? next : null;
+  }
+
+  function imageForMap(el: any): any | null {
+    const name = normalize(el?.getAttribute?.("name"));
+    if (!name) return null;
+    return (
+      document.querySelector(`img[usemap='#${cssEscape(name)}']`) ||
+      (el.previousElementSibling?.tagName?.toLowerCase?.() === "img"
+        ? el.previousElementSibling
+        : null)
+    );
+  }
+
+  function isImageMapImage(el: any): boolean {
+    const map = mapElementByName(imageMapNameFromUseMap(el)) || adjacentImageMapForImage(el);
+    return Boolean(map && map.querySelector("area[href]"));
+  }
+
+  function imageMapGroupName(el: any): string | undefined {
+    if (el?.tagName?.toLowerCase?.() !== "map") return undefined;
+    const image = imageForMap(el);
+    return image && !isHidden(image) ? normalize(image.getAttribute("alt")) : undefined;
+  }
+
+  function nativeRangeValueText(el: any, role: string): string | undefined {
+    const tag = el?.tagName?.toLowerCase?.();
+    if (role !== "progressbar" && role !== "meter") return undefined;
+    if (tag === "progress" && !el.hasAttribute("value")) return "indeterminate";
+
+    const rawValue = Number.parseFloat(el.getAttribute("value") || "");
+    if (!Number.isFinite(rawValue)) return undefined;
+
+    const rawMin = tag === "meter" ? Number.parseFloat(el.getAttribute("min") || "0") : 0;
+    const min = Number.isFinite(rawMin) ? rawMin : 0;
+    if (!el.hasAttribute("max") && rawValue > 1) {
+      return `${Math.round(Math.max(0, Math.min(100, rawValue)))}%`;
+    }
+
+    const rawMax = Number.parseFloat(el.getAttribute("max") || "1");
+    const max = Number.isFinite(rawMax) && rawMax > min ? rawMax : 1;
+    const percent = Math.max(0, Math.min(100, ((rawValue - min) / (max - min)) * 100));
+    return `${Math.round(percent)}%`;
+  }
+
+  function nativeDatalistElement(el: any): any | null {
+    if (el?.tagName?.toLowerCase?.() !== "input") return null;
+    const listId = normalize(el.getAttribute("list"));
+    if (!listId) return null;
+    const list = document.getElementById(listId);
+    return list?.tagName?.toLowerCase?.() === "datalist" ? list : null;
+  }
+
+  function urlBasename(value?: string): string | undefined {
+    const normalized = normalize(value);
+    if (!normalized) return undefined;
+    const withoutQuery = normalized.split(/[?#]/u)[0];
+    const basename = withoutQuery.split("/").filter(Boolean).pop();
+    return normalize(basename);
+  }
+
+  function documentUrlBasename(): string | undefined {
+    return urlBasename(document.location?.pathname || document.location?.href);
+  }
+
+  function areaHrefFallbackName(el: any): string | undefined {
+    if (el?.tagName?.toLowerCase?.() !== "area") return undefined;
+    if (normalize(el.getAttribute("alt"))) return undefined;
+    const href = normalize(el.getAttribute("href"));
+    if (!href) return undefined;
+    if (href.startsWith("#")) return documentUrlBasename();
+    return urlBasename(href);
   }
 
   function isListItem(el: any): boolean {
@@ -3821,27 +4045,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return listChildren(list).filter((child: any) => !isSeparatorListItem(child));
   }
 
-  function isHiddenConsentOnlyListSummaryItem(el: any): boolean {
-    if (!isListItem(el)) return false;
-    const list = listForItem(el);
-    if (!list || el.parentElement !== list) return false;
-
-    const meaningfulElements = Array.from(el.querySelectorAll("*")).filter(
-      (child: any) => !child.matches?.("script, style, template"),
-    );
-    if (!meaningfulElements.length) return false;
-    return meaningfulElements.every(
-      (child: any) =>
-        child.hasAttribute?.("data-sr-voiceover-hidden-consent") &&
-        Boolean(renderedHiddenValue(child)) &&
-        isHidden(child),
-    );
-  }
-
   function listSummaryChildren(list: any): any[] {
-    return announcedListChildren(list).filter(
-      (child: any) => !isHiddenConsentOnlyListSummaryItem(child),
-    );
+    return announcedListChildren(list);
   }
 
   function isListContainer(el: any): boolean {
@@ -4047,7 +4252,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
     try {
-      const pseudo = getComputedStyle(el, `::${side}`);
+      const pseudo = safeComputedStyle(el, `::${side}`);
       const content = normalize(pseudo?.content);
       if (!content || content === "none" || content === "normal") return false;
       if (
@@ -4060,7 +4265,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return false;
       }
 
-      const display = normalize(getComputedStyle(el).display) || "";
+      const display = normalize(safeComputedStyle(el)?.display) || "";
       if (!/^(inline-)?(grid|flex)$/.test(display)) return false;
 
       return true;
@@ -4082,7 +4287,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     try {
-      const pseudo = getComputedStyle(el, `::${side}`);
+      const pseudo = safeComputedStyle(el, `::${side}`);
       const content = normalize(pseudo?.content?.replace(/^['"]|['"]$/g, ""));
       if (!content || content === "none" || content === "normal") return undefined;
       if (
@@ -7486,10 +7691,207 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function inlinePhrasingBoundaryFragments(el: any): string[] | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    const tag = el.tagName?.toLowerCase();
+    if (tag !== "p" && tag !== "small") return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.closest(interactiveSelector) ||
+      el.closest("li,[role='listitem']") ||
+      expandedControlledRegionFor(el)
+    ) {
+      return undefined;
+    }
+    if (el.querySelector("a[href], [role='link'], button, input, select, textarea")) {
+      return undefined;
+    }
+
+    const boundarySelector = "dfn, mark, del, ins, sub, sup, s, ruby, math, output";
+    const directBoundaries = Array.from(el.children || []).filter(
+      (child: any) =>
+        !isHidden(child) &&
+        child.matches?.(boundarySelector) &&
+        !child.querySelector?.("a[href], [role='link'], button, input, select, textarea"),
+    );
+    if (!directBoundaries.length) return undefined;
+
+    const fragments: string[] = [];
+    const comparableFragments: string[] = [];
+    let plainText = "";
+    let sawBoundary = false;
+    let disallowed = false;
+    let sawSuppressedSubSup = false;
+
+    function flushPlainText(): void {
+      const text = normalize(plainText);
+      if (text && !/^[.。]+$/u.test(text)) {
+        fragments.push(text);
+        comparableFragments.push(text);
+      }
+      plainText = "";
+    }
+
+    function collect(node: any): void {
+      if (!node || disallowed) return;
+      if (node.nodeType === Node.TEXT_NODE) {
+        plainText = `${plainText}${node.textContent || ""}`;
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node.matches("[aria-hidden='true']")) return;
+
+      if (node !== el && node.matches(boundarySelector)) {
+        const nodeTag = node.tagName?.toLowerCase();
+        if (nodeTag === "ins") {
+          const leadingText = normalize(plainText);
+          if (leadingText) {
+            fragments.push(`• ${leadingText}`);
+            comparableFragments.push(leadingText);
+            plainText = "";
+          } else {
+            flushPlainText();
+          }
+        } else {
+          flushPlainText();
+        }
+        if (nodeTag === "ruby") {
+          const baseText = rubyBaseText(node);
+          if (baseText) {
+            fragments.push(baseText);
+            comparableFragments.push(readableText(node) || baseText);
+            sawBoundary = true;
+            return;
+          }
+        }
+        if (nodeTag === "math") {
+          const mathText = mathAnnouncementText(node);
+          if (mathText) {
+            fragments.push(mathText);
+            comparableFragments.push(readableText(node) || normalize(node.textContent || "") || mathText);
+            sawBoundary = true;
+            return;
+          }
+        }
+        const text = readableText(node);
+        if (text) {
+          if (nodeTag === "sub" || nodeTag === "sup") {
+            comparableFragments.push(text);
+            sawSuppressedSubSup = true;
+            sawBoundary = true;
+            return;
+          }
+          const fragment =
+            nodeTag === "dfn"
+              ? `${text}, empty term`
+              : text;
+          fragments.push(fragment);
+          comparableFragments.push(text);
+          sawBoundary = true;
+        }
+        return;
+      }
+
+      const role = node !== el ? implicitRole(node) : "";
+      if (role && role !== "paragraph") {
+        disallowed = true;
+        return;
+      }
+
+      for (const child of Array.from(node.childNodes || [])) collect(child);
+    }
+
+    collect(el);
+    flushPlainText();
+
+    if (disallowed || !sawBoundary || fragments.length < 2) return undefined;
+
+    const comparable = (value?: string) =>
+      normalize(value)
+        ?.replace(/\s+([.,;:!?])/g, "$1")
+        .replace(/\s+(?=<)/g, "")
+        .replace(/(?<=>)\s+/g, "")
+        .replace(/[.。]$/u, "");
+    const fragmentComparable = comparable(comparableFragments.join(" "));
+    const actualComparable = comparable(readableText(el));
+    if (
+      sawSuppressedSubSup
+        ? fragmentComparable?.replace(/\s+/g, "") !== actualComparable?.replace(/\s+/g, "")
+        : fragmentComparable !== actualComparable
+    ) {
+      return undefined;
+    }
+
+    return fragments;
+  }
+
+  function rubyBaseText(el: any): string | undefined {
+    const parts: string[] = [];
+    for (const child of Array.from(el.childNodes || [])) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const text = normalize(child.textContent || "");
+        if (text) parts.push(text);
+        continue;
+      }
+      if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) continue;
+      const tag = child.tagName?.toLowerCase();
+      if (tag === "rt" || tag === "rp") continue;
+      const text = readableText(child);
+      if (text) parts.push(text);
+    }
+    return normalize(parts.join(" "));
+  }
+
+  function mathAnnouncementText(el: any): string | undefined {
+    const ariaLabel = normalize(el.getAttribute("aria-label"));
+    const symbols = Array.from(el.querySelectorAll("mi, mn, mo"))
+      .map((node: any) => normalize(node.textContent || ""))
+      .filter((text: any): text is string => Boolean(text));
+    const expression = symbols.length
+      ? symbols.join("")
+      : normalize(el.textContent || "");
+    if (!expression) return ariaLabel;
+    const itemCount = Array.from(el.querySelectorAll("*")).filter(
+      (node: any) => !isHidden(node),
+    ).length;
+    return itemCount > 0 ? `${expression}, with ${itemCount} items, math` : expression;
+  }
+
   function inlineCodeBreakTextFragments(el: any, role: string): string[] | undefined {
     if (!["paragraph", "text"].includes(role)) return undefined;
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     const tag = el.tagName?.toLowerCase();
+    if (tag === "address") {
+      const fragments: string[] = [];
+      let line = "";
+
+      function flushLine(): void {
+        const text = normalize(line);
+        if (text) fragments.push(text);
+        line = "";
+      }
+
+      function collectAddressLine(node: any): void {
+        if (!node) return;
+        if (node.nodeType === Node.TEXT_NODE) {
+          line = `${line}${node.textContent || ""}`;
+          return;
+        }
+        if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+        if (node.matches?.("[aria-hidden='true']")) return;
+        if (node.tagName?.toLowerCase() === "br") {
+          flushLine();
+          return;
+        }
+        for (const child of Array.from(node.childNodes || [])) collectAddressLine(child);
+      }
+
+      collectAddressLine(el);
+      flushLine();
+      return fragments.length ? fragments : undefined;
+    }
     if (tag !== "p" && tag !== "small") return undefined;
     if (
       el.getAttribute("role") ||
@@ -9048,6 +9450,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       isComplexColumnHeaderContext(cell);
     const simpleNativeTwoColumnHeaderContext =
       isSimpleNativeTwoColumnHeaderTable(table, rows, headerCells, columnCount);
+    const simpleNativeColumnHeaderContext =
+      isSimpleNativeColumnHeaderTable(table, rows, headerCells, columnCount);
+    const nativeUnheadedFirstColumnContext =
+      isNativeUnheadedFirstColumnTable(table, rows, headerCells, columnCount);
 
     return {
       tableRole: implicitRole(table),
@@ -9068,7 +9474,54 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       tableFirstGroupedHeaderRow,
       tableHasComplexColumnHeaders,
       simpleNativeTwoColumnHeaderContext,
+      simpleNativeColumnHeaderContext,
+      nativeUnheadedFirstColumnContext,
     };
+  }
+
+  function tableHasInteractiveDescendant(table: any): boolean {
+    return Boolean(
+      table?.querySelector?.("a[href], button, input, select, textarea, [role='link'], [role='button']"),
+    );
+  }
+
+  function isSimpleNativeColumnHeaderTable(
+    table: any,
+    rows: any[],
+    headerCells: any[],
+    columnCount?: number,
+  ): boolean {
+    if (table?.tagName?.toLowerCase() !== "table") return false;
+    if (implicitRole(table) !== "table") return false;
+    if (!columnCount || columnCount < 2 || !headerCells.length) return false;
+    if (tableHasInteractiveDescendant(table)) return false;
+    if (groupedTableHeaders(table).length) return false;
+    const firstRow = rows[0];
+    if (!firstRow?.closest?.("thead")) return false;
+    const headerRows = rows.filter((row: any) => row.closest?.("thead"));
+    if (headerRows.length !== 1) return false;
+    if (headerCells.length !== columnCount) return false;
+    return headerCells.every(
+      (cell: any) =>
+        cell.tagName?.toLowerCase() === "th" &&
+        implicitRole(cell) === "columnheader" &&
+        Boolean(accessibleName(cell, "columnheader") || readableText(cell)),
+    );
+  }
+
+  function isNativeUnheadedFirstColumnTable(
+    table: any,
+    rows: any[],
+    headerCells: any[],
+    columnCount?: number,
+  ): boolean {
+    if (table?.tagName?.toLowerCase() !== "table") return false;
+    if (implicitRole(table) !== "table") return false;
+    if (!columnCount || columnCount < 2) return false;
+    if (headerCells.length) return false;
+    if (table.querySelector(":scope > thead")) return false;
+    if (tableHasInteractiveDescendant(table)) return false;
+    return rows.length > 0;
   }
 
   function isSimpleNativeTwoColumnHeaderTable(
@@ -9927,7 +10380,28 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       axConfirmedTerminalPunctuationLinkedHeadingName(el, role) ||
       accessibleName(el, role) ||
       articleNameFromFirstHeading(el, role);
+    const linkContentNameForSpacing =
+      role === "link" ? linkContentName(el) : undefined;
+    const announcementName =
+      role === "link" &&
+      linkContentNameForSpacing &&
+      postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing
+        ? linkContentNameForSpacing
+        : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name)
+          ? finalPostPunctuationWhitespaceCollapsedText(name)
+        : name;
     const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
+    const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag)
+      ? labelForControl(stateEl)
+      : undefined;
+    const nativeValueControlLabelStopText =
+      nativeDescriptorLabel &&
+      ["combobox", "spinbutton", "slider", "meter", "progressbar"].includes(role) &&
+      !hasExplicitAriaName(stateEl) &&
+      !nativeValueControlLabelStopIsHidden(stateEl) &&
+      !nativeLabelAlreadyAnnouncedByListItem(stateEl, nativeDescriptorLabel)
+        ? nativeDescriptorLabel
+        : undefined;
     const nativeSubmitTabPanelGroup =
       isAxConfirmedNestedSubmitButtonInTabPanelGroup(el, role, name);
     const carouselControlName = carouselControlNameWithDescription(el, role, name);
@@ -9979,9 +10453,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (el.hasAttribute("aria-label") && !rawText));
     const suppressNativeCardActionGroup =
       role === "button" && isNativeCardActionDisclosureButton(el);
+    const nativeRangeValue = nativeRangeValueText(stateEl, role);
     const value =
       tag === "select"
         ? nativeSelectValue(stateEl)
+        : nativeRangeValue
+          ? nativeRangeValue
         : selectedListboxOption
           ? accessibleName(selectedListboxOption, "option") ||
             readableText(selectedListboxOption)
@@ -10000,7 +10477,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const descriptor: CapturedElementDescriptor = {
       role,
-      name: carouselControlName || name || focusableFeedbackGroupText,
+      name: carouselControlName || announcementName || focusableFeedbackGroupText,
       contextEndName,
       text,
       description: normalize(
@@ -10039,6 +10516,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ...parentListMeta,
       value,
       valueText: normalize(stateEl.getAttribute("aria-valuetext")),
+      emptyObject:
+        role === "object" &&
+        ((tag === "object" && !el.hasAttribute("data")) ||
+          (tag === "embed" && !el.hasAttribute("src")))
+          ? true
+          : undefined,
       placeholder: normalize(stateEl.getAttribute("placeholder")),
       required:
         stateEl.required || stateEl.getAttribute("aria-required") === "true" || undefined,
@@ -10081,12 +10564,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? true
           : el.getAttribute("aria-current")
         : undefined,
-      hasPopup: normalizedPopup(stateEl) ?? normalizedPopup(el),
+      hasPopup: nativeDatalistElement(stateEl) ? "listbox" : normalizedPopup(stateEl) ?? normalizedPopup(el),
       autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
       modal: el.getAttribute("aria-modal") === "true" || undefined,
       sort: normalize(el.getAttribute("aria-sort")),
       selectedCount: listboxSelectedCount,
       nativeSelect: tag === "select" || undefined,
+      nativeDatalistPlaceholderName:
+        (role === "combobox" &&
+          tag === "input" &&
+          Boolean(nativeDatalistElement(stateEl)) &&
+          !nativeDescriptorLabel &&
+          normalize(stateEl.getAttribute("placeholder")) === name) ||
+        undefined,
       headingButton: Boolean(headingButton) || undefined,
       headingLink: (Boolean(headingLink) && !axLinkedOfferHeadingName) || undefined,
       linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : undefined,
@@ -10219,6 +10709,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             name?.endsWith(":") ||
               (value && name?.endsWith(value)),
           )) ||
+        Boolean(nativeValueControlLabelStopText) ||
         shouldSplitNativeControlLabelStop(el, role) ||
         shouldSplitDirectVisibleTextInputLabelStop(el, role) ||
         Boolean(axConfirmedNativeControlLabelStopText(el, role)) ||
@@ -10226,13 +10717,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? true
           : undefined,
       nativeFormControlLabelStop:
+        Boolean(nativeValueControlLabelStopText) ||
         shouldSplitNativeControlLabelStop(el, role) ||
         shouldSplitDirectVisibleTextInputLabelStop(el, role) ||
         Boolean(axConfirmedNativeControlLabelStopText(el, role))
           ? true
           : undefined,
       nativeControlLabelText:
-        nativeButtonLabelStopText || axConfirmedNativeControlLabelStopText(el, role),
+        nativeButtonLabelStopText ||
+        nativeValueControlLabelStopText ||
+        axConfirmedNativeControlLabelStopText(el, role),
       nativeSearchFormInputStop:
         isAxConfirmedNativeSearchFormTextInput(el, role) ? true : undefined,
       nativeFormInlineAlert:
@@ -10327,6 +10821,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             articleInlineTextLinkFragments(el) ||
             inlineTextLinkFragments(el)
           : undefined,
+      inlinePhrasingBoundaryFragments:
+        role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : undefined,
       expandedRegionInlineLinkFragments:
         role === "paragraph" ? expandedRegionInlineLinkFragments(el) : undefined,
       priceDisclosureFragments: priceDisclosureFragments(el, role),
@@ -10554,6 +11050,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (
+      (role === "object" && !accessibleName(el, role)) ||
+      (role === "link" && el.tagName?.toLowerCase() === "area" && !accessibleName(el, role))
+    ) {
+      return false;
+    }
+
+    if (
       role === "image" &&
       el.tagName?.toLowerCase() === "img" &&
       el.hasAttribute("alt") &&
@@ -10599,6 +11102,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "link",
         "textbox",
         "searchbox",
+        "spinbutton",
         "combobox",
         "checkbox",
         "radio",
@@ -10606,6 +11110,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "option",
         "tab",
         "progressbar",
+        "meter",
+        "slider",
+        "object",
         "listitem",
         "term",
         "paragraph",
@@ -11272,6 +11779,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitInlinePhrasingBoundaryAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.inlinePhrasingBoundaryFragments;
+    if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
   function splitExpandedRegionInlineLinkAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -11384,6 +11901,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const lastStop = lastScannerStopInSubtree(el);
     return Boolean(lastStop && lastStop !== el && isFocusableTerminalFooterGroup(lastStop));
+  }
+
+  function isSuppressedScanRootMainBoundary(root: any, el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName?.toLowerCase() !== "main") return false;
+    if (!el.hasAttribute("data-sr-scan-root")) return false;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return false;
+    if (accessibleName(el, "main")) return false;
+    return root === el || root?.contains?.(el);
   }
 
   function scanSubtree(root: any): ScanLogEntry[] {
@@ -11606,6 +12132,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return;
       }
 
+      if (isSuppressedScanRootMainBoundary(root, el)) {
+        for (const child of walkChildren(el)) walk(child);
+        return;
+      }
+
       if (isStopElement(el)) {
         const id = `__sr_el_${stopIndex}_${now()}`;
         stopIndex += 1;
@@ -11648,6 +12179,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitRichProductCardFeatureRowAnnouncements(descriptor) ||
             splitInlineCodeBreakTextAnnouncements(descriptor) ||
             splitFooterInlineBoundaryTextAnnouncements(descriptor) ||
+            splitInlinePhrasingBoundaryAnnouncements(descriptor) ||
             splitInlineTextLinkAnnouncements(descriptor) ||
             splitExpandedRegionInlineLinkAnnouncements(descriptor) ||
             splitPriceDisclosureAnnouncements(descriptor) ||
