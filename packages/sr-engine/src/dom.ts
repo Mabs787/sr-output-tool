@@ -3800,6 +3800,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(text && /^[|/\\•·]+$/.test(text));
   }
 
+  function isHiddenConsentOnlyListItem(el: any): boolean {
+    if (!isListItem(el)) return false;
+
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (visibleChildren.length) return false;
+
+    const hiddenConsentNodes = Array.from(
+      el.querySelectorAll("[data-sr-voiceover-hidden-consent='true']"),
+    ).filter(
+      (node: any) =>
+        node.closest("li,[role='listitem']") === el &&
+        isHidden(node),
+    );
+    if (!hiddenConsentNodes.length) return false;
+
+    const visibleText = normalize(textWithoutInteractive(el) || readableText(el));
+    return !visibleText;
+  }
+
   function slottedCarouselSlidesForList(list: any): any[] {
     const slot = walkChildren(list).find(
       (child: any) => child.tagName?.toLowerCase() === "slot",
@@ -4046,7 +4065,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function listSummaryChildren(list: any): any[] {
-    return announcedListChildren(list);
+    const children = announcedListChildren(list);
+    let end = children.length;
+    while (end > 0 && isHiddenConsentOnlyListItem(children[end - 1])) {
+      end -= 1;
+    }
+    return children.slice(0, end);
   }
 
   function isListContainer(el: any): boolean {
@@ -10915,12 +10939,121 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return pre || el;
   }
 
+  function nextVisibleElementSibling(el: any): any | undefined {
+    for (let sibling = el?.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+      if (!isHidden(sibling)) return sibling;
+    }
+    return undefined;
+  }
+
+  function previousVisibleElementSibling(el: any): any | undefined {
+    for (let sibling = el?.previousElementSibling; sibling; sibling = sibling.previousElementSibling) {
+      if (!isHidden(sibling)) return sibling;
+    }
+    return undefined;
+  }
+
+  function hasFollowingHiddenElementSibling(el: any): boolean {
+    for (let sibling = el?.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+      if (isHidden(sibling)) return true;
+    }
+    return false;
+  }
+
+  function closestFooterContext(el: any): any | undefined {
+    return el?.closest?.("footer,[role='contentinfo']") || undefined;
+  }
+
+  function sharesFooterContext(left: any, right: any): boolean {
+    const leftFooter = closestFooterContext(left);
+    return Boolean(leftFooter && leftFooter === closestFooterContext(right));
+  }
+
+  function firstVisibleDescendantMatching(
+    el: any,
+    predicate: (candidate: any) => boolean,
+  ): any | undefined {
+    const queue = Array.from(walkChildren(el));
+    while (queue.length) {
+      const candidate = queue.shift() as any;
+      if (!candidate || candidate.nodeType !== Node.ELEMENT_NODE || isHidden(candidate)) {
+        continue;
+      }
+      if (predicate(candidate)) return candidate;
+      queue.push(...walkChildren(candidate));
+    }
+    return undefined;
+  }
+
+  function hasRenderedListMarkers(list: any): boolean {
+    return listChildren(list).some(
+      (item: any) =>
+        item.getAttribute("data-sr-marker-content") === "normal" &&
+        item.getAttribute("data-sr-marker-display") === "inline-block" &&
+        Boolean(normalize(item.getAttribute("data-sr-marker-list-style-type"))),
+    );
+  }
+
+  function isHeadedUnmarkedListBlock(el: any): boolean {
+    const heading = firstVisibleDescendantMatching(el, (candidate: any) => {
+      return implicitRole(candidate) === "heading" && Boolean(readableText(candidate));
+    });
+    if (!heading) return false;
+
+    const list = firstVisibleDescendantMatching(el, (candidate: any) => {
+      if (implicitRole(candidate) !== "list") return false;
+      if (!listSummaryChildren(candidate).length) return false;
+      return Boolean(
+        heading.compareDocumentPosition(candidate) &
+          candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    });
+    return Boolean(list && !hasRenderedListMarkers(list));
+  }
+
+  function isFooterInlineLegalParagraph(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (implicitRole(el) !== "paragraph") return false;
+    if (!el.closest("footer,[role='contentinfo']")) return false;
+    if (!readableText(el)) return false;
+
+    const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
+      (link: any) => !isHidden(link),
+    );
+    if (!links.length) return false;
+
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (!visibleChildren.length) return false;
+
+    return visibleChildren.every((child: any) => {
+      const tag = child.tagName?.toLowerCase();
+      return ["a", "small", "span", "strong", "b", "em", "i", "br"].includes(tag);
+    });
+  }
+
+  function isDecorativeSeparatorStop(el: any): boolean {
+    if (implicitRole(el) !== "separator") return false;
+
+    const nextVisible = nextVisibleElementSibling(el);
+    if (!nextVisible) return hasFollowingHiddenElementSibling(el);
+    if (sharesFooterContext(el, nextVisible) && isFooterInlineLegalParagraph(nextVisible)) {
+      return true;
+    }
+
+    if (!previousVisibleElementSibling(el)) return false;
+    return sharesFooterContext(el, nextVisible) && isHeadedUnmarkedListBlock(nextVisible);
+  }
+
   function isStopElement(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
 
     const role = implicitRole(el);
     const tag = el.tagName.toLowerCase();
     if (!role) return false;
+
+    if (role === "separator" && isDecorativeSeparatorStop(el)) {
+      return false;
+    }
 
     if (isEmptyAlertLiveRegion(el, role)) {
       return false;

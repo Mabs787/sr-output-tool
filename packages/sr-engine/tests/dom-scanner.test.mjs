@@ -323,6 +323,153 @@ test("scanSubtree announces native horizontal rules as splitters", () => {
   );
 });
 
+test("scanSubtree suppresses decorative terminal horizontal rules before hidden content", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>Language links</p>
+        <hr>
+        <div data-sr-computed-hidden="display:none">
+          <button>Hidden prompt</button>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Language links",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>Section content</p>
+        <hr>
+      </main>
+    `),
+    [
+      "main",
+      "Section content",
+      "horizontal splitter",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree preserves main-content separators before headed lists", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>Previous section.</p>
+        <hr>
+        <section>
+          <h2>Related links</h2>
+          <ul>
+            <li><a href="/one">One</a></li>
+            <li><a href="/two">Two</a></li>
+          </ul>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "Previous section.",
+      "horizontal splitter",
+      "heading level 2, Related links",
+      "list 2 items",
+      "link, One, 1 of 2",
+      "link, Two, 2 of 2",
+      "end of list",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree distinguishes unmarked footer link sections from marker-backed lists after separators", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <p>Previous footer content.</p>
+        <hr>
+        <div>
+          <h2>Support links</h2>
+          <ul>
+            <li><a href="/help">Help</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+          </ul>
+        </div>
+      </footer>
+    `),
+    [
+      "footer",
+      "Previous footer content.",
+      "heading level 2, Support links",
+      "list 2 items",
+      "link, Help, 1 of 2",
+      "link, Privacy, 2 of 2",
+      "end of list",
+      "end of, footer",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <p>Previous footer content.</p>
+        <hr>
+        <div>
+          <h2>Support links</h2>
+          <ul>
+            <li data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/help">Help</a></li>
+            <li data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/privacy">Privacy</a></li>
+          </ul>
+        </div>
+      </footer>
+    `),
+    [
+      "footer",
+      "Previous footer content.",
+      "horizontal splitter",
+      "heading level 2, Support links",
+      "list 2 items",
+      "link, Help, 1 of 2",
+      "link, Privacy, 2 of 2",
+      "end of list",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree suppresses decorative footer separators before inline legal paragraphs", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <nav aria-label="Other projects">
+          <a href="/project">Project directory</a>
+        </nav>
+        <hr>
+        <p>
+          <small>This page is available under the <a href="/license">Creative Commons Attribution-ShareAlike License</a></small>
+          <small><a href="/terms">Terms of Use</a></small>
+          <small><a href="/privacy">Privacy Policy</a></small>
+        </p>
+      </footer>
+    `),
+    [
+      "footer",
+      "Other projects, navigation",
+      "link, Project directory",
+      "end of, Other projects, navigation",
+      "This page is available under the",
+      "link, Creative Commons Attribution-ShareAlike License",
+      "link, Terms of Use",
+      "link, Privacy Policy",
+      "end of, footer",
+    ],
+  );
+});
+
 test("scanSubtree splits paragraph text around inline semantic and link boundaries", () => {
   assert.deepEqual(
     scanHtml(`
@@ -1966,7 +2113,7 @@ test("scanSubtree counts list items through neutral list wrappers", () => {
   );
 });
 
-test("scanSubtree counts hidden consent-only list items in list summaries", () => {
+test("scanSubtree excludes hidden consent-only list items from list summaries", () => {
   assert.deepEqual(
     scanHtml(`
       <footer>
@@ -1987,12 +2134,38 @@ test("scanSubtree counts hidden consent-only list items in list summaries", () =
     `),
     [
       "footer",
-      "list 5 items",
+      "list 4 items",
       "link, About us, 1 of 5",
       "link, Report an issue with the NHS website, 2 of 5",
       "link, Accessibility statement, 3 of 5",
       "link, Our policies, 4 of 5",
       "end of list",
+      "end of, footer",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <nav aria-label="Corporate links">
+          <ul>
+            <li><a href="/contact">Contact us</a></li>
+            <li><a href="/privacy" data-sr-voiceover-hidden-consent="true" data-sr-computed-hidden="display:none visibility:hidden">Privacy</a></li>
+            <li><a href="/terms">Terms of use</a></li>
+            <li>© Example 2026</li>
+          </ul>
+        </nav>
+      </footer>
+    `),
+    [
+      "footer",
+      "Corporate links, navigation",
+      "list 4 items",
+      "link, Contact us, 1 of 4",
+      "link, Terms of use, 3 of 4",
+      "© Example 2026, 4 of 4",
+      "end of list",
+      "end of, Corporate links, navigation",
       "end of, footer",
     ],
   );

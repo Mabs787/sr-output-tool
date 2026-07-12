@@ -4186,6 +4186,20 @@
           const text = normalize(textWithoutInteractive(el) || readableText(el));
           return Boolean(text && /^[|/\\•·]+$/.test(text));
         }
+        function isHiddenConsentOnlyListItem(el) {
+          if (!isListItem(el))
+            return false;
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (visibleChildren.length)
+            return false;
+          const hiddenConsentNodes = Array.from(el.querySelectorAll("[data-sr-voiceover-hidden-consent='true']")).filter(
+            (node) => node.closest("li,[role='listitem']") === el && isHidden(node)
+          );
+          if (!hiddenConsentNodes.length)
+            return false;
+          const visibleText = normalize(textWithoutInteractive(el) || readableText(el));
+          return !visibleText;
+        }
         function slottedCarouselSlidesForList(list) {
           const slot = walkChildren(list).find((child) => child.tagName?.toLowerCase() === "slot");
           if (!slot)
@@ -4417,7 +4431,12 @@
           return listChildren(list).filter((child) => !isSeparatorListItem(child));
         }
         function listSummaryChildren(list) {
-          return announcedListChildren(list);
+          const children = announcedListChildren(list);
+          let end = children.length;
+          while (end > 0 && isHiddenConsentOnlyListItem(children[end - 1])) {
+            end -= 1;
+          }
+          return children.slice(0, end);
         }
         function isListContainer(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
@@ -9840,6 +9859,103 @@
           const pre = codeBlock?.tagName.toLowerCase() === "pre" ? codeBlock : codeBlock?.closest("pre");
           return pre || el;
         }
+        function nextVisibleElementSibling(el) {
+          for (let sibling = el?.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+            if (!isHidden(sibling))
+              return sibling;
+          }
+          return void 0;
+        }
+        function previousVisibleElementSibling(el) {
+          for (let sibling = el?.previousElementSibling; sibling; sibling = sibling.previousElementSibling) {
+            if (!isHidden(sibling))
+              return sibling;
+          }
+          return void 0;
+        }
+        function hasFollowingHiddenElementSibling(el) {
+          for (let sibling = el?.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+            if (isHidden(sibling))
+              return true;
+          }
+          return false;
+        }
+        function closestFooterContext(el) {
+          return el?.closest?.("footer,[role='contentinfo']") || void 0;
+        }
+        function sharesFooterContext(left, right) {
+          const leftFooter = closestFooterContext(left);
+          return Boolean(leftFooter && leftFooter === closestFooterContext(right));
+        }
+        function firstVisibleDescendantMatching(el, predicate) {
+          const queue = Array.from(walkChildren(el));
+          while (queue.length) {
+            const candidate = queue.shift();
+            if (!candidate || candidate.nodeType !== Node.ELEMENT_NODE || isHidden(candidate)) {
+              continue;
+            }
+            if (predicate(candidate))
+              return candidate;
+            queue.push(...walkChildren(candidate));
+          }
+          return void 0;
+        }
+        function hasRenderedListMarkers(list) {
+          return listChildren(list).some(
+            (item) => item.getAttribute("data-sr-marker-content") === "normal" && item.getAttribute("data-sr-marker-display") === "inline-block" && Boolean(normalize(item.getAttribute("data-sr-marker-list-style-type")))
+          );
+        }
+        function isHeadedUnmarkedListBlock(el) {
+          const heading = firstVisibleDescendantMatching(el, (candidate) => {
+            return implicitRole(candidate) === "heading" && Boolean(readableText(candidate));
+          });
+          if (!heading)
+            return false;
+          const list = firstVisibleDescendantMatching(el, (candidate) => {
+            if (implicitRole(candidate) !== "list")
+              return false;
+            if (!listSummaryChildren(candidate).length)
+              return false;
+            return Boolean(
+              heading.compareDocumentPosition(candidate) & candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING
+            );
+          });
+          return Boolean(list && !hasRenderedListMarkers(list));
+        }
+        function isFooterInlineLegalParagraph(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (implicitRole(el) !== "paragraph")
+            return false;
+          if (!el.closest("footer,[role='contentinfo']"))
+            return false;
+          if (!readableText(el))
+            return false;
+          const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
+            (link) => !isHidden(link)
+          );
+          if (!links.length)
+            return false;
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (!visibleChildren.length)
+            return false;
+          return visibleChildren.every((child) => {
+            const tag = child.tagName?.toLowerCase();
+            return ["a", "small", "span", "strong", "b", "em", "i", "br"].includes(tag);
+          });
+        }
+        function isDecorativeSeparatorStop(el) {
+          if (implicitRole(el) !== "separator")
+            return false;
+          const nextVisible = nextVisibleElementSibling(el);
+          if (!nextVisible)
+            return hasFollowingHiddenElementSibling(el);
+          if (sharesFooterContext(el, nextVisible) && isFooterInlineLegalParagraph(nextVisible))
+            return true;
+          if (!previousVisibleElementSibling(el))
+            return false;
+          return sharesFooterContext(el, nextVisible) && isHeadedUnmarkedListBlock(nextVisible);
+        }
         function isStopElement(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return false;
@@ -9847,6 +9963,9 @@
           const tag = el.tagName.toLowerCase();
           if (!role)
             return false;
+          if (role === "separator" && isDecorativeSeparatorStop(el)) {
+            return false;
+          }
           if (isEmptyAlertLiveRegion(el, role)) {
             return false;
           }
