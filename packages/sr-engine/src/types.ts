@@ -94,6 +94,7 @@ export interface ElementDescriptor {
   leadingCarouselGroup?: boolean;
   trailingCarouselSlideGroups?: boolean;
   leadingStandaloneCardGroup?: boolean;
+  namedTextCardGroup?: boolean;
   leadingDecorativeTextCardGroups?: boolean;
   trailingStandaloneGroup?: boolean;
   splitLabelStop?: boolean;

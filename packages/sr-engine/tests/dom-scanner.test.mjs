@@ -6146,6 +6146,31 @@ test("scanSubtree adds leading groups for standalone h3 content cards", () => {
   );
 });
 
+test("scanSubtree groups custom headed informational card body text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <x-feed-card>
+          <div>
+            <h2>Try searching to get started</h2>
+            <x-formatted-text aria-label="Start watching videos to help us build a feed of videos you'll love.">
+              Start watching videos to help us build a feed of videos you'll love.
+            </x-formatted-text>
+          </div>
+        </x-feed-card>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 2, Try searching to get started",
+      "Start watching videos to help us build a feed of videos you'll love., group",
+      "Start watching videos to help us build a feed of videos you'll love.",
+      "end of, Start watching videos to help us build a feed of videos you'll love., group",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree does not add a leading group before standalone h3 cards after decorative media", () => {
   assert.deepEqual(
     scanHtml(`

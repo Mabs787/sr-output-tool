@@ -3647,6 +3647,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (joinedPriceDisclosureText(el)) return "text";
     if (groupedMetricCardText(el)) return "text";
+    if (isCustomHeadedTextCardBody(el)) return "text";
     if (footerInlineBoundaryTextFragments(el)) return tag === "p" ? "paragraph" : "text";
     if (expandedRegionInlineLinkFragments(el)) return "paragraph";
     if (inlineTextLinkFragments(el)) return "paragraph";
@@ -6442,6 +6443,67 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     return null;
+  }
+
+  function customHeadedTextCardFor(el: any): any | null {
+    if (!isCustomElement(el)) return null;
+    if (isHidden(el) || el.matches(interactiveSelector) || el.closest(interactiveSelector)) {
+      return null;
+    }
+    if (el.querySelector("h1, h2, h3, h4, h5, h6, [role='heading']")) return null;
+    if (!normalize(accessibleName(el, "text") || directOwnText(el))) return null;
+
+    for (
+      let current = el?.parentElement, depth = 0;
+      current && depth < 8;
+      current = current.parentElement, depth += 1
+    ) {
+      if (current === document.body || current === document.documentElement) break;
+      if (current.matches?.("footer, header, nav, aside, li, [role='listitem']")) break;
+      if (current.matches?.(interactiveSelector) || current.querySelector?.(interactiveSelector)) {
+        continue;
+      }
+      if (current.querySelector?.("ul, ol, table, [role='list'], [role='table'], [role='grid']")) {
+        continue;
+      }
+
+      const headings = Array.from(
+        current.querySelectorAll("h2, h3, h4, h5, h6, [role='heading']"),
+      ).filter((heading: any) => !isHidden(heading) && Boolean(readableText(heading)));
+      if (headings.length !== 1) continue;
+
+      const heading = headings[0] as any;
+      if (
+        !(
+          heading.compareDocumentPosition(el) &
+          heading.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING
+        )
+      ) {
+        continue;
+      }
+
+      const textLeaves = Array.from(current.querySelectorAll("*")).filter((candidate: any) => {
+        if (candidate === current || isHidden(candidate)) return false;
+        if (candidate.matches?.("h1, h2, h3, h4, h5, h6, [role='heading']")) return false;
+        if (candidate.matches?.(interactiveSelector) || candidate.closest?.(interactiveSelector)) {
+          return false;
+        }
+        if (candidate.querySelector?.("h1, h2, h3, h4, h5, h6, [role='heading']")) return false;
+        if (!normalize(accessibleName(candidate, "text") || directOwnText(candidate))) return false;
+        return !Array.from(candidate.children || []).some((child: any) =>
+          normalize(accessibleName(child, "text") || directOwnText(child)),
+        );
+      });
+      if (textLeaves.length < 1 || textLeaves.length > 2 || textLeaves[0] !== el) continue;
+
+      return current;
+    }
+
+    return null;
+  }
+
+  function isCustomHeadedTextCardBody(el: any): boolean {
+    return Boolean(customHeadedTextCardFor(el));
   }
 
   function isLeadingStandaloneCardGroupStop(el: any, role: string): boolean {
@@ -10716,6 +10778,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         isLeadingStandaloneCardGroupStop(el, role) ||
         isPostHeadingMediaCardGroupStop(el, role) ||
         undefined,
+      namedTextCardGroup:
+        role === "text" && isCustomHeadedTextCardBody(el) || undefined,
       leadingDecorativeTextCardGroups:
         isLeadingDecorativeTextCardGroupStop(el, role) || undefined,
       leadingGenericGroupStops:
@@ -11506,6 +11570,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return ["group", announcement].filter((entry): entry is string =>
         Boolean(entry),
       );
+    }
+    if (descriptor.namedTextCardGroup) {
+      const label = normalize(descriptor.name || descriptor.text);
+      if (!label) return undefined;
+      return [`${label}, group`, label, `end of, ${label}, group`];
     }
     if (descriptor.leadingDecorativeTextCardGroups) {
       return ["group", "group", announcement].filter((entry): entry is string =>
