@@ -966,6 +966,9 @@
           const name = descriptor?.contextEndName || descriptor?.name;
           return name ? `end of, ${name}, article` : "end of, article";
         }
+        if (role === "dialog") {
+          return descriptor?.name ? `end of, ${descriptor.name}, dialog` : "end of, dialog";
+        }
         if (role === "group") {
           return descriptor?.name ? `end of, ${descriptor.name}, ${genericGroupRoleLabel(descriptor)}` : `end of ${genericGroupRoleLabel(descriptor)}`;
         }
@@ -998,7 +1001,8 @@
           "table",
           "grid",
           "tabpanel",
-          "article"
+          "article",
+          "dialog"
         ]);
         const listPositionedRoles = /* @__PURE__ */ new Set([
           "link",
@@ -3016,7 +3020,7 @@
           if (normalizedPopup(el))
             return false;
           const label = normalize(el.getAttribute("aria-label") || el.getAttribute("title") || textWithoutInteractive(el) || readableText(el));
-          return /^(open search|open alerts\b.*|open help menu)$/i.test(label || "");
+          return /^(open search|open alerts\b.*|open help menu|open all categories menu)$/i.test(label || "");
         }
         function isSimpleNativeFooter(el) {
           if (el?.tagName?.toLowerCase() !== "footer")
@@ -10242,6 +10246,14 @@
             return void 0;
           return [normalize(descriptor.name || descriptor.text)].filter((entry) => Boolean(entry));
         }
+        function splitDialogDirectTextAnnouncements(descriptor, el) {
+          if (descriptor.role !== "dialog")
+            return void 0;
+          const directText = normalize(Array.from(el.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
+          if (!directText)
+            return void 0;
+          return [generateAnnouncement2(descriptor), directText];
+        }
         function splitCompactInputActionGroupAnnouncements(descriptor) {
           if (!descriptor.compactInputActionGroup)
             return void 0;
@@ -10848,7 +10860,7 @@
               el.setAttribute("data-sr-id", id);
               const descriptor = captureElement(el);
               if (descriptor) {
-                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitFieldsetPromptAnnouncements(descriptor) || splitLabelledNavigationHeaderAnnouncements(descriptor) || splitExamplePreviewFrameAnnouncements(descriptor) || splitWrappedDefinitionListTermAnnouncements(descriptor) || splitAxInlineTwoLinkListItemAnnouncements(descriptor) || splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) || splitAxPublicationListItemBoundaryAnnouncements(descriptor) || splitAxMixedInlineListItemAnnouncements(descriptor) || splitAxStrongWrappedMarkerListItemAnnouncements(descriptor) || splitAxPlainTextMarkerListItemAnnouncements(descriptor) || splitAxMarkerOnlyListItemAnnouncements(descriptor) || splitContributionListItemAnnouncements(descriptor) || splitMetadataListItemAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitMarkerSeparatedListRegionAnnouncements(descriptor) || splitMarkerSeparatedListLinkAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLeadingGenericGroupStopAnnouncements(descriptor) || splitTrailingStandaloneGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitCodeMirrorTextEntryAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitNativeFormInlineAlertAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitInlineCodeBreakTextAnnouncements(descriptor) || splitFooterInlineBoundaryTextAnnouncements(descriptor) || splitInlinePhrasingBoundaryAnnouncements(descriptor) || splitInlineTextLinkAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitPriceDisclosureAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || [generateAnnouncement2(descriptor)];
+                const announcements = splitDescribedAutocompleteAnnouncements(descriptor) || splitFooterCountrySelectorAnnouncements(descriptor) || splitFieldsetPromptAnnouncements(descriptor) || splitLabelledNavigationHeaderAnnouncements(descriptor) || splitExamplePreviewFrameAnnouncements(descriptor) || splitWrappedDefinitionListTermAnnouncements(descriptor) || splitAxInlineTwoLinkListItemAnnouncements(descriptor) || splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) || splitAxPublicationListItemBoundaryAnnouncements(descriptor) || splitAxMixedInlineListItemAnnouncements(descriptor) || splitAxStrongWrappedMarkerListItemAnnouncements(descriptor) || splitAxPlainTextMarkerListItemAnnouncements(descriptor) || splitAxMarkerOnlyListItemAnnouncements(descriptor) || splitContributionListItemAnnouncements(descriptor) || splitMetadataListItemAnnouncements(descriptor) || splitCompactInputActionGroupAnnouncements(descriptor) || splitPrecedingControlLabelAnnouncements(descriptor) || splitMarkerSeparatedListRegionAnnouncements(descriptor) || splitMarkerSeparatedListLinkAnnouncements(descriptor) || splitCarouselGroupAnnouncements(descriptor) || splitLeadingGenericGroupStopAnnouncements(descriptor) || splitTrailingStandaloneGroupAnnouncements(descriptor) || splitClusteredVisualButtonAnnouncements(descriptor) || splitCodeMirrorTextEntryAnnouncements(descriptor) || splitLabelStopAnnouncements(descriptor) || splitNativeFormInlineAlertAnnouncements(descriptor) || splitCompactResultCountAnnouncements(descriptor) || splitComplexColumnHeaderAnnouncements(descriptor) || splitComplexColumnHeaderContextCellAnnouncements(descriptor) || splitComplexColumnHeaderTextAnnouncements(descriptor) || splitRichProductCardFeatureHeadingAnnouncements(descriptor) || splitRichProductCardFeatureRowAnnouncements(descriptor) || splitInlineCodeBreakTextAnnouncements(descriptor) || splitFooterInlineBoundaryTextAnnouncements(descriptor) || splitInlinePhrasingBoundaryAnnouncements(descriptor) || splitInlineTextLinkAnnouncements(descriptor) || splitExpandedRegionInlineLinkAnnouncements(descriptor) || splitPriceDisclosureAnnouncements(descriptor) || splitInlineEmphasisTextAnnouncements(descriptor) || splitInlineEmphasisListItemAnnouncements(descriptor) || splitDialogDirectTextAnnouncements(descriptor, el) || [generateAnnouncement2(descriptor)];
                 for (const announcement of announcements) {
                   if (!announcement)
                     continue;

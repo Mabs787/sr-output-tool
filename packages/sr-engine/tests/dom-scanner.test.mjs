@@ -2802,6 +2802,19 @@ test("scanSubtree does not group collapsed or popup navigation list item buttons
       "end of, Options, navigation",
     ],
   );
+
+  assert.deepEqual(
+    scanHtml(`
+      <nav aria-label="Primary">
+        <button aria-expanded="false" aria-label="Open All Categories Menu">All</button>
+      </nav>
+    `),
+    [
+      "Primary, navigation",
+      "Open All Categories Menu, collapsed, button",
+      "end of, Primary, navigation",
+    ],
+  );
 });
 
 test("scanSubtree keeps role presentation collapsed accordion lists transparent", () => {
@@ -5721,7 +5734,22 @@ test("scanSubtree suppresses empty alert live regions", () => {
         <div role="dialog"></div>
       </main>
     `),
-    ["main", "link, back to top", "group", "dialog", "end of, main"],
+    ["main", "link, back to top", "group", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <nav aria-label="Primary">
+        <div role="dialog" aria-label="No suggestions">No suggestions</div>
+      </nav>
+    `),
+    [
+      "Primary, navigation",
+      "No suggestions, dialog",
+      "No suggestions",
+      "end of, No suggestions, dialog",
+      "end of, Primary, navigation",
+    ],
   );
 });
 

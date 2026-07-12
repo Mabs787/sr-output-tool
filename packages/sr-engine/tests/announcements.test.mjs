@@ -325,6 +325,13 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
   );
   assert.equal(
     getContextEndAnnouncement({
+      role: "dialog",
+      name: "No suggestions",
+    }),
+    "end of, No suggestions, dialog",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
       role: "group",
       suppressContextEnd: true,
     }),

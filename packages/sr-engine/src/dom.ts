@@ -73,6 +73,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "grid",
     "tabpanel",
     "article",
+    "dialog",
   ]);
 
   const listPositionedRoles = new Set([
@@ -2389,7 +2390,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         readableText(el),
     );
 
-    return /^(open search|open alerts\b.*|open help menu)$/i.test(label || "");
+    return /^(open search|open alerts\b.*|open help menu|open all categories menu)$/i.test(
+      label || "",
+    );
   }
 
   function isSimpleNativeFooter(el: any): boolean {
@@ -11466,6 +11469,21 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function splitDialogDirectTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+    el: any,
+  ): string[] | undefined {
+    if (descriptor.role !== "dialog") return undefined;
+    const directText = normalize(
+      Array.from(el.childNodes || [])
+        .filter((child: any) => child.nodeType === Node.TEXT_NODE)
+        .map((child: any) => child.textContent || "")
+        .join(" "),
+    );
+    if (!directText) return undefined;
+    return [generateAnnouncement(descriptor), directText];
+  }
+
   function splitCompactInputActionGroupAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -12320,6 +12338,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitPriceDisclosureAnnouncements(descriptor) ||
             splitInlineEmphasisTextAnnouncements(descriptor) ||
             splitInlineEmphasisListItemAnnouncements(descriptor) ||
+            splitDialogDirectTextAnnouncements(descriptor, el) ||
             [generateAnnouncement(descriptor)];
           for (const announcement of announcements) {
             if (!announcement) continue;

@@ -1193,6 +1193,12 @@ export function getContextEndAnnouncement(
     return name ? `end of, ${name}, article` : "end of, article";
   }
 
+  if (role === "dialog") {
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, dialog`
+      : "end of, dialog";
+  }
+
   if (role === "group") {
     return descriptor?.name
       ? `end of, ${descriptor.name}, ${genericGroupRoleLabel(descriptor)}`
