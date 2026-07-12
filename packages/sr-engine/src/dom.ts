@@ -6485,6 +6485,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const textLeaves = Array.from(current.querySelectorAll("*")).filter((candidate: any) => {
         if (candidate === current || isHidden(candidate)) return false;
         if (candidate.matches?.("h1, h2, h3, h4, h5, h6, [role='heading']")) return false;
+        if (candidate.closest?.("h1, h2, h3, h4, h5, h6, [role='heading']")) return false;
         if (candidate.matches?.(interactiveSelector) || candidate.closest?.(interactiveSelector)) {
           return false;
         }
