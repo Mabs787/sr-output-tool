@@ -1086,6 +1086,43 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return true;
   }
 
+  function isNativeSearchFormLabelStopInput(el: any, role: string): boolean {
+    if (role !== "searchbox") return false;
+    if (el?.tagName?.toLowerCase() !== "input") return false;
+    if ((el.getAttribute("type") || "text").toLowerCase() !== "search") return false;
+
+    const label = associatedLabelForControl(el);
+    if (!label) return false;
+    const labelText = normalize(textWithoutInteractive(label) || readableText(label));
+    if (!labelText) return false;
+
+    const searchContext = el.closest?.("form[role='search'], search, [role='search']");
+    if (!searchContext) return false;
+
+    const selectControls = Array.from(searchContext.querySelectorAll("select")).filter(
+      (control: any) => !isHidden(control),
+    );
+    if (selectControls.length) return false;
+
+    const textControls = Array.from(
+      searchContext.querySelectorAll(
+        "input:not([type='hidden']), textarea, [role='textbox'], [role='searchbox'], [role='combobox']",
+      ),
+    ).filter((control: any) => !isHidden(control));
+    if (textControls.length !== 1 || textControls[0] !== el) return false;
+
+    return true;
+  }
+
+  function isAutocompleteGridPopupLabelStopInput(el: any, role: string): boolean {
+    if (role !== "combobox" && role !== "searchbox") return false;
+    if (el?.tagName?.toLowerCase() !== "input") return false;
+    if (normalize(el.getAttribute("aria-autocomplete")) !== "list") return false;
+    if (el.getAttribute("aria-expanded") !== "true") return false;
+    if (normalizedPopup(el) !== "grid") return false;
+    return hasAssociatedLabelText(el);
+  }
+
   function isAxConfirmedNativeSearchFormLabel(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
     if (el.tagName?.toLowerCase() !== "label") return false;
@@ -2193,7 +2230,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const style = safeComputedStyle(child);
       if ((marker && marker !== "false") || style?.display === "none") continue;
       const selector = "svg, img, [role='img']";
-      return child.matches(selector) || Boolean(child.querySelector(selector));
+      if (!(child.matches(selector) || Boolean(child.querySelector(selector)))) {
+        return false;
+      }
+      const trailingNodes = Array.from(el.childNodes).slice(
+        Array.from(el.childNodes).indexOf(child) + 1,
+      );
+      const hasTrailingTextElement = trailingNodes.some(
+        (node: any) =>
+          node.nodeType === Node.ELEMENT_NODE &&
+          !isHidden(node) &&
+          normalize(readableText(node) || node.textContent),
+      );
+      return hasTrailingTextElement;
     }
 
     return false;
@@ -9562,10 +9611,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
     const rows = tableRows(table);
     const columnCount = tableColumnCount(rows);
+    const tableRole = isExpandedAutocompletePopupGrid(table) ? "table" : implicitRole(table);
 
     if (!row || !cell) {
       return {
-        tableRole: implicitRole(table),
+        tableRole,
         tableLabel: accessibleName(table, implicitRole(table)),
         rowCount: rows.length || undefined,
         columnCount,
@@ -9636,7 +9686,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       isNativeUnheadedFirstColumnTable(table, rows, headerCells, columnCount);
 
     return {
-      tableRole: implicitRole(table),
+      tableRole,
       tableLabel: accessibleName(table, implicitRole(table)),
       rowIndex:
         !insideColumnHeaderContent && rowIndex >= 0 ? rowIndex + 1 : undefined,
@@ -10878,6 +10928,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           tag === "input" &&
           (el.getAttribute("type") || "").toLowerCase() === "search") ||
           undefined,
+      suppressAutocomplete:
+        isNativeSearchFormLabelStopInput(el, role) || undefined,
+      popupListboxContainer:
+        role === "listbox" && isExpandedAutocompletePopupListbox(el) || undefined,
       compactInputActionGroup:
         role === "group" && compactInputActionGroupLabel(el) ? true : undefined,
       leadingCarouselGroup: isLeadingCarouselGroupStop(el, role) || undefined,
@@ -10904,6 +10958,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               (name && stateEl.getAttribute("aria-invalid") === "true" &&
                 normalize(stateEl.getAttribute("placeholder")) === name),
           )) ||
+        isNativeSearchFormLabelStopInput(el, role) ||
+        isAutocompleteGridPopupLabelStopInput(el, role) ||
         isAxConfirmedNativeSearchFormTextInput(el, role) ||
         (role === "combobox" &&
           tag === "select" &&
@@ -11031,6 +11087,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
       preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
       suppressContextEnd:
+        role === "tooltip" ||
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
         shouldSuppressSingletonDocumentArticleEnd(el, role) ||
         (role === "group" && isButtonShellClusterGroup(el)) ||
@@ -11419,6 +11476,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (role === "row" && isInsideExpandedAutocompletePopupGrid(el)) {
+      return false;
+    }
+
     return (
       isContextRole(el, role) ||
       [
@@ -11462,6 +11523,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function shouldDescendIntoStop(el: any): boolean {
     const role = implicitRole(el);
+    if (role === "tooltip") {
+      return false;
+    }
+    if (role === "listbox" && isExpandedAutocompletePopupListbox(el)) {
+      return false;
+    }
     if (role === "group" && isFocusableImageListItem(el)) {
       return false;
     }
@@ -11588,6 +11655,38 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
+  function expandedAutocompletePopupController(container: any): any {
+    if (!container?.id) return null;
+    const selector = [
+      `[aria-controls="${cssEscape(container.id)}"]`,
+      `[aria-owns="${cssEscape(container.id)}"]`,
+    ].join(",");
+    return (
+      Array.from(document.querySelectorAll(selector)).find((controller: any) => {
+        if (container.contains(controller) || isHidden(controller)) return false;
+        if (controller.getAttribute("aria-expanded") !== "true") return false;
+        const role = implicitRole(controller);
+        if (!["combobox", "searchbox", "textbox"].includes(role)) return false;
+        return normalize(controller.getAttribute("aria-autocomplete")) === "list";
+      }) || null
+    );
+  }
+
+  function isExpandedAutocompletePopupListbox(el: any): boolean {
+    return implicitRole(el) === "listbox" && Boolean(expandedAutocompletePopupController(el));
+  }
+
+  function isExpandedAutocompletePopupGrid(el: any): boolean {
+    if (implicitRole(el) !== "grid") return false;
+    const controller = expandedAutocompletePopupController(el);
+    return Boolean(controller && normalizedPopup(controller) === "grid");
+  }
+
+  function isInsideExpandedAutocompletePopupGrid(el: any): boolean {
+    const grid = el.closest?.("[role='grid']");
+    return Boolean(grid && isExpandedAutocompletePopupGrid(grid));
+  }
+
   function splitDescribedAutocompleteAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -11678,6 +11777,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     el: any,
   ): string[] | undefined {
     if (!["dialog", "tooltip"].includes(descriptor.role || "")) return undefined;
+    if (descriptor.role === "tooltip") {
+      if (isCustomElement(el)) return [generateAnnouncement(descriptor)];
+      const visibleText = normalize(readableText(el));
+      if (visibleText) return [`${visibleText}, empty tooltip`];
+      const announcement = generateAnnouncement(descriptor);
+      return [`${announcement}, empty tooltip`];
+    }
     if (descriptor.role === "dialog" && descriptor.modalDialogSummaryItemCount) {
       return [generateAnnouncement(descriptor)];
     }

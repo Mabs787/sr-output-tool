@@ -492,7 +492,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts.push(popupType);
         }
         parts.push("search text field");
-        if (popupType !== "list box pop up" && popupType !== "grid pop up") {
+        if (!el.suppressAutocomplete && popupType !== "list box pop up" && popupType !== "grid pop up") {
           pushAutocomplete(parts, el.autocomplete);
         }
       } else {
@@ -574,7 +574,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts.push(`${comboLabel} ${popupType}`);
         } else if (comboLabelFromPlaceholder && comboLabel && popupType) {
           if (el.expanded !== undefined) {
-            parts.push(`${comboLabel} ${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+            parts.push(
+              popupType === "grid pop up"
+                ? `${comboLabel}, ${popupType} ${el.expanded ? "expanded" : "collapsed"}`
+                : `${comboLabel} ${popupType} ${el.expanded ? "expanded" : "collapsed"}`,
+            );
           } else {
             parts.push(`${comboLabel} ${popupType}`);
           }
@@ -808,7 +812,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         pushSupplementalText(selectedParts, el);
         return selectedParts.join(", ");
       }
-      pushIfPresent(parts, el.name);
+      if (!el.popupListboxContainer) {
+        pushIfPresent(parts, el.name);
+      }
       parts.push("list box");
       if (el.selectedCount) {
         parts.push(
@@ -829,12 +835,12 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "table":
     case "grid": {
       pushIfPresent(parts, el.name ?? el.tableLabel);
-      parts.push(role === "grid" ? "grid" : "table");
+      parts.push(role === "grid" && el.tableRole !== "table" ? "grid" : "table");
       if (el.columnCount) {
         parts.push(`${el.columnCount} ${el.columnCount === 1 ? "column" : "columns"}`);
       }
       if (el.rowCount) {
-        parts.push(`${el.rowCount} rows`);
+        parts.push(`${el.rowCount} ${el.rowCount === 1 ? "row" : "rows"}`);
       }
       pushSupplementalText(parts, el);
       break;
@@ -1208,6 +1214,9 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "grid") {
+    if (descriptor?.tableRole === "table") {
+      return "end of table";
+    }
     return "end of grid";
   }
 

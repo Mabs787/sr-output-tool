@@ -20,7 +20,19 @@ Scan these before changing engine logic:
 - `aria-grid-popup-table-mapping.html`
 - `grid-popup-row-cell-decomposition.html`
 
-Each fixture uses `data-sr-fixture-status="draft"` until Phase 0/B/C evidence
+The side-by-side follow-up fixtures from run `29209152951` were accepted after
+Phase 0/B/C review and exact analyzer receipts:
+
+- `tooltip-associated-describedby.html`
+- `tooltip-hidden-custom-wrapper.html`
+- `tooltip-empty-boundary.html`
+- `leading-icon-text-button.html`
+- `search-label-stop.html`
+- `expanded-listbox-popup.html`
+- `aria-grid-popup-table-mapping.html`
+- `grid-popup-row-cell-decomposition.html`
+
+Other fixtures keep `data-sr-fixture-status="draft"` until Phase 0/B/C evidence
 review accepts the scan output.
 
 Do not combine multiple always-visible `aria-modal="true"` dialogs in one

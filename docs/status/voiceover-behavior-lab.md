@@ -123,10 +123,60 @@ Run these side by side as fixture-only C.5 evidence gathering. Do not make a
 tooltip or combobox engine change until each sub-family is backed by its own
 scan receipt.
 
+Run `29209152951` completed the side-by-side follow-up batch. Receipts live
+under `voiceover-smoke/agent-work/29209152951/behavior-lab/`, with artifacts in
+`voiceover-smoke/autonomous-runs/29209152951/artifacts/`.
+
+Accepted exact fixtures after generic engine refinement:
+
+- `tooltip-associated-describedby`: exact, 3/3.
+- `tooltip-hidden-custom-wrapper`: exact, 3/3.
+- `tooltip-empty-boundary`: exact, 4/4.
+- `leading-icon-text-button`: exact, 2/2.
+- `search-label-stop`: exact, 6/6.
+- `expanded-listbox-popup`: exact, 7/7.
+- `aria-grid-popup-table-mapping`: exact, 7/7.
+- `grid-popup-row-cell-decomposition`: exact, 6/6.
+
+Reusable engine behavior accepted:
+
+- Native tooltip stops suppress descendant/end traversal. Visible non-custom
+  tooltip text is rendered as an `empty tooltip` stop; custom tooltip wrappers
+  with hidden-only text remain a plain tooltip stop.
+- Leading decorative icon plus direct text native buttons are not grouped just
+  because the icon comes first; trailing visible text elements still preserve
+  the grouped icon-button behavior.
+- Simple native search controls in search contexts split the visible label as
+  its own VoiceOver stop and suppress generic `auto complete available` wording
+  for the focused search field. Do not apply this split when the same search
+  context has a visible native `select` companion, matching the protected
+  Wikipedia corpus fixture.
+- Expanded autocomplete-owned listbox popups are boundary stops only: VoiceOver
+  announces `list box` and does not right-arrow into the option descendants.
+- Expanded autocomplete/search controls with `aria-haspopup="grid"` expose the
+  owned grid popup as table-like: the popup says `table`, rows are transparent,
+  grid cells use table column wording, and the boundary closes with
+  `end of table`.
+
+The eight accepted follow-up fixtures no longer carry
+`data-sr-fixture-status="draft"`. Keep them as focused repro fixtures; do not
+promote them into the live-site corpus unless a later Phase E records unique
+corpus value.
+
 Validation after the dialog engine refinement:
 
 - `yarn workspace @sr-output/engine build`: passed.
 - `yarn workspace @sr-output/engine test:unit`: passed, 244 passed, 49 skipped.
+- `yarn build:extension-runtime`: passed.
+- `yarn workspace @sr-output/engine test:voiceover`: passed, 38 passed,
+  14 skipped.
+
+Validation after run `29209152951` follow-up refinement:
+
+- `yarn workspace @sr-output/engine build`: passed.
+- `yarn workspace @sr-output/engine test:unit`: passed, 245 passed, 49 skipped.
+- `node /tmp/analyze-behavior-followup.mjs`: passed, 8 exact fixtures, 0
+  mismatch windows.
 - `yarn build:extension-runtime`: passed.
 - `yarn workspace @sr-output/engine test:voiceover`: passed, 38 passed,
   14 skipped.

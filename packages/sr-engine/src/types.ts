@@ -91,6 +91,8 @@ export interface ElementDescriptor {
   imageMissingDescriptionHint?: boolean;
   splitDescribedAutocomplete?: boolean;
   searchInputGroup?: boolean;
+  suppressAutocomplete?: boolean;
+  popupListboxContainer?: boolean;
   compactInputActionGroup?: boolean;
   leadingCarouselGroup?: boolean;
   trailingCarouselSlideGroups?: boolean;

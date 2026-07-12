@@ -50,6 +50,26 @@ decision, tests added or updated, and what future agents must avoid.
   no-suggestions dialog, or to unnamed modal shells that exist only to wrap
   iframe/consent content without visible interactive descendants.
 
+## 2026-07-12 Behavior Lab: Tooltips, Search Popups, and Grid Popups
+
+- Target: behavior-lab controls/context follow-up fixtures on branch
+  `codex/voiceover-behavior-lab`.
+- Evidence: run `29209152951`; receipts under
+  `voiceover-smoke/agent-work/29209152951/behavior-lab/`.
+- Decision: accepted generic VoiceOver-backed rules for focused controls.
+  Tooltip stops suppress descendant/end traversal. Simple native search
+  controls in search contexts split the visible label and suppress generic
+  autocomplete wording, but the split is not applied when the same search
+  context has a visible native `select` companion. Expanded autocomplete-owned
+  listboxes are boundary-only stops. Expanded autocomplete/search controls with
+  `aria-haspopup="grid"` expose the owned grid popup as a table-like popup with
+  transparent rows, column-formatted cells, and `end of table`.
+- Tests: added focused DOM scanner coverage for native search label stops and
+  popup listbox boundaries; updated table row-count grammar to use singular
+  `row` for one-row tables.
+- Avoid: broad rules for every `role="tooltip"`, every listbox, or every ARIA
+  grid without the supporting ownership/expanded-autocomplete contract.
+
 ## 2026-07-01 Autonomous Workflow Notes
 
 - Use `wait_agent` for critical-path subagent handoff. Subagent completion
