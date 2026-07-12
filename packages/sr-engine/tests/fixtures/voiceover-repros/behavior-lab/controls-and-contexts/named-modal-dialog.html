@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Named modal dialog behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      [role="dialog"] { border: 2px solid #555; padding: 16px; }
+      button { font: inherit; margin: 4px; padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <div role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+        <h1 id="dialog-title">Main menu</h1>
+        <p>Choose a section to continue.</p>
+        <button type="button">Close</button>
+      </div>
+    </main>
+  </body>
+</html>

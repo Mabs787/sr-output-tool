@@ -53,18 +53,26 @@ Draft scan targets:
 
 - `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/icon-button-tooltip-contexts.html`
 - `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/combobox-popup-search-controls.html`
-- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/dialog-navigation-contexts.html`
 - `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/grouped-control-wrapper-boundaries.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/named-modal-dialog.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/unnamed-modal-dialog.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/dialog-with-navigation-list.html`
 
 These files are marked `data-sr-fixture-status="draft"`. Remove that marker
 only after Phase 0/B/C review accepts the VoiceOver scan evidence.
+
+Run `29203076966` produced successful artifacts for the icon-button, combobox,
+and grouped-control fixtures, but the original combined
+`dialog-navigation-contexts.html` target hung in `Run VoiceOver scan` for about
+2h10m before cancellation. Treat that as fixture-design evidence only. The
+combined dialog fixture was replaced with one-dialog-per-page targets above.
 
 ## Scan Command Template
 
 Use the VoiceOver scan workflow on the current branch with:
 
 ```bash
-/opt/homebrew/bin/gh workflow run "VoiceOver scan" --ref codex/voiceover-behavior-lab -f urls=$'packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/icon-button-tooltip-contexts.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/combobox-popup-search-controls.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/dialog-navigation-contexts.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/grouped-control-wrapper-boundaries.html' -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=0 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0
+/opt/homebrew/bin/gh workflow run "VoiceOver scan" --ref codex/voiceover-behavior-lab -f urls=$'packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/icon-button-tooltip-contexts.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/combobox-popup-search-controls.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/grouped-control-wrapper-boundaries.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/named-modal-dialog.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/unnamed-modal-dialog.html\npackages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/dialog-with-navigation-list.html' -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=60 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0
 ```
 
 ## Guardrails
