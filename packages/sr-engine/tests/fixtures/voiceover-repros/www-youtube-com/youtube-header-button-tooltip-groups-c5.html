@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTube header button tooltip group repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; }
+      [data-sr-scan-root] { padding: 24px; }
+      header { display: flex; align-items: center; gap: 16px; }
+      .icon-button { border: 0; border-radius: 50%; padding: 12px; background: #f2f2f2; }
+      .shell { display: inline-flex; align-items: center; justify-content: center; }
+      [role="tooltip"] { position: absolute; left: -10000px; }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root data-sr-fixture-status="draft">
+      <header role="banner">
+        <button class="icon-button" aria-label="Guide">
+          <span class="shell" aria-hidden="true">☰</span>
+        </button>
+        <a href="/" aria-label="YouTube Home">
+          <span aria-hidden="true">YouTube</span>
+        </a>
+        <form role="search">
+          <input name="search_query" aria-controls="suggestions" aria-expanded="true" aria-autocomplete="list" role="combobox" placeholder="Search">
+          <button aria-label="Search" title="Search">
+            <span class="shell" aria-hidden="true">⌕</span>
+          </button>
+        </form>
+        <button aria-label="Search with your voice">
+          <span class="shell" aria-hidden="true">🎙</span>
+        </button>
+        <span role="tooltip">Search with your voice</span>
+        <button aria-label="Settings">
+          <span class="shell" aria-hidden="true">⋮</span>
+        </button>
+        <span role="tooltip">Settings</span>
+        <a href="/signin">Sign in</a>
+      </header>
+    </div>
+  </body>
+</html>

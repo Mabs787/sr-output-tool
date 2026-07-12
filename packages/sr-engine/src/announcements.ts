@@ -198,13 +198,31 @@ function pushSortState(parts: string[], sort?: string): void {
   parts.push(`sorted ${normalized}`);
 }
 
-function pushSupplementalText(parts: string[], el: ElementDescriptor): void {
-  pushIfPresent(parts, el.details);
+function pushSupplementalText(
+  parts: string[],
+  el: ElementDescriptor,
+  options: { skipDetails?: boolean } = {},
+): void {
+  if (!options.skipDetails) {
+    pushIfPresent(parts, el.details);
+  }
   pushInvalidState(parts, el.invalid);
   pushIfPresent(parts, el.errorMessage);
   if (el.busy) {
     parts.push("busy");
   }
+}
+
+function appendInlineDetails(label: string | undefined, details: string | undefined): string | undefined {
+  const normalizedDetails = normalizeText(details);
+  if (!normalizedDetails) {
+    return label;
+  }
+  const normalizedLabel = normalizeText(label);
+  if (!normalizedLabel) {
+    return normalizedDetails;
+  }
+  return normalizeText(`${normalizedLabel} ${normalizedDetails}`);
 }
 
 function formatHeadingFragments(
@@ -337,7 +355,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "button": {
-      pushIfPresent(parts, label);
+      const announcedButtonLabel = appendInlineDetails(label, el.details);
+      const buttonDetailsAreInline = Boolean(normalizeText(el.details));
+      pushIfPresent(parts, announcedButtonLabel);
       const popupType = formatPopupType(el.hasPopup);
       const isToggleButton =
         el.roleDescription === "toggle button" || el.pressed !== undefined;
@@ -385,7 +405,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push("mixed");
       }
       pushTableColumnContext(parts, el);
-      pushSupplementalText(parts, el);
+      pushSupplementalText(parts, el, { skipDetails: buttonDetailsAreInline });
       break;
     }
 
@@ -393,6 +413,8 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       const linkLabel = el.preserveSpaceBeforeColonName
         ? normalizeTextPreservingSpaceBeforeColon(el.preserveSpaceBeforeColonName)
         : label;
+      const announcedLinkLabel = appendInlineDetails(linkLabel, el.details);
+      const linkDetailsAreInline = Boolean(normalizeText(el.details));
       const popupType = formatPopupType(el.hasPopup);
       if (el.disabled && el.current) {
         parts.push(
@@ -425,25 +447,25 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (el.iconOnlyLink) {
           parts.push("image");
         }
-        pushIfPresent(parts, label);
+        pushIfPresent(parts, announcedLinkLabel);
       } else if (el.iconOnlyLink) {
         parts.push("link");
         parts.push("image");
-        pushIfPresent(parts, label);
+        pushIfPresent(parts, announcedLinkLabel);
       } else {
         parts.push("link");
         if (el.linkHeadingLevel) {
           parts.push(`heading level ${el.linkHeadingLevel}`);
         }
-        if (el.preserveSpaceBeforeColonName && linkLabel) {
-          parts.push(linkLabel);
+        if (el.preserveSpaceBeforeColonName && announcedLinkLabel) {
+          parts.push(announcedLinkLabel);
         } else {
-          pushIfPresent(parts, linkLabel);
+          pushIfPresent(parts, announcedLinkLabel);
         }
       }
       pushCollectionPosition(parts, el);
       pushTableColumnContext(parts, el);
-      pushSupplementalText(parts, el);
+      pushSupplementalText(parts, el, { skipDetails: linkDetailsAreInline });
       break;
     }
 
@@ -456,9 +478,10 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "textbox":
     case "searchbox": {
       if (role === "searchbox") {
+        const searchPlaceholder = placeholder !== label ? placeholder : undefined;
         pushIfPresent(
           parts,
-          [label, value ?? el.placeholder].filter(Boolean).join(" "),
+          [label, value ?? searchPlaceholder].filter(Boolean).join(" "),
         );
         const popupType = formatPopupType(el.hasPopup);
         if (el.required && popupType) {
@@ -469,7 +492,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           parts.push(popupType);
         }
         parts.push("search text field");
-        if (popupType !== "list box pop up") {
+        if (popupType !== "list box pop up" && popupType !== "grid pop up") {
           pushAutocomplete(parts, el.autocomplete);
         }
       } else {
@@ -524,20 +547,31 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "combobox": {
+      let detailsAreInline = false;
       if (el.nativeSelect) {
         const selectLabel = normalizeText(el.name);
+        const selectDetails = normalizeText(el.details);
         pushIfPresent(parts, value);
         if (selectLabel && selectLabel !== value) {
-          pushIfPresent(parts, selectLabel);
+          pushIfPresent(parts, [selectLabel, selectDetails].filter(Boolean).join(" "));
+          detailsAreInline = Boolean(selectDetails);
         }
         parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
         parts.push("button");
       } else {
         const popupType = formatPopupType(el.hasPopup);
-        if (el.nativeDatalistPlaceholderName && label && popupType) {
-          parts.push(`${label} ${popupType}`);
+        const comboLabel = label ?? placeholder;
+        const comboLabelFromPlaceholder = !label && Boolean(placeholder);
+        if (el.nativeDatalistPlaceholderName && comboLabel && popupType) {
+          parts.push(`${comboLabel} ${popupType}`);
+        } else if (comboLabelFromPlaceholder && comboLabel && popupType) {
+          if (el.expanded !== undefined) {
+            parts.push(`${comboLabel} ${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+          } else {
+            parts.push(`${comboLabel} ${popupType}`);
+          }
         } else {
-          pushIfPresent(parts, label);
+          pushIfPresent(parts, comboLabel);
           if (popupType && el.expanded !== undefined) {
             parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
           } else if (popupType) {
@@ -546,7 +580,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             pushComboBoxAutocomplete(parts, el);
           }
         }
-        if (popupType && el.expanded !== undefined && el.nativeDatalistPlaceholderName && label) {
+        if (popupType && el.expanded !== undefined && el.nativeDatalistPlaceholderName && comboLabel) {
           parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
         }
         parts.push("combo box");
@@ -559,7 +593,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           }
         }
       }
-      pushSupplementalText(parts, el);
+      pushSupplementalText(parts, el, { skipDetails: detailsAreInline });
       break;
     }
 

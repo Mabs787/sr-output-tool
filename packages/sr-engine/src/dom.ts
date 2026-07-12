@@ -10404,6 +10404,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       axConfirmedTerminalPunctuationLinkedHeadingName(el, role) ||
       accessibleName(el, role) ||
       articleNameFromFirstHeading(el, role);
+    const nativeSelectTitleName =
+      tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : undefined;
     const linkContentNameForSpacing =
       role === "link" ? linkContentName(el) : undefined;
     const announcementName =
@@ -10501,7 +10503,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const descriptor: CapturedElementDescriptor = {
       role,
-      name: carouselControlName || announcementName || focusableFeedbackGroupText,
+      name: carouselControlName || announcementName || nativeSelectTitleName || focusableFeedbackGroupText,
       contextEndName,
       text,
       description: normalize(

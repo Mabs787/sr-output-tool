@@ -638,6 +638,11 @@ test("scanSubtree announces native datalist, select, number, and range controls"
         <input id="broken-list-input" list="missing-list">
         <label for="support-topic">Support topic</label>
         <select id="support-topic"><option>Select a topic</option></select>
+        <select id="search-department" title="Search in" aria-describedby="search-help">
+          <option selected>All Departments</option>
+          <option>Books</option>
+        </select>
+        <span id="search-help" hidden>Select the department you want to search in</span>
         <label for="price">Price</label>
         <input id="price" type="number" value="10">
         <label for="volume">Volume</label>
@@ -654,6 +659,7 @@ test("scanSubtree announces native datalist, select, number, and range controls"
       "Input with missing datalist target, edit text",
       "Support topic",
       "Select a topic, Support topic, menu pop up collapsed, button",
+      "All Departments, Search in Select the department you want to search in, menu pop up collapsed, button",
       "Price",
       "10, Price, stepper",
       "Volume",

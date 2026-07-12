@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTube empty recommendation card group repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; }
+      [data-sr-scan-root] { padding: 24px; }
+      main { display: block; }
+      .empty-card { max-width: 720px; padding: 28px; border-radius: 16px; box-shadow: 0 8px 28px rgb(0 0 0 / 18%); }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <section class="empty-card" aria-label="Start watching videos to help us build a feed of videos you'll love.">
+        <h2>Try searching to get started</h2>
+        <p>Start watching videos to help us build a feed of videos you'll love.</p>
+      </section>
+    </main>
+  </body>
+</html>
