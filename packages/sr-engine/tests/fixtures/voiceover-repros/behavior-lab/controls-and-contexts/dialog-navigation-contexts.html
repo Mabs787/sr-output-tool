@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dialog navigation contexts behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 20px; max-width: 760px; }
+      [role="dialog"] { border: 2px solid #555; padding: 16px; }
+      nav ul { margin: 8px 0; padding-left: 24px; }
+      a, button { font: inherit; margin: 4px; padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Dialog navigation contexts</h1>
+
+      <section aria-labelledby="named-dialog-heading">
+        <h2 id="named-dialog-heading">Named modal dialog with navigation list</h2>
+        <div role="dialog" aria-modal="true" aria-labelledby="menu-title">
+          <h3 id="menu-title">Main menu</h3>
+          <nav aria-label="Shopping sections">
+            <ul>
+              <li><a href="/health-ai">Health AI</a></li>
+              <li><a href="/cart" aria-label="0 items in cart">Cart</a></li>
+              <li><a href="/deals">Deals</a></li>
+            </ul>
+          </nav>
+          <button type="button">Close</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="unnamed-dialog-heading">
+        <h2 id="unnamed-dialog-heading">Unnamed modal dialog boundary</h2>
+        <div role="dialog" aria-modal="true">
+          <button type="button" aria-label="Back">Back</button>
+          <nav aria-label="Quick links">
+            <a href="/orders">Orders</a>
+            <a href="/account">Account</a>
+          </nav>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

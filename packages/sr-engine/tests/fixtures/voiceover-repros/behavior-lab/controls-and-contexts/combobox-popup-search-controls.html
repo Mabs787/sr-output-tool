@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Combobox popup search controls behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 20px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 16px; }
+      label, input, select, button { display: inline-block; font: inherit; margin: 4px; padding: 8px; }
+      [role="listbox"], [role="grid"] { border: 1px solid #777; margin-top: 8px; padding: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Combobox popup search controls</h1>
+
+      <section aria-labelledby="native-searchbox-heading">
+        <h2 id="native-searchbox-heading">Native searchbox with list popup</h2>
+        <form role="search">
+          <label for="native-search">Search videos</label>
+          <input id="native-search" type="search" placeholder="Search" aria-autocomplete="list" aria-controls="native-suggestions" aria-expanded="true">
+          <button type="submit" aria-label="Search">Search</button>
+        </form>
+        <div id="native-suggestions" role="listbox">
+          <div role="option">VoiceOver tutorial</div>
+          <div role="option">Screen reader basics</div>
+        </div>
+      </section>
+
+      <section aria-labelledby="aria-combobox-heading">
+        <h2 id="aria-combobox-heading">ARIA combobox with grid popup</h2>
+        <label for="store-search">Search store</label>
+        <input id="store-search" role="combobox" aria-label="Search store" aria-autocomplete="list" aria-haspopup="grid" aria-controls="store-results" aria-expanded="true" placeholder="Search store">
+        <div id="store-results" role="grid" aria-label="Store suggestions">
+          <div role="row">
+            <span role="gridcell">Headphones</span>
+            <span role="gridcell">Electronics</span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="select-plus-search-heading">
+        <h2 id="select-plus-search-heading">Department select next to search field</h2>
+        <form role="search">
+          <label for="department">Department</label>
+          <select id="department" title="Search in" aria-describedby="department-help">
+            <option selected>All Departments</option>
+            <option>Books</option>
+          </select>
+          <span id="department-help" hidden>Select the department you want to search in</span>
+          <input type="search" aria-label="Search Amazon" placeholder="Search Amazon" aria-autocomplete="list" aria-expanded="true" aria-haspopup="grid" aria-controls="department-results">
+          <button type="submit" aria-label="Go">Go</button>
+        </form>
+        <div id="department-results" role="grid" aria-label="Department results">
+          <div role="row"><span role="gridcell">Deals today</span></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
