@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article card heading boundary behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      article { border-bottom: 1px solid #aaa; padding: 16px 0; }
+      time { display: block; color: #555; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Article card heading boundary</h1>
+      <section aria-label="Latest articles">
+        <article>
+          <time datetime="2026-07-12">12 July 2026</time>
+          <h2><a href="#launch">Launch update</a></h2>
+          <p>Reusable article card summary text.</p>
+        </article>
+        <article>
+          <time datetime="2026-07-13">13 July 2026</time>
+          <h2><a href="#research">Research note</a></h2>
+          <p>Another reusable article card summary.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

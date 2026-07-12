@@ -181,6 +181,29 @@ Validation after run `29209152951` follow-up refinement:
 - `yarn workspace @sr-output/engine test:voiceover`: passed, 38 passed,
   14 skipped.
 
+## Next Batch: Lists and Cards
+
+Draft scan targets on branch `codex/voiceover-list-card-lab`:
+
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/marker-link-listitem-boundary.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/linked-card-listitem-position.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/article-card-heading-boundary.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/mixed-inline-listitem-links.html`
+
+Behavior questions:
+
+- How VoiceOver right-arrow traversal treats native list markers when list
+  items contain links, trailing text, or lead text before links.
+- Whether linked card list items carry list position onto the card, the image,
+  the heading link, or only the list summary.
+- Where article-card boundaries occur when a date, heading link, and summary
+  text are siblings.
+- How mixed inline list item text is segmented around one or more links and
+  inline emphasis.
+
+Run these as focused repro fixtures. Do not promote them into the live-site
+corpus unless Phase E records unique corpus value.
+
 ## Scan Command Template
 
 Use the VoiceOver scan workflow on the current branch with:

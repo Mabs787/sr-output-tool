@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marker link list item boundary behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      li { margin: 12px 0; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Marker link list item boundary</h1>
+      <ul>
+        <li><a href="#alpha">Alpha resource</a></li>
+        <li><a href="#beta">Beta resource</a>, with trailing text.</li>
+        <li>Lead text before <a href="#gamma">Gamma resource</a>.</li>
+      </ul>
+    </main>
+  </body>
+</html>
