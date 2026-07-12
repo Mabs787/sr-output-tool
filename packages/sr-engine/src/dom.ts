@@ -74,6 +74,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "tabpanel",
     "article",
     "dialog",
+    "tooltip",
   ]);
 
   const listPositionedRoles = new Set([
@@ -11324,6 +11325,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "image",
         "frame",
         "dialog",
+        "tooltip",
         "alert",
         "status",
         "separator",
@@ -11538,7 +11540,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     descriptor: CapturedElementDescriptor,
     el: any,
   ): string[] | undefined {
-    if (descriptor.role !== "dialog") return undefined;
+    if (!["dialog", "tooltip"].includes(descriptor.role || "")) return undefined;
     const directText = normalize(
       Array.from(el.childNodes || [])
         .filter((child: any) => child.nodeType === Node.TEXT_NODE)

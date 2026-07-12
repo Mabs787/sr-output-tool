@@ -1029,6 +1029,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "tooltip": {
+      parts.push("tooltip");
+      break;
+    }
+
     case "navigation": {
       pushIfPresent(parts, el.name);
       parts.push("navigation");
@@ -1197,6 +1202,10 @@ export function getContextEndAnnouncement(
     return descriptor?.name
       ? `end of, ${descriptor.name}, dialog`
       : "end of, dialog";
+  }
+
+  if (role === "tooltip") {
+    return "end of, tooltip";
   }
 
   if (role === "group") {

@@ -5751,6 +5751,23 @@ test("scanSubtree suppresses empty alert live regions", () => {
       "end of, Primary, navigation",
     ],
   );
+
+  assert.deepEqual(
+    scanHtml(`
+      <header>
+        <button aria-label="Settings"></button>
+        <div role="tooltip" aria-label="tooltip">Settings</div>
+      </header>
+    `),
+    [
+      "banner",
+      "Settings, button",
+      "tooltip",
+      "Settings",
+      "end of, tooltip",
+      "end of, banner",
+    ],
+  );
 });
 
 test("scanSubtree keeps labeled fieldset radio groups and VoiceOver radio phrasing", () => {

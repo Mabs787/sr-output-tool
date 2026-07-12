@@ -855,6 +855,10 @@
             pushSupplementalText(parts, el);
             break;
           }
+          case "tooltip": {
+            parts.push("tooltip");
+            break;
+          }
           case "navigation": {
             pushIfPresent(parts, el.name);
             parts.push("navigation");
@@ -969,6 +973,9 @@
         if (role === "dialog") {
           return descriptor?.name ? `end of, ${descriptor.name}, dialog` : "end of, dialog";
         }
+        if (role === "tooltip") {
+          return "end of, tooltip";
+        }
         if (role === "group") {
           return descriptor?.name ? `end of, ${descriptor.name}, ${genericGroupRoleLabel(descriptor)}` : `end of ${genericGroupRoleLabel(descriptor)}`;
         }
@@ -1002,7 +1009,8 @@
           "grid",
           "tabpanel",
           "article",
-          "dialog"
+          "dialog",
+          "tooltip"
         ]);
         const listPositionedRoles = /* @__PURE__ */ new Set([
           "link",
@@ -10166,6 +10174,7 @@
             "image",
             "frame",
             "dialog",
+            "tooltip",
             "alert",
             "status",
             "separator",
@@ -10303,7 +10312,7 @@
           return [normalize(descriptor.name || descriptor.text)].filter((entry) => Boolean(entry));
         }
         function splitDialogDirectTextAnnouncements(descriptor, el) {
-          if (descriptor.role !== "dialog")
+          if (!["dialog", "tooltip"].includes(descriptor.role || ""))
             return void 0;
           const directText = normalize(Array.from(el.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
           if (!directText)

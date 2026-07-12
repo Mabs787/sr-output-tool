@@ -332,6 +332,12 @@ test("getContextEndAnnouncement returns matching container end phrases", () => {
   );
   assert.equal(
     getContextEndAnnouncement({
+      role: "tooltip",
+    }),
+    "end of, tooltip",
+  );
+  assert.equal(
+    getContextEndAnnouncement({
       role: "group",
       suppressContextEnd: true,
     }),
