@@ -70,6 +70,24 @@ decision, tests added or updated, and what future agents must avoid.
 - Avoid: broad rules for every `role="tooltip"`, every listbox, or every ARIA
   grid without the supporting ownership/expanded-autocomplete contract.
 
+## 2026-07-12 Behavior Lab: Lists and Cards
+
+- Target: behavior-lab lists/cards fixtures on branch
+  `codex/voiceover-list-card-lab`.
+- Evidence: run `29210975599`; receipts under
+  `voiceover-smoke/agent-work/29210975599/behavior-lab/lists-and-cards/`.
+- Decision: accepted generic rules for simple linked-card heading list
+  positions and dated sibling article-card end names. Linked-card list items
+  with decorative lead media, exactly one heading link, and summary paragraph
+  carry `N of M` on the heading stop. Dated sibling article-card collections
+  use the heading link name for `end of, <name>, article`.
+- Tests: added focused DOM scanner coverage for both reusable behaviors; unit
+  suite passed after refinement.
+- Avoid: changing plain native marker/text/link segmentation from DOM-only
+  evidence. In run `29210975599`, the marker fixtures had raw VoiceOver
+  evidence but empty AX trees and metadata-only step snapshots, so keep those
+  fixtures draft until a narrower C.5 rerun captures stronger marker evidence.
+
 ## 2026-07-01 Autonomous Workflow Notes
 
 - Use `wait_agent` for critical-path subagent handoff. Subagent completion

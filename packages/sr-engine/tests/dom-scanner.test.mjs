@@ -2044,6 +2044,66 @@ test("scanSubtree names dated direct article card end boundaries from heading li
   );
 });
 
+test("scanSubtree names dated sibling article card end boundaries from heading links", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <h2>Latest</h2>
+        <article>
+          <h3><a href="/launch">Launch update</a></h3>
+          <time>10 Jan 2026</time>
+          <p>Initial launch details.</p>
+        </article>
+        <article>
+          <h3><a href="/research">Research note</a></h3>
+          <time>12 Jan 2026</time>
+          <p>Early research findings.</p>
+        </article>
+      </section>
+    `),
+    [
+      "heading level 2, Latest",
+      "article",
+      "heading level 3, level 2, link, Launch update",
+      "10 Jan 2026",
+      "Initial launch details.",
+      "end of, Launch update, article",
+      "article",
+      "heading level 3, level 2, link, Research note",
+      "12 Jan 2026",
+      "Early research findings.",
+      "end of, Research note, article",
+    ],
+  );
+});
+
+test("scanSubtree keeps list positions on simple linked card heading stops with decorative lead images", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <img src="/first.png" alt="">
+          <h2><a href="/first">First feature</a></h2>
+          <p>A short card summary.</p>
+        </li>
+        <li>
+          <img src="/second.png" alt="">
+          <h2><a href="/second">Second feature</a></h2>
+          <p>Another short card summary.</p>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "heading level 2, level 1, link, First feature, 1 of 2",
+      "A short card summary.",
+      "heading level 2, level 1, link, Second feature, 2 of 2",
+      "Another short card summary.",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree splits AX-confirmed inline abbr and superscript paragraph boundaries", () => {
   const accessibilityTree = {
     nodes: [
