@@ -8,12 +8,14 @@ import {
 } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { JSDOM } from "jsdom";
 
 const repoRoot = process.cwd();
+const require = createRequire(import.meta.url);
 const scanManifestPath = process.env.VOICEOVER_SCAN_MANIFEST
   ? path.resolve(repoRoot, process.env.VOICEOVER_SCAN_MANIFEST)
   : "";
@@ -3475,6 +3477,123 @@ function reduceHtmlForRefinement(sourceHtml, target) {
   };
 }
 
+function restoreGlobal(name, previousValue) {
+  if (previousValue === undefined) {
+    delete globalThis[name];
+  } else {
+    globalThis[name] = previousValue;
+  }
+}
+
+function escapeCssIdentifier(value) {
+  return String(value).replace(/[^a-zA-Z0-9_-]/g, (char) => {
+    const hex = char.codePointAt(0).toString(16);
+    return `\\${hex} `;
+  });
+}
+
+function getTraversalDebugStats(entries) {
+  const sourceCounts = {};
+  const kindCounts = {};
+  let debugEntryCount = 0;
+
+  for (const entry of entries) {
+    if (!entry.traversalDebug) {
+      continue;
+    }
+    debugEntryCount += 1;
+    const stopSource = entry.traversalDebug.stopSource || "unknown";
+    const stopKind = entry.traversalDebug.stopKind || "unknown";
+    sourceCounts[stopSource] = (sourceCounts[stopSource] || 0) + 1;
+    kindCounts[stopKind] = (kindCounts[stopKind] || 0) + 1;
+  }
+
+  return {
+    announcementCount: entries.length,
+    debugEntryCount,
+    sourceCounts,
+    kindCounts,
+  };
+}
+
+function createEngineTraversalDebug(renderedHtml, target) {
+  const previousGlobals = {
+    CSS: globalThis.CSS,
+    Document: globalThis.Document,
+    HTMLElement: globalThis.HTMLElement,
+    Node: globalThis.Node,
+    document: globalThis.document,
+    getComputedStyle: globalThis.getComputedStyle,
+  };
+
+  try {
+    const {
+      createDomScanner,
+      generateAnnouncement,
+      getContextEndAnnouncement,
+    } = require(path.join(repoRoot, "packages/sr-engine/dist/index.js"));
+    const dom = new JSDOM(renderedHtml, { url: getJsdomUrl(target) });
+    const css = dom.window.CSS || {};
+    if (typeof css.escape !== "function") {
+      css.escape = escapeCssIdentifier;
+    }
+
+    globalThis.CSS = css;
+    globalThis.Document = dom.window.Document;
+    globalThis.HTMLElement = dom.window.HTMLElement;
+    globalThis.Node = dom.window.Node;
+    globalThis.document = dom.window.document;
+    globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
+
+    const scanner = createDomScanner({
+      generateAnnouncement,
+      getContextEndAnnouncement,
+      includeTraversalDebug: true,
+    });
+    const entries = scanner.scanSubtree(dom.window.document.body).map((entry) => ({
+      index: entry.index,
+      announcement: entry.announcement,
+      role: entry.role || "",
+      name: entry.name || "",
+      traversalDebug: entry.traversalDebug || null,
+    }));
+    const stats = getTraversalDebugStats(entries);
+
+    return {
+      schemaVersion: 1,
+      source: "sr-engine-dom-scanner",
+      input: {
+        renderedHtmlPath: "rendered-html.html",
+      },
+      ok: true,
+      ...stats,
+      entries,
+    };
+  } catch (error) {
+    return {
+      schemaVersion: 1,
+      source: "sr-engine-dom-scanner",
+      input: {
+        renderedHtmlPath: "rendered-html.html",
+      },
+      ok: false,
+      announcementCount: 0,
+      debugEntryCount: 0,
+      sourceCounts: {},
+      kindCounts: {},
+      error: error?.stack || error?.message || String(error),
+      entries: [],
+    };
+  } finally {
+    restoreGlobal("CSS", previousGlobals.CSS);
+    restoreGlobal("Document", previousGlobals.Document);
+    restoreGlobal("HTMLElement", previousGlobals.HTMLElement);
+    restoreGlobal("Node", previousGlobals.Node);
+    restoreGlobal("document", previousGlobals.document);
+    restoreGlobal("getComputedStyle", previousGlobals.getComputedStyle);
+  }
+}
+
 function parseVoiceOverText(stdout) {
   const lines = stdout.split(/\r?\n/);
   const result = {};
@@ -3762,6 +3881,7 @@ function createScanDebugSummary({
   voiceOverOutput,
   reducedHtmlStats,
   accessibilityTreeStats,
+  engineTraversalDebugStats,
 }) {
   return {
     schemaVersion: 1,
@@ -3793,10 +3913,12 @@ function createScanDebugSummary({
       htmlReduced: true,
       accessibilityTreeSource: summary.accessibilityTreeCapture?.source || "",
       accessibilityTreePath: "accessibility-tree.json",
+      engineTraversalDebugPath: "engine-traversal-debug.json",
       stepSnapshotsPath: summary.stepSnapshots?.enabled
         ? "step-snapshots.json"
         : "",
       accessibilityTreeStats,
+      engineTraversalDebugStats,
     },
     environment: {
       runnerEnvironmentPath: "runner-environment.json",
@@ -3835,6 +3957,7 @@ function createRefinementManifest({
   voiceOverOutput,
   reducedHtmlStats,
   accessibilityTreeStats,
+  engineTraversalDebugStats,
 }) {
   return {
     schemaVersion: 1,
@@ -3857,6 +3980,7 @@ function createRefinementManifest({
       voiceOverSources: "voiceover-sources.json",
       renderedHtml: "rendered-html.html",
       accessibilityTree: "accessibility-tree.json",
+      engineTraversalDebug: "engine-traversal-debug.json",
       scanDebug: "scan-debug.json",
       runnerEnvironment: "runner-environment.json",
       stepSnapshots: summary.stepSnapshots?.enabled ? "step-snapshots.json" : "",
@@ -3873,11 +3997,13 @@ function createRefinementManifest({
       "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
       "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
       "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html.",
+      "Use engine-traversal-debug.json to classify why the scanner emitted each announcement; it explains generic engine traversal behavior and does not override VoiceOver evidence.",
     ],
     stats: {
       voiceOverAnnouncementCount: voiceOverOutput.length,
       reducedHtml: reducedHtmlStats,
       accessibilityTree: accessibilityTreeStats,
+      engineTraversalDebug: engineTraversalDebugStats,
     },
   };
 }
@@ -4155,6 +4281,15 @@ async function scanTarget(target, index) {
     length: sourceHtml.length,
   };
   const reducedHtml = reduceHtmlForRefinement(sourceHtml, target);
+  const engineTraversalDebug = createEngineTraversalDebug(reducedHtml.html, target);
+  const engineTraversalDebugStats = {
+    ok: engineTraversalDebug.ok,
+    announcementCount: engineTraversalDebug.announcementCount || 0,
+    debugEntryCount: engineTraversalDebug.debugEntryCount || 0,
+    sourceCounts: engineTraversalDebug.sourceCounts || {},
+    kindCounts: engineTraversalDebug.kindCounts || {},
+    error: engineTraversalDebug.error || "",
+  };
   const accessibilityTreeArtifact = await captureAccessibilityTree(target);
   const accessibilityTree = accessibilityTreeArtifact.tree;
   summary.accessibilityTreeCapture = {
@@ -4187,6 +4322,10 @@ async function scanTarget(target, index) {
     accessibilityTree,
   );
   writeJson(
+    path.join(targetOutputDir, "engine-traversal-debug.json"),
+    engineTraversalDebug,
+  );
+  writeJson(
     path.join(targetOutputDir, "runner-environment.json"),
     summary.runnerEnvironment,
   );
@@ -4211,6 +4350,7 @@ async function scanTarget(target, index) {
       voiceOverOutput,
       reducedHtmlStats: reducedHtml.stats,
       accessibilityTreeStats,
+      engineTraversalDebugStats,
     }),
   );
   writeJson(
@@ -4221,6 +4361,7 @@ async function scanTarget(target, index) {
       voiceOverOutput,
       reducedHtmlStats: reducedHtml.stats,
       accessibilityTreeStats,
+      engineTraversalDebugStats,
     }),
   );
 
