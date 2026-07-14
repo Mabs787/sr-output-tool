@@ -12587,6 +12587,186 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         }));
     }
 
+    function descriptorAnnouncementResult(
+      descriptor: CapturedElementDescriptor,
+      el: any,
+    ): { source: string; announcements: string[] } {
+      const candidates = [
+        {
+          source: "split-described-autocomplete",
+          announcements: splitDescribedAutocompleteAnnouncements(descriptor),
+        },
+        {
+          source: "split-footer-country-selector",
+          announcements: splitFooterCountrySelectorAnnouncements(descriptor),
+        },
+        {
+          source: "split-fieldset-prompt",
+          announcements: splitFieldsetPromptAnnouncements(descriptor),
+        },
+        {
+          source: "split-labelled-navigation-header",
+          announcements: splitLabelledNavigationHeaderAnnouncements(descriptor),
+        },
+        {
+          source: "split-example-preview-frame",
+          announcements: splitExamplePreviewFrameAnnouncements(descriptor),
+        },
+        {
+          source: "split-wrapped-definition-list-term",
+          announcements: splitWrappedDefinitionListTermAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-inline-two-link-list-item",
+          announcements: splitAxInlineTwoLinkListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-named-navigation-listitem-grouped-link",
+          announcements: splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-publication-listitem-boundary",
+          announcements: splitAxPublicationListItemBoundaryAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-mixed-inline-listitem",
+          announcements: splitAxMixedInlineListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-strong-wrapped-marker-listitem",
+          announcements: splitAxStrongWrappedMarkerListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-plain-text-marker-listitem",
+          announcements: splitAxPlainTextMarkerListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-marker-only-listitem",
+          announcements: splitAxMarkerOnlyListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-contribution-listitem",
+          announcements: splitContributionListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-metadata-listitem",
+          announcements: splitMetadataListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-compact-input-action-group",
+          announcements: splitCompactInputActionGroupAnnouncements(descriptor),
+        },
+        {
+          source: "split-preceding-control-label",
+          announcements: splitPrecedingControlLabelAnnouncements(descriptor),
+        },
+        {
+          source: "split-marker-separated-list-region",
+          announcements: splitMarkerSeparatedListRegionAnnouncements(descriptor),
+        },
+        {
+          source: "split-marker-separated-list-link",
+          announcements: splitMarkerSeparatedListLinkAnnouncements(descriptor),
+        },
+        {
+          source: "split-carousel-group",
+          announcements: splitCarouselGroupAnnouncements(descriptor),
+        },
+        {
+          source: "split-leading-generic-group-stop",
+          announcements: splitLeadingGenericGroupStopAnnouncements(descriptor),
+        },
+        {
+          source: "split-trailing-standalone-group",
+          announcements: splitTrailingStandaloneGroupAnnouncements(descriptor),
+        },
+        {
+          source: "split-clustered-visual-button",
+          announcements: splitClusteredVisualButtonAnnouncements(descriptor),
+        },
+        {
+          source: "split-code-mirror-text-entry",
+          announcements: splitCodeMirrorTextEntryAnnouncements(descriptor),
+        },
+        {
+          source: "split-label-stop",
+          announcements: splitLabelStopAnnouncements(descriptor),
+        },
+        {
+          source: "split-native-form-inline-alert",
+          announcements: splitNativeFormInlineAlertAnnouncements(descriptor),
+        },
+        {
+          source: "split-compact-result-count",
+          announcements: splitCompactResultCountAnnouncements(descriptor),
+        },
+        {
+          source: "split-complex-column-header",
+          announcements: splitComplexColumnHeaderAnnouncements(descriptor),
+        },
+        {
+          source: "split-complex-column-header-context-cell",
+          announcements: splitComplexColumnHeaderContextCellAnnouncements(descriptor),
+        },
+        {
+          source: "split-complex-column-header-text",
+          announcements: splitComplexColumnHeaderTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-rich-product-card-feature-heading",
+          announcements: splitRichProductCardFeatureHeadingAnnouncements(descriptor),
+        },
+        {
+          source: "split-rich-product-card-feature-row",
+          announcements: splitRichProductCardFeatureRowAnnouncements(descriptor),
+        },
+        {
+          source: "split-inline-code-break-text",
+          announcements: splitInlineCodeBreakTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-footer-inline-boundary-text",
+          announcements: splitFooterInlineBoundaryTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-inline-phrasing-boundary",
+          announcements: splitInlinePhrasingBoundaryAnnouncements(descriptor),
+        },
+        {
+          source: "split-inline-text-link",
+          announcements: splitInlineTextLinkAnnouncements(descriptor),
+        },
+        {
+          source: "split-expanded-region-inline-link",
+          announcements: splitExpandedRegionInlineLinkAnnouncements(descriptor),
+        },
+        {
+          source: "split-price-disclosure",
+          announcements: splitPriceDisclosureAnnouncements(descriptor),
+        },
+        {
+          source: "split-inline-emphasis-text",
+          announcements: splitInlineEmphasisTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-inline-emphasis-listitem",
+          announcements: splitInlineEmphasisListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-dialog-direct-text",
+          announcements: splitDialogDirectTextAnnouncements(descriptor, el),
+        },
+      ];
+
+      const match = candidates.find((candidate) => candidate.announcements);
+      return match?.announcements
+        ? { source: match.source, announcements: match.announcements }
+        : {
+            source: "descriptor-announcement",
+            announcements: [generateAnnouncement(descriptor)],
+          };
+    }
+
     function walk(el: any): void {
       if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return;
       if (isInsideCollapsedPopup(el)) return;
@@ -12728,51 +12908,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
         const descriptor = captureElement(el);
         if (descriptor) {
-          const announcements =
-            splitDescribedAutocompleteAnnouncements(descriptor) ||
-            splitFooterCountrySelectorAnnouncements(descriptor) ||
-            splitFieldsetPromptAnnouncements(descriptor) ||
-            splitLabelledNavigationHeaderAnnouncements(descriptor) ||
-            splitExamplePreviewFrameAnnouncements(descriptor) ||
-            splitWrappedDefinitionListTermAnnouncements(descriptor) ||
-            splitAxInlineTwoLinkListItemAnnouncements(descriptor) ||
-            splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) ||
-            splitAxPublicationListItemBoundaryAnnouncements(descriptor) ||
-            splitAxMixedInlineListItemAnnouncements(descriptor) ||
-            splitAxStrongWrappedMarkerListItemAnnouncements(descriptor) ||
-            splitAxPlainTextMarkerListItemAnnouncements(descriptor) ||
-            splitAxMarkerOnlyListItemAnnouncements(descriptor) ||
-            splitContributionListItemAnnouncements(descriptor) ||
-            splitMetadataListItemAnnouncements(descriptor) ||
-            splitCompactInputActionGroupAnnouncements(descriptor) ||
-            splitPrecedingControlLabelAnnouncements(descriptor) ||
-            splitMarkerSeparatedListRegionAnnouncements(descriptor) ||
-            splitMarkerSeparatedListLinkAnnouncements(descriptor) ||
-            splitCarouselGroupAnnouncements(descriptor) ||
-            splitLeadingGenericGroupStopAnnouncements(descriptor) ||
-            splitTrailingStandaloneGroupAnnouncements(descriptor) ||
-            splitClusteredVisualButtonAnnouncements(descriptor) ||
-            splitCodeMirrorTextEntryAnnouncements(descriptor) ||
-            splitLabelStopAnnouncements(descriptor) ||
-            splitNativeFormInlineAlertAnnouncements(descriptor) ||
-            splitCompactResultCountAnnouncements(descriptor) ||
-            splitComplexColumnHeaderAnnouncements(descriptor) ||
-            splitComplexColumnHeaderContextCellAnnouncements(descriptor) ||
-            splitComplexColumnHeaderTextAnnouncements(descriptor) ||
-            splitRichProductCardFeatureHeadingAnnouncements(descriptor) ||
-            splitRichProductCardFeatureRowAnnouncements(descriptor) ||
-            splitInlineCodeBreakTextAnnouncements(descriptor) ||
-            splitFooterInlineBoundaryTextAnnouncements(descriptor) ||
-            splitInlinePhrasingBoundaryAnnouncements(descriptor) ||
-            splitInlineTextLinkAnnouncements(descriptor) ||
-            splitExpandedRegionInlineLinkAnnouncements(descriptor) ||
-            splitPriceDisclosureAnnouncements(descriptor) ||
-            splitInlineEmphasisTextAnnouncements(descriptor) ||
-            splitInlineEmphasisListItemAnnouncements(descriptor) ||
-            splitDialogDirectTextAnnouncements(descriptor, el) ||
-            [generateAnnouncement(descriptor)];
+          const { source, announcements } = descriptorAnnouncementResult(descriptor, el);
           for (const stop of descriptorAnnouncementStops(
-            "descriptor-announcements",
+            source,
             el,
             descriptor,
             announcements,
