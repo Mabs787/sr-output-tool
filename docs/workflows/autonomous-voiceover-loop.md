@@ -116,6 +116,12 @@ The top-level session or orchestrator agent must:
 - Trigger scans with debug evidence enabled for new or uncertain sites:
   step snapshots on, screenshots and screen recording on when diagnosing page
   access, popup, focus, or VoiceOver startup problems.
+- Treat debug capture as required, not optional, for scans intended to support
+  scanner or engine changes. Structural mismatch families such as list markers,
+  inline text segmentation, grouped/card atomicity, dialogs, tables/grids, and
+  focusable wrapper descent need rendered HTML, AX nodes, step snapshots, and
+  screenshots/source evidence. If those are absent, route the target to
+  `scanner-fix-required` or `debug-evidence-missing` before Phase D.
 - Wait for artifacts and run Phase 0 before Phase A.
 - Spawn the named phase agents required by
   `docs/workflows/voiceover-refinement.md`.

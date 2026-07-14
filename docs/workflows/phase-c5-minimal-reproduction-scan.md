@@ -123,6 +123,13 @@ gh workflow run "VoiceOver smoke" \
   -f navigation_mode=voiceover-right-arrow
 ```
 
+For structural behavior questions, prefer full debug evidence even in small
+repros. Use `capture_step_screenshots=true`, and enable screen recording when
+the mismatch may depend on focus movement, hover/focus side effects, delayed
+rendering, popup state, or VoiceOver startup. A focused repro that repeats the
+raw VoiceOver mismatch but emits 0 AX nodes or 0 step snapshots is useful
+triage evidence, but it is not sufficient proof for a broad engine rule.
+
 If the reproduction cannot be hosted or scanned, Phase C.5 must return with a
 blocker instead of deciding the mismatch.
 
@@ -154,6 +161,9 @@ After the artifact is ready:
      hover/focus/timer/carousel or another step-only state
    - `insufficient-repro`: mini page failed to reproduce the original behavior
      or omitted required DOM/AX conditions
+   - `debug-evidence-missing`: mini VoiceOver reproduces the family, but the
+     artifact lacks AX nodes, step snapshots, cursor/source evidence, or
+     screenshots needed to identify the reusable DOM/AX contract
 
 ## Loop Back
 

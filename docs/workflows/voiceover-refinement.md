@@ -145,6 +145,12 @@ the receipts explain why those phases were not required.
   inline emphasis, `br`, block/span/markdown fragments, list markers, hidden
   text, and text-node boundaries.
 - Use rendered HTML, AX tree, step snapshots, and VoiceOver source evidence to repair clear scan/caption/OCR/truncation noise.
+- For structural scanner mismatches, require debug evidence before Phase D:
+  rendered HTML, AX tree nodes, step snapshots or cursor/source evidence, and
+  screenshots when the visual state matters. If a scan reproduces the raw
+  VoiceOver line but has empty AX trees or empty step snapshots, classify the
+  target as `debug-evidence-missing` or `scanner-fix-required`; do not make a
+  broad engine rule from DOM-only evidence.
 - Treat `rendered-html.html` as the initial DOM fixture that the engine replays.
   Use per-step `htmlAfterStep` snapshots to identify whether content appeared
   only because VoiceOver navigation triggered hover, focus, carousel, timer, or
