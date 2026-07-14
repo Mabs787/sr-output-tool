@@ -115,6 +115,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Build engine
+        run: yarn workspace @sr-output/engine build
+
       - name: Create single-page manifest
         run: |
           node .github/scripts/create-voiceover-url-manifest.mjs \
