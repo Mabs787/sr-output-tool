@@ -168,6 +168,7 @@ jobs:
           } > voiceover-smoke/environment.txt 2>&1
 
       - name: Run VoiceOver scan
+        timeout-minutes: 180
         env:
           VOICEOVER_SCAN_MANIFEST: voiceover-smoke/url-manifest.json
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ inputs.capture_step_screenshots && 'true' || '' }}
