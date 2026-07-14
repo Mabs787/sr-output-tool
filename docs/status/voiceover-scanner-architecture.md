@@ -13,6 +13,7 @@ announcement formatting so future VoiceOver evidence maps to a clear layer.
 
 - `codex/scanner-traversal-refactor`
 - `codex/scanner-inline-segmentation-refactor`
+- `codex/scanner-debug-artifacts`
 
 ## Step 1: Traversal Stop Seam
 
@@ -68,13 +69,6 @@ Validation:
 - `yarn workspace @sr-output/engine build`: passed.
 - `yarn workspace @sr-output/engine test:unit`: passed, 248 passed, 49 skipped.
 
-## Next Architecture Steps
-
-- Move inline text/list segmentation helpers behind a dedicated stop-emitter
-  module.
-- Add targeted tests that prove output stability while debug stop sources
-  identify traversal, segmentation, context-end, and synthetic stops.
-
 ## Step 3: Named Descriptor Split Sources
 
 Started the inline/list segmentation seam by moving the existing descriptor
@@ -100,3 +94,44 @@ Validation:
 
 - `yarn workspace @sr-output/engine build`: passed.
 - `yarn workspace @sr-output/engine test:unit`: passed, 248 passed, 49 skipped.
+
+## Step 4: Scan Artifact Traversal Debug
+
+Added an opt-in engine traversal debug artifact to the VoiceOver scan runner.
+
+What changed:
+
+- Each scan target now writes `engine-traversal-debug.json` beside
+  `voiceover-output.json`, `rendered-html.html`, `accessibility-tree.json`, and
+  `scan-debug.json`.
+- The artifact runs the built DOM scanner over the reduced rendered HTML with
+  `includeTraversalDebug: true`.
+- `scan-debug.json` and `refinement-manifest.json` now reference the debug
+  artifact and include quick source/kind counts.
+- The artifact is fail-soft: if the built engine cannot be loaded in the scan
+  environment, the scan still completes and the debug JSON records the error.
+
+Why this matters:
+
+- Broad site scans can now classify mismatch families by scanner emission
+  source instead of guessing from final announcement strings.
+- C.5 repro prep can identify whether a mismatch points at traversal,
+  segmentation, context-end handling, descriptor formatting, or synthetic text
+  handling.
+- The debug output remains diagnostic only; VoiceOver evidence, rendered HTML,
+  AX output, snapshots, and screenshots still decide expected behavior.
+
+Validation:
+
+- `node --check .github/scripts/run-voiceover-scan.mjs`: passed.
+- `yarn workspace @sr-output/engine build`: passed.
+- `yarn workspace @sr-output/engine test:unit`: passed, 248 passed, 49 skipped.
+
+## Next Architecture Steps
+
+- Run a broad site scan with debug artifacts enabled by default.
+- Use the new source/kind counts to choose the next reusable behavior questions.
+- Move inline text/list segmentation helpers behind a dedicated stop-emitter
+  module once scan receipts show the highest-value mismatch family.
+- Add targeted tests that prove output stability while debug stop sources
+  identify traversal, segmentation, context-end, and synthetic stops.
