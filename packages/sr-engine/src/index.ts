@@ -10,6 +10,8 @@ export type {
   DomScanner,
   DomScannerOptions,
   ScanLogEntry,
+  TraversalStop,
+  TraversalStopKind,
 } from "./dom";
 export type {
   BoundingBox,

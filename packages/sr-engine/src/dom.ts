@@ -14,6 +14,23 @@ export interface ScanLogEntry {
   boundingBox?: BoundingBox;
 }
 
+export type TraversalStopKind =
+  | "descriptor"
+  | "split"
+  | "synthetic"
+  | "context-end";
+
+export interface TraversalStop {
+  kind: TraversalStopKind;
+  source: string;
+  el?: any;
+  descriptor?: CapturedElementDescriptor;
+  announcement: string;
+  role?: string;
+  name?: string;
+  boundingBox?: BoundingBox;
+}
+
 export interface AccessibilityTreeNode {
   nodeId?: string;
   ignored?: boolean;
@@ -12491,9 +12508,66 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return root === el || root?.contains?.(el);
   }
 
+  function roundedBoundingBox(el: any): BoundingBox | undefined {
+    if (!el?.getBoundingClientRect) return undefined;
+    const rect = el.getBoundingClientRect();
+    return {
+      x: Math.round(rect.x),
+      y: Math.round(rect.y),
+      width: Math.round(rect.width),
+      height: Math.round(rect.height),
+    };
+  }
+
   function scanSubtree(root: any): ScanLogEntry[] {
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
+
+    function emitTraversalStop(srId: string, stop: TraversalStop): void {
+      if (!stop.announcement) return;
+      log.push({
+        index: log.length,
+        srId,
+        announcement: stop.announcement,
+        role: stop.role ?? stop.descriptor?.role,
+        name: stop.name ?? stop.descriptor?.name,
+        boundingBox: stop.boundingBox ?? roundedBoundingBox(stop.el),
+      });
+    }
+
+    function syntheticTextStop(
+      source: string,
+      el: any,
+      announcement: string,
+      role = "text",
+      name = announcement,
+    ): TraversalStop {
+      return {
+        kind: "synthetic",
+        source,
+        el,
+        announcement,
+        role,
+        name,
+      };
+    }
+
+    function descriptorAnnouncementStops(
+      source: string,
+      el: any,
+      descriptor: CapturedElementDescriptor,
+      announcements: string[],
+    ): TraversalStop[] {
+      return announcements
+        .filter((announcement): announcement is string => Boolean(announcement))
+        .map((announcement) => ({
+          kind: "split",
+          source,
+          el,
+          descriptor,
+          announcement,
+        }));
+    }
 
     function walk(el: any): void {
       if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return;
@@ -12509,42 +12583,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
         const stops = [
-          {
-            el: ariaLabelledDescriptionTextInput.description,
-            announcement: ariaLabelledDescriptionTextInput.descriptionText,
-            role: "text",
-            name: ariaLabelledDescriptionTextInput.descriptionText,
-          },
-          {
-            el: ariaLabelledDescriptionTextInput.label,
-            announcement: ariaLabelledDescriptionTextInput.labelText,
-            role: "text",
-            name: ariaLabelledDescriptionTextInput.labelText,
-          },
-          {
-            el: ariaLabelledDescriptionTextInput.input,
-            announcement: ariaLabelledDescriptionTextInput.inputAnnouncement,
-            role: "textbox",
-            name: ariaLabelledDescriptionTextInput.inputAnnouncement,
-          },
+          syntheticTextStop(
+            "direct-visible-aria-labelled-text-input-description",
+            ariaLabelledDescriptionTextInput.description,
+            ariaLabelledDescriptionTextInput.descriptionText,
+          ),
+          syntheticTextStop(
+            "direct-visible-aria-labelled-text-input-label",
+            ariaLabelledDescriptionTextInput.label,
+            ariaLabelledDescriptionTextInput.labelText,
+          ),
+          syntheticTextStop(
+            "direct-visible-aria-labelled-text-input-control",
+            ariaLabelledDescriptionTextInput.input,
+            ariaLabelledDescriptionTextInput.inputAnnouncement,
+            "textbox",
+            ariaLabelledDescriptionTextInput.inputAnnouncement,
+          ),
         ];
-        for (const stop of stops) {
-          if (!stop.announcement) continue;
-          const rect = stop.el.getBoundingClientRect();
-          log.push({
-            index: log.length,
-            srId: id,
-            announcement: stop.announcement,
-            role: stop.role,
-            name: stop.name,
-            boundingBox: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height),
-            },
-          });
-        }
+        for (const stop of stops) emitTraversalStop(id, stop);
         return;
       }
 
@@ -12554,42 +12611,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
         const stops = [
-          {
-            el: labelHintTextInput.label,
-            announcement: labelHintTextInput.labelText,
-            role: "text",
-            name: labelHintTextInput.labelText,
-          },
-          {
-            el: labelHintTextInput.hint,
-            announcement: labelHintTextInput.hintText,
-            role: "text",
-            name: labelHintTextInput.hintText,
-          },
-          {
-            el: labelHintTextInput.input,
-            announcement: labelHintTextInput.inputAnnouncement,
-            role: "textbox",
-            name: labelHintTextInput.labelText,
-          },
+          syntheticTextStop(
+            "direct-visible-text-input-label",
+            labelHintTextInput.label,
+            labelHintTextInput.labelText,
+          ),
+          syntheticTextStop(
+            "direct-visible-text-input-hint",
+            labelHintTextInput.hint,
+            labelHintTextInput.hintText,
+          ),
+          syntheticTextStop(
+            "direct-visible-text-input-control",
+            labelHintTextInput.input,
+            labelHintTextInput.inputAnnouncement,
+            "textbox",
+            labelHintTextInput.labelText,
+          ),
         ];
-        for (const stop of stops) {
-          if (!stop.announcement) continue;
-          const rect = stop.el.getBoundingClientRect();
-          log.push({
-            index: log.length,
-            srId: id,
-            announcement: stop.announcement,
-            role: stop.role,
-            name: stop.name,
-            boundingBox: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height),
-            },
-          });
-        }
+        for (const stop of stops) emitTraversalStop(id, stop);
         return;
       }
 
@@ -12598,20 +12638,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         const id = `__sr_el_${stopIndex}_${now()}`;
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
-        const rect = el.getBoundingClientRect();
-        log.push({
-          index: log.length,
-          srId: id,
-          announcement: compactCodeText,
-          role: "text",
-          name: compactCodeText,
-          boundingBox: {
-            x: Math.round(rect.x),
-            y: Math.round(rect.y),
-            width: Math.round(rect.width),
-            height: Math.round(rect.height),
-          },
-        });
+        emitTraversalStop(
+          id,
+          syntheticTextStop("compact-expanded-code-panel", el, compactCodeText),
+        );
         return;
       }
 
@@ -12620,21 +12650,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         const id = `__sr_el_${stopIndex}_${now()}`;
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
-        const rect = el.getBoundingClientRect();
         for (const line of codeLines) {
-          log.push({
-            index: log.length,
-            srId: id,
-            announcement: line,
-            role: "text",
-            name: line,
-            boundingBox: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height),
-            },
-          });
+          emitTraversalStop(id, syntheticTextStop("tokenized-pre-code-line", el, line));
         }
         return;
       }
@@ -12644,21 +12661,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         const id = `__sr_el_${stopIndex}_${now()}`;
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
-        const rect = el.getBoundingClientRect();
         for (const fragment of mixedCodeFragments) {
-          log.push({
-            index: log.length,
-            srId: id,
-            announcement: fragment,
-            role: "text",
-            name: fragment,
-            boundingBox: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height),
-            },
-          });
+          emitTraversalStop(
+            id,
+            syntheticTextStop("tokenized-mixed-html-form-fragment", el, fragment),
+          );
         }
         return;
       }
@@ -12668,21 +12675,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         const id = `__sr_el_${stopIndex}_${now()}`;
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
-        const rect = el.getBoundingClientRect();
         for (const line of standaloneCodeLine) {
-          log.push({
-            index: log.length,
-            srId: id,
-            announcement: line,
-            role: "text",
-            name: line,
-            boundingBox: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height),
-            },
-          });
+          emitTraversalStop(
+            id,
+            syntheticTextStop("tokenized-standalone-html-tag-line", el, line),
+          );
         }
         return;
       }
@@ -12692,21 +12689,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         const id = `__sr_el_${stopIndex}_${now()}`;
         stopIndex += 1;
         el.setAttribute("data-sr-id", id);
-        const rect = el.getBoundingClientRect();
         for (const fragment of codeFragments) {
-          log.push({
-            index: log.length,
-            srId: id,
-            announcement: fragment,
-            role: "text",
-            name: fragment,
-            boundingBox: {
-              x: Math.round(rect.x),
-              y: Math.round(rect.y),
-              width: Math.round(rect.width),
-              height: Math.round(rect.height),
-            },
-          });
+          emitTraversalStop(
+            id,
+            syntheticTextStop("tokenized-one-line-html-tag-fragment", el, fragment),
+          );
         }
         return;
       }
@@ -12766,22 +12753,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             splitInlineEmphasisListItemAnnouncements(descriptor) ||
             splitDialogDirectTextAnnouncements(descriptor, el) ||
             [generateAnnouncement(descriptor)];
-          for (const announcement of announcements) {
-            if (!announcement) continue;
-            const rect = el.getBoundingClientRect();
-            log.push({
-              index: log.length,
-              srId: id,
-              announcement,
-              role: descriptor.role,
-              name: descriptor.name,
-              boundingBox: {
-                x: Math.round(rect.x),
-                y: Math.round(rect.y),
-                width: Math.round(rect.width),
-                height: Math.round(rect.height),
-              },
-            });
+          for (const stop of descriptorAnnouncementStops(
+            "descriptor-announcements",
+            el,
+            descriptor,
+            announcements,
+          )) {
+            emitTraversalStop(id, stop);
           }
         }
 
@@ -12794,37 +12772,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
         if (descriptor) {
           if (descriptor.axMarkerLinkTrailingTextListItemAnnouncement) {
-            const rect = el.getBoundingClientRect();
-            log.push({
-              index: log.length,
-              srId: id,
+            emitTraversalStop(id, {
+              kind: "split",
+              source: "ax-marker-link-trailing-text-list-item",
+              el,
+              descriptor,
               announcement: descriptor.axMarkerLinkTrailingTextListItemAnnouncement,
-              role: descriptor.role,
-              name: descriptor.name,
-              boundingBox: {
-                x: Math.round(rect.x),
-                y: Math.round(rect.y),
-                width: Math.round(rect.width),
-                height: Math.round(rect.height),
-              },
             });
           }
 
           const modalSummary = modalDialogSummaryAnnouncement(descriptor);
           if (modalSummary) {
-            const rect = el.getBoundingClientRect();
-            log.push({
-              index: log.length,
-              srId: id,
+            emitTraversalStop(id, {
+              kind: "split",
+              source: "modal-dialog-summary",
+              el,
+              descriptor,
               announcement: modalSummary,
-              role: descriptor.role,
-              name: descriptor.name,
-              boundingBox: {
-                x: Math.round(rect.x),
-                y: Math.round(rect.y),
-                width: Math.round(rect.width),
-                height: Math.round(rect.height),
-              },
             });
           }
 
@@ -12832,12 +12796,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             ? null
             : getContextEndAnnouncement(descriptor);
           if (endAnnouncement) {
-            log.push({
-              index: log.length,
-              srId: id,
+            emitTraversalStop(id, {
+              kind: "context-end",
+              source: "context-end-announcement",
+              descriptor,
               announcement: endAnnouncement,
-              role: descriptor.role,
-              name: descriptor.name,
               boundingBox: undefined,
             });
           }
