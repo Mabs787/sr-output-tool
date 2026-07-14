@@ -10,6 +10,7 @@ export type {
   DomScanner,
   DomScannerOptions,
   ScanLogEntry,
+  TraversalDebugMetadata,
   TraversalStop,
   TraversalStopKind,
 } from "./dom";

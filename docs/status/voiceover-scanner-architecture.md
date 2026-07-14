@@ -39,10 +39,36 @@ Validation:
 - `yarn workspace @sr-output/engine build`: passed.
 - `yarn workspace @sr-output/engine test:unit`: passed, 247 passed, 49 skipped.
 
+## Step 2: Optional Traversal Debug Metadata
+
+Added opt-in traversal debug metadata to scan log entries.
+
+What changed:
+
+- Added `includeTraversalDebug?: boolean` to `DomScannerOptions`.
+- Added exported `TraversalDebugMetadata`.
+- When debug is enabled, each emitted `ScanLogEntry` includes
+  `traversalDebug.stopKind`, `traversalDebug.stopSource`,
+  `traversalDebug.descriptorRole`, and `traversalDebug.descriptorName`.
+- Default `scanSubtree()` output remains unchanged because
+  `traversalDebug` is omitted unless the option is enabled.
+
+Why this matters:
+
+- Engineers can now ask why a stop exists without changing the scanner's normal
+  public output.
+- Future VoiceOver receipts can distinguish descriptor, split, synthetic, and
+  context-end stops when investigating traversal or segmentation mismatches.
+- This creates a safe landing zone for the next inline/list segmentation
+  module.
+
+Validation:
+
+- `yarn workspace @sr-output/engine build`: passed.
+- `yarn workspace @sr-output/engine test:unit`: passed, 248 passed, 49 skipped.
+
 ## Next Architecture Steps
 
-- Expose optional debug stop metadata without changing default public scan
-  output.
 - Move inline text/list segmentation helpers behind a dedicated stop-emitter
   module.
 - Add targeted tests that prove output stability while debug stop sources

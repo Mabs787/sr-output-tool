@@ -12,6 +12,7 @@ export interface ScanLogEntry {
   role?: string;
   name?: string;
   boundingBox?: BoundingBox;
+  traversalDebug?: TraversalDebugMetadata;
 }
 
 export type TraversalStopKind =
@@ -29,6 +30,13 @@ export interface TraversalStop {
   role?: string;
   name?: string;
   boundingBox?: BoundingBox;
+}
+
+export interface TraversalDebugMetadata {
+  stopKind: TraversalStopKind;
+  stopSource: string;
+  descriptorRole?: string;
+  descriptorName?: string;
 }
 
 export interface AccessibilityTreeNode {
@@ -52,6 +60,7 @@ export interface DomScannerOptions {
     descriptor: ElementDescriptor,
   ) => string | undefined;
   accessibilityTree?: AccessibilityTreeSnapshot;
+  includeTraversalDebug?: boolean;
   now?: () => number;
 }
 
@@ -68,6 +77,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     generateAnnouncement,
     getContextEndAnnouncement,
     accessibilityTree,
+    includeTraversalDebug = false,
     now = () => Date.now(),
   } = options;
 
@@ -12532,6 +12542,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role: stop.role ?? stop.descriptor?.role,
         name: stop.name ?? stop.descriptor?.name,
         boundingBox: stop.boundingBox ?? roundedBoundingBox(stop.el),
+        traversalDebug: includeTraversalDebug
+          ? {
+              stopKind: stop.kind,
+              stopSource: stop.source,
+              descriptorRole: stop.descriptor?.role,
+              descriptorName: stop.descriptor?.name,
+            }
+          : undefined,
       });
     }
 

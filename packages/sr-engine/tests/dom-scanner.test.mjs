@@ -49,6 +49,97 @@ function scanHtml(html, scannerOptions = {}) {
   }
 }
 
+function scanEntries(html, scannerOptions = {}) {
+  const dom = new JSDOM(html);
+  const previousDocument = globalThis.document;
+  const previousCSS = globalThis.CSS;
+  const previousGetComputedStyle = globalThis.getComputedStyle;
+  const previousHTMLElement = globalThis.HTMLElement;
+  const previousNode = globalThis.Node;
+
+  globalThis.document = dom.window.document;
+  globalThis.CSS = dom.window.CSS;
+  globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
+  globalThis.HTMLElement = dom.window.HTMLElement;
+  globalThis.Node = dom.window.Node;
+
+  try {
+    const scanner = createDomScanner({
+      generateAnnouncement,
+      getContextEndAnnouncement,
+      ...scannerOptions,
+    });
+    return scanner.scanSubtree(dom.window.document.body);
+  } finally {
+    if (previousDocument === undefined) delete globalThis.document;
+    else globalThis.document = previousDocument;
+
+    if (previousCSS === undefined) delete globalThis.CSS;
+    else globalThis.CSS = previousCSS;
+
+    if (previousGetComputedStyle === undefined) delete globalThis.getComputedStyle;
+    else globalThis.getComputedStyle = previousGetComputedStyle;
+
+    if (previousHTMLElement === undefined) delete globalThis.HTMLElement;
+    else globalThis.HTMLElement = previousHTMLElement;
+
+    if (previousNode === undefined) delete globalThis.Node;
+    else globalThis.Node = previousNode;
+  }
+}
+
+test("scanSubtree exposes traversal debug metadata only when requested", () => {
+  const html = `<main><h1>Debug heading</h1><p>Debug body</p></main>`;
+
+  assert.equal(scanEntries(html)[0].traversalDebug, undefined);
+
+  const entries = scanEntries(html, { includeTraversalDebug: true });
+  assert.deepEqual(
+    entries.map((entry) => ({
+      announcement: entry.announcement,
+      debug: entry.traversalDebug,
+    })),
+    [
+      {
+        announcement: "main",
+        debug: {
+          stopKind: "split",
+          stopSource: "descriptor-announcements",
+          descriptorRole: "main",
+          descriptorName: undefined,
+        },
+      },
+      {
+        announcement: "heading level 1, Debug heading",
+        debug: {
+          stopKind: "split",
+          stopSource: "descriptor-announcements",
+          descriptorRole: "heading",
+          descriptorName: "Debug heading",
+        },
+      },
+      {
+        announcement: "Debug body",
+        debug: {
+          stopKind: "split",
+          stopSource: "descriptor-announcements",
+          descriptorRole: "paragraph",
+          descriptorName: "Debug body",
+        },
+      },
+      {
+        announcement: "end of, main",
+        debug: {
+          stopKind: "context-end",
+          stopSource: "context-end-announcement",
+          descriptorRole: "main",
+          descriptorName: undefined,
+        },
+      },
+    ],
+  );
+});
+
 test("scanSubtree handles embedded inline links without site-specific rules", () => {
   assert.deepEqual(
     scanHtml(`
