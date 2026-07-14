@@ -50,6 +50,38 @@ The artifact may proceed to Phase A only when all applicable checks pass:
   the textual evidence suggests page-load, popup, focus, or VoiceOver startup
   uncertainty.
 
+## Debug Evidence Requirements
+
+Structural mismatch families require richer evidence before engine work:
+list-marker segmentation, inline text splitting, card/group atomicity,
+focusable wrapper descent, table/grid decomposition, and dialog/list boundary
+behavior. For these families, raw VoiceOver lines plus rendered HTML are not
+enough to justify broad scanner or engine changes when AX or step evidence is
+missing.
+
+When a scan target is new, uncertain, or intended to support engine behavior,
+enable debugging features by default:
+
+- `capture_step_snapshots=true`
+- `capture_step_screenshots=true`
+- `capture_screen_recording=true` when diagnosing page access, popup,
+  VoiceOver startup, focus, hover, timer, carousel, or other step-time state
+- a nonzero `max_steps` large enough to reach the disputed content but small
+  enough to avoid long hangs on focused repros
+
+If `accessibility-tree.json` has 0 relevant nodes, `step-snapshots.json` has 0
+snapshots, or the active VoiceOver cursor/DOM state cannot be tied to the
+disputed line, the Phase 0 outcome should be `retry-required` or
+`scanner-fix-required` for engine-refinement targets. Use `partial-evidence`
+only for archival or triage work, and record that Phase D must not make a broad
+engine change from the partial artifact.
+
+The receipt must call out missing debug evidence as a first-class blocker, not
+as a minor warning. Recommended next actions include rerunning with richer
+debug capture, reducing the repro to a smaller fixture, increasing step caps,
+or fixing the scan runner so AX and step snapshots are emitted for local
+fixture scans.
+
 ## Popup And Interstitial Policy
 
 Dismiss interfering UI only with reusable behavior:

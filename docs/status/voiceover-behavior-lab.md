@@ -181,6 +181,93 @@ Validation after run `29209152951` follow-up refinement:
 - `yarn workspace @sr-output/engine test:voiceover`: passed, 38 passed,
   14 skipped.
 
+## Next Batch: Lists and Cards
+
+Draft scan targets on branch `codex/voiceover-list-card-lab`:
+
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/marker-link-listitem-boundary.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/linked-card-listitem-position.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/article-card-heading-boundary.html`
+- `packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/lists-and-cards/mixed-inline-listitem-links.html`
+
+Behavior questions:
+
+- How VoiceOver right-arrow traversal treats native list markers when list
+  items contain links, trailing text, or lead text before links.
+- Whether linked card list items carry list position onto the card, the image,
+  the heading link, or only the list summary.
+- Where article-card boundaries occur when a date, heading link, and summary
+  text are siblings.
+- How mixed inline list item text is segmented around one or more links and
+  inline emphasis.
+
+Run these as focused repro fixtures. Do not promote them into the live-site
+corpus unless Phase E records unique corpus value.
+
+Run `29210975599` completed the initial lists/cards batch. Receipts live under
+`voiceover-smoke/agent-work/29210975599/behavior-lab/lists-and-cards/`, with
+artifacts in `voiceover-smoke/autonomous-runs/29210975599/artifacts/`.
+
+Accepted exact fixtures after generic engine refinement:
+
+- `linked-card-listitem-position`: exact, 7/7.
+- `article-card-heading-boundary`: exact, 13/13.
+
+Reusable engine behavior accepted:
+
+- Simple linked-card list items with a decorative lead image, a single heading
+  link, and a paragraph summary carry the list item position onto the heading
+  stop. The rule remains generic and does not encode fixture or site copy.
+- Dated sibling article-card collections use the article heading link name for
+  the VoiceOver article end boundary, matching the existing dated direct-list
+  article-card behavior.
+
+Parked families:
+
+- `marker-link-listitem-boundary`: still draft. The scan includes one
+  environmental `UserNotificationCenter is not responding` line plus native
+  marker/link segmentation differences. The saved AX tree was empty and the
+  snapshot payload was metadata-only, so do not broaden marker splitting from
+  DOM alone.
+- `mixed-inline-listitem-links`: still draft. VoiceOver splits marker, lead
+  text, inline emphasis, links, and tails more granularly than the current
+  engine, but the available evidence is raw VoiceOver output without AX marker
+  contract nodes. Prepare a narrower C.5 rerun with stronger AX/snapshot
+  evidence before changing marker logic.
+
+Focused marker C.5 run `29248120879` reran only the two parked marker fixtures.
+Receipts live under
+`voiceover-smoke/agent-work/29248120879/behavior-lab/lists-and-cards/`, with
+artifacts in `voiceover-smoke/autonomous-runs/29248120879/artifacts/`.
+
+The rerun reproduced the native marker/text/link segmentation family but did
+not unblock a safe engine change:
+
+- `marker-link-listitem-boundary`: parked. Raw VoiceOver had 11 announcements
+  including one environmental `UserNotificationCenter is not responding` line;
+  normalized VoiceOver had 10 announcements versus 6 engine announcements.
+- `mixed-inline-listitem-links`: parked. Raw VoiceOver had 16 announcements
+  versus 6 engine announcements.
+- Both artifacts had rendered HTML, but `accessibility-tree.json` contained 0
+  nodes and `step-snapshots.json` contained 0 snapshots. Keep both fixtures
+  draft and do not broaden marker segmentation logic without stronger AX or
+  snapshot evidence.
+
+The two accepted lists/cards fixtures no longer carry
+`data-sr-fixture-status="draft"`. Keep all four as focused behavior-lab repros;
+do not promote them into the live-site corpus unless a later Phase E records
+unique corpus value.
+
+Validation after run `29210975599` lists/cards refinement:
+
+- `yarn workspace @sr-output/engine build`: passed.
+- `yarn workspace @sr-output/engine test:unit`: passed, 247 passed, 49 skipped.
+- `node /tmp/analyze-list-card-lab.mjs`: 2 exact fixtures, 2 parked
+  marker-segmentation fixtures.
+- `yarn build:extension-runtime`: passed.
+- `yarn workspace @sr-output/engine test:voiceover`: passed, 38 passed,
+  14 skipped.
+
 ## Scan Command Template
 
 Use the VoiceOver scan workflow on the current branch with:

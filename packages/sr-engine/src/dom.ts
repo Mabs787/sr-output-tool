@@ -3259,6 +3259,40 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function siblingArticleCardContextEndName(el: any, role: string): string | undefined {
+    if (role !== "article") return undefined;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return undefined;
+    }
+    if (!isSiblingArticleCollectionItem(el)) return undefined;
+
+    const hasDateMetadata = Array.from(el.querySelectorAll("time")).some(
+      (time: any) => !isHidden(time) && Boolean(readableText(time)),
+    );
+    if (!hasDateMetadata) return undefined;
+
+    const heading = Array.from(
+      el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
+    ).find(
+      (candidate: any) =>
+        !isHidden(candidate) &&
+        candidate.closest("article,[role='article']") === el &&
+        Boolean(readableText(candidate)),
+    ) as any;
+    if (!heading) return undefined;
+
+    const headingLink = Array.from(
+      heading.querySelectorAll("a[href], [role='link']"),
+    ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate))) as any;
+    if (!headingLink) return undefined;
+
+    return (
+      accessibleName(headingLink, "link") ||
+      accessibleName(heading, "heading") ||
+      readableText(heading)
+    );
+  }
+
   function isArticleInlineLinkCollectionContext(el: any, role: string): boolean {
     if (role !== "article") return false;
     if (!isSiblingArticleCollectionItem(el)) return false;
@@ -4663,6 +4697,40 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     });
   }
 
+  function isSimpleLinkedCardHeadingListStop(el: any, role: string): boolean {
+    if (!["heading", "link"].includes(role)) return false;
+
+    const heading =
+      role === "heading"
+        ? el
+        : el.closest("h1,h2,h3,h4,h5,h6,[role='heading']");
+    if (!heading || isHidden(heading)) return false;
+
+    const listItem = heading.closest("li,[role='listitem']");
+    if (!listItem || heading.closest("li,[role='listitem']") !== listItem) return false;
+    if (!structuredListItemHasPreHeadingImage(listItem)) return false;
+    if (isDescendantOfDirectListArticleCard(el)) return false;
+
+    const headingLink = firstVisibleDescendant(heading, "a[href], [role='link']");
+    if (!headingLink || !readableText(headingLink)) return false;
+    if (role === "link" && el !== headingLink) return false;
+
+    const interactiveChildren = Array.from(
+      listItem.querySelectorAll(interactiveSelector),
+    ).filter((candidate: any) => !isHidden(candidate));
+    if (interactiveChildren.length !== 1 || interactiveChildren[0] !== headingLink) {
+      return false;
+    }
+
+    return Array.from(listItem.children || []).some(
+      (child: any) =>
+        child !== heading &&
+        !isHidden(child) &&
+        child.tagName?.toLowerCase() === "p" &&
+        Boolean(readableText(child)),
+    );
+  }
+
   function positionInSet(el: any, role: string): number | undefined {
     const explicit = Number.parseInt(el.getAttribute("aria-posinset") || "", 10);
     if (Number.isFinite(explicit) && explicit > 0) return explicit;
@@ -4721,6 +4789,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "link" && isPrimaryStructuredNewsCardLink(el)) {
+      const { listItem, list, siblings } = semanticListContext(el);
+      const index = siblings.indexOf(listItem);
+      return index >= 0 ? adjustedListPosition(index, list, el, role) : undefined;
+    }
+
+    if (isSimpleLinkedCardHeadingListStop(el, role)) {
       const { listItem, list, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? adjustedListPosition(index, list, el, role) : undefined;
@@ -4889,6 +4963,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "radio") return radioGroupOptions(el).length || undefined;
     if (role === "image" && hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
       if (!shouldPositionStructuredListImage(el)) return undefined;
+      const { siblings } = semanticListContext(el);
+      return siblings.length || undefined;
+    }
+    if (isSimpleLinkedCardHeadingListStop(el, role)) {
       const { siblings } = semanticListContext(el);
       return siblings.length || undefined;
     }
@@ -10646,7 +10724,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const carouselControlName = carouselControlNameWithDescription(el, role, name);
     const nativeHiddenControlledCollapsedButton =
       isAxConfirmedNativeCollapsedButtonWithHiddenControlledRegions(el, role, name);
-    const contextEndName = directListArticleCardContextEndName(el, role);
+    const contextEndName =
+      directListArticleCardContextEndName(el, role) ||
+      siblingArticleCardContextEndName(el, role);
     const focusableFeedbackGroupText =
       role === "group" ? axConfirmedFocusableFeedbackGroupText(el) : undefined;
     const richTextGroupText = focusableRichTextParagraphGroupText(el);
