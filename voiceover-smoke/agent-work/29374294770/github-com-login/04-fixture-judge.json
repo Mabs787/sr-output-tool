@@ -1,0 +1,19 @@
+{
+  "phase": "C-fixture-judge",
+  "target": "github-com-login",
+  "decision": "c5-required-before-engine-change",
+  "c5": [
+    {
+      "repro": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/login-password-social-buttons-c5.html",
+      "questions": [
+        "Does VoiceOver right-arrow emit a standalone visible label before a native required password field, or combine label/name with the control announcement?",
+        "Do native buttons nested in simple form/span wrappers receive a trailing group suffix, or is the suffix GitHub-page-specific/contextual?"
+      ],
+      "loopBack": "Use C.5 scan evidence to refine generic engine behavior only if reproduced on the focused fixture."
+    }
+  ],
+  "parked": [
+    "Do not change engine for social button group suffix from live page alone.",
+    "Do not adjust refinedAnnouncements; scan evidence is the oracle."
+  ]
+}

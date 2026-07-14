@@ -1,0 +1,16 @@
+{
+  "phase": "B-evidence",
+  "target": "github-com-login",
+  "decision": "no-fixture-correction",
+  "evidenceSummary": [
+    "VoiceOver OCR/snapshot evidence splits visible Password label and password field announcement.",
+    "Rendered HTML has explicit label[for=password] and input[type=password][required].",
+    "AX exposes Sign in, Continue with Google, and Continue with Apple as named buttons; VoiceOver expected stream includes group suffix for social buttons in this page.",
+    "Screenshot 008-step.png confirms the password field focus and VoiceOver secure text-field help overlay."
+  ],
+  "mismatchFamilies": [
+    "password-label-field-ordering",
+    "button-wrapper-group-suffix"
+  ],
+  "fixtureEdits": []
+}

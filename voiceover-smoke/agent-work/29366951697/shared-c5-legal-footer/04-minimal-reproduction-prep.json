@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "status": "prepared",
+  "family": "legal-footer-hidden-consent-list-count-casing",
+  "runId": "29366951697",
+  "targets": [
+    "github-com-features-codespaces",
+    "github-com-open-source-sponsors",
+    "github-com-resources-articles"
+  ],
+  "reproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/legal-footer-hidden-consent-list-casing-c5.html",
+  "uncertainty": "Broad GitHub scans disagree on legal footer list counts and CSS/AX casing when visible legal links/buttons coexist with hidden consent controls. Need focused VoiceOver evidence before changing engine footer/list/casing behavior or editing fixtures further.",
+  "domContract": [
+    "footer landmark with nested Legal nav",
+    "ul/li legal list semantics",
+    "visible links for Terms, Privacy, Docs, Contact GitHub Support",
+    "visible buttons for Manage cookies and Do not share my personal information",
+    "one visually hidden consent-only list item containing a button",
+    "CSS text-transform uppercase on list controls while DOM text remains title/sentence case"
+  ],
+  "decisiveOutcomes": {
+    "engineGapConfirmed": "VoiceOver includes uppercase/casing or list count behavior that current engine cannot reproduce from this initial DOM.",
+    "fixtureNoiseConfirmed": "VoiceOver omits hidden consent controls and/or preserves DOM casing in a way that means broad-site refinedAnnouncements should be repaired.",
+    "conditionalStateConfirmed": "Output depends on hidden consent state not represented by the initial repro DOM."
+  },
+  "loopBackPhase": "C"
+}

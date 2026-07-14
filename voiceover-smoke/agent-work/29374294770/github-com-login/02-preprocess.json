@@ -1,0 +1,18 @@
+{
+  "phase": "A-preprocess",
+  "target": "github-com-login",
+  "workDir": "voiceover-smoke/refinement-workspace/29374294770/github-com-login",
+  "promote": "candidate",
+  "compare": {
+    "expectedCount": 26,
+    "actualCount": 26,
+    "mismatchWindowCount": 2,
+    "grouped": {
+      "button/group": 2
+    }
+  },
+  "deterministicCleanup": "none",
+  "notes": [
+    "Initial rendered HTML oracle preserved; no refinedAnnouncement fixture correction applied."
+  ]
+}

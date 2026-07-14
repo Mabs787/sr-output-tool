@@ -1,0 +1,24 @@
+{
+  "phase": "A-intake",
+  "runId": "29374294770",
+  "target": "github-com-login",
+  "artifact": "voiceover-scan-github-com-login",
+  "accepted": true,
+  "summary": {
+    "expectedCount": 26,
+    "actualCount": 26,
+    "mismatchWindowCount": 2,
+    "grouped": {
+      "button/group": 2
+    }
+  },
+  "evidence": [
+    "voiceover-output.json",
+    "rendered-html.html",
+    "accessibility-tree.json",
+    "voiceover-sources.json",
+    "step-snapshots.json",
+    "screenshots/*.png",
+    "engine-traversal-debug.json"
+  ]
+}

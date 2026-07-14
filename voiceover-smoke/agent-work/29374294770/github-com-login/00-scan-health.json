@@ -1,0 +1,31 @@
+{
+  "phase": "0-scan-health",
+  "runId": "29374294770",
+  "target": "github-com-login",
+  "artifact": "voiceover-scan-github-com-login",
+  "scanRoot": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login",
+  "status": "accepted-for-refinement",
+  "health": {
+    "voiceoverAnnouncementCount": 26,
+    "sourceStepCount": 38,
+    "snapshotCount": 38,
+    "screenshotCount": 100,
+    "axNodeCount": 136,
+    "engineTraversalDebugOk": true,
+    "engineAnnouncementCount": 26,
+    "debugEntryCount": 26
+  },
+  "evidenceFiles": {
+    "voiceoverOutput": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/voiceover-output.json",
+    "renderedHtml": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/rendered-html.html",
+    "accessibilityTree": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/accessibility-tree.json",
+    "voiceoverSources": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/voiceover-sources.json",
+    "stepSnapshots": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/step-snapshots.json",
+    "screenshotsDir": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/screenshots",
+    "engineTraversalDebug": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/engine-traversal-debug.json"
+  },
+  "notes": [
+    "Focused live-site scan artifact; not a corpus promotion decision.",
+    "Scanner debug is usable in this run because engine build ran before scan debug generation."
+  ]
+}
