@@ -87,6 +87,11 @@ decision, tests added or updated, and what future agents must avoid.
   evidence. In run `29210975599`, the marker fixtures had raw VoiceOver
   evidence but empty AX trees and metadata-only step snapshots, so keep those
   fixtures draft until a narrower C.5 rerun captures stronger marker evidence.
+- Follow-up: focused marker C.5 run `29248120879` reproduced the same
+  segmentation family but again produced 0 AX nodes and 0 step snapshots for
+  both parked marker fixtures. Treat this as confirmation that the mismatch is
+  real, not as enough evidence for a broad marker splitter. Future work should
+  first improve marker evidence capture or use a different C.5 capture route.
 
 ## 2026-07-01 Autonomous Workflow Notes
 

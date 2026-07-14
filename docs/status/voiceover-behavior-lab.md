@@ -235,6 +235,24 @@ Parked families:
   contract nodes. Prepare a narrower C.5 rerun with stronger AX/snapshot
   evidence before changing marker logic.
 
+Focused marker C.5 run `29248120879` reran only the two parked marker fixtures.
+Receipts live under
+`voiceover-smoke/agent-work/29248120879/behavior-lab/lists-and-cards/`, with
+artifacts in `voiceover-smoke/autonomous-runs/29248120879/artifacts/`.
+
+The rerun reproduced the native marker/text/link segmentation family but did
+not unblock a safe engine change:
+
+- `marker-link-listitem-boundary`: parked. Raw VoiceOver had 11 announcements
+  including one environmental `UserNotificationCenter is not responding` line;
+  normalized VoiceOver had 10 announcements versus 6 engine announcements.
+- `mixed-inline-listitem-links`: parked. Raw VoiceOver had 16 announcements
+  versus 6 engine announcements.
+- Both artifacts had rendered HTML, but `accessibility-tree.json` contained 0
+  nodes and `step-snapshots.json` contained 0 snapshots. Keep both fixtures
+  draft and do not broaden marker segmentation logic without stronger AX or
+  snapshot evidence.
+
 The two accepted lists/cards fixtures no longer carry
 `data-sr-fixture-status="draft"`. Keep all four as focused behavior-lab repros;
 do not promote them into the live-site corpus unless a later Phase E records
