@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Grid popup row cell decomposition behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      label, input { font: inherit; margin: 4px; padding: 8px; }
+      [role="grid"] { border: 1px solid #777; margin-top: 8px; padding: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Grid popup row cell decomposition</h1>
+      <label for="department-search">Search Amazon</label>
+      <input id="department-search" type="search" aria-label="Search Amazon" placeholder="Search Amazon" aria-autocomplete="list" aria-expanded="true" aria-haspopup="grid" aria-controls="department-results">
+      <div id="department-results" role="grid" aria-label="Department results">
+        <div role="row">
+          <span role="gridcell">Deals today</span>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -418,7 +418,7 @@
                 parts.push(popupType);
               }
               parts.push("search text field");
-              if (popupType !== "list box pop up" && popupType !== "grid pop up") {
+              if (!el.suppressAutocomplete && popupType !== "list box pop up" && popupType !== "grid pop up") {
                 pushAutocomplete(parts, el.autocomplete);
               }
             } else {
@@ -484,7 +484,7 @@
                 parts.push(`${comboLabel} ${popupType}`);
               } else if (comboLabelFromPlaceholder && comboLabel && popupType) {
                 if (el.expanded !== void 0) {
-                  parts.push(`${comboLabel} ${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+                  parts.push(popupType === "grid pop up" ? `${comboLabel}, ${popupType} ${el.expanded ? "expanded" : "collapsed"}` : `${comboLabel} ${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
                 } else {
                   parts.push(`${comboLabel} ${popupType}`);
                 }
@@ -678,7 +678,9 @@
               pushSupplementalText(selectedParts, el);
               return selectedParts.join(", ");
             }
-            pushIfPresent(parts, el.name);
+            if (!el.popupListboxContainer) {
+              pushIfPresent(parts, el.name);
+            }
             parts.push("list box");
             if (el.selectedCount) {
               parts.push(`${el.selectedCount} item${el.selectedCount === 1 ? "" : "s"} selected`);
@@ -695,12 +697,12 @@
           case "table":
           case "grid": {
             pushIfPresent(parts, el.name ?? el.tableLabel);
-            parts.push(role === "grid" ? "grid" : "table");
+            parts.push(role === "grid" && el.tableRole !== "table" ? "grid" : "table");
             if (el.columnCount) {
               parts.push(`${el.columnCount} ${el.columnCount === 1 ? "column" : "columns"}`);
             }
             if (el.rowCount) {
-              parts.push(`${el.rowCount} rows`);
+              parts.push(`${el.rowCount} ${el.rowCount === 1 ? "row" : "rows"}`);
             }
             pushSupplementalText(parts, el);
             break;
@@ -854,9 +856,6 @@
           case "dialog": {
             pushIfPresent(parts, label);
             parts.push("dialog");
-            if (el.modal && label) {
-              parts.push("modal");
-            }
             pushSupplementalText(parts, el);
             break;
           }
@@ -966,6 +965,9 @@
           return "end of table";
         }
         if (role === "grid") {
+          if (descriptor?.tableRole === "table") {
+            return "end of table";
+          }
           return "end of grid";
         }
         if (role === "region") {
@@ -1879,6 +1881,43 @@
             }
           }
           return true;
+        }
+        function isNativeSearchFormLabelStopInput(el, role) {
+          if (role !== "searchbox")
+            return false;
+          if (el?.tagName?.toLowerCase() !== "input")
+            return false;
+          if ((el.getAttribute("type") || "text").toLowerCase() !== "search")
+            return false;
+          const label = associatedLabelForControl(el);
+          if (!label)
+            return false;
+          const labelText = normalize(textWithoutInteractive(label) || readableText(label));
+          if (!labelText)
+            return false;
+          const searchContext = el.closest?.("form[role='search'], search, [role='search']");
+          if (!searchContext)
+            return false;
+          const selectControls = Array.from(searchContext.querySelectorAll("select")).filter((control) => !isHidden(control));
+          if (selectControls.length)
+            return false;
+          const textControls = Array.from(searchContext.querySelectorAll("input:not([type='hidden']), textarea, [role='textbox'], [role='searchbox'], [role='combobox']")).filter((control) => !isHidden(control));
+          if (textControls.length !== 1 || textControls[0] !== el)
+            return false;
+          return true;
+        }
+        function isAutocompleteGridPopupLabelStopInput(el, role) {
+          if (role !== "combobox" && role !== "searchbox")
+            return false;
+          if (el?.tagName?.toLowerCase() !== "input")
+            return false;
+          if (normalize(el.getAttribute("aria-autocomplete")) !== "list")
+            return false;
+          if (el.getAttribute("aria-expanded") !== "true")
+            return false;
+          if (normalizedPopup(el) !== "grid")
+            return false;
+          return hasAssociatedLabelText(el);
         }
         function isAxConfirmedNativeSearchFormLabel(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
@@ -2898,7 +2937,12 @@
             if (marker && marker !== "false" || style?.display === "none")
               continue;
             const selector = "svg, img, [role='img']";
-            return child.matches(selector) || Boolean(child.querySelector(selector));
+            if (!(child.matches(selector) || Boolean(child.querySelector(selector)))) {
+              return false;
+            }
+            const trailingNodes = Array.from(el.childNodes).slice(Array.from(el.childNodes).indexOf(child) + 1);
+            const hasTrailingTextElement = trailingNodes.some((node) => node.nodeType === Node.ELEMENT_NODE && !isHidden(node) && normalize(readableText(node) || node.textContent));
+            return hasTrailingTextElement;
           }
           return false;
         }
@@ -9078,9 +9122,10 @@
           const cell = el.closest("th,td,[role='cell'],[role='gridcell'],[role='rowheader'],[role='columnheader']");
           const rows = tableRows(table);
           const columnCount = tableColumnCount(rows);
+          const tableRole = isExpandedAutocompletePopupGrid(table) ? "table" : implicitRole(table);
           if (!row || !cell) {
             return {
-              tableRole: implicitRole(table),
+              tableRole,
               tableLabel: accessibleName(table, implicitRole(table)),
               rowCount: rows.length || void 0,
               columnCount
@@ -9116,7 +9161,7 @@
           const simpleNativeColumnHeaderContext = isSimpleNativeColumnHeaderTable(table, rows, headerCells, columnCount);
           const nativeUnheadedFirstColumnContext = isNativeUnheadedFirstColumnTable(table, rows, headerCells, columnCount);
           return {
-            tableRole: implicitRole(table),
+            tableRole,
             tableLabel: accessibleName(table, implicitRole(table)),
             rowIndex: !insideColumnHeaderContent && rowIndex >= 0 ? rowIndex + 1 : void 0,
             rowCount: rows.length || void 0,
@@ -9906,6 +9951,7 @@
             hasPopup: nativeDatalistElement(stateEl) ? "listbox" : normalizedPopup(stateEl) ?? normalizedPopup(el),
             autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
             modal: el.getAttribute("aria-modal") === "true" || void 0,
+            modalDialogSummaryItemCount: role === "dialog" && el.getAttribute("aria-modal") === "true" && hasExplicitDialogName(el) ? modalDialogSummaryItemCount(el) : void 0,
             sort: normalize(el.getAttribute("aria-sort")),
             selectedCount: listboxSelectedCount,
             nativeSelect: tag === "select" || void 0,
@@ -9932,6 +9978,8 @@
             ...flattenedSlottedCarouselImageInfo(el),
             splitDescribedAutocomplete: shouldSplitDescribedAutocomplete(el, role) || void 0,
             searchInputGroup: role === "combobox" && tag === "input" && (el.getAttribute("type") || "").toLowerCase() === "search" || void 0,
+            suppressAutocomplete: isNativeSearchFormLabelStopInput(el, role) || void 0,
+            popupListboxContainer: role === "listbox" && isExpandedAutocompletePopupListbox(el) || void 0,
             compactInputActionGroup: role === "group" && compactInputActionGroupLabel(el) ? true : void 0,
             leadingCarouselGroup: isLeadingCarouselGroupStop(el, role) || void 0,
             trailingCarouselSlideGroups: isTrailingCarouselSlideGroupStop(el, role) || void 0,
@@ -9940,7 +9988,7 @@
             leadingDecorativeTextCardGroups: isLeadingDecorativeTextCardGroupStop(el, role) || void 0,
             leadingGenericGroupStops: leadingGenericGroupStops || void 0,
             trailingStandaloneGroup: role === "button" && isAxConfirmedSingleButtonShadowWrapperGroup(el) || void 0,
-            splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || isAxConfirmedNativeSearchFormTextInput(el, role) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) || Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) || Boolean(nativeButtonLabelStopText) ? true : void 0,
+            splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || isNativeSearchFormLabelStopInput(el, role) || isAutocompleteGridPopupLabelStopInput(el, role) || isAxConfirmedNativeSearchFormTextInput(el, role) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) || Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) || Boolean(nativeButtonLabelStopText) ? true : void 0,
             nativeFormControlLabelStop: Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) ? true : void 0,
             nativeControlLabelText: nativeButtonLabelStopText || nativeValueControlLabelStopText || axConfirmedNativeControlLabelStopText(el, role),
             nativeSearchFormInputStop: isAxConfirmedNativeSearchFormTextInput(el, role) ? true : void 0,
@@ -9985,7 +10033,7 @@
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
             preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
-            suppressContextEnd: role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && isDirectListBackedDefinitionItem(el) || role === "dialog" && el.getAttribute("aria-modal") === "true" && !accessibleName(el, role) && !readableText(el) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            suppressContextEnd: role === "tooltip" || role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && isDirectListBackedDefinitionItem(el) || role === "dialog" && el.getAttribute("aria-modal") === "true" && (hasExplicitDialogName(el) && modalDialogSummaryItemCount(el) || !hasExplicitDialogName(el) && !readableText(el)) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
             boundingBox: {
@@ -10180,6 +10228,9 @@
           if (isContextRole(el, role) && !isUnnamedCarouselRegion(el) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(role === "dialog" && el.getAttribute("aria-modal") === "true") && !(role === "list" && announcedListChildren(el).length)) {
             return false;
           }
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && hasVisibleInteractiveDescendant(el)) {
+            return false;
+          }
           if (isUnnamedCarouselRegion(el)) {
             return false;
           }
@@ -10228,6 +10279,9 @@
           if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !isAxConfirmedFocusableFeedbackGroup(el) && !isFocusableRichTextParagraphGroup(el) && !isFocusableHeadingRichTextNavigationGroup(el) && !isSingleTitledIframeWrapper(el) && !isButtonShellClusterGroup(el) && !isButtonShellGroup(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !fieldsetPromptText(el) && !(isCustomElement(el) && hasShadowRootContent(el)) || role === "group" && isAnonymousShadowPromptFieldsetHost(el)) {
             return false;
           }
+          if (role === "row" && isInsideExpandedAutocompletePopupGrid(el)) {
+            return false;
+          }
           return isContextRole(el, role) || [
             "heading",
             "button",
@@ -10266,6 +10320,12 @@
         }
         function shouldDescendIntoStop(el) {
           const role = implicitRole(el);
+          if (role === "tooltip") {
+            return false;
+          }
+          if (role === "listbox" && isExpandedAutocompletePopupListbox(el)) {
+            return false;
+          }
           if (role === "group" && isFocusableImageListItem(el)) {
             return false;
           }
@@ -10284,7 +10344,10 @@
           if (role === "listbox" && singleSelectedListboxOption(el)) {
             return false;
           }
-          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !accessibleName(el, role) && !readableText(el)) {
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && hasVisibleInteractiveDescendant(el)) {
+            return false;
+          }
+          if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && !readableText(el)) {
             return false;
           }
           if (isContextRole(el, role))
@@ -10339,6 +10402,37 @@
               return true;
           }
           return false;
+        }
+        function expandedAutocompletePopupController(container) {
+          if (!container?.id)
+            return null;
+          const selector = [
+            `[aria-controls="${cssEscape(container.id)}"]`,
+            `[aria-owns="${cssEscape(container.id)}"]`
+          ].join(",");
+          return Array.from(document.querySelectorAll(selector)).find((controller) => {
+            if (container.contains(controller) || isHidden(controller))
+              return false;
+            if (controller.getAttribute("aria-expanded") !== "true")
+              return false;
+            const role = implicitRole(controller);
+            if (!["combobox", "searchbox", "textbox"].includes(role))
+              return false;
+            return normalize(controller.getAttribute("aria-autocomplete")) === "list";
+          }) || null;
+        }
+        function isExpandedAutocompletePopupListbox(el) {
+          return implicitRole(el) === "listbox" && Boolean(expandedAutocompletePopupController(el));
+        }
+        function isExpandedAutocompletePopupGrid(el) {
+          if (implicitRole(el) !== "grid")
+            return false;
+          const controller = expandedAutocompletePopupController(el);
+          return Boolean(controller && normalizedPopup(controller) === "grid");
+        }
+        function isInsideExpandedAutocompletePopupGrid(el) {
+          const grid = el.closest?.("[role='grid']");
+          return Boolean(grid && isExpandedAutocompletePopupGrid(grid));
         }
         function splitDescribedAutocompleteAnnouncements(descriptor) {
           if (!descriptor.splitDescribedAutocomplete)
@@ -10396,10 +10490,37 @@
         function splitDialogDirectTextAnnouncements(descriptor, el) {
           if (!["dialog", "tooltip"].includes(descriptor.role || ""))
             return void 0;
+          if (descriptor.role === "tooltip") {
+            if (isCustomElement(el))
+              return [generateAnnouncement2(descriptor)];
+            const visibleText = normalize(readableText(el));
+            if (visibleText)
+              return [`${visibleText}, empty tooltip`];
+            const announcement = generateAnnouncement2(descriptor);
+            return [`${announcement}, empty tooltip`];
+          }
+          if (descriptor.role === "dialog" && descriptor.modalDialogSummaryItemCount) {
+            return [generateAnnouncement2(descriptor)];
+          }
           const directText = descriptor.role === "tooltip" ? normalize(el.textContent || "") : normalize(Array.from(el.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
           if (!directText)
             return void 0;
           return [generateAnnouncement2(descriptor), directText];
+        }
+        function modalDialogSummaryItemCount(el) {
+          const count = walkChildren(el).filter((child) => !isHidden(child)).length;
+          return count > 0 ? count : void 0;
+        }
+        function hasExplicitDialogName(el) {
+          return Boolean(normalize(el.getAttribute?.("aria-label")) || textFromIdRefs(el.getAttribute?.("aria-labelledby")));
+        }
+        function modalDialogSummaryAnnouncement(descriptor) {
+          if (!descriptor.modalDialogSummaryItemCount)
+            return void 0;
+          return `dialog, with ${descriptor.modalDialogSummaryItemCount} ${descriptor.modalDialogSummaryItemCount === 1 ? "item" : "items"}`;
+        }
+        function modalDialogHeadingChildren(el) {
+          return walkChildren(el).filter((child) => !isHidden(child) && implicitRole(child) === "heading");
         }
         function splitCompactInputActionGroupAnnouncements(descriptor) {
           if (!descriptor.compactInputActionGroup)
@@ -11034,7 +11155,8 @@
                 }
               }
               if (shouldDescendIntoStop(el)) {
-                for (const child of walkChildren(el))
+                const children = descriptor?.modalDialogSummaryItemCount ? modalDialogHeadingChildren(el) : walkChildren(el);
+                for (const child of children)
                   walk(child);
               }
               if (descriptor) {
@@ -11044,6 +11166,23 @@
                     index: log.length,
                     srId: id,
                     announcement: descriptor.axMarkerLinkTrailingTextListItemAnnouncement,
+                    role: descriptor.role,
+                    name: descriptor.name,
+                    boundingBox: {
+                      x: Math.round(rect.x),
+                      y: Math.round(rect.y),
+                      width: Math.round(rect.width),
+                      height: Math.round(rect.height)
+                    }
+                  });
+                }
+                const modalSummary = modalDialogSummaryAnnouncement(descriptor);
+                if (modalSummary) {
+                  const rect = el.getBoundingClientRect();
+                  log.push({
+                    index: log.length,
+                    srId: id,
+                    announcement: modalSummary,
                     role: descriptor.role,
                     name: descriptor.name,
                     boundingBox: {

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dialog with navigation list behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      [role="dialog"] { border: 2px solid #555; padding: 16px; }
+      nav ul { margin: 8px 0; padding-left: 24px; }
+      a, button { font: inherit; margin: 4px; padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <div role="dialog" aria-modal="true" aria-labelledby="nav-dialog-title">
+        <h1 id="nav-dialog-title">Shopping sections</h1>
+        <nav aria-label="Shopping sections">
+          <ul>
+            <li><a href="/health-ai">Health AI</a></li>
+            <li><a href="/cart" aria-label="0 items in cart">Cart</a></li>
+            <li><a href="/deals">Deals</a></li>
+          </ul>
+        </nav>
+        <button type="button">Close</button>
+      </div>
+    </main>
+  </body>
+</html>

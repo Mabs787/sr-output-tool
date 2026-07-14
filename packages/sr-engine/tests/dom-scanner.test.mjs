@@ -3969,7 +3969,7 @@ test("scanSubtree splits complex table column headers into group and child text 
       </table>
     `),
     [
-      "table, 3 columns, 1 rows",
+      "table, 3 columns, 1 row",
       "column header, column 1, row 1",
       "Product A, The practical choice, Black, Blue, and White Product A, column 2 of 3",
       "The practical choice",
@@ -4135,6 +4135,43 @@ test("scanSubtree splits described autocomplete search inputs", () => {
       "Enter a city, list box pop up collapsed, combo box",
       "Search, button",
       "end of, search",
+    ],
+  );
+});
+
+test("scanSubtree splits native search label stops and popup listbox boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>Search label stop</h1>
+        <form role="search">
+          <label for="video-search">Search videos</label>
+          <input
+            id="video-search"
+            type="search"
+            placeholder="Search"
+            aria-autocomplete="list"
+            aria-controls="video-suggestions"
+            aria-expanded="true"
+          >
+          <button type="submit" aria-label="Search">Search</button>
+        </form>
+        <div id="video-suggestions" role="listbox">
+          <div role="option">VoiceOver tutorial</div>
+          <div role="option">Screen reader basics</div>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 1, Search label stop",
+      "search",
+      "Search videos",
+      "Search videos Search, search text field",
+      "Search, button",
+      "end of, search",
+      "list box",
+      "end of, main",
     ],
   );
 });
@@ -5815,10 +5852,84 @@ test("scanSubtree suppresses empty alert live regions", () => {
     [
       "banner",
       "Settings, button",
-      "tooltip",
-      "Settings",
-      "end of, tooltip",
+      "tooltip, empty tooltip",
       "end of, banner",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <header>
+        <x-action>
+          <button aria-label="Settings"></button>
+          <x-tooltip role="tooltip" tabindex="-1" aria-label="tooltip">
+            <span hidden>Settings</span>
+          </x-tooltip>
+        </x-action>
+      </header>
+    `),
+    [
+      "banner",
+      "Settings, button",
+      "tooltip",
+      "end of, banner",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <button aria-label="Search with your voice" aria-describedby="voice-tip"></button>
+        <div id="voice-tip" role="tooltip">Search with your voice</div>
+        <div role="tooltip" aria-label="tooltip"></div>
+      </main>
+    `),
+    [
+      "main",
+      "Search with your voice Search with your voice, button",
+      "Search with your voice, empty tooltip",
+      "tooltip, empty tooltip",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree matches VoiceOver modal dialog summaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+          <h1 id="dialog-title">Main menu</h1>
+          <p>Choose a section to continue.</p>
+          <button type="button">Close</button>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Main menu, dialog",
+      "heading level 1, Main menu",
+      "dialog, with 3 items",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="dialog" aria-modal="true">
+          <button type="button" aria-label="Back">Back</button>
+          <a href="/orders">Orders</a>
+          <a href="/account">Account</a>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Back, button",
+      "link, Orders",
+      "link, Account",
+      "end of, main",
     ],
   );
 });
@@ -5936,6 +6047,16 @@ test("scanSubtree groups text buttons with trailing icons", () => {
       </section>
     `),
     ["Already have a subscription?", "Learn More, button, group"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <button>
+        <svg aria-hidden="true" viewBox="0 0 16 16"></svg>
+        Sign in
+      </button>
+    `),
+    ["Sign in, button"],
   );
 });
 

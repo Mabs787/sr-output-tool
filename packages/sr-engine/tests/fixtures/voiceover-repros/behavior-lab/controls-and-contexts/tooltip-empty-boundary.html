@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Empty tooltip boundary behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      button { font: inherit; padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Empty tooltip boundary</h1>
+      <button aria-label="Settings">
+        <svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"></circle></svg>
+      </button>
+      <div role="tooltip" aria-label="tooltip"></div>
+      <button>Next action</button>
+    </main>
+  </body>
+</html>

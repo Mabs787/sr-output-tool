@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expanded listbox popup behavior lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      label, input, button { font: inherit; margin: 4px; padding: 8px; }
+      [role="listbox"] { border: 1px solid #777; margin-top: 8px; padding: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Expanded listbox popup</h1>
+      <form role="search">
+        <label for="video-search">Search videos</label>
+        <input id="video-search" type="search" placeholder="Search" aria-autocomplete="list" aria-controls="video-suggestions" aria-expanded="true">
+        <button type="submit" aria-label="Search">Search</button>
+      </form>
+      <div id="video-suggestions" role="listbox">
+        <div role="option">VoiceOver tutorial</div>
+        <div role="option">Screen reader basics</div>
+      </div>
+    </main>
+  </body>
+</html>
