@@ -104,7 +104,7 @@ test("scanSubtree exposes traversal debug metadata only when requested", () => {
         announcement: "main",
         debug: {
           stopKind: "split",
-          stopSource: "descriptor-announcements",
+          stopSource: "descriptor-announcement",
           descriptorRole: "main",
           descriptorName: undefined,
         },
@@ -113,7 +113,7 @@ test("scanSubtree exposes traversal debug metadata only when requested", () => {
         announcement: "heading level 1, Debug heading",
         debug: {
           stopKind: "split",
-          stopSource: "descriptor-announcements",
+          stopSource: "descriptor-announcement",
           descriptorRole: "heading",
           descriptorName: "Debug heading",
         },
@@ -122,7 +122,7 @@ test("scanSubtree exposes traversal debug metadata only when requested", () => {
         announcement: "Debug body",
         debug: {
           stopKind: "split",
-          stopSource: "descriptor-announcements",
+          stopSource: "descriptor-announcement",
           descriptorRole: "paragraph",
           descriptorName: "Debug body",
         },
@@ -135,6 +135,25 @@ test("scanSubtree exposes traversal debug metadata only when requested", () => {
           descriptorRole: "main",
           descriptorName: undefined,
         },
+      },
+    ],
+  );
+
+  assert.deepEqual(
+    scanEntries(`<p>Read the <a href="/guide">guide</a>.</p>`, {
+      includeTraversalDebug: true,
+    }).map((entry) => ({
+      announcement: entry.announcement,
+      source: entry.traversalDebug?.stopSource,
+    })),
+    [
+      {
+        announcement: "Read the",
+        source: "split-inline-text-link",
+      },
+      {
+        announcement: "link, guide",
+        source: "split-inline-text-link",
       },
     ],
   );

@@ -12,6 +12,7 @@ announcement formatting so future VoiceOver evidence maps to a clear layer.
 ## Branch
 
 - `codex/scanner-traversal-refactor`
+- `codex/scanner-inline-segmentation-refactor`
 
 ## Step 1: Traversal Stop Seam
 
@@ -73,3 +74,29 @@ Validation:
   module.
 - Add targeted tests that prove output stability while debug stop sources
   identify traversal, segmentation, context-end, and synthetic stops.
+
+## Step 3: Named Descriptor Split Sources
+
+Started the inline/list segmentation seam by moving the existing descriptor
+split-helper priority chain behind `descriptorAnnouncementResult`.
+
+What changed:
+
+- Preserved the existing split-helper priority order and announcement output.
+- Replaced the generic `descriptor-announcements` debug source with specific
+  sources such as `descriptor-announcement` and `split-inline-text-link`.
+- Added a focused debug test proving ordinary descriptor stops and inline
+  text-link split stops can be distinguished when `includeTraversalDebug` is
+  enabled.
+
+Why this matters:
+
+- Debug receipts can now identify whether an announcement came from the base
+  descriptor formatter or a specific segmentation helper.
+- Future marker/list segmentation work can be migrated one helper family at a
+  time without changing public scan output.
+
+Validation:
+
+- `yarn workspace @sr-output/engine build`: passed.
+- `yarn workspace @sr-output/engine test:unit`: passed, 248 passed, 49 skipped.
