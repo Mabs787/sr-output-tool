@@ -100,7 +100,18 @@ function pushTableColumnContext(parts: string[], el: ElementDescriptor): void {
     return;
   }
 
-  mergeTableColumnHeaderContext(parts, el);
+  if (
+    el.columnIndex === 1 &&
+    el.rowIndex &&
+    el.rowIndex > 1 &&
+    el.columnHeaderText &&
+    el.name &&
+    parts.length > 0
+  ) {
+    parts[0] = `${el.name} ${el.columnHeaderText} ${parts[0]}`;
+  } else {
+    mergeTableColumnHeaderContext(parts, el);
+  }
   if (el.columnIndex === 1 && el.rowIndex) {
     if (
       el.tableGroupedHeaderRow &&
@@ -120,7 +131,12 @@ function pushTableColumnContext(parts: string[], el: ElementDescriptor): void {
     ) {
       parts[0] = `${el.tableGroupHeaderText} ${parts[0]}`;
     }
-    parts.unshift(`row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`);
+    const rowLabel = `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""}`;
+    if (parts.length > 0) {
+      parts[0] = `${rowLabel} ${parts[0]}`;
+    } else {
+      parts.unshift(rowLabel);
+    }
   }
   const columnPosition = tableColumnPosition(el);
   if (columnPosition) parts.push(columnPosition);

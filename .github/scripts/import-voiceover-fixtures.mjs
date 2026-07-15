@@ -221,10 +221,13 @@ function sanitizeAnnouncement(announcement) {
     .replace(/^I 6 days ago$/, "6 days ago")
     .replace(/^(?:AII|AlI) BBC destinations menu\b/, "All BBC destinations menu")
     .replace(/\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/g, "AI ")
-    .replace(/\bAl (?=(agents?|era|fundamentally|increases|is|native|powered|products?|workflows?)\b)/g, "AI ")
+    .replace(/\bAl (?=(agents?|assistants?|era|fundamentally|generated|increases|is|native|powered|products?|workflows?)\b)/g, "AI ")
+    .replace(/\bAl (?=Code Assistants\b)/g, "AI ")
     .replace(/\bAl(?=[-‑–]native\b)/g, "AI")
     .replace(/\bfor responsible Al\b/g, "for responsible AI")
+    .replace(/\bAPls\b/g, "APIs")
     .replace(/\bOpenAl\b/g, "OpenAI")
+    .replace(/\bworktlow\b/g, "workflow")
     .replace(/\bllkka\b/g, "Ilkka")
     .replace(/\bAl Skills\b/g, "AI Skills")
     .replace(/\bAl and accessibility\b/g, "AI and accessibility")
@@ -458,7 +461,7 @@ function findSanitizationIssues(announcements) {
   ];
   const warningPatterns = [
     /^AII\b/,
-    /\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces|agents?|era|fundamentally|increases|is|native|powered|products?|workflows?)\b)/,
+    /\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces|agents?|assistants?|era|fundamentally|generated|increases|is|native|powered|products?|workflows?|Code Assistants)\b)/,
     /^I (?=(banner|heading level \d+|6 days ago)\b)/,
     /^Chrome, .+ Google Chrome, window,/,
     /^link, inside of web content,/,
