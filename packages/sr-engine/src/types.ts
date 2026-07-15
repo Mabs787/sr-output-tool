@@ -23,6 +23,7 @@ export interface ElementDescriptor {
   value?: string;
   valueText?: string;
   emptyObject?: boolean;
+  emptyContext?: boolean;
   level?: number;
   headingFragments?: string[];
   headingFragmentCount?: number;
@@ -58,6 +59,7 @@ export interface ElementDescriptor {
   pressed?: boolean | "mixed";
   current?: string | boolean;
   hasPopup?: boolean | string;
+  popupLabelWithoutComma?: boolean;
   autocomplete?: string;
   live?: string;
   atomic?: boolean;
@@ -103,9 +105,11 @@ export interface ElementDescriptor {
   splitLabelStop?: boolean;
   nativeFormControlLabelStop?: boolean;
   nativeFormInlineAlert?: boolean;
+  namedAlertBoundary?: boolean;
   suppressStatusRolePrefix?: boolean;
   textEntryArea?: boolean;
   emailTextField?: boolean;
+  secureTextField?: boolean;
   textboxPlaceholderBeforeRole?: boolean;
   footerCountrySelector?: boolean;
   fieldsetPromptText?: string;
@@ -119,6 +123,8 @@ export interface ElementDescriptor {
   wrappedDefinitionListTermChildAnnouncements?: string[];
   inlineEmphasisListItemFragments?: string[];
   inlineEmphasisTextFragments?: string[];
+  blockquoteInlineEmphasisFragments?: string[];
+  plainSpanOnlyBlockquote?: boolean;
   inlineCodeBreakTextFragments?: string[];
   footerInlineBoundaryTextFragments?: string[];
   inlineTextLinkFragments?: string[];

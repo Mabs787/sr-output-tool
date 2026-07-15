@@ -48,7 +48,7 @@ test("generateAnnouncement formats interactive control states", () => {
       checked: "mixed",
       details: "Choose at least one alert type",
     }),
-    "Email alerts, check box, half checked, Choose at least one alert type",
+    "Email alerts, half checked, checkbox, Choose at least one alert type",
   );
 
   assert.equal(
@@ -58,6 +58,15 @@ test("generateAnnouncement formats interactive control states", () => {
       pressed: true,
     }),
     "Pause, selected, toggle button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "button",
+      name: "Page 1",
+      current: "page",
+    }),
+    "Page 1, current page, button",
   );
 
   assert.equal(
@@ -76,6 +85,16 @@ test("generateAnnouncement formats interactive control states", () => {
       invalid: true,
     }),
     "Postcode, invalid data, edit text",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "textbox",
+      name: "Password",
+      required: true,
+      secureTextField: true,
+    }),
+    "Password, required, secure text field",
   );
 
   assert.equal(
