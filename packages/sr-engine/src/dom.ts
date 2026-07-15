@@ -1968,6 +1968,72 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return nativeButtonDirectSpanTextName(el) || generatedPseudoName(el) || embeddedControlContentName(el);
   }
 
+  function axConfirmedNativeButtonSymbolSpacingName(
+    el: any,
+    role: string,
+    name?: string,
+  ): string | undefined {
+    if (role !== "button" || el?.tagName?.toLowerCase() !== "button") return undefined;
+    if (!accessibilityNodes.length) return undefined;
+
+    const domName = normalize(name || accessibleName(el, role));
+    if (!domName) return undefined;
+
+    const axNode = axNodeForElementRole(el, "button");
+    const axName = normalize(axNode?.name);
+    if (!axNode || axNode.properties?.focusable !== true || !axName || axName === domName) {
+      return undefined;
+    }
+
+    const compactSymbolSpacing = (value: string) =>
+      (normalize(value) ?? "").replace(/\s+([+→↗×])/g, "$1").replace(/([+→↗×])\s+/g, "$1");
+
+    if (compactSymbolSpacing(axName) !== compactSymbolSpacing(domName)) return undefined;
+    if (!/\s[+→↗×](?:\s|$)/.test(axName)) return undefined;
+
+    return axName;
+  }
+
+  function nativeButtonStandaloneSymbolSpacingName(
+    el: any,
+    role: string,
+    name?: string,
+  ): string | undefined {
+    if (role !== "button" || el?.tagName?.toLowerCase() !== "button") return undefined;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
+    if (el.disabled || el.hasAttribute?.("disabled")) return undefined;
+
+    const domName = normalize(name || accessibleName(el, role));
+    if (!domName) return undefined;
+
+    const fragments: string[] = [];
+    const collectTextFragments = (node: any) => {
+      for (const child of Array.from(node?.childNodes || [])) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = normalize(child.textContent || "");
+          if (text) fragments.push(text);
+          continue;
+        }
+        if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) continue;
+        if (child.matches?.(interactiveSelector)) return;
+        collectTextFragments(child);
+      }
+    };
+
+    collectTextFragments(el);
+    if (fragments.length < 2) return undefined;
+    if (!/^[+→↗×]$/.test(fragments[fragments.length - 1])) return undefined;
+
+    const spacedName = normalize(fragments.join(" "));
+    if (!spacedName || spacedName === domName) return undefined;
+
+    const compactSymbolSpacing = (value: string) =>
+      (normalize(value) ?? "").replace(/\s+([+→↗×])/g, "$1").replace(/([+→↗×])\s+/g, "$1");
+    if (compactSymbolSpacing(spacedName) !== compactSymbolSpacing(domName)) return undefined;
+
+    return spacedName;
+  }
+
   function nativeButtonDirectSpanTextName(el: any): string | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     if (el.tagName?.toLowerCase() !== "button") return undefined;
@@ -11305,18 +11371,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       axConfirmedTerminalPunctuationLinkedHeadingName(el, role) ||
       accessibleRoleName ||
       articleHeadingName;
+    const axNativeButtonSymbolSpacingName =
+      role === "button" ? axConfirmedNativeButtonSymbolSpacingName(el, role, name) : undefined;
+    const nativeButtonSymbolSpacingName =
+      axNativeButtonSymbolSpacingName ||
+      (role === "button" ? nativeButtonStandaloneSymbolSpacingName(el, role, name) : undefined);
     const nativeSelectTitleName =
       tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : undefined;
     const linkContentNameForSpacing =
       role === "link" ? linkContentName(el) : undefined;
     const announcementName =
-      role === "link" &&
+      axNativeButtonSymbolSpacingName ||
+      nativeButtonSymbolSpacingName ||
+      (role === "link" &&
       linkContentNameForSpacing &&
       postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing
         ? linkContentNameForSpacing
         : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name)
           ? finalPostPunctuationWhitespaceCollapsedText(name)
-        : name;
+        : name);
     const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
     const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag)
       ? labelForControl(stateEl)
@@ -11547,7 +11620,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       headingFragments,
       headingFragmentCount,
       preserveSpaceBeforePunctuationName:
-        role === "heading" ? axConfirmedSpaceBeforePunctuationHeadingName(el, role) : undefined,
+        role === "heading"
+          ? axConfirmedSpaceBeforePunctuationHeadingName(el, role)
+          : role === "button"
+            ? nativeButtonSymbolSpacingName
+            : undefined,
       iconOnlyLink: role === "link" && isIconOnlyLink(el) || undefined,
       textlessCarouselPaginatorLink:
         role === "link" && isTextlessCarouselPaginatorLink(el) || undefined,

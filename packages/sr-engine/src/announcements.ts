@@ -355,9 +355,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "button": {
-      const announcedButtonLabel = appendInlineDetails(label, el.details);
+      const buttonLabel = el.preserveSpaceBeforePunctuationName
+        ? normalizeTextPreservingSpaceBeforePunctuation(el.preserveSpaceBeforePunctuationName)
+        : label;
+      const announcedButtonLabel = appendInlineDetails(buttonLabel, el.details);
       const buttonDetailsAreInline = Boolean(normalizeText(el.details));
-      pushIfPresent(parts, announcedButtonLabel);
+      if (announcedButtonLabel) {
+        parts.push(announcedButtonLabel);
+      }
       const popupType = formatPopupType(el.hasPopup);
       const isToggleButton =
         el.roleDescription === "toggle button" || el.pressed !== undefined;
