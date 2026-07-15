@@ -1,0 +1,25 @@
+{
+  "phase": "C.5-minimal-reproduction-prep",
+  "runId": "29374294770",
+  "sourceTarget": "github-com",
+  "status": "prepared",
+  "repros": [
+    "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/homepage-dl-disclosure-c5.html",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/homepage-tabs-selected-group-c5.html",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/homepage-text-boundary-split-join-c5.html",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/homepage-generic-visual-group-c5.html",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/homepage-unnamed-image-c5.html"
+  ],
+  "families": [
+    "definition-list-disclosure-buttons-and-link-position",
+    "tab-selected-group-state",
+    "text-boundary-split-join",
+    "group-container-announcements",
+    "decorative-image-announcement"
+  ],
+  "guardrails": [
+    "Focused repros only; keep under voiceover-repros/github-com.",
+    "Use results only for reusable VoiceOver-backed behavior.",
+    "Do not promote to corpus without Phase E."
+  ]
+}

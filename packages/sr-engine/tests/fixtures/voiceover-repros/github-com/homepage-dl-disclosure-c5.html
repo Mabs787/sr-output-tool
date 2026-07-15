@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VoiceOver C.5 - homepage definition list disclosures</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; }
+    dl { max-width: 720px; }
+    dt { margin-top: 18px; }
+    button { width: 100%; text-align: left; padding: 12px; font: inherit; }
+    dd { margin: 8px 0 18px 24px; }
+    dd[hidden] { display: none; }
+    h3 { display: inline; margin: 0; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Definition list disclosure buttons</h1>
+    <dl>
+      <div>
+        <dt><button type="button" aria-expanded="true" aria-controls="answer-one"><h3>Automate everything</h3><svg aria-hidden="true" width="16" height="16"></svg></button></dt>
+        <dd id="answer-one"><p>Build, test, and deploy from one workflow.</p><a href="#one">Learn about automation</a></dd>
+      </div>
+      <div>
+        <dt><button type="button" aria-expanded="false" aria-controls="answer-two"><h3>Secure every step</h3><svg aria-hidden="true" width="16" height="16"></svg></button></dt>
+        <dd id="answer-two" hidden><p>Find and fix vulnerabilities earlier.</p><a href="#two">Learn about security</a></dd>
+      </div>
+      <div>
+        <dt><button type="button" aria-expanded="false" aria-controls="answer-three"><h3>Collaborate at scale</h3><svg aria-hidden="true" width="16" height="16"></svg></button></dt>
+        <dd id="answer-three" hidden><p>Plan and ship together from anywhere.</p><a href="#three">Learn about collaboration</a></dd>
+      </div>
+    </dl>
+  </main>
+</body>
+</html>
