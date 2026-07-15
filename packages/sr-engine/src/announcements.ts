@@ -355,9 +355,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "button": {
-      const announcedButtonLabel = appendInlineDetails(label, el.details);
+      const buttonLabel = el.preserveSpaceBeforePunctuationName
+        ? normalizeTextPreservingSpaceBeforePunctuation(el.preserveSpaceBeforePunctuationName)
+        : label;
+      const announcedButtonLabel = appendInlineDetails(buttonLabel, el.details);
       const buttonDetailsAreInline = Boolean(normalizeText(el.details));
-      pushIfPresent(parts, announcedButtonLabel);
+      if (announcedButtonLabel) {
+        parts.push(announcedButtonLabel);
+      }
       const popupType = formatPopupType(el.hasPopup);
       const isToggleButton =
         el.roleDescription === "toggle button" || el.pressed !== undefined;
@@ -725,7 +730,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         return "";
       }
       parts.push(listItemLabel);
-      if (!el.positionInSet || !el.setSize) {
+      if (!el.largePlainListItem && (!el.positionInSet || !el.setSize)) {
         parts.push("list item");
       }
       pushCollectionPosition(parts, el);
@@ -775,7 +780,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "list": {
       const listLabel = normalizeText(el.name);
       const listRole = el.roleDescription ?? "list";
-      const listSize = el.setSize
+      const listSize = el.largePlainList
+        ? undefined
+        : el.setSize
         ? `${el.setSize} ${el.setSize === 1 ? "item" : "items"}`
         : undefined;
       const listLevel = el.level && el.level > 1 ? `level ${el.level}` : undefined;
@@ -791,6 +798,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         (part): part is string => Boolean(part),
       );
       const supplementalParts: string[] = [];
+      if (el.largePlainList) {
+        supplementalParts.push("more than 100 items");
+      }
       if (listLevel && parentPosition) {
         supplementalParts.push(`${listLevel} ${parentPosition}`);
       } else {
@@ -940,14 +950,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
               parts.push(`${rowLabel} ${cellContext}`);
             } else if (el.nativeUnheadedFirstColumnContext && cellContext) {
               parts.push(`${rowLabel} ${cellContext}`);
+            } else if (cellContext) {
+              parts.push(`${rowLabel} ${cellContext}`);
             } else {
               parts.push(rowLabel);
-              pushIfPresent(parts, cellContext);
             }
           } else {
             pushIfPresent(
               parts,
-              [el.columnHeaderText, label].filter(Boolean).join(" "),
+              [el.columnHeaderText, label ?? "blank"].filter(Boolean).join(" "),
             );
           }
           parts.push(`column ${el.columnIndex} of ${el.columnCount}`);
@@ -1268,7 +1279,9 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "article") {
-    const name = descriptor?.contextEndName || descriptor?.name;
+    const name =
+      descriptor?.contextEndName ||
+      (descriptor?.inferredArticleName ? undefined : descriptor?.name);
     return name ? `end of, ${name}, article` : "end of, article";
   }
 

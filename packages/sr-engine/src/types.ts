@@ -14,6 +14,7 @@ export interface BoundingBox {
 export interface ElementDescriptor {
   role?: string;
   name?: string;
+  inferredArticleName?: boolean;
   contextEndName?: string;
   text?: string;
   description?: string;
@@ -87,6 +88,8 @@ export interface ElementDescriptor {
   groupedCollectionPosition?: boolean;
   parenthesizedCollectionPosition?: boolean;
   duplicateCollectionPosition?: boolean;
+  largePlainList?: boolean;
+  largePlainListItem?: boolean;
   emptyTerm?: boolean;
   unlabeledImage?: boolean;
   unlabeledImageSrcLabel?: string;
@@ -127,6 +130,7 @@ export interface ElementDescriptor {
   plainSpanOnlyBlockquote?: boolean;
   inlineCodeBreakTextFragments?: string[];
   footerInlineBoundaryTextFragments?: string[];
+  figureMockupHeaderText?: string;
   inlineTextLinkFragments?: string[];
   inlinePhrasingBoundaryFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];

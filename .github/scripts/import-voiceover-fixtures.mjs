@@ -221,7 +221,11 @@ function sanitizeAnnouncement(announcement) {
     .replace(/^I 6 days ago$/, "6 days ago")
     .replace(/^(?:AII|AlI) BBC destinations menu\b/, "All BBC destinations menu")
     .replace(/\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/g, "AI ")
+    .replace(/\bAl (?=(agents?|era|fundamentally|increases|is|native|powered|products?|workflows?)\b)/g, "AI ")
+    .replace(/\bAl(?=[-‑–]native\b)/g, "AI")
     .replace(/\bfor responsible Al\b/g, "for responsible AI")
+    .replace(/\bOpenAl\b/g, "OpenAI")
+    .replace(/\bllkka\b/g, "Ilkka")
     .replace(/\bAl Skills\b/g, "AI Skills")
     .replace(/\bAl and accessibility\b/g, "AI and accessibility")
     .replace(/\bAl skilling\b/g, "AI skilling")
@@ -303,7 +307,9 @@ function shouldTrustEvidenceName(rawName, evidenceName, options = {}) {
   const rawLooksSeverelyCorrupt =
     /[A-Z][a-z]*[0-9][A-Z0-9]*|E4iE|E\*#|Signiime|(?:\s|^)Al(?:\s|$)/.test(
       rawName,
-    ) || /\s+[A-Z®]$/.test(rawName);
+    ) ||
+    /\bAl(?:\s|[-‑–]|$)/.test(rawName) ||
+    /\s+[A-Z®]$/.test(rawName);
   if (
     evidenceName.length > Math.max(24, rawName.length * 1.4) &&
     !rawLooksSeverelyCorrupt
@@ -324,6 +330,14 @@ function comparablePunctuationText(value) {
     .replace(/[’‘]/g, "'")
     .replace(/[“”]/g, '"')
     .replace(/[|/]/g, " ")
+    .replace(/[•·]/g, " ")
+    .replace(/[↗л]/gi, "")
+    .replace(/\s*→/g, "→")
+    .replace(/\s*↗\s*/g, "↗")
+    .replace(/[×x]/g, "x")
+    .replace(/\bUl\b/g, "UI")
+    .replace(/Youtube/gi, "YouTube")
+    .replace(/\b([0-9]+),\s*([0-9]+)\s*of\s*([0-9]+)\b/g, "$1,$2of$3")
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
@@ -331,7 +345,7 @@ function comparablePunctuationText(value) {
 
 function hasOnlyTrustedPunctuationDifference(rawName, evidenceName) {
   if (!rawName || !evidenceName || rawName === evidenceName) return false;
-  if (!/[’‘“”|/]/.test(`${rawName}${evidenceName}`)) return false;
+  if (!/[’‘“”|/•·↗л→×]|\bUl\b|\bllkka\b/i.test(`${rawName}${evidenceName}`)) return false;
   return comparablePunctuationText(rawName) === comparablePunctuationText(evidenceName);
 }
 
@@ -444,7 +458,7 @@ function findSanitizationIssues(announcements) {
   ];
   const warningPatterns = [
     /^AII\b/,
-    /\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/,
+    /\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces|agents?|era|fundamentally|increases|is|native|powered|products?|workflows?)\b)/,
     /^I (?=(banner|heading level \d+|6 days ago)\b)/,
     /^Chrome, .+ Google Chrome, window,/,
     /^link, inside of web content,/,

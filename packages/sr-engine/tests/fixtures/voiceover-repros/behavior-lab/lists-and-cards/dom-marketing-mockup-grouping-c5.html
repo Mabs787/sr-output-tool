@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DOM marketing mockup grouping C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 820px; }
+      .mockup { border: 1px solid #777; border-radius: 16px; padding: 16px; background: #f7f7f4; }
+      .chrome { display: flex; gap: 16px; border-bottom: 1px solid #bbb; padding-bottom: 8px; margin-bottom: 16px; }
+      .panel { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .card { border: 1px solid #999; border-radius: 12px; padding: 12px; background: white; }
+      .badge { display: inline-block; border: 1px solid #999; border-radius: 999px; padding: 2px 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>DOM marketing mockup grouping</h1>
+      <p>This fixture isolates whether VoiceOver treats a visual app mockup built from ordinary DOM text as separate text stops, image-like groups, or flattened card text.</p>
+      <section class="mockup" aria-label="Product planning mockup">
+        <div class="chrome">
+          <span>UI Refresh</span>
+          <span>Overview</span>
+          <span>Updates</span>
+          <span>Customers</span>
+          <span>Issues</span>
+        </div>
+        <div class="panel">
+          <article class="card">
+            <h2>Close the gap between planning and building</h2>
+            <p>Consolidate project specs, documents, issues, customer feedback, and updates in one centralized location.</p>
+          </article>
+          <article class="card">
+            <h2>Milestones and dependencies</h2>
+            <p>Highlight key dates and map out critical paths between projects to streamline execution.</p>
+          </article>
+          <article class="card">
+            <span class="badge">Off Track</span>
+            <p>Launch postponed until legal issues are resolved.</p>
+            <time datetime="2026-07-20">Jul 20</time>
+          </article>
+          <article class="card">
+            <h2>Predict project outcomes</h2>
+            <p>Understand how your project is progressing and when it is likely to complete.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

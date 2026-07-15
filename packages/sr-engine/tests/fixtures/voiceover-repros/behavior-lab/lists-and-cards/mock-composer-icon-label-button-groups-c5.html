@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mock composer icon label button groups C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .mockup { border: 1px solid #777; border-radius: 16px; padding: 16px; }
+      .composer { border: 1px solid #aaa; border-radius: 12px; margin: 12px 0; padding: 10px; }
+      .prompt { display: flex; gap: 4px; margin-bottom: 8px; }
+      .actions { display: flex; align-items: center; justify-content: space-between; }
+      .cluster { display: flex; gap: 6px; }
+      button { align-items: center; background: white; border: 1px solid #999; border-radius: 8px; display: inline-flex; height: 32px; justify-content: center; width: 32px; }
+      svg { height: 14px; width: 14px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Mock composer icon label button groups</h1>
+      <p>This fixture isolates whether VoiceOver appends group to aria-label icon-only composer buttons inside a visual mockup.</p>
+      <section class="mockup" aria-label="Agent composer examples">
+        <div class="composer">
+          <div class="prompt"><span>@Linear</span><span>create new issue and delegate to Cursor</span></div>
+          <div class="actions">
+            <button type="button" aria-label="Attach"><svg></svg></button>
+            <div class="cluster">
+              <button type="button" aria-label="Format text"><svg></svg></button>
+              <button type="button" aria-label="Emoji"><svg></svg></button>
+              <button type="button" aria-label="Mention"><svg></svg></button>
+            </div>
+            <div class="cluster">
+              <button type="button" aria-label="Send"><svg></svg></button>
+              <button type="button" aria-label="More options"><svg></svg></button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
