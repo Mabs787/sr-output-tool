@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VoiceOver C.5 - GitHub alert global banner child traversal</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; }
+    .banner { align-items: center; border: 1px solid #d0d7de; border-radius: 8px; display: flex; gap: 12px; padding: 12px; }
+    .sep { border-left: 1px solid #d0d7de; height: 24px; }
+    .spacer { flex: 1; }
+    button { font: inherit; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Alert global banner child traversal</h1>
+    <div class="banner" role="alert" aria-label="Announcement">
+      <a href="#universe">GitHub Universe 2026</a>
+      <span class="sep" aria-hidden="true"></span>
+      <span>Find your people at GitHub Universe (and save $300 through Aug 19).</span>
+      <span class="sep" aria-hidden="true"></span>
+      <a href="#register">Register now</a>
+      <span class="spacer" aria-hidden="true"></span>
+      <button type="button" aria-label="Close">×</button>
+    </div>
+  </main>
+</body>
+</html>

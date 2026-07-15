@@ -1,0 +1,26 @@
+{
+  "phase": "C.5",
+  "target": "github-com-open-source-sponsors",
+  "sourceRunId": "29374294770",
+  "status": "prepared",
+  "reason": "Phase C classified 9 remaining mismatch windows after generic engine refinements. Three windows need focused VoiceOver-backed evidence before additional reusable engine logic is safe.",
+  "fixtures": [
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/alert-global-banner-child-traversal-c5.html",
+      "question": "Does VoiceOver traverse children inside a labelled role=alert global banner, and what boundary wording/order does it use?"
+    },
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/legal-hidden-consent-list-count-ordinal-c5.html",
+      "question": "Can a clipped hidden consent list item be omitted from spoken traversal while still affecting visible item ordinals, as seen in the live legal footer?"
+    },
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/shopify-blockquote-span-figcaption-split-c5.html",
+      "question": "Does VoiceOver announce a plain span-only blockquote as plain text or block quote, and does it split uppercase figcaption name/title into separate announcements?"
+    }
+  ],
+  "excludedFromEngineChangesUntilEvidence": [
+    "Do not add GitHub-specific alert traversal logic.",
+    "Do not encode fixture-specific legal footer ordinal behavior.",
+    "Do not change generic blockquote/figcaption behavior beyond VoiceOver-backed evidence."
+  ]
+}
