@@ -130,6 +130,7 @@ export interface ElementDescriptor {
   plainSpanOnlyBlockquote?: boolean;
   inlineCodeBreakTextFragments?: string[];
   footerInlineBoundaryTextFragments?: string[];
+  figureMockupHeaderText?: string;
   inlineTextLinkFragments?: string[];
   inlinePhrasingBoundaryFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];

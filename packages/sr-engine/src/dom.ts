@@ -11806,6 +11806,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "blockquote" && isPlainSpanOnlyBlockquote(el, role) ? true : undefined,
       inlineCodeBreakTextFragments: inlineCodeBreakTextFragments(el, role),
       footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
+      figureMockupHeaderText: figureMockupHeaderText(el, role),
       inlineTextLinkFragments:
         role === "paragraph"
           ? footerInlineBoundaryParagraphFragments(el) ||
@@ -12074,6 +12075,46 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return hasAxRole(el, role);
   }
 
+  function figureMockupHeaderItems(el: any): any[] {
+    const parent = el?.parentElement;
+    if (!parent || !parent.closest?.("figure")) return [];
+    if (parent.querySelector(interactiveSelector)) return [];
+
+    const children = Array.from(parent.children || []).filter(
+      (child: any) => !isHidden(child) && readableText(child),
+    );
+    if (children.length < 2 || children.length > 8) return [];
+    if (!children.every((child: any) => child.tagName?.toLowerCase() === "span")) {
+      return [];
+    }
+    if (!parent.closest("figure")?.querySelector("img, svg")) return [];
+    return children;
+  }
+
+  function figureMockupHeaderText(el: any, role = implicitRole(el)): string | undefined {
+    if (role !== "text") return undefined;
+    const items = figureMockupHeaderItems(el);
+    if (!items.length || items[0] !== el) return undefined;
+    return normalize(items.map((item: any) => readableText(item)).join(" "));
+  }
+
+  function isTrailingFigureMockupHeaderText(el: any, role = implicitRole(el)): boolean {
+    if (role !== "text") return false;
+    const items = figureMockupHeaderItems(el);
+    return Boolean(items.length && items[0] !== el && items.includes(el));
+  }
+
+  function isSimpleFigureMockupCaption(el: any, role = implicitRole(el)): boolean {
+    if (el?.tagName?.toLowerCase() !== "figcaption") return false;
+    if (hasVisibleInteractiveDescendant(el)) return false;
+    const children = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (children.length !== 2) return false;
+    return (
+      implicitRole(children[0]) === "heading" &&
+      implicitRole(children[1]) === "paragraph"
+    );
+  }
+
   function onlyNamedNativeButtonContent(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
     if (directOwnText(el)) return false;
@@ -12299,6 +12340,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "row" && isInsideExpandedAutocompletePopupGrid(el)) {
+      return false;
+    }
+
+    if (isTrailingFigureMockupHeaderText(el, role)) {
+      return false;
+    }
+
+    if (isSimpleFigureMockupCaption(el, role)) {
       return false;
     }
 
@@ -13144,6 +13193,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitFigureMockupHeaderTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    return descriptor.figureMockupHeaderText
+      ? [descriptor.figureMockupHeaderText]
+      : undefined;
+  }
+
   function splitInlineTextLinkAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -13496,6 +13553,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-footer-inline-boundary-text",
           announcements: splitFooterInlineBoundaryTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-figure-mockup-header-text",
+          announcements: splitFigureMockupHeaderTextAnnouncements(descriptor),
         },
         {
           source: "split-inline-phrasing-boundary",
