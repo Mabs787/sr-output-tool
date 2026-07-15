@@ -221,6 +221,8 @@ function sanitizeAnnouncement(announcement) {
     .replace(/^I 6 days ago$/, "6 days ago")
     .replace(/^(?:AII|AlI) BBC destinations menu\b/, "All BBC destinations menu")
     .replace(/\bAl (?=(and the web|skills?|capabilities|meets accessibility|solutions|web interfaces)\b)/g, "AI ")
+    .replace(/\bAl (?=(agents?|era|fundamentally|native|powered|products?|workflows?)\b)/g, "AI ")
+    .replace(/\bAl(?=[-‑–]native\b)/g, "AI")
     .replace(/\bfor responsible Al\b/g, "for responsible AI")
     .replace(/\bAl Skills\b/g, "AI Skills")
     .replace(/\bAl and accessibility\b/g, "AI and accessibility")
@@ -303,7 +305,9 @@ function shouldTrustEvidenceName(rawName, evidenceName, options = {}) {
   const rawLooksSeverelyCorrupt =
     /[A-Z][a-z]*[0-9][A-Z0-9]*|E4iE|E\*#|Signiime|(?:\s|^)Al(?:\s|$)/.test(
       rawName,
-    ) || /\s+[A-Z®]$/.test(rawName);
+    ) ||
+    /\bAl(?:\s|[-‑–]|$)/.test(rawName) ||
+    /\s+[A-Z®]$/.test(rawName);
   if (
     evidenceName.length > Math.max(24, rawName.length * 1.4) &&
     !rawLooksSeverelyCorrupt
@@ -324,6 +328,11 @@ function comparablePunctuationText(value) {
     .replace(/[’‘]/g, "'")
     .replace(/[“”]/g, '"')
     .replace(/[|/]/g, " ")
+    .replace(/[•·]/g, " ")
+    .replace(/[↗л]/gi, "")
+    .replace(/\s*→/g, "→")
+    .replace(/Youtube/gi, "YouTube")
+    .replace(/\b([0-9]+),\s*([0-9]+)\s*of\s*([0-9]+)\b/g, "$1,$2of$3")
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
@@ -331,7 +340,7 @@ function comparablePunctuationText(value) {
 
 function hasOnlyTrustedPunctuationDifference(rawName, evidenceName) {
   if (!rawName || !evidenceName || rawName === evidenceName) return false;
-  if (!/[’‘“”|/]/.test(`${rawName}${evidenceName}`)) return false;
+  if (!/[’‘“”|/•·↗л→]/i.test(`${rawName}${evidenceName}`)) return false;
   return comparablePunctuationText(rawName) === comparablePunctuationText(evidenceName);
 }
 

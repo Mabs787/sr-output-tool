@@ -10,6 +10,9 @@ Scan these before changing engine logic:
 - `linked-card-listitem-position.html`
 - `article-card-heading-boundary.html`
 - `mixed-inline-listitem-links.html`
+- `plain-large-static-list-position-c5.html`
+- `dom-marketing-mockup-grouping-c5.html`
+- `mock-toolbar-button-group-suffixes-c5.html`
 
 `linked-card-listitem-position.html` and
 `article-card-heading-boundary.html` were accepted from run `29210975599` after
@@ -22,3 +25,5 @@ evidence before changing marker logic.
 
 Keep engine changes generic and VoiceOver-backed. Do not encode site names,
 class names, product copy, or one-off card layouts.
+
+Linear run `29429919047` added draft C.5 fixtures for large plain-list position verbosity, DOM-built marketing mockup grouping, and mock toolbar button group suffixes. Keep them draft until scan evidence is reviewed.

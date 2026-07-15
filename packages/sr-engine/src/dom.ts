@@ -10309,7 +10309,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         return ["columnheader", "rowheader"].includes(childRole);
       },
     );
-    const columnHeader = columnIndex >= 0 ? headerCells[columnIndex] : null;
+    const columnHeaderOffset =
+      columnCount && headerCells.length === columnCount - 1 ? 1 : 0;
+    const columnHeader =
+      columnIndex >= columnHeaderOffset
+        ? headerCells[columnIndex - columnHeaderOffset]
+        : null;
     const tableHasComplexColumnHeaders = headerCells.some((header: any) =>
       isComplexColumnHeaderContext(header),
     );
@@ -11786,6 +11791,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
       suppressContextEnd:
         (role === "banner" && isEmptyContextStop(el, role)) ||
+        (role === "region" && isEmptyNamedRegionStop(el, role)) ||
         role === "tooltip" ||
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
         shouldSuppressSingletonDocumentArticleEnd(el, role) ||
@@ -12024,6 +12030,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return hasAxRole(el, role);
   }
 
+  function isEmptyNamedRegionStop(el: any, role = implicitRole(el)): boolean {
+    if (role !== "region") return false;
+    if (!accessibleName(el, role)) return false;
+    if (readableText(el) || hasVisibleInteractiveDescendant(el)) return false;
+    if (!accessibilityNodes.length) return true;
+    return hasAxRole(el, role);
+  }
+
   function onlyNamedNativeButtonContent(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
     if (directOwnText(el)) return false;
@@ -12174,7 +12188,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
-    if (role === "row" && el.closest("table")) {
+    if (role === "row" && el.closest("table,[role='table'],[role='grid']")) {
       return false;
     }
 

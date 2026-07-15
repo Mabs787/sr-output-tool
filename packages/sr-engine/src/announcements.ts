@@ -940,14 +940,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
               parts.push(`${rowLabel} ${cellContext}`);
             } else if (el.nativeUnheadedFirstColumnContext && cellContext) {
               parts.push(`${rowLabel} ${cellContext}`);
+            } else if (cellContext) {
+              parts.push(`${rowLabel} ${cellContext}`);
             } else {
               parts.push(rowLabel);
-              pushIfPresent(parts, cellContext);
             }
           } else {
             pushIfPresent(
               parts,
-              [el.columnHeaderText, label].filter(Boolean).join(" "),
+              [el.columnHeaderText, label ?? "blank"].filter(Boolean).join(" "),
             );
           }
           parts.push(`column ${el.columnIndex} of ${el.columnCount}`);

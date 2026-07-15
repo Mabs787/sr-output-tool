@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mock toolbar button group suffixes C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      .composer { border: 1px solid #777; border-radius: 12px; padding: 12px; }
+      .toolbar { display: flex; gap: 8px; margin-top: 12px; }
+      button { border: 1px solid #777; border-radius: 8px; background: white; padding: 6px 10px; }
+      .icon { display: inline-block; width: 1em; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Mock toolbar button group suffixes</h1>
+      <p>This fixture isolates when VoiceOver appends group to icon/text buttons inside a simulated product toolbar.</p>
+      <section class="composer" aria-label="Message composer">
+        <p><strong>@Linear</strong> create new issue and delegate to Copilot</p>
+        <div class="toolbar" role="toolbar" aria-label="Composer actions">
+          <button type="button"><span class="icon" aria-hidden="true">+</span>Attach</button>
+          <button type="button"><span class="icon" aria-hidden="true">T</span>Format text</button>
+          <button type="button"><span class="icon" aria-hidden="true">:</span>Emoji</button>
+          <button type="button"><span class="icon" aria-hidden="true">@</span>Mention</button>
+          <button type="button"><span class="icon" aria-hidden="true">></span>Send</button>
+          <button type="button"><span class="icon" aria-hidden="true">...</span>More options</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
