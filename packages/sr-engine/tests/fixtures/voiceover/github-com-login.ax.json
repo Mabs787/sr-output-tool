@@ -1,0 +1,1804 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 136,
+  "ignoredNodeCount": 36,
+  "axMappedNodeCount": 78,
+  "domSnapshotMappedNodeCount": 226,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "49",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Sign in to GitHub · GitHub",
+      "backendDOMNodeId": 49,
+      "childIds": [
+        "51"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://github.com/login"
+      }
+    },
+    {
+      "nodeId": "51",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 51,
+      "childIds": [
+        "222"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "222",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 222,
+      "childIds": [
+        "223",
+        "332",
+        "333",
+        "334"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "223",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 223,
+      "domNodeId": "1",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
+      "tagName": "div",
+      "childIds": [
+        "224",
+        "225",
+        "250",
+        "251",
+        "305",
+        "320"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "224",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 224,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "225",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 225,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "div",
+      "childIds": [
+        "226",
+        "227",
+        "231",
+        "234",
+        "247"
+      ]
+    },
+    {
+      "nodeId": "250",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 250,
+      "domNodeId": "27",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"27\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "251",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 251,
+      "domNodeId": "28",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"28\"]",
+      "tagName": "div",
+      "childIds": [
+        "252"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "252",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 252,
+      "domNodeId": "29",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"29\"]",
+      "tagName": "main",
+      "childIds": [
+        "253"
+      ]
+    },
+    {
+      "nodeId": "305",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "",
+      "backendDOMNodeId": 305,
+      "domNodeId": "196",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"196\"]",
+      "tagName": "div",
+      "childIds": [
+        "306"
+      ]
+    },
+    {
+      "nodeId": "320",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 320,
+      "domNodeId": "212",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"212\"]",
+      "tagName": "ghcc-consent"
+    },
+    {
+      "nodeId": "332",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 332,
+      "domNodeId": "224",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"224\"]",
+      "tagName": "div",
+      "properties": {
+        "live": "polite",
+        "atomic": true,
+        "relevant": "additions text"
+      }
+    },
+    {
+      "nodeId": "333",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 333,
+      "domNodeId": "225",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"225\"]",
+      "tagName": "div",
+      "properties": {
+        "live": "assertive",
+        "atomic": true,
+        "relevant": "additions text"
+      }
+    },
+    {
+      "nodeId": "334",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 334,
+      "domNodeId": "226",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
+      "tagName": "microsoft-analytics",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "226",
+      "ignored": false,
+      "role": "link",
+      "name": "Skip to content",
+      "backendDOMNodeId": 226,
+      "domNodeId": "4",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
+      "tagName": "a",
+      "childIds": [
+        "11"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/login#main-content"
+      }
+    },
+    {
+      "nodeId": "227",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 227,
+      "domNodeId": "5",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
+      "tagName": "span",
+      "childIds": [
+        "228"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "228",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 228,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "231",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 231,
+      "domNodeId": "9",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"9\"]",
+      "tagName": "react-partial",
+      "childIds": [
+        "233"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "233",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 233,
+      "domNodeId": "11",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "234",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 234,
+      "domNodeId": "13",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"13\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "247",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 247,
+      "domNodeId": "26",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"26\"]",
+      "tagName": "tool-tip",
+      "childIds": [
+        "249"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "249",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 249,
+      "childIds": [
+        "344"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "344",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 344,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "253",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 253,
+      "domNodeId": "30",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"30\"]",
+      "tagName": "div",
+      "childIds": [
+        "254",
+        "267",
+        "296"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "254",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 254,
+      "domNodeId": "31",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"31\"]",
+      "tagName": "div",
+      "childIds": [
+        "257"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "257",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 257,
+      "domNodeId": "34",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"34\"]",
+      "tagName": "react-partial",
+      "childIds": [
+        "259"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "259",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 259,
+      "domNodeId": "36",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"36\"]",
+      "tagName": "div",
+      "childIds": [
+        "260"
+      ]
+    },
+    {
+      "nodeId": "267",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 267,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "div",
+      "childIds": [
+        "268",
+        "9",
+        "283"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "268",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 268,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "9",
+      "ignored": false,
+      "role": "form",
+      "name": "",
+      "backendDOMNodeId": 9,
+      "domNodeId": "51",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"51\"]",
+      "tagName": "form",
+      "childIds": [
+        "274",
+        "277",
+        "282"
+      ]
+    },
+    {
+      "nodeId": "283",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 283,
+      "domNodeId": "74",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"74\"]",
+      "tagName": "webauthn-status",
+      "childIds": [
+        "369",
+        "382",
+        "448",
+        "452",
+        "469"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "369",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 369,
+      "domNodeId": "75",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"75\"]",
+      "tagName": "div",
+      "childIds": [
+        "370"
+      ]
+    },
+    {
+      "nodeId": "382",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 382,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "448",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 448,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "452",
+      "ignored": false,
+      "role": "form",
+      "name": "",
+      "backendDOMNodeId": 452,
+      "domNodeId": "156",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"156\"]",
+      "tagName": "form",
+      "childIds": [
+        "455"
+      ]
+    },
+    {
+      "nodeId": "469",
+      "ignored": false,
+      "role": "form",
+      "name": "",
+      "backendDOMNodeId": 469,
+      "domNodeId": "173",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"173\"]",
+      "tagName": "form",
+      "childIds": [
+        "472"
+      ]
+    },
+    {
+      "nodeId": "296",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 296,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "div",
+      "childIds": [
+        "297",
+        "300"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "297",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 297,
+      "domNodeId": "188",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"188\"]",
+      "tagName": "div",
+      "childIds": [
+        "298"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "298",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 298,
+      "domNodeId": "189",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"189\"]",
+      "tagName": "p",
+      "childIds": [
+        "17",
+        "299"
+      ]
+    },
+    {
+      "nodeId": "300",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 300,
+      "domNodeId": "191",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
+      "tagName": "webauthn-subtle",
+      "childIds": [
+        "301"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "301",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 301,
+      "domNodeId": "192",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"192\"]",
+      "tagName": "p",
+      "childIds": [
+        "302"
+      ]
+    },
+    {
+      "nodeId": "306",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 306,
+      "domNodeId": "197",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"197\"]",
+      "tagName": "ul",
+      "childIds": [
+        "307",
+        "308",
+        "310",
+        "312",
+        "314",
+        "317"
+      ]
+    },
+    {
+      "nodeId": "11",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Skip to content",
+      "backendDOMNodeId": 11,
+      "childIds": [
+        "-1000000220",
+        "-1000000221",
+        "-1000000222",
+        "-1000000223",
+        "-1000000224",
+        "-1000000225",
+        "-1000000226",
+        "-1000000227",
+        "-1000000228",
+        "-1000000229",
+        "-1000000230",
+        "-1000000231",
+        "-1000000232"
+      ]
+    },
+    {
+      "nodeId": "260",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 260,
+      "domNodeId": "37",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"37\"]",
+      "tagName": "div",
+      "childIds": [
+        "261",
+        "265"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "261",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 261,
+      "domNodeId": "38",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"38\"]",
+      "tagName": "div",
+      "childIds": [
+        "262"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "262",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 262,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "265",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 265,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "div",
+      "childIds": [
+        "266"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "266",
+      "ignored": false,
+      "role": "heading",
+      "name": "Sign in to GitHub",
+      "backendDOMNodeId": 266,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "h1",
+      "childIds": [
+        "12"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "274",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 274,
+      "domNodeId": "53",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"53\"]",
+      "tagName": "div",
+      "childIds": [
+        "275",
+        "10"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "275",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 275,
+      "domNodeId": "55",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"55\"]",
+      "tagName": "label",
+      "childIds": [
+        "13"
+      ]
+    },
+    {
+      "nodeId": "10",
+      "ignored": false,
+      "role": "textbox",
+      "name": "Username or email address",
+      "backendDOMNodeId": 10,
+      "domNodeId": "56",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"56\"]",
+      "tagName": "input",
+      "childIds": [
+        "276"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": true
+      }
+    },
+    {
+      "nodeId": "277",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 277,
+      "domNodeId": "57",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"57\"]",
+      "tagName": "div",
+      "childIds": [
+        "278",
+        "25",
+        "280",
+        "281"
+      ]
+    },
+    {
+      "nodeId": "282",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 282,
+      "domNodeId": "72",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"72\"]",
+      "tagName": "div",
+      "childIds": [
+        "39"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "39",
+      "ignored": false,
+      "role": "button",
+      "name": "Sign in",
+      "backendDOMNodeId": 39,
+      "domNodeId": "73",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"73\"]",
+      "tagName": "input",
+      "childIds": [
+        "16"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "370",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 370,
+      "domNodeId": "76",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"76\"]",
+      "tagName": "span",
+      "childIds": [
+        "503"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "503",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "or",
+      "backendDOMNodeId": 503,
+      "childIds": [
+        "-1000000214"
+      ]
+    },
+    {
+      "nodeId": "455",
+      "ignored": false,
+      "role": "button",
+      "name": "Continue with Google",
+      "backendDOMNodeId": 455,
+      "domNodeId": "159",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"159\"]",
+      "tagName": "button",
+      "childIds": [
+        "456"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "472",
+      "ignored": false,
+      "role": "button",
+      "name": "Continue with Apple",
+      "backendDOMNodeId": 472,
+      "domNodeId": "176",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"176\"]",
+      "tagName": "button",
+      "childIds": [
+        "473"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "17",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "New to GitHub? ",
+      "backendDOMNodeId": 17,
+      "childIds": [
+        "-1000000233"
+      ]
+    },
+    {
+      "nodeId": "299",
+      "ignored": false,
+      "role": "link",
+      "name": "Create an account",
+      "backendDOMNodeId": 299,
+      "domNodeId": "190",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
+      "tagName": "a",
+      "childIds": [
+        "18"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/signup?source=login"
+      }
+    },
+    {
+      "nodeId": "302",
+      "ignored": false,
+      "role": "button",
+      "name": "Sign in with a passkey",
+      "backendDOMNodeId": 302,
+      "domNodeId": "193",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"193\"]",
+      "tagName": "button",
+      "childIds": [
+        "303"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "307",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 307,
+      "domNodeId": "198",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"198\"]",
+      "tagName": "li",
+      "childIds": [
+        "50"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "308",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 308,
+      "domNodeId": "200",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"200\"]",
+      "tagName": "li",
+      "childIds": [
+        "309"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "310",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 310,
+      "domNodeId": "202",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"202\"]",
+      "tagName": "li",
+      "childIds": [
+        "311"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "312",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 312,
+      "domNodeId": "204",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"204\"]",
+      "tagName": "li",
+      "childIds": [
+        "313"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "314",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 314,
+      "domNodeId": "206",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"206\"]",
+      "tagName": "li",
+      "childIds": [
+        "315"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "317",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 317,
+      "domNodeId": "209",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"209\"]",
+      "tagName": "li",
+      "childIds": [
+        "318"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "-1000000220",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "S"
+    },
+    {
+      "nodeId": "-1000000221",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "k"
+    },
+    {
+      "nodeId": "-1000000222",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "i"
+    },
+    {
+      "nodeId": "-1000000223",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "p "
+    },
+    {
+      "nodeId": "-1000000224",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "t"
+    },
+    {
+      "nodeId": "-1000000225",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "o "
+    },
+    {
+      "nodeId": "-1000000226",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "c"
+    },
+    {
+      "nodeId": "-1000000227",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "o"
+    },
+    {
+      "nodeId": "-1000000228",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "n"
+    },
+    {
+      "nodeId": "-1000000229",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "t"
+    },
+    {
+      "nodeId": "-1000000230",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "e"
+    },
+    {
+      "nodeId": "-1000000231",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "n"
+    },
+    {
+      "nodeId": "-1000000232",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "t"
+    },
+    {
+      "nodeId": "12",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign in to GitHub",
+      "backendDOMNodeId": 12,
+      "childIds": [
+        "-1000000197"
+      ]
+    },
+    {
+      "nodeId": "13",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Username or email address",
+      "backendDOMNodeId": 13,
+      "childIds": [
+        "-1000000198"
+      ]
+    },
+    {
+      "nodeId": "276",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 276,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "278",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 278,
+      "domNodeId": "58",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"58\"]",
+      "tagName": "label",
+      "childIds": [
+        "14"
+      ]
+    },
+    {
+      "nodeId": "25",
+      "ignored": false,
+      "role": "textbox",
+      "name": "Password",
+      "backendDOMNodeId": 25,
+      "domNodeId": "59",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"59\"]",
+      "tagName": "input",
+      "childIds": [
+        "279"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": true
+      }
+    },
+    {
+      "nodeId": "280",
+      "ignored": false,
+      "role": "link",
+      "name": "Forgot password?",
+      "backendDOMNodeId": 280,
+      "domNodeId": "60",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"60\"]",
+      "tagName": "a",
+      "childIds": [
+        "15"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://github.com/password_reset"
+      }
+    },
+    {
+      "nodeId": "281",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 281,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "16",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign in",
+      "backendDOMNodeId": 16,
+      "childIds": [
+        "-1000000201"
+      ]
+    },
+    {
+      "nodeId": "-1000000214",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "or"
+    },
+    {
+      "nodeId": "456",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 456,
+      "domNodeId": "160",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"160\"]",
+      "tagName": "span",
+      "childIds": [
+        "457",
+        "468"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "457",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 457,
+      "domNodeId": "161",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"161\"]",
+      "tagName": "span",
+      "childIds": [
+        "458"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "458",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 458,
+      "domNodeId": "162",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"162\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "468",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 468,
+      "domNodeId": "172",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"172\"]",
+      "tagName": "span",
+      "childIds": [
+        "504"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "504",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Continue with Google",
+      "backendDOMNodeId": 504,
+      "childIds": [
+        "-1000000203"
+      ]
+    },
+    {
+      "nodeId": "473",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 473,
+      "domNodeId": "177",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"177\"]",
+      "tagName": "span",
+      "childIds": [
+        "474",
+        "482"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "474",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 474,
+      "domNodeId": "178",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"178\"]",
+      "tagName": "span",
+      "childIds": [
+        "475"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "475",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 475,
+      "domNodeId": "179",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"179\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "482",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 482,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "span",
+      "childIds": [
+        "505"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "505",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Continue with Apple",
+      "backendDOMNodeId": 505,
+      "childIds": [
+        "-1000000204"
+      ]
+    },
+    {
+      "nodeId": "-1000000233",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "New to GitHub? "
+    },
+    {
+      "nodeId": "18",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Create an account",
+      "backendDOMNodeId": 18,
+      "childIds": [
+        "-1000000234"
+      ]
+    },
+    {
+      "nodeId": "303",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 303,
+      "domNodeId": "194",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"194\"]",
+      "tagName": "span",
+      "childIds": [
+        "304"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "304",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 304,
+      "domNodeId": "195",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
+      "tagName": "span",
+      "childIds": [
+        "349"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "349",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign in with a passkey",
+      "backendDOMNodeId": 349,
+      "childIds": [
+        "-1000000207"
+      ]
+    },
+    {
+      "nodeId": "50",
+      "ignored": false,
+      "role": "link",
+      "name": "Terms",
+      "backendDOMNodeId": 50,
+      "domNodeId": "199",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"199\"]",
+      "tagName": "a",
+      "childIds": [
+        "19"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://docs.github.com/site-policy/github-terms/github-terms-of-service"
+      }
+    },
+    {
+      "nodeId": "309",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy",
+      "backendDOMNodeId": 309,
+      "domNodeId": "201",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"201\"]",
+      "tagName": "a",
+      "childIds": [
+        "20"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://docs.github.com/site-policy/privacy-policies/github-privacy-statement"
+      }
+    },
+    {
+      "nodeId": "311",
+      "ignored": false,
+      "role": "link",
+      "name": "Docs",
+      "backendDOMNodeId": 311,
+      "domNodeId": "203",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"203\"]",
+      "tagName": "a",
+      "childIds": [
+        "21"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://docs.github.com/"
+      }
+    },
+    {
+      "nodeId": "313",
+      "ignored": false,
+      "role": "link",
+      "name": "Contact GitHub Support",
+      "backendDOMNodeId": 313,
+      "domNodeId": "205",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"205\"]",
+      "tagName": "a",
+      "childIds": [
+        "22"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://support.github.com/"
+      }
+    },
+    {
+      "nodeId": "315",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 315,
+      "domNodeId": "207",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"207\"]",
+      "tagName": "cookie-consent-link",
+      "childIds": [
+        "316"
+      ]
+    },
+    {
+      "nodeId": "318",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 318,
+      "domNodeId": "210",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"210\"]",
+      "tagName": "cookie-consent-link",
+      "childIds": [
+        "319"
+      ]
+    },
+    {
+      "nodeId": "-1000000197",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign in to GitHub"
+    },
+    {
+      "nodeId": "-1000000198",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Username or email address"
+    },
+    {
+      "nodeId": "14",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Password",
+      "backendDOMNodeId": 14,
+      "childIds": [
+        "-1000000199"
+      ]
+    },
+    {
+      "nodeId": "279",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 279,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "15",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Forgot password?",
+      "backendDOMNodeId": 15,
+      "childIds": [
+        "-1000000200"
+      ]
+    },
+    {
+      "nodeId": "-1000000201",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign in"
+    },
+    {
+      "nodeId": "-1000000203",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Continue with Google"
+    },
+    {
+      "nodeId": "-1000000204",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Continue with Apple"
+    },
+    {
+      "nodeId": "-1000000234",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Create an account"
+    },
+    {
+      "nodeId": "-1000000207",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign in with a passkey"
+    },
+    {
+      "nodeId": "19",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Terms",
+      "backendDOMNodeId": 19,
+      "childIds": [
+        "-1000000235"
+      ]
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy",
+      "backendDOMNodeId": 20,
+      "childIds": [
+        "-1000000236"
+      ]
+    },
+    {
+      "nodeId": "21",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Docs",
+      "backendDOMNodeId": 21,
+      "childIds": [
+        "-1000000237"
+      ]
+    },
+    {
+      "nodeId": "22",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact GitHub Support",
+      "backendDOMNodeId": 22,
+      "childIds": [
+        "-1000000238"
+      ]
+    },
+    {
+      "nodeId": "316",
+      "ignored": false,
+      "role": "button",
+      "name": "Manage cookies",
+      "backendDOMNodeId": 316,
+      "domNodeId": "208",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"208\"]",
+      "tagName": "button",
+      "childIds": [
+        "23"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "319",
+      "ignored": false,
+      "role": "button",
+      "name": "Do not share my personal information",
+      "backendDOMNodeId": 319,
+      "domNodeId": "211",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"211\"]",
+      "tagName": "button",
+      "childIds": [
+        "24"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "-1000000199",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Password"
+    },
+    {
+      "nodeId": "-1000000200",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Forgot password?"
+    },
+    {
+      "nodeId": "-1000000235",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Terms"
+    },
+    {
+      "nodeId": "-1000000236",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy"
+    },
+    {
+      "nodeId": "-1000000237",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Docs"
+    },
+    {
+      "nodeId": "-1000000238",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact GitHub Support"
+    },
+    {
+      "nodeId": "23",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Manage cookies",
+      "backendDOMNodeId": 23,
+      "childIds": [
+        "-1000000212"
+      ]
+    },
+    {
+      "nodeId": "24",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Do not share my personal information",
+      "backendDOMNodeId": 24,
+      "childIds": [
+        "-1000000213"
+      ]
+    },
+    {
+      "nodeId": "-1000000212",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Manage cookies"
+    },
+    {
+      "nodeId": "-1000000213",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Do not share my personal information"
+    }
+  ]
+}

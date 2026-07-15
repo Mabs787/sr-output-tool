@@ -435,6 +435,69 @@
       "stepSnapshots": "www-royalmail-com-find-a-postcode.step-snapshots.json",
       "voiceOverAnnouncementCount": 100,
       "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "github-com-login",
+      "expected": "github-com-login.expected.json",
+      "html": "github-com-login.html",
+      "accessibilityTree": "github-com-login.ax.json",
+      "stepSnapshots": "github-com-login.step-snapshots.json",
+      "voiceOverAnnouncementCount": 26,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "github-com-features-actions",
+      "expected": "github-com-features-actions.expected.json",
+      "html": "github-com-features-actions.html",
+      "accessibilityTree": "github-com-features-actions.ax.json",
+      "stepSnapshots": "github-com-features-actions.step-snapshots.json",
+      "voiceOverAnnouncementCount": 170,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "github-com",
+      "expected": "github-com.expected.json",
+      "html": "github-com.html",
+      "accessibilityTree": "github-com.ax.json",
+      "stepSnapshots": "github-com.step-snapshots.json",
+      "voiceOverAnnouncementCount": 247,
+      "sanitizationStatus": "needs-manual-refinement"
+    },
+    {
+      "name": "github-com-open-source-sponsors",
+      "expected": "github-com-open-source-sponsors.expected.json",
+      "html": "github-com-open-source-sponsors.html",
+      "accessibilityTree": "github-com-open-source-sponsors.ax.json",
+      "stepSnapshots": "github-com-open-source-sponsors.step-snapshots.json",
+      "voiceOverAnnouncementCount": 179,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "github-com-features-codespaces",
+      "expected": "github-com-features-codespaces.expected.json",
+      "html": "github-com-features-codespaces.html",
+      "accessibilityTree": "github-com-features-codespaces.ax.json",
+      "stepSnapshots": "github-com-features-codespaces.step-snapshots.json",
+      "voiceOverAnnouncementCount": 176,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "github-com-mcp",
+      "expected": "github-com-mcp.expected.json",
+      "html": "github-com-mcp.html",
+      "accessibilityTree": "github-com-mcp.ax.json",
+      "stepSnapshots": "github-com-mcp.step-snapshots.json",
+      "voiceOverAnnouncementCount": 239,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "github-com-resources-articles",
+      "expected": "github-com-resources-articles.expected.json",
+      "html": "github-com-resources-articles.html",
+      "accessibilityTree": "github-com-resources-articles.ax.json",
+      "stepSnapshots": "github-com-resources-articles.step-snapshots.json",
+      "voiceOverAnnouncementCount": 163,
+      "sanitizationStatus": "needs-manual-refinement"
     }
   ],
   "skipped": [],
