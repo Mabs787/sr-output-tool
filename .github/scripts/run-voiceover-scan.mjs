@@ -66,6 +66,10 @@ const postNavigationSettleSeconds = parseNonNegativeInteger(
   process.env.VOICEOVER_POST_NAVIGATION_SETTLE_SECONDS,
   0,
 );
+const systemDialogSweepInterval = parseNonNegativeInteger(
+  process.env.VOICEOVER_SYSTEM_DIALOG_SWEEP_INTERVAL,
+  50,
+);
 
 function parsePositiveInteger(value, fallback) {
   const parsed = Number.parseInt(String(value || ""), 10);
@@ -1873,6 +1877,29 @@ tell application "System Events"
 end tell
 return logText
 `, 10000);
+}
+
+function dismissPerStepSystemDialogs(stepIndex) {
+  const voiceOverAutomationPermission =
+    dismissVoiceOverAutomationPermissionDialog();
+  const shouldSweepSystemDialogs =
+    systemDialogSweepInterval > 0 &&
+    (stepIndex === 0 || stepIndex % systemDialogSweepInterval === 0);
+
+  return {
+    strategy: shouldSweepSystemDialogs
+      ? "voiceover-automation-permission-plus-periodic-system-dialog-sweep"
+      : "voiceover-automation-permission-only",
+    systemDialogSweepInterval,
+    voiceOverAutomationPermission,
+    systemDialogs: shouldSweepSystemDialogs
+      ? dismissSystemDialogs()
+      : {
+          skipped: true,
+          reason:
+            "Broad system-dialog sweep is skipped on most scan steps to avoid per-step osascript timeouts; VoiceOver permission prompts are still handled every step.",
+        },
+  };
 }
 
 function navigateRight() {
@@ -3944,6 +3971,7 @@ function writeVoiceOverProgressFiles({
       maxSteps: summary.maxSteps,
       maxStepSeconds: summary.maxStepSeconds,
       navigationMode: summary.navigationMode,
+      systemDialogSweepInterval: summary.systemDialogSweepInterval,
       startedAt: summary.startedAt,
       updatedAt: new Date().toISOString(),
       finishedAt: "",
@@ -4008,6 +4036,7 @@ function createScanDebugSummary({
       maxSteps: summary.maxSteps,
       maxStepSeconds: summary.maxStepSeconds,
       navigationMode: summary.navigationMode,
+      systemDialogSweepInterval: summary.systemDialogSweepInterval,
       startedAt: summary.startedAt,
       finishedAt: summary.finishedAt,
     },
@@ -4133,6 +4162,7 @@ async function scanTarget(target, index) {
     maxSteps: maxScanSteps,
     maxStepSeconds,
     navigationMode,
+    systemDialogSweepInterval,
     startedAt: new Date().toISOString(),
   };
 
@@ -4191,7 +4221,7 @@ async function scanTarget(target, index) {
 
   const initialStepStartedAt = Date.now();
   const initialCaptionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, 0);
-  const initialDismissSystem = dismissSystemDialogs();
+  const initialDismissSystem = dismissPerStepSystemDialogs(0);
   const initialVoiceOverCapture = captureVoiceOverStateWithRecovery(
     targetOutputDir,
     0,
@@ -4263,7 +4293,8 @@ async function scanTarget(target, index) {
     const navigation = navigateRight();
     const stepNumber = index + 1;
     const captionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, stepNumber);
-    const dismissSystemAfterNavigation = dismissSystemDialogs();
+    const dismissSystemAfterNavigation =
+      dismissPerStepSystemDialogs(stepNumber);
     const voiceOverCapture = captureVoiceOverStateWithRecovery(
       targetOutputDir,
       stepNumber,
