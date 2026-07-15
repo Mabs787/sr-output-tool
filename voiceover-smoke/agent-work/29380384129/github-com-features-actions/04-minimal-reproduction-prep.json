@@ -1,0 +1,17 @@
+{
+  "phase": "C.5",
+  "target": "github-com-features-actions",
+  "sourceRunId": "29380384129",
+  "status": "prepared",
+  "reason": "Phase C classified the testimonial figcaption child decomposition window as needing focused VoiceOver evidence before any reusable engine change is safe.",
+  "fixtures": [
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/actions-testimonial-figcaption-decomposition-c5.html",
+      "question": "Does VoiceOver split a blockquote figure's uppercase figcaption name and title into separate announcements, and does the blockquote text include block quote suffix wording?"
+    }
+  ],
+  "excludedFromEngineChangesUntilEvidence": [
+    "Do not change generic testimonial figcaption decomposition from live-site evidence alone.",
+    "Do not add GitHub-specific figure or testimonial selectors."
+  ]
+}

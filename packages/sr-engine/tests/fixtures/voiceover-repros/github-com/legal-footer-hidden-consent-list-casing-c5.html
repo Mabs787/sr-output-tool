@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GitHub legal footer hidden consent list casing C5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      footer {
+        border-top: 1px solid #d0d7de;
+        padding-top: 24px;
+      }
+
+      .legal-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-transform: uppercase;
+      }
+
+      .legal-list a,
+      .legal-list button {
+        font: inherit;
+        letter-spacing: 0.04em;
+        text-transform: inherit;
+      }
+
+      .legal-list button {
+        background: transparent;
+        border: 0;
+        color: #0969da;
+        padding: 0;
+      }
+
+      .visually-hidden-consent {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Legal footer hidden consent list casing</h1>
+      <p>This focused repro preserves the GitHub legal footer shape without the full marketing page.</p>
+      <footer aria-label="Footer">
+        <nav aria-label="Legal">
+          <ul class="legal-list">
+            <li><a href="#terms">Terms</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+            <li><a href="#docs">Docs</a></li>
+            <li><a href="#support">Contact GitHub Support</a></li>
+            <li><button type="button">Manage cookies</button></li>
+            <li><button type="button">Do not share my personal information</button></li>
+            <li class="visually-hidden-consent"><button type="button">Cookie preferences saved</button></li>
+          </ul>
+        </nav>
+      </footer>
+    </main>
+  </body>
+</html>

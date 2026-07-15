@@ -4,7 +4,7 @@ function normalizeText(value?: string): string | undefined {
   const normalized = value
     ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
     .replace(/\s+/g, " ")
-    .replace(/\s+([.,!?;:])/g, "$1")
+    .replace(/\s+([,!?;:]|\.(?![\p{L}\p{N}]))/gu, "$1")
     .trim();
   return normalized || undefined;
 }
@@ -13,7 +13,7 @@ function normalizeTextPreservingSpaceBeforeColon(value?: string): string | undef
   const normalized = value
     ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
     .replace(/\s+/g, " ")
-    .replace(/\s+([.,!?;])/g, "$1")
+    .replace(/\s+([,!?;]|\.(?![\p{L}\p{N}]))/gu, "$1")
     .trim();
   return normalized || undefined;
 }
@@ -363,7 +363,10 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         el.roleDescription === "toggle button" || el.pressed !== undefined;
 
       if (popupType && !isToggleButton) {
-        if (el.expanded !== undefined) {
+        if (el.popupLabelWithoutComma && label) {
+          parts[parts.length - 1] = `${label} ${popupType}`;
+          parts.push("button");
+        } else if (el.expanded !== undefined) {
           parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
           parts.push("button");
         } else {
@@ -379,6 +382,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
         if (el.disabled && !isToggleButton) {
           parts.push("dimmed");
+        }
+        if (el.current === "page") {
+          parts.push("current page");
+        } else if (el.current) {
+          parts.push(el.current === true ? "current item" : `current ${el.current}`);
         }
         parts.push(el.roleDescription ?? "button");
       }
@@ -506,12 +514,23 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (el.invalid) {
           pushInvalidState(parts, el.invalid === true ? "data" : el.invalid);
         }
-        parts.push(el.textEntryArea ? "text entry area" : el.emailTextField ? "email" : "edit text");
+        if (el.secureTextField && el.required) {
+          parts.push("required");
+        }
+        parts.push(
+          el.textEntryArea
+            ? "text entry area"
+            : el.secureTextField
+              ? "secure text field"
+              : el.emailTextField
+                ? "email"
+                : "edit text",
+        );
         if (!el.invalid && !el.textboxPlaceholderBeforeRole) {
           pushIfPresent(parts, value ?? placeholderText);
         }
         pushAutocomplete(parts, el.autocomplete);
-        if (el.required) {
+        if (el.required && !el.secureTextField) {
           parts.push("required");
         }
       }
@@ -630,14 +649,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "checkbox": {
       pushIfPresent(parts, label);
-      parts.push("check box");
       if (el.checked === true) {
         parts.push("checked");
       } else if (el.checked === "mixed") {
         parts.push("half checked");
       } else {
-        parts.push("not checked");
+        parts.push("unchecked");
       }
+      parts.push("checkbox");
       pushSupplementalText(parts, el);
       break;
     }
@@ -996,7 +1015,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push(popupType.replace("pop up", "pop-up"));
       }
       parts.push("tab");
-      if (popupType) {
+      if (popupType || el.groupContext) {
         parts.push("group");
       }
       pushCollectionPosition(parts, el);
@@ -1031,6 +1050,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     }
 
     case "alert": {
+      if (el.namedAlertBoundary) {
+        pushIfPresent(parts, label);
+        parts.push("alert");
+        break;
+      }
       parts.push(el.roleDescription === "group" ? "group" : "alert");
       pushIfPresent(parts, label);
       pushSupplementalText(parts, el);
@@ -1079,11 +1103,22 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "form": {
+      pushIfPresent(parts, el.name);
+      parts.push("form");
+      pushSupplementalText(parts, el);
+      break;
+    }
+
     case "banner":
     case "main":
     case "complementary":
     case "article":
     case "region": {
+      if (el.emptyContext && role === "banner") {
+        parts.push("empty banner");
+        break;
+      }
       pushIfPresent(parts, el.name);
       parts.push(el.roleDescription ?? role);
       if (role === "article") {
@@ -1197,6 +1232,12 @@ export function getContextEndAnnouncement(
       : "end of, search";
   }
 
+  if (role === "form") {
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, form`
+      : "end of, form";
+  }
+
   if (role === "complementary") {
     return descriptor?.name
       ? `end of, ${descriptor.name}, complementary`
@@ -1235,6 +1276,12 @@ export function getContextEndAnnouncement(
     return descriptor?.name
       ? `end of, ${descriptor.name}, dialog`
       : "end of, dialog";
+  }
+
+  if (role === "alert" && descriptor?.namedAlertBoundary) {
+    return descriptor.name
+      ? `end of, ${descriptor.name}, alert`
+      : "end of, alert";
   }
 
   if (role === "tooltip") {

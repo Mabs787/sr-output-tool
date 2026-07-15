@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "name": "github-com-login",
+  "url": "https://github.com/login",
+  "sourceRunId": "",
+  "html": "github-com-login.html",
+  "accessibilityTree": "github-com-login.ax.json",
+  "stepSnapshots": "github-com-login.step-snapshots.json",
+  "expectedAnnouncements": [
+    "link, Skip to content",
+    "empty banner",
+    "main",
+    "heading level 1, Sign in to GitHub",
+    "Username or email address",
+    "Username or email address, required, edit text",
+    "Password",
+    "Password, required, secure text field",
+    "link, Forgot password?",
+    "Sign in, button",
+    "Continue with Google, button, group",
+    "Continue with Apple, button, group",
+    "New to GitHub?",
+    "link, Create an account",
+    "Sign in with a passkey, button",
+    "end of, main",
+    "content information",
+    "list 6 items",
+    "link, Terms, 1 of 6",
+    "link, Privacy, 2 of 6",
+    "link, Docs, 3 of 6",
+    "link, Contact GitHub Support, 4 of 6",
+    "Manage cookies, button, 5 of 6",
+    "Do not share my personal information, button, 6 of 6",
+    "end of list",
+    "end of, content information"
+  ],
+  "refinedAnnouncements": [
+    "link, Skip to content",
+    "empty banner",
+    "main",
+    "heading level 1, Sign in to GitHub",
+    "Username or email address",
+    "Username or email address, required, edit text",
+    "Password",
+    "Password, required, secure text field",
+    "link, Forgot password?",
+    "Sign in, button",
+    "Continue with Google, button, group",
+    "Continue with Apple, button, group",
+    "New to GitHub?",
+    "link, Create an account",
+    "Sign in with a passkey, button",
+    "end of, main",
+    "content information",
+    "list 6 items",
+    "link, Terms, 1 of 6",
+    "link, Privacy, 2 of 6",
+    "link, Docs, 3 of 6",
+    "link, Contact GitHub Support, 4 of 6",
+    "Manage cookies, button, 5 of 6",
+    "Do not share my personal information, button, 6 of 6",
+    "end of list",
+    "end of, content information"
+  ],
+  "scan": {
+    "stopReason": "scan-end-marker",
+    "capturedSteps": 38
+  },
+  "stats": {
+    "voiceOverAnnouncementCount": 26,
+    "reducedHtml": {
+      "originalLength": 81985,
+      "reducedLength": 17742,
+      "reductionPercent": 78
+    },
+    "accessibilityTree": {
+      "nodeCount": 136,
+      "ignoredNodeCount": 36,
+      "axMappedNodeCount": 78,
+      "domSnapshotMappedNodeCount": 226
+    }
+  },
+  "refinementNotes": [
+    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
+    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html.",
+    "Use engine-traversal-debug.json to classify why the scanner emitted each announcement; it explains generic engine traversal behavior and does not override VoiceOver evidence."
+  ],
+  "source": {
+    "manifestPath": "voiceover-smoke/autonomous-runs/29374294770/artifacts/voiceover-scan-github-com-login/scans/github-com-login/refinement-manifest.json",
+    "scanDebug": {
+      "firstVoiceOverAnnouncement": "link, Skip to content",
+      "lastVoiceOverAnnouncement": "end of, content information"
+    }
+  },
+  "sanitization": {
+    "status": "sanitized",
+    "changedAnnouncementCount": 0,
+    "warningCount": 0,
+    "severeIssueCount": 0,
+    "warnings": [],
+    "severeIssues": [],
+    "notes": [
+      "Raw expectedAnnouncements are preserved.",
+      "refinedAnnouncements currently match raw expectedAnnouncements and are ready for AI refinement.",
+      "Fixtures with skipCorpusReason are excluded from opt-in corpus gating until manually refined."
+    ]
+  }
+}

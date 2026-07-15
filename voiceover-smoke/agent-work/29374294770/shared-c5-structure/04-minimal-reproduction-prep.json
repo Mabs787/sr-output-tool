@@ -1,0 +1,30 @@
+{
+  "phase": "C.5-minimal-reproduction-prep",
+  "runId": "29374294770",
+  "status": "prepared",
+  "sources": [
+    "github-com-features-actions",
+    "github-com-features-codespaces"
+  ],
+  "repros": [
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/hidden-list-count-position-c5.html",
+      "family": "hidden-list-count-position",
+      "question": "When one native li is display:none between visible items, does VoiceOver announce visible list size while preserving DOM-based visible item ordinal?",
+      "decisiveEngineOutcome": "list 4 items with final visible item announced as 5 of 5",
+      "decisiveFixtureNoiseOutcome": "list count and ordinals both collapse to visible items or both include hidden item"
+    },
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/github-com/blockquote-inline-emphasis-figcaption-c5.html",
+      "family": "blockquote-inline-emphasis-figcaption",
+      "question": "Does VoiceOver split blockquote text at inline emphasis and decompose image/name/title figcaption children rather than joining them?",
+      "decisiveEngineOutcome": "separate quote fragments and separate image/name/title announcements",
+      "decisiveFixtureNoiseOutcome": "single joined blockquote or joined figcaption output"
+    }
+  ],
+  "guardrails": [
+    "Use C.5 evidence only for reusable VoiceOver-backed behavior.",
+    "Do not make site-specific engine rules.",
+    "Keep repro fixtures in voiceover-repros/github-com while draft."
+  ]
+}

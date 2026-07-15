@@ -66,6 +66,10 @@ const postNavigationSettleSeconds = parseNonNegativeInteger(
   process.env.VOICEOVER_POST_NAVIGATION_SETTLE_SECONDS,
   0,
 );
+const systemDialogSweepInterval = parseNonNegativeInteger(
+  process.env.VOICEOVER_SYSTEM_DIALOG_SWEEP_INTERVAL,
+  50,
+);
 
 function parsePositiveInteger(value, fallback) {
   const parsed = Number.parseInt(String(value || ""), 10);
@@ -1825,6 +1829,79 @@ return logText
 `, 10000);
 }
 
+function dismissVoiceOverAutomationPermissionDialog() {
+  return runAppleScript(`
+set logText to ""
+tell application "System Events"
+  repeat with processToRead in application processes
+    try
+      set processName to name of processToRead as text
+      repeat with windowToRead in windows of processToRead
+        try
+          set windowName to name of windowToRead as text
+          set windowText to ""
+          try
+            repeat with textToRead in static texts of windowToRead
+              try
+                set windowText to windowText & " " & (value of textToRead as text)
+              end try
+            end repeat
+          end try
+          if (windowName contains "wants access to control" and windowName contains "VoiceOver") or (windowText contains "wants access to control" and windowText contains "VoiceOver") then
+            set logText to logText & "process=" & processName & " window=" & windowName & linefeed
+            try
+              if exists button "Allow" of windowToRead then
+                click button "Allow" of windowToRead
+                set logText to logText & "clicked=" & processName & ":Allow" & linefeed
+                delay 1
+                return logText
+              end if
+            end try
+            repeat with buttonToRead in buttons of windowToRead
+              try
+                set buttonName to name of buttonToRead as text
+                set logText to logText & "  button=" & buttonName & linefeed
+                if buttonName is "Allow" then
+                  click buttonToRead
+                  set logText to logText & "clicked=" & processName & ":" & buttonName & linefeed
+                  delay 1
+                  return logText
+                end if
+              end try
+            end repeat
+          end if
+        end try
+      end repeat
+    end try
+  end repeat
+end tell
+return logText
+`, 10000);
+}
+
+function dismissPerStepSystemDialogs(stepIndex) {
+  const voiceOverAutomationPermission =
+    dismissVoiceOverAutomationPermissionDialog();
+  const shouldSweepSystemDialogs =
+    systemDialogSweepInterval > 0 &&
+    (stepIndex === 0 || stepIndex % systemDialogSweepInterval === 0);
+
+  return {
+    strategy: shouldSweepSystemDialogs
+      ? "voiceover-automation-permission-plus-periodic-system-dialog-sweep"
+      : "voiceover-automation-permission-only",
+    systemDialogSweepInterval,
+    voiceOverAutomationPermission,
+    systemDialogs: shouldSweepSystemDialogs
+      ? dismissSystemDialogs()
+      : {
+          skipped: true,
+          reason:
+            "Broad system-dialog sweep is skipped on most scan steps to avoid per-step osascript timeouts; VoiceOver permission prompts are still handled every step.",
+        },
+  };
+}
+
 function navigateRight() {
   if (navigationMode === "plain-right-arrow") {
     return runAppleScript(`
@@ -2006,6 +2083,10 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
   const attempts = [];
   const screenshots = {};
   const dismissals = [];
+  dismissals.push({
+    source: "voiceover-automation-permission-before-read",
+    result: dismissVoiceOverAutomationPermissionDialog(),
+  });
   let voiceOverRaw = captureVoiceOverState();
   attempts.push(voiceOverRaw);
 
@@ -2018,6 +2099,11 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
     };
   }
 
+  dismissals.push({
+    source: "voiceover-automation-permission-after-read-failure",
+    result: dismissVoiceOverAutomationPermissionDialog(),
+  });
+
   screenshots.voiceOverReadFailed = captureScreenshot(
     targetOutputDir,
     stepIndex,
@@ -2026,7 +2112,14 @@ function captureVoiceOverStateWithRecovery(targetOutputDir, stepIndex) {
   );
 
   for (let attempt = 1; attempt <= 3 && !voiceOverRaw.ok; attempt += 1) {
-    dismissals.push(dismissSystemDialogs());
+    dismissals.push({
+      source: "system-dialogs",
+      result: dismissSystemDialogs(),
+    });
+    dismissals.push({
+      source: "voiceover-automation-permission-retry",
+      result: dismissVoiceOverAutomationPermissionDialog(),
+    });
     activateChrome();
     run("sleep", [String(attempt)], { timeout: (attempt + 2) * 1000 });
     voiceOverRaw = captureVoiceOverState();
@@ -3841,7 +3934,11 @@ function getVoiceOverSourceDebug(voiceOverSteps) {
 
 function writeVoiceOverProgressFiles({
   targetOutputDir,
+  target,
+  summary,
   voiceOverSteps,
+  stepSnapshots = [],
+  stage = "scanning",
 }) {
   const voiceOverOutput = getNormalizedVoiceOverOutput(voiceOverSteps);
   const sourceDebug = getVoiceOverSourceDebug(voiceOverSteps);
@@ -3857,6 +3954,46 @@ function writeVoiceOverProgressFiles({
     source: "voiceover-caption-source-debug",
     partial: true,
     steps: sourceDebug,
+  });
+  writeJson(path.join(targetOutputDir, "scan-debug.json"), {
+    schemaVersion: 1,
+    target: {
+      name: summary.name,
+      mode: summary.mode,
+      url: summary.url,
+      scanRootSelector: target.scanRootSelector || "[data-sr-scan-root]",
+    },
+    scan: {
+      stopReason: "in-progress",
+      partial: true,
+      failureReason: "",
+      capturedSteps: voiceOverSteps.length,
+      maxSteps: summary.maxSteps,
+      maxStepSeconds: summary.maxStepSeconds,
+      navigationMode: summary.navigationMode,
+      systemDialogSweepInterval: summary.systemDialogSweepInterval,
+      startedAt: summary.startedAt,
+      updatedAt: new Date().toISOString(),
+      finishedAt: "",
+    },
+    output: {
+      voiceOverAnnouncementCount: voiceOverOutput.length,
+      firstVoiceOverAnnouncement: voiceOverOutput[0] || "",
+      lastVoiceOverAnnouncement: voiceOverOutput.at(-1) || "",
+      voiceOverSourcesPath: "voiceover-sources.json",
+      stepSnapshotsPath: captureStepSnapshots ? "step-snapshots.json" : "",
+    },
+    progress: {
+      stage,
+      lastStepIndex: voiceOverSteps.at(-1)?.index ?? null,
+      lastNavigation: voiceOverSteps.at(-1)?.navigation || null,
+      lastVoiceOverRaw: voiceOverSteps.at(-1)?.voiceOverRaw || null,
+      lastDismissSystemAfterNavigation:
+        voiceOverSteps.at(-1)?.dismissSystemAfterNavigation || null,
+      lastDismissSystemAfterScreenshot:
+        voiceOverSteps.at(-1)?.dismissSystemAfterScreenshot || [],
+      stepSnapshotCount: stepSnapshots.length,
+    },
   });
 }
 
@@ -3899,6 +4036,7 @@ function createScanDebugSummary({
       maxSteps: summary.maxSteps,
       maxStepSeconds: summary.maxStepSeconds,
       navigationMode: summary.navigationMode,
+      systemDialogSweepInterval: summary.systemDialogSweepInterval,
       startedAt: summary.startedAt,
       finishedAt: summary.finishedAt,
     },
@@ -4024,6 +4162,7 @@ async function scanTarget(target, index) {
     maxSteps: maxScanSteps,
     maxStepSeconds,
     navigationMode,
+    systemDialogSweepInterval,
     startedAt: new Date().toISOString(),
   };
 
@@ -4082,7 +4221,7 @@ async function scanTarget(target, index) {
 
   const initialStepStartedAt = Date.now();
   const initialCaptionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, 0);
-  const initialDismissSystem = dismissSystemDialogs();
+  const initialDismissSystem = dismissPerStepSystemDialogs(0);
   const initialVoiceOverCapture = captureVoiceOverStateWithRecovery(
     targetOutputDir,
     0,
@@ -4132,7 +4271,11 @@ async function scanTarget(target, index) {
   });
   writeVoiceOverProgressFiles({
     targetOutputDir,
+    target,
+    summary,
     voiceOverSteps,
+    stepSnapshots,
+    stage: "initial-capture",
   });
   const initialSnapshot = await captureStepSnapshot({
     target,
@@ -4150,7 +4293,8 @@ async function scanTarget(target, index) {
     const navigation = navigateRight();
     const stepNumber = index + 1;
     const captionOcr = captureVoiceOverCaptionOcrBurst(targetOutputDir, stepNumber);
-    const dismissSystemAfterNavigation = dismissSystemDialogs();
+    const dismissSystemAfterNavigation =
+      dismissPerStepSystemDialogs(stepNumber);
     const voiceOverCapture = captureVoiceOverStateWithRecovery(
       targetOutputDir,
       stepNumber,
@@ -4194,7 +4338,11 @@ async function scanTarget(target, index) {
     });
     writeVoiceOverProgressFiles({
       targetOutputDir,
+      target,
+      summary,
       voiceOverSteps,
+      stepSnapshots,
+      stage: "navigation-step",
     });
     const stepSnapshot = await captureStepSnapshot({
       target,

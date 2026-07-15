@@ -416,6 +416,32 @@ test("scanSubtree ignores native search-form shortcut when no label exists", () 
   );
 });
 
+test("scanSubtree announces named form boundaries around labelled combobox controls", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div role="form" aria-label="Search MCP registry">
+        <label for="mcp-search">Search MCP registry</label>
+        <input
+          id="mcp-search"
+          type="text"
+          role="combobox"
+          placeholder="Search MCPs"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+        >
+        <button type="submit">Search</button>
+      </div>
+    `),
+    [
+      "Search MCP registry, form",
+      "Search MCP registry",
+      "Search MCP registry Search MCPs, list box pop up collapsed, combo box",
+      "Search, button",
+      "end of, Search MCP registry, form",
+    ],
+  );
+});
+
 test("scanSubtree announces native horizontal rules as splitters", () => {
   assert.deepEqual(
     scanHtml(`
@@ -429,6 +455,184 @@ test("scanSubtree announces native horizontal rules as splitters", () => {
       "horizontal splitter",
       "heading level 2, Support links",
       "end of, content information",
+    ],
+  );
+});
+
+test("scanSubtree splits visible labels before required native password inputs", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <label for="password">Password</label>
+        <input id="password" type="password" required>
+      </form>
+    `),
+    [
+      "Password",
+      "Password, required, secure text field",
+    ],
+  );
+});
+
+test("scanSubtree announces empty banner landmarks without a matching end boundary", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="#main">Skip to content</a>
+        <div role="banner" data-sr-dom-node-id="banner"></div>
+        <main id="main"><h1>Sign in</h1></main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "banner",
+              role: "banner",
+              name: "",
+              domNodeId: "banner",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, Skip to content",
+      "empty banner",
+      "main",
+      "heading level 1, Sign in",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree uses visible ellipsis text when it only differs from a button aria name by glyph form", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <button aria-label="Search or jump to…" aria-haspopup="dialog" data-sr-dom-node-id="search-button">
+          <span>Search or jump to...</span>
+        </button>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "search-button",
+              role: "button",
+              name: "Search or jump to…",
+              domNodeId: "search-button",
+              properties: { focusable: true, hasPopup: "dialog" },
+            },
+          ],
+        },
+      },
+    ),
+    ["Search or jump to... dialog pop up, button"],
+  );
+});
+
+test("scanSubtree suppresses paragraph text that only duplicates a named native button", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p data-sr-dom-node-id="wrapper">
+            <button type="button" data-sr-dom-node-id="passkey"><span><span>Sign in with a passkey</span></span></button>
+          </p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "button",
+              role: "button",
+              name: "Sign in with a passkey",
+              domNodeId: "passkey",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Sign in with a passkey, button",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps pagination navigation buttons ungrouped while preserving current page", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <nav aria-label="Pagination">
+          <a role="button" aria-disabled="true" aria-label="Previous Page" data-sr-dom-node-id="previous"><span><span>Previous</span></span></a>
+          <a role="button" href="?page=1" aria-current="page" aria-label="Page 1" data-sr-dom-node-id="page-1"><span>1</span></a>
+          <a role="button" href="?page=2" aria-label="Page 2..." data-sr-dom-node-id="page-2"><span>2</span></a>
+          <a role="button" href="?page=2" aria-label="Next Page" data-sr-dom-node-id="next"><span><span>Next</span></span></a>
+        </nav>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "previous",
+              role: "button",
+              name: "Previous Page",
+              domNodeId: "previous",
+              properties: { disabled: true },
+            },
+            {
+              nodeId: "page-1",
+              role: "button",
+              name: "Page 1",
+              domNodeId: "page-1",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "page-2",
+              role: "button",
+              name: "Page 2...",
+              domNodeId: "page-2",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "next",
+              role: "button",
+              name: "Next Page",
+              domNodeId: "next",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Pagination, navigation",
+      "Previous Page, dimmed, button",
+      "Page 1, current page, button",
+      "Page 2..., button",
+      "Next Page, button",
+      "end of, Pagination, navigation",
+    ],
+  );
+});
+
+test("scanSubtree preserves VoiceOver selected group wording for controlled tablists without aria-selected", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div role="tablist" aria-controls="feature-panel">
+        <button role="tab">Code</button>
+        <button role="tab">Plan</button>
+      </div>
+      <p id="feature-panel" role="region">Write, test, and fix code quickly.</p>
+    `),
+    [
+      "Code, selected, tab, group, 1 of 2",
+      "Plan, selected, tab, group, 2 of 2",
+      "Write, test, and fix code quickly.",
     ],
   );
 });
@@ -2287,6 +2491,32 @@ test("scanSubtree counts list items through neutral list wrappers", () => {
   );
 });
 
+test("scanSubtree excludes display-none list items from counts and positions", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <ul>
+          <li><a href="/terms">Terms</a></li>
+          <li style="display: none"><button>Manage cookies</button></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><button>Do not share my personal information</button></li>
+          <li>© Example 2026</li>
+        </ul>
+      </footer>
+    `),
+    [
+      "footer",
+      "list 4 items",
+      "link, Terms, 1 of 4",
+      "link, Privacy, 2 of 4",
+      "Do not share my personal information, button, 3 of 4",
+      "© Example 2026, 4 of 4",
+      "end of list",
+      "end of, footer",
+    ],
+  );
+});
+
 test("scanSubtree excludes hidden consent-only list items from list summaries", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2341,6 +2571,25 @@ test("scanSubtree excludes hidden consent-only list items from list summaries", 
       "end of list",
       "end of, Corporate links, navigation",
       "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree announces fieldset legend groups and VoiceOver checkbox state order", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <fieldset>
+        <legend><span>Topic</span></legend>
+        <section><label for="ai">AI</label><input id="ai" type="checkbox" checked></section>
+        <section><label for="security">Security</label><input id="security" type="checkbox"></section>
+      </fieldset>
+    `),
+    [
+      "Topic, group",
+      "Topic",
+      "AI, checked, checkbox",
+      "Security, unchecked, checkbox",
+      "end of, Topic, group",
     ],
   );
 });
@@ -3559,6 +3808,81 @@ test("scanSubtree preserves rendered uppercase link casing from generic sources"
     ),
     ["link, AD"],
   );
+
+  assert.deepEqual(
+    scanHtml(`
+      <h3 style="text-transform: uppercase">Platform</h3>
+    `),
+    ["heading level 3, PLATFORM"],
+  );
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <button data-sr-dom-node-id="consent">Do not share my personal information</button>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "button",
+              name: "DO NOT SHARE MY PERSONAL INFORMATION",
+              domNodeId: "consent",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    ["DO NOT SHARE MY PERSONAL INFORMATION, button"],
+  );
+});
+
+test("scanSubtree splits a leading emphasized blockquote fragment before the quoted role", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <figure>
+        <blockquote>
+          <span>
+            <em>Actions is an exciting development and unlocks so much potential beyond CI/CD.</em>
+            It promises to streamline our workflows for a variety of tasks.
+          </span>
+        </blockquote>
+      </figure>
+    `),
+    [
+      "Actions is an exciting development and unlocks so much potential beyond CI/CD.",
+      "It promises to streamline our workflows for a variety of tasks., block quote level 1",
+    ],
+  );
+});
+
+test("scanSubtree omits the block quote suffix for plain span-only blockquotes", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <figure>
+        <blockquote>
+          <span>Shopify uses GitHub Sponsors to efficiently manage and fund projects within the open source community.</span>
+        </blockquote>
+      </figure>
+    `),
+    [
+      "Shopify uses GitHub Sponsors to efficiently manage and fund projects within the open source community.",
+    ],
+  );
+});
+
+test("scanSubtree preserves a boundary before dot-prefixed word tokens", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <p>Setup<span>.NET</span> Core SDK</p>
+      <p>Rust,<span>.NET</span>, and more.</p>
+    `),
+    [
+      "Setup .NET Core SDK",
+      "Rust, .NET, and more.",
+    ],
+  );
 });
 
 test("scanSubtree includes captured generated button text for popup tab buttons", () => {
@@ -4002,6 +4326,36 @@ test("scanSubtree preserves definition list items through generic wrappers", () 
       "See implementation notes., empty group",
       "end of, See implementation notes., term, (3 of 4)",
       "See implementation notes., 4 of 4",
+      "end of definition list",
+    ],
+  );
+});
+
+test("scanSubtree announces direct definition-list disclosure buttons and dd link position like VoiceOver", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <dl>
+        <dt><button aria-expanded="true">Automate everything</button></dt>
+        <dd>
+          <p>Ship faster with secure, reliable CI/CD.</p>
+          <a href="/actions">Explore GitHub Actions</a>
+        </dd>
+        <dt><button aria-expanded="false">Code instantly from anywhere</button></dt>
+        <dd hidden>
+          <p>Start coding in seconds.</p>
+        </dd>
+      </dl>
+    `),
+    [
+      "definition list 3 items",
+      "Automate everything, term, (1 of 3), 1 of 3",
+      "Automate everything, expanded, button, group",
+      "end of, Automate everything, term, (1 of 3)",
+      "Ship faster with secure, reliable CI/CD., 2 of 3",
+      "link, Explore GitHub Actions",
+      "Code instantly from anywhere, term, (3 of 3), 3 of 3",
+      "Code instantly from anywhere, collapsed, button, group",
+      "end of, Code instantly from anywhere, term, (3 of 3)",
       "end of definition list",
     ],
   );
@@ -5959,6 +6313,30 @@ test("scanSubtree suppresses empty alert live regions", () => {
       </main>
     `),
     ["main", "alert, Saved.", "alert, Upload failed", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="alert" aria-label="Announcement">
+          <a href="/universe">GitHub Universe 2026</a>
+          <span aria-hidden="true">|</span>
+          <span>Find your people at GitHub Universe.</span>
+          <a href="/register">Register now</a>
+          <button aria-label="Close">Close</button>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Announcement, alert",
+      "link, GitHub Universe 2026",
+      "Find your people at GitHub Universe.",
+      "link, Register now",
+      "Close, button",
+      "end of, Announcement, alert",
+      "end of, main",
+    ],
   );
 
   assert.deepEqual(
@@ -9690,6 +10068,106 @@ test("scanSubtree preserves explicit wbr boundaries in link names", () => {
       "link, Standards/Guidelines, 2 of 2",
       "end of list",
       "end of, Main, navigation",
+    ],
+  );
+});
+
+test("scanSubtree uses AX-confirmed rendered uppercase for generic text stops", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <span data-sr-dom-node-id="eyebrow">GitHub Actions</span>
+          <ul>
+            <li data-sr-dom-node-id="copyright-item">
+              <time data-sr-dom-node-id="copyright">© 2026 GitHub, Inc.</time>
+            </li>
+          </ul>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "eyebrow",
+              role: "StaticText",
+              name: "GITHUB ACTIONS",
+              domNodeId: "eyebrow",
+            },
+            {
+              nodeId: "copyright",
+              role: "StaticText",
+              name: "© 2026 GITHUB, INC.",
+              domNodeId: "copyright",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "GITHUB ACTIONS",
+      "list 1 item",
+      "© 2026 GITHUB, INC.",
+      "end of list",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree does not prefix inline emphasis list-item tail fragments with a marker", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li><span><em>Want to venture off the beaten path?</em> Use reusable actions from the marketplace.</span></li>
+      </ul>
+    `),
+    [
+      "list 1 item",
+      "Want to venture off the beaten path?",
+      "Use reusable actions from the marketplace.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree suppresses wrapper group stops before standalone card headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section>
+          <div data-sr-dom-node-id="card">
+            <div><h3 data-sr-dom-node-id="heading">Secure package registry for code and workflows</h3></div>
+            <div><p>Securely store and manage your code and packages.</p></div>
+            <div><a href="/packages">Read the package docs</a></div>
+          </div>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "card",
+              role: "none",
+              name: "",
+              domNodeId: "card",
+              ignored: true,
+              childIds: ["heading"],
+            },
+            {
+              nodeId: "heading",
+              role: "heading",
+              name: "Secure package registry for code and workflows",
+              domNodeId: "heading",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 3, Secure package registry for code and workflows",
+      "Securely store and manage your code and packages.",
+      "link, Read the package docs",
     ],
   );
 });

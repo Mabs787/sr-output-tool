@@ -1,0 +1,46 @@
+{
+  "phase": "C-fixture-judge",
+  "runId": "29374294770",
+  "target": "github-com-features-actions",
+  "status": "classified",
+  "decision": "fixture-evidence-accepted-engine-and-c5-handoff",
+  "postPhaseBCompare": {
+    "expectedCount": 170,
+    "actualCount": 169,
+    "mismatchWindowCount": 14,
+    "grouped": {
+      "list/marker": 10,
+      "punctuation/text-boundary": 1,
+      "role/structure": 3
+    }
+  },
+  "acceptedFixtureEdits": "Phase B refinedAnnouncement edits accepted; raw expectedAnnouncements preserved as VoiceOver transcript.",
+  "classifications": [
+    {
+      "family": "ocr-truncation-and-glyph-drift",
+      "classification": "fixture-correction-complete"
+    },
+    {
+      "family": "css-text-transform-case",
+      "classification": "reusable-engine-gap"
+    },
+    {
+      "family": "punctuation-spacing-normalization",
+      "classification": "reusable-engine-gap"
+    },
+    {
+      "family": "list-marker-hidden-count-or-section-boundary",
+      "classification": "c5-required-before-engine-change"
+    },
+    {
+      "family": "blockquote-inline-emphasis-figcaption",
+      "classification": "c5-required-before-engine-change"
+    }
+  ],
+  "c5Requests": [
+    "hidden-list-count-position",
+    "blockquote-inline-emphasis-figcaption"
+  ],
+  "engineHandoff": "Only generic VoiceOver-backed behavior; no fixture/site-specific engine logic.",
+  "parked": []
+}

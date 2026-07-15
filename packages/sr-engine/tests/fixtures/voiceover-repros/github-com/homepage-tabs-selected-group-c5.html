@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VoiceOver C.5 - homepage tab selected group state</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; }
+    [role="tablist"] { display: flex; gap: 8px; margin-bottom: 16px; }
+    [role="tab"] { border: 1px solid #8c959f; border-radius: 999px; padding: 8px 12px; }
+    [aria-selected="true"] { background: #0969da; color: white; }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-sr-fixture-status="draft">
+    <h1>Selected tabs and group suffix</h1>
+    <div role="tablist" aria-label="Customer stories">
+      <button role="tab" aria-selected="true" aria-controls="panel-industry" id="tab-industry">By industry</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-size" id="tab-size">By size</button>
+      <button role="tab" aria-selected="false" aria-controls="panel-use-case" id="tab-use-case">By use case</button>
+    </div>
+    <section role="tabpanel" id="panel-industry" aria-labelledby="tab-industry">Industry stories are selected.</section>
+  </main>
+</body>
+</html>
