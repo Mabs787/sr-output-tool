@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mock composer button wrapper groups C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      .composer { border: 1px solid #777; border-radius: 12px; padding: 12px; }
+      .actions { display: flex; gap: 8px; margin-top: 12px; }
+      .action { display: inline-flex; }
+      button { border: 1px solid #777; border-radius: 8px; background: white; padding: 6px 10px; }
+      .icon { display: inline-block; width: 1em; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Mock composer button wrapper groups</h1>
+      <p>This fixture isolates whether VoiceOver appends group to buttons wrapped in plain visual containers, without role toolbar.</p>
+      <section class="composer" aria-label="Message composer">
+        <p><strong>@Linear</strong> create new issue and delegate to Cursor</p>
+        <div class="actions" aria-label="Composer actions">
+          <div class="action"><button type="button"><span class="icon" aria-hidden="true">+</span>Attach</button></div>
+          <div class="action"><button type="button"><span class="icon" aria-hidden="true">T</span>Format text</button></div>
+          <div class="action"><button type="button"><span class="icon" aria-hidden="true">:</span>Emoji</button></div>
+          <div class="action"><button type="button"><span class="icon" aria-hidden="true">@</span>Mention</button></div>
+          <div class="action"><button type="button"><span class="icon" aria-hidden="true">></span>Send</button></div>
+          <div class="action"><button type="button"><span class="icon" aria-hidden="true">...</span>More options</button></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

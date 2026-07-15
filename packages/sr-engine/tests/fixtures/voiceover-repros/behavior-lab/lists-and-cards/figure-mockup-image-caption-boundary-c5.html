@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Figure mockup image caption boundary C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      figure { border: 1px solid #777; border-radius: 16px; padding: 16px; background: #f8f8f4; }
+      .mock-header { display: flex; gap: 12px; margin-bottom: 12px; }
+      .screen { min-height: 120px; border: 1px solid #aaa; border-radius: 12px; background: white; padding: 12px; }
+      img { width: 1px; height: 1px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Figure mockup image caption boundary</h1>
+      <p>This fixture isolates whether VoiceOver exposes an empty-image stop before text in a DOM-built product screenshot with a figcaption.</p>
+      <figure>
+        <div class="screen">
+          <div class="mock-header">
+            <span>UI Refresh</span>
+            <span>Overview</span>
+            <span>Updates</span>
+            <span>Customers</span>
+            <span>Issues</span>
+          </div>
+          <img alt="" src="missing-product-screenshot.png">
+        </div>
+        <figcaption>
+          <h2>Close the gap between planning and building</h2>
+          <p>Consolidate project specs, documents, issues, customer feedback, and updates in one centralized location.</p>
+        </figcaption>
+      </figure>
+    </main>
+  </body>
+</html>

@@ -13,6 +13,8 @@ Scan these before changing engine logic:
 - `plain-large-static-list-position-c5.html`
 - `dom-marketing-mockup-grouping-c5.html`
 - `mock-toolbar-button-group-suffixes-c5.html`
+- `figure-mockup-image-caption-boundary-c5.html`
+- `mock-composer-button-wrapper-groups-c5.html`
 
 `linked-card-listitem-position.html` and
 `article-card-heading-boundary.html` were accepted from run `29210975599` after
@@ -27,3 +29,5 @@ Keep engine changes generic and VoiceOver-backed. Do not encode site names,
 class names, product copy, or one-off card layouts.
 
 Linear run `29429919047` added draft C.5 fixtures for large plain-list position verbosity, DOM-built marketing mockup grouping, and mock toolbar button group suffixes. Keep them draft until scan evidence is reviewed.
+
+Linear run `29429919047` later added draft C.5 fixtures for figure/mockup image-caption boundaries and composer button wrapper group suffixes. Keep them draft until scan evidence is reviewed.
