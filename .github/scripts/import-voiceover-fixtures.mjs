@@ -331,6 +331,7 @@ function comparablePunctuationText(value) {
     .replace(/[•·]/g, " ")
     .replace(/[↗л]/gi, "")
     .replace(/\s*→/g, "→")
+    .replace(/\bUl\b/g, "UI")
     .replace(/Youtube/gi, "YouTube")
     .replace(/\b([0-9]+),\s*([0-9]+)\s*of\s*([0-9]+)\b/g, "$1,$2of$3")
     .replace(/\s+/g, " ")
@@ -340,7 +341,7 @@ function comparablePunctuationText(value) {
 
 function hasOnlyTrustedPunctuationDifference(rawName, evidenceName) {
   if (!rawName || !evidenceName || rawName === evidenceName) return false;
-  if (!/[’‘“”|/•·↗л→]/i.test(`${rawName}${evidenceName}`)) return false;
+  if (!/[’‘“”|/•·↗л→]|\bUl\b/i.test(`${rawName}${evidenceName}`)) return false;
   return comparablePunctuationText(rawName) === comparablePunctuationText(evidenceName);
 }
 

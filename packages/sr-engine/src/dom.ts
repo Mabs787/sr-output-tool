@@ -3482,7 +3482,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function articleNameFromFirstHeading(el: any, role: string): string | undefined {
     if (role !== "article") return undefined;
-    if (!isArticleInlineLinkCollectionContext(el, role)) return undefined;
     if (
       el.getAttribute("aria-label") ||
       el.getAttribute("aria-labelledby") ||
@@ -5446,6 +5445,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return siblings.length || undefined;
     }
     return undefined;
+  }
+
+  function isLargePlainList(el: any, role = implicitRole(el)): boolean {
+    if (role !== "list") return false;
+    const items = listSummaryChildren(el).filter(
+      (item: any) => !isHidden(item) && implicitRole(item) === "listitem",
+    );
+    if (items.length <= 100) return false;
+    return items.every((item: any) => {
+      if (!readableText(item)) return false;
+      if (hasVisibleInteractiveDescendant(item)) return false;
+      return !Array.from(item.children || []).some((child: any) => {
+        if (isHidden(child)) return false;
+        const childRole = implicitRole(child);
+        return childRole && childRole !== "text";
+      });
+    });
+  }
+
+  function isLargePlainListItem(el: any, role = implicitRole(el)): boolean {
+    if (role !== "listitem") return false;
+    const { list } = semanticListContext(el);
+    return Boolean(list && isLargePlainList(list, "list"));
   }
 
   function shouldPositionStructuredListImage(el: any): boolean {
@@ -11275,12 +11297,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const stateEl = control || el;
     const axLinkedOfferHeadingName =
       role === "heading" ? axConfirmedLinkedOfferHeadingName(el, role) : undefined;
+    const accessibleRoleName = accessibleName(el, role);
+    const articleHeadingName = articleNameFromFirstHeading(el, role);
     const name =
       tableCellAbbrTitleButtonName(el, role) ||
       axLinkedOfferHeadingName ||
       axConfirmedTerminalPunctuationLinkedHeadingName(el, role) ||
-      accessibleName(el, role) ||
-      articleNameFromFirstHeading(el, role);
+      accessibleRoleName ||
+      articleHeadingName;
     const nativeSelectTitleName =
       tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : undefined;
     const linkContentNameForSpacing =
@@ -11329,8 +11353,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ? undefined
         : rawText;
     const markerSeparatedListLink = isMarkerSeparatedListLink(el, role);
-    const position = markerSeparatedListLink ? undefined : positionInSet(el, role);
-    const size = markerSeparatedListLink ? undefined : setSize(el, role);
+    const largePlainList = role === "list" && isLargePlainList(el, role);
+    const largePlainListItem = role === "listitem" && isLargePlainListItem(el, role);
+    const position =
+      markerSeparatedListLink || largePlainListItem ? undefined : positionInSet(el, role);
+    const size =
+      markerSeparatedListLink || largePlainListItem ? undefined : setSize(el, role);
     const rect = el.getBoundingClientRect();
     const table = tableContext(el, role);
     const parentListMeta = parentListPosition(el);
@@ -11397,6 +11425,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (nativeInputComboboxPlaceholderName ? undefined : announcementName) ||
         nativeSelectTitleName ||
         focusableFeedbackGroupText,
+      inferredArticleName: Boolean(
+        role === "article" &&
+          articleHeadingName &&
+          !accessibleRoleName &&
+          announcementName === articleHeadingName,
+      ),
       contextEndName,
       text,
       description: normalize(
@@ -11432,6 +11466,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       setSize: selectedListboxSize ?? size,
       positionInSet: selectedListboxPosition ?? position,
+      largePlainList: largePlainList || undefined,
+      largePlainListItem: largePlainListItem || undefined,
       ...parentListMeta,
       value,
       valueText: normalize(stateEl.getAttribute("aria-valuetext")),

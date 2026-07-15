@@ -725,7 +725,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         return "";
       }
       parts.push(listItemLabel);
-      if (!el.positionInSet || !el.setSize) {
+      if (!el.largePlainListItem && (!el.positionInSet || !el.setSize)) {
         parts.push("list item");
       }
       pushCollectionPosition(parts, el);
@@ -775,7 +775,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "list": {
       const listLabel = normalizeText(el.name);
       const listRole = el.roleDescription ?? "list";
-      const listSize = el.setSize
+      const listSize = el.largePlainList
+        ? undefined
+        : el.setSize
         ? `${el.setSize} ${el.setSize === 1 ? "item" : "items"}`
         : undefined;
       const listLevel = el.level && el.level > 1 ? `level ${el.level}` : undefined;
@@ -791,6 +793,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         (part): part is string => Boolean(part),
       );
       const supplementalParts: string[] = [];
+      if (el.largePlainList) {
+        supplementalParts.push("more than 100 items");
+      }
       if (listLevel && parentPosition) {
         supplementalParts.push(`${listLevel} ${parentPosition}`);
       } else {
@@ -1269,7 +1274,9 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "article") {
-    const name = descriptor?.contextEndName || descriptor?.name;
+    const name =
+      descriptor?.contextEndName ||
+      (descriptor?.inferredArticleName ? undefined : descriptor?.name);
     return name ? `end of, ${name}, article` : "end of, article";
   }
 
