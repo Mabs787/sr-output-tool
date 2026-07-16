@@ -2103,10 +2103,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     const compactSymbolSpacing = (value: string) =>
-      (normalize(value) ?? "").replace(/\s+([+→↗×])/g, "$1").replace(/([+→↗×])\s+/g, "$1");
+      (normalize(value) ?? "")
+        .replace(/\s+([+→↗×])/g, "$1")
+        .replace(/([+→↗×])\s+/g, "$1");
+    const compactWhitespace = (value: string) => (normalize(value) ?? "").replace(/\s+/g, "");
 
-    if (compactSymbolSpacing(axName) !== compactSymbolSpacing(domName)) return undefined;
-    if (!/\s[+→↗×](?:\s|$)/.test(axName)) return undefined;
+    if (
+      compactSymbolSpacing(axName) !== compactSymbolSpacing(domName) &&
+      compactWhitespace(axName) !== compactWhitespace(domName)
+    ) {
+      return undefined;
+    }
+    if (!/\s[+→↗×](?:\s|$)/.test(axName) && !/\d(?:\.\d+)+\s+\p{L}/u.test(axName)) {
+      return undefined;
+    }
 
     return axName;
   }

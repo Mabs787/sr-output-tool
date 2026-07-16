@@ -7549,6 +7549,35 @@ test("scanSubtree preserves real whitespace between direct span fragments in nat
   );
 });
 
+test("scanSubtree uses AX-confirmed spacing for compact adjacent span popup buttons", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <button type="button" aria-haspopup="dialog" aria-expanded="false" data-sr-dom-node-id="feature-button">
+          <div><span>1.1</span><span>Linear Agent</span><span>+</span></div>
+        </button>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "button",
+              name: "1.1 Linear Agent +",
+              domNodeId: "feature-button",
+              properties: {
+                focusable: true,
+                hasPopup: "dialog",
+                expanded: false,
+              },
+            },
+          ],
+        },
+      },
+    ),
+    ["1.1 Linear Agent +, dialog pop up collapsed, button"],
+  );
+});
+
 test("scanSubtree keeps ordinary compact input action wrappers grouped", () => {
   assert.deepEqual(
     scanHtml(`
