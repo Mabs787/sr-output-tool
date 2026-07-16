@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comparison table rowgroup section C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 820px; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #777; padding: 8px; text-align: left; }
+      .section th { background: #f8f8f8; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Comparison table rowgroup section</h1>
+      <p>
+        This fixture isolates how VoiceOver traverses section rows inside a
+        plan comparison table.
+      </p>
+
+      <table aria-label="Plan comparison">
+        <thead>
+          <tr>
+            <th scope="col">Feature</th>
+            <th scope="col">Free</th>
+            <th scope="col">Basic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section">
+            <th scope="rowgroup" colspan="3">Core</th>
+          </tr>
+          <tr>
+            <th scope="row">Members</th>
+            <td>3 members</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr class="section">
+            <th scope="rowgroup" colspan="3">Security</th>
+          </tr>
+          <tr>
+            <th scope="row">SSO</th>
+            <td>Google</td>
+            <td>SAML</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

@@ -20,9 +20,12 @@ Scan these before changing engine logic:
 - `aria-grid-popup-table-mapping.html`
 - `grid-popup-row-cell-decomposition.html`
 - `comparison-table-section-checkbox-c5.html`
+- `comparison-table-rowgroup-section-c5.html`
 - `inline-text-link-and-break-boundary-c5.html`
 - `install-cta-toggle-button-c5.html`
 - `image-radio-footer-c5.html`
+- `image-radio-label-grouping-c5.html`
+- `plan-card-checkbox-label-c5.html`
 
 The side-by-side follow-up fixtures from run `29209152951` were accepted after
 Phase 0/B/C review and exact analyzer receipts:
@@ -58,3 +61,15 @@ Linear run `29429919047` added draft C.5 fixtures for install CTA toggle-button
 wording and footer image/radio wording after Mobile and Now evidence showed
 `Scan to download, toggle button` and `image, selected, radio button, group`
 style announcements. Keep them draft until scan evidence is reviewed.
+
+Linear phase-loop branch `codex/linear-refinement-phase-loop` added smaller
+draft C.5 fixtures for the second Linear C.5 wave:
+
+- `plan-card-checkbox-label-c5.html` isolates pricing-card checkbox label
+  naming without the comparison table.
+- `comparison-table-rowgroup-section-c5.html` isolates section-row traversal
+  inside a comparison table.
+- `image-radio-label-grouping-c5.html` isolates radio labels that contain
+  decorative or labelled images.
+
+Keep these draft until the second wave scan evidence is reviewed.
