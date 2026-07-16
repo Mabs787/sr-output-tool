@@ -542,6 +542,148 @@ test("scanSubtree announces named form boundaries around labelled combobox contr
   );
 });
 
+test("scanSubtree announces named native form boundaries inside anonymous shadow hosts", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <x-search-shell>
+          <template shadowrootmode="open">
+            <form aria-label="Package search">
+              <button type="button">Search holidays</button>
+            </form>
+          </template>
+        </x-search-shell>
+      </main>
+    `),
+    [
+      "main",
+      "Package search, form",
+      "Search holidays, button",
+      "end of, Package search, form",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps anonymous shadow hosts transparent around named context children", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-search-shell>
+        <template shadowrootmode="open">
+          <nav aria-label="Search type">
+            <button type="button">Holidays</button>
+            <button type="button">Cruises</button>
+          </nav>
+          <form aria-label="Package search">
+            <button type="button">Search holidays</button>
+          </form>
+        </template>
+      </x-search-shell>
+    `),
+    [
+      "Search type, navigation",
+      "Holidays, button",
+      "Cruises, button",
+      "end of, Search type, navigation",
+      "Package search, form",
+      "Search holidays, button",
+      "end of, Package search, form",
+    ],
+  );
+});
+
+test("scanSubtree announces fieldset legend groups inside named forms", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-search-shell>
+        <template shadowrootmode="open">
+          <form aria-label="Package search">
+            <fieldset>
+              <legend class="visually-hidden">Unfortunately, this form is not fully accessible.</legend>
+              <div aria-live="polite">Search panel ready</div>
+              <button type="button">Search</button>
+            </fieldset>
+          </form>
+        </template>
+      </x-search-shell>
+    `),
+    [
+      "Package search, form",
+      "Unfortunately, this form is not fully accessible., group",
+      "Unfortunately, this form is not fully accessible.",
+      "Search panel ready",
+      "Search, button",
+      "end of, Unfortunately, this form is not fully accessible., group",
+      "end of, Package search, form",
+    ],
+  );
+});
+
+test("scanSubtree announces labelled radiogroup boundaries inside named forms", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-search-shell>
+        <template shadowrootmode="open">
+          <form aria-label="Package search">
+            <div role="radiogroup" aria-label="Holiday type">
+              <label for="package-holiday">
+                <input type="radio" id="package-holiday" name="holiday-type" checked>
+                Package holiday
+              </label>
+              <label for="flight-only">
+                <input type="radio" id="flight-only" name="holiday-type">
+                Flight only
+              </label>
+            </div>
+          </form>
+        </template>
+      </x-search-shell>
+    `),
+    [
+      "Package search, form",
+      "Holiday type, radio group",
+      "Package holiday, selected, radio button, 1 of 2",
+      "Flight only, radio button, 2 of 2",
+      "end of, Holiday type, radio group",
+      "end of, Package search, form",
+    ],
+  );
+});
+
+test("scanSubtree splits composite readonly overlay input labels and text wording", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-search-shell>
+        <template shadowrootmode="open">
+          <form aria-label="Package search">
+            <label for="departure-airport">Where from?</label>
+            <div>
+              <button type="button"></button>
+              <input
+                id="departure-airport"
+                type="text"
+                readonly
+                tabindex="-1"
+                aria-label="Select departure airport(s), collapsed"
+                placeholder="Any UK airport"
+              >
+              <button type="reset" aria-label="Reset departure airport" tabindex="-1">x</button>
+            </div>
+          </form>
+        </template>
+      </x-search-shell>
+    `),
+    [
+      "Package search, form",
+      "Where from?",
+      "button",
+      "Select departure airport(s), collapsed Any UK airport, clickable, text",
+      "Reset departure airport, button",
+      "end of, Package search, form",
+    ],
+  );
+});
+
 test("scanSubtree announces native horizontal rules as splitters", () => {
   assert.deepEqual(
     scanHtml(`

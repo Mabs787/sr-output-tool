@@ -1291,6 +1291,13 @@ export function getContextEndAnnouncement(
       : "end of, form";
   }
 
+  if (role === "radiogroup") {
+    const roleName = descriptor?.roleDescription ?? "radio group";
+    return descriptor?.name
+      ? `end of, ${descriptor.name}, ${roleName}`
+      : `end of, ${roleName}`;
+  }
+
   if (role === "complementary") {
     return descriptor?.name
       ? `end of, ${descriptor.name}, complementary`

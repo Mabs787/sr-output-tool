@@ -95,6 +95,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "complementary",
     "region",
     "group",
+    "radiogroup",
     "list",
     "listbox",
     "table",
@@ -1091,6 +1092,61 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return true;
   }
 
+  function shouldSplitCompositeNativeControlLabelStop(el: any, role: string): boolean {
+    const tag = el?.tagName?.toLowerCase();
+    if (!["input", "select", "textarea"].includes(tag)) return false;
+    if (!["textbox", "combobox"].includes(role)) return false;
+    if (tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "hidden") {
+      return false;
+    }
+    if (el.disabled || el.getAttribute("aria-hidden") === "true") return false;
+
+    const label = associatedLabelForControl(el);
+    const labelText = directAssociatedLabelText(el);
+    if (!label || !labelText) return false;
+
+    const parent = el.parentElement;
+    if (!parent || label.nextElementSibling !== parent) return false;
+    if (compactInputActionGroupLabel(parent)) return false;
+
+    const hasSiblingControl = Array.from(parent.children || []).some((child: any) => {
+      if (child === el || isHidden(child)) return false;
+      return child.matches?.("button, [role='button'], a[href], [role='link']");
+    });
+    if (!hasSiblingControl) return false;
+
+    return Boolean(
+      el.readOnly ||
+        el.getAttribute("aria-readonly") === "true" ||
+        normalize(el.getAttribute("tabindex")) === "-1",
+    );
+  }
+
+  function readonlyOverlayTextControl(el: any, role: string): boolean {
+    if (role !== "textbox") return false;
+    if (el?.tagName?.toLowerCase() !== "input") return false;
+    const type = (el.getAttribute("type") || "text").toLowerCase();
+    if (type !== "text" && type !== "search") return false;
+    if (!el.readOnly && el.getAttribute("aria-readonly") !== "true") return false;
+    if (!shouldSplitCompositeNativeControlLabelStop(el, role)) return false;
+    return Boolean(el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"));
+  }
+
+  function isCompositeNativeControlLabel(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.tagName?.toLowerCase() !== "label") return false;
+    const controlId = normalize(el.getAttribute("for"));
+    if (!controlId) return false;
+    const root = typeof el.getRootNode === "function" ? el.getRootNode() : null;
+    const control =
+      root?.getElementById?.(controlId) ||
+      root?.querySelector?.(`#${cssEscape(controlId)}`) ||
+      resolveIdRef(controlId);
+    if (!control || associatedLabelForControl(control) !== el) return false;
+    const role = implicitRole(control);
+    return shouldSplitCompositeNativeControlLabelStop(control, role);
+  }
+
   function shouldSplitDirectVisibleTextInputLabelStop(el: any, role: string): boolean {
     if (role !== "textbox") return false;
     if (el?.tagName?.toLowerCase() !== "input") return false;
@@ -1200,6 +1256,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       );
     });
     return submitControls.length === 1;
+  }
+
+  function isNamedNativeForm(form: any): boolean {
+    if (!form || form.nodeType !== Node.ELEMENT_NODE || isHidden(form)) return false;
+    if (form.tagName?.toLowerCase() !== "form") return false;
+    if (!closestCustomElement(form)) return false;
+    return Boolean(form.getAttribute("aria-label") || form.getAttribute("aria-labelledby"));
   }
 
   function shouldSplitNamedSingleControlFormInput(el: any, role: string): boolean {
@@ -3604,7 +3667,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "group" && !el.matches(interactiveSelector)) {
-      if (tag === "fieldset") return controlFieldsetLegendText(el);
+      if (tag === "fieldset") return fieldsetLegendText(el);
       if (tag === "map") return imageMapGroupName(el);
       const compactLabel = compactInputActionGroupLabel(el);
       if (compactLabel) return compactLabel;
@@ -4390,7 +4453,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (tag === "aside") return "complementary";
     if (tag === "form" && explicit === "search") return "search";
-    if (tag === "form" && isNamedSingleControlForm(el)) {
+    if (tag === "form" && (isNamedNativeForm(el) || isNamedSingleControlForm(el))) {
       return "form";
     }
     if (tag === "ul" || tag === "ol" || tag === "dl") return "list";
@@ -4421,10 +4484,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       (el.getAttribute("aria-label") ||
         el.getAttribute("aria-labelledby") ||
         fieldsetPromptText(el) ||
-        controlFieldsetLegendText(el))
+        controlFieldsetLegendText(el) ||
+        visuallyHiddenFieldsetLegendText(el))
     ) {
       return "group";
     }
+    if (tag === "label" && isCompositeNativeControlLabel(el)) return "text";
     if (
       tag === "label" &&
       (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) &&
@@ -8394,6 +8459,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return hasRadioImageLabels(el) ? legend : undefined;
   }
 
+  function visuallyHiddenFieldsetLegendText(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName?.toLowerCase() !== "fieldset") return undefined;
+    const legend = Array.from(el.children || []).find((child: any) => {
+      if (child.tagName?.toLowerCase() !== "legend") return false;
+      if (child.getAttribute("aria-hidden") === "true") return false;
+      const className = child.getAttribute("class") || "";
+      const style = child.getAttribute("style") || "";
+      return (
+        /visually-hidden|sr-only/i.test(className) ||
+        normalize(child.getAttribute("data-sr-rendered-position")) === "offscreen" ||
+        Boolean(normalize(child.getAttribute("data-sr-computed-hidden"))) ||
+        /clip\\s*:|clip-path\\s*:|position\\s*:\\s*absolute/i.test(style)
+      );
+    }) as any;
+    return legend ? readableText(legend) : undefined;
+  }
+
   function radioImageFieldsetLegendText(el: any): string | undefined {
     const legend = fieldsetLegendText(el);
     return legend && hasRadioImageLabels(el) ? legend : undefined;
@@ -10893,6 +10976,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "group") {
       return !isCustomElement(el) && Boolean(accessibleName(el, role));
     }
+    if (role === "form") {
+      return !isCustomElement(el) && Boolean(accessibleName(el, role));
+    }
+    if (role === "radiogroup") {
+      return Boolean(accessibleName(el, role));
+    }
+    if (isContextRole(el, role) && role !== "group") {
+      return !isCustomElement(el) && Boolean(accessibleName(el, role));
+    }
     return false;
   }
 
@@ -11023,7 +11115,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
     if (!readableText(el)) return false;
     if (
-      el.closest(
+      shadowInclusiveAncestor(
+        el,
         [
           "nav",
           "[role='navigation']",
@@ -12299,6 +12392,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       roleDescription:
         role === "list" && tag === "dl"
           ? "definition list"
+          : role === "radiogroup"
+            ? "radio group"
           : role === "button" && nativeDetailsSummary
             ? "disclosure triangle"
           : role === "contentinfo" && isSimpleNativeFooter(el)
@@ -12367,7 +12462,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           el.getAttribute("aria-disabled") === "true" ||
           isImplicitDisabledPreviousSlideButton(el) ||
           undefined,
-      readOnly: el.readOnly || el.getAttribute("aria-readonly") === "true" || undefined,
+      readOnly:
+        ((el.readOnly || el.getAttribute("aria-readonly") === "true") &&
+          !readonlyOverlayTextControl(el, role)) ||
+        undefined,
       current: el.hasAttribute("aria-current")
         ? el.getAttribute("aria-current") === "false"
           ? undefined
@@ -12544,6 +12642,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       trailingStandaloneGroup:
         role === "button" && isAxConfirmedSingleButtonShadowWrapperGroup(el) ||
         undefined,
+      readonlyOverlayTextControl:
+        readonlyOverlayTextControl(el, role) || undefined,
       splitLabelStop:
         (["searchbox", "textbox"].includes(role) &&
           tag === "input" &&
@@ -12556,6 +12656,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         isAutocompleteGridPopupLabelStopInput(el, role) ||
         isAxConfirmedNativeSearchFormTextInput(el, role) ||
         shouldSplitNamedSingleControlFormInput(el, role) ||
+        shouldSplitCompositeNativeControlLabelStop(el, role) ||
         (role === "combobox" &&
           tag === "select" &&
           Boolean(
@@ -12564,6 +12665,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           )) ||
         Boolean(nativeValueControlLabelStopText) ||
         shouldSplitNativeControlLabelStop(el, role) ||
+        shouldSplitCompositeNativeControlLabelStop(el, role) ||
         shouldSplitDirectVisibleTextInputLabelStop(el, role) ||
         shouldSplitVisibleRequiredPasswordLabelStop(el, role) ||
         Boolean(axConfirmedNativeControlLabelStopText(el, role)) ||
@@ -12573,6 +12675,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       nativeFormControlLabelStop:
         Boolean(nativeValueControlLabelStopText) ||
         shouldSplitNativeControlLabelStop(el, role) ||
+        shouldSplitCompositeNativeControlLabelStop(el, role) ||
         shouldSplitDirectVisibleTextInputLabelStop(el, role) ||
         shouldSplitVisibleRequiredPasswordLabelStop(el, role) ||
         Boolean(axConfirmedNativeControlLabelStopText(el, role))
@@ -12581,7 +12684,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       nativeControlLabelText:
         nativeButtonLabelStopText ||
         nativeValueControlLabelStopText ||
-        axConfirmedNativeControlLabelStopText(el, role),
+        axConfirmedNativeControlLabelStopText(el, role) ||
+        (shouldSplitCompositeNativeControlLabelStop(el, role)
+          ? directAssociatedLabelText(el)
+          : undefined),
       nativeSearchFormInputStop:
         isAxConfirmedNativeSearchFormTextInput(el, role) ||
         shouldSplitNamedSingleControlFormInput(el, role)
@@ -12617,7 +12723,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       fieldsetPromptText:
         role === "group" ? fieldsetPromptText(el) : undefined,
       fieldsetLegendText:
-        role === "group" ? radioImageFieldsetLegendText(el) : undefined,
+        role === "group"
+          ? radioImageFieldsetLegendText(el) || visuallyHiddenFieldsetLegendText(el)
+          : undefined,
       labelledNavigationHeaderText:
         role === "navigation"
           ? labelledNavigationHeaderStopText(el, role, name)
@@ -13577,6 +13685,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (descriptor.nativeFormControlLabelStop && descriptor.role === "textbox") {
+      if (descriptor.readonlyOverlayTextControl) {
+        const value = normalize(descriptor.value || descriptor.placeholder);
+        const controlLabel = normalize(
+          [descriptor.name || descriptor.text, value].filter(Boolean).join(" "),
+        );
+        const announcement = normalize(`${controlLabel || label}, clickable, text`);
+        return [announcement].filter((entry): entry is string => Boolean(entry));
+      }
+
       const roleText = descriptor.textEntryArea
         ? "text entry area"
         : descriptor.secureTextField
