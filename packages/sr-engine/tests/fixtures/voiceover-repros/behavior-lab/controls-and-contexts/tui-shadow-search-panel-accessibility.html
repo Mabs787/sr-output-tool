@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI shadow search panel accessibility notice</title>
+    <style>
+      body {
+        background: #f4fbff;
+        color: #1a115a;
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 980px;
+      }
+
+      .fixture-note {
+        margin-bottom: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI custom-element shadow search panel</h1>
+      <p class="fixture-note">
+        Focused repro for a TUI search panel pattern with custom elements,
+        declarative shadow roots, visually hidden accessibility copy, overlay
+        buttons, readonly inputs, and live announcements.
+      </p>
+
+      <div class="l-content-container choice-search-panel-container">
+        <tui-choice-search-panel-container
+          market="UK"
+          locale="en-GB"
+          sitesection="Global"
+          id="package-search-panel"
+          data-theme="tui-light"
+        >
+          <template shadowrootmode="open">
+            <style>
+              :host {
+                display: block;
+              }
+
+              .tabs-container {
+                display: flex;
+                gap: 8px;
+                margin: 0 0 12px;
+                padding: 0;
+              }
+
+              .tabs-container li {
+                list-style: none;
+              }
+
+              .tab {
+                background: #d8f0fb;
+                border: 1px solid #85cde9;
+                border-radius: 999px;
+                color: #1a115a;
+                font: inherit;
+                padding: 8px 14px;
+              }
+            </style>
+
+            <nav aria-label="Search type">
+              <ul class="tabs-container" role="list">
+                <li><button class="tab" aria-current="page">Holidays</button></li>
+                <li><button class="tab">Cruises</button></li>
+              </ul>
+            </nav>
+
+            <tui-search-panel-mfe data-theme="tui-light">
+              <template shadowrootmode="open">
+                <style>
+                  :host {
+                    display: block;
+                  }
+
+                  .search-panel-wrapper {
+                    background: white;
+                    border: 1px solid #b6c9fc;
+                    border-radius: 16px;
+                    box-shadow: 0 2px 10px rgb(26 17 90 / 12%);
+                    padding: 16px;
+                  }
+
+                  .visually-hidden {
+                    border: 0;
+                    clip: rect(0 0 0 0);
+                    height: 1px;
+                    margin: -1px;
+                    overflow: hidden;
+                    padding: 0;
+                    position: absolute;
+                    width: 1px;
+                  }
+
+                  .row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                  }
+
+                  fieldset {
+                    border: 0;
+                    margin: 0;
+                    padding: 0;
+                  }
+
+                  .radio-option,
+                  .input-text-with-icon,
+                  .search-button-wrapper {
+                    min-width: 170px;
+                  }
+
+                  .label-inline {
+                    align-items: center;
+                    display: inline-flex;
+                    gap: 8px;
+                    padding: 8px 0;
+                  }
+
+                  .input-wrapper {
+                    border: 1px solid #737373;
+                    border-radius: 6px;
+                    display: grid;
+                    grid-template-columns: 1fr auto;
+                    min-height: 46px;
+                    position: relative;
+                  }
+
+                  .input-group {
+                    background: transparent;
+                    cursor: pointer;
+                    inset: 0;
+                    position: absolute;
+                    z-index: 1;
+                  }
+
+                  input[readonly] {
+                    background: transparent;
+                    color: #1a115a;
+                    font: inherit;
+                    padding: 12px;
+                  }
+
+                  .icon-reset {
+                    background: transparent;
+                    color: #1a115a;
+                    padding: 0 12px;
+                  }
+
+                  .search-button {
+                    background: #1a115a;
+                    border-radius: 999px;
+                    color: white;
+                    font: inherit;
+                    min-height: 46px;
+                    padding: 10px 22px;
+                  }
+                </style>
+
+                <form data-testid="search_panel_wrapper" aria-label="Package search" class="search-panel-wrapper">
+                  <fieldset>
+                    <legend class="visually-hidden">
+                      Unfortunately, our search panel is not yet fully accessible to people with disabilities, however, our Assisted Travel team can assist with your search, you can call them on 0800 145 6920.
+                    </legend>
+
+                    <div id="announcements" aria-live="polite" aria-atomic="true" class="visually-hidden">
+                      Search panel ready
+                    </div>
+
+                    <div class="row" role="radiogroup" aria-label="Holiday type">
+                      <div class="radio-option">
+                        <label class="label-inline" for="package-holiday">
+                          <input type="radio" id="package-holiday" name="search-type" value="package" checked>
+                          Package holiday
+                        </label>
+                      </div>
+                      <div class="radio-option">
+                        <label class="label-inline" for="flight-only">
+                          <input type="radio" id="flight-only" name="search-type" value="flight">
+                          Flight only
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <tui-field-wrapper class="airport-wrapper">
+                        <div class="input-text-with-icon">
+                          <label for="departure-airport">Where from?</label>
+                          <div class="input-wrapper">
+                            <button tabindex="0" data-testid="button_departure-airport" type="button" class="group input-group"></button>
+                            <input
+                              type="text"
+                              readonly
+                              placeholder="Any UK airport"
+                              data-testid="input_departure-airport"
+                              id="departure-airport"
+                              tabindex="-1"
+                              aria-label="Select departure airport(s), collapsed"
+                            >
+                            <button type="reset" aria-label="Reset departure airport" tabindex="-1" class="icon-reset">×</button>
+                          </div>
+                        </div>
+                      </tui-field-wrapper>
+
+                      <tui-field-wrapper class="destination-wrapper">
+                        <div class="input-text-with-icon">
+                          <label for="destinations">Where to?</label>
+                          <div class="input-wrapper">
+                            <button tabindex="0" data-testid="button_destinations" type="button" class="group input-group cursor-text"></button>
+                            <input
+                              type="text"
+                              readonly
+                              placeholder="Any destination"
+                              data-testid="input_destinations"
+                              id="destinations"
+                              tabindex="-1"
+                              aria-label="Select destination(s), collapsed"
+                            >
+                            <button type="reset" aria-label="Reset destinations" tabindex="-1" class="icon-reset">×</button>
+                          </div>
+                        </div>
+                      </tui-field-wrapper>
+
+                      <tui-field-wrapper class="departure-wrapper">
+                        <div class="input-text-with-icon">
+                          <label for="departure-date">When?</label>
+                          <div class="input-wrapper">
+                            <button tabindex="0" aria-label="Date of departure required, collapsed" data-testid="button_departure-date" type="button" class="group input-group"></button>
+                            <input
+                              type="text"
+                              readonly
+                              placeholder="Select a month"
+                              data-testid="input_departure-date"
+                              id="departure-date"
+                              tabindex="-1"
+                              aria-label="Date of departure required, collapsed"
+                            >
+                            <button type="reset" aria-label="Reset departure date" tabindex="-1" class="icon-reset">×</button>
+                          </div>
+                        </div>
+                      </tui-field-wrapper>
+
+                      <tui-field-wrapper class="party-wrapper">
+                        <div class="input-text-with-icon">
+                          <label for="pax-and-rooms">Who's going?</label>
+                          <div class="input-wrapper">
+                            <button tabindex="0" data-testid="button_pax-and-rooms" type="button" class="group input-group"></button>
+                            <input
+                              type="text"
+                              readonly
+                              placeholder="2 Adults, 0 Children"
+                              data-testid="input_pax-and-rooms"
+                              id="pax-and-rooms"
+                              tabindex="-1"
+                              aria-label="Passengers and rooms, 2 adults, 0 children, collapsed"
+                            >
+                            <button type="reset" aria-label="Reset passengers and rooms" tabindex="-1" class="icon-reset">×</button>
+                          </div>
+                        </div>
+                      </tui-field-wrapper>
+
+                      <div class="search-button-wrapper">
+                        <button aria-label="Search holidays" data-testid="button_search" type="button" class="search-button">
+                          <span>Search</span>
+                        </button>
+                      </div>
+                    </div>
+                  </fieldset>
+                </form>
+              </template>
+            </tui-search-panel-mfe>
+          </template>
+        </tui-choice-search-panel-container>
+      </div>
+    </main>
+  </body>
+</html>
