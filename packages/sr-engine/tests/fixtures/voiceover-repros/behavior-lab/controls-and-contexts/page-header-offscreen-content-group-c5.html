@@ -9,10 +9,6 @@
         font-family: sans-serif;
       }
 
-      main {
-        min-height: 220vh;
-      }
-
       .site-nav,
       .page-actions {
         display: flex;
@@ -30,8 +26,11 @@
         height: 2.5rem;
       }
 
+      .visual-filler {
+        height: 75vh;
+      }
+
       .content-shell {
-        margin-top: 120vh;
         padding: 2rem;
       }
     </style>
@@ -52,6 +51,7 @@
           <a href="/signup" type="button" role="button" tabindex="0">Sign up</a>
           <span><a href="/signup" type="button" role="button" tabindex="0" hidden>Open app</a></span>
         </header>
+        <div class="visual-filler" aria-hidden="true"></div>
         <div class="content-shell">
           <header>
             <h1>Example Docs</h1>
