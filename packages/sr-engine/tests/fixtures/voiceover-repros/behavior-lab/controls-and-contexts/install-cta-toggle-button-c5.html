@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Install CTA toggle button C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .card { border: 1px solid #777; border-radius: 12px; padding: 16px; margin-top: 16px; }
+      button, a { font: inherit; margin: 4px 8px 4px 0; }
+      .qr { width: 120px; height: 120px; background: repeating-linear-gradient(45deg, #ddd 0 6px, #fff 6px 12px); }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Install CTA toggle button</h1>
+      <p>
+        This fixture isolates whether VoiceOver announces an install/QR CTA as
+        a plain button or a toggle button when it reveals download options.
+      </p>
+
+      <section class="card" aria-label="Download app">
+        <h2>Ready wherever you are</h2>
+        <p>Scan to download or open a mobile app store.</p>
+        <button type="button" aria-pressed="false" aria-controls="qr-panel">Scan to download</button>
+        <a href="#app-store">Open App Store</a>
+        <a href="#play-store">Open Play Store</a>
+        <div id="qr-panel" class="qr" role="img" aria-label="QR code for download"></div>
+      </section>
+
+      <section class="card" aria-label="Plain comparison">
+        <h2>Plain button comparison</h2>
+        <button type="button" aria-controls="plain-panel">Show download code</button>
+        <div id="plain-panel" class="qr" role="img" aria-label="Plain QR code"></div>
+      </section>
+    </main>
+  </body>
+</html>

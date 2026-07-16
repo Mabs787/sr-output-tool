@@ -86,6 +86,9 @@ function tableColumnPosition(el: ElementDescriptor): string | undefined {
 
 function genericGroupRoleLabel(el?: ElementDescriptor): string {
   const roleDescription = normalizeText(el?.roleDescription)?.toLowerCase();
+  if (roleDescription === "empty group") {
+    return "empty group";
+  }
   return roleDescription === "carousel" ||
     roleDescription === "slideshow" ||
     roleDescription === "slide"
@@ -789,6 +792,12 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         parts.push("group");
       }
       pushCollectionPosition(parts, el);
+      pushSupplementalText(parts, el);
+      break;
+    }
+
+    case "timer": {
+      pushIfPresent(parts, label?.replace(/\s+(?=\d{1,2}:\d{2}(?::\d{2})?$)/u, ""));
       pushSupplementalText(parts, el);
       break;
     }

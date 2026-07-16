@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article card group boundary C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .cards { display: grid; gap: 16px; margin-top: 16px; }
+      article { border: 1px solid #777; border-radius: 12px; padding: 16px; }
+      .icon { display: inline-block; width: 24px; height: 24px; border-radius: 50%; background: #ddd; }
+      a, button { font: inherit; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Article card group boundary</h1>
+      <p>
+        This fixture isolates whether VoiceOver announces an anonymous group
+        before article-card headings and whether it names article endings.
+      </p>
+
+      <section class="cards" aria-label="Contact options">
+        <article aria-label="Community">
+          <span class="icon" aria-hidden="true"></span>
+          <h2>Community</h2>
+          <p>Connect with product teams in chat.</p>
+          <a href="#community">Join community</a>
+        </article>
+
+        <article aria-label="General communication">
+          <span class="icon" aria-hidden="true"></span>
+          <h2>General communication</h2>
+          <p>For other questions, email us.</p>
+          <button type="button">hello@example.com +</button>
+        </article>
+
+        <article aria-label="Status">
+          <h2>All systems operational</h2>
+          <a href="#status">Check status ↗</a>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
