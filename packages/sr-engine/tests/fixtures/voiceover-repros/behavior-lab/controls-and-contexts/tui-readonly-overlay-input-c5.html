@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI readonly overlay input C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .input-wrapper {
+        border: 1px solid #737373;
+        border-radius: 6px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        min-height: 46px;
+        position: relative;
+      }
+      .input-group {
+        background: transparent;
+        cursor: pointer;
+        inset: 0;
+        position: absolute;
+        z-index: 1;
+      }
+      input[readonly] { background: transparent; font: inherit; padding: 12px; }
+      .icon-reset { background: transparent; font: inherit; padding: 0 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI readonly overlay input</h1>
+      <tui-choice-search-panel-container>
+        <template shadowrootmode="open">
+          <form aria-label="Package search">
+            <label for="departure-airport">Where from?</label>
+            <div class="input-wrapper">
+              <button tabindex="0" type="button" class="group input-group"></button>
+              <input
+                type="text"
+                readonly
+                placeholder="Any UK airport"
+                id="departure-airport"
+                tabindex="-1"
+                aria-label="Select departure airport(s), collapsed"
+              >
+              <button type="reset" aria-label="Reset departure airport" tabindex="-1" class="icon-reset">×</button>
+            </div>
+          </form>
+        </template>
+      </tui-choice-search-panel-container>
+    </main>
+  </body>
+</html>
