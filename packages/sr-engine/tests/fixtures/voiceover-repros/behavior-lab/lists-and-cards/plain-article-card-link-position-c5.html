@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plain article card link position C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      ul { list-style: none; margin: 0; padding: 0; }
+      li + li { margin-top: 12px; }
+      article {
+        border: 1px solid #777;
+        border-radius: 12px;
+        padding: 14px;
+      }
+      a { display: block; color: #0645ad; text-decoration: none; }
+      .title { display: block; font-weight: 700; margin-bottom: 4px; }
+      .body { display: block; color: #333; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Plain article card link position</h1>
+      <p>
+        This fixture isolates whether a single link inside a positioned article
+        card repeats the parent list position.
+      </p>
+
+      <nav aria-label="Contact options">
+        <ul>
+          <li>
+            <article>
+              <a href="#sales">
+                <span class="title">Sales</span>
+                <span class="body">Speak to our sales team about plans and pricing.</span>
+              </a>
+            </article>
+          </li>
+          <li>
+            <article>
+              <a href="#support">
+                <span class="title">Support</span>
+                <span class="body">Ask product questions or report a problem.</span>
+              </a>
+            </article>
+          </li>
+        </ul>
+      </nav>
+    </main>
+  </body>
+</html>

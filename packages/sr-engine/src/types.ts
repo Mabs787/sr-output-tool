@@ -42,6 +42,7 @@ export interface ElementDescriptor {
   tableGroupedHeaderRow?: boolean;
   tableFirstGroupedHeaderRow?: boolean;
   tableHasComplexColumnHeaders?: boolean;
+  tableHasRowgroupSpanHeaders?: boolean;
   simpleNativeTwoColumnHeaderContext?: boolean;
   simpleNativeColumnHeaderContext?: boolean;
   nativeUnheadedFirstColumnContext?: boolean;
@@ -116,6 +117,8 @@ export interface ElementDescriptor {
   textboxPlaceholderBeforeRole?: boolean;
   footerCountrySelector?: boolean;
   fieldsetPromptText?: string;
+  fieldsetLegendText?: string;
+  radioTrailingLabelText?: string;
   labelledNavigationHeaderText?: string;
   examplePreviewFrameAnnouncements?: string[];
   tabExpandedState?: boolean;
@@ -124,6 +127,7 @@ export interface ElementDescriptor {
   axMixedInlineListItemAnnouncements?: string[];
   contributionListItemAnnouncements?: string[];
   metadataListItemValueAnnouncements?: string[];
+  nativeMarkerListItemAnnouncements?: string[];
   wrappedDefinitionListTermChildAnnouncements?: string[];
   inlineEmphasisListItemFragments?: string[];
   inlineEmphasisTextFragments?: string[];
@@ -132,6 +136,7 @@ export interface ElementDescriptor {
   inlineCodeBreakTextFragments?: string[];
   footerInlineBoundaryTextFragments?: string[];
   figureMockupHeaderText?: string;
+  axStaticTextRunFragments?: string[];
   inlineTextLinkFragments?: string[];
   inlinePhrasingBoundaryFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];

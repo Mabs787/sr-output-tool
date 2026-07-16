@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plan card checkbox label C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .plans { display: flex; gap: 24px; }
+      article { border: 1px solid #777; border-radius: 12px; padding: 16px; width: 240px; }
+      label { display: block; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Plan card checkbox label</h1>
+      <p>
+        This fixture isolates whether VoiceOver announces label text for
+        checked checkboxes inside pricing plan cards.
+      </p>
+
+      <section class="plans" aria-label="Plans">
+        <article>
+          <h2>Basic</h2>
+          <p>$10 per user/month</p>
+          <label><input type="checkbox" checked> Billed yearly</label>
+        </article>
+        <article>
+          <h2>Business</h2>
+          <p>$16 per user/month</p>
+          <label><input type="checkbox"> Billed monthly</label>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

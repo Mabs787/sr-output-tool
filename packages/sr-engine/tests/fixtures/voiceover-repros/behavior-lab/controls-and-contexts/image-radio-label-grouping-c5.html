@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image radio label grouping C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      fieldset { border: 1px solid #777; border-radius: 12px; padding: 16px; }
+      label { display: inline-flex; align-items: center; gap: 8px; margin-right: 16px; }
+      img { width: 32px; height: 32px; background: #ddd; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Image radio label grouping</h1>
+      <p>
+        This fixture isolates radio controls whose labels include images.
+      </p>
+
+      <fieldset>
+        <legend>Theme</legend>
+        <label>
+          <img src="missing-light.png" alt="">
+          <input type="radio" name="theme" checked>
+          Light
+        </label>
+        <label>
+          <img src="missing-dark.png" alt="">
+          <input type="radio" name="theme">
+          Dark
+        </label>
+      </fieldset>
+
+      <fieldset aria-label="Icon theme">
+        <legend>Icon theme</legend>
+        <label aria-label="Light theme">
+          <img src="missing-icon-light.png" alt="Light theme preview">
+          <input type="radio" name="icon-theme" checked>
+        </label>
+        <label aria-label="Dark theme">
+          <img src="missing-icon-dark.png" alt="Dark theme preview">
+          <input type="radio" name="icon-theme">
+        </label>
+      </fieldset>
+    </main>
+  </body>
+</html>

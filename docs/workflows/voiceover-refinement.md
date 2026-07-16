@@ -144,7 +144,14 @@ the receipts explain why those phases were not required.
   dismissed as OCR noise or flakiness. Inspect the relevant `outerHTML` for
   inline emphasis, `br`, block/span/markdown fragments, list markers, hidden
   text, and text-node boundaries.
-- Use rendered HTML, AX tree, step snapshots, and VoiceOver source evidence to repair clear scan/caption/OCR/truncation noise.
+- Use rendered HTML, AX tree, step snapshots, screenshots, and VoiceOver source
+  evidence to repair clear scan/caption/OCR/truncation noise. For OCR/glyph
+  disagreements, the refined replay oracle should follow the initial rendered
+  HTML/AX text when the evidence agrees. Examples: repair `Al` back to `AI`,
+  `APl` back to `API`, `OpenAl` back to `OpenAI`, capture-normalized quote or
+  ellipsis artifacts back to the rendered punctuation, and external-link glyph
+  misreads such as `↗` captured as `2`, `a`, or `»`. Do not change engine logic
+  to reproduce OCR artifacts proven wrong by the saved page evidence.
 - For structural scanner mismatches, require debug evidence before Phase D:
   rendered HTML, AX tree nodes, step snapshots or cursor/source evidence, and
   screenshots when the visual state matters. If a scan reproduces the raw
@@ -207,6 +214,9 @@ Treat fixture data as two layers:
 Valid reasons to edit `refinedAnnouncements` are limited to:
 
 - `caption-or-ocr-repair`: source/caption evidence proves a transcription issue.
+  This includes rendered HTML/AX/screenshot-backed glyph repairs such as
+  `AI`/`Al`, `API`/`APl`, ellipsis/quote drift, and misread external-link
+  glyphs.
 - `truncation-repair`: raw/caption/source or a mini scan proves truncation.
 - `conditional-state-removed`: per-step HTML/AX proves hover, focus, carousel,
   timer, personalization, or another step-only state was announced but is not

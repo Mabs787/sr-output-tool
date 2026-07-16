@@ -179,6 +179,106 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree follows AX static text numeric run splits", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <span data-sr-dom-node-id="1">Audit logs automatically keep track of important workspace events over the last 3 months.</span>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: true,
+              role: "none",
+              domNodeId: "1",
+              childIds: ["2", "3", "4", "5"],
+            },
+            {
+              nodeId: "2",
+              ignored: false,
+              role: "StaticText",
+              name: "Audit logs automatically keep track of important workspace events over the last",
+            },
+            {
+              nodeId: "3",
+              ignored: false,
+              role: "StaticText",
+              name: " ",
+            },
+            {
+              nodeId: "4",
+              ignored: false,
+              role: "StaticText",
+              name: "3",
+            },
+            {
+              nodeId: "5",
+              ignored: false,
+              role: "StaticText",
+              name: " months.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Audit logs automatically keep track of important workspace events over the last",
+      "3",
+      "months.",
+    ],
+  );
+});
+
+test("scanSubtree keeps compact pagination range text intact despite AX numeric runs", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <span data-sr-dom-node-id="1">Showing 1 – 9 of 31</span>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: true,
+              role: "none",
+              domNodeId: "1",
+              childIds: ["2", "3", "4", "5"],
+            },
+            {
+              nodeId: "2",
+              ignored: false,
+              role: "StaticText",
+              name: "Showing 1 –",
+            },
+            {
+              nodeId: "3",
+              ignored: false,
+              role: "StaticText",
+              name: "9",
+            },
+            {
+              nodeId: "4",
+              ignored: false,
+              role: "StaticText",
+              name: "of",
+            },
+            {
+              nodeId: "5",
+              ignored: false,
+              role: "StaticText",
+              name: "31",
+            },
+          ],
+        },
+      },
+    ),
+    ["Showing 1 – 9 of 31"],
+  );
+});
+
 test("scanSubtree skips paragraph wrappers that only contain interactive content", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2313,6 +2413,51 @@ test("scanSubtree keeps list positions on direct article card stops", () => {
   );
 });
 
+test("scanSubtree groups standalone button actions in structured article cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Contact cards">
+        <article>
+          <h4>General communication</h4>
+          <p>For other questions, email us</p>
+          <div>
+            <button type="button">
+              <span>
+                <span>hello@example.com</span><span>+</span>
+              </span>
+            </button>
+          </div>
+        </article>
+        <article>
+          <h4>Documentation</h4>
+          <p>Read setup guides and reference docs</p>
+          <div>
+            <a href="/docs">
+              <span>
+                <span>Docs</span><span>→</span>
+              </span>
+            </a>
+          </div>
+        </article>
+      </section>
+    `),
+    [
+      "Contact cards, region",
+      "General communication, article",
+      "heading level 4, General communication",
+      "For other questions, email us",
+      "hello@example.com+, button, group",
+      "end of, General communication, article",
+      "Documentation, article",
+      "heading level 4, Documentation",
+      "Read setup guides and reference docs",
+      "link, Docs→",
+      "end of, Documentation, article",
+      "end of, Contact cards, region",
+    ],
+  );
+});
+
 test("scanSubtree names dated direct article card end boundaries from heading links", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2594,6 +2739,18 @@ test("scanSubtree announces fieldset legend groups and VoiceOver checkbox state 
   );
 });
 
+test("scanSubtree names checkboxes from the first non-empty associated label", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <label for="billing-toggle"><input id="billing-toggle" type="checkbox" checked><span aria-hidden="true"></span></label>
+        <label for="billing-toggle">Billed yearly</label>
+      </section>
+    `),
+    ["Billed yearly, checked, checkbox"],
+  );
+});
+
 test("scanSubtree splits simple metadata paragraphs around time and link boundaries", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2726,6 +2883,77 @@ test("scanSubtree includes AX-confirmed unlabeled SVG images before region label
       "image",
       "heading level 2, Help improve MDN",
       "end of, Help improve MDN, region",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree includes AX-confirmed unlabeled SVG intro images before headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <header>
+            <div><video inert></video><svg data-sr-dom-node-id="intro-image"></svg></div>
+            <div>
+              <span data-sr-dom-node-id="intro-label">
+                <span data-sr-dom-node-id="intro-version">1.0</span><span data-sr-dom-node-id="intro-title">Intake</span>
+              </span>
+              <h1>Make product operations self-driving</h1>
+            </div>
+          </header>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "image",
+              name: "",
+              domNodeId: "intro-image",
+            },
+            {
+              nodeId: "label",
+              ignored: true,
+              role: "none",
+              domNodeId: "intro-label",
+              childIds: ["version-wrapper", "title-wrapper"],
+            },
+            {
+              nodeId: "version-wrapper",
+              ignored: true,
+              role: "none",
+              domNodeId: "intro-version",
+              childIds: ["version-text"],
+            },
+            {
+              nodeId: "title-wrapper",
+              ignored: true,
+              role: "none",
+              domNodeId: "intro-title",
+              childIds: ["title-text"],
+            },
+            {
+              nodeId: "version-text",
+              ignored: false,
+              role: "StaticText",
+              name: "1.0",
+            },
+            {
+              nodeId: "title-text",
+              ignored: false,
+              role: "StaticText",
+              name: "Intake",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "image",
+      "1.0 Intake",
+      "heading level 1, Make product operations self-driving",
       "end of, main",
     ],
   );
@@ -3903,6 +4131,32 @@ test("scanSubtree includes captured generated button text for popup tab buttons"
       "arrow_drop_down Resources, button, group",
       "search Search, button",
       "end of, Upper tabs, navigation",
+    ],
+  );
+});
+
+test("scanSubtree collapses focusable summary panels into a single group stop", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div tabindex="0">
+          <div>
+            <h1>Log in to Example</h1>
+            <div>
+              <button type="button">Continue with Google</button>
+              <button type="button">Continue with email</button>
+              <button type="button">Continue with SAML SSO</button>
+              <button type="button">Log in with passkey</button>
+            </div>
+            <p>Don't have an account? <a href="/signup">Sign up</a> or <a href="/home">learn more</a></p>
+          </div>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Log in to Example Continue with Google Continue with email Continue with SAML SSO Log in with passkey Don't have an account? Sign up or learn more, group",
+      "end of, main",
     ],
   );
 });
@@ -5973,6 +6227,45 @@ test("scanSubtree keeps aria-label-only decorative icon buttons ungrouped", () =
   );
 });
 
+test("scanSubtree groups AX-confirmed tabindex toolbar icon buttons", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        role: "button",
+        name: "Attach",
+        domNodeId: "attach",
+        properties: { focusable: true },
+      },
+      {
+        role: "button",
+        name: "Format text",
+        domNodeId: "format",
+        properties: { focusable: true },
+      },
+      {
+        role: "button",
+        name: "Emoji",
+        domNodeId: "emoji",
+        properties: { focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <button tabindex="-1" aria-label="Attach" data-sr-dom-node-id="attach"><svg></svg></button>
+          <button tabindex="-1" aria-label="Format text" data-sr-dom-node-id="format"><svg></svg></button>
+          <button tabindex="-1" aria-label="Emoji" data-sr-dom-node-id="emoji"><svg></svg></button>
+        </div>
+      `,
+      { accessibilityTree },
+    ),
+    ["Attach, button, group", "Format text, button, group", "Emoji, button, group"],
+  );
+});
+
 test("scanSubtree emits standalone groups for clustered visual button shells", () => {
   assert.deepEqual(
     scanHtml(`
@@ -7355,6 +7648,35 @@ test("scanSubtree preserves real whitespace between direct span fragments in nat
   );
 });
 
+test("scanSubtree uses AX-confirmed spacing for compact adjacent span popup buttons", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <button type="button" aria-haspopup="dialog" aria-expanded="false" data-sr-dom-node-id="feature-button">
+          <div><span>1.1</span><span>Linear Agent</span><span>+</span></div>
+        </button>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "button",
+              name: "1.1 Linear Agent +",
+              domNodeId: "feature-button",
+              properties: {
+                focusable: true,
+                hasPopup: "dialog",
+                expanded: false,
+              },
+            },
+          ],
+        },
+      },
+    ),
+    ["1.1 Linear Agent +, dialog pop up collapsed, button"],
+  );
+});
+
 test("scanSubtree keeps ordinary compact input action wrappers grouped", () => {
   assert.deepEqual(
     scanHtml(`
@@ -7885,6 +8207,36 @@ test("scanSubtree splits price containers with serialized aria-hidden duplicate 
       </div>
     `),
     ["From £24 /month Prices may change during 24 month minimum term."],
+  );
+});
+
+test("scanSubtree skips zero prices in free heading groups while preserving paid prices", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section>
+          <hgroup>
+            <h3>Free</h3>
+            <div><span>$0</span></div>
+          </hgroup>
+          <span><div><span>Free for everyone</span></div></span>
+        </section>
+        <section>
+          <hgroup>
+            <h3>Basic</h3>
+            <div><span>$10 per user/month</span></div>
+          </hgroup>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 3, Free",
+      "Free for everyone",
+      "heading level 3, Basic",
+      "$10 per user/month",
+      "end of, main",
+    ],
   );
 });
 

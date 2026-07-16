@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expanded button list position minimal C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .sections { border: 1px solid #777; border-radius: 12px; padding: 16px 16px 16px 32px; }
+      li { margin: 12px 0; }
+      button { border: 1px solid #777; border-radius: 8px; background: white; padding: 6px 10px; font: inherit; }
+      .panel { margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Expanded button list position minimal</h1>
+      <p>
+        This fixture isolates whether VoiceOver carries parent list position
+        onto expanded buttons in list items.
+      </p>
+
+      <ul class="sections" aria-label="Documentation sections">
+        <li>
+          <button type="button" aria-expanded="true" aria-controls="api-panel">API</button>
+          <div id="api-panel" class="panel">API reference and webhooks.</div>
+        </li>
+        <li>
+          <button type="button" aria-expanded="true" aria-controls="auth-panel">Authentication</button>
+          <div id="auth-panel" class="panel">
+            <ul>
+              <li><a href="#oauth">OAuth guide</a></li>
+              <li><a href="#keys">API keys</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <button type="button" aria-expanded="false" aria-controls="sdk-panel">SDKs</button>
+          <div id="sdk-panel" class="panel" hidden>SDK downloads.</div>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>
