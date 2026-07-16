@@ -412,7 +412,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         } else if (el.current) {
           parts.push(el.current === true ? "current item" : `current ${el.current}`);
         }
-        parts.push(el.roleDescription ?? "button");
+        parts.push(isToggleButton ? "toggle button" : el.roleDescription ?? "button");
       }
       if (el.groupContext) {
         parts.push("group");
@@ -424,9 +424,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       }
       if (el.pressed === true) {
         if (isToggleButton) {
-          const roleIndex = parts.lastIndexOf("button");
+          const roleIndex = parts.lastIndexOf("toggle button");
           if (roleIndex >= 0) {
-            parts.splice(roleIndex, 1, "selected", "toggle button");
+            parts.splice(roleIndex, 0, "selected");
           } else {
             parts.push("selected");
           }
@@ -816,7 +816,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           ? `${el.parentPositionInSet} of ${el.parentSetSize}`
           : undefined;
       const listParts =
-        listLabel && listRole === "list"
+        listLabel && (listRole === "list" || listRole === "definition list")
           ? [listRole, listLabel, listSize]
           : [listLabel, listRole, listSize];
       const normalizedListParts = listParts.filter(

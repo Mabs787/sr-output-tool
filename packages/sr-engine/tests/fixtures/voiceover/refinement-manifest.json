@@ -796,31 +796,73 @@
     },
     "github-com-login": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub login candidate coverage for authentication form controls and login-panel grouping; parked until form/panel behavior is fully resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     },
     "github-com-open-source-sponsors": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub Sponsors candidate coverage for open-source marketing content, links/cards, CTAs, and footer behavior; parked until unresolved structural gaps are resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     },
     "github-com-features-actions": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub Actions product-page candidate coverage for marketing sections, feature cards, CTAs, and comparison-like content; parked until unresolved structural gaps are resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     },
     "github-com-features-codespaces": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub Codespaces product-page candidate coverage for product marketing cards, code/dev-environment content, CTAs, and footer traversal; parked until unresolved structural gaps are resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     },
     "github-com-mcp": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub MCP candidate coverage for registry/product-page navigation, cards, article-like content, and footer behavior; parked until unresolved structural gaps are resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     },
     "github-com-resources-articles": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub resources/articles candidate coverage for article-list navigation, filters/cards, link text, and footer behavior; parked until unresolved structural gaps are resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     },
     "github-com": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "GitHub homepage candidate coverage for global navigation, marketing regions, article/card links, and footer traversal; parked until remaining full-page gaps are resolved.",
+      "existingCoverageChecked": {
+        "status": "candidate-phase-e-pending",
+        "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
+      }
     }
   },
   "fixtureTierDefinitions": {

@@ -780,6 +780,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
       if (node.nodeType !== Node.ELEMENT_NODE) return "";
       if (isHidden(node)) return "";
+      if (node.tagName?.toLowerCase() === "br") return " ";
       if (node.tagName?.toLowerCase() === "wbr") {
         return options.preserveWbrBoundary ? " " : "";
       }
@@ -2933,6 +2934,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function isNamedAlertBoundary(el: any, role = implicitRole(el)): boolean {
     if (role !== "alert") return false;
+    if (!el.getAttribute("aria-label") && !el.getAttribute("aria-labelledby")) return false;
     if (!accessibleName(el, role)) return false;
     if (isEmptyAlertBeforeDialog(el) || isEmptyAlertLiveRegion(el, role)) return false;
 
@@ -3589,10 +3591,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (directListArticleCardFor(el) !== el) return undefined;
 
-    const hasDateMetadata = Array.from(el.querySelectorAll("time")).some(
-      (time: any) => !isHidden(time) && Boolean(readableText(time)),
-    );
-    if (!hasDateMetadata) return undefined;
+    if (!hasArticleDateMetadata(el)) return undefined;
 
     const heading = Array.from(
       el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
@@ -3607,10 +3606,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const headingLink = Array.from(
       heading.querySelectorAll("a[href], [role='link']"),
     ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate))) as any;
-    if (!headingLink) return undefined;
 
     return (
-      accessibleName(headingLink, "link") ||
+      (headingLink ? accessibleName(headingLink, "link") : undefined) ||
       accessibleName(heading, "heading") ||
       readableText(heading)
     );
@@ -3623,10 +3621,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (!isSiblingArticleCollectionItem(el)) return undefined;
 
-    const hasDateMetadata = Array.from(el.querySelectorAll("time")).some(
-      (time: any) => !isHidden(time) && Boolean(readableText(time)),
-    );
-    if (!hasDateMetadata) return undefined;
+    if (!hasArticleDateMetadata(el)) return undefined;
 
     const heading = Array.from(
       el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
@@ -3641,10 +3636,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const headingLink = Array.from(
       heading.querySelectorAll("a[href], [role='link']"),
     ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate))) as any;
-    if (!headingLink) return undefined;
 
     return (
-      accessibleName(headingLink, "link") ||
+      (headingLink ? accessibleName(headingLink, "link") : undefined) ||
       accessibleName(heading, "heading") ||
       readableText(heading)
     );
@@ -3659,6 +3653,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         child.tagName?.toLowerCase() === "p" &&
         Boolean(articleInlineTextLinkFragments(child)),
     );
+  }
+
+  function hasArticleDateMetadata(el: any): boolean {
+    const hasTime = Array.from(el.querySelectorAll("time")).some(
+      (time: any) => !isHidden(time) && Boolean(readableText(time)),
+    );
+    if (hasTime) return true;
+
+    return Array.from(el.querySelectorAll("small")).some((small: any) => {
+      if (isHidden(small)) return false;
+      return /^\(?\d{4}[-–—][A-Za-z]{3}[-–—]\d{2}\)?$/.test(readableText(small) || "");
+    });
   }
 
   function isCompactStandaloneArticleContext(el: any, role: string): boolean {
@@ -7827,7 +7833,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function inlineTextLinkFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
-    if (el.tagName.toLowerCase() !== "div") return undefined;
+    const tag = el.tagName.toLowerCase();
+    if (!["div", "span"].includes(tag)) return undefined;
+    if (
+      tag === "span" &&
+      (["a", "button", "label", "li", "p", "small"].includes(
+        el.parentElement?.tagName?.toLowerCase?.() || "",
+      ) ||
+        el.closest("footer,[role='contentinfo']"))
+    ) {
+      return undefined;
+    }
     if (
       el.getAttribute("role") ||
       el.getAttribute("aria-label") ||
