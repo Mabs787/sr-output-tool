@@ -136,6 +136,7 @@ export interface ElementDescriptor {
   inlineCodeBreakTextFragments?: string[];
   footerInlineBoundaryTextFragments?: string[];
   figureMockupHeaderText?: string;
+  axStaticTextRunFragments?: string[];
   inlineTextLinkFragments?: string[];
   inlinePhrasingBoundaryFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];

@@ -375,6 +375,37 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return candidates.length === 1 ? candidates[0] : undefined;
   }
 
+  function axStaticTextRunFragments(el: any, role: string): string[] | undefined {
+    if (!["paragraph", "text"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (!accessibilityNodes.length) return undefined;
+    if (el.closest(interactiveSelector) || el.querySelector(interactiveSelector)) return undefined;
+
+    const visibleElementChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (visibleElementChildren.length) return undefined;
+
+    const text = normalize(readableText(el) || el.textContent);
+    if (!text) return undefined;
+
+    const axNode = axNodeAnyForElement(el);
+    const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
+    if (axChildren.length < 2) return undefined;
+    if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
+      return undefined;
+    }
+
+    const fragments = axChildren
+      .map((child) => normalize(child.name))
+      .filter((fragment): fragment is string => Boolean(fragment && /[\p{L}\p{N}]/u.test(fragment)));
+    if (fragments.length < 2) return undefined;
+    if (normalize(fragments.join(" ")) !== text) return undefined;
+    if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment))) return undefined;
+
+    return fragments;
+  }
+
   function axDescendants(node?: AccessibilityTreeNode): AccessibilityTreeNode[] {
     if (!node?.childIds?.length) return [];
     const descendants: AccessibilityTreeNode[] = [];
@@ -12507,6 +12538,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       inlineCodeBreakTextFragments: inlineCodeBreakTextFragments(el, role),
       footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
       figureMockupHeaderText: figureMockupHeaderText(el, role),
+      axStaticTextRunFragments: axStaticTextRunFragments(el, role),
       inlineTextLinkFragments:
         role === "paragraph"
           ? footerInlineBoundaryParagraphFragments(el) ||
@@ -14014,6 +14046,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       : undefined;
   }
 
+  function splitAxStaticTextRunAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.axStaticTextRunFragments;
+    if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
   function splitInlineTextLinkAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -14382,6 +14424,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-figure-mockup-header-text",
           announcements: splitFigureMockupHeaderTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-static-text-run",
+          announcements: splitAxStaticTextRunAnnouncements(descriptor),
         },
         {
           source: "split-inline-phrasing-boundary",

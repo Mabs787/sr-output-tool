@@ -179,6 +179,58 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree follows AX static text numeric run splits", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <span data-sr-dom-node-id="1">Audit logs automatically keep track of important workspace events over the last 3 months.</span>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: true,
+              role: "none",
+              domNodeId: "1",
+              childIds: ["2", "3", "4", "5"],
+            },
+            {
+              nodeId: "2",
+              ignored: false,
+              role: "StaticText",
+              name: "Audit logs automatically keep track of important workspace events over the last",
+            },
+            {
+              nodeId: "3",
+              ignored: false,
+              role: "StaticText",
+              name: " ",
+            },
+            {
+              nodeId: "4",
+              ignored: false,
+              role: "StaticText",
+              name: "3",
+            },
+            {
+              nodeId: "5",
+              ignored: false,
+              role: "StaticText",
+              name: " months.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Audit logs automatically keep track of important workspace events over the last",
+      "3",
+      "months.",
+    ],
+  );
+});
+
 test("scanSubtree skips paragraph wrappers that only contain interactive content", () => {
   assert.deepEqual(
     scanHtml(`
