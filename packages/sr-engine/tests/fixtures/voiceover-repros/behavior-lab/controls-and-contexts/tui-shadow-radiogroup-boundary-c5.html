@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI shadow radiogroup boundary C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .row { display: flex; gap: 16px; }
+      .label-inline { display: inline-flex; gap: 8px; padding: 8px 0; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI shadow radiogroup boundary</h1>
+      <tui-choice-search-panel-container>
+        <template shadowrootmode="open">
+          <tui-search-panel-mfe>
+            <template shadowrootmode="open">
+              <form aria-label="Package search">
+                <div class="row" role="radiogroup" aria-label="Holiday type">
+                  <label class="label-inline" for="package-holiday">
+                    <input type="radio" id="package-holiday" name="search-type" value="package" checked>
+                    Package holiday
+                  </label>
+                  <label class="label-inline" for="flight-only">
+                    <input type="radio" id="flight-only" name="search-type" value="flight">
+                    Flight only
+                  </label>
+                </div>
+              </form>
+            </template>
+          </tui-search-panel-mfe>
+        </template>
+      </tui-choice-search-panel-container>
+    </main>
+  </body>
+</html>

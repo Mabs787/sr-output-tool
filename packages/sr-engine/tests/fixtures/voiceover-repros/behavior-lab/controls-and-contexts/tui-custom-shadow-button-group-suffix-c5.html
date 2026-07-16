@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI custom shadow button group suffix C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      button { font: inherit; margin: 6px; padding: 8px 14px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI custom shadow button group suffix</h1>
+      <tui-choice-search-panel-container>
+        <template shadowrootmode="open">
+          <form aria-label="Package search">
+            <tui-action-wrapper>
+              <template shadowrootmode="open">
+                <button type="reset" aria-label="Reset departure airport">×</button>
+              </template>
+            </tui-action-wrapper>
+            <tui-action-wrapper>
+              <template shadowrootmode="open">
+                <button type="button" aria-label="Search holidays"><span>Search</span></button>
+              </template>
+            </tui-action-wrapper>
+          </form>
+        </template>
+      </tui-choice-search-panel-container>
+    </main>
+  </body>
+</html>

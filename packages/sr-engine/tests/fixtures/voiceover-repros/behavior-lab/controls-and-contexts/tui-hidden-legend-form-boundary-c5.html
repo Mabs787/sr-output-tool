@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI hidden legend form boundary C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      form { border: 1px solid #b6c9fc; border-radius: 12px; padding: 16px; }
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+      button { font: inherit; padding: 8px 14px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI hidden legend form boundary</h1>
+      <tui-choice-search-panel-container>
+        <template shadowrootmode="open">
+          <tui-search-panel-mfe>
+            <template shadowrootmode="open">
+              <form aria-label="Package search">
+                <fieldset>
+                  <legend class="visually-hidden">
+                    Unfortunately, our search panel is not yet fully accessible to people with disabilities, however, our Assisted Travel team can assist with your search.
+                  </legend>
+                  <div id="announcements" aria-live="polite" aria-atomic="true" class="visually-hidden">Search panel ready</div>
+                  <button type="button">Search</button>
+                </fieldset>
+              </form>
+            </template>
+          </tui-search-panel-mfe>
+        </template>
+      </tui-choice-search-panel-container>
+    </main>
+  </body>
+</html>
