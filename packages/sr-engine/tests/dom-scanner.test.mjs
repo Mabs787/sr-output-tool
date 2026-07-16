@@ -231,6 +231,54 @@ test("scanSubtree follows AX static text numeric run splits", () => {
   );
 });
 
+test("scanSubtree keeps compact pagination range text intact despite AX numeric runs", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <span data-sr-dom-node-id="1">Showing 1 – 9 of 31</span>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: true,
+              role: "none",
+              domNodeId: "1",
+              childIds: ["2", "3", "4", "5"],
+            },
+            {
+              nodeId: "2",
+              ignored: false,
+              role: "StaticText",
+              name: "Showing 1 –",
+            },
+            {
+              nodeId: "3",
+              ignored: false,
+              role: "StaticText",
+              name: "9",
+            },
+            {
+              nodeId: "4",
+              ignored: false,
+              role: "StaticText",
+              name: "of",
+            },
+            {
+              nodeId: "5",
+              ignored: false,
+              role: "StaticText",
+              name: "31",
+            },
+          ],
+        },
+      },
+    ),
+    ["Showing 1 – 9 of 31"],
+  );
+});
+
 test("scanSubtree skips paragraph wrappers that only contain interactive content", () => {
   assert.deepEqual(
     scanHtml(`

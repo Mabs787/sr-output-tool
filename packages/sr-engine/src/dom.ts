@@ -402,6 +402,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (fragments.length < 2) return undefined;
     if (normalize(fragments.join(" ")) !== text) return undefined;
     if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment))) return undefined;
+    if (/^\S+\s+\p{N}+\s*[–-]\s*\p{N}+\s+of\s+\p{N}+$/iu.test(text)) return undefined;
 
     return fragments;
   }
