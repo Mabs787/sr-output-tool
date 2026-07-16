@@ -2691,6 +2691,18 @@ test("scanSubtree announces fieldset legend groups and VoiceOver checkbox state 
   );
 });
 
+test("scanSubtree names checkboxes from the first non-empty associated label", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <label for="billing-toggle"><input id="billing-toggle" type="checkbox" checked><span aria-hidden="true"></span></label>
+        <label for="billing-toggle">Billed yearly</label>
+      </section>
+    `),
+    ["Billed yearly, checked, checkbox"],
+  );
+});
+
 test("scanSubtree splits simple metadata paragraphs around time and link boundaries", () => {
   assert.deepEqual(
     scanHtml(`

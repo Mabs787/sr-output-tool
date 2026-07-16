@@ -978,8 +978,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function labelForControl(el: any): string | undefined {
-    if ("labels" in el && el.labels?.length) {
-      const label = el.labels[0];
+    function labelText(label: any): string | undefined {
       return normalize(
         (
           normalize(label.getAttribute("aria-label")) ||
@@ -990,19 +989,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       );
     }
 
+    if ("labels" in el && el.labels?.length) {
+      for (const label of Array.from(el.labels)) {
+        const text = labelText(label);
+        if (text) return text;
+      }
+      return undefined;
+    }
+
     const id = el.getAttribute("id");
     if (!id) return undefined;
     const label = document.querySelector(`label[for="${cssEscape(id)}"]`);
-    return label
-      ? normalize(
-          (
-            normalize(label.getAttribute("aria-label")) ||
-            textFromIdRefs(label.getAttribute("aria-labelledby")) ||
-            textWithoutInteractive(label) ||
-            readableText(label)
-          )?.replace(/:\s*/g, ": "),
-        )
-      : undefined;
+    return label ? labelText(label) : undefined;
   }
 
   function hasExplicitAriaName(el: any): boolean {
