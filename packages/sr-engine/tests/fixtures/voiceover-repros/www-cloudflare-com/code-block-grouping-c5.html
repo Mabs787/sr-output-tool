@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare focusable code block grouping C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      pre {
+        border: 1px solid #777;
+        border-radius: 12px;
+        padding: 16px;
+        overflow: auto;
+        background: #f7f7f2;
+      }
+      code span { display: inline; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Focusable code block grouping</h1>
+      <p>This fixture isolates a focusable code block whose code text is split across token spans.</p>
+
+      <section aria-labelledby="worker-title">
+        <h2 id="worker-title">Worker example</h2>
+        <pre tabindex="0" aria-label="Durable Object code sample"><code><span>export class Counter {</span>
+<span>  async fetch(request) {</span>
+<span>    return new Response("ok");</span>
+<span>  }</span>
+<span>}</span></code></pre>
+      </section>
+    </main>
+  </body>
+</html>

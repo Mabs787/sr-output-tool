@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare header tab and group boundaries C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      header { border-bottom: 1px solid #777; padding-bottom: 16px; }
+      .tabs { display: flex; gap: 8px; margin-top: 16px; }
+      [role="tab"] { border: 1px solid #777; border-radius: 999px; padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <header>
+        <a href="#home" aria-label="Cloudflare homepage">
+          <svg role="img" aria-label="Cloudflare" viewBox="0 0 40 20">
+            <rect width="40" height="20"></rect>
+          </svg>
+        </a>
+        <button type="button" aria-haspopup="menu" aria-expanded="false">Products</button>
+        <a href="#sales">Contact sales</a>
+      </header>
+
+      <section aria-labelledby="platform-title">
+        <h1 id="platform-title">Developer platform</h1>
+        <div role="tablist" aria-label="Platform areas" class="tabs">
+          <button role="tab" aria-selected="true" aria-controls="compute-panel" id="compute-tab">Compute</button>
+          <button role="tab" aria-selected="false" aria-controls="storage-panel" id="storage-tab">Storage</button>
+          <button role="tab" aria-selected="false" aria-controls="ai-panel" id="ai-tab">AI</button>
+        </div>
+        <div id="compute-panel" role="tabpanel" aria-labelledby="compute-tab">
+          <h2>Compute</h2>
+          <p>Deploy serverless applications at the edge.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
