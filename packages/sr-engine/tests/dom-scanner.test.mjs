@@ -2828,6 +2828,77 @@ test("scanSubtree includes AX-confirmed unlabeled SVG images before region label
   );
 });
 
+test("scanSubtree includes AX-confirmed unlabeled SVG intro images before headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <header>
+            <div><video inert></video><svg data-sr-dom-node-id="intro-image"></svg></div>
+            <div>
+              <span data-sr-dom-node-id="intro-label">
+                <span data-sr-dom-node-id="intro-version">1.0</span><span data-sr-dom-node-id="intro-title">Intake</span>
+              </span>
+              <h1>Make product operations self-driving</h1>
+            </div>
+          </header>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "image",
+              name: "",
+              domNodeId: "intro-image",
+            },
+            {
+              nodeId: "label",
+              ignored: true,
+              role: "none",
+              domNodeId: "intro-label",
+              childIds: ["version-wrapper", "title-wrapper"],
+            },
+            {
+              nodeId: "version-wrapper",
+              ignored: true,
+              role: "none",
+              domNodeId: "intro-version",
+              childIds: ["version-text"],
+            },
+            {
+              nodeId: "title-wrapper",
+              ignored: true,
+              role: "none",
+              domNodeId: "intro-title",
+              childIds: ["title-text"],
+            },
+            {
+              nodeId: "version-text",
+              ignored: false,
+              role: "StaticText",
+              name: "1.0",
+            },
+            {
+              nodeId: "title-text",
+              ignored: false,
+              role: "StaticText",
+              name: "Intake",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "image",
+      "1.0 Intake",
+      "heading level 1, Make product operations self-driving",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree preserves exact AX parenthetical link names", () => {
   assert.deepEqual(
     scanHtml(

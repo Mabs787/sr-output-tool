@@ -406,6 +406,60 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function axAdjacentVersionTitleText(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (!accessibilityNodes.length) return undefined;
+    if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+      return undefined;
+    }
+    if (el.closest(interactiveSelector) || el.querySelector(interactiveSelector)) return undefined;
+
+    const tag = el.tagName?.toLowerCase();
+    if (!["span", "div"].includes(tag)) return undefined;
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (visibleChildren.length !== 2) return undefined;
+    if (
+      visibleChildren.some((child: any) => {
+        const childTag = child.tagName?.toLowerCase();
+        return childTag !== "span" || child.children?.length || !normalize(child.textContent);
+      })
+    ) {
+      return undefined;
+    }
+
+    const axNode = axNodeAnyForElement(el);
+    if (!axNode || !axNode.ignored) return undefined;
+    const fragments = visibleChildren
+      .map((child: any) => normalize(child.textContent))
+      .filter((fragment): fragment is string => Boolean(fragment));
+
+    if (!/^\d+(?:\.\d+)+$/u.test(fragments[0] || "")) return undefined;
+    if (!/^[\p{L}][\p{L}\p{N} &-]{1,40}$/u.test(fragments[1] || "")) return undefined;
+
+    return fragments.join(" ");
+  }
+
+  function visibleElementChildren(el: any): any[] {
+    return Array.from(el?.children || []).filter((child: any) => !isHidden(child));
+  }
+
+  function axAdjacentVersionTitleTextForFirstChild(el: any, role: string): string | undefined {
+    if (role !== "text") return undefined;
+    const parent = el?.parentElement;
+    if (!parent) return undefined;
+    const children = visibleElementChildren(parent);
+    if (children[0] !== el) return undefined;
+    return axAdjacentVersionTitleText(parent);
+  }
+
+  function isTrailingAxAdjacentVersionTitleTextChild(el: any, role: string): boolean {
+    if (role !== "text") return false;
+    const parent = el?.parentElement;
+    if (!parent || !axAdjacentVersionTitleText(parent)) return false;
+    const children = visibleElementChildren(parent);
+    return children.includes(el) && children[0] !== el;
+  }
+
   function axDescendants(node?: AccessibilityTreeNode): AccessibilityTreeNode[] {
     if (!node?.childIds?.length) return [];
     const descendants: AccessibilityTreeNode[] = [];
@@ -4705,6 +4759,37 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         .find((sibling: any) => !isHidden(sibling));
       if (next && implicitRole(next) === "heading") {
         return idRefsContain(labelledRegion.getAttribute("aria-labelledby"), next.id);
+      }
+    }
+
+    return false;
+  }
+
+  function isAxConfirmedHeadingIntroImage(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "svg") return false;
+    if (accessibleName(el, "image")) return false;
+    if (!hasAxRole(el, "image")) return false;
+
+    for (let wrapper = el.parentElement; wrapper; wrapper = wrapper.parentElement) {
+      if (readableText(wrapper)) return false;
+      const parent = wrapper.parentElement;
+      if (!parent) return false;
+
+      const siblings = Array.from(parent.children || []);
+      const next = siblings
+        .slice(siblings.indexOf(wrapper) + 1)
+        .find((sibling: any) => !isHidden(sibling));
+      if (next) {
+        const heading = firstVisibleDescendantMatching(
+          next,
+          (candidate: any) => implicitRole(candidate) === "heading",
+        );
+        return Boolean(heading && readableText(heading));
+      }
+
+      const parentRole = implicitRole(parent);
+      if (["main", "banner", "navigation", "contentinfo"].includes(parentRole || "")) {
+        return false;
       }
     }
 
@@ -11991,7 +12076,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "heading" ? axConfirmedLinkedOfferHeadingName(el, role) : undefined;
     const accessibleRoleName = accessibleName(el, role);
     const articleHeadingName = articleNameFromFirstHeading(el, role);
+    const adjacentVersionTitleText = axAdjacentVersionTitleTextForFirstChild(el, role);
     const name =
+      adjacentVersionTitleText ||
       tableCellAbbrTitleButtonName(el, role) ||
       axLinkedOfferHeadingName ||
       axConfirmedTerminalPunctuationLinkedHeadingName(el, role) ||
@@ -12645,6 +12732,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       descriptor.text = priceDisclosureText;
     }
 
+    if (adjacentVersionTitleText) {
+      descriptor.name = adjacentVersionTitleText;
+      descriptor.text = adjacentVersionTitleText;
+    }
+
     const metricCardText = role === "text" ? groupedMetricCardText(el) : undefined;
     if (metricCardText) {
       descriptor.name = metricCardText;
@@ -12954,6 +13046,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (isTrailingAxAdjacentVersionTitleTextChild(el, role)) {
+      return false;
+    }
+
     if (isInsideJoinedPriceDisclosure(el)) {
       return false;
     }
@@ -13113,6 +13209,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !accessibleName(el, role) &&
       !isInformativeUnlabeledCmsImage(el) &&
       !isAxConfirmedRegionIntroImage(el) &&
+      !isAxConfirmedHeadingIntroImage(el) &&
       !hasStructuredListItemContent(el.closest("li,[role='listitem']"))
     ) {
       return false;
@@ -14602,6 +14699,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             syntheticTextStop("tokenized-one-line-html-tag-fragment", el, fragment),
           );
         }
+        return;
+      }
+
+      const adjacentVersionTitleText = axAdjacentVersionTitleText(el);
+      if (adjacentVersionTitleText) {
+        const id = `__sr_el_${stopIndex}_${now()}`;
+        stopIndex += 1;
+        el.setAttribute("data-sr-id", id);
+        emitTraversalStop(
+          id,
+          syntheticTextStop("ax-adjacent-version-title-text", el, adjacentVersionTitleText),
+        );
         return;
       }
 
