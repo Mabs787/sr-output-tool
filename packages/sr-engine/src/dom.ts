@@ -2034,6 +2034,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role !== "button" || el?.tagName?.toLowerCase() !== "button") return undefined;
     if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
     if (el.disabled || el.hasAttribute?.("disabled")) return undefined;
+    if (nativeButtonDirectSpanTextName(el)) return undefined;
 
     const domName = normalize(name || accessibleName(el, role));
     if (!domName) return undefined;
@@ -2079,6 +2080,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (el.querySelector(interactiveSelector)) return undefined;
 
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (
+      visibleChildren.length === 1 &&
+      ["div", "span"].includes(visibleChildren[0].tagName?.toLowerCase()) &&
+      !directOwnText(el) &&
+      !visibleChildren[0].getAttribute("role") &&
+      !visibleChildren[0].getAttribute("aria-label") &&
+      !visibleChildren[0].getAttribute("aria-labelledby")
+    ) {
+      return nativeButtonAdjacentSpanText(visibleChildren[0]);
+    }
+
+    return nativeButtonAdjacentSpanText(el);
+  }
+
+  function nativeButtonAdjacentSpanText(el: any): string | undefined {
     let text = "";
     let spanCount = 0;
     let sawAdjacentTextSpans = false;
@@ -2114,6 +2131,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     if (spanCount < 2 || !sawAdjacentTextSpans) return undefined;
     return normalize(text);
+  }
+
+  function isStructuredArticleCardStandaloneButtonAction(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (el?.tagName?.toLowerCase() !== "button") return false;
+    if (el.disabled || el.hasAttribute?.("disabled") || el.getAttribute("aria-disabled") === "true") {
+      return false;
+    }
+    if (normalizedPopup(el) || el.hasAttribute("aria-expanded")) return false;
+    if (!nativeButtonDirectSpanTextName(el)) return false;
+
+    const article = el.closest("article,[role='article']");
+    if (!hasStructuredInferredArticleCardContent(article)) return false;
+    return !el.closest("p,li,h1,h2,h3,h4,h5,h6,[role='heading']");
   }
 
   function isNativeButtonDirectSpanGroupButton(el: any): boolean {
@@ -12253,6 +12284,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             (role === "button" && isGeneratedPseudoPopupButton(el)) ||
             (role === "button" && isShadowHostWrappedNativeButton(el)) ||
             (role === "button" && isNativeButtonDirectSpanGroupButton(el)) ||
+            (role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role)) ||
             (role === "button" && nativeSubmitTabPanelGroup) ||
             (role === "button" &&
               !suppressPositionedChoiceGroup &&

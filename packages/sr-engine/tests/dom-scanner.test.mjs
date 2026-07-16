@@ -2313,6 +2313,51 @@ test("scanSubtree keeps list positions on direct article card stops", () => {
   );
 });
 
+test("scanSubtree groups standalone button actions in structured article cards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Contact cards">
+        <article>
+          <h4>General communication</h4>
+          <p>For other questions, email us</p>
+          <div>
+            <button type="button">
+              <span>
+                <span>hello@example.com</span><span>+</span>
+              </span>
+            </button>
+          </div>
+        </article>
+        <article>
+          <h4>Documentation</h4>
+          <p>Read setup guides and reference docs</p>
+          <div>
+            <a href="/docs">
+              <span>
+                <span>Docs</span><span>→</span>
+              </span>
+            </a>
+          </div>
+        </article>
+      </section>
+    `),
+    [
+      "Contact cards, region",
+      "General communication, article",
+      "heading level 4, General communication",
+      "For other questions, email us",
+      "hello@example.com+, button, group",
+      "end of, General communication, article",
+      "Documentation, article",
+      "heading level 4, Documentation",
+      "Read setup guides and reference docs",
+      "link, Docs→",
+      "end of, Documentation, article",
+      "end of, Contact cards, region",
+    ],
+  );
+});
+
 test("scanSubtree names dated direct article card end boundaries from heading links", () => {
   assert.deepEqual(
     scanHtml(`
