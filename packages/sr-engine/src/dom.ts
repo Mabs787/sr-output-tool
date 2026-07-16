@@ -3659,6 +3659,80 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function hasStructuredInferredArticleCardContent(article: any): boolean {
+    if (!article || implicitRole(article) !== "article") return false;
+
+    const heading = Array.from(
+      article.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
+    ).find(
+      (candidate: any) =>
+        !isHidden(candidate) &&
+        candidate.closest("article,[role='article']") === article &&
+        Boolean(readableText(candidate)),
+    );
+    if (!heading) return false;
+
+    const standaloneAction = Array.from(
+      article.querySelectorAll("a[href], button, [role='link'], [role='button']"),
+    ).some(
+      (candidate: any) =>
+        !isHidden(candidate) &&
+        candidate.closest("article,[role='article']") === article &&
+        !candidate.closest("p,li,h1,h2,h3,h4,h5,h6,[role='heading']") &&
+        Boolean(readableText(candidate) || accessibleName(candidate, implicitRole(candidate))),
+    );
+
+    return Boolean(standaloneAction);
+  }
+
+  function inferredStructuredArticleCardContextEndName(
+    el: any,
+    role: string,
+    articleHeadingName?: string,
+    accessibleRoleName?: string,
+    announcementName?: string,
+  ): string | undefined {
+    if (role !== "article") return undefined;
+    if (!articleHeadingName || accessibleRoleName || announcementName !== articleHeadingName) {
+      return undefined;
+    }
+    return hasStructuredInferredArticleCardContent(el) ? articleHeadingName : undefined;
+  }
+
+  function isStructuredArticleCardNamingHeading(el: any, role: string): boolean {
+    if (role !== "heading") return false;
+    const article = el.closest("article,[role='article']");
+    if (!hasStructuredInferredArticleCardContent(article)) return false;
+    const articleHeadingName = articleNameFromFirstHeading(article, "article");
+    const headingName = accessibleName(el, role) || readableText(el);
+    return Boolean(articleHeadingName && headingName && articleHeadingName === headingName);
+  }
+
+  function isStandaloneTextLabelBeforeStructuredArticleCard(el: any, role: string): boolean {
+    if (role !== "text") return false;
+    const label = normalize(textWithoutInteractive(el) || readableText(el));
+    if (!label || label.length > 80) return false;
+    if (el.closest("article,[role='article']")) return false;
+    if (el.querySelector?.(interactiveSelector)) return false;
+
+    for (let current = el; current?.parentElement; current = current.parentElement) {
+      const next = nextMeaningfulElementSibling(current);
+      if (!next) continue;
+
+      const article =
+        implicitRole(next) === "article"
+          ? next
+          : Array.from(next.querySelectorAll?.("article,[role='article']") || []).find(
+              (candidate: any) => !isHidden(candidate),
+            );
+
+      if (hasStructuredInferredArticleCardContent(article)) return true;
+      if (readableText(next) || hasVisibleInteractiveDescendant(next)) return false;
+    }
+
+    return false;
+  }
+
   function isArticleInlineLinkCollectionContext(el: any, role: string): boolean {
     if (role !== "article") return false;
     if (!isSiblingArticleCollectionItem(el)) return false;
@@ -7060,7 +7134,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       article.querySelector("h1,h2,h3,h4,h5,h6,[role='heading']"),
     );
     const hasLink = Boolean(article.querySelector("a[href], [role='link']"));
-    return hasHeading && hasLink ? article : null;
+    if (!hasLink) return null;
+    if (hasHeading) return article;
+
+    const articleChildren = directSemanticChildren(article);
+    return articleChildren.length === 1 &&
+      implicitRole(articleChildren[0]) === "link" &&
+      Boolean(readableText(articleChildren[0]))
+      ? article
+      : null;
   }
 
   function isDescendantOfDirectListArticleCard(el: any): boolean {
@@ -11897,7 +11979,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       isAxConfirmedNativeCollapsedButtonWithHiddenControlledRegions(el, role, name);
     const contextEndName =
       directListArticleCardContextEndName(el, role) ||
-      siblingArticleCardContextEndName(el, role);
+      siblingArticleCardContextEndName(el, role) ||
+      inferredStructuredArticleCardContextEndName(
+        el,
+        role,
+        articleHeadingName,
+        accessibleRoleName,
+        announcementName,
+      );
     const focusableFeedbackGroupText =
       role === "group" ? axConfirmedFocusableFeedbackGroupText(el) : undefined;
     const richTextGroupText = focusableRichTextParagraphGroupText(el);
@@ -12223,12 +12312,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "listbox" && isExpandedAutocompletePopupListbox(el) || undefined,
       compactInputActionGroup:
         role === "group" && compactInputActionGroupLabel(el) ? true : undefined,
-      leadingCarouselGroup: isLeadingCarouselGroupStop(el, role) || undefined,
+      leadingCarouselGroup:
+        (!isStructuredArticleCardNamingHeading(el, role) &&
+          isLeadingCarouselGroupStop(el, role)) ||
+        undefined,
       trailingCarouselSlideGroups:
         isTrailingCarouselSlideGroupStop(el, role) || undefined,
       leadingStandaloneCardGroup:
-        isLeadingStandaloneCardGroupStop(el, role) ||
-        isPostHeadingMediaCardGroupStop(el, role) ||
+        (!isStructuredArticleCardNamingHeading(el, role) &&
+          !isStandaloneTextLabelBeforeStructuredArticleCard(el, role) &&
+          (isLeadingStandaloneCardGroupStop(el, role) ||
+            isPostHeadingMediaCardGroupStop(el, role))) ||
         undefined,
       namedTextCardGroup:
         role === "text" && isCustomHeadedTextCardBody(el) || undefined,
