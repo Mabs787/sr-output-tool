@@ -28,7 +28,7 @@
       <section class="cards" aria-label="Use cases">
         <article class="card">
           <a href="#ai">
-            <div class="mock-image">
+            <div class="mock-image" role="group" aria-label="AI Gateway preview">
               <svg role="img" aria-label="AI gateway diagram" viewBox="0 0 40 40">
                 <circle cx="20" cy="20" r="16"></circle>
               </svg>
@@ -41,13 +41,20 @@
 
         <article class="card">
           <a href="#storage">
-            <div class="mock-image" aria-hidden="true">
-              <span>Decorative storage mockup</span>
+            <div class="mock-image">
+              <svg role="img" aria-label="Storage product badge" viewBox="0 0 40 40">
+                <rect x="6" y="6" width="28" height="28"></rect>
+              </svg>
+              <span aria-hidden="true">Decorative storage mockup</span>
             </div>
             <span>Object Storage</span>
             <p>Store application assets close to users.</p>
           </a>
         </article>
+
+        <div class="card" aria-hidden="true">
+          <span>Decorative spacer card</span>
+        </div>
       </section>
     </main>
   </body>

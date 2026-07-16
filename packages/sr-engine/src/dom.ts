@@ -272,7 +272,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const root = axNodeAnyForElement(el);
     if (!root) return undefined;
     const rootRole = normalizedAxRole(root.role);
-    if (!root.ignored && rootRole !== "time") return undefined;
+    if (!root.ignored && !["figcaption", "time"].includes(rootRole || "")) return undefined;
 
     const candidates = axDescendants(root).filter((node) => {
       if (node.ignored) return false;
@@ -405,6 +405,48 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment))) return undefined;
     if (/^\S+\s+\p{N}+\s*[–-]\s*\p{N}+\s+of\s+\p{N}+$/iu.test(text)) return undefined;
 
+    return fragments;
+  }
+
+  function axLineBreakTextFragments(el: any, role: string): string[] | undefined {
+    if (!["paragraph", "text"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.closest(interactiveSelector) || el.querySelector(interactiveSelector)) return undefined;
+
+    const tag = el.tagName?.toLowerCase();
+    if (!["span", "small", "p", "figcaption"].includes(tag)) return undefined;
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (
+      !visibleChildren.length ||
+      visibleChildren.some((child: any) => child.tagName?.toLowerCase() !== "br")
+    ) {
+      return undefined;
+    }
+
+    const text = normalize(readableText(el) || el.textContent);
+    if (!text) return undefined;
+
+    const axNode = axNodeAnyForElement(el);
+    const axChildren = axChildNodes(axNode);
+    if (axChildren.length < 3) return undefined;
+    if (!axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")) {
+      return undefined;
+    }
+    if (
+      axChildren.some((child) => {
+        const role = normalizedAxRole(child.role);
+        return role !== "statictext" && role !== "linebreak";
+      })
+    ) {
+      return undefined;
+    }
+
+    const fragments = axChildren
+      .filter((child) => normalizedAxRole(child.role) === "statictext")
+      .map((child) => normalize(child.name))
+      .filter((fragment): fragment is string => Boolean(fragment && /[\p{L}\p{N}$£€]/u.test(fragment)));
+    if (fragments.length < 2) return undefined;
+    if (normalize(fragments.join(" ")) !== text) return undefined;
     return fragments;
   }
 
@@ -10885,6 +10927,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function isIconOnlyLink(el: any): boolean {
     if (implicitRole(el) !== "link") return false;
     if (!nestedImageLabel(el)) return false;
+    const linkName = normalize(accessibleName(el, "link"));
+    const axNode = axNodeForElementRole(el, "link");
+    if (
+      linkName &&
+      axNode &&
+      normalize(axNode.name) === linkName &&
+      axNode.properties?.focusable === true &&
+      hasExplicitAriaName(el)
+    ) {
+      return false;
+    }
     const clone = el.cloneNode(true);
     for (const node of Array.from(
       clone.querySelectorAll("img, svg, [role='img'], [aria-hidden='true']"),
@@ -12794,6 +12847,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
       figureMockupHeaderText: figureMockupHeaderText(el, role),
       axStaticTextRunFragments: axStaticTextRunFragments(el, role),
+      axLineBreakTextFragments: axLineBreakTextFragments(el, role),
       inlineTextLinkFragments:
         role === "paragraph"
           ? footerInlineBoundaryParagraphFragments(el) ||
@@ -12877,7 +12931,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         : textWithoutInteractive(el) || text;
       descriptor.name = adjacentValue && paragraphName
         ? `${paragraphName}${adjacentValue}`
-        : paragraphName;
+        : renderedCaseName(el, role, paragraphName) || paragraphName;
       descriptor.text = descriptor.name;
     }
 
@@ -14330,6 +14384,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitAxLineBreakTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.axLineBreakTextFragments;
+    if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
   function splitInlineTextLinkAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -14702,6 +14766,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-ax-static-text-run",
           announcements: splitAxStaticTextRunAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-linebreak-text",
+          announcements: splitAxLineBreakTextAnnouncements(descriptor),
         },
         {
           source: "split-inline-phrasing-boundary",

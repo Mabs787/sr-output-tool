@@ -24,11 +24,19 @@
 
       <section aria-labelledby="worker-title">
         <h2 id="worker-title">Worker example</h2>
-        <pre tabindex="0" aria-label="Durable Object code sample"><code><span>export class Counter {</span>
-<span>  async fetch(request) {</span>
-<span>    return new Response("ok");</span>
-<span>  }</span>
-<span>}</span></code></pre>
+        <div role="tablist" aria-label="Code examples">
+          <button role="tab" aria-selected="true" aria-controls="counter-panel" id="counter-tab">counter.ts</button>
+          <button role="tab" aria-selected="false">websocket.ts</button>
+          <button role="tab" aria-selected="false">chat.ts</button>
+        </div>
+        <div id="counter-panel" role="tabpanel" aria-labelledby="counter-tab">
+          <pre tabindex="0"><code><span class="line"><span class="keyword">import</span> <span>{</span><span> DurableObject </span><span>}</span> <span>from</span> <span>'cloudflare:workers'</span><span>;</span></span>
+<span class="line"><span class="keyword">export default</span> <span>{</span> <span>async fetch</span><span>(request, env)</span> <span>{</span></span>
+<span class="line"><span>const url = new URL(request.url);</span></span>
+<span class="line"><span>return new Response('ok');</span></span>
+<span class="line"><span>}</span> <span>}</span><span>;</span></span></code></pre>
+          <button type="button"><span>Copy code to clipboard</span></button>
+        </div>
       </section>
     </main>
   </body>

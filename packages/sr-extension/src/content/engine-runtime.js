@@ -1211,7 +1211,7 @@
           if (!root)
             return void 0;
           const rootRole = normalizedAxRole(root.role);
-          if (!root.ignored && rootRole !== "time")
+          if (!root.ignored && !["figcaption", "time"].includes(rootRole || ""))
             return void 0;
           const candidates = axDescendants(root).filter((node) => {
             if (node.ignored)
@@ -1330,6 +1330,43 @@
           if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment)))
             return void 0;
           if (/^\S+\s+\p{N}+\s*[–-]\s*\p{N}+\s+of\s+\p{N}+$/iu.test(text))
+            return void 0;
+          return fragments;
+        }
+        function axLineBreakTextFragments(el, role) {
+          if (!["paragraph", "text"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.closest(interactiveSelector) || el.querySelector(interactiveSelector))
+            return void 0;
+          const tag = el.tagName?.toLowerCase();
+          if (!["span", "small", "p", "figcaption"].includes(tag))
+            return void 0;
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (!visibleChildren.length || visibleChildren.some((child) => child.tagName?.toLowerCase() !== "br")) {
+            return void 0;
+          }
+          const text = normalize(readableText(el) || el.textContent);
+          if (!text)
+            return void 0;
+          const axNode = axNodeAnyForElement(el);
+          const axChildren = axChildNodes(axNode);
+          if (axChildren.length < 3)
+            return void 0;
+          if (!axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")) {
+            return void 0;
+          }
+          if (axChildren.some((child) => {
+            const role2 = normalizedAxRole(child.role);
+            return role2 !== "statictext" && role2 !== "linebreak";
+          })) {
+            return void 0;
+          }
+          const fragments = axChildren.filter((child) => normalizedAxRole(child.role) === "statictext").map((child) => normalize(child.name)).filter((fragment) => Boolean(fragment && /[\p{L}\p{N}$£€]/u.test(fragment)));
+          if (fragments.length < 2)
+            return void 0;
+          if (normalize(fragments.join(" ")) !== text)
             return void 0;
           return fragments;
         }
@@ -10225,6 +10262,11 @@
             return false;
           if (!nestedImageLabel(el))
             return false;
+          const linkName = normalize(accessibleName(el, "link"));
+          const axNode = axNodeForElementRole(el, "link");
+          if (linkName && axNode && normalize(axNode.name) === linkName && axNode.properties?.focusable === true && hasExplicitAriaName(el)) {
+            return false;
+          }
           const clone = el.cloneNode(true);
           for (const node of Array.from(clone.querySelectorAll("img, svg, [role='img'], [aria-hidden='true']"))) {
             node.remove();
@@ -11484,6 +11526,7 @@
             footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
             figureMockupHeaderText: figureMockupHeaderText(el, role),
             axStaticTextRunFragments: axStaticTextRunFragments(el, role),
+            axLineBreakTextFragments: axLineBreakTextFragments(el, role),
             inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
@@ -11514,7 +11557,7 @@
           if (role === "paragraph") {
             const adjacentValue = adjacentParagraphValueText(el);
             const paragraphName = hasInlineInteractiveEmbeddedInText(el) ? textBeforeFirstInlineInteractive(el) : textWithoutInteractive(el) || text;
-            descriptor.name = adjacentValue && paragraphName ? `${paragraphName}${adjacentValue}` : paragraphName;
+            descriptor.name = adjacentValue && paragraphName ? `${paragraphName}${adjacentValue}` : renderedCaseName(el, role, paragraphName) || paragraphName;
             descriptor.text = descriptor.name;
           }
           if (descriptor.complexColumnHeaderColorGroupText) {
@@ -12532,6 +12575,13 @@
           }
           return fragments;
         }
+        function splitAxLineBreakTextAnnouncements(descriptor) {
+          const fragments = descriptor.axLineBreakTextFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
         function splitInlineTextLinkAnnouncements(descriptor) {
           const fragments = descriptor.inlineTextLinkFragments;
           if (descriptor.role !== "paragraph" || !fragments?.length) {
@@ -12850,6 +12900,10 @@
               {
                 source: "split-ax-static-text-run",
                 announcements: splitAxStaticTextRunAnnouncements(descriptor)
+              },
+              {
+                source: "split-ax-linebreak-text",
+                announcements: splitAxLineBreakTextAnnouncements(descriptor)
               },
               {
                 source: "split-inline-phrasing-boundary",

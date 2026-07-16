@@ -179,6 +179,115 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree does not inject child image role into AX-named labelled links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/" aria-label="Brand home" data-sr-dom-node-id="logo-link">
+          <svg role="img" aria-label="Brand mark" data-sr-dom-node-id="logo-image"></svg>
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "link",
+              name: "Brand home",
+              domNodeId: "logo-link",
+              properties: { focusable: true },
+              childIds: ["2"],
+            },
+            {
+              nodeId: "2",
+              role: "image",
+              name: "Brand mark",
+              domNodeId: "logo-image",
+            },
+          ],
+        },
+      },
+    ),
+    ["link, Brand home"],
+  );
+});
+
+test("scanSubtree splits AX linebreak static text runs in inline text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <span data-sr-dom-node-id="price">$5/mo (Free plan);<br>included with Pro/Biz/Ent</span>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: true,
+              role: "generic",
+              domNodeId: "price",
+              childIds: ["2", "3", "4"],
+            },
+            {
+              nodeId: "2",
+              role: "StaticText",
+              name: "$5/mo (Free plan);",
+            },
+            {
+              nodeId: "3",
+              role: "LineBreak",
+              name: "\n",
+            },
+            {
+              nodeId: "4",
+              role: "StaticText",
+              name: "included with Pro/Biz/Ent",
+            },
+          ],
+        },
+      },
+    ),
+    ["$5/mo (Free plan);", "included with Pro/Biz/Ent"],
+  );
+});
+
+test("scanSubtree uses AX-rendered casing for figcaption text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <figure>
+          <figcaption data-sr-dom-node-id="caption">Compute</figcaption>
+        </figure>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "Figcaption",
+              name: "",
+              domNodeId: "caption",
+              childIds: ["2"],
+            },
+            {
+              nodeId: "2",
+              role: "StaticText",
+              name: "COMPUTE",
+              childIds: ["3"],
+            },
+            {
+              nodeId: "3",
+              role: "InlineTextBox",
+              name: "COMPUTE",
+            },
+          ],
+        },
+      },
+    ),
+    ["COMPUTE"],
+  );
+});
+
 test("scanSubtree follows AX static text numeric run splits", () => {
   assert.deepEqual(
     scanHtml(
