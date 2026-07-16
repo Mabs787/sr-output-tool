@@ -4210,6 +4210,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (isFocusableRichTextParagraphGroup(el)) return "group";
     if (isFocusableHeadingRichTextNavigationGroup(el)) return "group";
     if (isAxConfirmedFocusableFeedbackGroup(el)) return "group";
+    if (isFocusableSummaryPanelGroup(el, "group")) return "group";
     if (isSingleTitledIframeWrapper(el)) return "group";
     if (tag === "iframe" && singleTitledIframeChild(el.parentElement) === el) return "frame";
     if (tag === "select") return el.hasAttribute("multiple") ? "listbox" : "combobox";
@@ -12539,6 +12540,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "group" && isAxConfirmedFocusableFeedbackGroup(el)) ||
         (role === "group" && isFocusableRichTextParagraphGroup(el)) ||
         (role === "group" && isFocusableHeadingRichTextNavigationGroup(el)) ||
+        (role === "group" && isFocusableSummaryPanelGroup(el, role)) ||
         (role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el)) ||
         (role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el)) ||
         (role === "group" && Boolean(fieldsetPromptText(el))) ||
@@ -12861,6 +12863,46 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return true;
   }
 
+  function isFocusableSummaryPanelGroup(el: any, role?: string): boolean {
+    if (role && role !== "group") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.matches?.(interactiveSelector)) return false;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return false;
+    if (el.getAttribute("role") && el.getAttribute("role") !== "group") return false;
+    const tabIndex = Number.parseInt(el.getAttribute("tabindex") || "", 10);
+    if (!Number.isFinite(tabIndex) || tabIndex < 0) return false;
+    if (directOwnText(el)) return false;
+    if (el.querySelector("input, select, textarea, [role='textbox'], [role='searchbox']")) {
+      return false;
+    }
+    if (el.querySelector("nav,[role='navigation'],header,footer,[role='banner'],[role='contentinfo']")) {
+      return false;
+    }
+
+    const text = normalize(readableText(el));
+    if (!text || text.length > 260) return false;
+
+    const headings = Array.from(el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']")).filter(
+      (candidate: any) => !isHidden(candidate),
+    );
+    if (headings.length !== 1) return false;
+
+    const buttons = Array.from(el.querySelectorAll("button,[role='button']")).filter(
+      (candidate: any) => !isHidden(candidate),
+    );
+    if (buttons.length < 2 || buttons.length > 8) return false;
+    if (buttons.some((button: any) => !normalize(accessibleName(button, "button") || readableText(button)))) {
+      return false;
+    }
+
+    const links = Array.from(el.querySelectorAll("a[href],[role='link']")).filter(
+      (candidate: any) => !isHidden(candidate),
+    );
+    if (links.length > 4) return false;
+
+    return Boolean(el.querySelector("p,div,section"));
+  }
+
   function isStopElement(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
 
@@ -13051,6 +13093,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !isAxConfirmedFocusableFeedbackGroup(el) &&
       !isFocusableRichTextParagraphGroup(el) &&
       !isFocusableHeadingRichTextNavigationGroup(el) &&
+      !isFocusableSummaryPanelGroup(el, role) &&
       !isSingleTitledIframeWrapper(el) &&
       !isButtonShellClusterGroup(el) &&
       !isButtonShellGroup(el) &&
@@ -13138,6 +13181,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
     if (role === "group" && isFocusableHeadingRichTextNavigationGroup(el)) {
+      return false;
+    }
+    if (role === "group" && isFocusableSummaryPanelGroup(el, role)) {
       return false;
     }
     if (role === "listbox" && singleSelectedListboxOption(el)) {

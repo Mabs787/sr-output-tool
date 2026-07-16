@@ -3952,6 +3952,32 @@ test("scanSubtree includes captured generated button text for popup tab buttons"
   );
 });
 
+test("scanSubtree collapses focusable summary panels into a single group stop", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div tabindex="0">
+          <div>
+            <h1>Log in to Example</h1>
+            <div>
+              <button type="button">Continue with Google</button>
+              <button type="button">Continue with email</button>
+              <button type="button">Continue with SAML SSO</button>
+              <button type="button">Log in with passkey</button>
+            </div>
+            <p>Don't have an account? <a href="/signup">Sign up</a> or <a href="/home">learn more</a></p>
+          </div>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "Log in to Example Continue with Google Continue with email Continue with SAML SSO Log in with passkey Don't have an account? Sign up or learn more, group",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree closes main before entering a following contentinfo landmark", () => {
   assert.deepEqual(
     scanHtml(`
