@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI weather pagination navigation C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 640px; }
+      ul { display: flex; gap: 8px; list-style: none; padding: 0; }
+      a { display: inline-block; padding: 8px 10px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI weather pagination navigation</h1>
+      <ul role="navigation" aria-label="Pagination">
+        <li class="previous disabled">
+          <a href="#" tabindex="-1" role="button" aria-disabled="true" aria-label="Previous page" rel="noindex, follow">Prev</a>
+        </li>
+        <li class="selected">
+          <a rel="noindex, follow" href="#5//hot/1" tabindex="-1" aria-label="Page 1 is your current page" aria-current="page">1</a>
+        </li>
+        <li>
+          <a rel="noindex, follow" href="#5//hot/2" tabindex="0" aria-label="Page 2">2</a>
+        </li>
+        <li class="break">
+          <a role="button" tabindex="0" aria-label="Jump forward">...</a>
+        </li>
+        <li>
+          <a href="#5//hot/5" tabindex="0" aria-label="Page 5">5</a>
+        </li>
+        <li class="next">
+          <a href="#5//hot/2" tabindex="0" role="button" aria-disabled="false" aria-label="Next page" rel="noindex, follow">Next</a>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

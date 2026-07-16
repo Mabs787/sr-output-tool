@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI weather unnamed live region C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 520px; }
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+      .result { border: 1px solid #c8d7ef; border-radius: 12px; padding: 16px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>TUI weather unnamed live region</h1>
+      <div aria-live="polite" role="region" class="visually-hidden">
+        There are now 30 destinations.
+      </div>
+      <div aria-live="polite" role="region" class="result">
+        <a href="https://www.tui.co.uk/destinations/asia/thailand/thailand/koh-samui/holidays-koh-samui.html">
+          Koh Samui, Thailand
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
