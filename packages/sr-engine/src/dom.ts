@@ -1052,6 +1052,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(label && (textWithoutInteractive(label) || readableText(label)));
   }
 
+  function isZeroPriceTextInFreeHeadingGroup(el: any, role: string): boolean {
+    if (role !== "text") return false;
+    const text = normalize(readableText(el) || el.textContent);
+    if (!text || !/^[£$€]\s*0(?:[.,]00)?$/u.test(text)) return false;
+
+    const headingGroup = el.closest("hgroup");
+    if (!headingGroup || !headingGroup.contains(el)) return false;
+
+    const heading = Array.from(headingGroup.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"))
+      .find((candidate: any) => !isHidden(candidate));
+    const headingText = normalize(heading ? readableText(heading) || heading.textContent : "");
+    return Boolean(headingText && /\bfree\b/i.test(headingText));
+  }
+
   function shouldSplitNativeControlLabelStop(el: any, role: string): boolean {
     const tag = el?.tagName?.toLowerCase();
     if (!["input", "select", "textarea"].includes(tag)) return false;
@@ -12107,6 +12121,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const role = implicitRole(el);
     if (!role) return null;
+    if (isZeroPriceTextInFreeHeadingGroup(el, role)) return null;
 
     const tag = el.tagName.toLowerCase();
     const nativeDetailsSummary = directNativeDetailsForSummary(el);

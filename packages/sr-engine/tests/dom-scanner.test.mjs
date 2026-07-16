@@ -8162,6 +8162,36 @@ test("scanSubtree splits price containers with serialized aria-hidden duplicate 
   );
 });
 
+test("scanSubtree skips zero prices in free heading groups while preserving paid prices", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section>
+          <hgroup>
+            <h3>Free</h3>
+            <div><span>$0</span></div>
+          </hgroup>
+          <span><div><span>Free for everyone</span></div></span>
+        </section>
+        <section>
+          <hgroup>
+            <h3>Basic</h3>
+            <div><span>$10 per user/month</span></div>
+          </hgroup>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 3, Free",
+      "Free for everyone",
+      "heading level 3, Basic",
+      "$10 per user/month",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree splits rich price disclosure clusters into VoiceOver leaf stops", () => {
   assert.deepEqual(
     scanHtml(`
