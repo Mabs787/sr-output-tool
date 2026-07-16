@@ -2663,6 +2663,41 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function isAxConfirmedToolbarIconButton(el: any, role = implicitRole(el)): boolean {
+    if (role !== "button") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!el.hasAttribute("aria-label")) return false;
+    if (normalize(el.getAttribute("tabindex")) !== "-1") return false;
+    if (!isAriaLabelOnlyDecorativeIconButton(el)) return false;
+
+    const axNode = axNodeForElementRole(el, "button");
+    if (!axNode || axNode.properties?.focusable !== true) return false;
+
+    function isSimilarToolbarButton(candidate: any): boolean {
+      return (
+        candidate !== el &&
+        candidate?.nodeType === Node.ELEMENT_NODE &&
+        !isHidden(candidate) &&
+        implicitRole(candidate) === "button" &&
+        normalize(candidate.getAttribute("tabindex")) === "-1" &&
+        isAriaLabelOnlyDecorativeIconButton(candidate)
+      );
+    }
+
+    for (
+      let scope = el.parentElement, depth = 0;
+      scope && depth < 4;
+      scope = scope.parentElement, depth += 1
+    ) {
+      const similarButtons = Array.from(scope.querySelectorAll("button,[role='button']")).filter(
+        isSimilarToolbarButton,
+      );
+      if (similarButtons.length >= 2) return true;
+    }
+
+    return false;
+  }
+
   function isPositionedImageChoiceButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
     if (!el.hasAttribute("aria-label")) return false;
@@ -12402,6 +12437,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               !isPlainUtilityDisclosureButton(el) &&
               normalize(name) !== "Open navigation menu") ||
             (role === "button" && isLabeledIconActionButton(el)) ||
+            (role === "button" && isAxConfirmedToolbarIconButton(el, role)) ||
             (role === "button" &&
               !nativeHiddenControlledCollapsedButton &&
               isMenuDisclosureGroupButton(el)) ||

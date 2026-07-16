@@ -6167,6 +6167,45 @@ test("scanSubtree keeps aria-label-only decorative icon buttons ungrouped", () =
   );
 });
 
+test("scanSubtree groups AX-confirmed tabindex toolbar icon buttons", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        role: "button",
+        name: "Attach",
+        domNodeId: "attach",
+        properties: { focusable: true },
+      },
+      {
+        role: "button",
+        name: "Format text",
+        domNodeId: "format",
+        properties: { focusable: true },
+      },
+      {
+        role: "button",
+        name: "Emoji",
+        domNodeId: "emoji",
+        properties: { focusable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <button tabindex="-1" aria-label="Attach" data-sr-dom-node-id="attach"><svg></svg></button>
+          <button tabindex="-1" aria-label="Format text" data-sr-dom-node-id="format"><svg></svg></button>
+          <button tabindex="-1" aria-label="Emoji" data-sr-dom-node-id="emoji"><svg></svg></button>
+        </div>
+      `,
+      { accessibilityTree },
+    ),
+    ["Attach, button, group", "Format text, button, group", "Emoji, button, group"],
+  );
+});
+
 test("scanSubtree emits standalone groups for clustered visual button shells", () => {
   assert.deepEqual(
     scanHtml(`
