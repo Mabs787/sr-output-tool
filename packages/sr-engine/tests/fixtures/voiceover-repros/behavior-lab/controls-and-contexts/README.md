@@ -23,6 +23,7 @@ Scan these before changing engine logic:
 - `inline-text-link-and-break-boundary-c5.html`
 - `install-cta-toggle-button-c5.html`
 - `image-radio-footer-c5.html`
+- `tui-shadow-root-choice-search-panel-c5.html`
 
 The side-by-side follow-up fixtures from run `29209152951` were accepted after
 Phase 0/B/C review and exact analyzer receipts:
@@ -58,3 +59,10 @@ Linear run `29429919047` added draft C.5 fixtures for install CTA toggle-button
 wording and footer image/radio wording after Mobile and Now evidence showed
 `Scan to download, toggle button` and `image, selected, radio button, group`
 style announcements. Keep them draft until scan evidence is reviewed.
+
+The TUI shadow-root choice-search-panel fixture captures a serialized custom
+element tree with declarative shadow roots and nested form controls. It is a
+focused repro for mismatches around custom-element/shadow-root traversal and
+the VoiceOver announcement that the form is not accessible. External scripts
+are stripped so the scan exercises the captured static DOM state. Keep it
+draft until Phase 0/B/C evidence review accepts the scan output.
