@@ -127,6 +127,7 @@ export interface ElementDescriptor {
   axMixedInlineListItemAnnouncements?: string[];
   contributionListItemAnnouncements?: string[];
   metadataListItemValueAnnouncements?: string[];
+  nativeMarkerListItemAnnouncements?: string[];
   wrappedDefinitionListTermChildAnnouncements?: string[];
   inlineEmphasisListItemFragments?: string[];
   inlineEmphasisTextFragments?: string[];

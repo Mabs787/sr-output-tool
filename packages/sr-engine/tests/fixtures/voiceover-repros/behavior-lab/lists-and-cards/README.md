@@ -19,6 +19,7 @@ Scan these before changing engine logic:
 - `expanded-disclosure-button-list-position-c5.html`
 - `expanded-button-list-position-minimal-c5.html`
 - `article-card-group-boundary-c5.html`
+- `plain-article-card-link-position-c5.html`
 - `definition-list-positioned-terms-c5.html`
 - `definition-list-simple-position-c5.html`
 
@@ -54,5 +55,8 @@ draft C.5 fixtures for the second Linear C.5 wave:
 - `list-marker-button-content-c5.html` isolates marker stops before expanded
   buttons and following text content.
 - `nested-list-marker-link-c5.html` isolates nested marker stops before links.
+- `plain-article-card-link-position-c5.html` isolates whether a single
+  descendant link inside a positioned article card repeats the article/list
+  position.
 
 Keep these draft until the second wave scan evidence is reviewed.

@@ -5056,6 +5056,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return {};
     }
 
+    if (nativeMarkerListItemAnnouncements(parentItem)) {
+      return {};
+    }
+
     if (hasPrecedingSectionHeadingInListItem(el, parentItem)) {
       return {};
     }
@@ -5418,6 +5422,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (
         role === "button" &&
         listItem &&
+        !isDisclosureButtonForNestedListPanel(el, listItem) &&
         Array.from(listItem.querySelectorAll("a[href], [role='link']")).some(
           (link: any) => !isHidden(link) && !link.contains(el) && !el.contains(link),
         )
@@ -5666,6 +5671,255 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       children[0] === el &&
       Boolean(el.matches?.(interactiveSelector))
     );
+  }
+
+  function nativeMarkerPositionAnnouncement(position?: number, size?: number): string | undefined {
+    if (!position || !size || size <= 1) return undefined;
+    return position === 1 ? `.,1of${size}` : `.,${position} of${size}`;
+  }
+
+  function nativeMarkerListItemContext(el: any): {
+    list: any;
+    siblings: any[];
+    position?: number;
+    size?: number;
+    markerVisible: boolean;
+  } | undefined {
+    if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
+    if (el.getAttribute("data-sr-marker-content")) return undefined;
+    const list = listForItem(el);
+    if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (list.closest("nav,[role='navigation']")) return undefined;
+    if (list.getAttribute("role") && list.getAttribute("role") !== "list") return undefined;
+    if (accessibilityNodes.length) return undefined;
+
+    const siblings = listChildren(list);
+    const index = siblings.indexOf(el);
+    return index >= 0
+      ? {
+          list,
+          siblings,
+          position: index + 1,
+          size: siblings.length || undefined,
+          markerVisible: nativeListItemMarkerVisible(el, list),
+        }
+      : undefined;
+  }
+
+  function nativeListItemMarkerVisible(item: any, list: any): boolean {
+    const itemStyle = safeComputedStyle(item);
+    const listStyle = safeComputedStyle(list);
+    const listStyleType = normalize(
+      itemStyle?.listStyleType ||
+        listStyle?.listStyleType ||
+        item.getAttribute("data-sr-marker-list-style-type") ||
+        list.getAttribute("data-sr-marker-list-style-type"),
+    );
+    return Boolean(listStyleType) && listStyleType !== "none";
+  }
+
+  function containsNestedList(el: any): boolean {
+    return Boolean(
+      Array.from(el.children || []).some(
+        (child: any) =>
+          !isHidden(child) &&
+          (implicitRole(child) === "list" || containsNestedList(child)),
+      ),
+    );
+  }
+
+  function nativeMarkerListItemDirectText(el: any): string | undefined {
+    const fragments: string[] = [];
+    const ownText = normalize(directOwnText(el));
+    if (ownText) fragments.push(ownText);
+
+    for (const child of Array.from(el.children || [])) {
+      if (isHidden(child)) continue;
+      const childRole = implicitRole(child);
+      if (child.matches?.(interactiveSelector)) continue;
+      if (childRole === "list") continue;
+      if (containsNestedList(child)) continue;
+      const text = normalize(readableText(child));
+      if (text) fragments.push(text);
+    }
+
+    return normalize(fragments.join(" "));
+  }
+
+  function nativeMarkerChildControlAnnouncement(el: any): string | undefined {
+    const role = implicitRole(el);
+    const name = accessibleName(el, role) || readableText(el);
+    if (!name) return undefined;
+    if (role === "link") return `link, ${name}`;
+    if (role === "button") {
+      const expanded = parseBooleanAttribute(el, "aria-expanded");
+      return [
+        name,
+        expanded === true ? "expanded" : expanded === false ? "collapsed" : undefined,
+        "button",
+      ].filter(Boolean).join(", ");
+    }
+    return undefined;
+  }
+
+  function isNativeMarkerNestedChildList(list: any): boolean {
+    const parentItem = list.parentElement;
+    if (parentItem && isListItem(parentItem)) {
+      const directNestedLists = Array.from(parentItem.children || []).filter(
+        (child: any) => !isHidden(child) && implicitRole(child) === "list",
+      );
+      if (
+        directNestedLists.includes(list) &&
+        Boolean(nativeMarkerListItemAnnouncements(parentItem)?.length)
+      ) {
+        return true;
+      }
+    }
+
+    return Boolean(disclosureButtonForNestedListPanel(list));
+  }
+
+  function disclosureButtonForNestedListPanel(list: any): any | undefined {
+    let ancestor = list.parentElement;
+    while (ancestor && !isListItem(ancestor)) ancestor = ancestor.parentElement;
+    if (!ancestor) return undefined;
+
+    const buttons = Array.from(ancestor.children || []).filter((child: any) => {
+      return !isHidden(child) &&
+        implicitRole(child) === "button" &&
+        parseBooleanAttribute(child, "aria-expanded") !== undefined;
+    });
+
+    for (const button of buttons) {
+      const controls = normalize(button.getAttribute("aria-controls"));
+      if (!controls) return button;
+      const controlled = document.getElementById(controls);
+      if (controlled && (controlled === list || controlled.contains?.(list))) return button;
+    }
+
+    return undefined;
+  }
+
+  function isDisclosureButtonForNestedListPanel(button: any, listItem: any): boolean {
+    if (!button || !listItem || !listItem.contains(button)) return false;
+    if (implicitRole(button) !== "button") return false;
+    if (parseBooleanAttribute(button, "aria-expanded") === undefined) return false;
+
+    const nestedLists = Array.from(listItem.querySelectorAll("ul, ol, dl, [role='list']")).filter(
+      (list: any) => !isHidden(list),
+    );
+    if (!nestedLists.length) return false;
+
+    const controls = normalize(button.getAttribute("aria-controls"));
+    if (!controls) {
+      return nestedLists.some((list: any) =>
+        Boolean(
+          button.compareDocumentPosition(list) &
+            button.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+        ),
+      );
+    }
+
+    const controlled = document.getElementById(controls);
+    return Boolean(
+      controlled &&
+        nestedLists.some((list: any) => controlled === list || controlled.contains?.(list)),
+    );
+  }
+
+  function nativeMarkerListItemAnnouncements(el: any): string[] | undefined {
+    const context = nativeMarkerListItemContext(el);
+    if (!context) return undefined;
+    if (axMarkerOnlyListItemStopAnnouncement(el)) return undefined;
+    if (axPlainTextMarkerListItemAnnouncement(el)) return undefined;
+    if (axStrongWrappedMarkerListItemAnnouncements(el)) return undefined;
+    if (namedNavigationListItemGroupedLinkAnnouncements(el)) return undefined;
+
+    const directChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    const directNestedLists = directChildren.filter((child: any) => implicitRole(child) === "list");
+    const directControls = directChildren.filter((child: any) => {
+      const role = implicitRole(child);
+      return role === "link" || role === "button";
+    });
+    const markerPosition = nativeMarkerPositionAnnouncement(context.position, context.size);
+
+    if (!context.markerVisible) return undefined;
+
+    if (directNestedLists.length === 1 && !directControls.length) {
+      const text = normalize(directOwnText(el));
+      return text ? [`. ${text}`] : markerPosition ? [markerPosition] : undefined;
+    }
+
+    if (!directNestedLists.length && directControls.length === 1) {
+      const directControl = directControls[0];
+      const directControlRole = implicitRole(directControl);
+      if (directControlRole === "link" && !isNativeMarkerNestedChildList(context.list)) {
+        return undefined;
+      }
+      if (
+        directControlRole === "button" &&
+        parseBooleanAttribute(directControl, "aria-expanded") === undefined
+      ) {
+        return undefined;
+      }
+
+      const controlAnnouncement = nativeMarkerChildControlAnnouncement(directControls[0]);
+      if (!controlAnnouncement) return undefined;
+      const controlName = accessibleName(directControls[0], implicitRole(directControls[0]));
+      const text = nativeMarkerListItemDirectText(el);
+      return [
+        markerPosition,
+        controlAnnouncement,
+        text && text !== controlName ? text : undefined,
+      ].filter((entry): entry is string => Boolean(entry));
+    }
+
+    return undefined;
+  }
+
+  function nativeMarkerListItemShouldDescend(el: any): boolean {
+    if (!nativeMarkerListItemAnnouncements(el)?.length) return false;
+    return containsNestedList(el);
+  }
+
+  function nativeMarkerListItemDescendantLists(el: any): any[] {
+    const lists: any[] = [];
+    const visit = (node: any) => {
+      for (const child of Array.from(node.children || [])) {
+        if (isHidden(child)) continue;
+        if (implicitRole(child) === "list") {
+          lists.push(child);
+          continue;
+        }
+        visit(child);
+      }
+    };
+    visit(el);
+    return lists;
+  }
+
+  function shouldSuppressNativeMarkerNestedSingletonListEnd(el: any, role: string): boolean {
+    if (role !== "list") return false;
+    if (!["ul", "ol"].includes(el.tagName?.toLowerCase())) return false;
+    if (el.closest("nav,[role='navigation']")) return false;
+    if (el.getAttribute("role") && el.getAttribute("role") !== "list") return false;
+    if (accessibilityNodes.length) return false;
+
+    const items = listChildren(el);
+    if (items.length !== 1) return false;
+
+    const item = items[0];
+    if (!nativeMarkerListItemAnnouncements(item)?.length) return false;
+    if (!normalize(directOwnText(item))) return false;
+
+    const directChildren = Array.from(item.children || []).filter((child: any) => !isHidden(child));
+    const directNestedLists = directChildren.filter((child: any) => implicitRole(child) === "list");
+    const directControls = directChildren.filter((child: any) => {
+      const childRole = implicitRole(child);
+      return childRole === "link" || childRole === "button";
+    });
+
+    return directNestedLists.length === 1 && directControls.length === 0;
   }
 
   function namedNavigationListItemGroupedLinkAnnouncements(el: any): string[] | undefined {
@@ -12095,6 +12349,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "term" ? wrappedDefinitionListTermChildAnnouncements(el) : undefined,
       metadataListItemValueAnnouncements:
         role === "listitem" ? metadataListItemValueAnnouncements(el) : undefined,
+      nativeMarkerListItemAnnouncements:
+        role === "listitem" ? nativeMarkerListItemAnnouncements(el) : undefined,
       markerSeparatedListLink: markerSeparatedListLink || undefined,
       markerSeparatedListRegion:
         isMarkerSeparatedListRegion(el, role) || undefined,
@@ -12162,6 +12418,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "group" && Boolean(fieldsetPromptText(el))) ||
         (role === "term" &&
           (isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el))) ||
+        shouldSuppressNativeMarkerNestedSingletonListEnd(el, role) ||
         (role === "dialog" &&
           el.getAttribute("aria-modal") === "true" &&
           ((hasExplicitDialogName(el) && modalDialogSummaryItemCount(el)) ||
@@ -12518,6 +12775,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return true;
     }
 
+    if (role === "listitem" && nativeMarkerListItemAnnouncements(el)) {
+      return true;
+    }
+
     if (role === "listitem" && namedNavigationListItemGroupedLinkAnnouncements(el)) {
       return true;
     }
@@ -12784,6 +13045,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (role === "listitem") {
       if (namedNavigationListItemGroupedLinkAnnouncements(el)) return false;
+      if (nativeMarkerListItemAnnouncements(el)) return nativeMarkerListItemShouldDescend(el);
       if (axMarkerOnlyListItemStopAnnouncement(el)) return true;
       if (axStrongWrappedMarkerListItemAnnouncements(el)) return true;
       if (axSplitHeaderListItemAnnouncement(el)) return true;
@@ -13327,6 +13589,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     ].filter((entry): entry is string => Boolean(entry));
   }
 
+  function splitNativeMarkerListItemAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "listitem" ||
+      !descriptor.nativeMarkerListItemAnnouncements?.length
+    ) {
+      return undefined;
+    }
+    return descriptor.nativeMarkerListItemAnnouncements;
+  }
+
   function splitMarkerSeparatedListRegionAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -13846,6 +14120,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           announcements: splitAxMarkerOnlyListItemAnnouncements(descriptor),
         },
         {
+          source: "split-native-marker-listitem",
+          announcements: splitNativeMarkerListItemAnnouncements(descriptor),
+        },
+        {
           source: "split-contribution-listitem",
           announcements: splitContributionListItemAnnouncements(descriptor),
         },
@@ -14135,6 +14413,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         if (shouldDescendIntoStop(el)) {
           const children = descriptor?.modalDialogSummaryItemCount
             ? modalDialogHeadingChildren(el)
+            : descriptor?.nativeMarkerListItemAnnouncements
+              ? nativeMarkerListItemDescendantLists(el)
             : walkChildren(el);
           for (const child of children) walk(child);
         }
