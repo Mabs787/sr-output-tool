@@ -32,8 +32,14 @@ when any of these are true:
 - Phase C would otherwise classify the family as `scanner-evidence-gap` or
   `ambiguous`
 
-Do not run Phase C.5 for trivial OCR fixes that are already proven by raw
-VoiceOver/source evidence and saved HTML.
+Do not run Phase C.5 for OCR/glyph fixes that are already proven by rendered
+HTML, AX text/name, source/caption diagnostics, step snapshots, or screenshots.
+In those cases, return to Phase B and repair `refinedAnnouncements` as
+`caption-or-ocr-repair` while keeping raw `expectedAnnouncements` unchanged.
+Use Phase C.5 only when saved evidence cannot decide whether a disputed
+glyph/text is a real VoiceOver announcement or a capture/OCR artifact, for
+example when testing how VoiceOver speaks a standalone symbol or punctuation
+pattern.
 
 ## Minimal Reproduction Requirements
 

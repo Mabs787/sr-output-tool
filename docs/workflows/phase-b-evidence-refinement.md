@@ -74,6 +74,18 @@ For each audited announcement or range:
      which VoiceOver may expand into boundary fragments like
      `level 1 (, level 1 9, level 1), level 1, 4 items` rather than a
      normalized `(9)` phrase
+   For OCR/glyph disagreements, use the saved rendered HTML, AX name/text, step
+   snapshots, source/caption diagnostics, and screenshots as the fixture oracle.
+   If those resources agree on the real page text, repair
+   `refinedAnnouncements` instead of treating the mismatch as an engine gap.
+   Common fixture-repair examples include `AI` misread as `Al`, `API` misread
+   as `APl`, brand names such as `OpenAI` misread as `OpenAl`, `...` versus
+   the rendered ellipsis glyph `…`, curly apostrophes/quotes normalized by the
+   capture layer, and external-link glyphs such as `↗` misread as `2`, `a`, or
+   `»`.
+   Do not make the engine emit OCR artifacts when the initial rendered HTML/AX
+   proves the actual text. Keep raw `expectedAnnouncements` unchanged as scan
+   evidence, and record the refined edit as `caption-or-ocr-repair`.
 6. For structural mismatches where VoiceOver announces one object but the engine decomposes children, build a focused-node contract before deciding:
    - focused/active DOM node tag, `data-sr-dom-node-id`, `tabindex`, role, ARIA attributes, and direct/relevant `outerHTML`
    - nearest semantic ancestor chain from the disputed node to the scan root, including `ul`/`ol`, `li`/`role=listitem`, landmarks, articles, groups, tables, and custom-element/shadow-root boundaries
@@ -101,13 +113,18 @@ For each audited announcement or range:
     evidence, scan-debug data, and screenshots/recording when available. Record
     whether the saved resources agree with each other before deciding that the
     fixture or engine is wrong.
-16. When a disputed line remains uncertain after the required HTML, AX,
+16. Run Phase C.5 for OCR/glyph families only when the saved evidence cannot
+    decide whether the disputed character/text is a capture artifact or real
+    VoiceOver behavior. Do not request Phase C.5 for obvious OCR repairs that
+    are already proven by rendered HTML, AX, snapshots/source evidence, or
+    screenshots.
+17. When a disputed line remains uncertain after the required HTML, AX,
     step-snapshot, source/caption, text-boundary, and focused-node checks,
     request Phase C.5 instead of asking the user for manual confirmation. The
     request must include the minimal DOM contract to preserve, the suspected
     cause to test, and what result would prove fixture noise versus an engine
     gap.
-17. If truncation is plausible from raw VoiceOver text, source/caption timing,
+18. If truncation is plausible from raw VoiceOver text, source/caption timing,
     missing tail text, abrupt line endings, repeated partial phrases, or
     screenshots/recording evidence, request Phase C.5 or a recapture before
     editing refined output or classifying the line as ambiguous.
