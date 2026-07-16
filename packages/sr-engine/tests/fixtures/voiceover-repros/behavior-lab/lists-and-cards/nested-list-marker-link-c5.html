@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nested list marker link C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      ul { border: 1px solid #777; border-radius: 12px; padding: 16px 16px 16px 32px; }
+      li { margin: 12px 0; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Nested list marker link</h1>
+      <p>
+        This fixture isolates whether VoiceOver emits list marker stops
+        separately from links in a nested native list.
+      </p>
+
+      <ul aria-label="Resources">
+        <li>
+          Guides
+          <ul>
+            <li><a href="#oauth">OAuth guide</a></li>
+            <li><a href="#keys">API keys</a></li>
+          </ul>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

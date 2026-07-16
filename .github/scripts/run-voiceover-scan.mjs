@@ -3441,6 +3441,7 @@ function shouldKeepAttribute(attribute, element, referencedIds) {
   return [
     "alt",
     "checked",
+    "colspan",
     "controls",
     "disabled",
     "for",
@@ -3455,6 +3456,8 @@ function shouldKeepAttribute(attribute, element, referencedIds) {
     "placeholder",
     "readonly",
     "required",
+    "rowspan",
+    "scope",
     "selected",
     "tabindex",
     "title",

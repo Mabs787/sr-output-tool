@@ -894,14 +894,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function labelForControl(el: any): string | undefined {
     if ("labels" in el && el.labels?.length) {
-      return normalize((textWithoutInteractive(el.labels[0]) || readableText(el.labels[0]))?.replace(/:\s*/g, ": "));
+      const label = el.labels[0];
+      return normalize(
+        (
+          normalize(label.getAttribute("aria-label")) ||
+          textFromIdRefs(label.getAttribute("aria-labelledby")) ||
+          textWithoutInteractive(label) ||
+          readableText(label)
+        )?.replace(/:\s*/g, ": "),
+      );
     }
 
     const id = el.getAttribute("id");
     if (!id) return undefined;
     const label = document.querySelector(`label[for="${cssEscape(id)}"]`);
     return label
-      ? normalize((textWithoutInteractive(label) || readableText(label))?.replace(/:\s*/g, ": "))
+      ? normalize(
+          (
+            normalize(label.getAttribute("aria-label")) ||
+            textFromIdRefs(label.getAttribute("aria-labelledby")) ||
+            textWithoutInteractive(label) ||
+            readableText(label)
+          )?.replace(/:\s*/g, ": "),
+        )
       : undefined;
   }
 
@@ -3415,7 +3430,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "group" && !el.matches(interactiveSelector)) {
-      if (tag === "fieldset") return checkboxFieldsetLegendText(el);
+      if (tag === "fieldset") return controlFieldsetLegendText(el);
       if (tag === "map") return imageMapGroupName(el);
       const compactLabel = compactInputActionGroupLabel(el);
       if (compactLabel) return compactLabel;
@@ -4133,7 +4148,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "li") return "listitem";
     if (tag === "portal" && directOwnText(el)) return "text";
     if (tag === "dt") return "term";
-    if (tag === "dd") return isWrappedDefinitionListItem(el) ? "paragraph" : "";
+    if (tag === "dd") {
+      return isDefinitionListItem(el) && !hasVisibleInteractiveDescendant(el)
+        ? "paragraph"
+        : "";
+    }
     if (tag === "table") return "table";
     if (tag === "tr") return "row";
     if (tag === "th") {
@@ -4153,7 +4172,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       (el.getAttribute("aria-label") ||
         el.getAttribute("aria-labelledby") ||
         fieldsetPromptText(el) ||
-        checkboxFieldsetLegendText(el))
+        controlFieldsetLegendText(el))
+    ) {
+      return "group";
+    }
+    if (
+      tag === "label" &&
+      (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) &&
+      hasVisibleInteractiveDescendant(el)
     ) {
       return "group";
     }
@@ -4717,6 +4743,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       definitionChildren.length === 1 &&
       ["ul", "ol"].includes(definitionChildren[0].tagName?.toLowerCase())
     );
+  }
+
+  function isSimpleDirectDefinitionListItem(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const tag = el.tagName?.toLowerCase();
+    if (tag !== "dt" && tag !== "dd") return false;
+    const list = el.parentElement;
+    if (list?.tagName?.toLowerCase() !== "dl") return false;
+    if (tag === "dt" && definitionListDisclosureButton(el)) return false;
+    if (isDirectListBackedDefinitionItem(el)) return false;
+    return true;
   }
 
   function definitionListDisclosureButton(el: any): any | undefined {
@@ -5353,15 +5390,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (
-      (role === "term" || role === "paragraph") &&
-      isWrappedDefinitionListItem(el)
-    ) {
-      const { listItem, list, siblings } = semanticListContext(el);
-      const index = siblings.indexOf(listItem);
-      return index >= 0 ? adjustedListPosition(index, list, el, role) : undefined;
-    }
-
-    if (
       (role === "term" && Boolean(definitionListDisclosureButton(el))) ||
       (role === "paragraph" && isFirstDisclosureDefinitionParagraph(el))
     ) {
@@ -5370,7 +5398,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return index >= 0 ? adjustedListPosition(index, list, el, role) : undefined;
     }
 
-    if (role === "term" && isDirectListBackedDefinitionItem(el)) {
+    if (
+      (role === "term" || role === "paragraph") &&
+      (isWrappedDefinitionListItem(el) ||
+        isSimpleDirectDefinitionListItem(el) ||
+        (role === "term" && isDirectListBackedDefinitionItem(el)))
+    ) {
       const { listItem, list, siblings } = semanticListContext(el);
       const index = siblings.indexOf(listItem);
       return index >= 0 ? adjustedListPosition(index, list, el, role) : undefined;
@@ -5504,20 +5537,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return siblings.length || undefined;
     }
     if (
-      (role === "term" || role === "paragraph") &&
-      isWrappedDefinitionListItem(el)
-    ) {
-      const { list, siblings } = semanticListContext(el);
-      return adjustedListSetSize(siblings, list, el, role);
-    }
-    if (
       (role === "term" && Boolean(definitionListDisclosureButton(el))) ||
       (role === "paragraph" && isFirstDisclosureDefinitionParagraph(el))
     ) {
       const { list, siblings } = semanticListContext(el);
       return adjustedListSetSize(siblings, list, el, role);
     }
-    if (role === "term" && isDirectListBackedDefinitionItem(el)) {
+    if (
+      (role === "term" || role === "paragraph") &&
+      (isWrappedDefinitionListItem(el) ||
+        isSimpleDirectDefinitionListItem(el) ||
+        (role === "term" && isDirectListBackedDefinitionItem(el)))
+    ) {
       const { list, siblings } = semanticListContext(el);
       return adjustedListSetSize(siblings, list, el, role);
     }
@@ -7787,20 +7818,43 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function fieldsetLegendText(el: any): string | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     if (el.tagName?.toLowerCase() !== "fieldset") return undefined;
-    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
     const legend = Array.from(el.children || []).find(
       (child: any) => child.tagName?.toLowerCase() === "legend" && !isHidden(child),
     ) as any;
     return legend ? readableText(legend) : undefined;
   }
 
-  function checkboxFieldsetLegendText(el: any): string | undefined {
+  function hasRadioImageLabels(el: any): boolean {
+    const radios = Array.from(
+      el.querySelectorAll("input[type='radio'], [role='radio']"),
+    ).filter((radio: any) => !isHidden(radio));
+    if (!radios.length) return false;
+
+    return radios.some((radio: any) => {
+      const label = "labels" in radio && radio.labels?.length ? radio.labels[0] : undefined;
+      if (!label || isHidden(label)) return false;
+      return Boolean(
+        label.querySelector(
+          "img, svg, [role='img'], picture, canvas",
+        ),
+      );
+    });
+  }
+
+  function controlFieldsetLegendText(el: any): string | undefined {
     const legend = fieldsetLegendText(el);
     if (!legend) return undefined;
     const checkboxes = Array.from(
       el.querySelectorAll("input[type='checkbox'], [role='checkbox']"),
     ).filter((checkbox: any) => !isHidden(checkbox));
-    return checkboxes.length ? legend : undefined;
+    if (checkboxes.length) return legend;
+
+    return hasRadioImageLabels(el) ? legend : undefined;
+  }
+
+  function radioImageFieldsetLegendText(el: any): string | undefined {
+    const legend = fieldsetLegendText(el);
+    return legend && hasRadioImageLabels(el) ? legend : undefined;
   }
 
   function hasInteractiveDescendantAcrossShadowContent(el: any): boolean {
@@ -10563,6 +10617,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ? formatConjunctiveList(columnHeaderFragments)
         : undefined;
     const cellRole = implicitRole(cell);
+    const parsedColumnSpan = Number.parseInt(cell.getAttribute?.("colspan") || "", 10);
+    const parsedRowSpan = Number.parseInt(cell.getAttribute?.("rowspan") || "", 10);
     const columnHeaderText =
       role !== "columnheader" && cellRole !== "columnheader" && columnHeader
         ? complexColumnHeaderContextText ||
@@ -10578,6 +10634,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       Boolean(tableGroupHeaderText) &&
       Boolean(row.closest("thead")) &&
       Boolean(row.querySelector("button[aria-controls]"));
+    const tableHasRowgroupSpanHeaders = rows.some((candidate: any) =>
+      Array.from(candidate.children || []).some((child: any) => {
+        if (implicitRole(child) !== "rowheader") return false;
+        if ((child.getAttribute("scope") || "").toLowerCase() !== "rowgroup") return false;
+        const span = Number.parseInt(child.getAttribute("colspan") || "", 10);
+        return span > 1;
+      }),
+    );
     const tableFirstGroupedHeaderRow =
       tableGroupedHeaderRow &&
       row === groupedTableHeaders(table)[0]?.querySelector("tr,[role='row']");
@@ -10610,9 +10674,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       tableGroupedHeaderRow,
       tableFirstGroupedHeaderRow,
       tableHasComplexColumnHeaders,
+      tableHasRowgroupSpanHeaders,
       simpleNativeTwoColumnHeaderContext,
       simpleNativeColumnHeaderContext,
       nativeUnheadedFirstColumnContext,
+      columnSpan: parsedColumnSpan > 1 ? parsedColumnSpan : undefined,
+      rowSpan: parsedRowSpan > 1 ? parsedRowSpan : undefined,
     };
   }
 
@@ -11435,6 +11502,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return radios.length > 1;
   }
 
+  function radioTrailingLabelText(el: any, role: string, name?: string): string | undefined {
+    if (role !== "radio" || !isFieldsetRadioGroup(el, role)) return undefined;
+    if (accessibilityNodes.length) return undefined;
+    const label = "labels" in el && el.labels?.length ? el.labels[0] : undefined;
+    if (!label || isHidden(label)) return undefined;
+    if (label.getAttribute("aria-label") || label.getAttribute("aria-labelledby")) return undefined;
+    if (!label.querySelector("img, svg, [role='img'], picture, canvas")) return undefined;
+
+    const text = normalize(textWithoutInteractive(label) || readableText(label));
+    return text && text === normalize(name) ? text : undefined;
+  }
+
   function isGeneratedPseudoPopupButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
     if (!generatedPseudoText(el, "before") && !generatedPseudoText(el, "after")) return false;
@@ -11780,6 +11859,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "link" && isTextlessCarouselPaginatorLink(el) || undefined,
       precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : undefined,
       fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || undefined,
+      radioTrailingLabelText:
+        role === "radio" ? radioTrailingLabelText(el, role, announcementName) : undefined,
       compositeText:
         role === "button" &&
           Boolean(nestedImageLabel(el) && rawText) ||
@@ -11848,6 +11929,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       parenthesizedCollectionPosition:
         role === "term" &&
           (isWrappedDefinitionListItem(el) ||
+            isSimpleDirectDefinitionListItem(el) ||
             isDirectListBackedDefinitionItem(el) ||
             Boolean(definitionListDisclosureButton(el))) ||
         role === "group" &&
@@ -11856,13 +11938,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       duplicateCollectionPosition:
         role === "term" &&
           (isWrappedDefinitionListItem(el) ||
+            isSimpleDirectDefinitionListItem(el) ||
             isDirectListBackedDefinitionItem(el) ||
             Boolean(definitionListDisclosureButton(el))) ||
         role === "heading" &&
           Boolean(flattenedSlottedCarouselPosition(el).positionInSet) ||
         undefined,
       emptyTerm:
-        role === "term" && isDirectListBackedDefinitionItem(el) ? true : undefined,
+        role === "term" &&
+        (isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el))
+          ? true
+          : undefined,
       unlabeledImage:
         role === "image" && isInformativeUnlabeledCmsImage(el) ? true : undefined,
       unlabeledImageSrcLabel:
@@ -11971,6 +12057,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "combobox" && isFooterCountrySelector(el) ? true : undefined,
       fieldsetPromptText:
         role === "group" ? fieldsetPromptText(el) : undefined,
+      fieldsetLegendText:
+        role === "group" ? radioImageFieldsetLegendText(el) : undefined,
       labelledNavigationHeaderText:
         role === "navigation"
           ? labelledNavigationHeaderStopText(el, role, name)
@@ -12072,7 +12160,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el)) ||
         (role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el)) ||
         (role === "group" && Boolean(fieldsetPromptText(el))) ||
-        (role === "term" && isDirectListBackedDefinitionItem(el)) ||
+        (role === "term" &&
+          (isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el))) ||
         (role === "dialog" &&
           el.getAttribute("aria-modal") === "true" &&
           ((hasExplicitDialogName(el) && modalDialogSummaryItemCount(el)) ||
@@ -13046,9 +13135,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function splitFieldsetPromptAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
-    return descriptor.role === "group" && descriptor.fieldsetPromptText
-      ? [descriptor.fieldsetPromptText]
-      : undefined;
+    if (descriptor.role !== "group") return undefined;
+    if (descriptor.fieldsetPromptText) return [descriptor.fieldsetPromptText];
+    if (descriptor.fieldsetLegendText) {
+      return [
+        generateAnnouncement(descriptor),
+        descriptor.fieldsetLegendText,
+      ].filter((entry): entry is string => Boolean(entry));
+    }
+    return undefined;
+  }
+
+  function splitRadioTrailingLabelAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (descriptor.role !== "radio" || !descriptor.radioTrailingLabelText) return undefined;
+    return [
+      generateAnnouncement(descriptor),
+      descriptor.radioTrailingLabelText,
+    ].filter((entry): entry is string => Boolean(entry));
   }
 
   function splitLabelledNavigationHeaderAnnouncements(
@@ -13691,6 +13796,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-fieldset-prompt",
           announcements: splitFieldsetPromptAnnouncements(descriptor),
+        },
+        {
+          source: "split-radio-trailing-label",
+          announcements: splitRadioTrailingLabelAnnouncements(descriptor),
         },
         {
           source: "split-labelled-navigation-header",

@@ -51,5 +51,8 @@ draft C.5 fixtures for the second Linear C.5 wave:
   `dt`/`dd` traversal without footnotes or links.
 - `expanded-button-list-position-minimal-c5.html` isolates parent list
   position on expanded buttons separately from the larger nested-link repro.
+- `list-marker-button-content-c5.html` isolates marker stops before expanded
+  buttons and following text content.
+- `nested-list-marker-link-c5.html` isolates nested marker stops before links.
 
 Keep these draft until the second wave scan evidence is reviewed.

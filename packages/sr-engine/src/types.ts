@@ -42,6 +42,7 @@ export interface ElementDescriptor {
   tableGroupedHeaderRow?: boolean;
   tableFirstGroupedHeaderRow?: boolean;
   tableHasComplexColumnHeaders?: boolean;
+  tableHasRowgroupSpanHeaders?: boolean;
   simpleNativeTwoColumnHeaderContext?: boolean;
   simpleNativeColumnHeaderContext?: boolean;
   nativeUnheadedFirstColumnContext?: boolean;
@@ -116,6 +117,8 @@ export interface ElementDescriptor {
   textboxPlaceholderBeforeRole?: boolean;
   footerCountrySelector?: boolean;
   fieldsetPromptText?: string;
+  fieldsetLegendText?: string;
+  radioTrailingLabelText?: string;
   labelledNavigationHeaderText?: string;
   examplePreviewFrameAnnouncements?: string[];
   tabExpandedState?: boolean;

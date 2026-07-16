@@ -951,8 +951,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             el.columnHeaderText &&
             el.simpleNativeColumnHeaderContext
           ) {
+            const columnSpanContext =
+              el.columnSpan && el.columnSpan > 1
+                ? `${el.columnHeaderText} spans ${el.columnSpan} columns`
+                : el.tableHasRowgroupSpanHeaders
+                  ? undefined
+                  : el.columnHeaderText;
             parts.push(
-              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${el.columnHeaderText} ${label}`,
+              `row ${el.rowIndex}${el.rowCount ? ` of ${el.rowCount}` : ""} ${label} ${columnSpanContext ? `${columnSpanContext} ` : ""}${label}`,
             );
           } else if (
             role === "rowheader" &&
@@ -997,7 +1003,18 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         );
         pushTableCoordinates(parts, el);
       }
-      if (el.columnSpan && el.columnSpan > 1) {
+      if (
+        el.columnSpan &&
+        el.columnSpan > 1 &&
+        !(
+          role === "rowheader" &&
+          el.columnIndex === 1 &&
+          el.rowIndex &&
+          label &&
+          el.columnHeaderText &&
+          el.simpleNativeColumnHeaderContext
+        )
+      ) {
         parts.push(`spans ${el.columnSpan} columns`);
       }
       if (el.rowSpan && el.rowSpan > 1) {
