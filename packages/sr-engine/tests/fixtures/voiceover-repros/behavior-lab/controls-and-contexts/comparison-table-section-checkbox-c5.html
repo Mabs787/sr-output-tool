@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comparison table section and checkbox C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 900px; }
+      table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+      th, td { border: 1px solid #777; padding: 8px; text-align: left; }
+      thead th { background: #eee; }
+      .section th { background: #f8f8f8; font-weight: bold; }
+      .plans { display: flex; gap: 24px; margin-top: 16px; }
+      .plan { border: 1px solid #777; border-radius: 12px; padding: 12px; width: 220px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Comparison table section and checkbox behavior</h1>
+      <p>
+        This fixture isolates plan-card checkbox labels and comparison-table
+        header/section traversal behavior from a pricing-style page.
+      </p>
+
+      <section class="plans" aria-label="Plans">
+        <article class="plan">
+          <h2>Basic</h2>
+          <p>$10 per user/month</p>
+          <label><input type="checkbox" checked> Billed yearly</label>
+        </article>
+        <article class="plan">
+          <h2>Business</h2>
+          <p>$16 per user/month</p>
+          <label><input type="checkbox" checked> Billed yearly</label>
+        </article>
+      </section>
+
+      <table aria-label="Plan comparison">
+        <thead>
+          <tr>
+            <th scope="col">Features</th>
+            <th scope="col">Free</th>
+            <th scope="col">Basic</th>
+            <th scope="col">Business</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section">
+            <th scope="rowgroup" colspan="4">Core</th>
+          </tr>
+          <tr>
+            <th scope="row">Members</th>
+            <td>Unlimited</td>
+            <td>Unlimited</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr>
+            <th scope="row">Issues, projects, cycles</th>
+            <td>250 issues</td>
+            <td>Unlimited</td>
+            <td>Unlimited</td>
+          </tr>
+          <tr class="section">
+            <th scope="rowgroup" colspan="4">Security</th>
+          </tr>
+          <tr>
+            <th scope="row">SSO</th>
+            <td>Google</td>
+            <td>Google</td>
+            <td>Google + SAML</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>** Requires AI credits</strong></p>
+    </main>
+  </body>
+</html>

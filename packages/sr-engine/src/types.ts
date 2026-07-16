@@ -120,6 +120,7 @@ export interface ElementDescriptor {
   examplePreviewFrameAnnouncements?: string[];
   tabExpandedState?: boolean;
   axInlineTwoLinkListItemAnnouncements?: string[];
+  axSplitHeaderListItemAnnouncement?: string;
   axMixedInlineListItemAnnouncements?: string[];
   contributionListItemAnnouncements?: string[];
   metadataListItemValueAnnouncements?: string[];

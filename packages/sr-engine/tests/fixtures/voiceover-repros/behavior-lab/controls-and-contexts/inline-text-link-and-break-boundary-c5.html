@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inline text link and break boundary C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .cards { display: grid; gap: 16px; margin-top: 16px; }
+      .card { border: 1px solid #777; border-radius: 12px; padding: 16px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Inline text link and break boundary</h1>
+      <p>
+        This fixture isolates inline prose followed by one CTA link inside a
+        span, plus paragraph text split by a line break.
+      </p>
+
+      <section class="cards" aria-label="Security cards">
+        <div class="card">
+          <h2>Audit report</h2>
+          <span>
+            The workspace undergoes regular independent audits.
+            <a href="#audit">Request report →</a>
+          </span>
+        </div>
+
+        <div class="card">
+          <h2>Business agreement</h2>
+          <span>
+            Privacy and security measures safeguard sensitive information.
+            <a href="#agreement">Request agreement →</a>
+          </span>
+        </div>
+      </section>
+
+      <section aria-label="Privacy">
+        <h2>Privacy</h2>
+        <p><span>Designed to protect your work.</span><br>Privacy first, second, and third.</p>
+      </section>
+    </main>
+  </body>
+</html>

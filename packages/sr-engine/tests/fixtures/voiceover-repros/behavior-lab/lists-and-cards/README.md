@@ -16,6 +16,9 @@ Scan these before changing engine logic:
 - `figure-mockup-image-caption-boundary-c5.html`
 - `mock-composer-button-wrapper-groups-c5.html`
 - `mock-composer-icon-label-button-groups-c5.html`
+- `expanded-disclosure-button-list-position-c5.html`
+- `article-card-group-boundary-c5.html`
+- `definition-list-positioned-terms-c5.html`
 
 `linked-card-listitem-position.html` and
 `article-card-heading-boundary.html` were accepted from run `29210975599` after
@@ -34,3 +37,7 @@ Linear run `29429919047` added draft C.5 fixtures for large plain-list position 
 Linear run `29429919047` later added draft C.5 fixtures for figure/mockup image-caption boundaries and composer button wrapper group suffixes. Keep them draft until scan evidence is reviewed.
 
 Linear run `29429919047` added a draft C.5 fixture for aria-label icon-only composer buttons after Intake evidence showed `Attach, button, group` while earlier visible-text composer repros did not reproduce the suffix. Keep it draft until scan evidence is reviewed.
+
+Linear run `29429919047` added a draft C.5 fixture for expanded disclosure buttons inside parent list items after Developers evidence showed `GraphQL API, expanded, button, 1 of 5` while the current engine emitted the same button without parent list position. Keep it draft until scan evidence is reviewed.
+
+Linear run `29429919047` added draft C.5 fixtures for article-card anonymous group/end-boundary behavior and definition-list positioned term traversal after Contact and Mobile evidence exposed reusable mismatches. Keep them draft until scan evidence is reviewed.

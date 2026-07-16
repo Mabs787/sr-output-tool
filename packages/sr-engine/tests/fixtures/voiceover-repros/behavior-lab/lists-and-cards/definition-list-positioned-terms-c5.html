@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Definition list positioned terms C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      dl { border: 1px solid #777; border-radius: 12px; padding: 16px; }
+      dt { font-weight: bold; margin-top: 12px; }
+      dd { margin: 4px 0 8px 24px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Definition list positioned terms</h1>
+      <p>
+        This fixture isolates VoiceOver traversal of definition lists whose
+        terms and definitions form a credits-style list with many items.
+      </p>
+
+      <dl aria-label="Credits">
+        <dt>Producers</dt>
+        <dd>Jordan Lee</dd>
+        <dd>Sam Patel</dd>
+
+        <dt>Product design</dt>
+        <dd>Casey Nguyen</dd>
+        <dd>Taylor Brooks</dd>
+
+        <dt>Product engineering <sup>1</sup></dt>
+        <dd>Robin Kim</dd>
+        <dd>Morgan Diaz</dd>
+
+        <dt>Sound design</dt>
+        <dd>Avery Stone</dd>
+      </dl>
+
+      <p><sup>1</sup> Includes prototype implementation.</p>
+    </main>
+  </body>
+</html>

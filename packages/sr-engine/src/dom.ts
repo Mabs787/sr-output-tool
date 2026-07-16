@@ -780,6 +780,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
       if (node.nodeType !== Node.ELEMENT_NODE) return "";
       if (isHidden(node)) return "";
+      if (node.tagName?.toLowerCase() === "br") return " ";
       if (node.tagName?.toLowerCase() === "wbr") {
         return options.preserveWbrBoundary ? " " : "";
       }
@@ -1688,12 +1689,28 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       );
     });
 
-    if (visualButtons.length >= 3 && visualButtons.includes(el)) return true;
+    if (visualButtons.length >= 3 && visualButtons.includes(el)) {
+      if (isMediaPlayerControlRow(parent)) {
+        return visualButtons[0] === el;
+      }
+      return true;
+    }
     return (
       visualButtons.includes(el) &&
       Array.from(parent.children || []).some((sibling: any) =>
         sibling !== el && isButtonShellClusterGroup(sibling),
       )
+    );
+  }
+
+  function isMediaPlayerControlRow(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const region = el.closest?.("[role='region']");
+    if (normalize(region?.getAttribute?.("aria-label"))?.toLowerCase() !== "media player") {
+      return false;
+    }
+    return Boolean(
+      el.querySelector?.("[role='slider'][aria-label], select[aria-label], button[aria-keyshortcuts]"),
     );
   }
 
@@ -2917,6 +2934,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function isNamedAlertBoundary(el: any, role = implicitRole(el)): boolean {
     if (role !== "alert") return false;
+    if (!el.getAttribute("aria-label") && !el.getAttribute("aria-labelledby")) return false;
     if (!accessibleName(el, role)) return false;
     if (isEmptyAlertBeforeDialog(el) || isEmptyAlertLiveRegion(el, role)) return false;
 
@@ -3573,10 +3591,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (directListArticleCardFor(el) !== el) return undefined;
 
-    const hasDateMetadata = Array.from(el.querySelectorAll("time")).some(
-      (time: any) => !isHidden(time) && Boolean(readableText(time)),
-    );
-    if (!hasDateMetadata) return undefined;
+    if (!hasArticleDateMetadata(el)) return undefined;
 
     const heading = Array.from(
       el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
@@ -3591,10 +3606,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const headingLink = Array.from(
       heading.querySelectorAll("a[href], [role='link']"),
     ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate))) as any;
-    if (!headingLink) return undefined;
 
     return (
-      accessibleName(headingLink, "link") ||
+      (headingLink ? accessibleName(headingLink, "link") : undefined) ||
       accessibleName(heading, "heading") ||
       readableText(heading)
     );
@@ -3607,10 +3621,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (!isSiblingArticleCollectionItem(el)) return undefined;
 
-    const hasDateMetadata = Array.from(el.querySelectorAll("time")).some(
-      (time: any) => !isHidden(time) && Boolean(readableText(time)),
-    );
-    if (!hasDateMetadata) return undefined;
+    if (!hasArticleDateMetadata(el)) return undefined;
 
     const heading = Array.from(
       el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
@@ -3625,10 +3636,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const headingLink = Array.from(
       heading.querySelectorAll("a[href], [role='link']"),
     ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate))) as any;
-    if (!headingLink) return undefined;
 
     return (
-      accessibleName(headingLink, "link") ||
+      (headingLink ? accessibleName(headingLink, "link") : undefined) ||
       accessibleName(heading, "heading") ||
       readableText(heading)
     );
@@ -3643,6 +3653,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         child.tagName?.toLowerCase() === "p" &&
         Boolean(articleInlineTextLinkFragments(child)),
     );
+  }
+
+  function hasArticleDateMetadata(el: any): boolean {
+    const hasTime = Array.from(el.querySelectorAll("time")).some(
+      (time: any) => !isHidden(time) && Boolean(readableText(time)),
+    );
+    if (hasTime) return true;
+
+    return Array.from(el.querySelectorAll("small")).some((small: any) => {
+      if (isHidden(small)) return false;
+      return /^\(?\d{4}[-–—][A-Za-z]{3}[-–—]\d{2}\)?$/.test(readableText(small) || "");
+    });
   }
 
   function isCompactStandaloneArticleContext(el: any, role: string): boolean {
@@ -4173,6 +4195,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       hasVisibleInteractiveDescendant(el)
     ) {
       return "group";
+    }
+    if (isSplitHeaderListItemHeaderContent(el)) {
+      return "";
     }
     if (["span", "div"].includes(tag) &&
       directOwnText(el) &&
@@ -5242,6 +5267,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
+    if (role === "link" && isCategorizedListItemBodyLink(el, role)) {
+      return undefined;
+    }
+
     if (role === "link" && isAxMarkerOnlyListItemChildContent(el, role)) {
       return undefined;
     }
@@ -5405,6 +5434,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return siblings.length || undefined;
     }
     if (role === "link" && isGenericDealCtaLink(el)) {
+      return undefined;
+    }
+    if (role === "link" && isCategorizedListItemBodyLink(el, role)) {
       return undefined;
     }
     if (role === "link" && isAxMarkerPrefixedTextListItemChildContent(el, role)) {
@@ -5977,6 +6009,42 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function isCategorizedListItemBodyLink(el: any, role = implicitRole(el)): boolean {
+    if (role !== "link") return false;
+    const listItem = el?.closest?.("li,[role='listitem']");
+    if (!listItem || el.parentElement !== listItem) return false;
+    const list = listForItem(listItem);
+    if (!list || listItem.querySelector("ul, ol, dl, [role='list']")) return false;
+
+    const visibleChildren = Array.from(listItem.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    const directLinks = visibleChildren.filter(
+      (child: any) =>
+        child.tagName?.toLowerCase() === "a" &&
+        child.hasAttribute("href") &&
+        !isHidden(child),
+    );
+    if (!directLinks.includes(el)) return false;
+
+    const headerLinks = Array.from(listItem.querySelectorAll("a[href], [role='link']")).filter(
+      (link: any) =>
+        !directLinks.includes(link) &&
+        !isHidden(link) &&
+        link.closest("li,[role='listitem']") === listItem,
+    );
+    if (!headerLinks.length) return false;
+
+    const firstDirectLinkIndex = visibleChildren.indexOf(directLinks[0]);
+    const headerChild = visibleChildren.find((child: any) =>
+      headerLinks.some((link: any) => child !== link && child.contains(link)),
+    );
+    if (!headerChild) return false;
+
+    const headerIndex = visibleChildren.indexOf(headerChild);
+    return headerIndex >= 0 && firstDirectLinkIndex >= 0 && headerIndex < firstDirectLinkIndex;
+  }
+
   function axPublicationListItemBoundaryAnnouncements(el: any): string[] | undefined {
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
     if (el.getAttribute("data-sr-marker-content") !== "normal") return undefined;
@@ -6512,6 +6580,76 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const size = setSize(el, "listitem");
     const suffix = position && size ? `, ${position} of ${size}` : "";
     return `• ${text}${suffix}`;
+  }
+
+  function splitHeaderListItemParts(el: any):
+    | { header: any; prefixEl: any; titleEl: any; prefix: string; title: string }
+    | undefined {
+    if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
+    const list = listForItem(el);
+    if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (el.querySelector("a[href], [role='link'], button, [role='button'], ul, ol, dl, [role='list']")) {
+      return undefined;
+    }
+    if (directOwnText(el)) return undefined;
+
+    const children = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child) && Boolean(readableText(child)),
+    );
+    if (children.length < 2) return undefined;
+
+    const [header, ...bodyChildren] = children as any[];
+    if (!["div", "span"].includes(header.tagName?.toLowerCase())) return undefined;
+    if (directOwnText(header)) return undefined;
+    if (!bodyChildren.some((child: any) => readableText(child))) return undefined;
+
+    const headerChildren = Array.from(header.children || []).filter(
+      (child: any) => !isHidden(child) && Boolean(readableText(child)),
+    );
+    if (headerChildren.length !== 2) return undefined;
+
+    const [prefixEl, titleEl] = headerChildren as any[];
+    if (prefixEl.querySelector?.(interactiveSelector) || titleEl.querySelector?.(interactiveSelector)) {
+      return undefined;
+    }
+
+    const prefix = normalize(readableText(prefixEl));
+    const title = normalize(readableText(titleEl));
+    if (!prefix || !/^\d{1,3}\.$/.test(prefix)) return undefined;
+    if (!title || title === prefix) return undefined;
+
+    const axListItem = axNodeForElementRole(el, "listitem");
+    if (!axListItem || normalize(axListItem.name)) return undefined;
+
+    return { header, prefixEl, titleEl, prefix, title };
+  }
+
+  function axSplitHeaderListItemAnnouncement(el: any): string | undefined {
+    const parts = splitHeaderListItemParts(el);
+    if (!parts) return undefined;
+
+    const list = listForItem(el);
+    if (!list) return undefined;
+    const siblings = announcedListChildren(list);
+    if (
+      siblings.length < 2 ||
+      !siblings.every((item: any) => Boolean(splitHeaderListItemParts(item)))
+    ) {
+      return undefined;
+    }
+
+    const position = positionInSet(el, "listitem");
+    const size = setSize(el, "listitem");
+    const suffix = position && size ? `, ${position} of ${size}` : "";
+    return `${parts.prefix} ${parts.title}${suffix}`;
+  }
+
+  function isSplitHeaderListItemHeaderContent(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const listItem = el.closest?.("li,[role='listitem']");
+    const parts = splitHeaderListItemParts(listItem);
+    if (!parts || !axSplitHeaderListItemAnnouncement(listItem)) return false;
+    return el === parts.header || parts.header.contains(el);
   }
 
   function contributionListItemAnnouncements(el: any): string[] | undefined {
@@ -7695,7 +7833,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function inlineTextLinkFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
-    if (el.tagName.toLowerCase() !== "div") return undefined;
+    const tag = el.tagName.toLowerCase();
+    if (!["div", "span"].includes(tag)) return undefined;
+    if (
+      tag === "span" &&
+      (["a", "button", "label", "li", "p", "small"].includes(
+        el.parentElement?.tagName?.toLowerCase?.() || "",
+      ) ||
+        el.closest("footer,[role='contentinfo']"))
+    ) {
+      return undefined;
+    }
     if (
       el.getAttribute("role") ||
       el.getAttribute("aria-label") ||
@@ -11530,6 +11678,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               el.getAttribute("tabindex") === "-1" &&
               hasStructuredListItemContent(el.closest("li,[role='listitem']"))
             ? "empty group"
+          : role === "group" && isNamedEmptyDecorativeMediaGroup(el, role)
+            ? "empty group"
           : ariaRoleDescriptionForDescriptor(el, role),
       level:
         role === "heading"
@@ -11841,6 +11991,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "listitem" ? axMixedInlineListItemAnnouncements(el) : undefined,
       axStrongWrappedMarkerListItemAnnouncements:
         role === "listitem" ? axStrongWrappedMarkerListItemAnnouncements(el) : undefined,
+      axSplitHeaderListItemAnnouncement:
+        role === "listitem" ? axSplitHeaderListItemAnnouncement(el) : undefined,
       axPlainTextMarkerListItemAnnouncement:
         role === "listitem" ? axPlainTextMarkerListItemAnnouncement(el) : undefined,
       axMarkerOnlyListItemStopAnnouncement:
@@ -11907,6 +12059,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "banner" && isEmptyContextStop(el, role)) ||
         (role === "region" && isEmptyNamedRegionStop(el, role)) ||
         role === "tooltip" ||
+        (role === "group" && isNamedEmptyDecorativeMediaGroup(el, role)) ||
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
         shouldSuppressSingletonDocumentArticleEnd(el, role) ||
         (role === "group" && isButtonShellClusterGroup(el)) ||
@@ -12152,6 +12305,20 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return hasAxRole(el, role);
   }
 
+  function isNamedEmptyDecorativeMediaGroup(el: any, role = implicitRole(el)): boolean {
+    if (role !== "group") return false;
+    if (!normalize(accessibleName(el, role))) return false;
+    if (readableText(el) || el.querySelector(interactiveSelector)) return false;
+    if (!el.querySelector("img, picture, svg, canvas")) return false;
+    if (el.querySelector("img:not([alt='']), [role='img'][aria-label], svg[aria-label]")) {
+      return false;
+    }
+
+    const axNode = axNodeForElementRole(el, "generic");
+    if (!axNode || !normalize(axNode.name)) return false;
+    return axDescendants(axNode).every((node) => node.ignored);
+  }
+
   function figureMockupHeaderItems(el: any): any[] {
     const parent = el?.parentElement;
     if (!parent || !parent.closest?.("figure")) return [];
@@ -12263,6 +12430,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "listitem" && namedNavigationListItemGroupedLinkAnnouncements(el)) {
+      return true;
+    }
+
+    if (role === "listitem" && axSplitHeaderListItemAnnouncement(el)) {
       return true;
     }
 
@@ -12452,6 +12623,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         "paragraph",
         "blockquote",
         "text",
+        "timer",
         "image",
         "frame",
         "dialog",
@@ -12525,6 +12697,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (namedNavigationListItemGroupedLinkAnnouncements(el)) return false;
       if (axMarkerOnlyListItemStopAnnouncement(el)) return true;
       if (axStrongWrappedMarkerListItemAnnouncements(el)) return true;
+      if (axSplitHeaderListItemAnnouncement(el)) return true;
       if (
         axPlainTextMarkerListItemAnnouncement(el) &&
         el.querySelector("a[href], [role='link']")
@@ -13020,6 +13193,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
     return [descriptor.axPlainTextMarkerListItemAnnouncement];
+  }
+
+  function splitAxSplitHeaderListItemAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "listitem" ||
+      !descriptor.axSplitHeaderListItemAnnouncement
+    ) {
+      return undefined;
+    }
+    return [descriptor.axSplitHeaderListItemAnnouncement];
   }
 
   function splitAxMarkerOnlyListItemAnnouncements(
@@ -13538,6 +13723,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-ax-strong-wrapped-marker-listitem",
           announcements: splitAxStrongWrappedMarkerListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-split-header-listitem",
+          announcements: splitAxSplitHeaderListItemAnnouncements(descriptor),
         },
         {
           source: "split-ax-plain-text-marker-listitem",

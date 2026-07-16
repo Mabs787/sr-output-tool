@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image radio footer C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      footer { border-top: 1px solid #777; margin-top: 24px; padding-top: 16px; }
+      .theme-picker { display: flex; gap: 12px; align-items: center; }
+      label { border: 1px solid #777; border-radius: 12px; padding: 8px; display: inline-flex; gap: 8px; align-items: center; }
+      img { width: 32px; height: 32px; background: #ddd; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Image radio footer</h1>
+      <p>
+        This fixture isolates radio controls with decorative or labelled images
+        in a footer theme picker.
+      </p>
+
+      <footer>
+        <nav aria-label="Footer">
+          <a href="#privacy">Privacy</a>
+          <a href="#terms">Terms</a>
+          <a href="#aup">AUP</a>
+        </nav>
+
+        <fieldset class="theme-picker">
+          <legend>Theme</legend>
+          <label>
+            <img src="missing-light.png" alt="">
+            <input type="radio" name="theme" checked>
+            Light
+          </label>
+          <label>
+            <img src="missing-dark.png" alt="">
+            <input type="radio" name="theme">
+            Dark
+          </label>
+        </fieldset>
+
+        <fieldset class="theme-picker" aria-label="Icon-only theme">
+          <legend>Icon-only theme</legend>
+          <label aria-label="Light theme">
+            <img src="missing-icon-light.png" alt="Light theme preview">
+            <input type="radio" name="icon-theme" checked>
+          </label>
+          <label aria-label="Dark theme">
+            <img src="missing-icon-dark.png" alt="Dark theme preview">
+            <input type="radio" name="icon-theme">
+          </label>
+        </fieldset>
+      </footer>
+    </main>
+  </body>
+</html>

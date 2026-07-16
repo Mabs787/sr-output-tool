@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expanded disclosure button list position C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      ul { margin: 0; padding-left: 24px; }
+      .sections {
+        list-style: none;
+        padding: 0;
+        border: 1px solid #777;
+        border-radius: 12px;
+      }
+      .sections > li {
+        border-top: 1px solid #bbb;
+        padding: 12px;
+      }
+      .sections > li:first-child { border-top: 0; }
+      button {
+        border: 1px solid #777;
+        border-radius: 8px;
+        background: white;
+        padding: 6px 10px;
+        font: inherit;
+      }
+      .panel { margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Expanded disclosure button list position</h1>
+      <p>
+        This fixture isolates whether VoiceOver announces parent list position
+        on expanded disclosure buttons when the same list item owns a controlled
+        nested list of links.
+      </p>
+
+      <ul class="sections" aria-label="Documentation sections">
+        <li>
+          <button type="button" aria-expanded="true" aria-controls="api-links">API</button>
+          <div id="api-links" class="panel">
+            <ul>
+              <li><a href="#api-start">Getting started</a></li>
+              <li><a href="#api-pagination">Pagination</a></li>
+              <li><a href="#api-schema">Schema reference</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <button type="button" aria-expanded="true" aria-controls="auth-links">Authentication</button>
+          <div id="auth-links" class="panel">
+            <ul>
+              <li><a href="#auth-oauth">OAuth guide</a></li>
+              <li><a href="#auth-keys">API keys</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <button type="button" aria-expanded="true" aria-controls="sdk-links">SDKs</button>
+          <div id="sdk-links" class="panel">
+            <ul>
+              <li><a href="#sdk-js">JavaScript SDK</a></li>
+              <li><a href="#sdk-python">Python SDK</a></li>
+              <li><a href="#sdk-ruby">Ruby SDK</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

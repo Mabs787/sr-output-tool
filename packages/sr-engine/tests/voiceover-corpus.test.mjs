@@ -18,6 +18,8 @@ const fixturesDir = path.join(testDir, "fixtures/voiceover");
 const refinementManifestPath = path.join(fixturesDir, "refinement-manifest.json");
 const shouldRun = process.env.SR_VOICEOVER_CORPUS_TESTS === "true";
 const includeCandidates = process.env.SR_VOICEOVER_CORPUS_CANDIDATES === "true";
+const corpusFixtureFilter = process.env.SR_VOICEOVER_CORPUS_FIXTURE || "";
+const logCorpusProgress = process.env.SR_VOICEOVER_CORPUS_PROGRESS === "true";
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, "utf8"));
@@ -260,7 +262,17 @@ function assertPartialAnnouncementsMatch(actual, partial) {
   );
 }
 
-const cases = getCases();
+function matchesCorpusFixtureFilter(fixture) {
+  if (!corpusFixtureFilter) return true;
+  return fixture.name.includes(corpusFixtureFilter);
+}
+
+function logProgress(message) {
+  if (!logCorpusProgress) return;
+  process.stderr.write(`[voiceover-corpus] ${message}\n`);
+}
+
+const cases = getCases().filter(matchesCorpusFixtureFilter);
 
 test("VoiceOver corpus fixtures are present", () => {
   assert.ok(
@@ -318,6 +330,8 @@ for (const fixture of cases) {
   runFixtureTest(
     `VoiceOver corpus: ${fixture.name} [${refinement.status}]`,
     () => {
+    const startedAt = Date.now();
+    logProgress(`start ${fixture.name}`);
     const html = readFileSync(path.join(fixturesDir, fixture.html), "utf8");
     const accessibilityTree = fixture.accessibilityTree
       ? readJson(path.join(fixturesDir, fixture.accessibilityTree))
@@ -352,6 +366,7 @@ for (const fixture of cases) {
       const expected = getExpectedAnnouncements(fixture);
       assertAnnouncementsMatch(actual, expected);
     }
+    logProgress(`end ${fixture.name} ${Date.now() - startedAt}ms`);
     },
   );
 }
