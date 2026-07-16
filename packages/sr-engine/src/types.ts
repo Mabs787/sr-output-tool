@@ -64,6 +64,7 @@ export interface ElementDescriptor {
   popupLabelWithoutComma?: boolean;
   autocomplete?: string;
   emptyAutocompleteTextInput?: boolean;
+  emptyAutocompleteListbox?: boolean;
   live?: string;
   atomic?: boolean;
   relevant?: string;

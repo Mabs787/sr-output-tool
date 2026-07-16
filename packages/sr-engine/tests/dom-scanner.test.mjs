@@ -7797,13 +7797,14 @@ test("scanSubtree yields unnamed ARIA autosuggest combobox wrappers to their nat
         <div>Where</div>
         <div role="combobox" aria-haspopup="listbox" aria-owns="where-listbox" aria-expanded="false">
           <input type="text" autocomplete="off" aria-autocomplete="list" aria-controls="where-listbox" placeholder="Anywhere">
-          <div id="where-listbox" role="listbox" hidden></div>
+          <div id="where-listbox" role="listbox"></div>
         </div>
       </div>
     `),
     [
       "Where",
-      "Anywhere, edit text, blank",
+      "Anywhere edit text, blank",
+      "empty, list box",
     ],
   );
 });

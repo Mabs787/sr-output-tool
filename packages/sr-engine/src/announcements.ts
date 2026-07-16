@@ -529,27 +529,32 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
       } else {
         const placeholderText = placeholder !== label ? placeholder : undefined;
-        pushIfPresent(
-          parts,
-          el.textboxPlaceholderBeforeRole && !value
-            ? [label, placeholderText].filter(Boolean).join(" ")
-            : label,
-        );
+        if (!el.emptyAutocompleteTextInput || value) {
+          pushIfPresent(
+            parts,
+            el.textboxPlaceholderBeforeRole && !value
+              ? [label, placeholderText].filter(Boolean).join(" ")
+              : label,
+          );
+        }
         if (el.invalid) {
           pushInvalidState(parts, el.invalid === true ? "data" : el.invalid);
         }
         if (el.secureTextField && el.required) {
           parts.push("required");
         }
-        parts.push(
-          el.textEntryArea
-            ? "text entry area"
-            : el.secureTextField
-              ? "secure text field"
-              : el.emailTextField
-                ? "email"
-                : "edit text",
-        );
+        const roleText = el.textEntryArea
+          ? "text entry area"
+          : el.secureTextField
+            ? "secure text field"
+            : el.emailTextField
+              ? "email"
+              : "edit text";
+        if (el.emptyAutocompleteTextInput && !value) {
+          pushIfPresent(parts, [label, roleText].filter(Boolean).join(" "));
+        } else {
+          parts.push(roleText);
+        }
         if (!el.invalid && !el.textboxPlaceholderBeforeRole) {
           if (el.emptyAutocompleteTextInput && !value) {
             parts.push("blank");
@@ -874,6 +879,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       }
       if (!el.popupListboxContainer) {
         pushIfPresent(parts, el.name);
+      }
+      if (el.emptyAutocompleteListbox) {
+        parts.push("empty");
       }
       parts.push("list box");
       if (el.selectedCount) {

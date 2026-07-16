@@ -4444,6 +4444,44 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return !normalize(accessibleName(el, role));
   }
 
+  function emptyControlledAutocompleteListboxController(el: any): any | null {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return null;
+    if (implicitRole(el) !== "listbox") return null;
+    if (readableText(el) || hasVisibleInteractiveDescendant(el)) return null;
+    const id = el.getAttribute("id");
+    if (!id) return null;
+
+    const selector = [
+      `[aria-controls="${cssEscape(id)}"]`,
+      `[aria-owns="${cssEscape(id)}"]`,
+    ].join(",");
+    return (
+      Array.from(document.querySelectorAll(selector)).find((controller: any) => {
+        if (controller === el || isHidden(controller)) return false;
+        const role = implicitRole(controller);
+        if (!["combobox", "searchbox", "textbox"].includes(role)) return false;
+        return (
+          normalize(controller.getAttribute("aria-autocomplete")) === "list" ||
+          Boolean(autocompleteComboboxWrapperInput(controller))
+        );
+      }) || null
+    );
+  }
+
+  function isEmptyControlledAutocompleteListbox(el: any, role = implicitRole(el)): boolean {
+    return role === "listbox" && Boolean(emptyControlledAutocompleteListboxController(el));
+  }
+
+  function controlledEmptyAutocompleteListboxForInput(el: any, role: string): any | null {
+    if (!isInputOwnedByAutocompleteComboboxWrapper(el, role)) return null;
+    const id =
+      el.getAttribute("aria-controls") ||
+      el.closest("[role='combobox']")?.getAttribute("aria-controls") ||
+      el.closest("[role='combobox']")?.getAttribute("aria-owns");
+    const listbox = id ? resolveIdRef(id) : null;
+    return listbox && isEmptyControlledAutocompleteListbox(listbox) ? listbox : null;
+  }
+
   function implicitRole(el: any): string {
     const tag = el.tagName.toLowerCase();
     const explicit = el.getAttribute("role");
@@ -12559,6 +12597,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
       emptyAutocompleteTextInput:
         inputOwnedByAutocompleteComboboxWrapper && !value ? true : undefined,
+      emptyAutocompleteListbox:
+        isEmptyControlledAutocompleteListbox(el, role) ? true : undefined,
       modal: el.getAttribute("aria-modal") === "true" || undefined,
       modalDialogSummaryItemCount:
         role === "dialog" &&
@@ -13491,6 +13531,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (isEmptyControlledAutocompleteListbox(el, role)) {
+      return true;
+    }
+
     if (isTrailingFigureMockupHeaderText(el, role)) {
       return false;
     }
@@ -13567,7 +13611,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "group" && isFocusableSummaryPanelGroup(el, role)) {
       return false;
     }
-    if (role === "listbox" && singleSelectedListboxOption(el)) {
+      if (role === "listbox" && singleSelectedListboxOption(el)) {
+      return false;
+    }
+    if (role === "listbox" && isEmptyControlledAutocompleteListbox(el, role)) {
       return false;
     }
     if (
@@ -14836,7 +14883,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     function walk(el: any): void {
       if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return;
-      if (isInsideCollapsedPopup(el)) return;
+      if (el.hasAttribute("data-sr-consumed-empty-autocomplete-listbox")) return;
+      if (isInsideCollapsedPopup(el) && !isEmptyControlledAutocompleteListbox(el)) return;
       if (isSeparatorListItem(el)) return;
       if (isInsideControlledTableGroupBody(el)) return;
       if (isAxConfirmedNativeSearchFormLabel(el)) return;
@@ -14995,6 +15043,26 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             announcements,
           )) {
             emitTraversalStop(id, stop);
+          }
+          const emptyAutocompleteListbox = controlledEmptyAutocompleteListboxForInput(
+            el,
+            descriptor.role || "",
+          );
+          if (emptyAutocompleteListbox) {
+            emptyAutocompleteListbox.setAttribute(
+              "data-sr-consumed-empty-autocomplete-listbox",
+              "true",
+            );
+            emitTraversalStop(
+              id,
+              syntheticTextStop(
+                "empty-controlled-autocomplete-listbox",
+                emptyAutocompleteListbox,
+                "empty, list box",
+                "listbox",
+                "empty",
+              ),
+            );
           }
         }
 
