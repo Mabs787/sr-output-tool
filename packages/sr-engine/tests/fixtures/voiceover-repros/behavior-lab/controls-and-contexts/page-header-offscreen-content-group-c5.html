@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Page header offscreen content group C5</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+
+      main {
+        min-height: 220vh;
+      }
+
+      .site-nav,
+      .page-actions {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .page-actions {
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .icon-button {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .content-shell {
+        margin-top: 120vh;
+        padding: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <nav class="site-nav">
+        <a href="/home">Home</a>
+      </nav>
+      <div>
+        <header class="page-actions">
+          <ol aria-label="Breadcrumbs">
+            <li><span>Home</span></li>
+          </ol>
+          <button class="icon-button" type="button" tabindex="0">
+            <svg role="img" aria-hidden="true"></svg>
+          </button>
+          <a href="/signup" type="button" role="button" tabindex="0">Sign up</a>
+          <span><a href="/signup" type="button" role="button" tabindex="0" hidden>Open app</a></span>
+        </header>
+        <div class="content-shell">
+          <header>
+            <h1>Example Docs</h1>
+            <p>Get an overview of product features, integrations, and how to use them.</p>
+          </header>
+          <section>
+            <h2>Popular</h2>
+            <a href="/docs/start">
+              <h3>Start Guide</h3>
+              <p>Learn how to use the app and follow best practices.</p>
+            </a>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
