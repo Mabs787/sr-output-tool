@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI weather destination widget</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 960px;
+      }
+
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+
+      .container {
+        border: 1px solid #c8d7ef;
+        border-radius: 16px;
+        padding: 20px;
+      }
+
+      .title {
+        font-weight: 700;
+      }
+
+      .header .title {
+        font-size: 28px;
+      }
+
+      .header .subtitle {
+        margin-top: 6px;
+      }
+
+      .filter-component {
+        display: grid;
+        gap: 16px;
+        margin-top: 24px;
+      }
+
+      .select-group,
+      .button-group,
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .group-component {
+        display: grid;
+        gap: 6px;
+      }
+
+      select,
+      input,
+      button {
+        font: inherit;
+      }
+
+      select,
+      input {
+        border: 1px solid #7b8794;
+        border-radius: 6px;
+        min-width: 180px;
+        padding: 10px 12px;
+      }
+
+      .react-autosuggest__container {
+        position: relative;
+      }
+
+      .react-autosuggest__suggestions-container {
+        border: 1px solid transparent;
+      }
+
+      .button-component {
+        border: 1px solid #637083;
+        border-radius: 999px;
+        background: #fff;
+        padding: 10px 14px;
+      }
+
+      .button-component.active {
+        background: #ccecff;
+        border-color: #0077b6;
+      }
+
+      .button-component .subtitle {
+        display: block;
+        font-size: 12px;
+      }
+
+      .result {
+        margin-top: 24px;
+      }
+
+      .list-component {
+        display: grid;
+        gap: 16px;
+      }
+
+      .card-component {
+        border: 1px solid #d0d7de;
+        border-radius: 12px;
+        color: inherit;
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+        text-decoration: none;
+      }
+
+      .top,
+      .bottom {
+        display: flex;
+        gap: 18px;
+      }
+
+      .image {
+        align-items: center;
+        background: linear-gradient(135deg, #8ed9ff, #ffe6a8);
+        border-radius: 10px;
+        display: flex;
+        height: 92px;
+        justify-content: center;
+        width: 160px;
+      }
+
+      .avg-temp,
+      .days,
+      .mm {
+        align-items: center;
+        display: inline-flex;
+        gap: 6px;
+      }
+
+      .icon img,
+      .avg-temp img,
+      .action-button {
+        height: 20px;
+        width: 20px;
+      }
+
+      .paginate-component ul {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        margin: 24px 0 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <div class="container-component">
+        <div class="container">
+          <div id="tui-weather-header" class="header">
+            <div data-testid="title" class="title">Where's hot when?</div>
+            <div data-testid="subtitle" class="subtitle">
+              Let our handy tool help you decide where to head for your next sunshine fix.
+            </div>
+          </div>
+
+          <div data-testcontainer="container-filter" class="filter-component">
+            <div class="visually-hidden">
+              Changing any of the fields will automatically update the context.
+            </div>
+
+            <div class="select-group">
+              <div class="group-component">
+                <div class="title">When</div>
+                <div class="row">
+                  <select data-testid="input-when" class="select-component">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May" selected>May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="group-component">
+                <div class="title">Where</div>
+                <div class="row">
+                  <div
+                    role="combobox"
+                    aria-haspopup="listbox"
+                    aria-owns="react-autowhatever-1"
+                    aria-expanded="false"
+                    class="react-autosuggest__container"
+                  >
+                    <input
+                      type="text"
+                      autocomplete="off"
+                      aria-autocomplete="list"
+                      aria-controls="react-autowhatever-1"
+                      data-testid="input-where"
+                      class="react-autosuggest__input"
+                      placeholder="Anywhere"
+                    >
+                    <div
+                      id="react-autowhatever-1"
+                      role="listbox"
+                      class="react-autosuggest__suggestions-container"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="button-group">
+              <div class="group-component">
+                <div class="title">Weather</div>
+                <div class="row">
+                  <button type="button" data-testid="button-any" class="button-component any">
+                    <span class="title">Any</span>
+                  </button>
+                  <button type="button" data-testid="button-warm" class="button-component warm">
+                    <span class="title">Warm</span>
+                    <span class="subtitle">16 - 22ºC</span>
+                  </button>
+                  <button type="button" data-testid="button-hot" class="button-component hot active">
+                    <span class="title">Hot</span>
+                    <span class="subtitle">23 - 28ºC</span>
+                  </button>
+                  <button type="button" data-testid="button-very-hot" class="button-component very-hot">
+                    <span class="title">Very Hot</span>
+                    <span class="subtitle">29 - 40ºC</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div aria-live="polite" role="region" class="visually-hidden">
+            There are now 30 destinations.
+          </div>
+
+          <div aria-live="polite" role="region" data-testcontainer="container-result" class="result">
+            <div>
+              <div class="list-component">
+                <a
+                  data-testarea="card"
+                  data-testloading="false"
+                  class="card-component"
+                  href="https://www.tui.co.uk/destinations/asia/thailand/thailand/koh-samui/holidays-koh-samui.html"
+                >
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="https://mwa.tui.com/shared/mwa/assets/v2/icons/tui/temp.svg" alt=""></span>
+                        <span class="temp" data-testid="card-temp">28 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name">
+                      <span data-testid="card-location-name">Koh Samui, Thailand</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="https://mwa.tui.com/shared/mwa/assets/v2/icons/tui/sun.svg" alt=""></span>
+                        <span class="value" data-testid="card-chance-of-sun">2%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="https://mwa.tui.com/shared/mwa/assets/v2/icons/tui/cloud-rain.svg" alt=""></span>
+                        <span class="value" data-testid="card-precipitation">110mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div>
+                      <span><img src="https://mwa.tui.com/browse/mwa/weather-mfe/images/active.svg" data-testid="card-button-action" class="action-button" alt=""></span>
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  data-testarea="card"
+                  data-testloading="false"
+                  class="card-component"
+                  href="https://www.tui.co.uk/destinations/africa/morocco/morocco-marrakech/holidays-morocco-marrakech.html"
+                >
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="https://mwa.tui.com/shared/mwa/assets/v2/icons/tui/temp.svg" alt=""></span>
+                        <span class="temp" data-testid="card-temp">27 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name">
+                      <span data-testid="card-location-name">Marrakech, Morocco</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="https://mwa.tui.com/shared/mwa/assets/v2/icons/tui/sun.svg" alt=""></span>
+                        <span class="value" data-testid="card-chance-of-sun">68%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="https://mwa.tui.com/shared/mwa/assets/v2/icons/tui/cloud-rain.svg" alt=""></span>
+                        <span class="value" data-testid="card-precipitation">28mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div>
+                      <span><img src="https://mwa.tui.com/browse/mwa/weather-mfe/images/active.svg" data-testid="card-button-action" class="action-button" alt=""></span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div data-testarea="area-paginate" class="paginate-component">
+                <ul role="navigation" aria-label="Pagination">
+                  <li class="previous disabled">
+                    <a href="#" tabindex="-1" role="button" aria-disabled="true" aria-label="Previous page" rel="noindex, follow">Prev</a>
+                  </li>
+                  <li class="selected">
+                    <a rel="noindex, follow" href="#5//hot/1" tabindex="-1" aria-label="Page 1 is your current page" aria-current="page">1</a>
+                  </li>
+                  <li>
+                    <a rel="noindex, follow" href="#5//hot/2" tabindex="0" aria-label="Page 2">2</a>
+                  </li>
+                  <li class="break">
+                    <a role="button" tabindex="0" aria-label="Jump forward">...</a>
+                  </li>
+                  <li>
+                    <a href="#5//hot/5" tabindex="0" aria-label="Page 5">5</a>
+                  </li>
+                  <li class="next">
+                    <a href="#5//hot/2" tabindex="0" role="button" aria-disabled="false" aria-label="Next page" rel="noindex, follow">Next</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
