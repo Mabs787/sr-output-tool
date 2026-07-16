@@ -913,7 +913,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return normalize(text) || "";
     }
 
-    return normalize(collect(el))?.replace(/''''\s+/g, "''''");
+    return normalize(collect(el))?.replace(/''''\s+/g, "''''").replace(/º(?=[CF]\b)/g, "°");
   }
 
   function directOwnText(el: any): string | undefined {
@@ -2272,6 +2272,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     let sawAdjacentTextSpans = false;
     let previousWasTextSpan = false;
     let interveningText = "";
+    const fragments: string[] = [];
 
     for (const child of Array.from(el.childNodes || [])) {
       if (child.nodeType === Node.TEXT_NODE) {
@@ -2295,13 +2296,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         sawAdjacentTextSpans = true;
       }
       text += childText;
+      fragments.push(childText);
       spanCount += 1;
       previousWasTextSpan = true;
       interveningText = "";
     }
 
     if (spanCount < 2 || !sawAdjacentTextSpans) return undefined;
+    if (shouldPreserveAdjacentButtonSpanBoundary(fragments)) {
+      return normalize(fragments.join(" "));
+    }
     return normalize(text);
+  }
+
+  function shouldPreserveAdjacentButtonSpanBoundary(fragments: string[]): boolean {
+    return fragments.some((fragment, index) => {
+      if (index === 0) return false;
+      const previous = fragments[index - 1] || "";
+      return /\p{L}$/u.test(previous) && /^[\d(]/u.test(fragment);
+    });
   }
 
   function isStructuredArticleCardStandaloneButtonAction(el: any, role: string): boolean {
@@ -4389,6 +4402,48 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return siblingArticles.length >= 2;
   }
 
+  function autocompleteComboboxWrapperInput(el: any): any | null {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return null;
+    if (el.getAttribute("role") !== "combobox") return null;
+    const tag = el.tagName?.toLowerCase();
+    if (tag === "input" || tag === "select" || tag === "textarea") return null;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return null;
+
+    const input = Array.from(el.querySelectorAll("input")).find((candidate: any) => {
+      if (isHidden(candidate) || candidate.disabled) return false;
+      const inputType = (candidate.getAttribute("type") || "text").toLowerCase();
+      if (inputType !== "text" && inputType !== "search") return false;
+      if (candidate.closest("[role='combobox']") !== el) return false;
+      return normalize(candidate.getAttribute("aria-autocomplete")) === "list";
+    }) as any;
+    if (!input) return null;
+
+    const controlledId =
+      input.getAttribute("aria-controls") ||
+      el.getAttribute("aria-controls") ||
+      el.getAttribute("aria-owns");
+    const popup = controlledId ? resolveIdRef(controlledId) : null;
+    if (popup && popup.getAttribute("role") && popup.getAttribute("role") !== "listbox") {
+      return null;
+    }
+
+    return input;
+  }
+
+  function isInputOwnedByAutocompleteComboboxWrapper(el: any, role: string): boolean {
+    if (role !== "textbox" && role !== "searchbox") return false;
+    if (!el || el.tagName?.toLowerCase() !== "input") return false;
+    if (normalize(el.getAttribute("aria-autocomplete")) !== "list") return false;
+    const wrapper = el.closest("[role='combobox']");
+    return Boolean(wrapper && autocompleteComboboxWrapperInput(wrapper) === el);
+  }
+
+  function isUnnamedLiveRegion(el: any, role: string): boolean {
+    if (role !== "region") return false;
+    if (!el?.hasAttribute?.("aria-live")) return false;
+    return !normalize(accessibleName(el, role));
+  }
+
   function implicitRole(el: any): string {
     const tag = el.tagName.toLowerCase();
     const explicit = el.getAttribute("role");
@@ -4402,6 +4457,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (explicit === "region" && isControlledTablistDescriptionRegion(el)) {
       return "paragraph";
+    }
+    if (explicit === "region" && isUnnamedLiveRegion(el, "region")) {
+      return hasVisibleInteractiveDescendant(el) ? "" : readableText(el) ? "text" : "";
+    }
+    if (explicit === "combobox" && autocompleteComboboxWrapperInput(el)) {
+      return "";
     }
     if (explicit && explicit !== "none" && explicit !== "presentation") {
       return explicit;
@@ -5445,6 +5506,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         : {};
   }
 
+  function isNavigationRoleListContainer(list: any): boolean {
+    if (!list || list.nodeType !== Node.ELEMENT_NODE) return false;
+    const tag = list.tagName?.toLowerCase();
+    return (tag === "ul" || tag === "ol") && list.getAttribute("role") === "navigation";
+  }
+
   function isNestedNavigationList(list: any, parentItem: any): boolean {
     if (!list || !parentItem || !parentItem.contains(list)) {
       return false;
@@ -5764,6 +5831,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     if (listPositionedRoles.has(role)) {
       const { listItem, list, siblings } = semanticListContext(el);
+      if (isNavigationRoleListContainer(list)) {
+        return undefined;
+      }
       if (
         role === "button" &&
         listItem &&
@@ -5848,6 +5918,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (listPositionedRoles.has(role)) {
       const { list, siblings } = semanticListContext(el);
+      if (isNavigationRoleListContainer(list)) {
+        return undefined;
+      }
       return adjustedListSetSize(siblings, list, el, role);
     }
     if (
@@ -12354,6 +12427,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined;
     const listboxSelectedCount =
       role === "listbox" ? selectedListboxOptions(el).length || undefined : undefined;
+    const inputOwnedByAutocompleteComboboxWrapper =
+      isInputOwnedByAutocompleteComboboxWrapper(stateEl, role);
+    const autocompleteComboboxWrapperPlaceholderName =
+      inputOwnedByAutocompleteComboboxWrapper && !announcementName
+        ? normalize(stateEl.getAttribute("placeholder"))
+        : undefined;
     const selectedListboxPosition = selectedListboxOption
       ? positionInSet(selectedListboxOption, "option")
       : undefined;
@@ -12368,6 +12447,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         carouselControlName ||
         visibleTextEllipsisButtonName(el, role) ||
         (nativeInputComboboxPlaceholderName ? undefined : announcementName) ||
+        autocompleteComboboxWrapperPlaceholderName ||
         nativeSelectTitleName ||
         focusableFeedbackGroupText,
       inferredArticleName: Boolean(
@@ -12477,6 +12557,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       popupLabelWithoutComma:
         role === "button" && hasVisibleTextEllipsisButtonName(el, role) ? true : undefined,
       autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
+      emptyAutocompleteTextInput:
+        inputOwnedByAutocompleteComboboxWrapper && !value ? true : undefined,
       modal: el.getAttribute("aria-modal") === "true" || undefined,
       modalDialogSummaryItemCount:
         role === "dialog" &&
@@ -12616,7 +12698,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           (el.getAttribute("type") || "").toLowerCase() === "search") ||
           undefined,
       suppressAutocomplete:
-        isNativeSearchFormLabelStopInput(el, role) || undefined,
+        inputOwnedByAutocompleteComboboxWrapper ||
+        isNativeSearchFormLabelStopInput(el, role) ||
+        undefined,
       popupListboxContainer:
         role === "listbox" && isExpandedAutocompletePopupListbox(el) || undefined,
       compactInputActionGroup:

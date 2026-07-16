@@ -551,9 +551,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
                 : "edit text",
         );
         if (!el.invalid && !el.textboxPlaceholderBeforeRole) {
-          pushIfPresent(parts, value ?? placeholderText);
+          if (el.emptyAutocompleteTextInput && !value) {
+            parts.push("blank");
+          } else {
+            pushIfPresent(parts, value ?? placeholderText);
+          }
         }
-        pushAutocomplete(parts, el.autocomplete);
+        if (!el.suppressAutocomplete) {
+          pushAutocomplete(parts, el.autocomplete);
+        }
         if (el.required && !el.secureTextField) {
           parts.push("required");
         }

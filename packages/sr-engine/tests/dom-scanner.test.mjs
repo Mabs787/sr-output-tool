@@ -7774,9 +7774,9 @@ test("scanSubtree adds group suffix for adjacent direct span native weather butt
     `),
     [
       "Any, button",
-      "Warm16 - 22ºC, button, group",
-      "Hot23 - 28ºC, button, group",
-      "Very Hot29 - 40ºC, button, group",
+      "Warm 16 - 22°C, button, group",
+      "Hot 23 - 28°C, button, group",
+      "Very Hot 29 - 40°C, button, group",
     ],
   );
 });
@@ -7786,7 +7786,67 @@ test("scanSubtree preserves real whitespace between direct span fragments in nat
     scanHtml(`
       <button type="button"><span>Warm</span> <span>16 - 22ºC</span></button>
     `),
-    ["Warm 16 - 22ºC, button"],
+    ["Warm 16 - 22°C, button"],
+  );
+});
+
+test("scanSubtree yields unnamed ARIA autosuggest combobox wrappers to their native input", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <div>Where</div>
+        <div role="combobox" aria-haspopup="listbox" aria-owns="where-listbox" aria-expanded="false">
+          <input type="text" autocomplete="off" aria-autocomplete="list" aria-controls="where-listbox" placeholder="Anywhere">
+          <div id="where-listbox" role="listbox" hidden></div>
+        </div>
+      </div>
+    `),
+    [
+      "Where",
+      "Anywhere, edit text, blank",
+    ],
+  );
+});
+
+test("scanSubtree suppresses unnamed live region boundaries while preserving content", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <div>
+        <div aria-live="polite" role="region">There are now 30 destinations.</div>
+        <div aria-live="polite" role="region">
+          <a href="/koh-samui">Koh Samui, Thailand</a>
+        </div>
+      </div>
+    `),
+    [
+      "There are now 30 destinations.",
+      "link, Koh Samui, Thailand",
+    ],
+  );
+});
+
+test("scanSubtree does not add list positions for controls inside role navigation pagination lists", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul role="navigation" aria-label="Pagination">
+        <li><a href="#" role="button" aria-disabled="true" aria-label="Previous page">Prev</a></li>
+        <li><a href="#1" aria-label="Page 1 is your current page" aria-current="page">1</a></li>
+        <li><a href="#2" aria-label="Page 2">2</a></li>
+        <li><a href="#" role="button" aria-label="Jump forward">...</a></li>
+        <li><a href="#5" aria-label="Page 5">5</a></li>
+        <li><a href="#2" role="button" aria-label="Next page">Next</a></li>
+      </ul>
+    `),
+    [
+      "Pagination, navigation",
+      "Previous page, dimmed, button",
+      "current page, link, Page 1 is your current page",
+      "link, Page 2",
+      "Jump forward, button",
+      "link, Page 5",
+      "Next page, button",
+      "end of, Pagination, navigation",
+    ],
   );
 });
 
