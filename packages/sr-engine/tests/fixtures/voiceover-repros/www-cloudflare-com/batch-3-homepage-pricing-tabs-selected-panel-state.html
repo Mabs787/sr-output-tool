@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare Batch 3 pricing tabs selected panel C.5</title>
+    <style>
+      body {
+        color: #111;
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 920px;
+      }
+
+      h2 span {
+        display: inline;
+      }
+
+      [role="tablist"] {
+        display: flex;
+        gap: 8px;
+        margin-block: 16px;
+      }
+
+      [role="tab"] {
+        background: #fff;
+        border: 1px solid #767676;
+        border-radius: 999px;
+        color: #111;
+        padding: 8px 12px;
+      }
+
+      [role="tab"][aria-selected="true"] {
+        border: 2px solid #111;
+      }
+
+      [role="tabpanel"] {
+        border: 1px solid #767676;
+        padding: 14px;
+      }
+
+      [role="tabpanel"][aria-hidden="true"] {
+        opacity: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .plan-row {
+        display: grid;
+        gap: 6px;
+        margin-block-start: 10px;
+      }
+
+      small,
+      code {
+        display: block;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+
+        function selectTab(tab) {
+          for (const current of tabs) {
+            const selected = current === tab;
+            const panel = document.getElementById(current.getAttribute("aria-controls"));
+            current.setAttribute("aria-selected", String(selected));
+            current.tabIndex = selected ? 0 : -1;
+            if (panel) {
+              panel.setAttribute("aria-hidden", String(!selected));
+              if (selected) {
+                panel.removeAttribute("inert");
+              } else {
+                panel.setAttribute("inert", "");
+              }
+            }
+          }
+        }
+
+        for (const tab of tabs) {
+          tab.addEventListener("focus", () => selectTab(tab));
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5-draft">
+      <section aria-labelledby="pricing-heading">
+        <h2 id="pricing-heading">
+          <span>Pay only</span>
+          <span>
+            <span>for</span><span> </span><span>your</span><span> </span><span>active</span><span> </span><span>employees</span><span> </span><span><span></span></span>
+          </span>
+        </h2>
+        <p>(Not to keep servers warm.)</p>
+
+        <div role="tablist" aria-label="Platform categories">
+          <div>
+            <div aria-hidden="true"></div>
+            <button type="button" role="tab" aria-selected="false" aria-controls="home-pricing-platform-panel-0" aria-label="Network &amp; CDN tab" id="home-pricing-platform-tab-0" tabindex="-1">
+              <svg aria-hidden="true" width="1" height="1"></svg>Network &amp; CDN
+            </button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="home-pricing-platform-panel-1" aria-label="SASE / Zero Trust tab" id="home-pricing-platform-tab-1" tabindex="-1">
+              <svg aria-hidden="true" width="1" height="1"></svg>SASE / Zero Trust
+            </button>
+            <button type="button" role="tab" aria-selected="true" aria-controls="home-pricing-platform-panel-2" aria-label="Compute &amp; Storage tab" id="home-pricing-platform-tab-2" tabindex="0">
+              <svg aria-hidden="true" width="1" height="1"></svg>Compute &amp; Storage
+            </button>
+            <div aria-hidden="true">
+              <span><svg aria-hidden="true" width="1" height="1"></svg>Network &amp; CDN</span>
+              <span><svg aria-hidden="true" width="1" height="1"></svg>SASE / Zero Trust</span>
+              <span><svg aria-hidden="true" width="1" height="1"></svg>Compute &amp; Storage</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="home-pricing-platform-panel-0" role="tabpanel" aria-labelledby="home-pricing-platform-tab-0" aria-hidden="true" inert>
+          <div>
+            <h3>Pay for clean traffic</h3>
+            <p>One stack of security and performance for every site.</p>
+            <small>Visitor traffic</small>
+            <small>Your site</small>
+            <small>CDN</small>
+            <small>DDoS</small>
+            <small>SSL</small>
+            <small>WAF</small>
+            <small>Bot</small>
+            <small>Same protection at every tier - paid plans add depth</small>
+          </div>
+        </div>
+
+        <div id="home-pricing-platform-panel-1" role="tabpanel" aria-labelledby="home-pricing-platform-tab-1" aria-hidden="true" inert>
+          <div>
+            <h6>Pay for active employees</h6>
+            <p>Connect and secure users, devices, and data on one Zero Trust platform.</p>
+            <div class="plan-row">
+              <h6>50 users on us</h6>
+              <h6>Then $7 per active user</h6>
+              <small>Billed monthly - scales to thousands</small>
+            </div>
+            <div>
+              <p><strong>Free</strong><br><span>for teams under 50</span></p>
+              <small>ZTNA, SWG &amp; DEX</small>
+              <small>24h log retention</small>
+              <a href="/plans#sase">See Free plan</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="home-pricing-platform-panel-2" role="tabpanel" aria-labelledby="home-pricing-platform-tab-2" aria-hidden="false">
+          <div>
+            <h6>Wall Clock vs. CPU Time</h6>
+            <p>Never pay for idle time waiting for slow APIs, LLMs, or humans.</p>
+            <div aria-hidden="true">
+              <div>free</div>
+              <div>free</div>
+              <div>free</div>
+            </div>
+            <code>Paid</code>
+            <code>Free</code>
+            <div>
+              <h4>Free</h4>
+              <p>No credit card needed</p>
+              <a href="/plans#developer-platform">See more</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

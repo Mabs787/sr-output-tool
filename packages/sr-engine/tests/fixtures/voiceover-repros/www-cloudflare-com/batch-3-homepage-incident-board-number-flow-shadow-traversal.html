@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare Batch 3 incident board number-flow C.5</title>
+    <style>
+      body {
+        color: #111;
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 880px;
+      }
+
+      .surface {
+        display: grid;
+        gap: 22px;
+      }
+
+      .incident-grid,
+      .shipping-card {
+        border: 1px solid #767676;
+        padding: 14px;
+      }
+
+      .incident-card {
+        border-top: 1px solid #bbb;
+        display: grid;
+        gap: 4px;
+        padding-block: 10px;
+      }
+
+      .incident-card:first-child {
+        border-top: 0;
+      }
+
+      small {
+        display: block;
+      }
+
+      svg[aria-hidden="true"],
+      [aria-hidden="true"] {
+        pointer-events: none;
+      }
+
+      number-flow-react {
+        display: inline-block;
+        font-size: 1.6rem;
+        line-height: 1;
+        margin-inline: 6px;
+        white-space: nowrap;
+      }
+
+      .digit,
+      .digit__num,
+      .section {
+        display: inline-block;
+        position: relative;
+      }
+
+      .digit__num[inert] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5-draft">
+      <section class="surface" aria-labelledby="why-heading">
+        <h2 id="why-heading">Why choose Cloudflare</h2>
+
+        <section class="incident-grid" aria-labelledby="incident-heading">
+          <h3 id="incident-heading">Fighting infra with "cloud"</h3>
+          <astro-island>
+            <div>
+              <div class="incident-card">
+                <svg aria-hidden="true" width="1" height="1"></svg>
+                <div>
+                  <div>
+                    <small></small>
+                    <small>"Egress costs doubled this week - caching missed edge. Can we fix by EOD?"</small>
+                  </div>
+                </div>
+              </div>
+              <div class="incident-card">
+                <svg aria-hidden="true" width="1" height="1"></svg>
+                <div>
+                  <div>
+                    <svg aria-hidden="true" width="1" height="1"></svg>
+                    <small></small>
+                    <small>STATUS: UNRESOLVED</small>
+                  </div>
+                </div>
+              </div>
+              <div class="incident-card">
+                <svg aria-hidden="true" width="1" height="1"></svg>
+                <div>
+                  <div>
+                    <svg aria-hidden="true" width="1" height="1"></svg>
+                    <small></small>
+                    <small>2931 Open incidents</small>
+                  </div>
+                </div>
+              </div>
+              <div class="incident-card">
+                <svg aria-hidden="true" width="1" height="1"></svg>
+                <div>
+                  <div>
+                    <div>
+                      <small>P0</small>
+                    </div>
+                    <small>High Latency!!!!!!</small>
+                    <small>~150-250ms RTT per request</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </astro-island>
+        </section>
+
+        <section class="shipping-card" aria-labelledby="shipping-heading">
+          <h3 id="shipping-heading">Shipping with<br>Cloudflare</h3>
+          <astro-island>
+            <div>
+              <div>
+                <svg aria-hidden="true" width="1" height="1"></svg>
+                <span>
+                  <span aria-hidden="true" style="visibility: hidden;">Pushed</span>
+                  <span aria-hidden="false">Pushed</span>
+                  <span aria-hidden="true">Onboarded</span>
+                </span>
+                <div>
+                  <number-flow-react>
+                    <template shadowrootmode="open">
+                      <style>
+                        :host {
+                          display: inline-block;
+                          direction: ltr;
+                          white-space: nowrap;
+                        }
+
+                        .section,
+                        .digit,
+                        .digit__num {
+                          display: inline-block;
+                          position: relative;
+                        }
+
+                        .digit__num[inert] {
+                          display: none;
+                        }
+                      </style>
+                      <span part="left" class="section"></span>
+                      <span part="number" class="number">
+                        <span class="number__inner">
+                          <span part="integer" class="section">
+                            <span part="digit integer-digit" class="digit" style="--current: 7; --length: 10;">
+                              <span class="digit__num" inert style="--n: 0;">0</span>
+                              <span class="digit__num" style="--n: 7;">7</span>
+                              <span class="digit__num" inert style="--n: 8;">8</span>
+                            </span>
+                            <span part="digit integer-digit" class="digit" style="--current: 0; --length: 10;">
+                              <span class="digit__num" style="--n: 0;">0</span>
+                              <span class="digit__num" inert style="--n: 1;">1</span>
+                              <span class="digit__num" inert style="--n: 2;">2</span>
+                            </span>
+                          </span>
+                        </span>
+                      </span>
+                      <span part="right" class="section"></span>
+                    </template>
+                  </number-flow-react>
+                </div>
+                <span>
+                  <span aria-hidden="true" style="visibility: hidden;">new updates today</span>
+                  <span aria-hidden="false">new updates today</span>
+                  <span aria-hidden="true">employees today</span>
+                </span>
+              </div>
+            </div>
+          </astro-island>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
