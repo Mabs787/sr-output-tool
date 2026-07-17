@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "019f7188-9358-7981-aa21-30ec41ebc348",
+  "target": "dropbox-list-card-positional-family",
+  "runId": "29594033575",
+  "status": "passed",
+  "family": "list marker and card positional grouping",
+  "verdict": "engine-ready",
+  "confidence": "medium",
+  "summaryPath": "voiceover-smoke/agent-work/29594033575/_families/list-card-positional/04-minimal-reproduction-scan.json",
+  "affectedTargets": [
+    "www-dropbox-com-dropbox",
+    "www-dropbox-com-backup",
+    "www-dropbox-com-dash",
+    "www-dropbox-com-replay",
+    "www-dropbox-com-business",
+    "www-dropbox-com-professional",
+    "www-dropbox-com-features-cloud-storage",
+    "www-dropbox-com-features-share",
+    "www-dropbox-com-features-sync",
+    "www-dropbox-com-security",
+    "www-dropbox-com-business-solutions-technology"
+  ],
+  "minimalReproduction": {
+    "fixture": "packages/sr-engine/tests/fixtures/voiceover-repros/www-dropbox-com-security/list-card-positional.html",
+    "scanRuns": [
+      {
+        "runId": "29607631441",
+        "headSha": "d750833bf4d459967d83be1e8bab297fd703b6cf",
+        "voiceOverEvidence": [
+          "\\u2022 Ask questions and find answers., 1 of 3",
+          "Starts at 3 TB for the team, group",
+          "Transfer files up to 100 GB, group",
+          "Manage team sharing, group",
+          "Admin control, group"
+        ],
+        "engineEvidence": [
+          "Ask questions and find answers., 1 of 3",
+          "Starts at 3 TB for the team, 2 of 7",
+          "Transfer files up to 100 GB, 4 of 7",
+          "Manage team sharing, 6 of 7",
+          "Admin control, 7 of 7"
+        ],
+        "result": "engine-gap-confirmed for marker glyphs and focusable generic listitem group suffixes",
+        "artifactLimitation": "0 AX nodes and 0 step snapshots in repo-local fixture-path mode"
+      },
+      {
+        "runId": "29608433329",
+        "headSha": "d750833bf4d459967d83be1e8bab297fd703b6cf",
+        "result": "pending at checkpoint",
+        "blocker": "Still in Run VoiceOver scan at 2026-07-17T19:54:04Z; no artifact available."
+      }
+    ]
+  },
+  "decision": {
+    "engineReadyScope": "Native list marker glyph output and focusable generic descendant group suffixes inside native list items.",
+    "notEngineReadyScope": "All Dropbox card selectors, app integration grids, carousel/group behavior, CTA wrapper groups, image/logo cards, and Phase E promotion.",
+    "exactNextOwner": "engine-refiner",
+    "secondaryOwner": "evidence-refiner",
+    "doNotPromote": true
+  },
+  "finishedAt": "2026-07-17T19:54:04Z"
+}

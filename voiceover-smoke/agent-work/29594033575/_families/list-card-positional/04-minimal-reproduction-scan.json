@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "019f7188-9358-7981-aa21-30ec41ebc348",
+  "target": "_families/list-card-positional",
+  "runId": "29594033575",
+  "status": "passed",
+  "startedAt": "2026-07-17T19:24:00Z",
+  "finishedAt": "2026-07-17T19:54:04Z",
+  "mismatchFamily": "list marker and card positional grouping",
+  "familyVerdict": "engine-ready",
+  "confidence": "medium",
+  "requestingPhase": "Phase 0.5 family triage / fixture-judge",
+  "affectedTargets": [
+    "www-dropbox-com-dropbox",
+    "www-dropbox-com-backup",
+    "www-dropbox-com-dash",
+    "www-dropbox-com-replay",
+    "www-dropbox-com-business",
+    "www-dropbox-com-professional",
+    "www-dropbox-com-features-cloud-storage",
+    "www-dropbox-com-features-share",
+    "www-dropbox-com-features-sync",
+    "www-dropbox-com-security",
+    "www-dropbox-com-business-solutions-technology"
+  ],
+  "inputs": {
+    "workflowDocs": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md",
+      "docs/workflows/agent-receipts.md"
+    ],
+    "phase05Summary": "voiceover-smoke/agent-work/29594033575/_summaries/phase05-compact-compare.json",
+    "familyRelevantCompareFiles": [
+      "/tmp/sr-vo-dropbox-phase05/compares/www-dropbox-com-dropbox.json",
+      "/tmp/sr-vo-dropbox-phase05/compares/www-dropbox-com-security.json",
+      "/tmp/sr-vo-dropbox-phase05/compares/www-dropbox-com-features-share.json"
+    ],
+    "representativeOriginalArtifacts": {
+      "markerRenderedHtml": "voiceover-smoke/autonomous-runs/29594033575/artifacts/voiceover-scan-www-dropbox-com-dropbox/scans/www-dropbox-com-dropbox/rendered-html.html",
+      "markerVoiceOverOutput": "voiceover-smoke/autonomous-runs/29594033575/artifacts/voiceover-scan-www-dropbox-com-dropbox/scans/www-dropbox-com-dropbox/voiceover-output.json",
+      "markerAccessibilityTree": "voiceover-smoke/autonomous-runs/29594033575/artifacts/voiceover-scan-www-dropbox-com-dropbox/scans/www-dropbox-com-dropbox/accessibility-tree.json",
+      "cardRenderedHtml": "voiceover-smoke/autonomous-runs/29594033575/artifacts/voiceover-scan-www-dropbox-com-security/scans/www-dropbox-com-security/rendered-html.html",
+      "cardVoiceOverOutput": "voiceover-smoke/autonomous-runs/29594033575/artifacts/voiceover-scan-www-dropbox-com-security/scans/www-dropbox-com-security/voiceover-output.json",
+      "cardAccessibilityTree": "voiceover-smoke/autonomous-runs/29594033575/artifacts/voiceover-scan-www-dropbox-com-security/scans/www-dropbox-com-security/accessibility-tree.json"
+    },
+    "reproductionHtmlPath": "packages/sr-engine/tests/fixtures/voiceover-repros/www-dropbox-com-security/list-card-positional.html",
+    "operationalCommit": {
+      "sha": "d750833bf4d459967d83be1e8bab297fd703b6cf",
+      "message": "Add Dropbox list card C5 repro"
+    }
+  },
+  "sourceFixtureWindows": [
+    {
+      "target": "www-dropbox-com-dropbox",
+      "windowIndex": 3,
+      "actualIndex": 20,
+      "expectedIndex": 23,
+      "originalExpectedOrRefinedSnippet": [
+        "list 3 items",
+        "\\u2022 Ask questions in your own words and find answers, not just files., 1 of 3",
+        "\\u2022 Chat with your content to get summaries and quick insights., 2 of 3",
+        ". Turn files and folders into shareable Al-powered project spaces., 3 of 3"
+      ],
+      "originalActualSnippet": [
+        "list 3 items",
+        "Ask questions in your own words and find answers, not just files., 1 of 3",
+        "Chat with your content to get summaries and quick insights., 2 of 3",
+        "Turn files and folders into shareable AI-powered project spaces., 3 of 3"
+      ]
+    },
+    {
+      "target": "www-dropbox-com-security",
+      "windowIndexes": [3, 4, 5, 6, 7, 8, 9],
+      "originalExpectedOrRefinedSnippet": [
+        "group",
+        "Starts at 3 TB for the team, group",
+        "Transfer files up to 100 GB, group",
+        "Manage team sharing, group",
+        "Admin control, group"
+      ],
+      "originalActualSnippet": [
+        "link, Try for free: Standard",
+        "Starts at 3 TB for the team, 2 of 12",
+        "Transfer files up to 100 GB, 5 of 12",
+        "Manage team sharing, 10 of 12",
+        "Admin control, 12 of 12"
+      ]
+    }
+  ],
+  "whySavedSiteEvidenceWasInsufficient": [
+    "The family spans marker glyph output and plan-card/list-item grouping across 11 targets, so a site-local edit or broad engine rule needed focused VoiceOver evidence.",
+    "Original site evidence showed native list/listitem AX contracts, but the reusable boundary between list position suffix and grouped/focusable descendant stops needed isolation.",
+    "Saved compare output alone could not distinguish CSS marker announcement, generic group/card boundary, item index/count suffix, and text-boundary effects."
+  ],
+  "originalDomAxContract": {
+    "markerSubfamily": {
+      "representativeTarget": "www-dropbox-com-dropbox",
+      "renderedHtml": "ul[data-sr-dom-node-id=\"597\"] with three li children; each li has data-sr-marker-content=\"normal\", data-sr-marker-display=\"inline-block\", data-sr-marker-list-style-type=\"\\\"\\u2022\\u2002\\\"\" and plain text only.",
+      "axContract": "AX list with static-text children for the three li strings; VoiceOver raw output includes marker glyphs before the item text and item position suffixes."
+    },
+    "cardListSubfamily": {
+      "representativeTarget": "www-dropbox-com-security",
+      "renderedHtml": "ul[data-sr-dom-node-id=\"1294\"] and ul[data-sr-dom-node-id=\"1448\"] contain li rows with ignored icon span/svg plus text span; some text spans wrap span[tabindex=\"0\"][aria-expanded=\"false\"].",
+      "axContract": {
+        "standardList": {
+          "listNodeId": "4242",
+          "role": "list",
+          "domNodeId": "1294",
+          "children": [
+            { "nodeId": "4230", "role": "listitem", "domNodeId": "1295", "level": 1, "voiceOver": "For 1 person or more, 1 of 12" },
+            { "nodeId": "4231", "role": "listitem", "domNodeId": "1300", "level": 1, "focusableGenericChild": { "nodeId": "4200", "domNodeId": "1306", "role": "generic", "focusable": true }, "voiceOver": "Starts at 3 TB for the team, group" },
+            { "nodeId": "4234", "role": "listitem", "domNodeId": "1321", "level": 1, "focusableGenericChild": { "nodeId": "4209", "domNodeId": "1326", "role": "generic", "focusable": true }, "voiceOver": "Transfer files up to 100 GB, group" },
+            { "nodeId": "4239", "role": "listitem", "domNodeId": "1352", "level": 1, "focusableGenericChild": { "nodeId": "4220", "domNodeId": "1357", "role": "generic", "focusable": true }, "voiceOver": "Manage team sharing, group" },
+            { "nodeId": "4241", "role": "listitem", "domNodeId": "1364", "level": 1, "focusableGenericChild": { "nodeId": "4227", "domNodeId": "1370", "role": "generic", "focusable": true }, "voiceOver": "Admin control, group" }
+          ]
+        }
+      }
+    }
+  },
+  "preservedDomContractChecklist": {
+    "nativeElements": [
+      "main, section, headings, paragraphs, native ul/li lists, links, inline svg with role=presentation"
+    ],
+    "ariaAndAttributes": [
+      "aria-labelledby section relationships",
+      "aria-expanded=false on focusable generic span descendants",
+      "role=presentation and focusable=false on icon svg"
+    ],
+    "focusability": [
+      "span tabindex=0 descendants retained inside selected li rows"
+    ],
+    "hiddenState": [
+      "No hidden state was part of this disputed family; hidden navigation, consent, footer, and carousel content omitted."
+    ],
+    "textBoundaries": [
+      "Plain li text preserved for marker test",
+      "Nested span text boundaries preserved for 3 TB, 100 GB, 15 TB, and End-to-end encryption cases",
+      "Ignored icon span plus text span sibling order retained for plan features"
+    ],
+    "ancestorSiblingContext": [
+      "Section heading before each list",
+      "Plan card heading/price/link context before feature lists",
+      "Adjacent plain and focusable feature list items retained to compare item-position suffixes against group suffixes"
+    ]
+  },
+  "contentShorteningNotes": [
+    {
+      "change": "Long Dropbox text shortened to compact neutral text such as 'Ask questions and find answers.'",
+      "whySafe": "The disputed behavior is marker glyph and list-item/group suffix selection, not truncation or prose wrapping."
+    },
+    {
+      "change": "Original 12-item and 16-item plan lists shortened to 7 and 6 items.",
+      "whySafe": "The same native list/listitem plus focusable generic descendant pattern is retained with adjacent plain items; exact original set size is not needed to decide group versus item-position suffix."
+    }
+  ],
+  "omittedPageContext": [
+    {
+      "content": "Consent iframe, global navigation, footer, carousel, images, analytics, and full marketing copy.",
+      "whySafe": "They are not ancestors of the disputed marker or plan-feature list items and do not define the native list/listitem plus focusable-generic DOM/AX contract."
+    },
+    {
+      "content": "Dropbox class names and layout CSS.",
+      "whySafe": "Evidence depends on native elements, marker style, focusability, aria-expanded state, and text boundaries, not product-specific selectors."
+    }
+  ],
+  "scanWorkflow": {
+    "runs": [
+      {
+        "runId": "29607631441",
+        "url": "https://github.com/Mabs787/sr-output-tool/actions/runs/29607631441",
+        "command": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/dropbox-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/www-dropbox-com-security/list-card-positional.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=45 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow",
+        "headSha": "d750833bf4d459967d83be1e8bab297fd703b6cf",
+        "status": "completed",
+        "conclusion": "success",
+        "artifactPath": "/tmp/sr-vo-list-card-29607631441/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-www-dropbox-com-security-list-card-positional"
+      },
+      {
+        "runId": "29608433329",
+        "url": "https://github.com/Mabs787/sr-output-tool/actions/runs/29608433329",
+        "command": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/dropbox-voiceover-refinement -f urls=file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/www-dropbox-com-security/list-card-positional.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=80 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow",
+        "headSha": "d750833bf4d459967d83be1e8bab297fd703b6cf",
+        "statusAtReceipt": "in_progress",
+        "checkedAt": "2026-07-17T19:54:04Z",
+        "blockerIfNeeded": "External scan still in Run VoiceOver scan; no artifact available at checkpoint. First run already provides raw VoiceOver and screenshot evidence, but repo-local fixture-path mode emitted 0 AX nodes and 0 step snapshots."
+      }
+    ],
+    "waitPollTimeline": [
+      {
+        "runId": "29607631441",
+        "triggeredAt": "2026-07-17T19:28:09Z",
+        "initialWait": "5 minutes before first status check",
+        "polls": [
+          { "at": "2026-07-17T19:33:33Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:34:33Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:35:41Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:36:41Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:37:38Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:38:35Z", "status": "completed", "conclusion": "success" }
+        ],
+        "completedAt": "2026-07-17T19:38:18Z",
+        "artifactCompleteness": {
+          "rawVoiceOverOutput": true,
+          "renderedHtml": true,
+          "engineOutput": true,
+          "screenshots": true,
+          "accessibilityTreeNodes": 0,
+          "stepSnapshots": 0,
+          "note": "scan-debug recorded accessibilityTreeSource=not-applicable for fixture-file and stepSnapshots.capturedSteps=0 despite flags."
+        }
+      },
+      {
+        "runId": "29608433329",
+        "triggeredAt": "2026-07-17T19:41:01Z",
+        "initialWait": "5 minutes before first status check",
+        "polls": [
+          { "at": "2026-07-17T19:46:30Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:47:27Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:48:20Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:49:17Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:50:15Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:51:12Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:52:08Z", "status": "in_progress" },
+          { "at": "2026-07-17T19:53:06Z", "status": "in_progress", "jobStep": "Run VoiceOver scan" },
+          { "at": "2026-07-17T19:54:04Z", "status": "in_progress", "jobStep": "Run VoiceOver scan" }
+        ],
+        "completedAt": null,
+        "artifactCompleteness": {
+          "artifactAvailableAtReceipt": false
+        }
+      }
+    ]
+  },
+  "miniRawVoiceOverOutput": [
+    "list 3 items",
+    "\\u2022 Ask questions and find answers., 1 of 3",
+    ". Chat with your content., 2 of 3",
+    ". Turn files into project spaces., 3 of 3",
+    "list 7 items",
+    ".,1 of7",
+    "list item",
+    "For 1 person or more",
+    ".,2 of7",
+    "list item",
+    "Starts at 3 TB for the team, group",
+    ".,4of7",
+    "list item",
+    "Transfer files up to 100 GB, group",
+    "., 6 of7",
+    "list item",
+    "Manage team sharing, group",
+    "., 7 of7",
+    "list item",
+    "Admin control, group"
+  ],
+  "miniRenderedHtmlSummary": [
+    "Rendered repro has data-sr-scan-root main with two sections.",
+    "The marker section reduces to a native ul with three plain li items.",
+    "The plan section reduces to native ul/li rows with icon span/svg siblings and selected span tabindex=0 aria-expanded=false descendants."
+  ],
+  "miniAxAndSnapshotEvidenceSummary": [
+    "First mini artifact has screenshots and raw captions for the disputed outputs, including screenshot captions for '\\u2022 Ask questions and find answers., 1 of 3' and 'Starts at 3 TB for the team, group'.",
+    "First mini artifact has 0 accessibility-tree nodes and 0 step snapshots; scan-debug reports fixture-file mode and accessibilityTreeSource=not-applicable.",
+    "Original site AX evidence supplies the role/listitem/generic/focusable contract for the family. The lack of mini AX lowers confidence to medium and limits the engine-ready scope."
+  ],
+  "miniEngineOutput": [
+    "list 3 items",
+    "Ask questions and find answers., 1 of 3",
+    "Chat with your content., 2 of 3",
+    "Turn files into project spaces., 3 of 3",
+    "list 7 items",
+    "For 1 person or more, 1 of 7",
+    "Starts at 3 TB for the team, 2 of 7",
+    "Stay connected across devices, 3 of 7",
+    "Transfer files up to 100 GB, 4 of 7",
+    "Edit PDFs and signatures, 5 of 7",
+    "Manage team sharing, 6 of 7",
+    "Admin control, 7 of 7"
+  ],
+  "conclusion": "engine-gap-confirmed",
+  "verdictMapping": {
+    "requestedVerdict": "engine-ready",
+    "reason": "Focused VoiceOver repro repeats the original marker glyph and group-suffix behavior while current engine output omits marker glyphs and emits positional suffixes for focusable generic descendants."
+  },
+  "supportedScope": [
+    "CSS/custom marker content on native list items can be VoiceOver-visible before item text and still include item position.",
+    "A native list item whose spoken content is a focusable generic descendant, produced by span[tabindex=\"0\"][aria-expanded=\"false\"] under ignored span wrappers, can be announced as '<text>, group' instead of '<text>, N of M'.",
+    "The engine should have focused unit coverage for native li rows with ignored decorative icon siblings and focusable generic text descendants."
+  ],
+  "unsupportedScope": [
+    "Do not generalize to all card boundaries, all plan CTAs, all image/logo cards, Dash app integration grids, carousel/group behavior, or Dropbox selectors/classes.",
+    "Do not use this repro as a Phase E promotion target or a live-site corpus fixture.",
+    "Do not treat the pending explicit-file-url rerun as completed evidence until its artifact exists."
+  ],
+  "loopBack": {
+    "handoffTo": "engine-refiner",
+    "handoffReason": "Implement narrow reusable behavior for marker glyph output and focusable generic descendants in native list items; keep site fixture cleanup separate.",
+    "nextRecommendedWorker": {
+      "type": "engine-refiner",
+      "scope": "Only list marker glyphs and focusable generic descendant group suffixes inside native list items",
+      "c5Needed": false,
+      "reason": "C.5 raw VoiceOver reproduced the two disputed contracts; confidence is medium because fixture-path scan lacks mini AX/snapshots but original AX supplies the DOM/AX contract."
+    },
+    "suggestedFocusedUnitCoverage": [
+      "Native ul/li with CSS marker content '\\u2022\\u2002' should include marker glyph before list item text.",
+      "Native ul/li with ignored icon span plus span[tabindex=0][aria-expanded=false] text descendant should emit group suffix rather than parent list position on the descendant stop.",
+      "Adjacent plain li siblings should continue to emit positional suffixes."
+    ]
+  },
+  "fixtureChanges": [],
+  "nextPhase": "D",
+  "handoffFrom": "C",
+  "handoffTo": "engine-refiner"
+}
