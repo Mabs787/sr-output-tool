@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare Batch 2 code pre token cascade C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+        color: #111;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 900px;
+      }
+
+      section {
+        margin-block: 28px;
+      }
+
+      .code-shell {
+        border: 1px solid #767676;
+        display: grid;
+        grid-template-columns: 3rem 1fr;
+        max-width: 860px;
+      }
+
+      .file-tabs,
+      .option-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-block: 10px;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .file-tabs button {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 13px;
+      }
+
+      .line-numbers {
+        background: #f2f2f2;
+        color: #555;
+        display: flex;
+        flex-direction: column;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        line-height: 1.5;
+        padding: 12px 8px;
+        text-align: right;
+        user-select: none;
+      }
+
+      pre {
+        margin: 0;
+        overflow: auto;
+        padding: 12px;
+        white-space: pre;
+      }
+
+      code,
+      code span {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        line-height: 1.5;
+      }
+
+      code span {
+        display: inline;
+      }
+
+      .line {
+        display: block;
+      }
+
+      .copy-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-block-start: 8px;
+      }
+
+      .option-buttons button {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        max-width: 260px;
+        text-align: left;
+      }
+
+      .option-title {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Code examples</h1>
+
+      <section aria-labelledby="artifacts-title">
+        <h2 id="artifacts-title">Artifacts code block</h2>
+        <p>Focusable code with syntax token spans, line numbers, a copy button, and nearby option buttons.</p>
+        <div class="file-tabs">
+          <button type="button">index.ts</button>
+          <button type="button">fork.ts</button>
+          <button type="button">api.sh</button>
+        </div>
+        <div class="code-shell">
+          <div class="line-numbers" aria-hidden="true">
+            <span>01</span>
+            <span>02</span>
+            <span>03</span>
+            <span>04</span>
+            <span>05</span>
+            <span>06</span>
+            <span>07</span>
+          </div>
+          <pre tabindex="0" data-language="typescript"><code><span class="line"><span>import</span><span> type</span><span> {</span><span> Artifacts </span><span>}</span><span> from</span><span> '</span><span>cloudflare:workers</span><span>'</span><span>;</span></span>
+<span class="line"><span>interface</span><span> Env </span><span>{</span><span> ARTIFACTS</span><span>:</span><span> Artifacts</span><span>;</span><span> }</span></span>
+<span class="line"><span>export</span><span> default</span><span> {</span><span> async</span><span> fetch</span><span>(request</span><span>:</span><span> Request</span><span>, env</span><span>:</span><span> Env</span><span>) {</span></span>
+<span class="line"><span>  const</span><span> {</span><span> remote</span><span>, token</span><span>, repo </span><span>}</span><span> =</span><span> await</span><span> env</span><span>.</span><span>ARTIFACTS</span><span>.</span><span>create</span><span>('demo')</span><span>;</span></span>
+<span class="line"><span>  const</span><span> readToken </span><span>=</span><span> await</span><span> repo</span><span>.</span><span>createToken</span><span>('read'</span><span>, 3600)</span><span>;</span></span>
+<span class="line"><span>  return</span><span> Response</span><span>.</span><span>json</span><span>({</span><span> remote</span><span>, token</span><span>:</span><span> readToken </span><span>})</span><span>;</span></span>
+<span class="line"><span>}</span><span> };</span></span></code></pre>
+        </div>
+        <div class="copy-row">
+          <button type="button" aria-label="Copy code to clipboard">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"></svg>
+          </button>
+        </div>
+        <div class="option-buttons">
+          <button type="button">
+            <span class="option-title">Create a repo and issue tokens</span>
+            <span>Declare an <code>artifacts</code> binding and call <code>create()</code> to return a URL and token.</span>
+          </button>
+          <button type="button">
+            <span class="option-title">Import from GitHub and fork</span>
+            <span>Import by owner and name, then fork to an isolated copy.</span>
+          </button>
+          <button type="button">
+            <span class="option-title">Manage repos over HTTP</span>
+            <span>Use a REST API from any language that can make HTTP requests.</span>
+          </button>
+        </div>
+      </section>
+
+      <section aria-labelledby="containers-title">
+        <h2 id="containers-title">Containers code block</h2>
+        <p>Same tokenized pre and code structure outside a tabpanel context.</p>
+        <div class="file-tabs">
+          <button type="button">sandbox.ts</button>
+          <button type="button">index.ts</button>
+          <button type="button">builder.ts</button>
+        </div>
+        <div class="code-shell">
+          <div class="line-numbers" aria-hidden="true">
+            <span>01</span>
+            <span>02</span>
+            <span>03</span>
+            <span>04</span>
+          </div>
+          <pre tabindex="0" data-language="typescript"><code><span class="line"><span>class</span><span> CodeSandbox </span><span>extends</span><span> Container </span><span>{</span></span>
+<span class="line"><span>  defaultPort </span><span>=</span><span> 1337</span><span>;</span><span> // pass requests to this port by default, including WebSockets</span></span>
+<span class="line"><span>  sleepAfter </span><span>=</span><span> '15m'</span><span>;</span><span> // automatically sleep containers after inactivity, save $$$</span></span>
+<span class="line"><span>}</span></span></code></pre>
+        </div>
+        <div class="copy-row">
+          <button type="button" aria-label="Copy code to clipboard">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"></svg>
+          </button>
+        </div>
+        <div class="option-buttons">
+          <button type="button">
+            <span class="option-title">Define Container</span>
+            <span>Define and customize your container with a few lines of code.</span>
+          </button>
+          <button type="button">
+            <span class="option-title">Integrate With Workers</span>
+            <span>Handle requests in your Worker and forward them to a container instance.</span>
+          </button>
+          <button type="button">
+            <span class="option-title">Manage the full container lifecycle from code</span>
+            <span>Handle errors, health checks, cron jobs, and scaling from code.</span>
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
