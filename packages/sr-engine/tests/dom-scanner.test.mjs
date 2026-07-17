@@ -1913,6 +1913,87 @@ test("scanSubtree keeps one-link article prose as paragraph text plus link stop"
   );
 });
 
+test("scanSubtree traverses article byline author links before inline separators", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Archive posts">
+        <article>
+          <h2>Two author article</h2>
+          <p>Short excerpt.</p>
+          <div>
+            <div>
+              <span><img alt="Marina Elmore"></span>
+              <span><img alt="Benedikt Wolters"></span>
+            </div>
+            <p>
+              <span><a href="/author/marina-elmore/"><bdi>Marina Elmore</bdi></a></span>
+              <span> and </span>
+              <span><a href="/author/benedikt/"><bdi>Benedikt Wolters</bdi></a></span>
+            </p>
+          </div>
+        </article>
+        <article>
+          <h2>Three author article</h2>
+          <p>Another excerpt.</p>
+          <p>
+            <span><a href="/author/alice/"><bdi>Alice Chen</bdi></a></span>
+            <span>, </span>
+            <span><a href="/author/bob/"><bdi>Bob Lee</bdi></a></span>
+            <span>, and </span>
+            <span><a href="/author/casey/"><bdi>Casey Smith</bdi></a></span>
+          </p>
+        </article>
+      </section>
+    `),
+    [
+      "Archive posts, region",
+      "Two author article, article",
+      "heading level 2, Two author article",
+      "Short excerpt.",
+      "Marina Elmore, image",
+      "Benedikt Wolters, image",
+      "link, Marina Elmore",
+      "and",
+      "link, Benedikt Wolters",
+      "end of, article",
+      "Three author article, article",
+      "heading level 2, Three author article",
+      "Another excerpt.",
+      "link, Alice Chen",
+      "link, Bob Lee",
+      "and",
+      "link, Casey Smith",
+      "end of, article",
+      "end of, Archive posts, region",
+    ],
+  );
+});
+
+test("scanSubtree leaves ordinary span-wrapped inline article prose in DOM order", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <article>
+        <h2>Research update</h2>
+        <p>
+          <span>Read the </span>
+          <span><a href="/paper"><bdi>research paper</bdi></a></span>
+          <span> and </span>
+          <span><a href="/faq"><bdi>implementation FAQ</bdi></a></span>
+          <span> before deploying.</span>
+        </p>
+      </article>
+    `),
+    [
+      "Research update, article",
+      "heading level 2, Research update",
+      "Read the and before deploying.",
+      "link, research paper",
+      "link, implementation FAQ",
+      "end of, article",
+    ],
+  );
+});
+
 test("scanSubtree normalizes AX inline link spacing before external punctuation", () => {
   assert.deepEqual(
     scanHtml(
@@ -3351,6 +3432,64 @@ test("scanSubtree includes AX-confirmed unlabeled SVG intro images before headin
   );
 });
 
+test("scanSubtree includes AX-confirmed unnamed SVG media before card text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section aria-label="Use cases">
+          <div>
+            <div><svg data-sr-dom-node-id="card-image"></svg></div>
+            <div>
+              <p><strong>Secure public apps</strong></p>
+              <p>Protect traffic before it reaches origin services.</p>
+            </div>
+          </div>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "image",
+              name: "",
+              domNodeId: "card-image",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Use cases, region",
+      "image",
+      "Secure public apps",
+      "Protect traffic before it reaches origin services.",
+      "end of, Use cases, region",
+    ],
+  );
+});
+
+test("scanSubtree does not expose decorative hidden SVG card media", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Use cases">
+        <div>
+          <div><svg aria-hidden="true" data-sr-dom-node-id="card-image"></svg></div>
+          <div>
+            <p><strong>Secure public apps</strong></p>
+            <p>Protect traffic before it reaches origin services.</p>
+          </div>
+        </div>
+      </section>
+    `),
+    [
+      "Use cases, region",
+      "Secure public apps",
+      "Protect traffic before it reaches origin services.",
+      "end of, Use cases, region",
+    ],
+  );
+});
+
 test("scanSubtree preserves exact AX parenthetical link names", () => {
   assert.deepEqual(
     scanHtml(
@@ -3859,6 +3998,19 @@ test("scanSubtree compacts focusable tokenized pre code as one group stop", () =
   );
 });
 
+test("scanSubtree keeps unfocusable tokenized pre code out of compact group stop", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <pre><code>
+          <span class="line"><span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></span>
+        </code></pre>
+      </section>
+    `),
+    ["class", "Worker", "{", "}"],
+  );
+});
+
 test("scanSubtree keeps footer legal separators visual and suppresses footer action group", () => {
   assert.deepEqual(
     scanHtml(`
@@ -3878,6 +4030,25 @@ test("scanSubtree keeps footer legal separators visual and suppresses footer act
       "link, Trademark",
       "Your privacy choices, button",
       "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree preserves terminal punctuation before code action button group suffix", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section>
+          <pre tabindex="0"><code><span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+          <button type="button"><p>Generate markdown</p><span>Convert content for AI processing. See docs.</span></button>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "class Worker {} group",
+      "Generate markdown Convert content for AI processing. See docs., button, group",
+      "end of, main",
     ],
   );
 });

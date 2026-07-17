@@ -5195,6 +5195,46 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
+  function isAxConfirmedCardIntroImage(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (accessibleName(el, "image")) return false;
+    if (!hasAxRole(el, "image")) return false;
+    if (el.closest(interactiveSelector)) return false;
+    if (el.closest("[aria-roledescription='carousel'], [aria-roledescription='slideshow']")) {
+      return false;
+    }
+
+    const tag = el.tagName?.toLowerCase();
+    if (tag !== "svg" && el.getAttribute("role") !== "img") return false;
+
+    for (let wrapper = el.parentElement, depth = 0; wrapper && depth < 4; wrapper = wrapper.parentElement, depth += 1) {
+      if (wrapper === document.body || wrapper.matches?.("main, [role='main']")) return false;
+      if (readableText(wrapper)) return false;
+
+      const parent = wrapper.parentElement;
+      if (!parent || parent.matches?.("main, [role='main'], body")) return false;
+      const siblings = Array.from(parent.children || []);
+      const next = siblings
+        .slice(siblings.indexOf(wrapper) + 1)
+        .find((sibling: any) => !isHidden(sibling));
+      if (!next) continue;
+
+      if (hasVisibleInteractiveDescendant(next)) return false;
+      const text = normalize(readableText(next) || next.textContent);
+      if (!text) return false;
+      if (
+        firstVisibleDescendantMatching(next, (candidate: any) =>
+          ["heading", "paragraph"].includes(implicitRole(candidate)) ||
+            ["strong", "b"].includes(candidate.tagName?.toLowerCase()),
+        )
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function isLeadingUnnamedTabPanelImage(el: any, role: string): boolean {
     if (role !== "image") return false;
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
@@ -9679,6 +9719,152 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function articleBylineAuthorListFragments(el: any): string[] | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName.toLowerCase() !== "p") return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.closest(interactiveSelector) ||
+      el.closest("li,[role='listitem']") ||
+      expandedControlledRegionFor(el)
+    ) {
+      return undefined;
+    }
+
+    const article = el.closest("article,[role='article']");
+    if (!article || isHidden(article)) return undefined;
+
+    if (
+      Array.from(el.childNodes || []).some(
+        (child: any) => child.nodeType === Node.TEXT_NODE && normalize(child.textContent),
+      )
+    ) {
+      return undefined;
+    }
+
+    const directChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (directChildren.length < 3) return undefined;
+    if (directChildren.some((child: any) => child.tagName?.toLowerCase() !== "span")) {
+      return undefined;
+    }
+
+    function textExcludingDescendant(root: any, excluded: any): string | undefined {
+      function collect(node: any): string {
+        if (!node || node === excluded) return "";
+        if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
+        if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return "";
+        if (node.contains?.(excluded) && node !== root) return "";
+
+        let text = "";
+        for (const child of Array.from(node.childNodes || [])) {
+          const part = collect(child);
+          if (!part) continue;
+          if (text && needsBoundary(text, part)) text += " ";
+          text += part;
+        }
+        return text;
+      }
+
+      return normalize(collect(root));
+    }
+
+    function isAuthorLink(link: any, name: string): boolean {
+      if (implicitRole(link) !== "link") return false;
+      if (!link.hasAttribute("href") && link.getAttribute("role") !== "link") return false;
+      const bdi = Array.from(link.querySelectorAll("bdi")).find(
+        (candidate: any) => !isHidden(candidate) && normalize(readableText(candidate)),
+      ) as any;
+      return Boolean(bdi && normalize(readableText(bdi)) === name);
+    }
+
+    function separatorKind(value?: string): "comma" | "conjunction" | undefined {
+      const text = normalize(value);
+      if (!text) return undefined;
+      if (/^[,;]+$/u.test(text)) return "comma";
+      if (/^(?:[,;]\s*)?(?:and|&)(?:\s*[,;])?$/iu.test(text)) return "conjunction";
+      return undefined;
+    }
+
+    const entries: Array<
+      | { kind: "link"; announcement: string }
+      | { kind: "separator"; text: string; separatorKind: "comma" | "conjunction" }
+    > = [];
+    let disallowed = false;
+
+    for (const child of directChildren) {
+      const links = Array.from(child.querySelectorAll("a[href], [role='link']")).filter(
+        (link: any) => !isHidden(link),
+      );
+      const interactiveDescendants = Array.from(child.querySelectorAll(interactiveSelector)).filter(
+        (candidate: any) => !isHidden(candidate),
+      );
+      if (
+        links.length > 1 ||
+        interactiveDescendants.some((candidate: any) => !links.includes(candidate))
+      ) {
+        disallowed = true;
+        break;
+      }
+
+      if (links.length === 1) {
+        const link = links[0] as any;
+        const linkName = normalizeAnnouncementLabel(accessibleName(link, "link"));
+        if (!linkName || !isAuthorLink(link, linkName)) {
+          disallowed = true;
+          break;
+        }
+        const outsideText = textExcludingDescendant(child, link);
+        if (outsideText) {
+          const kind = separatorKind(outsideText);
+          if (!kind) {
+            disallowed = true;
+            break;
+          }
+          entries.push({
+            kind: "separator",
+            text: kind === "conjunction" ? "and" : outsideText,
+            separatorKind: kind,
+          });
+        }
+        entries.push({ kind: "link", announcement: `link, ${linkName}` });
+        continue;
+      }
+
+      const separatorText = normalize(readableText(child) || child.textContent);
+      if (!separatorText) continue;
+      const kind = separatorKind(separatorText);
+      if (!kind) {
+        disallowed = true;
+        break;
+      }
+      entries.push({
+        kind: "separator",
+        text: kind === "conjunction" ? "and" : separatorText,
+        separatorKind: kind,
+      });
+    }
+
+    if (disallowed) return undefined;
+
+    const linkAnnouncements = entries
+      .filter((entry): entry is { kind: "link"; announcement: string } => entry.kind === "link")
+      .map((entry) => entry.announcement);
+    if (linkAnnouncements.length < 2) return undefined;
+
+    const conjunctions = entries.filter(
+      (entry) => entry.kind === "separator" && entry.separatorKind === "conjunction",
+    );
+    if (conjunctions.length !== 1) return undefined;
+
+    return [
+      ...linkAnnouncements.slice(0, -1),
+      conjunctions[0].text,
+      linkAnnouncements[linkAnnouncements.length - 1],
+    ];
+  }
+
   function inlineSemanticTextLinkFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     const tag = el.tagName.toLowerCase();
@@ -13235,6 +13421,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "paragraph"
           ? footerInlineBoundaryParagraphFragments(el) ||
             footerInlineBoundaryTextFragments(el) ||
+            articleBylineAuthorListFragments(el) ||
             directAxInlineTextLinkParagraphFragments(el) ||
             inlineCodeBreakTextFragments(el, role) ||
             inlineSemanticTextLinkFragments(el) ||
@@ -13899,6 +14086,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !isInformativeUnlabeledCmsImage(el) &&
       !isAxConfirmedRegionIntroImage(el) &&
       !isAxConfirmedHeadingIntroImage(el) &&
+      !isAxConfirmedCardIntroImage(el) &&
       !isLeadingUnnamedTabPanelImage(el, role) &&
       !hasStructuredListItemContent(el.closest("li,[role='listitem']"))
     ) {
@@ -14070,6 +14258,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         !expandedRegionInlineLinkFragments(el) &&
         !footerInlineBoundaryParagraphFragments(el) &&
         !footerInlineBoundaryTextFragments(el) &&
+        !articleBylineAuthorListFragments(el) &&
         !directAxInlineTextLinkParagraphFragments(el) &&
         !inlineCodeBreakTextFragments(el, role) &&
         !inlineSemanticTextLinkFragments(el) &&
