@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batch 4 C.5 - blog header control group suffixes</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      header { max-width: 860px; }
+      nav, [role="group"] { display: flex; align-items: center; gap: 12px; }
+      [hidden], .hidden { display: none; }
+      summary { cursor: pointer; }
+      svg { width: 1em; height: 1em; }
+    </style>
+  </head>
+  <body>
+    <header data-sr-scan-root data-sr-fixture-status="draft">
+      <nav aria-label="Main">
+        <ul>
+          <li><button aria-expanded="false">Products</button></li>
+          <li><a href="https://www.cloudflare.com/plans/">Pricing</a></li>
+        </ul>
+        <div role="group" aria-label="Site actions">
+          <details>
+            <summary aria-label="All Categories">
+              <svg aria-hidden="true" focusable="false"></svg>
+              <span class="hidden">All Categories</span>
+              <svg aria-hidden="true" focusable="false" class="hidden"></svg>
+            </summary>
+            <div hidden>
+              <ul>
+                <li><a href="/tag/ai/">AI</a></li>
+                <li><a href="/tag/developers/">Developers</a></li>
+              </ul>
+            </div>
+          </details>
+          <details>
+            <summary aria-label="Switch Site Language">
+              <span><svg aria-hidden="true" focusable="false"></svg></span>
+            </summary>
+            <div hidden>
+              <ul>
+                <li>Switch Site Language</li>
+                <li><a href="/">English</a></li>
+                <li><a href="/de-de/">Deutsch</a></li>
+              </ul>
+            </div>
+          </details>
+          <button type="button" aria-label="Toggle theme" aria-pressed="false">
+            <svg aria-hidden="true" focusable="false" class="hidden"></svg>
+            <svg aria-hidden="true" focusable="false"></svg>
+          </button>
+          <button type="button" aria-label="Search posts and pages" aria-expanded="false">
+            <svg aria-hidden="true" focusable="false"></svg>
+          </button>
+          <a href="https://dash.cloudflare.com/login">Login</a>
+          <a href="https://www.cloudflare.com/resource/contact-enterprise-sales/">Contact Sales</a>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>
