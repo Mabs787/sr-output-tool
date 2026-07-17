@@ -5500,6 +5500,44 @@
           }
           return false;
         }
+        function isAxConfirmedCardIntroImage(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (accessibleName(el, "image"))
+            return false;
+          if (!hasAxRole(el, "image"))
+            return false;
+          if (el.closest(interactiveSelector))
+            return false;
+          if (el.closest("[aria-roledescription='carousel'], [aria-roledescription='slideshow']")) {
+            return false;
+          }
+          const tag = el.tagName?.toLowerCase();
+          if (tag !== "svg" && el.getAttribute("role") !== "img")
+            return false;
+          for (let wrapper = el.parentElement, depth = 0; wrapper && depth < 4; wrapper = wrapper.parentElement, depth += 1) {
+            if (wrapper === document.body || wrapper.matches?.("main, [role='main']"))
+              return false;
+            if (readableText(wrapper))
+              return false;
+            const parent = wrapper.parentElement;
+            if (!parent || parent.matches?.("main, [role='main'], body"))
+              return false;
+            const siblings = Array.from(parent.children || []);
+            const next = siblings.slice(siblings.indexOf(wrapper) + 1).find((sibling) => !isHidden(sibling));
+            if (!next)
+              continue;
+            if (hasVisibleInteractiveDescendant(next))
+              return false;
+            const text = normalize(readableText(next) || next.textContent);
+            if (!text)
+              return false;
+            if (firstVisibleDescendantMatching(next, (candidate) => ["heading", "paragraph"].includes(implicitRole(candidate)) || ["strong", "b"].includes(candidate.tagName?.toLowerCase()))) {
+              return true;
+            }
+          }
+          return false;
+        }
         function isLeadingUnnamedTabPanelImage(el, role) {
           if (role !== "image")
             return false;
@@ -9265,6 +9303,127 @@
           }
           return fragments;
         }
+        function articleBylineAuthorListFragments(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName.toLowerCase() !== "p")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || expandedControlledRegionFor(el)) {
+            return void 0;
+          }
+          const article = el.closest("article,[role='article']");
+          if (!article || isHidden(article))
+            return void 0;
+          if (Array.from(el.childNodes || []).some((child) => child.nodeType === Node.TEXT_NODE && normalize(child.textContent))) {
+            return void 0;
+          }
+          const directChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (directChildren.length < 3)
+            return void 0;
+          if (directChildren.some((child) => child.tagName?.toLowerCase() !== "span")) {
+            return void 0;
+          }
+          function textExcludingDescendant(root, excluded) {
+            function collect(node) {
+              if (!node || node === excluded)
+                return "";
+              if (node.nodeType === Node.TEXT_NODE)
+                return node.textContent || "";
+              if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+                return "";
+              if (node.contains?.(excluded) && node !== root)
+                return "";
+              let text = "";
+              for (const child of Array.from(node.childNodes || [])) {
+                const part = collect(child);
+                if (!part)
+                  continue;
+                if (text && needsBoundary(text, part))
+                  text += " ";
+                text += part;
+              }
+              return text;
+            }
+            return normalize(collect(root));
+          }
+          function isAuthorLink(link, name) {
+            if (implicitRole(link) !== "link")
+              return false;
+            if (!link.hasAttribute("href") && link.getAttribute("role") !== "link")
+              return false;
+            const bdi = Array.from(link.querySelectorAll("bdi")).find((candidate) => !isHidden(candidate) && normalize(readableText(candidate)));
+            return Boolean(bdi && normalize(readableText(bdi)) === name);
+          }
+          function separatorKind(value) {
+            const text = normalize(value);
+            if (!text)
+              return void 0;
+            if (/^[,;]+$/u.test(text))
+              return "comma";
+            if (/^(?:[,;]\s*)?(?:and|&)(?:\s*[,;])?$/iu.test(text))
+              return "conjunction";
+            return void 0;
+          }
+          const entries = [];
+          let disallowed = false;
+          for (const child of directChildren) {
+            const links = Array.from(child.querySelectorAll("a[href], [role='link']")).filter((link) => !isHidden(link));
+            const interactiveDescendants = Array.from(child.querySelectorAll(interactiveSelector)).filter((candidate) => !isHidden(candidate));
+            if (links.length > 1 || interactiveDescendants.some((candidate) => !links.includes(candidate))) {
+              disallowed = true;
+              break;
+            }
+            if (links.length === 1) {
+              const link = links[0];
+              const linkName = normalizeAnnouncementLabel(accessibleName(link, "link"));
+              if (!linkName || !isAuthorLink(link, linkName)) {
+                disallowed = true;
+                break;
+              }
+              const outsideText = textExcludingDescendant(child, link);
+              if (outsideText) {
+                const kind2 = separatorKind(outsideText);
+                if (!kind2) {
+                  disallowed = true;
+                  break;
+                }
+                entries.push({
+                  kind: "separator",
+                  text: kind2 === "conjunction" ? "and" : outsideText,
+                  separatorKind: kind2
+                });
+              }
+              entries.push({ kind: "link", announcement: `link, ${linkName}` });
+              continue;
+            }
+            const separatorText = normalize(readableText(child) || child.textContent);
+            if (!separatorText)
+              continue;
+            const kind = separatorKind(separatorText);
+            if (!kind) {
+              disallowed = true;
+              break;
+            }
+            entries.push({
+              kind: "separator",
+              text: kind === "conjunction" ? "and" : separatorText,
+              separatorKind: kind
+            });
+          }
+          if (disallowed)
+            return void 0;
+          const linkAnnouncements = entries.filter((entry) => entry.kind === "link").map((entry) => entry.announcement);
+          if (linkAnnouncements.length < 2)
+            return void 0;
+          const conjunctions = entries.filter((entry) => entry.kind === "separator" && entry.separatorKind === "conjunction");
+          if (conjunctions.length !== 1)
+            return void 0;
+          return [
+            ...linkAnnouncements.slice(0, -1),
+            conjunctions[0].text,
+            linkAnnouncements[linkAnnouncements.length - 1]
+          ];
+        }
         function inlineSemanticTextLinkFragments(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
@@ -11856,7 +12015,7 @@
             figureMockupHeaderText: figureMockupHeaderText(el, role),
             axStaticTextRunFragments: axStaticTextRunFragments(el, role),
             axLineBreakTextFragments: axLineBreakTextFragments(el, role),
-            inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
+            inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             priceDisclosureFragments: priceDisclosureFragments(el, role),
@@ -12365,7 +12524,7 @@
           if (role === "image" && el.tagName?.toLowerCase() === "img" && el.hasAttribute("alt") && !normalize(el.getAttribute("alt"))) {
             return false;
           }
-          if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !isAxConfirmedRegionIntroImage(el) && !isAxConfirmedHeadingIntroImage(el) && !isLeadingUnnamedTabPanelImage(el, role) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+          if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !isAxConfirmedRegionIntroImage(el) && !isAxConfirmedHeadingIntroImage(el) && !isAxConfirmedCardIntroImage(el) && !isLeadingUnnamedTabPanelImage(el, role) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
             return false;
           }
           if (isTrailingInlineLinkPunctuationStop(el, role)) {
@@ -12486,7 +12645,7 @@
             return hasOnlyInteractiveListItemContent(el) || hasLabeledNativeSelectListItemContent(el) || hasImageLinkWithCaptionListItemContent(el) || hasNamedImageListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
           }
           if (role === "paragraph") {
-            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
+            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
           }
           return false;
         }

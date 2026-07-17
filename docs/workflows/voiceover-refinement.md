@@ -39,6 +39,80 @@ rules in this document.
 
 All phase receipts must follow [Agent Receipts](agent-receipts.md).
 
+## Large Multi-Site Scan Strategy
+
+For a large live-site scan set, do not begin by blindly processing fixed-size
+site batches. Start with a fast triage pass across every artifact, then batch
+work by mismatch family. Fixed-size batches are acceptable for download,
+intake, or scan-health throughput, but refinement should pivot to family-based
+work as soon as compare results show repeated patterns.
+
+Before Phase B starts in earnest, run a Phase 0.5 compare summary across the
+whole set and record, for each target:
+
+- expected count, actual count, and mismatch window count
+- dominant mismatch families
+- confidence in the raw/refined oracle
+- whether the target is exact, fixture-evidence cleanup, engine-family
+  candidate, needs C.5, needs recapture, or conditional-state blocked
+- the next action and owner
+
+Use this triage to separate special cases early:
+
+- Bad oracle or suspicious capture: for example, a one-line expected oracle
+  against a large actual traversal. Route to recapture or fixture normalization;
+  do not spend engine-refinement time on it.
+- Conditional-state fixture: page state differs between initial
+  `rendered-html.html` and step-time snapshots. Route through Phase B and C.5
+  only if the initial-state replay target remains unclear.
+- Repeated mismatch family: if the same family appears on two or more sites,
+  stop per-site grinding and investigate it as a family.
+- Exact or near-exact target: finish evidence receipts quickly and keep it out
+  of broad engine experiments.
+
+Prefer batches like these over "first five sites" batches:
+
+- linked logo or image-role behavior
+- navigation, menu, list, and marker behavior
+- cards, grouped wrappers, leading media, and image stops
+- form, combobox, select, popup, and conditional control state
+- code, `pre`, table, punctuation, and text-boundary behavior
+- carousels, dialogs, date pickers, and other dynamic widgets
+- bad oracle, recapture, or scanner-debug failures
+
+This makes C.5 more efficient: one focused repro can answer a reusable behavior
+question for several sites, and one Phase D engine pass can reduce multiple
+fixtures. If a mismatch appears on two or more sites, the default next action is
+family C.5, not more isolated fixture editing.
+
+Parking a mismatch is allowed only when the receipt records one of:
+
+- existing C.5 evidence says the generic rule is unsafe
+- a new C.5 scan is required, with the proposed fixture shape or exact command
+- recapture or fixture normalization is required
+- the mismatch is conditional-state-only and not replayable from initial HTML
+- the proposed engine rule would be site-specific, broad, or insufficiently
+  guarded
+
+Do not let `parked` mean "not attempted." Every parked family needs a concrete
+revisit entry with owner, next action, blocker, and evidence needed.
+
+Parallelize by ownership:
+
+- Phase 0/A/B/C evidence and fixture-judge work may run per site in parallel
+  when each worker writes only isolated target receipts or fixtures.
+- Phase C.5 may run per mismatch family in parallel when repro fixtures and
+  receipts do not overlap.
+- Only one Phase D engine-refiner may edit engine/runtime/test files at a time
+  unless separate worktrees are explicitly used.
+
+For time efficiency, use short per-site limits after triage. Spend only enough
+time to prove whether the issue is fixture evidence, a repeated family, or a
+blocker. Move repeated or uncertain behavior into C.5 quickly, then return to
+the affected sites after the family decision. Final receipts for a large set
+must include the compact compare table, C.5 count, engine changes, fixture
+changes, exact targets, parked blockers, and verification results.
+
 ## Agent Routing
 
 Project-scoped subagents live in `.codex/agents/`.
