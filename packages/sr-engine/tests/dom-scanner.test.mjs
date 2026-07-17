@@ -1082,6 +1082,29 @@ test("scanSubtree preserves VoiceOver selected group wording for controlled tabl
   );
 });
 
+test("scanSubtree announces labelled ARIA tablists as tab groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Build examples">
+        <div role="tablist" aria-label="Build primitives">
+          <button id="tab-compute" role="tab" aria-selected="true" aria-controls="panel-compute">Compute</button>
+          <button id="tab-ai" role="tab" aria-selected="false" aria-controls="panel-ai">AI</button>
+          <button id="tab-storage" role="tab" aria-selected="false" aria-controls="panel-storage">Storage</button>
+        </div>
+      </section>
+    `),
+    [
+      "Build examples, region",
+      "Build primitives, tab group",
+      "Compute, selected, tab, 1 of 3",
+      "AI, tab, 2 of 3",
+      "Storage, tab, 3 of 3",
+      "end of, Build primitives, tab group",
+      "end of, Build examples, region",
+    ],
+  );
+});
+
 test("scanSubtree suppresses decorative terminal horizontal rules before hidden content", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2191,6 +2214,30 @@ test("scanSubtree splits C5-confirmed one-link strong paragraph without punctuat
       "WCAG is for those who want a technical standard.",
       "It is not an introduction to accessibility. For links to introductory material, see",
       "link, \"Where should I start?\" in the FAQ",
+    ],
+  );
+});
+
+test("scanSubtree skips punctuation-only inline siblings after links", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Agent tools">
+        <span>
+          <x-inline>
+            <span>Run commands in secure containers with our </span>
+            <a href="/sandbox-sdk">Sandbox SDK</a>
+            <span>.</span>
+          </x-inline>
+        </span>
+        <h3>Powerful primitives, seamlessly integrated</h3>
+      </section>
+    `),
+    [
+      "Agent tools, region",
+      "Run commands in secure containers with our",
+      "link, Sandbox SDK",
+      "heading level 3, Powerful primitives, seamlessly integrated",
+      "end of, Agent tools, region",
     ],
   );
 });
@@ -3493,6 +3540,106 @@ test("scanSubtree uses AX-backed body names for labelled linked resource cards w
   );
 });
 
+test("scanSubtree preserves descendant heading level for AX-backed simple links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <a href="/introducing-precursor/" data-sr-dom-node-id="title-link">
+            <h2 data-sr-dom-node-id="title-heading">Introducing Precursor</h2>
+          </a>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "link-ax",
+              role: "link",
+              name: "Introducing Precursor",
+              domNodeId: "title-link",
+              childIds: ["heading-ax"],
+              properties: {
+                focusable: true,
+                url: "https://example.com/introducing-precursor/",
+              },
+            },
+            {
+              nodeId: "heading-ax",
+              role: "heading",
+              name: "Introducing Precursor",
+              domNodeId: "title-heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, heading level 2, Introducing Precursor",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree omits inferred article names when AX exposes an unnamed article", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <article data-sr-dom-node-id="article">
+            <time>2026-07-17</time>
+            <a href="/post" data-sr-dom-node-id="post-link">
+              <h2 data-sr-dom-node-id="post-heading">Post title</h2>
+            </a>
+            <p>Summary text.</p>
+          </article>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+            },
+            {
+              nodeId: "link-ax",
+              role: "link",
+              name: "Post title",
+              domNodeId: "post-link",
+              childIds: ["heading-ax"],
+              properties: {
+                focusable: true,
+                url: "https://example.com/post",
+              },
+            },
+            {
+              nodeId: "heading-ax",
+              role: "heading",
+              name: "Post title",
+              domNodeId: "post-heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "article",
+      "2026-07-17",
+      "link, heading level 2, Post title",
+      "Summary text.",
+      "end of, article",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree announces titled iframes inside generic single-child wrappers as media groups", () => {
   assert.deepEqual(
     scanHtml(
@@ -4254,6 +4401,38 @@ test("scanSubtree does not add a group suffix to AX-confirmed collapsed native b
       "Show navigation menu, collapsed, button",
       "Show search menu, collapsed, button",
       "end of, Primary, navigation",
+      "end of, banner",
+    ],
+  );
+});
+
+test("scanSubtree suppresses child control group suffixes inside named action groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <header>
+        <nav aria-label="Main">
+          <div role="group" aria-label="Site actions">
+            <details>
+              <summary aria-label="All Categories">
+                <span hidden>All Categories</span>
+              </summary>
+              <div hidden><a href="/tag/ai/">AI</a></div>
+            </details>
+            <button type="button" aria-label="Search posts and pages" aria-expanded="false">
+              <svg aria-hidden="true"></svg>
+            </button>
+          </div>
+        </nav>
+      </header>
+    `),
+    [
+      "banner",
+      "Main, navigation",
+      "Site actions, group",
+      "All Categories, collapsed, disclosure triangle",
+      "Search posts and pages, collapsed, button",
+      "end of, Site actions, group",
+      "end of, Main, navigation",
       "end of, banner",
     ],
   );
@@ -6111,6 +6290,35 @@ test("scanSubtree announces CodeMirror contenteditable textboxes as text entry a
   );
 });
 
+test("scanSubtree includes leading unnamed tab panel images", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Product tabs">
+        <div role="tablist" aria-label="Build primitives">
+          <button id="tab-compute" role="tab" aria-selected="true" aria-controls="panel-compute">Compute</button>
+          <button id="tab-ai" role="tab" aria-selected="false" aria-controls="panel-ai">AI</button>
+        </div>
+        <div id="panel-compute" role="tabpanel" aria-labelledby="tab-compute">
+          <svg role="img" aria-label="" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"></circle></svg>
+          <h3>Deploy with one command</h3>
+        </div>
+      </section>
+    `),
+    [
+      "Product tabs, region",
+      "Build primitives, tab group",
+      "Compute, selected, tab, 1 of 2",
+      "AI, tab, 2 of 2",
+      "end of, Build primitives, tab group",
+      "Compute, tab panel",
+      "image",
+      "heading level 3, Deploy with one command",
+      "end of, Compute, tab panel",
+      "end of, Product tabs, region",
+    ],
+  );
+});
+
 test("scanSubtree composes declarative shadow slots with host light DOM children", () => {
   assert.deepEqual(
     scanHtml(`
@@ -6506,6 +6714,23 @@ test("scanSubtree keeps aria-controlled carousel navigation buttons ungrouped", 
       "link, Deal",
       "Go forward to next set of carousel items, button",
       "end of, Deals, carousel",
+    ],
+  );
+});
+
+test("scanSubtree does not add generic image group suffixes to toggle buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Stories">
+        <button aria-pressed="true" aria-label="Resume customer story and logo rotation">
+          <img alt="Resume customer story and logo rotation" src="/resume.svg">
+        </button>
+      </section>
+    `),
+    [
+      "Stories, region",
+      "Resume customer story and logo rotation, selected, toggle button",
+      "end of, Stories, region",
     ],
   );
 });
@@ -8319,6 +8544,32 @@ test("scanSubtree does not emit separate native select label stops for hidden la
       </form>
     `),
     ["English, en, menu pop up collapsed, button"],
+  );
+});
+
+test("scanSubtree uses describedby text instead of placeholder for split email controls", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form aria-label="Newsletter">
+        <label for="newsletter-email">Email address</label>
+        <p id="newsletter-email-helper" style="display: none">We'll never share your email address.</p>
+        <input
+          id="newsletter-email"
+          type="email"
+          required
+          aria-describedby="newsletter-email-helper"
+          placeholder="Your email address"
+        >
+        <button type="submit">Subscribe</button>
+      </form>
+    `),
+    [
+      "Newsletter, form",
+      "Email address",
+      "Email address We'll never share your email address., required, email",
+      "Subscribe, button",
+      "end of, Newsletter, form",
+    ],
   );
 });
 
