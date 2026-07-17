@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Carousel and Media Image Role Repro</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 24px;
+        line-height: 1.4;
+      }
+
+      main {
+        max-width: 760px;
+      }
+
+      img,
+      svg {
+        display: block;
+        width: 96px;
+        height: 64px;
+        border: 1px solid #777;
+      }
+
+      .logo-row {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin: 16px 0 24px;
+      }
+
+      .carousel-shell {
+        border: 1px solid #777;
+        padding: 16px;
+        margin: 16px 0 24px;
+      }
+
+      [aria-hidden="true"] {
+        display: none;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+
+      th,
+      td {
+        border: 1px solid #777;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root tabindex="-1">
+      <h1>Media role checks</h1>
+
+      <section aria-labelledby="logo-heading">
+        <h2 id="logo-heading">Logo image objects</h2>
+        <div class="logo-row">
+          <picture>
+            <img
+              alt="Alpha product logo"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='64'%3E%3Crect width='96' height='64' fill='white'/%3E%3Ctext x='8' y='36' font-size='16'%3EAlpha%3C/text%3E%3C/svg%3E">
+          </picture>
+
+          <a href="#linked-story">
+            <picture>
+              <img
+                alt="Linked case logo"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='64'%3E%3Crect width='96' height='64' fill='white'/%3E%3Ctext x='8' y='36' font-size='16'%3ECase%3C/text%3E%3C/svg%3E">
+            </picture>
+          </a>
+
+          <svg role="img" aria-label="Named vector badge" viewBox="0 0 96 64">
+            <rect width="96" height="64" fill="white"></rect>
+            <text x="8" y="36" font-size="16">Badge</text>
+          </svg>
+        </div>
+      </section>
+
+      <section aria-labelledby="quote-heading">
+        <h2 id="quote-heading">What customers are saying</h2>
+        <div
+          class="carousel-shell"
+          aria-roledescription="carousel"
+          aria-label="Quote gallery">
+          <div>
+            <div aria-live="polite">
+              <div
+                aria-hidden="false"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="1 of 3">
+                <picture>
+                  <img
+                    alt="Customer portrait"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='64'%3E%3Crect width='96' height='64' fill='white'/%3E%3Ccircle cx='48' cy='26' r='14' fill='gray'/%3E%3Ctext x='18' y='56' font-size='12'%3EPortrait%3C/text%3E%3C/svg%3E">
+                </picture>
+                <p>Short quote text.</p>
+                <a id="linked-story" href="#story">Read story</a>
+                <p>Alex Example</p>
+              </div>
+
+              <div
+                aria-hidden="true"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="2 of 3">
+                <img
+                  alt="Hidden portrait"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='64'%3E%3C/svg%3E">
+                <p>Hidden quote text.</p>
+              </div>
+            </div>
+
+            <p>01/03</p>
+            <button type="button" aria-label="Next slide">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="table-heading">
+        <h2 id="table-heading">Feature media table</h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Media</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Restore backups</th>
+              <td>
+                <svg role="img" viewBox="0 0 96 64">
+                  <rect width="96" height="64" fill="white"></rect>
+                  <path d="M20 42h56v10H20zM26 20h44v18H26z" fill="gray"></path>
+                </svg>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Image search</th>
+              <td>
+                <svg role="img" aria-label="Search image preview" viewBox="0 0 96 64">
+                  <rect width="96" height="64" fill="white"></rect>
+                  <circle cx="40" cy="30" r="12" fill="none" stroke="gray" stroke-width="4"></circle>
+                  <path d="M50 40l18 14" stroke="gray" stroke-width="4"></path>
+                </svg>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
