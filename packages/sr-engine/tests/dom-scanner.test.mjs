@@ -179,6 +179,209 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree does not inject child image role into AX-named labelled links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/" aria-label="Brand home" data-sr-dom-node-id="logo-link">
+          <svg role="img" aria-label="Brand mark" data-sr-dom-node-id="logo-image"></svg>
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "link",
+              name: "Brand home",
+              domNodeId: "logo-link",
+              properties: { focusable: true },
+              childIds: ["2"],
+            },
+            {
+              nodeId: "2",
+              role: "image",
+              name: "Brand mark",
+              domNodeId: "logo-image",
+            },
+          ],
+        },
+      },
+    ),
+    ["link, Brand home"],
+  );
+});
+
+test("scanSubtree splits AX linebreak static text runs in inline text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <span data-sr-dom-node-id="price">$5/mo (Free plan);<br>included with Pro/Biz/Ent</span>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              ignored: true,
+              role: "generic",
+              domNodeId: "price",
+              childIds: ["2", "3", "4"],
+            },
+            {
+              nodeId: "2",
+              role: "StaticText",
+              name: "$5/mo (Free plan);",
+            },
+            {
+              nodeId: "3",
+              role: "LineBreak",
+              name: "\n",
+            },
+            {
+              nodeId: "4",
+              role: "StaticText",
+              name: "included with Pro/Biz/Ent",
+            },
+          ],
+        },
+      },
+    ),
+    ["$5/mo (Free plan);", "included with Pro/Biz/Ent"],
+  );
+});
+
+test("scanSubtree keeps visible small status text as one stop", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <button>See all roles</button>
+          <small data-sr-dom-node-id="count">Showing 6 of 268 roles. Use "See all roles" to browse everything.</small>
+          <h3>Cloudflare Capabilities</h3>
+        </div>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "count",
+              role: "generic",
+              name: "",
+              domNodeId: "count",
+              childIds: ["count-1", "count-2", "count-3", "count-4"],
+            },
+            { nodeId: "count-1", role: "StaticText", name: "Showing " },
+            { nodeId: "count-2", role: "StaticText", name: "6" },
+            { nodeId: "count-3", role: "StaticText", name: " of 268 " },
+            {
+              nodeId: "count-4",
+              role: "StaticText",
+              name: "roles. Use \"See all roles\" to browse everything.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "See all roles, button",
+      "Showing 6 of 268 roles. Use \"See all roles\" to browse everything.",
+      "heading level 3, Cloudflare Capabilities",
+    ],
+  );
+});
+
+test("scanSubtree traverses standalone inline emphasis siblings as text stops", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <span>Cloudflare employees come from all walks of life. Our team is energized by a </span>
+          <strong data-sr-dom-node-id="collab">collaborative</strong>
+          <span>, </span>
+          <strong data-sr-dom-node-id="creative">creative</strong>
+          <span> environment that celebrates our differences and fosters new ways to </span>
+          <strong data-sr-dom-node-id="grow">grow together.</strong>
+        </div>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "collab",
+              role: "strong",
+              name: "",
+              domNodeId: "collab",
+              childIds: ["collab-text"],
+            },
+            { nodeId: "collab-text", role: "StaticText", name: "collaborative" },
+            {
+              nodeId: "creative",
+              role: "strong",
+              name: "",
+              domNodeId: "creative",
+              childIds: ["creative-text"],
+            },
+            { nodeId: "creative-text", role: "StaticText", name: "creative" },
+            {
+              nodeId: "grow",
+              role: "strong",
+              name: "",
+              domNodeId: "grow",
+              childIds: ["grow-text"],
+            },
+            { nodeId: "grow-text", role: "StaticText", name: "grow together." },
+          ],
+        },
+      },
+    ),
+    [
+      "Cloudflare employees come from all walks of life. Our team is energized by a",
+      "collaborative",
+      "creative",
+      "environment that celebrates our differences and fosters new ways to",
+      "grow together.",
+    ],
+  );
+});
+
+test("scanSubtree uses AX-rendered casing for figcaption text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <figure>
+          <figcaption data-sr-dom-node-id="caption">Compute</figcaption>
+        </figure>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "Figcaption",
+              name: "",
+              domNodeId: "caption",
+              childIds: ["2"],
+            },
+            {
+              nodeId: "2",
+              role: "StaticText",
+              name: "COMPUTE",
+              childIds: ["3"],
+            },
+            {
+              nodeId: "3",
+              role: "InlineTextBox",
+              name: "COMPUTE",
+            },
+          ],
+        },
+      },
+    ),
+    ["COMPUTE"],
+  );
+});
+
 test("scanSubtree follows AX static text numeric run splits", () => {
   assert.deepEqual(
     scanHtml(
@@ -875,6 +1078,29 @@ test("scanSubtree preserves VoiceOver selected group wording for controlled tabl
       "Code, selected, tab, group, 1 of 2",
       "Plan, selected, tab, group, 2 of 2",
       "Write, test, and fix code quickly.",
+    ],
+  );
+});
+
+test("scanSubtree announces labelled ARIA tablists as tab groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Build examples">
+        <div role="tablist" aria-label="Build primitives">
+          <button id="tab-compute" role="tab" aria-selected="true" aria-controls="panel-compute">Compute</button>
+          <button id="tab-ai" role="tab" aria-selected="false" aria-controls="panel-ai">AI</button>
+          <button id="tab-storage" role="tab" aria-selected="false" aria-controls="panel-storage">Storage</button>
+        </div>
+      </section>
+    `),
+    [
+      "Build examples, region",
+      "Build primitives, tab group",
+      "Compute, selected, tab, 1 of 3",
+      "AI, tab, 2 of 3",
+      "Storage, tab, 3 of 3",
+      "end of, Build primitives, tab group",
+      "end of, Build examples, region",
     ],
   );
 });
@@ -1988,6 +2214,30 @@ test("scanSubtree splits C5-confirmed one-link strong paragraph without punctuat
       "WCAG is for those who want a technical standard.",
       "It is not an introduction to accessibility. For links to introductory material, see",
       "link, \"Where should I start?\" in the FAQ",
+    ],
+  );
+});
+
+test("scanSubtree skips punctuation-only inline siblings after links", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Agent tools">
+        <span>
+          <x-inline>
+            <span>Run commands in secure containers with our </span>
+            <a href="/sandbox-sdk">Sandbox SDK</a>
+            <span>.</span>
+          </x-inline>
+        </span>
+        <h3>Powerful primitives, seamlessly integrated</h3>
+      </section>
+    `),
+    [
+      "Agent tools, region",
+      "Run commands in secure containers with our",
+      "link, Sandbox SDK",
+      "heading level 3, Powerful primitives, seamlessly integrated",
+      "end of, Agent tools, region",
     ],
   );
 });
@@ -3290,6 +3540,106 @@ test("scanSubtree uses AX-backed body names for labelled linked resource cards w
   );
 });
 
+test("scanSubtree preserves descendant heading level for AX-backed simple links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <a href="/introducing-precursor/" data-sr-dom-node-id="title-link">
+            <h2 data-sr-dom-node-id="title-heading">Introducing Precursor</h2>
+          </a>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "link-ax",
+              role: "link",
+              name: "Introducing Precursor",
+              domNodeId: "title-link",
+              childIds: ["heading-ax"],
+              properties: {
+                focusable: true,
+                url: "https://example.com/introducing-precursor/",
+              },
+            },
+            {
+              nodeId: "heading-ax",
+              role: "heading",
+              name: "Introducing Precursor",
+              domNodeId: "title-heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, heading level 2, Introducing Precursor",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree omits inferred article names when AX exposes an unnamed article", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <article data-sr-dom-node-id="article">
+            <time>2026-07-17</time>
+            <a href="/post" data-sr-dom-node-id="post-link">
+              <h2 data-sr-dom-node-id="post-heading">Post title</h2>
+            </a>
+            <p>Summary text.</p>
+          </article>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+            },
+            {
+              nodeId: "link-ax",
+              role: "link",
+              name: "Post title",
+              domNodeId: "post-link",
+              childIds: ["heading-ax"],
+              properties: {
+                focusable: true,
+                url: "https://example.com/post",
+              },
+            },
+            {
+              nodeId: "heading-ax",
+              role: "heading",
+              name: "Post title",
+              domNodeId: "post-heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "article",
+      "2026-07-17",
+      "link, heading level 2, Post title",
+      "Summary text.",
+      "end of, article",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree announces titled iframes inside generic single-child wrappers as media groups", () => {
   assert.deepEqual(
     scanHtml(
@@ -3492,6 +3842,122 @@ test("scanSubtree compacts expanded code panel syntax descendants", () => {
       "After panel.",
       "end of, main",
     ],
+  );
+});
+
+test("scanSubtree compacts focusable tokenized pre code as one group stop", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <pre tabindex="0"><code>
+          <span class="line"><span class="token keyword">class</span> <span class="token class-name">CodeSandbox</span> <span class="token keyword">extends</span> <span class="token class-name">Container</span> <span class="token punctuation">{</span></span>
+          <span class="line"><span class="token property">defaultPort</span> <span class="token operator">=</span> <span class="token number">1337</span><span class="token punctuation">;</span></span>
+        </code></pre>
+      </section>
+    `),
+    ["class CodeSandbox extends Container { defaultPort = 1337; group"],
+  );
+});
+
+test("scanSubtree keeps footer legal separators visual and suppresses footer action group", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <a href="/privacy">Privacy policy</a><span>|</span>
+        <a href="/security">Report security issues</a><span>|</span>
+        <a href="/terms">Terms of use</a><span>|</span>
+        <a href="/trademark">Trademark</a><span>|</span>
+        <button type="button"><svg aria-hidden="true"></svg><span>Your privacy choices</span></button>
+      </footer>
+    `),
+    [
+      "footer",
+      "link, Privacy policy",
+      "link, Report security issues",
+      "link, Terms of use",
+      "link, Trademark",
+      "Your privacy choices, button",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree adds group suffix for filter and code example action buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section>
+          <p>Filter By:</p>
+          <div><button type="button"><span>All Industries</span><svg aria-hidden="true"></svg></button></div>
+          <div><button type="button"><span>All Regions</span><svg aria-hidden="true"></svg></button></div>
+          <div><button type="button"><span>All Use Cases</span><svg aria-hidden="true"></svg></button></div>
+          <div><button type="button"><span>All Products</span><svg aria-hidden="true"></svg></button></div>
+        </section>
+        <section>
+          <pre tabindex="0"><code><span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+          <button type="button" aria-label="Copy code to clipboard"><svg aria-hidden="true"></svg></button>
+          <button type="button"><p>Define Container</p><span>Define and customize your container.</span></button>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "Filter By:",
+      "All Industries, button, group",
+      "All Regions, button, group",
+      "All Use Cases, button, group",
+      "All Products, button, group",
+      "class Worker {} group",
+      "Copy code to clipboard, button, group",
+      "Define Container Define and customize your container., button, group",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree exposes standalone code badge text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <img alt="Background Pattern">
+        <code>Containers</code>
+        <h4>You can use Containers to:</h4>
+      </section>
+    `),
+    [
+      "Background Pattern, image",
+      "Containers",
+      "heading level 4, You can use Containers to:",
+    ],
+  );
+});
+
+test("scanSubtree uses AX descendant casing for paragraph StaticText", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="featured">Featured in</p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "featured",
+              childIds: ["static"],
+            },
+            {
+              nodeId: "static",
+              role: "StaticText",
+              name: "FEATURED IN",
+            },
+          ],
+        },
+      },
+    ),
+    ["FEATURED IN"],
   );
 });
 
@@ -3935,6 +4401,38 @@ test("scanSubtree does not add a group suffix to AX-confirmed collapsed native b
       "Show navigation menu, collapsed, button",
       "Show search menu, collapsed, button",
       "end of, Primary, navigation",
+      "end of, banner",
+    ],
+  );
+});
+
+test("scanSubtree suppresses child control group suffixes inside named action groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <header>
+        <nav aria-label="Main">
+          <div role="group" aria-label="Site actions">
+            <details>
+              <summary aria-label="All Categories">
+                <span hidden>All Categories</span>
+              </summary>
+              <div hidden><a href="/tag/ai/">AI</a></div>
+            </details>
+            <button type="button" aria-label="Search posts and pages" aria-expanded="false">
+              <svg aria-hidden="true"></svg>
+            </button>
+          </div>
+        </nav>
+      </header>
+    `),
+    [
+      "banner",
+      "Main, navigation",
+      "Site actions, group",
+      "All Categories, collapsed, disclosure triangle",
+      "Search posts and pages, collapsed, button",
+      "end of, Site actions, group",
+      "end of, Main, navigation",
       "end of, banner",
     ],
   );
@@ -5792,6 +6290,35 @@ test("scanSubtree announces CodeMirror contenteditable textboxes as text entry a
   );
 });
 
+test("scanSubtree includes leading unnamed tab panel images", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Product tabs">
+        <div role="tablist" aria-label="Build primitives">
+          <button id="tab-compute" role="tab" aria-selected="true" aria-controls="panel-compute">Compute</button>
+          <button id="tab-ai" role="tab" aria-selected="false" aria-controls="panel-ai">AI</button>
+        </div>
+        <div id="panel-compute" role="tabpanel" aria-labelledby="tab-compute">
+          <svg role="img" aria-label="" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"></circle></svg>
+          <h3>Deploy with one command</h3>
+        </div>
+      </section>
+    `),
+    [
+      "Product tabs, region",
+      "Build primitives, tab group",
+      "Compute, selected, tab, 1 of 2",
+      "AI, tab, 2 of 2",
+      "end of, Build primitives, tab group",
+      "Compute, tab panel",
+      "image",
+      "heading level 3, Deploy with one command",
+      "end of, Compute, tab panel",
+      "end of, Product tabs, region",
+    ],
+  );
+});
+
 test("scanSubtree composes declarative shadow slots with host light DOM children", () => {
   assert.deepEqual(
     scanHtml(`
@@ -6187,6 +6714,23 @@ test("scanSubtree keeps aria-controlled carousel navigation buttons ungrouped", 
       "link, Deal",
       "Go forward to next set of carousel items, button",
       "end of, Deals, carousel",
+    ],
+  );
+});
+
+test("scanSubtree does not add generic image group suffixes to toggle buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Stories">
+        <button aria-pressed="true" aria-label="Resume customer story and logo rotation">
+          <img alt="Resume customer story and logo rotation" src="/resume.svg">
+        </button>
+      </section>
+    `),
+    [
+      "Stories, region",
+      "Resume customer story and logo rotation, selected, toggle button",
+      "end of, Stories, region",
     ],
   );
 });
@@ -8000,6 +8544,32 @@ test("scanSubtree does not emit separate native select label stops for hidden la
       </form>
     `),
     ["English, en, menu pop up collapsed, button"],
+  );
+});
+
+test("scanSubtree uses describedby text instead of placeholder for split email controls", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <form aria-label="Newsletter">
+        <label for="newsletter-email">Email address</label>
+        <p id="newsletter-email-helper" style="display: none">We'll never share your email address.</p>
+        <input
+          id="newsletter-email"
+          type="email"
+          required
+          aria-describedby="newsletter-email-helper"
+          placeholder="Your email address"
+        >
+        <button type="submit">Subscribe</button>
+      </form>
+    `),
+    [
+      "Newsletter, form",
+      "Email address",
+      "Email address We'll never share your email address., required, email",
+      "Subscribe, button",
+      "end of, Newsletter, form",
+    ],
   );
 });
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare use-case image card traversal C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 980px; }
+      section { border: 1px solid #bbb; padding: 20px; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+      .intro, .card { border: 1px solid #999; padding: 14px; }
+      .media { min-height: 48px; margin-bottom: 10px; }
+      .decor { display: grid; grid-template-columns: repeat(2, 12px); gap: 4px; }
+      p { margin: 0 0 8px; }
+      code { display: inline-block; margin: 8px 0; }
+      a { display: inline-block; margin-top: 4px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft" tabindex="-1">
+      <section>
+        <div aria-hidden="true"><div></div><div></div></div>
+        <div aria-hidden="true"><div></div><div></div></div>
+        <div class="grid">
+          <div class="intro">
+            <img alt="Background Pattern">
+            <div>
+              <div>
+                <svg aria-hidden="true" width="12" height="12"></svg>
+                <code>Containers</code>
+              </div>
+            </div>
+            <h4>You can use Containers to:</h4>
+            <p>See real-world examples.</p>
+            <a href="https://developers.cloudflare.com/containers/" aria-label="See more use cases for Containers"><span>See more</span></a>
+          </div>
+
+          <div class="card">
+            <div class="decor" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+            <div class="media"><svg width="64" height="40"><rect width="64" height="40"></rect></svg></div>
+            <div>
+              <p>Run AI generated code securely</p>
+              <span><span>Execute untrusted code in isolation.</span></span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="decor" aria-hidden="true"><div></div><div></div></div>
+            <div class="media"><svg width="64" height="40"><circle cx="20" cy="20" r="16"></circle></svg></div>
+            <div>
+              <p>Run latency sensitive services close to end users</p>
+              <span><span>Place instances near users.</span></span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="decor" aria-hidden="true"><div></div><div></div></div>
+            <div class="media"><svg width="64" height="40"><path d="M4 20h56"></path></svg></div>
+            <div>
+              <p>Run compute intensive workflows and background jobs</p>
+              <span><span>Run jobs without clusters.</span></span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="decor" aria-hidden="true"><div></div><div></div></div>
+            <div class="media"><svg width="64" height="40"><path d="M8 8h48v24H8z"></path></svg></div>
+            <div>
+              <p>Provide sandboxed dev environments</p>
+              <span><span>Create a workspace for each user.</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

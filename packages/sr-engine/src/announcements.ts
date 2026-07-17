@@ -91,7 +91,8 @@ function genericGroupRoleLabel(el?: ElementDescriptor): string {
   }
   return roleDescription === "carousel" ||
     roleDescription === "slideshow" ||
-    roleDescription === "slide"
+    roleDescription === "slide" ||
+    roleDescription === "tab group"
     ? roleDescription
     : "group";
 }
@@ -461,8 +462,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
       }
       if (popupType && el.expanded !== undefined) {
-        parts.push(popupType);
-        parts.push(el.expanded ? "expanded" : "collapsed");
+        parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
       }
       if (!popupType && el.expanded !== undefined) {
         parts.push(el.expanded ? "expanded" : "collapsed");
@@ -529,6 +529,19 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
       } else {
         const placeholderText = placeholder !== label ? placeholder : undefined;
+        const inlineEmailDetails =
+          el.emailTextField && el.details
+            ? normalizeText(el.details)
+            : undefined;
+        if (inlineEmailDetails) {
+          pushIfPresent(parts, [label, inlineEmailDetails].filter(Boolean).join(" "));
+          if (el.required) {
+            parts.push("required");
+          }
+          parts.push("email");
+          pushSupplementalText(parts, el, { skipDetails: true });
+          break;
+        }
         pushIfPresent(
           parts,
           el.textboxPlaceholderBeforeRole && !value

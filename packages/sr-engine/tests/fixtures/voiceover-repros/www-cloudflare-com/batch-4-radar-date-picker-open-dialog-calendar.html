@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batch 4 Radar date picker open dialog calendar C.5</title>
+    <style>
+      body {
+        color: #111;
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 880px;
+      }
+
+      .sr-only {
+        clip: rect(0 0 0 0);
+        border: 0;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      .months {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #767676;
+        padding: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5-draft">
+      <h1>Overview <span>Worldwide</span></h1>
+      <div>
+        <button type="button" aria-expanded="true" aria-controls="radar-date-dialog" data-source-dom-node-id="523" data-source-ax-node-id="865">
+          <span class="sr-only" data-source-dom-node-id="524">Date range:</span>Last 7 days
+          <svg aria-hidden="true" width="1" height="1"></svg>
+        </button>
+      </div>
+
+      <div id="radar-date-dialog" role="dialog" aria-label="Select a date range" tabindex="-1" data-source-dom-node-id="527" data-source-ax-node-id="896015">
+        <div data-source-dom-node-id="528">
+          <nav role="navigation" aria-label="" data-source-dom-node-id="530" data-source-ax-node-id="895993">
+            <button type="button" aria-label="Go to the Previous Month" data-source-dom-node-id="531" data-source-ax-node-id="895817">Prev</button>
+            <button type="button" aria-label="Go to the Next Month" disabled data-source-dom-node-id="534" data-source-ax-node-id="895818">Next</button>
+          </nav>
+
+          <div class="months">
+            <section aria-labelledby="june-status">
+              <p id="june-status" role="status">June 2026</p>
+              <table aria-label="June 2026">
+                <caption>June 2026</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sunday</th>
+                    <th scope="col">Monday</th>
+                    <th scope="col">Tuesday</th>
+                    <th scope="col">Wednesday</th>
+                    <th scope="col">Thursday</th>
+                    <th scope="col">Friday</th>
+                    <th scope="col">Saturday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>14</td>
+                    <td><button type="button">15</button></td>
+                    <td><button type="button">16</button></td>
+                    <td><button type="button">17</button></td>
+                    <td><button type="button">18</button></td>
+                    <td><button type="button">19</button></td>
+                    <td><button type="button">20</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section aria-labelledby="july-status">
+              <p id="july-status" role="status">July 2026</p>
+              <table aria-label="July 2026">
+                <caption>July 2026</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Sunday</th>
+                    <th scope="col">Monday</th>
+                    <th scope="col">Tuesday</th>
+                    <th scope="col">Wednesday</th>
+                    <th scope="col">Thursday</th>
+                    <th scope="col">Friday</th>
+                    <th scope="col">Saturday</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><button type="button" aria-label="Wednesday, July 15th, 2026, selected">15</button></td>
+                    <td><button type="button" aria-label="Today, Thursday, July 16th, 2026, selected">16</button></td>
+                    <td><button type="button" aria-label="Friday, July 17th, 2026" disabled>17</button></td>
+                    <td><button type="button" aria-label="Saturday, July 18th, 2026" disabled>18</button></td>
+                    <td>19</td>
+                    <td>20</td>
+                    <td>21</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+          </div>
+
+          <div>
+            <button type="button">Last 24 hours</button>
+            <button type="button">Last 7 days</button>
+            <button type="button">Last 30 days</button>
+            <button type="button">Apply</button>
+          </div>
+        </div>
+      </div>
+
+      <article>
+        <h2><a href="/quality">New on Radar: Network Quality Test</a></h2>
+        <p>Measure your Internet connection quality and performance.</p>
+      </article>
+    </main>
+  </body>
+</html>

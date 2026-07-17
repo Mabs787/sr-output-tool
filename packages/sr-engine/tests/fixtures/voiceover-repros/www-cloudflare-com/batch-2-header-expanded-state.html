@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare Batch 2 header expanded state C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+        color: #111;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 840px;
+      }
+
+      header {
+        border-bottom: 1px solid #767676;
+        padding-block-end: 14px;
+      }
+
+      nav,
+      .account-links {
+        display: flex;
+        gap: 14px;
+        margin-block-start: 10px;
+      }
+
+      a {
+        color: #111;
+      }
+
+      [hidden] {
+        display: none;
+      }
+
+      .menu-region {
+        border: 1px solid #767676;
+        margin-block-start: 10px;
+        padding: 10px;
+      }
+
+      .menu-region a {
+        display: block;
+        margin-block: 4px;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelectorAll("[data-menu-link]");
+
+        function closeAll() {
+          links.forEach((link) => {
+            const region = document.getElementById(link.getAttribute("aria-controls"));
+            link.setAttribute("aria-expanded", "false");
+            if (region) {
+              region.hidden = true;
+              region.setAttribute("aria-hidden", "true");
+            }
+          });
+        }
+
+        links.forEach((link) => {
+          const region = document.getElementById(link.getAttribute("aria-controls"));
+
+          function openCurrent() {
+            closeAll();
+            link.setAttribute("aria-expanded", "true");
+            if (region) {
+              region.hidden = false;
+              region.setAttribute("aria-hidden", "false");
+            }
+          }
+
+          link.addEventListener("focus", openCurrent);
+          link.addEventListener("mouseenter", openCurrent);
+        });
+
+        document.querySelector("header").addEventListener("focusout", (event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) {
+            closeAll();
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <header>
+        <a href="/" aria-label="Cloudflare logo">
+          <svg aria-label="Cloudflare wordmark" role="img" width="80" height="20" viewBox="0 0 80 20"></svg>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="/products/" aria-haspopup="true" aria-expanded="false" aria-controls="products-menu" data-menu-link>Products</a>
+          <a href="/solutions/" aria-haspopup="true" aria-expanded="false" aria-controls="solutions-menu" data-menu-link>Solutions</a>
+          <a href="/resource-hub/" aria-haspopup="true" aria-expanded="false" aria-controls="resources-menu" data-menu-link>Resources</a>
+          <a href="/plans/">Pricing</a>
+        </nav>
+        <div class="account-links">
+          <a href="https://dash.cloudflare.com/login">Login</a>
+          <a href="/resource/contact-enterprise-sales/">Contact sales</a>
+        </div>
+        <a href="https://dash.cloudflare.com/sign-up" tabindex="-1" aria-hidden="true">Start building</a>
+        <div id="products-menu" class="menu-region" role="region" aria-label="products menu" aria-hidden="true" hidden>
+          <a href="/products/workers/">Workers Developer platform</a>
+          <a href="/products/kv/">KV Ultra-fast key-value storage</a>
+          <a href="/products/">See all products</a>
+        </div>
+        <div id="solutions-menu" class="menu-region" role="region" aria-label="solutions menu" aria-hidden="true" hidden>
+          <a href="/solutions/ai/">Cloudflare AI Cloud</a>
+          <a href="/solutions/security/">Web Security Platform</a>
+        </div>
+        <div id="resources-menu" class="menu-region" role="region" aria-label="resources menu" aria-hidden="true" hidden>
+          <a href="/learning/">Learning center</a>
+          <a href="/case-studies/">Case studies</a>
+        </div>
+      </header>
+
+      <section aria-labelledby="page-title">
+        <h1 id="page-title">Artifacts</h1>
+        <p>Header popup links start collapsed, then the page script opens the active menu during focus traversal.</p>
+      </section>
+    </main>
+  </body>
+</html>

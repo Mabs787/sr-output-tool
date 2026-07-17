@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare card image group boundaries C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .cards { display: grid; gap: 16px; }
+      .card {
+        border: 1px solid #777;
+        border-radius: 14px;
+        padding: 16px;
+      }
+      .mock-image {
+        border: 1px solid #aaa;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      svg { width: 40px; height: 40px; display: block; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <h1>Card image group boundaries</h1>
+      <section class="cards" aria-label="Use cases">
+        <article class="card">
+          <a href="#ai">
+            <div class="mock-image" role="group" aria-label="AI Gateway preview">
+              <svg role="img" aria-label="AI gateway diagram" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="16"></circle>
+              </svg>
+              <img alt="" src="missing-dashboard-preview.png">
+            </div>
+            <span>AI Gateway</span>
+            <p>Monitor and control model requests.</p>
+          </a>
+        </article>
+
+        <article class="card">
+          <a href="#storage">
+            <div class="mock-image">
+              <svg role="img" aria-label="Storage product badge" viewBox="0 0 40 40">
+                <rect x="6" y="6" width="28" height="28"></rect>
+              </svg>
+              <span aria-hidden="true">Decorative storage mockup</span>
+            </div>
+            <span>Object Storage</span>
+            <p>Store application assets close to users.</p>
+          </a>
+        </article>
+
+        <div class="card" aria-hidden="true">
+          <span>Decorative spacer card</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

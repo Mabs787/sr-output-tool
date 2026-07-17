@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare button group suffixes C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 920px;
+      }
+
+      section {
+        margin: 0 0 24px;
+      }
+
+      .button-row,
+      .example-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      button {
+        align-items: center;
+        background: #fff;
+        border: 1px solid #777;
+        display: inline-flex;
+        gap: 6px;
+        padding: 6px 10px;
+      }
+
+      svg {
+        height: 16px;
+        width: 16px;
+      }
+
+      .example-buttons button {
+        align-items: flex-start;
+        display: block;
+        max-width: 230px;
+        text-align: left;
+      }
+
+      .example-buttons p {
+        margin: 0 0 4px;
+      }
+
+      .example-buttons span {
+        display: block;
+      }
+
+      pre {
+        border: 1px solid #777;
+        margin: 0;
+        max-width: 480px;
+        overflow: auto;
+        padding: 8px;
+      }
+
+      code span {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft">
+      <astro-island>
+        <section>
+          <div>
+            <p>Filter By:</p>
+            <div class="button-row">
+              <div>
+                <button type="button"><span>All Industries</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+              <div>
+                <button type="button"><span>All Regions</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+              <div>
+                <button type="button"><span>All Use Cases</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+              <div>
+                <button type="button"><span>All Products</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </astro-island>
+
+      <section>
+        <div>
+          <div>
+            <pre tabindex="0"><code><span><span>class</span> <span>CodeSandbox</span> <span>extends</span> <span>Container</span> <span>{</span></span>
+<span><span>defaultPort</span> <span>=</span> <span>1337</span><span>;</span></span>
+<span><span>}</span></span></code></pre>
+          </div>
+        </div>
+        <div>
+          <button type="button" aria-label="Copy code to clipboard">
+            <svg viewBox="0 0 16 16"><path d="M5 2h7v10H5z"></path></svg>
+            <svg style="display: none" viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"></path></svg>
+          </button>
+        </div>
+        <div class="example-buttons">
+          <button type="button">
+            <div></div>
+            <p>Define Container</p>
+            <span><span>Define and customize your container.</span></span>
+            <div></div>
+          </button>
+          <button type="button">
+            <p>Integrate With Workers</p>
+            <span><span>Forward requests to a container instance.</span></span>
+            <div></div>
+          </button>
+        </div>
+      </section>
+
+      <section aria-label="Artifacts actions">
+        <div class="example-buttons">
+          <button type="button">
+            <div></div>
+            <p>Create a repo and issue tokens</p>
+            <span><span>Declare an </span><code>artifacts</code><span> binding in </span><code>wrangler.jsonc</code><span>.</span></span>
+            <div></div>
+          </button>
+          <button type="button">
+            <p>Import from GitHub and fork</p>
+            <span><span>Import a repo by owner and name.</span></span>
+            <div></div>
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

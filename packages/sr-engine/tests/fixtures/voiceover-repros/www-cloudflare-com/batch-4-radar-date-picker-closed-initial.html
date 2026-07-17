@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batch 4 Radar date picker closed initial C.5</title>
+    <style>
+      body {
+        color: #111;
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      .sr-only {
+        clip: rect(0 0 0 0);
+        border: 0;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5-draft">
+      <h1>Overview <span>Worldwide</span></h1>
+      <div>
+        <button type="button" aria-expanded="false" aria-controls="radar-date-dialog" data-source-dom-node-id="523" data-source-ax-node-id="865">
+          <span class="sr-only" data-source-dom-node-id="524">Date range:</span>Last 7 days
+          <svg aria-hidden="true" width="1" height="1"></svg>
+        </button>
+      </div>
+
+      <div id="radar-date-dialog" role="dialog" aria-label="Select a date range" tabindex="-1" hidden data-source-dom-node-id="527" data-source-ax-node-id="896015">
+        <nav role="navigation" aria-label="">
+          <button type="button" aria-label="Go to the Previous Month">Prev</button>
+          <button type="button" aria-label="Go to the Next Month" disabled>Next</button>
+        </nav>
+        <p role="status">June 2026</p>
+        <table aria-label="June 2026">
+          <caption>June 2026</caption>
+          <thead>
+            <tr>
+              <th scope="col">Sunday</th>
+              <th scope="col">Monday</th>
+              <th scope="col">Tuesday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><button type="button">14</button></td>
+              <td><button type="button">15</button></td>
+              <td><button type="button" disabled>16</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button">Last 7 days</button>
+        <button type="button">Apply</button>
+      </div>
+
+      <article>
+        <h2><a href="/quality">New on Radar: Network Quality Test</a></h2>
+        <p>Measure your Internet connection quality and performance.</p>
+      </article>
+    </main>
+  </body>
+</html>
