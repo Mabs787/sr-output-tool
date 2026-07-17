@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dropbox list/card positional C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      .section {
+        margin: 0 0 28px;
+      }
+
+      .bullet-list {
+        padding-left: 28px;
+      }
+
+      .bullet-list > li::marker {
+        content: "\2022\2002";
+      }
+
+      .plans {
+        display: grid;
+        gap: 16px;
+      }
+
+      .plan-card {
+        border: 1px solid #777;
+        padding: 16px;
+      }
+
+      .cta-group {
+        margin: 8px 0;
+      }
+
+      .feature-list {
+        margin: 12px 0 0;
+        padding-left: 22px;
+      }
+
+      .feature-list > li {
+        margin: 6px 0;
+      }
+
+      .feature-icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+      }
+
+      .disclosure-text[tabindex] {
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <section class="section" aria-labelledby="dash-heading">
+        <h1 id="dash-heading">Dash list</h1>
+        <p>With it, you will be able to:</p>
+        <ul class="bullet-list">
+          <li>Ask questions and find answers.</li>
+          <li>Chat with your content.</li>
+          <li>Turn files into project spaces.</li>
+        </ul>
+        <p>Want to try Dash?</p>
+      </section>
+
+      <section class="section" aria-labelledby="plans-heading">
+        <h2 id="plans-heading">Plans</h2>
+        <div class="plans">
+          <div class="plan-card">
+            <h3>For teams and professionals</h3>
+            <h2>Standard</h2>
+            <p>$15 / user / month</p>
+            <div class="cta-group">
+              <a href="#standard-trial">Try for free: Standard</a>
+              <a href="#standard-buy">or purchase now: Standard</a>
+            </div>
+            <div>
+              <div>
+                <ul class="feature-list">
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span>For 1 person or more</span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false">Starts at <span>3 TB</span> for the team</span></span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span>Stay connected across devices</span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false">Transfer files up to <span>100 GB</span></span></span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span>Edit PDFs and signatures</span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false">Manage team sharing</span></span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false">Admin control</span></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-card">
+            <h3>For companies</h3>
+            <h2>Advanced</h2>
+            <p>$24 / user / month</p>
+            <div class="cta-group">
+              <a href="#advanced-trial">Try for free: Advanced</a>
+              <a href="#advanced-buy">or purchase now: Advanced</a>
+            </div>
+            <div>
+              <div>
+                <ul class="feature-list">
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span>For 3 people or more</span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false">Starts at <span>15 TB</span> for the team</span></span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span>Stay connected across devices</span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false">Create groups and roles</span></span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span class="disclosure-text" tabindex="0" aria-expanded="false"><span>End-to-end encryption</span></span></span></li>
+                  <li><span class="feature-icon"><svg role="presentation" focusable="false"></svg></span><span><span>Single sign-on</span></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
