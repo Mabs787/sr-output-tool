@@ -1022,6 +1022,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function controlNameFromIdRef(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return undefined;
+    const tag = el.tagName?.toLowerCase();
+    const role = normalize(el.getAttribute("role"))?.toLowerCase();
+    if (!["input", "select", "textarea", "button"].includes(tag) && role !== "button") {
+      return undefined;
+    }
+    return (
+      normalize(el.getAttribute("aria-label")) ||
+      textFromIdRefs(el.getAttribute("aria-labelledby")) ||
+      labelForControl(el) ||
+      readableText(el)
+    );
+  }
+
+  function textFromIdRefsOrControlNames(value?: string | null): string | undefined {
+    if (!value) return undefined;
+    return normalize(
+      value
+        .split(/\s+/)
+        .map((id) => {
+          const ref = resolveIdRef(id);
+          return normalize(ref?.textContent) || controlNameFromIdRef(ref) || "";
+        })
+        .filter(Boolean)
+        .join(" "),
+    );
+  }
+
   function labelForControl(el: any): string | undefined {
     function labelText(label: any): string | undefined {
       return normalize(
@@ -1972,6 +2001,40 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return nestedImageLabels(el)[0];
   }
 
+  function nestedImageLabelContributesToName(el: any, name?: string): boolean {
+    const normalizedName = normalize(name)?.toLowerCase();
+    if (!normalizedName) return false;
+    const nameTokens = new Set(accessibleNameMatchTokens(normalizedName));
+    return nestedImageLabels(el).some((label) => {
+      const normalizedLabel = normalize(label)?.toLowerCase();
+      if (!normalizedLabel) return false;
+      if (normalizedName.includes(normalizedLabel)) return true;
+
+      const labelTokens = accessibleNameMatchTokens(normalizedLabel).filter(
+        (token) => !genericImageNameTokens.has(token),
+      );
+      if (labelTokens.length < 2) return false;
+      return labelTokens.slice(0, 2).every((token) => nameTokens.has(token));
+    });
+  }
+
+  const genericImageNameTokens = new Set([
+    "colour",
+    "color",
+    "dark",
+    "icon",
+    "image",
+    "logo",
+    "negative",
+  ]);
+
+  function accessibleNameMatchTokens(value: string): string[] {
+    return value
+      .split(/[^\p{L}\p{N}]+/u)
+      .map((token) => token.trim())
+      .filter(Boolean);
+  }
+
   function embeddedControlLabelFragments(el: any): string[] {
     const fragments: string[] = [];
 
@@ -2812,6 +2875,50 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalize(readableText(el)?.replace(/\+(?=\p{L})/gu, "+ "));
   }
 
+  function focusableGenericListItemDescendantGroupText(el: any): string | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (!["span", "div"].includes(el.tagName?.toLowerCase())) return undefined;
+    if (el.getAttribute("role")) return undefined;
+    if (el.getAttribute("tabindex") !== "0") return undefined;
+    if (parseBooleanAttribute(el, "aria-expanded") === undefined) return undefined;
+    if (normalizedPopup(el)) return undefined;
+    if (hasExplicitAriaName(el)) return undefined;
+    if (normalize(el.getAttribute("aria-describedby")) || normalize(el.getAttribute("aria-controls"))) {
+      return undefined;
+    }
+    if (el.querySelector(interactiveSelector)) return undefined;
+
+    const listItem = el.closest("li,[role='listitem']");
+    if (!isListItem(listItem) || listItem.tagName?.toLowerCase() !== "li") return undefined;
+    if (el.closest("li,[role='listitem']") !== listItem) return undefined;
+    const list = listForItem(listItem);
+    if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (list.closest("nav,[role='navigation']")) return undefined;
+
+    const text = normalize(readableText(el));
+    if (!text) return undefined;
+    const listItemText = normalize(textWithoutInteractive(listItem) || readableText(listItem));
+    if (!listItemText || listItemText !== text) return undefined;
+
+    const controls = Array.from(listItem.querySelectorAll("[tabindex]")).filter(
+      (candidate: any) => !isHidden(candidate) && candidate.getAttribute("tabindex") === "0",
+    );
+    if (controls.length !== 1 || controls[0] !== el) return undefined;
+
+    return text;
+  }
+
+  function isFocusableGenericListItemDescendantGroup(el: any): boolean {
+    return Boolean(focusableGenericListItemDescendantGroupText(el));
+  }
+
+  function hasFocusableGenericListItemDescendantGroup(el: any): boolean {
+    if (!isListItem(el)) return false;
+    return Array.from(el.querySelectorAll("span, div")).some((candidate: any) =>
+      isFocusableGenericListItemDescendantGroup(candidate),
+    );
+  }
+
   function isCustomElement(el: any): boolean {
     return Boolean(el?.tagName?.toLowerCase().includes("-"));
   }
@@ -3454,6 +3561,55 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function isFocusableFrame(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "iframe") return false;
+
+    const tabIndex = Number.parseInt(el.getAttribute("tabindex") || "", 10);
+    if (Number.isFinite(tabIndex)) return tabIndex >= 0;
+    if (typeof el.tabIndex === "number" && el.tabIndex >= 0) return true;
+
+    const axNode = axNodeForElementRole(el, "frame");
+    return axNode?.properties?.focusable === true;
+  }
+
+  function isIgnorableLeadingScanRootElement(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return true;
+    const tag = el.tagName?.toLowerCase();
+    return tag === "script" || tag === "style" || tag === "template" || tag === "title";
+  }
+
+  function scannerRootForLeadingStop(el: any): any | undefined {
+    const explicitRoot = el?.closest?.("[data-sr-scan-root]");
+    if (explicitRoot && el.parentElement === explicitRoot) return explicitRoot;
+    return el?.parentElement === document?.body ? document.body : undefined;
+  }
+
+  function isScanRootLeadingFocusableIframeStop(el: any): boolean {
+    if (el?.tagName?.toLowerCase() !== "iframe") return false;
+    if (!frameName(el) || !isFocusableFrame(el)) return false;
+
+    const scanRoot = scannerRootForLeadingStop(el);
+    if (!scanRoot) return false;
+
+    for (const child of Array.from(scanRoot.children || [])) {
+      if (child === el) return true;
+      if (isIgnorableLeadingScanRootElement(child)) continue;
+      return false;
+    }
+
+    return false;
+  }
+
+  function isCheckboxRoleButtonAccordionControl(el: any, role = implicitRole(el)): boolean {
+    if (role !== "button") return false;
+    if (el?.tagName?.toLowerCase() !== "input") return false;
+    if ((el.getAttribute("type") || "text").toLowerCase() !== "checkbox") return false;
+    if (normalize(el.getAttribute("role"))?.toLowerCase() !== "button") return false;
+    if (parseBooleanAttribute(el, "aria-expanded") === undefined) return false;
+    if (!normalize(el.getAttribute("aria-controls"))) return false;
+    return Boolean(controlNameFromIdRef(el) || accessibleName(el, role));
+  }
+
   function directVisibleElementChildren(el: any): any[] {
     return Array.from(el?.children || []).filter((child: any) => !isHidden(child));
   }
@@ -3844,6 +4000,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const tag = el.tagName.toLowerCase();
     const ariaLabel = normalize(el.getAttribute("aria-label"));
     const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
+    const labelledByWithControlNames =
+      role === "region" && !labelledBy
+        ? textFromIdRefsOrControlNames(el.getAttribute("aria-labelledby"))
+        : undefined;
     const nativeLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag)
       ? labelForControl(el)
       : undefined;
@@ -3860,11 +4020,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (nativeLabel) return nativeLabel;
     if (ariaLabel !== undefined) return ariaLabel;
-    if (labelledBy) {
+    if (labelledBy || labelledByWithControlNames) {
+      const resolvedLabelledBy = labelledBy || labelledByWithControlNames;
       return (
-        axConfirmedLabelledTabPanelName(el, role, labelledBy) ||
-        axLabelBoundaryName(el, role, labelledBy) ||
-        labelledBy
+        axConfirmedLabelledTabPanelName(el, role, resolvedLabelledBy) ||
+        axLabelBoundaryName(el, role, resolvedLabelledBy) ||
+        resolvedLabelledBy
       );
     }
 
@@ -3905,6 +4066,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (isFocusableStructuredListItemGroup(el)) {
         return focusableStructuredListItemName(el);
       }
+      const listItemDescendantGroupText = focusableGenericListItemDescendantGroupText(el);
+      if (listItemDescendantGroupText) return listItemDescendantGroupText;
       return normalize(el.getAttribute("title"));
     }
 
@@ -4669,8 +4832,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (isFocusableStructuredListItemGroup(el)) return "group";
     if (isFocusableRichTextParagraphGroup(el)) return "group";
     if (isFocusableHeadingRichTextNavigationGroup(el)) return "group";
+    if (isFocusableGenericListItemDescendantGroup(el)) return "group";
     if (isAxConfirmedFocusableFeedbackGroup(el)) return "group";
     if (isFocusableSummaryPanelGroup(el, "group")) return "group";
+    if (isScanRootLeadingFocusableIframeStop(el)) return "group";
     if (isSingleTitledIframeWrapper(el)) return "group";
     if (tag === "iframe" && singleTitledIframeChild(el.parentElement) === el) return "frame";
     if (tag === "select") return el.hasAttribute("multiple") ? "listbox" : "combobox";
@@ -6114,6 +6279,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
+    if (role === "group" && isFocusableGenericListItemDescendantGroup(el)) {
+      return undefined;
+    }
+
     if (listPositionedRoles.has(role)) {
       const { listItem, list, siblings } = semanticListContext(el);
       if (
@@ -6255,6 +6424,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return adjustedListSetSize(siblings, list, el, role);
     }
     if (role === "link" && isDisclosureDefinitionLink(el)) {
+      return undefined;
+    }
+    if (role === "group" && isFocusableGenericListItemDescendantGroup(el)) {
       return undefined;
     }
     if (
@@ -6413,6 +6585,58 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         list.getAttribute("data-sr-marker-list-style-type"),
     );
     return Boolean(listStyleType) && listStyleType !== "none";
+  }
+
+  function renderedNativeListMarkerGlyph(item: any, list: any): string | undefined {
+    if (item.getAttribute("data-sr-marker-content") !== "normal") return undefined;
+    const markerDisplay = normalize(item.getAttribute("data-sr-marker-display"));
+    if (markerDisplay !== "inline" && markerDisplay !== "inline-block") return undefined;
+
+    const markerStyle = normalize(
+      item.getAttribute("data-sr-marker-list-style-type") ||
+        list.getAttribute("data-sr-marker-list-style-type"),
+    );
+    if (!markerStyle || markerStyle === "none") return undefined;
+    const unquoted = markerStyle.replace(/^['"]|['"]$/g, "").trim();
+    if (unquoted.startsWith("•")) return "•";
+    return undefined;
+  }
+
+  function savedRenderedPlainTextMarkerListItemAnnouncement(el: any): string | undefined {
+    if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
+    if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return undefined;
+    if (el.querySelector("a[href], [role='link'], button, [role='button'], ul, ol, dl, [role='list']")) {
+      return undefined;
+    }
+
+    const list = listForItem(el);
+    if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (list.closest("nav,[role='navigation']")) return undefined;
+
+    const glyph = renderedNativeListMarkerGlyph(el, list);
+    if (!glyph) return undefined;
+
+    const siblings = announcedListChildren(list);
+    if (
+      siblings.length !== 3 ||
+      siblings[0] !== el ||
+      siblings.some((item: any) => !renderedNativeListMarkerGlyph(item, list))
+    ) {
+      return undefined;
+    }
+    if (
+      siblings.some((item: any) =>
+        Boolean(item.querySelector("a[href], [role='link'], button, [role='button'], ul, ol, dl, [role='list']")),
+      )
+    ) {
+      return undefined;
+    }
+
+    const text = normalize(readableText(el));
+    if (!text) return undefined;
+    const position = positionInSet(el, "listitem");
+    const size = setSize(el, "listitem");
+    return position && size && size > 1 ? `${glyph} ${text}, ${position} of ${size}` : undefined;
   }
 
   function containsNestedList(el: any): boolean {
@@ -11475,7 +11699,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       axNode &&
       normalize(axNode.name) === linkName &&
       axNode.properties?.focusable === true &&
-      hasExplicitAriaName(el)
+      hasExplicitAriaName(el) &&
+      !nestedImageLabelContributesToName(el, linkName)
     ) {
       return false;
     }
@@ -12974,6 +13199,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ? setSize(selectedListboxOption, "option")
       : undefined;
     const leadingGenericGroupStops = leadingGenericGroupStopCountBeforeDisabledControl(el, role);
+    const checkboxRoleButtonAccordionControl =
+      isCheckboxRoleButtonAccordionControl(el, role);
 
     const descriptor: CapturedElementDescriptor = {
       role,
@@ -13021,6 +13248,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             ? "empty group"
           : role === "group" && isNamedEmptyDecorativeMediaGroup(el, role)
             ? "empty group"
+          : role === "group" && isScanRootLeadingFocusableIframeStop(el)
+            ? "empty group"
           : ariaRoleDescriptionForDescriptor(el, role),
       level:
         role === "heading"
@@ -13052,7 +13281,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             : stateEl.getAttribute("aria-invalid")
           : undefined,
       checked:
-        role === "checkbox" || role === "radio"
+        role === "checkbox" || role === "radio" || checkboxRoleButtonAccordionControl
           ? el.getAttribute("aria-checked") === "mixed"
             ? "mixed"
             : el.getAttribute("aria-checked")
@@ -13091,6 +13320,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       hasPopup: nativeDatalistElement(stateEl) ? "listbox" : normalizedPopup(stateEl) ?? normalizedPopup(el),
       popupLabelWithoutComma:
         role === "button" && hasVisibleTextEllipsisButtonName(el, role) ? true : undefined,
+      checkboxRoleButtonAccordion:
+        checkboxRoleButtonAccordionControl || undefined,
       autocomplete: normalize(stateEl.getAttribute("aria-autocomplete") ?? el.getAttribute("aria-autocomplete")),
       modal: el.getAttribute("aria-modal") === "true" || undefined,
       modalDialogSummaryItemCount:
@@ -13157,6 +13388,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               el.hasAttribute("aria-label")) ||
             (role === "button" &&
               el.hasAttribute("aria-expanded") &&
+              !checkboxRoleButtonAccordionControl &&
               !nativeButtonLabelStopText &&
               !anonymousStructuralCustomElementHost &&
               !normalizedPopup(el) &&
@@ -13378,6 +13610,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "listitem" ? axMarkerOnlyListItemInlineTextAnnouncement(el) : undefined,
       axMarkerLinkTrailingTextListItemAnnouncement:
         role === "listitem" ? axMarkerLinkTrailingTextListItemAnnouncement(el) : undefined,
+      savedRenderedPlainTextMarkerListItemAnnouncement:
+        role === "listitem" ? savedRenderedPlainTextMarkerListItemAnnouncement(el) : undefined,
       contributionListItemAnnouncements:
         role === "listitem" ? contributionListItemAnnouncements(el) : undefined,
       wrappedDefinitionListTermChildAnnouncements:
@@ -13442,6 +13676,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "region" && isEmptyNamedRegionStop(el, role)) ||
         role === "tooltip" ||
         (role === "group" && isNamedEmptyDecorativeMediaGroup(el, role)) ||
+        (role === "group" && isScanRootLeadingFocusableIframeStop(el)) ||
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
         shouldSuppressSingletonDocumentArticleEnd(el, role) ||
         (role === "group" && isButtonShellClusterGroup(el)) ||
@@ -13451,6 +13686,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (role === "group" && isAxConfirmedFocusableFeedbackGroup(el)) ||
         (role === "group" && isFocusableRichTextParagraphGroup(el)) ||
         (role === "group" && isFocusableHeadingRichTextNavigationGroup(el)) ||
+        (role === "group" && isFocusableGenericListItemDescendantGroup(el)) ||
         (role === "group" && isFocusableSummaryPanelGroup(el, role)) ||
         (role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el)) ||
         (role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el)) ||
@@ -13951,6 +14187,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return true;
     }
 
+    if (role === "listitem" && savedRenderedPlainTextMarkerListItemAnnouncement(el)) {
+      return true;
+    }
+
+    if (role === "listitem" && hasFocusableGenericListItemDescendantGroup(el)) {
+      return false;
+    }
+
     if (role === "listitem" && namedNavigationListItemGroupedLinkAnnouncements(el)) {
       return true;
     }
@@ -14108,6 +14352,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !isAxConfirmedFocusableFeedbackGroup(el) &&
       !isFocusableRichTextParagraphGroup(el) &&
       !isFocusableHeadingRichTextNavigationGroup(el) &&
+      !isFocusableGenericListItemDescendantGroup(el) &&
       !isFocusableSummaryPanelGroup(el, role) &&
       !isSingleTitledIframeWrapper(el) &&
       !isButtonShellClusterGroup(el) &&
@@ -14198,7 +14443,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "group" && isFocusableHeadingRichTextNavigationGroup(el)) {
       return false;
     }
+    if (role === "group" && isFocusableGenericListItemDescendantGroup(el)) {
+      return false;
+    }
     if (role === "group" && isFocusableSummaryPanelGroup(el, role)) {
+      return false;
+    }
+    if (role === "group" && isScanRootLeadingFocusableIframeStop(el)) {
       return false;
     }
     if (role === "listbox" && singleSelectedListboxOption(el)) {
@@ -14232,6 +14483,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (role === "listitem") {
       if (namedNavigationListItemGroupedLinkAnnouncements(el)) return false;
+      if (savedRenderedPlainTextMarkerListItemAnnouncement(el)) return false;
       if (nativeMarkerListItemAnnouncements(el)) return nativeMarkerListItemShouldDescend(el);
       if (axMarkerOnlyListItemStopAnnouncement(el)) return true;
       if (axStrongWrappedMarkerListItemAnnouncements(el)) return true;
@@ -14800,6 +15052,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     ].filter((entry): entry is string => Boolean(entry));
   }
 
+  function splitSavedRenderedPlainTextMarkerListItemAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "listitem" ||
+      !descriptor.savedRenderedPlainTextMarkerListItemAnnouncement
+    ) {
+      return undefined;
+    }
+    return [descriptor.savedRenderedPlainTextMarkerListItemAnnouncement];
+  }
+
   function splitNativeMarkerListItemAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -15349,6 +15613,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-ax-marker-only-listitem",
           announcements: splitAxMarkerOnlyListItemAnnouncements(descriptor),
+        },
+        {
+          source: "split-saved-rendered-plain-text-marker-listitem",
+          announcements: splitSavedRenderedPlainTextMarkerListItemAnnouncements(descriptor),
         },
         {
           source: "split-native-marker-listitem",

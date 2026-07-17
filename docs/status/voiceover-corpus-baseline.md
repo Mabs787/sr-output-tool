@@ -103,6 +103,16 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 
 The Sky candidates listed here have completed Phase B evidence review. A 2026-06-28 fixture-trust audit restored several refined-output edits that could have hidden true VoiceOver output, so remaining gaps are page-backed dynamic, structural, list-marker, or scanner traversal differences that need reusable engine/scanner decisions before exact gating.
 
+The Dropbox Phase E curation pass isolated 16 non-exact full-page candidates
+outside the canonical corpus and kept 4 invalid captures as recapture-only
+artifacts. The 16 sets total 687MB, including 190MB of Plans step snapshots,
+and focused repros plus engine unit coverage already protect the accepted
+reusable consent, narrow list/card, button/region, and linked-image behavior.
+Carousel/media remains recapture-only, while broader list/card, pricing/table,
+and tooltip/link families remain parked with evidence. None reached exact
+gating, so no Dropbox full-page entry was added to the canonical index or
+refinement manifest.
+
 `web-dev` remains partial because the direct compare is exact, but the 60-second settle rescan still has capture-timing evidence under review. Do not edit the refined announcements from that rescan unless a future receipt documents a fresh evidence-backed correction.
 
 `developer-mozilla-org-en-us` was promoted after the final Phase E review landed at 180 expected, 180 actual, and 0 mismatch windows.

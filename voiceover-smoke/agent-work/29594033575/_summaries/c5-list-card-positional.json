@@ -25,6 +25,14 @@
     "www-dropbox-com-security",
     "www-dropbox-com-business-solutions-technology"
   ],
+  "newlyClassifiedAffectedTargets": [
+    {
+      "target": "www-dropbox-com-plans",
+      "source": "completed Phase 0.5 summary update",
+      "coveredByGenericFamilyEvidence": true,
+      "note": "Not part of the original reproduction input; covered by generic family evidence only. Requires no Dropbox-specific rule."
+    }
+  ],
   "minimalReproduction": {
     "fixture": "packages/sr-engine/tests/fixtures/voiceover-repros/www-dropbox-com-security/list-card-positional.html",
     "scanRuns": [

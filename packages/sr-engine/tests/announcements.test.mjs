@@ -63,6 +63,18 @@ test("generateAnnouncement formats interactive control states", () => {
   assert.equal(
     generateAnnouncement({
       role: "button",
+      name: "Alpha sharing",
+      checkboxRoleButtonAccordion: true,
+      checked: true,
+      disabled: true,
+      expanded: true,
+    }),
+    "Alpha sharing, dimmed expanded, button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "button",
       name: "Page 1",
       current: "page",
     }),

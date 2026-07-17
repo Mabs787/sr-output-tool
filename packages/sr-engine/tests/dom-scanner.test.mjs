@@ -212,6 +212,70 @@ test("scanSubtree does not inject child image role into AX-named labelled links"
   );
 });
 
+test("scanSubtree preserves image role for AX-named logo links when child image names the link", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/" aria-label="Go to the Example homepage" data-sr-dom-node-id="logo-link">
+          <svg role="img" aria-label="Example" data-sr-dom-node-id="logo-image"></svg>
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "link",
+              name: "Go to the Example homepage",
+              domNodeId: "logo-link",
+              properties: { focusable: true },
+              childIds: ["2"],
+            },
+            {
+              nodeId: "2",
+              role: "image",
+              name: "Example",
+              domNodeId: "logo-image",
+            },
+          ],
+        },
+      },
+    ),
+    ["link, image, Go to the Example homepage"],
+  );
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/" aria-label="Example Airways, go back to homepage" data-sr-dom-node-id="logo-link">
+          <img alt="example-airways-colour-negative-dark-colour logo" data-sr-dom-node-id="logo-image">
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "link",
+              name: "Example Airways, go back to homepage",
+              domNodeId: "logo-link",
+              properties: { focusable: true },
+              childIds: ["2"],
+            },
+            {
+              nodeId: "2",
+              role: "image",
+              name: "example-airways-colour-negative-dark-colour logo",
+              domNodeId: "logo-image",
+            },
+          ],
+        },
+      },
+    ),
+    ["link, image, Example Airways, go back to homepage"],
+  );
+});
+
 test("scanSubtree splits AX linebreak static text runs in inline text", () => {
   assert.deepEqual(
     scanHtml(
@@ -1078,6 +1142,69 @@ test("scanSubtree preserves VoiceOver selected group wording for controlled tabl
       "Code, selected, tab, group, 1 of 2",
       "Plan, selected, tab, group, 2 of 2",
       "Write, test, and fix code quickly.",
+    ],
+  );
+});
+
+test("scanSubtree matches checkbox role button accordion state and named region ordering", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Expanded selected checkbox-button with region">
+        <div>
+          <input
+            id="alpha-control"
+            type="checkbox"
+            role="button"
+            aria-label="Alpha sharing"
+            aria-expanded="true"
+            aria-controls="alpha-panel"
+            checked
+            disabled
+          >
+          <label for="alpha-control" aria-hidden="true">
+            <span>Alpha sharing</span>
+          </label>
+          <div aria-live="polite">
+            <div id="alpha-panel" role="region" aria-labelledby="alpha-control">
+              <p>Panel text for the selected item.</p>
+              <a href="/learn">Learn more</a>
+              <img src="/preview.png" alt="Panel preview">
+            </div>
+          </div>
+          <input
+            id="beta-control"
+            type="checkbox"
+            role="button"
+            aria-label="Beta analytics"
+            aria-expanded="false"
+            aria-controls="beta-panel"
+          >
+          <label for="beta-control" aria-hidden="true">
+            <span>Beta analytics</span>
+          </label>
+          <div aria-live="polite">
+            <div
+              id="beta-panel"
+              role="region"
+              aria-labelledby="beta-control"
+              data-sr-computed-hidden="display:none"
+            >
+              <p>Hidden beta panel text.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    `),
+    [
+      "Expanded selected checkbox-button with region, region",
+      "Alpha sharing, dimmed expanded, button",
+      "Alpha sharing, region",
+      "Panel text for the selected item.",
+      "link, Learn more",
+      "Panel preview, image",
+      "end of, Alpha sharing, region",
+      "Beta analytics, collapsed, button",
+      "end of, Expanded selected checkbox-button with region, region",
     ],
   );
 });
@@ -3829,6 +3956,74 @@ test("scanSubtree announces titled iframes inside generic single-child wrappers 
       "end of, Video example, region",
       "end of, main",
     ],
+  );
+});
+
+test("scanSubtree includes a leading focusable titled iframe as one empty group stop", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <body data-sr-scan-root>
+        <iframe title="Consent Preferences" tabindex="1"></iframe>
+        <a href="#main-content">Skip to main content</a>
+        <main id="main-content">
+          <h1>Example page</h1>
+        </main>
+      </body>
+    `),
+    [
+      "Consent Preferences, empty group",
+      "link, Skip to main content",
+      "main",
+      "heading level 1, Example page",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <iframe title="Consent Preferences" tabindex="1"></iframe>
+      <a href="#main-content">Skip to main content</a>
+      <main id="main-content">
+        <h1>Saved fixture page</h1>
+      </main>
+    `),
+    [
+      "Consent Preferences, empty group",
+      "link, Skip to main content",
+      "main",
+      "heading level 1, Saved fixture page",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree does not promote non-leading or unfocusable titled iframes", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <body data-sr-scan-root>
+        <a href="#main-content">Skip to main content</a>
+        <iframe title="Consent Preferences" tabindex="1"></iframe>
+        <main id="main-content">
+          <h1>Example page</h1>
+        </main>
+      </body>
+    `),
+    [
+      "link, Skip to main content",
+      "main",
+      "heading level 1, Example page",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <body data-sr-scan-root>
+        <iframe title="Consent Preferences" tabindex="-1"></iframe>
+        <a href="#main-content">Skip to main content</a>
+      </body>
+    `),
+    ["link, Skip to main content"],
   );
 });
 
@@ -9772,6 +9967,83 @@ test("scanSubtree does not use plain text marker prefix without the AX marker co
     [
       "list 1 item",
       "Plain marker text",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree uses saved rendered marker metadata for plain native list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li
+          data-sr-marker-content="normal"
+          data-sr-marker-display="inline-block"
+          data-sr-marker-list-style-type='"• "'
+        >Ask questions and find answers.</li>
+        <li
+          data-sr-marker-content="normal"
+          data-sr-marker-display="inline-block"
+          data-sr-marker-list-style-type='"• "'
+        >Chat with your content.</li>
+        <li
+          data-sr-marker-content="normal"
+          data-sr-marker-display="inline-block"
+          data-sr-marker-list-style-type='"• "'
+        >Turn files into project spaces.</li>
+      </ul>
+    `),
+    [
+      "list 3 items",
+      "• Ask questions and find answers., 1 of 3",
+      "Chat with your content., 2 of 3",
+      "Turn files into project spaces., 3 of 3",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree announces focusable generic descendants in native list items as groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>For 1 person or more</li>
+        <li>
+          <span aria-hidden="true"><svg role="presentation"></svg></span>
+          <span><span tabindex="0" aria-expanded="false">Starts at 3 TB for the team</span></span>
+        </li>
+        <li>Stay connected across devices</li>
+        <li>
+          <span aria-hidden="true"><svg role="presentation"></svg></span>
+          <span><span tabindex="0" aria-expanded="false">Transfer files up to 100 GB</span></span>
+        </li>
+      </ul>
+    `),
+    [
+      "list 4 items",
+      "For 1 person or more, 1 of 4",
+      "Starts at 3 TB for the team, group",
+      "Stay connected across devices, 3 of 4",
+      "Transfer files up to 100 GB, group",
+      "end of list",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <ul>
+        <li>
+          <span><span tabindex="0" aria-expanded="false" aria-label="Storage details">Starts at 3 TB for the team</span></span>
+        </li>
+        <li>
+          <span><span tabindex="0" aria-expanded="false" aria-haspopup="dialog">Transfer files up to 100 GB</span></span>
+        </li>
+      </ul>
+    `),
+    [
+      "list 2 items",
+      "Starts at 3 TB for the team, 1 of 2",
+      "Transfer files up to 100 GB, 2 of 2",
       "end of list",
     ],
   );

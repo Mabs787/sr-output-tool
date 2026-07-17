@@ -383,6 +383,19 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (announcedButtonLabel) {
         parts.push(announcedButtonLabel);
       }
+      if (el.checkboxRoleButtonAccordion) {
+        if (el.disabled && el.expanded !== undefined) {
+          parts.push(`dimmed ${el.expanded ? "expanded" : "collapsed"}`);
+        } else if (el.disabled) {
+          parts.push("dimmed");
+        } else if (el.expanded !== undefined) {
+          parts.push(el.expanded ? "expanded" : "collapsed");
+        }
+        parts.push("button");
+        pushCollectionPosition(parts, el);
+        pushSupplementalText(parts, el, { skipDetails: buttonDetailsAreInline });
+        break;
+      }
       const popupType = formatPopupType(el.hasPopup);
       const isToggleButton =
         el.roleDescription === "toggle button" || el.pressed !== undefined;

@@ -62,6 +62,7 @@ export interface ElementDescriptor {
   current?: string | boolean;
   hasPopup?: boolean | string;
   popupLabelWithoutComma?: boolean;
+  checkboxRoleButtonAccordion?: boolean;
   autocomplete?: string;
   live?: string;
   atomic?: boolean;

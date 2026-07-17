@@ -8,6 +8,9 @@ This branch starts the scanner architecture pass recommended after the behavior
 lab work exposed diminishing returns from small predicate-only refinements.
 The goal is to separate traversal, segmentation, context attachment, and
 announcement formatting so future VoiceOver evidence maps to a clear layer.
+Phase E curation should stay separate from the architecture work: if a focused
+repro already proves the generic behavior, keep the full page as candidate or
+parked evidence unless it adds a distinct corpus anchor.
 
 ## Branch
 
@@ -135,3 +138,6 @@ Validation:
   module once scan receipts show the highest-value mismatch family.
 - Add targeted tests that prove output stability while debug stop sources
   identify traversal, segmentation, context-end, and synthetic stops.
+- Keep full-page candidate fixtures in the canonical corpus only when Phase E
+  documents proportionate live-site diversity beyond the focused repro that
+  already protects the generic rule; isolate non-exact, high-cost page sets.

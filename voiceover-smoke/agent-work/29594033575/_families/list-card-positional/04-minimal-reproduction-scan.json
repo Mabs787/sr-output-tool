@@ -27,6 +27,14 @@
     "www-dropbox-com-security",
     "www-dropbox-com-business-solutions-technology"
   ],
+  "newlyClassifiedAffectedTargets": [
+    {
+      "target": "www-dropbox-com-plans",
+      "source": "completed Phase 0.5 summary update",
+      "coveredByGenericFamilyEvidence": true,
+      "note": "Not part of the original reproduction input; covered by the same generic marker/listitem and focusable generic descendant evidence. Requires no Dropbox-specific rule."
+    }
+  ],
   "inputs": {
     "workflowDocs": [
       "docs/workflows/voiceover-refinement.md",

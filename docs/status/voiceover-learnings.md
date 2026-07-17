@@ -25,6 +25,10 @@ decision, tests added or updated, and what future agents must avoid.
   personalized page changes.
 - Prefer Phase C.5 when a complex page makes a broad engine rule feel plausible
   but under-evidenced.
+- When a focused repro already proves the reusable rule, keep a non-exact,
+  high-cost full page as isolated candidate evidence rather than adding it to
+  the canonical corpus. Promote only when Phase E documents distinct,
+  proportionate live-site coverage.
 - Keep mini repro fixtures in
   `packages/sr-engine/tests/fixtures/voiceover-repros/`; do not promote them as
   live-site corpus fixtures.
@@ -33,6 +37,9 @@ decision, tests added or updated, and what future agents must avoid.
   not replayable from the initial fixture DOM.
 - Do not encode site-specific selectors, class names, copy, or layout accidents
   in scanner or engine logic.
+- Treat initial-DOM trust and conditional-state evidence as separate problems:
+  a page can still be a useful candidate even when a focused repro has already
+  accepted the generic behavior.
 
 ## 2026-07-12 Behavior Lab: Modal Dialogs
 
