@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cloudflare Batch 3 banner trailing group C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 860px; }
+      header { border: 1px solid #999; padding: 16px; }
+      .bar { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+      nav, .actions { display: flex; gap: 12px; }
+      .mobile-shell { margin-top: 8px; }
+      .hidden-panel { display: none; }
+      a, button { font: inherit; }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root data-sr-fixture-status="draft">
+      <header>
+        <div class="bar">
+          <a href="/" aria-label="Cloudflare logo">
+            <svg role="img" aria-label="Cloudflare wordmark" width="80" height="24"></svg>
+          </a>
+          <nav aria-label="Main navigation">
+            <a href="/products/" aria-haspopup="true" aria-expanded="false">Products</a>
+            <a href="/solutions/" aria-haspopup="true" aria-expanded="false">Solutions</a>
+            <a href="/resource-hub/" aria-haspopup="true" aria-expanded="false">Resources</a>
+            <a href="/plans/">Pricing</a>
+          </nav>
+          <div class="actions">
+            <a href="/login">Login</a>
+            <a href="/resource/contact-enterprise-sales/">Contact sales</a>
+          </div>
+        </div>
+        <div class="mobile-shell">
+          <a href="/sign-up" tabindex="-1" aria-hidden="true">Start building</a>
+          <astro-island>
+            <div class="hidden-panel">
+              <a href="/login">Login</a>
+            </div>
+            <button type="button" aria-expanded="false" aria-label="Open menu" hidden>
+              <span aria-hidden="true">
+                <span><svg aria-hidden="true" width="12" height="12"></svg></span>
+                <span><svg aria-hidden="true" width="12" height="12"></svg></span>
+              </span>
+            </button>
+          </astro-island>
+        </div>
+      </header>
+      <main tabindex="-1">
+        <h1>Next section</h1>
+        <p>Short main content.</p>
+      </main>
+    </div>
+  </body>
+</html>
