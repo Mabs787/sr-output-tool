@@ -17,6 +17,8 @@
       .card { border: 1px solid #999; padding: 14px; }
       .decor { height: 18px; margin-bottom: 8px; }
       .hidden-mobile { display: none; }
+      .contents { display: contents; }
+      astro-island, astro-slot { display: contents; }
     </style>
   </head>
   <body>
@@ -35,58 +37,67 @@
           <div>
             <div class="actions">
               <a href="https://dash.cloudflare.com/login">Login</a>
-              <a href="/resource/contact-enterprise-sales/">Contact sales</a>
+              <a id="nav-contact-sales-button" href="/resource/contact-enterprise-sales/" data-slot="button">Contact sales</a>
             </div>
             <div>
               <a href="https://dash.cloudflare.com/sign-up" tabindex="-1" aria-hidden="true">Start building</a>
-              <button class="hidden-mobile" type="button" aria-expanded="false" aria-label="Open menu"><span aria-hidden="true"><svg aria-hidden="true"></svg></span></button>
+              <astro-island>
+                <div style="display: none;"><a href="https://dash.cloudflare.com/login">Login</a></div>
+                <button style="display: none;" type="button" aria-expanded="false" aria-label="Open menu"><span aria-hidden="true"><svg aria-hidden="true"></svg></span></button>
+              </astro-island>
             </div>
           </div>
         </div>
       </header>
 
       <main tabindex="-1">
-        <section class="hero">
-          <div>
-            <div aria-hidden="true"><svg aria-hidden="true"></svg></div>
-            <div>
-              <div class="hero-visual">
-                <svg aria-hidden="true" width="120" height="40"></svg>
-                <span>Artifacts</span>
-                <span>Git storage</span>
+        <div class="contents">
+          <div data-product-section="hero" class="contents">
+            <section class="hero">
+              <div>
+                <div aria-hidden="true"><svg aria-hidden="true"></svg></div>
+                <div>
+                  <div>
+                    <div class="hero-visual" data-product="artifacts" data-category="storage">
+                      <svg aria-hidden="true" width="120" height="40"></svg>
+                      <span>Artifacts</span>
+                      <span>Git storage</span>
+                    </div>
+                  </div>
+                  <h1>Artifacts</h1>
+                  <h2>Versioned storage that speaks Git</h2>
+                  <h3>Give your agents and developers a home for code and data.</h3>
+                  <div class="cta-row">
+                    <astro-island><a href="https://dash.cloudflare.com/sign-up"><astro-slot><span>Start building for free</span></astro-slot></a></astro-island>
+                    <astro-island><a href="https://developers.cloudflare.com/"><astro-slot><span>View docs</span></astro-slot></a></astro-island>
+                  </div>
+                </div>
               </div>
-              <h1>Artifacts</h1>
-              <h2>Versioned storage that speaks Git</h2>
-              <h3>Give your agents and developers a home for code and data.</h3>
-              <div class="cta-row">
-                <a href="https://dash.cloudflare.com/sign-up"><span>Start building for free</span></a>
-                <a href="https://developers.cloudflare.com/"><span>View docs</span></a>
-              </div>
-            </div>
+            </section>
           </div>
-        </section>
 
-        <section aria-label="Artifact capabilities">
-          <div class="cards">
-            <div class="card">
-              <div class="decor" aria-hidden="true"><svg aria-hidden="true"></svg></div>
-              <span><svg aria-hidden="true" width="18" height="18"></svg></span>
-              <p><strong>Git-compatible</strong></p>
-              <p><span>Clone, fork, and hand off repos.</span></p>
+          <section aria-label="Artifact capabilities">
+            <div class="cards">
+              <div class="card">
+                <div class="decor" aria-hidden="true"><svg aria-hidden="true"></svg></div>
+                <span><svg aria-hidden="true" width="18" height="18"></svg></span>
+                <p><strong>Git-compatible</strong></p>
+                <p><astro-island><span>Clone, fork, and hand off repos.</span></astro-island></p>
+              </div>
+              <div class="card">
+                <span><svg aria-hidden="true" width="18" height="18"></svg></span>
+                <p><strong>Fast forks</strong></p>
+                <p><astro-island><span>Create isolated workspaces.</span></astro-island></p>
+              </div>
+              <div class="card">
+                <div class="decor" aria-hidden="true"><svg aria-hidden="true"></svg></div>
+                <span><svg aria-hidden="true" width="18" height="18"></svg></span>
+                <p><strong>Token scoped</strong></p>
+                <p><astro-island><span>Issue access for one task.</span></astro-island></p>
+              </div>
             </div>
-            <div class="card">
-              <span><svg aria-hidden="true" width="18" height="18"></svg></span>
-              <p><strong>Fast forks</strong></p>
-              <p><span>Create isolated workspaces.</span></p>
-            </div>
-            <div class="card">
-              <div class="decor" aria-hidden="true"><svg aria-hidden="true"></svg></div>
-              <span><svg aria-hidden="true" width="18" height="18"></svg></span>
-              <p><strong>Token scoped</strong></p>
-              <p><span>Issue access for one task.</span></p>
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
     </div>
   </body>
