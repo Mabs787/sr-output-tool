@@ -3604,6 +3604,122 @@ test("scanSubtree compacts expanded code panel syntax descendants", () => {
   );
 });
 
+test("scanSubtree compacts focusable tokenized pre code as one group stop", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <pre tabindex="0"><code>
+          <span class="line"><span class="token keyword">class</span> <span class="token class-name">CodeSandbox</span> <span class="token keyword">extends</span> <span class="token class-name">Container</span> <span class="token punctuation">{</span></span>
+          <span class="line"><span class="token property">defaultPort</span> <span class="token operator">=</span> <span class="token number">1337</span><span class="token punctuation">;</span></span>
+        </code></pre>
+      </section>
+    `),
+    ["class CodeSandbox extends Container { defaultPort = 1337; group"],
+  );
+});
+
+test("scanSubtree keeps footer legal separators visual and suppresses footer action group", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer>
+        <a href="/privacy">Privacy policy</a><span>|</span>
+        <a href="/security">Report security issues</a><span>|</span>
+        <a href="/terms">Terms of use</a><span>|</span>
+        <a href="/trademark">Trademark</a><span>|</span>
+        <button type="button"><svg aria-hidden="true"></svg><span>Your privacy choices</span></button>
+      </footer>
+    `),
+    [
+      "footer",
+      "link, Privacy policy",
+      "link, Report security issues",
+      "link, Terms of use",
+      "link, Trademark",
+      "Your privacy choices, button",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree adds group suffix for filter and code example action buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section>
+          <p>Filter By:</p>
+          <div><button type="button"><span>All Industries</span><svg aria-hidden="true"></svg></button></div>
+          <div><button type="button"><span>All Regions</span><svg aria-hidden="true"></svg></button></div>
+          <div><button type="button"><span>All Use Cases</span><svg aria-hidden="true"></svg></button></div>
+          <div><button type="button"><span>All Products</span><svg aria-hidden="true"></svg></button></div>
+        </section>
+        <section>
+          <pre tabindex="0"><code><span class="token keyword">class</span> <span class="token class-name">Worker</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+          <button type="button" aria-label="Copy code to clipboard"><svg aria-hidden="true"></svg></button>
+          <button type="button"><p>Define Container</p><span>Define and customize your container.</span></button>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "Filter By:",
+      "All Industries, button, group",
+      "All Regions, button, group",
+      "All Use Cases, button, group",
+      "All Products, button, group",
+      "class Worker {} group",
+      "Copy code to clipboard, button, group",
+      "Define Container Define and customize your container., button, group",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree exposes standalone code badge text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section>
+        <img alt="Background Pattern">
+        <code>Containers</code>
+        <h4>You can use Containers to:</h4>
+      </section>
+    `),
+    [
+      "Background Pattern, image",
+      "Containers",
+      "heading level 4, You can use Containers to:",
+    ],
+  );
+});
+
+test("scanSubtree uses AX descendant casing for paragraph StaticText", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="featured">Featured in</p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "featured",
+              childIds: ["static"],
+            },
+            {
+              nodeId: "static",
+              role: "StaticText",
+              name: "FEATURED IN",
+            },
+          ],
+        },
+      },
+    ),
+    ["FEATURED IN"],
+  );
+});
+
 test("scanSubtree preserves AX-generated trailing punctuation for expanded buttons", () => {
   assert.deepEqual(
     scanHtml(
