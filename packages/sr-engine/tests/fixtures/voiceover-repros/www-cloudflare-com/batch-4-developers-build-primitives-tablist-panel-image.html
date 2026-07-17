@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batch 4 developers Build primitives tablist and panel image C.5</title>
+    <style>
+      body {
+        color: #111;
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 840px;
+      }
+
+      [role="tablist"] {
+        display: flex;
+        gap: 8px;
+        margin-block: 16px;
+      }
+
+      [role="tab"] {
+        background: #fff;
+        border: 1px solid #767676;
+        border-radius: 999px;
+        color: #111;
+        padding: 8px 12px;
+      }
+
+      [role="tab"][aria-selected="true"] {
+        border-color: #111;
+        border-width: 2px;
+      }
+
+      [role="tabpanel"] {
+        border: 1px solid #767676;
+        padding: 16px;
+      }
+
+      .panel-visual {
+        display: block;
+        height: 64px;
+        margin-block-end: 12px;
+        width: 120px;
+      }
+
+      code {
+        display: block;
+        margin-block: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5-draft">
+      <section aria-labelledby="primitives-heading">
+        <h1>Cloudflare Developer Docs</h1>
+        <p>Explore guides and tutorials to start building on Cloudflare's platform.</p>
+
+        <section aria-labelledby="primitives-heading">
+          <h2 id="primitives-heading">Powerful primitives, seamlessly integrated</h2>
+
+          <div role="tablist" aria-label="Build primitives" data-source-dom-node-id="678" data-source-ax-node-id="1208">
+            <button id="tab-compute" type="button" role="tab" aria-selected="true" aria-controls="build-panel-compute" data-source-dom-node-id="680">Compute</button>
+            <button id="tab-ai" type="button" role="tab" aria-selected="false" aria-controls="build-panel-ai" data-source-dom-node-id="682">AI</button>
+            <button id="tab-storage" type="button" role="tab" aria-selected="false" aria-controls="build-panel-storage" data-source-dom-node-id="684">Storage &amp; Databases</button>
+            <button id="tab-media" type="button" role="tab" aria-selected="false" aria-controls="build-panel-media" data-source-dom-node-id="686">Media</button>
+          </div>
+
+          <div id="build-panel-compute" role="tabpanel" aria-labelledby="tab-compute" data-source-dom-node-id="688" data-source-ax-node-id="1218">
+            <svg class="panel-visual" role="img" aria-label="" viewBox="0 0 120 64" data-source-contract="original panel exposed an unnamed image stop before the h3">
+              <rect x="4" y="4" width="112" height="56" fill="none" stroke="currentColor"></rect>
+              <circle cx="28" cy="32" r="12" fill="currentColor"></circle>
+              <path d="M52 24h48M52 40h34" stroke="currentColor" stroke-width="6"></path>
+            </svg>
+            <h3 data-source-dom-node-id="698" data-source-ax-node-id="1232">Deploy with one command</h3>
+            <p>Build and deploy serverless functions on Cloudflare's network.</p>
+            <code>npm create cloudflare@latest my-app</code>
+            <button type="button">Copy to clipboard</button>
+            <p><a href="/workers/">Create your first Worker</a></p>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
