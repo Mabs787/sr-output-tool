@@ -53,27 +53,56 @@
       .example-buttons span {
         display: block;
       }
+
+      pre {
+        border: 1px solid #777;
+        margin: 0;
+        max-width: 480px;
+        overflow: auto;
+        padding: 8px;
+      }
+
+      code span {
+        display: inline;
+      }
     </style>
   </head>
   <body>
     <main data-sr-scan-root data-sr-fixture-status="draft">
-      <section aria-label="Filter examples">
-        <p>Filter By:</p>
-        <div class="button-row">
+      <astro-island>
+        <section>
           <div>
-            <button type="button"><span>All Industries</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+            <p>Filter By:</p>
+            <div class="button-row">
+              <div>
+                <button type="button"><span>All Industries</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+              <div>
+                <button type="button"><span>All Regions</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+              <div>
+                <button type="button"><span>All Use Cases</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+              <div>
+                <button type="button"><span>All Products</span><svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+              </div>
+            </div>
           </div>
+        </section>
+      </astro-island>
+
+      <section>
+        <div>
           <div>
-            <button type="button"><span>All Regions</span><svg aria-hidden="true" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+            <pre tabindex="0"><code><span><span>class</span> <span>CodeSandbox</span> <span>extends</span> <span>Container</span> <span>{</span></span>
+<span><span>defaultPort</span> <span>=</span> <span>1337</span><span>;</span></span>
+<span><span>}</span></span></code></pre>
           </div>
         </div>
-      </section>
-
-      <section aria-label="Code example actions">
         <div>
           <button type="button" aria-label="Copy code to clipboard">
-            <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M5 2h7v10H5z"></path></svg>
-            <svg aria-hidden="true" style="display: none" viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"></path></svg>
+            <svg viewBox="0 0 16 16"><path d="M5 2h7v10H5z"></path></svg>
+            <svg style="display: none" viewBox="0 0 16 16"><path d="M3 8l3 3 7-7"></path></svg>
           </button>
         </div>
         <div class="example-buttons">
