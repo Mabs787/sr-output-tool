@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "019f71a8-cc52-7800-9f66-28971e0c1aac",
+  "target": "_families/button-group-region-state",
+  "runId": "29594033575",
+  "status": "passed",
+  "startedAt": "2026-07-17T19:57:00Z",
+  "finishedAt": "2026-07-17T20:13:16Z",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md",
+      "docs/workflows/agent-receipts.md"
+    ],
+    "phase05Summary": "voiceover-smoke/agent-work/29594033575/_summaries/phase05-compact-compare.json",
+    "sourceCompareFiles": [
+      "/tmp/sr-vo-dropbox-phase05/compares/www-dropbox-com-docsend.json",
+      "/tmp/sr-vo-dropbox-phase05/compares/www-dropbox-com-enterprise.json",
+      "/tmp/sr-vo-dropbox-phase05/compares/www-dropbox-com-replay.json"
+    ],
+    "sourceFixtures": [
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-docsend.expected.json",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-docsend.html",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-docsend.ax.json",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-enterprise.expected.json",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-enterprise.html",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-enterprise.ax.json",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-replay.expected.json",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-replay.html",
+      "packages/sr-engine/tests/fixtures/voiceover/www-dropbox-com-replay.ax.json"
+    ],
+    "scanCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/dropbox-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-region-state.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=45 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0",
+    "downloadCommand": "/opt/homebrew/bin/gh run download 29609806011 --dir /tmp/sr-vo-c5-button-group-region-state-29609806011",
+    "localEngineCheck": "/usr/local/bin/node -e '<scan original repro HTML with packages/sr-engine/dist/index.js>'"
+  },
+  "mismatchFamily": "button/group/region state ordering",
+  "sourceFixtureWindows": [
+    {
+      "target": "www-dropbox-com-docsend",
+      "windows": [3, 4],
+      "trustedVoiceOverSnippet": [
+        "Secure Sharing, dimmed expanded, button",
+        "group",
+        "Secure Sharing, region",
+        "end of, Secure Sharing, region",
+        "Document and Video Analytics, collapsed, button",
+        "group",
+        "group"
+      ],
+      "engineSnippet": [
+        "Secure Sharing, expanded, dimmed, button, group",
+        "region",
+        "end of region",
+        "Document and Video Analytics, collapsed, button, group"
+      ]
+    },
+    {
+      "target": "www-dropbox-com-enterprise",
+      "windows": [3, 4, 5],
+      "trustedVoiceOverSnippet": [
+        "Hyper-vigilance, not just surveillance, dimmed expanded, button",
+        "group",
+        "Hyper-vigilance, not just surveillance, region",
+        "end of, Hyper-vigilance, not just surveillance, region",
+        "Security that stays alert, collapsed, button"
+      ],
+      "engineSnippet": [
+        "Hyper-vigilance, not just surveillance, expanded, dimmed, button, group",
+        "region",
+        "end of region",
+        "Security that stays alert, collapsed, button, group"
+      ]
+    },
+    {
+      "target": "www-dropbox-com-replay",
+      "windows": [4],
+      "trustedVoiceOverSnippet": [
+        "Can l use Replay without upgrading to Dropbox Plus or a higher plan?, collapsed, button",
+        "group",
+        "group",
+        "Can l edit video, audio and images using Replay?, collapsed, button"
+      ],
+      "engineSnippet": [
+        "Can I use Replay without upgrading to Dropbox Plus or a higher plan?, collapsed, button, group",
+        "Can I edit video, audio and images using Replay?, collapsed, button, group"
+      ]
+    }
+  ],
+  "whyC5Required": "The same structural family recurred on three targets; Phase 0.5 could not safely choose between fixture cleanup and a reusable engine rule from complex Dropbox pages alone.",
+  "reproduction": {
+    "path": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-region-state.html",
+    "commit": "d2ec892349d19f3f1fe1fcd382bf2f7228322311",
+    "scanRoot": "[data-sr-scan-root]",
+    "publicHostingUsed": false
+  },
+  "preservedDomContractChecklist": [
+    "input type=checkbox with role=button, aria-expanded, aria-label, aria-controls, checked, and disabled for selected expanded item",
+    "focusable unchecked checkbox-button controls with aria-expanded=false for collapsed items",
+    "label for/control relationship with aria-hidden visible text and decorative presentation svg",
+    "sibling aria-live wrapper containing role=region panels named through aria-labelledby back to the input id",
+    "collapsed panels kept hidden in the source fixture through CSS visibility/height/overflow",
+    "ancestor section regions and sibling order retained to test region start/end and wrapper group stops"
+  ],
+  "originalAxContract": [
+    "docsend AX button 2108 name 'Secure Sharing ' expanded=true disabled=true controls selected region; AX region 2105 name 'Secure Sharing '; collapsed AX buttons 2138/2168 expanded=false focusable=true",
+    "enterprise AX button 2686 name 'Hyper-vigilance, not just surveillance' expanded=true disabled=true controls selected region; AX region 2683 same name; collapsed AX buttons 2715/2744 expanded=false focusable=true",
+    "replay AX buttons 1726/1743/1756/1770/1784 are focusable role=button expanded=false, with question text names"
+  ],
+  "contentShorteningNotes": [
+    "Long Dropbox labels and marketing copy were shortened to Alpha/Beta/Gamma and short FAQ text because the disputed behavior is role/state/group/region ordering, not text length.",
+    "One image and one link were retained inside the expanded region so end-of-region behavior was tested after real children."
+  ],
+  "omittedPageContext": [
+    "Navigation, consent iframe, hero content, carousels, footer, scripts, analytics, and decorative layout wrappers were omitted because they are outside the disputed accordion/button AX contract.",
+    "Dropbox-specific selectors, product names, and layout classes were not preserved; the repro uses only generic semantics needed for the contract."
+  ],
+  "scanWorkflow": {
+    "workflowRunId": "29609806011",
+    "workflowUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/29609806011",
+    "artifactPath": "/tmp/sr-vo-c5-button-group-region-state-29609806011/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-families-button-group-region-state",
+    "runStatus": "completed",
+    "runConclusion": "success",
+    "artifactComplete": true,
+    "waitPollTimeline": [
+      "Spawned run 29609806011, then waited five minutes before first status check.",
+      "First poll after required wait: in_progress in Run VoiceOver scan.",
+      "Second poll after one minute: in_progress in Run VoiceOver scan.",
+      "Final poll after checkpoint: completed success at 2026-07-17T20:10:28Z."
+    ]
+  },
+  "miniRawVoiceOverOutput": [
+    "heading level 2, Shared accordion controls",
+    "Short lead text before the controls.",
+    "Expanded selected checkbox-button with region, region",
+    "Alpha sharing, dimmed expanded, button",
+    "Alpha sharing, region",
+    "Panel text for the selected item.",
+    "link, Learn more",
+    "Panel preview, image",
+    "end of, Alpha sharing, region",
+    "Beta analytics, collapsed, button",
+    "Gamma features, collapsed, button",
+    "end of, Expanded selected checkbox-button with region, region",
+    "heading level 3, FAQ controls",
+    "Collapsed FAQ checkbox-button series, region",
+    "Can l use the demo?, collapsed, button",
+    "Where are files stored?, collapsed, button",
+    "end of, Collapsed FAQ checkbox-button series, region"
+  ],
+  "miniRenderedHtmlEvidenceSummary": "Rendered scan root preserved checkbox role=button controls, aria-expanded states, aria-controls, label for relationships, aria-live wrappers, role=region panels, section regions, link, and image. The workflow reducer stripped class/CSS hiding from collapsed panels, so reducer-only hidden text in engine-traversal-debug is excluded from the supported verdict.",
+  "miniAxEvidenceSummary": "The mini artifact accessibility-tree.json contained zero nodes and step-snapshots.json had capturedSteps=0 despite capture_step_snapshots=true. This is recorded as a limitation; the reusable AX contract above comes from the original three site AX captures plus the mini VoiceOver output.",
+  "miniStepSnapshotEvidenceSummary": "step-snapshots.json exists but contains zero snapshots. VoiceOver sources include caption text for each relevant announcement and screenshots were uploaded.",
+  "miniEngineOutput": {
+    "runnerReducedHtmlEngineHighlights": [
+      "Alpha sharing, expanded, dimmed, button, group",
+      "region",
+      "end of region",
+      "Beta analytics, collapsed, button, group",
+      "Can I use the demo?, collapsed, button, group"
+    ],
+    "localOriginalHtmlEngineHighlights": [
+      "Alpha sharing, expanded, dimmed, button, group",
+      "region",
+      "end of region",
+      "group",
+      "Beta analytics, collapsed, button, group",
+      "Can I use the demo?, collapsed, button, group"
+    ]
+  },
+  "decisions": [
+    "Mini VoiceOver reproduces the original VoiceOver ordering for selected disabled expanded checkbox-button: name, dimmed expanded, button; no trailing group suffix.",
+    "Mini VoiceOver reproduces named region start/end: Alpha sharing, region and end of, Alpha sharing, region.",
+    "Mini VoiceOver reproduces collapsed checkbox-button output without trailing group suffix; engine currently appends group and emits extra wrapper group stops.",
+    "Runner reduced HTML hidden-text output is not used as source of truth because the reducer dropped the CSS hidden class.",
+    "No reusable engine, scanner, site fixture, raw artifact, refinedAnnouncements, docs, or promoted fixture files were modified."
+  ],
+  "conclusion": "engine-gap-confirmed",
+  "verdict": "engine-ready",
+  "supportedScope": [
+    "Generic checkbox input role=button controls with aria-expanded true/false and aria-label/aria-controls.",
+    "Selected expanded control with checked+disabled maps to VoiceOver state order 'dimmed expanded, button'.",
+    "Named role=region whose aria-labelledby points at the controlling input should announce region name at start and end.",
+    "Do not emit trailing group suffix for these controls solely because of adjacent label/wrapper/aria-live DOM."
+  ],
+  "limitations": [
+    "Mini AX tree and step snapshots were empty, so Phase D should use original site AX evidence plus focused unit tests rather than treating this mini artifact as complete AX proof.",
+    "Do not generalize to unrelated native button, disclosure, details/summary, carousel, or Dropbox selector/text/layout rules."
+  ],
+  "fixtureChanges": [],
+  "nextPhase": "engine-refiner",
+  "handoffReason": "Return the narrow checkbox-button/group/region state-order contract to Phase D with focused unit coverage; fixture evidence is not the blocker for this family.",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "engine-refiner",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Implement only the generic checkbox role=button state-order, wrapper-group suppression, and named region start/end behavior proven here.",
+    "c5Needed": false,
+    "reason": "VoiceOver-backed mini repro confirms the recurring family while original site AX supplies the missing AX contract."
+  }
+}

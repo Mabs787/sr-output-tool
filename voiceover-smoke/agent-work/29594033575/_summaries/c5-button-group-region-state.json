@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5-summary",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "019f71a8-cc52-7800-9f66-28971e0c1aac",
+  "target": "_families/button-group-region-state",
+  "runId": "29594033575",
+  "status": "passed",
+  "startedAt": "2026-07-17T19:57:00Z",
+  "finishedAt": "2026-07-17T20:13:16Z",
+  "verdict": "engine-ready",
+  "conclusion": "engine-gap-confirmed",
+  "workflowRunId": "29609806011",
+  "repro": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-region-state.html",
+  "receipt": "voiceover-smoke/agent-work/29594033575/_families/button-group-region-state/04-minimal-reproduction-scan.json",
+  "supportedScope": "Generic checkbox input role=button accordion controls with aria-expanded, checked/disabled selected state, label/control relationship, aria-live wrapper, and named role=region via aria-labelledby. VoiceOver orders selected disabled expanded state as 'dimmed expanded, button', names region starts/ends, and does not append group to collapsed controls.",
+  "primaryEvidence": [
+    "Mini VoiceOver: Alpha sharing, dimmed expanded, button",
+    "Mini VoiceOver: Alpha sharing, region",
+    "Mini VoiceOver: end of, Alpha sharing, region",
+    "Mini VoiceOver: Beta analytics, collapsed, button",
+    "Local engine: Alpha sharing, expanded, dimmed, button, group",
+    "Local engine: region",
+    "Local engine: end of region",
+    "Local engine: Beta analytics, collapsed, button, group"
+  ],
+  "limitations": [
+    "Mini accessibility-tree.json had zero nodes and step-snapshots.json had zero snapshots despite capture_step_snapshots=true.",
+    "Original three site AX captures provide the AX contract; do not promote the mini repro as a corpus fixture.",
+    "Runner reduced HTML stripped hidden CSS classes, so hidden panel text in runner engine debug is excluded from the verdict."
+  ],
+  "routeBack": {
+    "to": "engine-refiner",
+    "reason": "Reusable engine behavior is supported for the narrow DOM/AX contract; no Dropbox-specific selector, text, or layout rule is supported.",
+    "unitCoverageSketch": [
+      "checkbox role=button aria-expanded=true checked disabled announces name, dimmed expanded, button without group suffix",
+      "checkbox role=button aria-expanded=false with label/aria-live sibling announces collapsed, button without group suffix or extra wrapper stops",
+      "role=region aria-labelledby controlling input emits named region start and end"
+    ]
+  },
+  "fixtureChanges": [],
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Button/group/region state ordering only for generic checkbox role=button accordion contract.",
+    "c5Needed": false,
+    "reason": "Focused VoiceOver-backed repro confirmed the family."
+  }
+}
