@@ -3,35 +3,80 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cloudflare footer separator and privacy button C.5</title>
+    <title>Cloudflare footer legal separators and privacy button C.5</title>
     <style>
-      body { font-family: Arial, sans-serif; margin: 24px; }
-      [data-sr-scan-root] { max-width: 760px; }
-      footer { border-top: 1px solid #777; padding-top: 16px; }
-      .legal { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-      .separator { color: #555; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 880px;
+      }
+
+      footer {
+        border-top: 1px solid #777;
+        padding-top: 16px;
+      }
+
+      .footer-wordmark {
+        margin-bottom: 16px;
+      }
+
+      .footer-tail,
+      .legal-links,
+      .privacy-shell {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .separator {
+        color: #555;
+      }
+
+      .privacy-button {
+        align-items: center;
+        display: inline-flex;
+        gap: 4px;
+      }
+
+      .privacy-button svg {
+        height: 16px;
+        width: 16px;
+      }
     </style>
   </head>
   <body>
     <main data-sr-scan-root data-sr-fixture-status="draft">
-      <h1>Footer separator and privacy button</h1>
       <footer>
-        <nav aria-label="Legal">
-          <div class="legal">
-            <a href="#privacy">Privacy Policy</a>
-            <span class="separator">|</span>
-            <a href="#terms">Terms of Use</a>
-            <span class="separator">|</span>
-            <a href="#trust">Trust and Safety</a>
-            <span class="separator">|</span>
-            <button type="button" class="privacy-button">
-              <svg role="img" aria-hidden="true" viewBox="0 0 16 16">
-                <circle cx="8" cy="8" r="6"></circle>
-              </svg>
-              <span>Your privacy choices</span>
-            </button>
+        <div>
+          <div class="footer-wordmark">
+            <svg aria-label="Cloudflare wordmark" role="img" viewBox="0 0 120 24">
+              <title>Cloudflare wordmark</title>
+              <rect x="2" y="8" width="36" height="10"></rect>
+            </svg>
           </div>
-        </nav>
+          <div class="footer-tail">
+            <span>© 2026 Cloudflare, Inc.</span>
+            <div class="privacy-shell">
+              <div class="legal-links">
+                <a href="/policies/privacy/">Privacy policy</a><span class="separator">|</span><a href="https://www.cloudflare.com/disclosure/">Report security issues</a><span class="separator">|</span><a href="/policies/terms/">Terms of use</a><span class="separator">|</span><a href="https://www.cloudflare.com/trademark/">Trademark</a>
+              </div>
+              <span class="separator">|</span>
+              <astro-island>
+                <button type="button" class="privacy-button">
+                  <svg aria-hidden="true" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="7"></circle>
+                    <path d="M5 8h6M8 5v6"></path>
+                  </svg>
+                  <span>Your privacy choices</span>
+                </button>
+              </astro-island>
+            </div>
+          </div>
+        </div>
       </footer>
     </main>
   </body>
