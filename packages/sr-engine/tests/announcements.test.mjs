@@ -254,6 +254,16 @@ test("generateAnnouncement formats headings, links, and table cells", () => {
   assert.equal(
     generateAnnouncement({
       role: "link",
+      name: "Products",
+      hasPopup: "menu",
+      expanded: false,
+    }),
+    "menu pop up collapsed, link, Products",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
       name: "Ready for kick-off?. Shop now.",
       linkHeadingLevel: 3,
     }),

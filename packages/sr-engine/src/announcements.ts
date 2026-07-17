@@ -461,8 +461,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         }
       }
       if (popupType && el.expanded !== undefined) {
-        parts.push(popupType);
-        parts.push(el.expanded ? "expanded" : "collapsed");
+        parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
       }
       if (!popupType && el.expanded !== undefined) {
         parts.push(el.expanded ? "expanded" : "collapsed");

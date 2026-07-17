@@ -251,6 +251,100 @@ test("scanSubtree splits AX linebreak static text runs in inline text", () => {
   );
 });
 
+test("scanSubtree keeps visible small status text as one stop", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <button>See all roles</button>
+          <small data-sr-dom-node-id="count">Showing 6 of 268 roles. Use "See all roles" to browse everything.</small>
+          <h3>Cloudflare Capabilities</h3>
+        </div>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "count",
+              role: "generic",
+              name: "",
+              domNodeId: "count",
+              childIds: ["count-1", "count-2", "count-3", "count-4"],
+            },
+            { nodeId: "count-1", role: "StaticText", name: "Showing " },
+            { nodeId: "count-2", role: "StaticText", name: "6" },
+            { nodeId: "count-3", role: "StaticText", name: " of 268 " },
+            {
+              nodeId: "count-4",
+              role: "StaticText",
+              name: "roles. Use \"See all roles\" to browse everything.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "See all roles, button",
+      "Showing 6 of 268 roles. Use \"See all roles\" to browse everything.",
+      "heading level 3, Cloudflare Capabilities",
+    ],
+  );
+});
+
+test("scanSubtree traverses standalone inline emphasis siblings as text stops", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <span>Cloudflare employees come from all walks of life. Our team is energized by a </span>
+          <strong data-sr-dom-node-id="collab">collaborative</strong>
+          <span>, </span>
+          <strong data-sr-dom-node-id="creative">creative</strong>
+          <span> environment that celebrates our differences and fosters new ways to </span>
+          <strong data-sr-dom-node-id="grow">grow together.</strong>
+        </div>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "collab",
+              role: "strong",
+              name: "",
+              domNodeId: "collab",
+              childIds: ["collab-text"],
+            },
+            { nodeId: "collab-text", role: "StaticText", name: "collaborative" },
+            {
+              nodeId: "creative",
+              role: "strong",
+              name: "",
+              domNodeId: "creative",
+              childIds: ["creative-text"],
+            },
+            { nodeId: "creative-text", role: "StaticText", name: "creative" },
+            {
+              nodeId: "grow",
+              role: "strong",
+              name: "",
+              domNodeId: "grow",
+              childIds: ["grow-text"],
+            },
+            { nodeId: "grow-text", role: "StaticText", name: "grow together." },
+          ],
+        },
+      },
+    ),
+    [
+      "Cloudflare employees come from all walks of life. Our team is energized by a",
+      "collaborative",
+      "creative",
+      "environment that celebrates our differences and fosters new ways to",
+      "grow together.",
+    ],
+  );
+});
+
 test("scanSubtree uses AX-rendered casing for figcaption text", () => {
   assert.deepEqual(
     scanHtml(

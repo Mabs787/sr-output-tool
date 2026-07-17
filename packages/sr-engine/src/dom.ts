@@ -404,6 +404,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (normalize(fragments.join(" ")) !== text) return undefined;
     if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment))) return undefined;
     if (/^\S+\s+\p{N}+\s*[–-]\s*\p{N}+\s+of\s+\p{N}+$/iu.test(text)) return undefined;
+    if (/^Showing\s+\p{N}+\s+of\s+\p{N}+\b/iu.test(text)) return undefined;
 
     return fragments;
   }
@@ -2578,6 +2579,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return /^[\p{Extended_Pictographic}\uFE0F\s]+$/u.test(text);
   }
 
+  function isPunctuationOnlyBetweenInlineEmphasis(el: any, role: string): boolean {
+    if (role !== "text") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (!["span", "small"].includes(el.tagName?.toLowerCase())) return false;
+    const text = normalize(readableText(el) || el.textContent);
+    if (!text || /[\p{L}\p{N}]/u.test(text)) return false;
+
+    const emphasisSelector = "strong, b, em, i";
+    const previous = previousVisibleElementSibling(el);
+    const next = nextVisibleElementSibling(el);
+    return Boolean(
+      previous?.matches?.(emphasisSelector) &&
+        next?.matches?.(emphasisSelector) &&
+        normalize(readableText(previous)) &&
+        normalize(readableText(next)),
+    );
+  }
+
   function joinedPriceDisclosureText(el: any): string | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     if (el.tagName.toLowerCase() !== "div") return undefined;
@@ -4676,7 +4695,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       tag === "figcaption" ||
       tag === "time" ||
       (tag === "small" &&
-        (inlineSemanticTextLinkFragments(el) || isDirectTextChildOfNamedSectionFooter(el))) ||
+        (inlineSemanticTextLinkFragments(el) ||
+          isDirectTextChildOfNamedSectionFooter(el) ||
+          (!el.closest(interactiveSelector) &&
+            !el.querySelector(interactiveSelector) &&
+            /^Showing\s+\p{N}+\s+of\s+\p{N}+\b/iu.test(normalize(readableText(el) || el.textContent) || "") &&
+            Boolean(normalize(readableText(el) || el.textContent))))) ||
       isRichProductCardOfferBanner(el) ||
       isStructuredListBodyText(el) ||
       isInteractiveListBodyText(el) ||
@@ -4684,6 +4708,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       inlinePhrasingBoundaryFragments(el)
     ) {
       return "paragraph";
+    }
+    if (
+      ["strong", "b", "em", "i"].includes(tag) &&
+      !el.closest(interactiveSelector) &&
+      !el.closest("li,[role='listitem']") &&
+      !el.querySelector(interactiveSelector) &&
+      Boolean(normalize(readableText(el) || el.textContent))
+    ) {
+      return "text";
     }
     if (joinedPriceDisclosureText(el)) return "text";
     if (groupedMetricCardText(el)) return "text";
@@ -10134,7 +10167,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (expandedRegion && normalizedFragments.length < 2) {
       return undefined;
     }
-    if (!expandedRegion && normalizedFragments.join(" ") !== normalizedFullText) {
+    const comparable = (value?: string) =>
+      normalize(value)?.replace(/\s+([,;:!?]|\.(?![\p{L}\p{N}]))/gu, "$1");
+    if (!expandedRegion && comparable(normalizedFragments.join(" ")) !== comparable(normalizedFullText)) {
       return undefined;
     }
 
@@ -13496,6 +13531,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (isDecorativeEmojiText(el, role)) {
+      return false;
+    }
+
+    if (isPunctuationOnlyBetweenInlineEmphasis(el, role)) {
       return false;
     }
 
