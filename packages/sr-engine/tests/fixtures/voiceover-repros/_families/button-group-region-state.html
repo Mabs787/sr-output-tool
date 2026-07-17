@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Button group region state ordering C.5</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 32px;
+      }
+
+      .accordion-item {
+        margin: 12px 0;
+      }
+
+      .control-row {
+        display: block;
+      }
+
+      .control-row label {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .icon {
+        width: 1em;
+        height: 1em;
+      }
+
+      .panel {
+        margin: 8px 0 16px 20px;
+      }
+
+      .is-hidden {
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h2>Shared accordion controls</h2>
+      <p>Short lead text before the controls.</p>
+
+      <section aria-label="Expanded selected checkbox-button with region">
+        <div class="accordion-item" data-source-targets="www-dropbox-com-docsend www-dropbox-com-enterprise">
+          <div class="control-row">
+            <input
+              type="checkbox"
+              id="selected-control"
+              name="state-order-demo"
+              role="button"
+              aria-expanded="true"
+              aria-label="Alpha sharing"
+              aria-controls="selected-control-region"
+              checked
+              disabled>
+            <div>
+              <label for="selected-control">
+                <span aria-hidden="true">Alpha sharing</span>
+                <span class="icon" aria-hidden="true">
+                  <svg role="presentation" width="16" height="16" viewBox="0 0 16 16">
+                    <path d="M4 6l4 4 4-4"></path>
+                  </svg>
+                </span>
+              </label>
+              <div aria-live="polite">
+                <div
+                  role="region"
+                  id="selected-control-region"
+                  aria-labelledby="selected-control"
+                  class="panel">
+                  <p>Panel text for the selected item.</p>
+                  <a href="#alpha-more">Learn more</a>
+                  <img
+                    alt="Panel preview"
+                    width="80"
+                    height="40"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23dbeafe'/%3E%3C/svg%3E">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" data-source-targets="www-dropbox-com-docsend www-dropbox-com-enterprise">
+          <input
+            type="checkbox"
+            id="collapsed-one"
+            name="state-order-demo"
+            role="button"
+            aria-expanded="false"
+            aria-label="Beta analytics"
+            aria-controls="collapsed-one-region">
+          <div>
+            <label for="collapsed-one">
+              <span aria-hidden="true">Beta analytics</span>
+              <span class="icon" aria-hidden="true">
+                <svg role="presentation" width="16" height="16" viewBox="0 0 16 16">
+                  <path d="M4 6l4 4 4-4"></path>
+                </svg>
+              </span>
+            </label>
+            <div aria-live="polite">
+              <div
+                role="region"
+                id="collapsed-one-region"
+                aria-labelledby="collapsed-one"
+                class="panel is-hidden">
+                <p>Hidden beta panel text.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item" data-source-targets="www-dropbox-com-docsend www-dropbox-com-enterprise">
+          <input
+            type="checkbox"
+            id="collapsed-two"
+            name="state-order-demo"
+            role="button"
+            aria-expanded="false"
+            aria-label="Gamma features"
+            aria-controls="collapsed-two-region">
+          <div>
+            <label for="collapsed-two">
+              <span aria-hidden="true">Gamma features</span>
+              <span class="icon" aria-hidden="true">
+                <svg role="presentation" width="16" height="16" viewBox="0 0 16 16">
+                  <path d="M4 6l4 4 4-4"></path>
+                </svg>
+              </span>
+            </label>
+            <div aria-live="polite">
+              <div
+                role="region"
+                id="collapsed-two-region"
+                aria-labelledby="collapsed-two"
+                class="panel is-hidden">
+                <p>Hidden gamma panel text.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <h3>FAQ controls</h3>
+      <section aria-label="Collapsed FAQ checkbox-button series" data-source-targets="www-dropbox-com-replay">
+        <div class="accordion-item">
+          <input
+            type="checkbox"
+            id="faq-one"
+            name="faq-demo"
+            role="button"
+            aria-expanded="false"
+            aria-label="Can I use the demo?"
+            aria-controls="faq-one-region">
+          <div>
+            <label for="faq-one">
+              <span aria-hidden="true">Can I use the demo?</span>
+              <span class="icon" aria-hidden="true">
+                <svg role="presentation" width="16" height="16" viewBox="0 0 16 16">
+                  <path d="M4 6l4 4 4-4"></path>
+                </svg>
+              </span>
+            </label>
+            <div aria-live="polite">
+              <div
+                role="region"
+                id="faq-one-region"
+                aria-labelledby="faq-one"
+                class="panel is-hidden">
+                <p>Hidden answer one.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <input
+            type="checkbox"
+            id="faq-two"
+            name="faq-demo"
+            role="button"
+            aria-expanded="false"
+            aria-label="Where are files stored?"
+            aria-controls="faq-two-region">
+          <div>
+            <label for="faq-two">
+              <span aria-hidden="true">Where are files stored?</span>
+              <span class="icon" aria-hidden="true">
+                <svg role="presentation" width="16" height="16" viewBox="0 0 16 16">
+                  <path d="M4 6l4 4 4-4"></path>
+                </svg>
+              </span>
+            </label>
+            <div aria-live="polite">
+              <div
+                role="region"
+                id="faq-two-region"
+                aria-labelledby="faq-two"
+                class="panel is-hidden">
+                <p>Hidden answer two.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
