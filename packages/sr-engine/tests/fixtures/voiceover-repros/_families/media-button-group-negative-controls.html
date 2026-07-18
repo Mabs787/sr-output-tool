@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Media button group negative controls</title>
+    <style>
+      body {
+        font: 16px/1.4 system-ui, sans-serif;
+        margin: 32px;
+      }
+
+      main {
+        max-width: 760px;
+      }
+
+      .control-row,
+      .carousel-controls {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, max-content));
+        gap: 12px;
+        margin: 16px 0;
+      }
+
+      .media-button {
+        align-items: center;
+        background: white;
+        border: 1px solid currentColor;
+        color: black;
+        display: block;
+        min-height: 44px;
+        min-width: 120px;
+        padding: 8px;
+      }
+
+      .media-button svg {
+        display: block;
+        fill: currentColor;
+        flex-shrink: 0;
+        height: 16px;
+        width: 16px;
+      }
+
+      [role="group"][aria-roledescription="slide"] {
+        border: 1px solid #999;
+        margin-top: 12px;
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Media control examples</h1>
+      <p>Short lead text.</p>
+
+      <section aria-label="Filter controls">
+        <h2>Filter controls</h2>
+        <div class="control-row">
+          <button type="button">Engineering</button>
+          <button type="button" aria-label="Search" class="media-button">
+            <svg viewBox="0 0 16 16">
+              <circle cx="7" cy="7" r="5"></circle>
+              <path d="M10.5 10.5 L15 15"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section aria-label="Feature carousel">
+        <h2>Feature carousel</h2>
+        <div id="carousel-control-grid" class="carousel-controls">
+          <button type="button" aria-label="previous" class="media-button">
+            <svg viewBox="0 0 9 15" style="width:16px;height:16px;display:block;fill:inherit;flex-shrink:0">
+              <path d="M8 1 L2 7.5 L8 14"></path>
+            </svg>
+          </button>
+          <button type="button" aria-label="next" class="media-button">
+            <svg viewBox="0 0 9 15" style="width:16px;height:16px;display:block;fill:inherit;flex-shrink:0">
+              <path d="M1 1 L7 7.5 L1 14"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div role="group" aria-roledescription="slide" aria-label="1 of 2">
+          <h3>Slide alpha</h3>
+          <p>Compact slide text.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

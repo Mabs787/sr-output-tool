@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anonymous footer trailing group boundary C.5</title>
+    <style>
+      body {
+        margin: 24px;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      .before-footer-panel,
+      .footer-shell,
+      .after-footer-shell {
+        display: block;
+      }
+
+      .cta-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .button-link {
+        display: flex;
+        width: max-content;
+      }
+
+      .pagination ul,
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .footer-columns {
+        display: flex;
+        gap: 24px;
+      }
+
+      .visually-offscreen {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root data-sr-fixture-status="draft">
+      <main>
+        <h1>Example product</h1>
+
+        <section class="cta-panel">
+          <h2>Also available elsewhere.</h2>
+          <p>Short supporting text.</p>
+          <a class="button-link" href="#app">Get the app</a>
+        </section>
+
+        <section aria-labelledby="items-heading">
+          <h2 id="items-heading">Browse items</h2>
+          <nav class="pagination" aria-label="Pagination">
+            <ul>
+              <li hidden><a href="#previous" aria-label="Previous page"><span aria-hidden="true">&lt;</span></a></li>
+              <li><a href="#page-1" aria-current="page">1</a></li>
+              <li><a href="#page-2">2</a></li>
+              <li><a href="#page-3">3</a></li>
+              <li><a href="#next" aria-label="Next page"><span aria-hidden="true">&gt;</span></a></li>
+            </ul>
+          </nav>
+          <p>Short notice near the end of main.</p>
+        </section>
+
+        <article aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Questions</h2>
+          <details>
+            <summary>
+              <div><p>Can this sync with a calendar?</p></div>
+              <div><span aria-hidden="true">+</span></div>
+            </summary>
+            <p>Yes.</p>
+          </details>
+        </article>
+      </main>
+
+      <div class="before-footer-panel">
+        <div role="status" class="visually-offscreen"><p></p></div>
+      </div>
+
+      <div class="footer-shell">
+        <footer>
+          <nav aria-label="Footer">
+            <div>
+              <a aria-label="Example home" href="#home">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="4" y="4" width="16" height="16"></rect>
+                </svg>
+              </a>
+            </div>
+
+            <ul class="footer-links" aria-label="Social media" role="list">
+              <li><a aria-label="Social A" href="#social-a"><span aria-hidden="true">A</span><span aria-hidden="true"></span></a></li>
+              <li><a aria-label="Social B" href="#social-b"><span aria-hidden="true">B</span><span aria-hidden="true"></span></a></li>
+            </ul>
+
+            <div>
+              <button type="button" aria-expanded="false" aria-haspopup="dialog">
+                <span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5"></circle></svg>English</span>
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" role="graphics-symbol"><path d="M2 4l4 4 4-4"></path></svg>
+              </button>
+              <div role="dialog" aria-label="Change language" hidden>
+                <span role="status" aria-live="polite"></span>
+                <input type="search" role="combobox" aria-label="Search languages" aria-expanded="true" aria-controls="languages" aria-autocomplete="list">
+                <ul id="languages" role="listbox" aria-label="Languages">
+                  <li><a role="option" aria-selected="true" aria-current="true" href="#en"><span>English</span></a></li>
+                  <li><a role="option" aria-selected="false" href="#fr"><span>French</span></a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="footer-columns">
+              <ul class="footer-links" aria-labelledby="company-heading">
+                <li role="none" id="company-heading">Company</li>
+                <li><a href="#about"><span>About</span></a></li>
+                <li><a href="#security"><span>Security</span></a></li>
+              </ul>
+              <ul class="footer-links" aria-labelledby="download-heading">
+                <li role="none" id="download-heading">Download</li>
+                <li><a href="#mobile"><span>Mobile</span></a></li>
+                <li><a href="#desktop"><span>Desktop</span></a></li>
+              </ul>
+              <ul class="footer-links" aria-labelledby="more-heading">
+                <li role="none" id="more-heading">More</li>
+                <li><a href="#enterprise"><span>Enterprise</span></a></li>
+                <li><a href="#teams"><span>Teams</span></a></li>
+                <li><a href="#explore"><span>Explore more<span aria-hidden="true">&gt;</span></span></a></li>
+              </ul>
+            </div>
+          </nav>
+        </footer>
+      </div>
+
+      <div class="after-footer-shell">
+        <iframe title="hidden locator" hidden></iframe>
+        <div></div>
+        <div><p aria-live="assertive" role="alert" class="visually-offscreen"></p></div>
+      </div>
+    </div>
+  </body>
+</html>
