@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Footer list itemization repro</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 24px;
+      }
+
+      .hidden-menu {
+        visibility: hidden;
+      }
+
+      svg {
+        width: 1em;
+        height: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root>
+      <nav aria-label="Main">
+        <div id="resources">
+          <button type="button" aria-haspopup="true" aria-expanded="false">Resources</button>
+          <div class="hidden-menu" aria-hidden="true">
+            <ul>
+              <li>Browse</li>
+              <li><a href="#templates">Templates</a></li>
+              <li><a href="#guides">Guides</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <p>End of page content.</p>
+      </main>
+
+      <footer>
+        <nav aria-label="Footer">
+          <div>
+            <a href="#home" aria-label="Site home">
+              <svg aria-hidden="true" focusable="false"></svg>
+            </a>
+          </div>
+
+          <ul aria-label="Social media" role="list">
+            <li>
+              <a href="#social-a" aria-label="Social A">
+                <span aria-hidden="true"><svg focusable="false"></svg></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#social-b" aria-label="Social B">
+                <span aria-hidden="true"><svg focusable="false"></svg></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </li>
+          </ul>
+
+          <button type="button" aria-expanded="false" aria-haspopup="dialog">
+            <span><svg aria-hidden="true" focusable="false"></svg>English</span>
+          </button>
+
+          <ul aria-labelledby="company">
+            <li role="none" id="company">Company</li>
+            <li><a href="#about"><span>About</span></a></li>
+            <li><a href="#careers"><span>Careers</span></a></li>
+          </ul>
+
+          <ul aria-labelledby="download">
+            <li role="none" id="download">Download</li>
+            <li><a href="#mobile"><span>Mobile</span></a></li>
+            <li><a href="#desktop"><span>Desktop</span></a></li>
+          </ul>
+
+          <ul aria-labelledby="resources">
+            <li role="none" id="resources">Resources</li>
+            <li><a href="#help"><span>Help</span></a></li>
+            <li><a href="#blog"><span>Blog</span></a></li>
+          </ul>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>
