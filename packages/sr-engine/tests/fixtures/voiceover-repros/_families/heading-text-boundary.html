@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heading text boundary C.5</title>
+    <style>
+      body {
+        margin: 24px;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 720px;
+      }
+
+      section {
+        margin: 20px 0;
+      }
+
+      .card {
+        border: 1px solid #999;
+        padding: 12px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5">
+      <h1>
+        Alpha teams
+        <span><span><em>Plan</em></span></span>
+        together.
+      </h1>
+
+      <section aria-label="Break boundaries">
+        <h2>Line one<br>Line two</h2>
+        <p>Short paragraph after the break heading.</p>
+      </section>
+
+      <section aria-label="Linked heading cards">
+        <article class="card" aria-labelledby="linked-heading">
+          <header>
+            <span>
+              <h2 id="linked-heading">
+                <a href="#linked">Roadmap</a>
+              </h2>
+            </span>
+            <span>
+              <h3>7 tasks</h3>
+            </span>
+          </header>
+          <p>Card body.</p>
+        </article>
+      </section>
+
+      <section aria-label="Adjacent text nodes">
+        <article class="card" aria-labelledby="plan-heading">
+          <h3 id="plan-heading">Team<span>Ready</span></h3>
+          <p>Adjacent text nodes have no authored space.</p>
+        </article>
+      </section>
+
+      <section aria-label="Hidden heading text">
+        <h2>
+          Visible
+          <span class="sr-only">screen reader</span>
+          <span aria-hidden="true">ignored</span>
+          <span class="hidden">display none</span>
+          title
+        </h2>
+      </section>
+
+      <section aria-label="Markdown fragments">
+        <h2>
+          <span>Markdown</span>
+          <strong>strong</strong>
+          <span>tail</span>
+        </h2>
+      </section>
+    </main>
+  </body>
+</html>
