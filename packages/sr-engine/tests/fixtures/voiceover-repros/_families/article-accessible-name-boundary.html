@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article accessible name boundary C.5</title>
+    <style>
+      body {
+        margin: 24px;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      section {
+        margin: 24px 0;
+      }
+
+      article {
+        border: 1px solid #999;
+        margin: 12px 0;
+        padding: 12px;
+      }
+
+      .media {
+        display: block;
+        width: 96px;
+        height: 54px;
+        background: #ddd;
+      }
+
+      .overlay-link {
+        display: block;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5">
+      <section aria-label="Labelled article cards">
+        <h2>Plans</h2>
+        <article aria-labelledby="plan-business">
+          <div>
+            <h3 id="plan-business">Business<span>Recommended</span></h3>
+            <p>For growing teams.</p>
+            <ul>
+              <li>Shared docs</li>
+              <li>Team spaces</li>
+            </ul>
+            <a href="#start">Get started</a>
+          </div>
+        </article>
+
+        <article aria-labelledby="plan-enterprise">
+          <div>
+            <h3 id="plan-enterprise">Enterprise<span>*</span></h3>
+            <p>For large teams.</p>
+          </div>
+        </article>
+      </section>
+
+      <section aria-label="Story cards">
+        <article>
+          <a class="overlay-link" href="#story-one"></a>
+          <div>
+            <span>Featured Story</span>
+            <h2>Alpha Case Study</h2>
+            <img alt="black logo for Alpha" class="media">
+          </div>
+          <div>
+            <img alt="hero image for Alpha story" class="media">
+          </div>
+        </article>
+
+        <article>
+          <figure>
+            <img alt="" class="media">
+            <figcaption>
+              <a href="#guide">Team launch guide</a>
+            </figcaption>
+          </figure>
+        </article>
+      </section>
+
+      <section aria-label="Callout article">
+        <nav aria-label="Pagination">
+          <ul>
+            <li><a href="#page-one" aria-current="page">1</a></li>
+            <li><a href="#page-two">2</a></li>
+            <li><a href="#next" aria-label="Next page">Next</a></li>
+          </ul>
+        </nav>
+
+        <article>
+          <div>
+            <h2>Share your workflow</h2>
+            <p>Tell us how your team uses this tool.</p>
+            <ul>
+              <li>Get featured</li>
+              <li>Help other teams</li>
+            </ul>
+            <div>
+              <a href="#submit">Submit</a>
+              <a href="#rules">View guidelines</a>
+            </div>
+          </div>
+          <div>
+            <img alt="" class="media">
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
