@@ -2192,6 +2192,73 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       : undefined;
   }
 
+  function localFooterNavigationLabelledListLabel(list: any): any | undefined {
+    if (!list || list.nodeType !== Node.ELEMENT_NODE || isHidden(list)) return undefined;
+    if (list.tagName?.toLowerCase() !== "ul") return undefined;
+
+    const labelledBy = normalize(list.getAttribute("aria-labelledby"));
+    if (!labelledBy) return undefined;
+
+    const navigation = list.closest?.("nav,[role='navigation']");
+    const footer = list.closest?.("footer,[role='contentinfo']");
+    if (!navigation || !footer || !footer.contains(navigation) || isHidden(navigation) || isHidden(footer)) {
+      return undefined;
+    }
+
+    const visibleChildren = Array.from(list.children || []).filter((child: any) => !isHidden(child));
+    if (visibleChildren.length < 2) return undefined;
+
+    const labelledIds = new Set(labelledBy.split(/\s+/).filter(Boolean));
+    const label = visibleChildren[0] as any;
+    const labelRole = normalize(label.getAttribute?.("role"))?.toLowerCase();
+    const labelId = normalize(label.getAttribute?.("id"));
+    if (label.tagName?.toLowerCase() !== "li") return undefined;
+    if (labelRole !== "none" && labelRole !== "presentation") return undefined;
+    if (!labelId || !labelledIds.has(labelId)) return undefined;
+    if (label.querySelector?.(interactiveSelector)) return undefined;
+    if (Array.from(label.children || []).some((child: any) => !isHidden(child))) return undefined;
+
+    const labelText = normalize(readableText(label) || label.textContent);
+    if (!labelText) return undefined;
+    const hasDuplicateLabelId = Array.from(document.querySelectorAll(`#${cssEscape(labelId)}`))
+      .filter((candidate: any) => normalize(candidate.getAttribute?.("id")) === labelId)
+      .length > 1;
+
+    const linkItems = visibleChildren.slice(1).filter((child: any) => {
+      if (child.tagName?.toLowerCase() !== "li") return false;
+      const role = normalize(child.getAttribute?.("role"))?.toLowerCase();
+      if (role && role !== "listitem") return false;
+      return Array.from(child.querySelectorAll?.("a[href], [role='link']") || []).some(
+        (link: any) => !isHidden(link),
+      );
+    });
+    if (!linkItems.length) return undefined;
+
+    const hasMappedAxCandidate = Boolean(normalize(list.getAttribute("data-sr-dom-node-id")));
+    if (hasDuplicateLabelId || (accessibilityNodes.length && hasMappedAxCandidate)) {
+      const listAxNode = axNodeForElementRole(list, "list");
+      if (!listAxNode) return undefined;
+      if (normalize(listAxNode.name) !== labelText) return undefined;
+      if ((listAxNode.childIds || []).length < linkItems.length + 1) return undefined;
+    }
+
+    return label;
+  }
+
+  function localFooterNavigationLabelledListLabelName(
+    list: any,
+    role: string,
+  ): string | undefined {
+    if (role !== "list") return undefined;
+    const label = localFooterNavigationLabelledListLabel(list);
+    return label ? normalize(readableText(label) || label.textContent) : undefined;
+  }
+
+  function isFooterNavigationLabelledListLabelItem(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    return localFooterNavigationLabelledListLabel(el.parentElement) === el;
+  }
+
   function hasLabelledLinkedCardRegionContext(el: any): boolean {
     for (let current = el?.parentElement; current; current = current.parentElement) {
       const explicit = current.getAttribute("role");
@@ -4026,6 +4093,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const tag = el.tagName.toLowerCase();
     const ariaLabel = normalize(el.getAttribute("aria-label"));
     const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
+    const localFooterNavigationListLabel = localFooterNavigationLabelledListLabelName(el, role);
     const labelledByWithControlNames =
       role === "region" && !labelledBy
         ? textFromIdRefsOrControlNames(el.getAttribute("aria-labelledby"))
@@ -4046,6 +4114,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     if (nativeLabel) return nativeLabel;
     if (ariaLabel !== undefined) return ariaLabel;
+    if (localFooterNavigationListLabel) return localFooterNavigationListLabel;
     if (labelledBy || labelledByWithControlNames) {
       const resolvedLabelledBy = labelledBy || labelledByWithControlNames;
       return (
@@ -4833,6 +4902,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const tag = el.tagName.toLowerCase();
     const explicit = el.getAttribute("role");
     if (explicit === "img") return "image";
+    if (isFooterNavigationLabelledListLabelItem(el)) return "listitem";
     if (hasPresentationRole(el)) {
       if (isPresentationCollapsedAccordionList(el)) return "";
       if (isPresentationCollapsedAccordionListItem(el)) return "";
@@ -5130,6 +5200,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function isListItem(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (isFooterNavigationLabelledListLabelItem(el)) return true;
     const tag = el.tagName.toLowerCase();
     const role = el.getAttribute("role") || "";
     return role === "listitem" || (tag === "li" && (!role || role === "listitem"));
@@ -13636,6 +13707,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           (isFocusableStructuredListItemGroup(el) || isFocusableImageListItem(el)) ||
         undefined,
       duplicateCollectionPosition:
+        role === "listitem" &&
+          isFooterNavigationLabelledListLabelItem(el) ||
         role === "term" &&
           (isWrappedDefinitionListItem(el) ||
             isSimpleDirectDefinitionListItem(el) ||

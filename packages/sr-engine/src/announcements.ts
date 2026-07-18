@@ -783,6 +783,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       if (!el.largePlainListItem && (!el.positionInSet || !el.setSize)) {
         parts.push("list item");
       }
+      if (el.duplicateCollectionPosition && el.positionInSet && el.setSize) {
+        parts.push(`(${el.positionInSet} of ${el.setSize})`);
+      }
       pushCollectionPosition(parts, el);
       pushSupplementalText(parts, el);
       break;

@@ -3440,6 +3440,157 @@ test("scanSubtree excludes hidden consent-only list items from list summaries", 
   );
 });
 
+test("scanSubtree itemizes aria-labelledby footer list section labels", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer>
+          <nav aria-label="Footer">
+            <ul aria-labelledby="company" data-sr-dom-node-id="company-list">
+              <li role="none" id="company" data-sr-dom-node-id="company-label">Company</li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#careers">Careers</a></li>
+            </ul>
+          </nav>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "company-list-ax",
+              role: "list",
+              name: "Company",
+              domNodeId: "company-list",
+              childIds: ["company-label-ax", "about-item-ax", "careers-item-ax"],
+            },
+            {
+              nodeId: "company-label-ax",
+              role: "listitem",
+              name: "",
+              domNodeId: "company-label",
+            },
+            { nodeId: "about-item-ax", role: "listitem", name: "" },
+            { nodeId: "careers-item-ax", role: "listitem", name: "" },
+          ],
+        },
+      },
+    ),
+    [
+      "footer",
+      "Footer, navigation",
+      "list Company 3 items",
+      "Company, (1 of 3), 1 of 3",
+      "link, About, 2 of 3",
+      "link, Careers, 3 of 3",
+      "end of list",
+      "end of, Footer, navigation",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree uses AX-agreed local footer label for duplicate aria-labelledby ids", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <nav aria-label="Main">
+          <div id="resources">
+            Resources
+            <div aria-hidden="true"><span>Browse</span><span>Templates</span></div>
+          </div>
+        </nav>
+        <footer>
+          <nav aria-label="Footer">
+            <ul aria-labelledby="resources" data-sr-dom-node-id="resources-list">
+              <li role="none" id="resources" data-sr-dom-node-id="resources-label">Resources</li>
+              <li><a href="#help">Help</a></li>
+            </ul>
+          </nav>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "resources-list-ax",
+              role: "list",
+              name: "Resources",
+              domNodeId: "resources-list",
+              childIds: ["resources-label-ax", "help-item-ax"],
+            },
+            {
+              nodeId: "resources-label-ax",
+              role: "listitem",
+              name: "",
+              domNodeId: "resources-label",
+            },
+            { nodeId: "help-item-ax", role: "listitem", name: "" },
+          ],
+        },
+      },
+    ),
+    [
+      "Main, navigation",
+      "Resources",
+      "end of, Main, navigation",
+      "footer",
+      "Footer, navigation",
+      "list Resources 2 items",
+      "Resources, (1 of 2), 1 of 2",
+      "link, Help, 2 of 2",
+      "end of list",
+      "end of, Footer, navigation",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree keeps footer list label itemization out of unconfirmed shapes", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul aria-labelledby="company">
+          <li role="none" id="company">Company</li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#careers">Careers</a></li>
+        </ul>
+      </main>
+    `),
+    [
+      "main",
+      "list Company 2 items",
+      "link, About, 1 of 2",
+      "link, Careers, 2 of 2",
+      "end of list",
+      "end of, main",
+    ],
+  );
+
+  const duplicateWithoutAx = scanHtml(`
+    <nav aria-label="Main">
+      <div id="resources">Resources<span>Browse</span><span>Templates</span></div>
+    </nav>
+    <footer>
+      <nav aria-label="Footer">
+        <ul aria-labelledby="resources">
+          <li role="none" id="resources">Resources</li>
+          <li><a href="#help">Help</a></li>
+        </ul>
+      </nav>
+    </footer>
+  `);
+
+  assert.ok(
+    duplicateWithoutAx.includes("list ResourcesBrowseTemplates 1 item"),
+    "duplicate ids without AX agreement should retain document-first naming",
+  );
+  assert.ok(
+    !duplicateWithoutAx.includes("Resources, (1 of 2), 1 of 2"),
+    "duplicate ids without AX agreement should not itemize the local label",
+  );
+});
+
 test("scanSubtree announces fieldset legend groups and VoiceOver checkbox state order", () => {
   assert.deepEqual(
     scanHtml(`
