@@ -40,6 +40,10 @@
         width: 16px;
       }
 
+      .media-button .icon {
+        display: inline-flex;
+      }
+
       [role="group"][aria-roledescription="slide"] {
         border: 1px solid #999;
         margin-top: 12px;
@@ -83,6 +87,26 @@
         <div role="group" aria-roledescription="slide" aria-label="1 of 2">
           <h3>Slide alpha</h3>
           <p>Compact slide text.</p>
+        </div>
+      </section>
+
+      <section aria-label="Wrapped feature carousel">
+        <h2>Wrapped feature carousel</h2>
+        <div class="carousel-controls">
+          <button type="button" aria-label="previous wrapped" class="media-button">
+            <span class="icon">
+              <svg viewBox="0 0 9 15">
+                <path d="M8 1 L2 7.5 L8 14"></path>
+              </svg>
+            </span>
+          </button>
+          <button type="button" aria-label="next wrapped" class="media-button">
+            <span class="icon">
+              <svg viewBox="0 0 9 15">
+                <path d="M1 1 L7 7.5 L1 14"></path>
+              </svg>
+            </span>
+          </button>
         </div>
       </section>
     </main>
