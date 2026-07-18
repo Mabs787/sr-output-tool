@@ -70,6 +70,8 @@ const systemDialogSweepInterval = parseNonNegativeInteger(
   process.env.VOICEOVER_SYSTEM_DIALOG_SWEEP_INTERVAL,
   50,
 );
+const testExportsEnabled =
+  process.env.SR_VOICEOVER_SCAN_TEST_EXPORTS === "true";
 
 function parsePositiveInteger(value, fallback) {
   const parsed = Number.parseInt(String(value || ""), 10);
@@ -1513,6 +1515,14 @@ function getTargetUrl(target) {
   return pathToFileURL(fixturePath).href;
 }
 
+function hasLiveChromeTarget(target) {
+  return Boolean(target?.url || target?.fixturePath);
+}
+
+function shouldCaptureStepSnapshotForTarget(target) {
+  return captureStepSnapshots && hasLiveChromeTarget(target);
+}
+
 function getScanRootSelector(target) {
   return (
     target.scanRootSelector || (target.fixturePath ? "[data-sr-scan-root]" : "body")
@@ -2586,7 +2596,7 @@ async function getTargetSourceHtml(target) {
 }
 
 async function captureRenderedSourceHtml(target) {
-  if (!target.url) {
+  if (!hasLiveChromeTarget(target)) {
     return {
       ok: true,
       status: 0,
@@ -2711,7 +2721,7 @@ async function captureRenderedSourceHtml(target) {
 }
 
 async function captureStepHtmlAfterStep(target) {
-  if (!target.url || captureStepHtmlMode === "off") {
+  if (!hasLiveChromeTarget(target) || captureStepHtmlMode === "off") {
     return {
       capture: {
         ok: true,
@@ -3029,7 +3039,7 @@ async function captureBackendDomNodeMap() {
 }
 
 async function captureAccessibilityTree(target) {
-  if (!target.url) {
+  if (!hasLiveChromeTarget(target)) {
     return {
       ok: true,
       source: "not-applicable",
@@ -3112,7 +3122,7 @@ async function captureAccessibilityTree(target) {
 }
 
 async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
-  if (!captureStepSnapshots || !target.url) {
+  if (!shouldCaptureStepSnapshotForTarget(target)) {
     return null;
   }
 
@@ -4521,26 +4531,40 @@ async function scanTarget(target, index) {
   }
 }
 
-mkdirSync(outputRoot, { recursive: true });
+async function main() {
+  mkdirSync(outputRoot, { recursive: true });
 
-if (!scanManifestPath) {
-  throw new Error("VOICEOVER_SCAN_MANIFEST is required for URL scans.");
-}
-
-const screenRecordingPreflight = await preflightScreenRecordingPermission();
-writeJson(
-  path.join(repoRoot, "voiceover-smoke/screen-recording-preflight.json"),
-  screenRecordingPreflight,
-);
-let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
-if (scanTargetName) {
-  manifest = manifest.filter((target) => target.name === scanTargetName);
-  if (manifest.length === 0) {
-    throw new Error(`No VoiceOver scan target matched "${scanTargetName}".`);
+  if (!scanManifestPath) {
+    throw new Error("VOICEOVER_SCAN_MANIFEST is required for URL scans.");
   }
-} else {
-  manifest = manifest.filter((target) => target.default !== false);
+
+  const screenRecordingPreflight = await preflightScreenRecordingPermission();
+  writeJson(
+    path.join(repoRoot, "voiceover-smoke/screen-recording-preflight.json"),
+    screenRecordingPreflight,
+  );
+  let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
+  if (scanTargetName) {
+    manifest = manifest.filter((target) => target.name === scanTargetName);
+    if (manifest.length === 0) {
+      throw new Error(`No VoiceOver scan target matched "${scanTargetName}".`);
+    }
+  } else {
+    manifest = manifest.filter((target) => target.default !== false);
+  }
+  for (const [index, target] of manifest.entries()) {
+    await scanTarget(target, index);
+  }
 }
-for (const [index, target] of manifest.entries()) {
-  await scanTarget(target, index);
+
+export const __test = testExportsEnabled
+  ? {
+      getTargetUrl,
+      hasLiveChromeTarget,
+      shouldCaptureStepSnapshotForTarget,
+    }
+  : {};
+
+if (!testExportsEnabled) {
+  await main();
 }
