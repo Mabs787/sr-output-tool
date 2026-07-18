@@ -2296,20 +2296,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
-  function hrefSlugLabel(el: any): string | undefined {
-    if (el?.tagName?.toLowerCase() !== "a") return undefined;
-    const href = normalize(el.getAttribute("href"));
-    if (!href || href.startsWith("#")) return undefined;
-
-    let url: URL;
-    try {
-      url = new URL(href, document.baseURI);
-    } catch {
-      return undefined;
-    }
-
-    if (!["http:", "https:"].includes(url.protocol)) return undefined;
-
+  function urlBasenameLabel(
+    url: URL,
+    options: { preserveExtension?: boolean } = {},
+  ): string | undefined {
     const segments = url.pathname
       .split("/")
       .map((segment) => segment.trim())
@@ -2317,9 +2307,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const lastSegment = segments.at(-1);
     if (!lastSegment) return undefined;
 
-    const decoded = decodeURIComponent(lastSegment)
-      .replace(/\.[a-z0-9]+$/i, "")
-      .replace(/_+/g, " ");
+    const decoded = decodeURIComponent(
+      options.preserveExtension ? lastSegment : lastSegment.replace(/\.[a-z0-9]+$/i, ""),
+    ).replace(/_+/g, " ");
     const acronymWords = new Set([
       "api",
       "apis",
@@ -2347,6 +2337,46 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         })
         .join(" "),
     );
+  }
+
+  function hrefSlugLabel(el: any): string | undefined {
+    if (el?.tagName?.toLowerCase() !== "a") return undefined;
+    const href = normalize(el.getAttribute("href"));
+    if (!href || href.startsWith("#")) return undefined;
+
+    let url: URL;
+    try {
+      url = new URL(href, document.baseURI);
+    } catch {
+      return undefined;
+    }
+
+    if (!["http:", "https:"].includes(url.protocol)) return undefined;
+    return urlBasenameLabel(url);
+  }
+
+  function axConfirmedEmptyLinkUrlBasenameLabel(el: any, role: string): string | undefined {
+    if (role !== "link" || el?.tagName?.toLowerCase() !== "a") return undefined;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
+    if (normalize(el.getAttribute("title")) || linkContentName(el)) return undefined;
+
+    const axNode = axNodeForElementRole(el, "link");
+    if (!axNode || normalize(axNode.name) || axNode.properties?.focusable !== true) {
+      return undefined;
+    }
+
+    const href = normalize(el.getAttribute("href"));
+    if (!href) return undefined;
+
+    let url: URL;
+    try {
+      url = new URL(href, document.baseURI);
+    } catch {
+      return undefined;
+    }
+
+    if (!["http:", "https:", "file:"].includes(url.protocol)) return undefined;
+    return urlBasenameLabel(url, { preserveExtension: url.protocol === "file:" });
   }
 
   function buttonContentName(el: any): string | undefined {
@@ -4189,7 +4219,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
       const titleName = normalize(el.getAttribute("title"));
       if (titleName) return renderedCaseName(el, role, titleName) || titleName;
-      return hrefSlugLabel(el);
+      return axConfirmedEmptyLinkUrlBasenameLabel(el, role) || hrefSlugLabel(el);
     }
 
     if (role === "button") {
@@ -4320,6 +4350,98 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     return accessibleName(firstVisibleChild, "heading") || readableText(firstVisibleChild);
+  }
+
+  function firstMeaningfulArticleHeading(el: any): any | undefined {
+    let result: any | undefined;
+    let blocked = false;
+
+    const visit = (node: any): void => {
+      if (result || blocked) return;
+      if (!node) return;
+
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (normalize(node.textContent)) blocked = true;
+        return;
+      }
+
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node !== el && node.closest?.("article,[role='article']") !== el) return;
+
+      const role = implicitRole(node);
+      if (role === "heading" && node !== el) {
+        result = node;
+        return;
+      }
+
+      const tag = node.tagName?.toLowerCase();
+      const explicitRole = normalize(node.getAttribute?.("role"))?.toLowerCase();
+      const genericWrapper =
+        node === el ||
+        (!explicitRole &&
+          ["div", "span", "section"].includes(tag) &&
+          !node.matches?.(interactiveSelector));
+      if (!genericWrapper) {
+        blocked = true;
+        return;
+      }
+
+      for (const child of Array.from(node.childNodes || [])) {
+        visit(child);
+        if (result || blocked) return;
+      }
+    };
+
+    visit(el);
+    if (
+      !result ||
+      result.closest?.("a[href],[role='link']") ||
+      result.querySelector?.("a[href],[role='link']")
+    ) {
+      return undefined;
+    }
+    return result;
+  }
+
+  function axEmptyArticleNameFromFirstMeaningfulHeading(el: any, role: string): string | undefined {
+    if (role !== "article" || el?.tagName?.toLowerCase() !== "article") return undefined;
+    if (
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.getAttribute("title")
+    ) {
+      return undefined;
+    }
+
+    const axArticle = axNodeForElementRole(el, "article");
+    if (!axArticle || normalize(axArticle.name)) return undefined;
+
+    const heading = firstMeaningfulArticleHeading(el);
+    if (!heading) return undefined;
+
+    const axHeading = axNodeForElementRole(heading, "heading");
+    const axHeadingName = normalize(axHeading?.name);
+    return axHeadingName || accessibleName(heading, "heading") || readableText(heading);
+  }
+
+  function axEmptyArticleNameFromFirstEmptyOverlayLink(el: any, role: string): string | undefined {
+    if (role !== "article" || el?.tagName?.toLowerCase() !== "article") return undefined;
+    if (
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.getAttribute("title")
+    ) {
+      return undefined;
+    }
+
+    const axArticle = axNodeForElementRole(el, "article");
+    if (!axArticle || normalize(axArticle.name)) return undefined;
+
+    const firstVisibleChild = Array.from(el.children || []).find(
+      (child: any) => !isHidden(child),
+    ) as any;
+    if (!firstVisibleChild || implicitRole(firstVisibleChild) !== "link") return undefined;
+    return axConfirmedEmptyLinkUrlBasenameLabel(firstVisibleChild, "link");
   }
 
   function unnamedAxArticleHasLinkedLevelTwoHeading(el: any): boolean {
@@ -13326,7 +13448,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const axLinkedOfferHeadingName =
       role === "heading" ? axConfirmedLinkedOfferHeadingName(el, role) : undefined;
     const accessibleRoleName = accessibleName(el, role);
-    const articleHeadingName = articleNameFromFirstHeading(el, role);
+    const axEmptyArticleOverlayLinkName = axEmptyArticleNameFromFirstEmptyOverlayLink(el, role);
+    const axEmptyArticleHeadingName = axEmptyArticleNameFromFirstMeaningfulHeading(el, role);
+    const semanticArticleHeadingName =
+      articleNameFromFirstHeading(el, role) || axEmptyArticleHeadingName;
+    const articleHeadingName =
+      axEmptyArticleOverlayLinkName ||
+      semanticArticleHeadingName;
     const adjacentVersionTitleText = axAdjacentVersionTitleTextForFirstChild(el, role);
     const name =
       adjacentVersionTitleText ||
@@ -13379,12 +13507,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const nativeHiddenControlledCollapsedButton =
       isAxConfirmedNativeCollapsedButtonWithHiddenControlledRegions(el, role, name);
     const contextEndName =
+      axEmptyArticleHeadingName ||
       directListArticleCardContextEndName(el, role) ||
       siblingArticleCardContextEndName(el, role) ||
       inferredStructuredArticleCardContextEndName(
         el,
         role,
-        articleHeadingName,
+        semanticArticleHeadingName,
         accessibleRoleName,
         announcementName,
       );

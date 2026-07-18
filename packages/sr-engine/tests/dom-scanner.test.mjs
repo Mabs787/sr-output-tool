@@ -4177,6 +4177,307 @@ test("scanSubtree omits inferred article names when AX exposes an unnamed articl
   );
 });
 
+test("scanSubtree names AX-empty semantic articles from the first meaningful heading", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <nav aria-label="Pagination">
+            <a href="/page-one">1</a>
+          </nav>
+          <article data-sr-dom-node-id="article">
+            <div>
+              <h2 data-sr-dom-node-id="heading">Share your workflow</h2>
+              <p>Tell us how your team uses this tool.</p>
+              <ul>
+                <li>Get featured</li>
+                <li>Help other teams</li>
+              </ul>
+              <a href="/submit">Submit</a>
+            </div>
+          </article>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+              childIds: ["heading-ax"],
+            },
+            {
+              nodeId: "heading-ax",
+              role: "heading",
+              name: "Share your workflow",
+              domNodeId: "heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Pagination, navigation",
+      "link, 1",
+      "end of, Pagination, navigation",
+      "Share your workflow, article",
+      "heading level 2, Share your workflow",
+      "Tell us how your team uses this tool.",
+      "list 2 items",
+      "Get featured, 1 of 2",
+      "Help other teams, 2 of 2",
+      "end of list",
+      "link, Submit",
+      "end of, Share your workflow, article",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree does not name AX-empty articles from later or linked headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <h2 data-sr-dom-node-id="sibling-heading">Outside article</h2>
+          <article data-sr-dom-node-id="later-article">
+            <span>Eyebrow text</span>
+            <h2 data-sr-dom-node-id="later-heading">Later heading</h2>
+            <p>Summary text.</p>
+          </article>
+          <article data-sr-dom-node-id="linked-article">
+            <a href="/post" data-sr-dom-node-id="post-link">
+              <h2 data-sr-dom-node-id="linked-heading">Linked heading</h2>
+            </a>
+            <p>Linked summary.</p>
+          </article>
+          <article data-sr-dom-node-id="media-article">
+            <picture>
+              <img alt="Promo image" src="/promo.jpg">
+            </picture>
+            <section>
+              <h2 data-sr-dom-node-id="media-heading">Media card heading</h2>
+              <p>Media card summary.</p>
+            </section>
+          </article>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "later-article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "later-article",
+            },
+            {
+              nodeId: "later-heading-ax",
+              role: "heading",
+              name: "Later heading",
+              domNodeId: "later-heading",
+              properties: { level: 2 },
+            },
+            {
+              nodeId: "linked-article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "linked-article",
+            },
+            {
+              nodeId: "post-link-ax",
+              role: "link",
+              name: "Linked heading",
+              domNodeId: "post-link",
+              childIds: ["linked-heading-ax"],
+              properties: {
+                focusable: true,
+                url: "https://example.com/post",
+              },
+            },
+            {
+              nodeId: "linked-heading-ax",
+              role: "heading",
+              name: "Linked heading",
+              domNodeId: "linked-heading",
+              properties: { level: 2 },
+            },
+            {
+              nodeId: "media-article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "media-article",
+            },
+            {
+              nodeId: "media-heading-ax",
+              role: "heading",
+              name: "Media card heading",
+              domNodeId: "media-heading",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "heading level 2, Outside article",
+      "article",
+      "Eyebrow text",
+      "heading level 2, Later heading",
+      "Summary text.",
+      "end of, article",
+      "article",
+      "link, heading level 2, Linked heading",
+      "Linked summary.",
+      "end of, article",
+      "article",
+      "Promo image, image",
+      "heading level 2, Media card heading",
+      "Media card summary.",
+      "end of, article",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps AX-empty offer articles with linked headings unnamed", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <article data-sr-dom-node-id="article">
+            <div></div>
+            <section>
+              <h3 data-sr-dom-node-id="heading">
+                <a
+                  href="/offers"
+                  aria-label="More direct flights."
+                  data-sr-dom-node-id="link"
+                >More direct flights</a>
+              </h3>
+            </section>
+          </article>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+              childIds: ["heading-ax"],
+            },
+            {
+              nodeId: "heading-ax",
+              role: "heading",
+              name: "More direct flights.",
+              domNodeId: "heading",
+              childIds: ["link-ax"],
+              properties: { level: 3 },
+            },
+            {
+              nodeId: "link-ax",
+              role: "link",
+              name: "More direct flights.",
+              domNodeId: "link",
+              properties: {
+                focusable: true,
+                url: "https://example.com/offers",
+              },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "article",
+      "heading level 3, level 2, link, More direct flights.",
+      "end of, article",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree names AX-empty overlay links and article starts from URL basenames", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <base href="https://example.test/stories/generic-card/">
+        <main>
+          <article data-sr-dom-node-id="article">
+            <a href="#story-one" data-sr-dom-node-id="overlay-link"></a>
+            <span>Featured Story</span>
+            <h2>Alpha Case Study</h2>
+          </article>
+          <article data-sr-dom-node-id="named-article">
+            <a href="#story-two" data-sr-dom-node-id="named-link" aria-label="Open named story"></a>
+            <p>Named link body.</p>
+          </article>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+            },
+            {
+              nodeId: "overlay-link-ax",
+              role: "link",
+              name: "",
+              domNodeId: "overlay-link",
+              properties: {
+                focusable: true,
+                url: "https://example.test/stories/generic-card/#story-one",
+              },
+            },
+            {
+              nodeId: "named-article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "named-article",
+            },
+            {
+              nodeId: "named-link-ax",
+              role: "link",
+              name: "Open named story",
+              domNodeId: "named-link",
+              properties: {
+                focusable: true,
+                url: "https://example.test/stories/generic-card/#story-two",
+              },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "generic-card, article",
+      "link, generic-card",
+      "Featured Story",
+      "heading level 2, Alpha Case Study",
+      "end of, article",
+      "article",
+      "link, Open named story",
+      "Named link body.",
+      "end of, article",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree announces titled iframes inside generic single-child wrappers as media groups", () => {
   assert.deepEqual(
     scanHtml(
