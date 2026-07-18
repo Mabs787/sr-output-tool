@@ -3056,6 +3056,32 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(el.querySelector("svg, [role='img'], img"));
   }
 
+  function isExposedUnnamedMediaElement(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const role = normalize(el.getAttribute("role"))?.toLowerCase();
+    if (role === "none" || role === "presentation") return false;
+
+    const tag = el.tagName?.toLowerCase();
+    if (tag === "svg") return !nestedImageLabel(el);
+    if (tag === "img") return !el.hasAttribute("alt");
+    if (role === "img") return !nestedImageLabel(el);
+    return false;
+  }
+
+  function isNativeAriaLabelButtonWithExposedMediaChild(
+    el: any,
+    role = implicitRole(el),
+  ): boolean {
+    if (!isPlainNativeButton(el, role)) return false;
+    if (!el.hasAttribute("aria-label")) return false;
+    if (readableText(el) || hasNonTooltipDescendantText(el)) return false;
+    if (nestedImageLabel(el)) return false;
+
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (!visibleChildren.length) return false;
+    return visibleChildren.every((child: any) => isExposedUnnamedMediaElement(child));
+  }
+
   function isAriaLabelOnlyDecorativeIconButton(el: any): boolean {
     if (implicitRole(el) !== "button") return false;
     if (!el.hasAttribute("aria-label")) return false;
@@ -13399,6 +13425,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               !buttonSharesListItemWithLink(el) &&
               !isPlainUtilityDisclosureButton(el) &&
               normalize(name) !== "Open navigation menu") ||
+            (role === "button" && isNativeAriaLabelButtonWithExposedMediaChild(el, role)) ||
             (role === "button" && isLabeledIconActionButton(el)) ||
             (role === "button" && isAxConfirmedToolbarIconButton(el, role)) ||
             (role === "button" &&

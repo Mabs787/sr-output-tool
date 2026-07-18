@@ -7279,6 +7279,37 @@ test("scanSubtree keeps aria-label-only decorative icon buttons ungrouped", () =
   );
 });
 
+test("scanSubtree groups aria-label native buttons with exposed unnamed media children", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Filter controls">
+        <button type="button">Engineering</button>
+        <button type="button" aria-label="Search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="10" cy="10" r="6"></circle>
+            <path d="M15 15l5 5"></path>
+          </svg>
+        </button>
+      </section>
+    `),
+    [
+      "Filter controls, region",
+      "Engineering, button",
+      "Search, button, group",
+      "end of, Filter controls, region",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <button type="button" aria-label="Open image search">
+        <img src="search.svg">
+      </button>
+    `),
+    ["Open image search, button, group"],
+  );
+});
+
 test("scanSubtree groups AX-confirmed tabindex toolbar icon buttons", () => {
   const accessibilityTree = {
     nodes: [
