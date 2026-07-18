@@ -245,13 +245,18 @@ function appendInlineDetails(label: string | undefined, details: string | undefi
   return normalizeText(`${normalizedLabel} ${normalizedDetails}`);
 }
 
+function normalizeHeadingFragment(value?: string): string | undefined {
+  if (value === "space ") return value;
+  return normalizeText(value);
+}
+
 function formatHeadingFragments(
   level: number,
   fragments?: string[],
   fragmentCount?: number,
 ): string | undefined {
   const normalizedFragments = fragments
-    ?.map((fragment) => normalizeText(fragment))
+    ?.map((fragment) => normalizeHeadingFragment(fragment))
     .filter((fragment): fragment is string => Boolean(fragment));
 
   if (!normalizedFragments?.length) {

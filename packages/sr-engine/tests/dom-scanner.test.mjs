@@ -179,6 +179,126 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree itemizes non-interactive heading child text boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>Alpha teams <span><span><em>Plan</em></span></span> together.</h1>
+        <article aria-labelledby="plan-heading">
+          <h3 id="plan-heading">Team<span>Ready</span></h3>
+        </article>
+        <h2><span>Markdown</span> <strong>strong</strong> <span>tail</span></h2>
+        <h2>Visible <span>screen reader</span><span aria-hidden="true">ignored</span><span style="display:none">display none</span> title</h2>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 1 Alpha teams Plan together., 3 items",
+      "TeamReady, article",
+      "heading level 3 Team, level 2 Ready, level 2, 2 items",
+      "end of, TeamReady, article",
+      "heading level 2 Markdown, level 1 space, level 1 strong, level 1 space , level 1 tail, level 1, 5 items",
+      "heading level 2 Visible, level 1 screen reader, level 1 title, level 1, 3 items",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree uses AX heading children when saved text boundaries differ from normalized DOM text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <h1 data-sr-dom-node-id="h1">Alpha teams <span><span><em data-sr-dom-node-id="em">Plan</em></span></span> together.</h1>
+          <article aria-labelledby="plan-heading" data-sr-dom-node-id="article">
+            <h3 id="plan-heading" data-sr-dom-node-id="h3">Team<span>Ready</span></h3>
+          </article>
+          <h2 data-sr-dom-node-id="markdown"><span>Markdown</span><strong data-sr-dom-node-id="strong">strong</strong><span>tail</span></h2>
+          <h2 data-sr-dom-node-id="hidden">Visible <span data-sr-dom-node-id="sr">screen reader</span><span aria-hidden="true">ignored</span><span hidden>display none</span> title</h2>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "h1-ax",
+              role: "heading",
+              name: "Alpha teams Plan together.",
+              domNodeId: "h1",
+              childIds: ["h1-text-1", "h1-em", "h1-text-2"],
+              properties: { level: 1 },
+            },
+            { nodeId: "h1-text-1", role: "StaticText", name: "Alpha teams " },
+            { nodeId: "h1-em", role: "emphasis", name: "", domNodeId: "em", childIds: ["h1-em-text"] },
+            { nodeId: "h1-em-text", role: "StaticText", name: "Plan" },
+            { nodeId: "h1-text-2", role: "StaticText", name: " together." },
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "TeamReady",
+              domNodeId: "article",
+              childIds: ["h3-ax"],
+            },
+            {
+              nodeId: "h3-ax",
+              role: "heading",
+              name: "TeamReady",
+              domNodeId: "h3",
+              childIds: ["h3-text-1", "h3-text-2"],
+              properties: { level: 3 },
+            },
+            { nodeId: "h3-text-1", role: "StaticText", name: "Team" },
+            { nodeId: "h3-text-2", role: "StaticText", name: "Ready" },
+            {
+              nodeId: "markdown-ax",
+              role: "heading",
+              name: "Markdown strong tail",
+              domNodeId: "markdown",
+              childIds: ["md-1", "md-space-1", "md-strong", "md-space-2", "md-tail"],
+              properties: { level: 2 },
+            },
+            { nodeId: "md-1", role: "StaticText", name: "Markdown" },
+            { nodeId: "md-space-1", role: "StaticText", name: " " },
+            { nodeId: "md-strong", role: "strong", name: "", domNodeId: "strong", childIds: ["md-strong-text"] },
+            { nodeId: "md-strong-text", role: "StaticText", name: "strong" },
+            { nodeId: "md-space-2", role: "StaticText", name: " " },
+            { nodeId: "md-tail", role: "StaticText", name: "tail" },
+            {
+              nodeId: "hidden-ax",
+              role: "heading",
+              name: "Visible screen reader title",
+              domNodeId: "hidden",
+              childIds: ["hidden-visible", "hidden-wrapper", "hidden-title"],
+              properties: { level: 2 },
+            },
+            { nodeId: "hidden-visible", role: "StaticText", name: "Visible " },
+            {
+              nodeId: "hidden-wrapper",
+              ignored: true,
+              role: "none",
+              name: "",
+              domNodeId: "sr",
+              childIds: ["hidden-sr"],
+            },
+            { nodeId: "hidden-sr", role: "StaticText", name: "screen reader" },
+            { nodeId: "hidden-title", role: "StaticText", name: "title" },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "heading level 1 Alpha teams Plan together., 3 items",
+      "TeamReady, article",
+      "heading level 3 Team, level 2 Ready, level 2, 2 items",
+      "end of, TeamReady, article",
+      "heading level 2 Markdown, level 1 space, level 1 strong, level 1 space , level 1 tail, level 1, 5 items",
+      "heading level 2 Visible, level 1 screen reader, level 1 title, level 1, 3 items",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree does not inject child image role into AX-named labelled links", () => {
   assert.deepEqual(
     scanHtml(

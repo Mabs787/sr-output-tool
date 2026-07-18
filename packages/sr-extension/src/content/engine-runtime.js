@@ -207,8 +207,13 @@
         }
         return normalizeText(`${normalizedLabel} ${normalizedDetails}`);
       }
+      function normalizeHeadingFragment(value) {
+        if (value === "space ")
+          return value;
+        return normalizeText(value);
+      }
       function formatHeadingFragments(level, fragments, fragmentCount) {
-        const normalizedFragments = fragments?.map((fragment) => normalizeText(fragment)).filter((fragment) => Boolean(fragment));
+        const normalizedFragments = fragments?.map((fragment) => normalizeHeadingFragment(fragment)).filter((fragment) => Boolean(fragment));
         if (!normalizedFragments?.length) {
           return void 0;
         }
@@ -11622,6 +11627,125 @@
             return void 0;
           if (el.querySelector("button, [role='button'], a[href]"))
             return void 0;
+          function normalizeHeadingTextFragment(value, options2 = {}) {
+            if (!value)
+              return void 0;
+            if (value === "space ")
+              return value;
+            if (/^[\s\u00A0]+$/u.test(value)) {
+              return options2.preserveTrailingSpace ? "space " : "space";
+            }
+            return normalize(value);
+          }
+          function comparableHeadingFragmentsText(fragments2) {
+            return normalize(fragments2.map((fragment) => /^space\s*$/u.test(fragment) ? " " : fragment).join(""));
+          }
+          function axHeadingChildFragments() {
+            if (!accessibilityNodes.length)
+              return void 0;
+            if (Array.from(el.children || []).some((child) => !isHidden(child) && Boolean(parenthesizedBoundaryPartCount(child)))) {
+              return void 0;
+            }
+            const axNode = axNodeForElementRole(el, "heading");
+            const axName = normalize(axNode?.name);
+            if (!axNode || !axName)
+              return void 0;
+            const childIds = axNode.childIds || [];
+            if (childIds.length < 2)
+              return void 0;
+            function childNodesIncludingIgnored(node) {
+              return (node?.childIds || []).map((childId) => accessibilityNodeById.get(normalize(childId) || "")).filter((child) => Boolean(child));
+            }
+            function collectNodeText(node) {
+              const role = normalizedAxRole(node?.role);
+              const name = node?.name || "";
+              if (role === "statictext" || role === "inlinetextbox") {
+                return name;
+              }
+              if (role === "linebreak") {
+                return "\n";
+              }
+              const parts = childNodesIncludingIgnored(node).map((child) => collectNodeText(child)).filter((part) => part !== void 0 && part !== "");
+              return parts.length ? parts.join("") : void 0;
+            }
+            const axChildren = childNodesIncludingIgnored(axNode);
+            const rawFragments = axChildren.map((child) => collectNodeText(child)).filter((fragment) => fragment !== void 0 && fragment !== "");
+            if (rawFragments.length < 2)
+              return void 0;
+            if (rawFragments.some((fragment) => fragment === "\n"))
+              return void 0;
+            const fragments2 = rawFragments.map((fragment, index) => {
+              const previousRole = normalizedAxRole(axChildren[index - 1]?.role);
+              const nextText = rawFragments[index + 1];
+              return normalizeHeadingTextFragment(fragment, {
+                preserveTrailingSpace: /^[\s\u00A0]+$/u.test(fragment) && ["strong", "emphasis"].includes(previousRole || "") && Boolean(normalize(nextText))
+              });
+            }).filter((fragment) => Boolean(fragment));
+            if (fragments2.length < 2)
+              return void 0;
+            if (fragments2.filter((fragment) => !/^space\s*$/u.test(fragment)).length < 2) {
+              return void 0;
+            }
+            const compactText = comparableHeadingFragmentsText(rawFragments);
+            const spacedText = normalize(rawFragments.join(" "));
+            if (compactText !== axName && spacedText !== axName)
+              return void 0;
+            return fragments2;
+          }
+          function domInlineHeadingFragments() {
+            if (Array.from(el.children || []).some((child) => !isHidden(child) && Boolean(parenthesizedBoundaryPartCount(child)))) {
+              return void 0;
+            }
+            const allowedInlineSelector = "span, strong, b, em, i, code";
+            if (Array.from(el.querySelectorAll("*")).some((node) => {
+              if (isHidden(node))
+                return false;
+              if (node.matches?.(interactiveSelector))
+                return true;
+              return !node.matches?.(allowedInlineSelector);
+            })) {
+              return void 0;
+            }
+            const rawFragments = [];
+            const visibleNodes = Array.from(el.childNodes || []).filter((node) => {
+              if (node.nodeType === Node.TEXT_NODE)
+                return Boolean(node.textContent);
+              return node.nodeType === Node.ELEMENT_NODE && !isHidden(node);
+            });
+            for (let index = 0; index < visibleNodes.length; index += 1) {
+              const node = visibleNodes[index];
+              if (node.nodeType === Node.TEXT_NODE) {
+                const text2 = node.textContent || "";
+                if (/^[\s\u00A0]+$/u.test(text2)) {
+                  const previous = visibleNodes[index - 1];
+                  const next = visibleNodes[index + 1];
+                  if (previous?.nodeType === Node.ELEMENT_NODE && next?.nodeType === Node.ELEMENT_NODE) {
+                    const previousTag = previous.tagName?.toLowerCase();
+                    rawFragments.push(["strong", "b", "em", "i"].includes(previousTag) ? "space " : text2);
+                  }
+                  continue;
+                }
+                rawFragments.push(text2);
+                continue;
+              }
+              const text = readableText(node);
+              if (text)
+                rawFragments.push(text);
+            }
+            const fragments2 = rawFragments.map((fragment) => normalizeHeadingTextFragment(fragment)).filter((fragment) => Boolean(fragment));
+            if (fragments2.length < 2)
+              return void 0;
+            if (fragments2.filter((fragment) => !/^space\s*$/u.test(fragment)).length < 2) {
+              return void 0;
+            }
+            const compactText = comparableHeadingFragmentsText(rawFragments);
+            const spacedText = normalize(rawFragments.join(" "));
+            const fullText = readableText(el);
+            if (!fullText || compactText !== fullText && spacedText !== fullText) {
+              return void 0;
+            }
+            return fragments2;
+          }
           function axLeadingSpaceHeadingFragments() {
             const tag2 = el.tagName?.toLowerCase();
             const level2 = Number.parseInt(el.getAttribute("aria-level") || tag2.slice(1), 10) || 2;
@@ -11703,6 +11827,9 @@
           const axFragments = axLeadingSpaceHeadingFragments();
           if (axFragments)
             return axFragments;
+          const axChildFragments = axHeadingChildFragments();
+          if (axChildFragments)
+            return axChildFragments;
           if (level === 1) {
             const inlineBoundaryFragments = [];
             let hasDirectText = false;
@@ -11733,6 +11860,9 @@
               return inlineBoundaryFragments;
             }
           }
+          const domInlineFragments = domInlineHeadingFragments();
+          if (domInlineFragments)
+            return domInlineFragments;
           const directText = Array.from(el.childNodes).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => normalize(child.textContent)).filter(Boolean);
           if (directText.length)
             return void 0;
