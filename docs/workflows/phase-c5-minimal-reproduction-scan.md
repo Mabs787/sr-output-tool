@@ -171,6 +171,21 @@ After the artifact is ready:
      artifact lacks AX nodes, step snapshots, cursor/source evidence, or
      screenshots needed to identify the reusable DOM/AX contract
 
+Record both fields separately:
+
+- `verdict`: one of `engine-gap-confirmed`, `fixture-noise-confirmed`,
+  `conditional-state-confirmed`, `insufficient-repro`, or
+  `debug-evidence-missing`
+- `debugEvidenceStatus`: `complete`, `partial`, or `missing`
+
+Before Phase C.5 evidence can justify Phase D, keep a family repro path and a
+canary:
+
+- `familyReproPath`:
+  `packages/sr-engine/tests/fixtures/voiceover-repros/_families/<family>.html`
+- `canary`: the focused mini VoiceOver scan or compare check that proves the
+  reproduction still exercises the original family after reduction
+
 ## Loop Back
 
 The repro result must resolve an original site mismatch family, not create a
@@ -188,6 +203,8 @@ Route the original site workflow as follows:
 - `insufficient-repro`: refine the reproduction once and rerun C.5. If it still
   cannot reproduce the behavior, return to Phase C with a concrete blocker and
   classify the original family as `scanner-evidence-gap`.
+- `debug-evidence-missing`: return to Phase 0 or scanner-fix work for a richer
+  artifact before Phase D changes reusable engine behavior.
 
 Do not send a repro fixture to Phase E promotion, add it to the live-site corpus
 manifest, or treat its exact-match status as a site result.
@@ -213,9 +230,13 @@ Write `04-minimal-reproduction-scan.json` with:
 - mini raw VoiceOver output
 - mini rendered HTML and AX evidence summary
 - mini engine output
-- conclusion:
+- `verdict`:
   `engine-gap-confirmed`, `fixture-noise-confirmed`,
-  `conditional-state-confirmed`, or `insufficient-repro`
+  `conditional-state-confirmed`, `insufficient-repro`, or
+  `debug-evidence-missing`
+- `debugEvidenceStatus`: `complete`, `partial`, or `missing`
+- `familyReproPath`
+- `canary`
 - loop-back target phase and handoff reason for the original site workflow
 
 Do not use the current engine output as proof that the reproduction is correct.

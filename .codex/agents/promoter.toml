@@ -1,6 +1,6 @@
 name = "promoter"
 description = "Runs Phase E promotion, manifest/docs updates, and final verification."
-model = "gpt-5.4-mini"
+model = "gpt-5.5"
 model_reasoning_effort = "medium"
 
 developer_instructions = """

@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 
 const ROLE_BY_PHASE = new Map([
+  ["0", "scan-health"],
   ["A", "intake"],
   ["B", "evidence-refiner"],
   ["C", "fixture-judge"],
@@ -13,6 +14,7 @@ const ROLE_BY_PHASE = new Map([
 ]);
 
 const RECEIPT_BY_PHASE = new Map([
+  ["0", ["00-scan-health.json"]],
   ["A", ["01-intake.json", "02-preprocess.json"]],
   ["B", ["03-evidence-refinement.json"]],
   ["C", ["04-fixture-judge.json"]],
@@ -46,12 +48,13 @@ function usage() {
     "Usage: node .github/scripts/validate-agent-workflow.mjs <receipt-dir> [options]",
     "",
     "Options:",
-    "  --required-phases A,B,C,C.5,D,E   Phases that must have receipts.",
+    "  --required-phases 0,A,B,C,C.5,D,E Phases that must have receipts.",
+    "  --phase-05-summary <path>          Validate the run-level Phase 0.5 compact summary.",
     "  --allow-missing-preflight          Validate legacy receipts without 00-agent-preflight.json.",
     "  --allow-degraded                   Permit explicit degraded/manual runs.",
     "",
     "Example:",
-    "  yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/local/www-sky-com-protect --required-phases B,C,C.5,E",
+    "  yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/local/www-sky-com-protect --required-phases 0,B,C,C.5,E",
   ].join("\n");
 }
 
@@ -61,6 +64,7 @@ function parseArgs(argv) {
     requiredPhases: [],
     allowMissingPreflight: false,
     allowDegraded: false,
+    phase05Summary: "",
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -75,6 +79,19 @@ function parseArgs(argv) {
     }
     if (arg === "--allow-degraded") {
       options.allowDegraded = true;
+      continue;
+    }
+    if (arg === "--phase-05-summary") {
+      const value = argv[index + 1];
+      if (!value) {
+        throw new Error("--phase-05-summary requires a JSON path");
+      }
+      options.phase05Summary = value;
+      index += 1;
+      continue;
+    }
+    if (arg.startsWith("--phase-05-summary=")) {
+      options.phase05Summary = arg.slice("--phase-05-summary=".length);
       continue;
     }
     if (arg === "--required-phases") {
@@ -139,7 +156,7 @@ function requireNonEmptyString(receipt, field, filePath, errors) {
 }
 
 function validatePreflight(receiptDir, options, errors, warnings) {
-  const preflightPath = path.join(receiptDir, "00-agent-preflight.json");
+  const preflightPath = resolvePreflightPath(receiptDir, errors);
   if (!existsSync(preflightPath)) {
     if (options.allowMissingPreflight) {
       warnings.push(`${preflightPath}: missing preflight allowed by flag`);
@@ -190,7 +207,7 @@ function validatePreflight(receiptDir, options, errors, warnings) {
     }
   }
 
-  for (const role of new Set([...requiredRoles, ...expectedRoles])) {
+  for (const role of expectedRoles) {
     const agent = spawnedByRole.get(role);
     if (!agent) {
       errors.push(`${preflightPath}: required role was not spawned: ${role}`);
@@ -200,6 +217,81 @@ function validatePreflight(receiptDir, options, errors, warnings) {
       errors.push(`${preflightPath}: spawned role ${role} is missing sessionId`);
     }
   }
+}
+
+function resolvePreflightPath(receiptDir, errors) {
+  const targetPreflightPath = path.join(receiptDir, "00-agent-preflight.json");
+  if (existsSync(targetPreflightPath)) {
+    return targetPreflightPath;
+  }
+
+  const referencedPreflightPath = preflightPathFromReceiptReference(receiptDir, errors);
+  if (referencedPreflightPath) {
+    return referencedPreflightPath;
+  }
+
+  return path.join(path.dirname(receiptDir), "_summaries", "00-agent-preflight.json");
+}
+
+function validatePhase05Summary(summaryPath, errors) {
+  if (!summaryPath) {
+    return;
+  }
+  const resolvedPath = path.resolve(summaryPath);
+  if (!existsSync(resolvedPath)) {
+    errors.push(`${resolvedPath}: missing Phase 0.5 compact summary`);
+    return;
+  }
+  const receipt = readJson(resolvedPath, errors);
+  if (!receipt) {
+    return;
+  }
+  if (receipt.schemaVersion !== 1) {
+    errors.push(`${resolvedPath}: schemaVersion must be 1`);
+  }
+  if (receipt.phase !== "0.5") {
+    errors.push(`${resolvedPath}: phase must be 0.5`);
+  }
+  if (receipt.agent !== "compare-summarizer") {
+    errors.push(`${resolvedPath}: agent must be compare-summarizer`);
+  }
+  if (receipt.agentConfigPath !== ".codex/agents/compare-summarizer.toml") {
+    errors.push(`${resolvedPath}: agentConfigPath must be .codex/agents/compare-summarizer.toml`);
+  }
+  requireNonEmptyString(receipt, "sessionId", resolvedPath, errors);
+  requireNonEmptyString(receipt, "runId", resolvedPath, errors);
+  if (!receipt.totals || typeof receipt.totals !== "object") {
+    errors.push(`${resolvedPath}: totals must be an object`);
+  }
+  if (!Array.isArray(receipt.rows) || receipt.rows.length === 0) {
+    errors.push(`${resolvedPath}: rows must be a non-empty array`);
+  }
+  if (!Array.isArray(receipt.recurringFamilies)) {
+    errors.push(`${resolvedPath}: recurringFamilies must be an array`);
+  }
+}
+
+function preflightPathFromReceiptReference(receiptDir, errors) {
+  if (!existsSync(receiptDir)) {
+    return "";
+  }
+
+  for (const fileName of readdirSync(receiptDir)) {
+    if (!fileName.endsWith(".json")) {
+      continue;
+    }
+    const filePath = path.join(receiptDir, fileName);
+    const receipt = readJson(filePath, errors);
+    if (!receipt) {
+      continue;
+    }
+    const ref = receipt.agentPreflightRef ?? receipt.sharedPreflightRef;
+    if (typeof ref === "string" && ref.trim() !== "") {
+      return path.resolve(receiptDir, ref);
+    }
+  }
+
+  return "";
 }
 
 function expectedRolesForValidation(receiptDir, options) {
@@ -305,6 +397,7 @@ function main() {
 
   validatePreflight(receiptDir, options, errors, warnings);
   validateReceipts(receiptDir, options, errors);
+  validatePhase05Summary(options.phase05Summary, errors);
 
   for (const warning of warnings) {
     console.warn(`warning: ${warning}`);

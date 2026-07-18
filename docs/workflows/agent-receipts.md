@@ -12,6 +12,17 @@ Every multi-agent run must also include a preflight receipt before phase work:
 voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
 ```
 
+Multi-target runs may instead use one shared run-level preflight:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/00-agent-preflight.json
+```
+
+Target phase receipts covered by a shared preflight must include
+`agentPreflightRef` or `sharedPreflightRef`, usually
+`../_summaries/00-agent-preflight.json`, so validators and future agents can prove which
+spawned-agent registry applied to that target.
+
 `00-agent-preflight.json` must include:
 
 - `schemaVersion`: `1`
@@ -62,8 +73,11 @@ Receipts must be valid JSON and must include these common fields:
   array when none were made.
 - `nextPhase`: next phase role name, `complete`, or `stop`
 - `handoffReason`: why the next phase should run or why the target stops
-- `handoffFrom`: previous phase or empty for Phase A
+- `handoffFrom`: previous phase or empty for Phase 0/A
 - `handoffTo`: next phase role or `complete`
+- `agentPreflightRef` or `sharedPreflightRef`: optional reference to the
+  run-level `00-agent-preflight.json` when the target directory does not carry
+  its own preflight
 - `nextRecommendedWorker`: a compact machine-readable handoff block when more
   work is expected:
 
@@ -127,6 +141,9 @@ a named scan artifact or the run must stop before push.
 - artifact source, target URL/path, final URL/path, and artifact file list
 - scan options and debug options used
 - page access result
+- page identity: intended URL/path, final URL/path, title or route marker,
+  canonical URL when present, marker text checked, and whether it matches the
+  intended target
 - VoiceOver health checks, including non-empty output, start marker, end marker
   or step-cap reason, repeated-output check, and browser-chrome check
 - popup/interstitial handling evidence
@@ -173,6 +190,8 @@ a named scan artifact or the run must stop before push.
 - one entry per mismatch family
 - classification: `fixture-still-noisy`, `reusable-engine-gap`,
   `dynamic-state-mismatch`, `scanner-evidence-gap`, or `ambiguous`
+- disposition: `resolved`, `fixture-ready`, `engine-ready`, `recapture-only`,
+  `conditional-state-blocked`, or `parked-with-evidence`
 - evidence for the classification
 - resource consistency check for each mismatch family: rendered HTML, AX tree,
   step snapshots, source/caption evidence, scan-debug data, and
@@ -205,7 +224,12 @@ a named scan artifact or the run must stop before push.
 - mini rendered HTML, AX, and step-snapshot evidence summary
 - mini engine output
 - conclusion: `engine-gap-confirmed`, `fixture-noise-confirmed`,
-  `conditional-state-confirmed`, or `insufficient-repro`
+  `conditional-state-confirmed`, `insufficient-repro`, or
+  `debug-evidence-missing`
+- recurring repro family path under
+  `packages/sr-engine/tests/fixtures/voiceover-repros/_families/<family>.html`
+- canary scan or compare evidence showing the reproduction fixture still
+  exercises the intended family before it is used to justify Phase D
 - loop-back target phase and handoff reason for the original site workflow
 
 `05-engine-refinement.json` must include:

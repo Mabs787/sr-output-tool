@@ -10,8 +10,8 @@ successful scan.
 
 ## Agent
 
-Use `.codex/agents/orchestrator.toml` until a dedicated scan-health agent
-exists. The scan-health receipt must still identify the phase as `0`.
+Use `.codex/agents/scan-health.toml`. The scan-health receipt must identify
+the phase as `0`.
 
 ## Required Inputs
 
@@ -29,6 +29,10 @@ The artifact may proceed to Phase A only when all applicable checks pass:
 
 - The runner opened the intended URL or `file://` fixture path, not browser
   chrome, an error page, a login wall, or a blocked navigation page.
+- Page identity is confirmed from the intended URL/path, final URL/path,
+  document title or route marker, canonical URL when present, rendered body
+  marker text, and screenshot/recording evidence when textual identity is
+  ambiguous.
 - `voiceover-output.json`, `voiceover-sources.json`, `rendered-html.html`,
   `accessibility-tree.json`, `scan-debug.json`, and
   `refinement-manifest.json` exist.
@@ -132,6 +136,9 @@ The receipt must include:
 - `scanOptions`
 - `artifactPath` or download location
 - `artifactFiles`
+- `pageIdentity`: intended URL/path, final URL/path, title or route marker,
+  canonical URL when present, rendered body marker text, screenshot/recording
+  evidence checked, and `matchesIntendedTarget`
 - `urlReached`: intended URL/path, final URL/path, and whether they match
 - `pageAccess`: loaded, login-wall, blocked, error-page, browser-chrome, or
   unknown

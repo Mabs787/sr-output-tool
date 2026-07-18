@@ -22,6 +22,15 @@ Classify each mismatch with one of these exact machine enum values:
 - `scanner-evidence-gap`
 - `ambiguous`
 
+After classification, assign one disposition enum:
+
+- `resolved`
+- `fixture-ready`
+- `engine-ready`
+- `recapture-only`
+- `conditional-state-blocked`
+- `parked-with-evidence`
+
 Classification is evidence-weighted, not evenly balanced. After known
 unreplayable state has been removed from the fixture, a remaining mismatch
 between trusted VoiceOver output and deterministic engine replay should default
@@ -51,6 +60,10 @@ Before classifying any mismatch, double-check the evidence packet:
 
 If these resources disagree, return the family to Phase B or Phase C.5 instead
 of making an engine or fixture decision from only the compare output.
+If the resources are absent rather than merely contradictory, classify the
+family as `scanner-evidence-gap`, use `recapture-only` or
+`parked-with-evidence` as the disposition, and route to Phase 0/C.5 before
+Phase D.
 
 Phase C judges the engine against the refined initial-HTML oracle. If the
 expected line is explained only by `htmlAfterStep` or another navigation-time

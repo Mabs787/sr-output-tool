@@ -25,6 +25,7 @@ initial HTML.
 ## Required Phases
 
 0. [Phase 0: Scan Health Gate](phase-0-scan-health.md)
+0.5. [Phase 0.5: Compare Summary Triage](phase-05-compare-summary.md)
 1. [Phase A: Intake](phase-a-intake.md)
 2. [Phase B: Evidence Refinement](phase-b-evidence-refinement.md)
 3. [Phase C: Fixture Judge](phase-c-fixture-judge.md)
@@ -47,7 +48,8 @@ work by mismatch family. Fixed-size batches are acceptable for download,
 intake, or scan-health throughput, but refinement should pivot to family-based
 work as soon as compare results show repeated patterns.
 
-Before Phase B starts in earnest, run a Phase 0.5 compare summary across the
+Before Phase B starts in earnest, run
+[Phase 0.5: Compare Summary Triage](phase-05-compare-summary.md) across the
 whole set and record, for each target:
 
 - expected count, actual count, and mismatch window count
@@ -104,7 +106,8 @@ Parallelize by ownership:
 - Phase C.5 may run per mismatch family in parallel when repro fixtures and
   receipts do not overlap.
 - Only one Phase D engine-refiner may edit engine/runtime/test files at a time
-  unless separate worktrees are explicitly used.
+  unless separate worktrees are explicitly used. Record an exactly-one
+  engine-refiner lease before editing shared engine/runtime/test files.
 
 For time efficiency, use short per-site limits after triage. Spend only enough
 time to prove whether the issue is fixture evidence, a repeated family, or a
@@ -117,8 +120,9 @@ changes, exact targets, parked blockers, and verification results.
 
 Project-scoped subagents live in `.codex/agents/`.
 
-- `orchestrator`: coordinates phases, handoffs, target order, and Phase 0
-  scan-health checks until a dedicated scan-health agent exists.
+- `scan-health`: Phase 0 scan-health checks.
+- `compare-summarizer`: Phase 0.5 run-level compare triage.
+- `orchestrator`: coordinates phases, handoffs, and target order.
 - `intake`: Phase A artifact intake and preprocessing.
 - `evidence-refiner`: Phase B source-of-truth `refinedAnnouncements` review.
 - `fixture-judge`: Phase C mismatch classification.
@@ -141,13 +145,21 @@ registry preflight receipt:
 voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
 ```
 
-The preflight must record the required roles, roles exposed by the current
-multi-agent tool registry, whether tool discovery was attempted, roles still
-missing after discovery, the final decision, and the spawned agent ids for the
-phase agents. Use `decision: "ready"` only when every required role is exposed
-and can be spawned. Use `decision: "blocked"` when a required role is missing
-after discovery. Use `decision: "degraded"` only when the user explicitly asks
-to continue without a named role.
+For multi-target runs, one shared run-level preflight may cover all targets:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/00-agent-preflight.json
+```
+
+Target receipts that rely on the shared preflight must include
+`agentPreflightRef` or `sharedPreflightRef`, normally
+`../_summaries/00-agent-preflight.json`. The preflight must record the required roles,
+roles exposed by the current multi-agent tool registry, whether tool discovery
+was attempted, roles still missing after discovery, the final decision, and the
+spawned agent ids for the phase agents. Use `decision: "ready"` only when every
+required role is exposed and can be spawned. Use `decision: "blocked"` when a
+required role is missing after discovery. Use `decision: "degraded"` only when
+the user explicitly asks to continue without a named role.
 
 A run is `multi-agent` only when at least two phase-specific agents are
 spawned, or when the top-level session records why only one phase was required.
@@ -156,7 +168,8 @@ An orchestrator-only run is not multi-agent.
 The top-level session may spawn `orchestrator` to create a routing plan, but it
 must still spawn phase-specific agents for the actual phase work:
 
-- `orchestrator` for Phase 0 when a new scan artifact needs health validation
+- `scan-health` for Phase 0 when a new scan artifact needs health validation
+- `compare-summarizer` for Phase 0.5 when a run needs target/family triage
 - `intake` for Phase A when artifact import is needed
 - `evidence-refiner` for Phase B
 - `fixture-judge` for Phase C

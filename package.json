@@ -22,6 +22,7 @@
     "voiceover:preprocess-artifact": "node .github/scripts/refine-voiceover-artifact.mjs",
     "voiceover:element-coverage": "node .github/scripts/analyze-voiceover-element-coverage.mjs",
     "voiceover:validate-agent-workflow": "node .github/scripts/validate-agent-workflow.mjs",
+    "voiceover:validate-agent-workflow:test": "node --test .github/scripts/validate-agent-workflow.test.mjs",
     "voiceover:workflow-status": "node .github/scripts/voiceover-workflow-status.mjs"
   },
   "devDependencies": {
