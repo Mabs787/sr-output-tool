@@ -40,6 +40,37 @@ decision, tests added or updated, and what future agents must avoid.
 - Treat initial-DOM trust and conditional-state evidence as separate problems:
   a page can still be a useful candidate even when a focused repro has already
   accepted the generic behavior.
+- Keep the known Microsoft full-corpus baseline failure visible until it is
+  revisited: `www-microsoft-com-en-us-accessibility` currently reports 164
+  expected announcements, 165 actual announcements, and first mismatch index 31
+  (`Disability Answer Desk` versus `Ask Microsoft Accessibility`).
+
+## 2026-07-18 Notion Curation
+
+- Target: Notion run `29641641399` on branch
+  `codex/notion-voiceover-refinement`.
+- Evidence: final receipts under
+  `voiceover-smoke/agent-work/29641641399/`, especially
+  `_summaries/final-compact-compare.json`,
+  `_summaries/final-phase-c-dispositions.json`, and
+  `_summaries/phase-e-promotion.json`.
+- Decision: no full-page Notion fixture was promoted. The 19 valid targets stay
+  isolated as candidate/parked evidence, Mail stays recapture-only, raw
+  `expectedAnnouncements` stay preserved, and the canonical fixture index and
+  refinement manifest stay unchanged.
+- Reusable behavior accepted elsewhere: media icon button grouping, generic
+  heading child boundaries, footer `ul[aria-labelledby]` list labels,
+  AX-empty article naming, and empty-link URL basename fallback are protected by
+  focused repros plus unit tests rather than by non-exact Notion full-page
+  gates.
+- Fixture trap: the C.5 diagnostic canary showed that `fixturePath` handling can
+  make focused scans appear to lack evidence. Treat an empty or wrong-fixture
+  C.5 capture as a scanner diagnostic first; rerun the canary or fix the
+  fixture-path plumbing before using that result to reject or accept a broad
+  engine rule.
+- Avoid: promoting large live-site candidates when final Phase C has 0
+  actionable family buckets but nonzero parked windows. Keep the revisit queue
+  family-specific with blocker, owner, next action, and checks needed.
 
 ## 2026-07-12 Behavior Lab: Modal Dialogs
 

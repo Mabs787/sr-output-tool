@@ -1,6 +1,6 @@
 # VoiceOver Corpus Baseline
 
-Last refreshed: 2026-07-09
+Last refreshed: 2026-07-18
 
 This baseline uses the VoiceOver-first refinement workflow:
 
@@ -112,6 +112,18 @@ Carousel/media remains recapture-only, while broader list/card, pricing/table,
 and tooltip/link families remain parked with evidence. None reached exact
 gating, so no Dropbox full-page entry was added to the canonical index or
 refinement manifest.
+
+The Notion Phase E curation pass for run `29641641399` kept all 19 valid
+targets as isolated candidate/parked evidence and kept
+`www-notion-com-product-mail` as skip/recapture-only. The final compact compare
+has 3,886 expected announcements, 3,533 actual announcements, and 559 mismatch
+windows across the valid targets, with 0 exact targets and 0 actionable family
+buckets after final Phase C accounting. Raw `expectedAnnouncements` were
+preserved. No full-page Notion fixture was copied into the canonical corpus,
+and `index.json` plus `refinement-manifest.json` were intentionally unchanged:
+focused repros and unit tests already cover the reusable media icon button
+grouping, heading child-boundary, footer list-label, AX-empty article naming,
+and empty-link URL basename behaviors.
 
 `web-dev` remains partial because the direct compare is exact, but the 60-second settle rescan still has capture-timing evidence under review. Do not edit the refined announcements from that rescan unless a future receipt documents a fresh evidence-backed correction.
 
