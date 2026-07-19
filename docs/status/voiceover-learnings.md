@@ -64,29 +64,39 @@ decision, tests added or updated, and what future agents must avoid.
 - Target: British Airways run `29664876599`.
 - Evidence: concise receipts under
   `voiceover-smoke/agent-work/29664876599/`, especially
-  `_summaries/final-compact-compare-20.json`,
-  `_summaries/final-phase-bc-accounting.json`,
+  `_summaries/phase-c-final-compact-compare.json`,
+  `_summaries/phase-c-final-residual-family-inventory.json`,
   `_summaries/phase-c5-family-truncation.json`,
   `_summaries/phase-d-social-x-list-punctuation.json`,
   `_summaries/phase-d-shared-shell-structure.json`, and
-  `_summaries/phase-e-promotion.json`.
+  `_summaries/phase-e-final-promotion.json`.
 - Decision: promote none. All 18 valid fresh BA fixtures remain isolated
-  parked-with-evidence candidates after final compare: 1,719 expected, 2,005
-  actual, and 264 mismatch windows. Flights and Holidays stay recapture-only
-  because the Chrome geolocation permission prompt captured focus before page
-  traversal.
-- Fixture repair accounting: the exhaustive OCR/HTML/AX/source sweep reviewed
-  all text and punctuation candidates, applied 100 evidence-backed refined
-  repairs, left 0 unreviewed candidates, preserved raw
+  parked-with-evidence or conditional candidates after definitive final compare:
+  1,714 expected, 1,949 actual, and 197 mismatch windows. Terminal buckets are
+  189 parked windows, 8 conditional windows, 0 actionable, 0 ambiguous, 0
+  unclassified, and 2 recapture-only targets. Flights and Holidays stay
+  recapture-only because the Chrome geolocation permission prompt captured focus
+  before page traversal.
+- Fixture repair accounting: the earlier OCR/HTML/AX/source sweep applied 100
+  evidence-backed refined repairs. The reopened residual pass reviewed 13 more
+  candidates and applied 11, for 135 reviewed, 111 applied, and 4 rejected
+  cumulatively. It left 0 unreviewed candidates, preserved raw
   `expectedAnnouncements`, and kept unresolved families in revisit queues.
 - Canonical drift rule: keep the promoted BA homepage fixture unchanged. The
   canonical tracked page remains exact at 208 expected, 208 actual, and 0
-  windows; the fresh homepage is a different `Last-minute getaways` live state
-  and remains drift evidence only.
+  windows; the fresh homepage is 210 expected, 210 actual, and 2 conditional
+  `Last-minute getaways` live-state windows, so it remains drift evidence only.
 - Phase C.5/Phase D checkpoints: the C.5 fixture-path canary passed before
-  family conclusions were trusted. Final compare batches A/B/C were used for
-  the all-target 264-window total; do not replace them with a generic
-  remaining-mismatches summary.
+  family conclusions were trusted. The definitive Phase C final compare and
+  residual inventory are the source for the 197-window total; do not replace
+  them with a generic remaining-mismatches summary or stale 264-window batch
+  totals.
+- Reopened delivery audit at branch
+  `codex/british-airways-voiceover-refinement` HEAD `b44517a` corrected the
+  final audit to the definitive terminal buckets: original 264 to 197 (-67),
+  post-first-fixture 259 to 197 (-62), and previous 222 to 197 (-25). All 20
+  targets have 0/A/B/C/E accounting, the engine leases are clear, and no
+  fixture is promoted.
 
 ## 2026-07-19 Notion Curation Refresh
 
