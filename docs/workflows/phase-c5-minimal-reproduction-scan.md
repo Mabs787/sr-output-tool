@@ -139,6 +139,24 @@ triage evidence, but it is not sufficient proof for a broad engine rule.
 If the reproduction cannot be hosted or scanned, Phase C.5 must return with a
 blocker instead of deciding the mismatch.
 
+## Fixture-Path Diagnostic Gate
+
+Before requesting the family scan, run the local-fixture diagnostic canary and
+record:
+
+- requested repo-relative `fixturePath`
+- resolved absolute path and file SHA-256
+- expected `data-sr-scan-root` marker or fixture identity text
+- rendered page URL/path observed by the runner
+- non-empty rendered HTML, relevant AX-node count, and step-snapshot count
+
+The canary passes only when the runner opened the requested file and the saved
+artifact contains the expected fixture identity plus usable AX and step
+evidence. If the resolved path, identity, AX, or snapshots are wrong or empty,
+stop the family scan and return `debug-evidence-missing` or
+`scanner-fix-required`. Do not interpret that artifact as evidence for or
+against the mismatch family.
+
 Use a small `max_steps` value for minimal reproductions so a missing end marker
 or stalled VoiceOver cursor cannot hold the workflow open indefinitely. This is
 a step cap for focused mini evidence, not a substitute for the normal page end
@@ -218,6 +236,10 @@ Write `04-minimal-reproduction-scan.json` with:
 - original expected/refined/actual snippets
 - reason Phase C.5 was required
 - reproduction file/path/URL
+- `fixturePathDiagnostic`: requested path, resolved path, SHA-256, identity
+  marker, rendered path, AX count, snapshot count, and pass/fail decision
+- stable source `candidateRef` copied from Phase B/C; source indexes must be
+  re-resolved if the fixture changed before the mini scan
 - preserved DOM contract checklist
 - original AX contract copied into the reproduction: source node ids and the
   role/name/state/table/list/focusability values that mattered

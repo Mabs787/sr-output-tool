@@ -65,12 +65,25 @@ family as `scanner-evidence-gap`, use `recapture-only` or
 `parked-with-evidence` as the disposition, and route to Phase 0/C.5 before
 Phase D.
 
+For structural families, require a Phase B `structuralEvidencePacket` with
+`completeness: "complete"` before assigning `engine-ready`. A partial packet
+must name the missing DOM, AX, VoiceOver-step, source, or screenshot link and
+route to Phase 0 or C.5. Do not turn repeated compare text alone into a broad
+engine rule.
+
 Phase C judges the engine against the refined initial-HTML oracle. If the
 expected line is explained only by `htmlAfterStep` or another navigation-time
 mutation, return it to Phase B for removal or normalization from
 `refinedAnnouncements`; do not classify it as a reusable engine gap. If the
 same semantic content exists in initial `rendered-html.html` and AX evidence,
 then the mismatch can proceed as a fixture or engine question.
+
+Require `stateScope` on every dynamic or conditional decision. Only
+`initial-dom` belongs in the normal fixture compare. Preserve
+`interaction-sequence` and `volatile-value` announcements in raw evidence and a
+`conditionalStateEvidence` block with trigger, step, before/after DOM
+fingerprints, and replayability decision. Never use a conditional-state label
+to hide a replayable initial-DOM mismatch.
 
 ## Structural Decomposition Gate
 

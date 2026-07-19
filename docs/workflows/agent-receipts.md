@@ -144,6 +144,62 @@ missing from the tool registry, record the missing role in
 `00-agent-preflight.json` and stop or mark the run `degraded` with explicit user
 approval. A degraded run cannot promote a fixture to `refined`.
 
+## Stable Candidate References
+
+Any receipt that points to an announcement candidate after Phase B starts must
+use `candidateRef`, not an index alone:
+
+```json
+{
+  "candidateId": "www-example-com:text-boundary:4f33d2c1",
+  "sourceIndex": 214,
+  "currentRefinedIndex": 215,
+  "rawTextSha256": "...",
+  "refinedTextSha256": "...",
+  "previousTextSha256": "...",
+  "nextTextSha256": "...",
+  "domNodeIds": ["768"],
+  "htmlSnippetSha256": "...",
+  "axRoleNameSha256": "...",
+  "family": "text-boundary",
+  "compareWindowId": "window-17",
+  "resolution": "remapped"
+}
+```
+
+Valid `resolution` values are `matched`, `remapped`, and `stale-reference`.
+`stale-reference` blocks the edit until the evidence packet is rebuilt.
+
+## Structural Evidence Packets
+
+Structural mismatch receipts must include `structuralEvidencePacket` with the
+focused DOM node, outerHTML hash, semantic ancestor chain, sibling summary,
+matched AX role/name/state/position, VoiceOver step/source pointer, screenshot
+pointer when visual state matters, compare window, and `completeness`.
+`engine-ready` requires `completeness: "complete"`.
+
+## Run Metrics
+
+Final run summaries must report these separately:
+
+- reviewed candidate count
+- applied fixture-repair count
+- rejected candidate count
+- mismatch windows before and after fixture repair
+- mismatch windows before and after engine work
+- exact, actionable, conditional, parked, and recapture-only totals
+
+Do not imply that one repair equals one mismatch window. Window alignment can
+group several repairs or remain unchanged after an evidence-correct edit.
+
+## Recapture Queue Receipts
+
+`_summaries/recapture-queue.json` contains one stable `recaptureId` entry per
+invalid target capture. Each entry records failed and replacement run ids,
+failure category, missing evidence, retry settings, owner, next action, status,
+and the skipped A/B plus recapture-only C/E receipt paths used for complete run
+accounting.
+
 ## Fixture Change Entries
 
 Whenever `refinedAnnouncements`, fixture HTML, fixture AX, manifest metadata, or

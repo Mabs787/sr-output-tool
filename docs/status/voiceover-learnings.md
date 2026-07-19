@@ -78,6 +78,12 @@ decision, tests added or updated, and what future agents must avoid.
 - Avoid: promoting large live-site candidates when final Phase C has 0
   actionable family buckets but nonzero parked windows. Keep the revisit queue
   family-specific with blocker, owner, next action, and checks needed.
+- Workflow follow-up: the next run must use semantic shell fingerprints,
+  stable text-neighbour plus DOM/AX candidate references, complete structural
+  evidence packets, a pre-scan C.5 fixture-path canary, separate conditional
+  state evidence, and a run-level recapture queue with complete skipped-phase
+  accounting. Final metrics must distinguish reviewed candidates and applied
+  repairs from mismatch-window reductions.
 
 ## 2026-07-12 Behavior Lab: Modal Dialogs
 

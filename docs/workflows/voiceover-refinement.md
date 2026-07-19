@@ -58,6 +58,8 @@ whole set and record, for each target:
 - whether the target is exact, fixture-evidence cleanup, engine-family
   candidate, needs C.5, needs recapture, or conditional-state blocked
 - the next action and owner
+- a semantic shell fingerprint and shared shell-family ids for repeated header,
+  logo, navigation, consent, and footer structures
 
 Use this triage to separate special cases early:
 
@@ -69,6 +71,10 @@ Use this triage to separate special cases early:
   only if the initial-state replay target remains unclear.
 - Repeated mismatch family: if the same family appears on two or more sites,
   stop per-site grinding and investigate it as a family.
+- Repeated page shell: use one representative target to establish the generic
+  HTML/AX contract, then verify the decision across every target sharing the
+  shell fingerprint. Do not derive engine predicates from site copy or CSS
+  classes.
 - Exact or near-exact target: finish evidence receipts quickly and keep it out
   of broad engine experiments.
 
@@ -115,6 +121,24 @@ blocker. Move repeated or uncertain behavior into C.5 quickly, then return to
 the affected sites after the family decision. Final receipts for a large set
 must include the compact compare table, C.5 count, engine changes, fixture
 changes, exact targets, parked blockers, and verification results.
+
+## Next-Run Action Checklist
+
+For every new multi-site refinement session, confirm these contracts before
+final Phase C/E:
+
+- Phase 0 has a recapture queue entry and complete skipped/recapture-only
+  accounting for every invalid artifact.
+- Phase 0.5 has semantic shell fingerprints and family signatures before work
+  is divided by target.
+- Phase B uses stable `candidateRef` anchors and re-resolves them after every
+  fixture-edit batch.
+- Structural Phase C decisions have complete DOM/AX/VoiceOver evidence packets.
+- Local-fixture C.5 runs pass the fixture-path diagnostic canary before their
+  family verdict is trusted.
+- Conditional state is stored separately from the initial-DOM fixture oracle.
+- The final report separates candidate reviews, fixture repairs, engine
+  changes, mismatch-window deltas, and disposition totals.
 
 ## Agent Routing
 
@@ -252,6 +276,12 @@ the receipts explain why those phases were not required.
   when VoiceOver announces one grouped/card object and the engine decomposes
   children, inspect the active element, focusability, AX/computed name, child
   HTML shape, and scanner descent behavior.
+- Announcement indexes are not stable identity. Every mismatch candidate must
+  use text-neighbour hashes plus DOM/AX anchors, and must be re-resolved after
+  fixture edits before an agent applies a later indexed change.
+- Structural families need a complete evidence packet linking the compare
+  window, focused DOM node, semantic ancestors, AX node, VoiceOver step/source,
+  and screenshot when state is visual before Phase D may act.
 - Text split/join mismatches must include a text-boundary check before they are
   dismissed as OCR noise or flakiness. Inspect the relevant `outerHTML` for
   inline emphasis, `br`, block/span/markdown fragments, list markers, hidden
@@ -283,6 +313,9 @@ the receipts explain why those phases were not required.
   evidence. Such content should remain in raw `expectedAnnouncements`, but it
   must be removed or normalized from `refinedAnnouncements` unless the same
   semantic content is also present and replayable in the initial DOM.
+- Keep interaction-sequence and volatile-value announcements in raw evidence
+  plus `conditionalStateEvidence`; only initial-DOM output belongs in the
+  ordinary refined fixture oracle.
 - If `htmlAfterStep` shows a DOM fingerprint/body text change at the same step
   as a disputed VoiceOver line, Phase B must classify the line as
   `initial-dom`, `step-only-dom`, `volatile-dom`, or `not-found` before Phase C
@@ -297,6 +330,10 @@ the receipts explain why those phases were not required.
   AX/tree interpretation, source/caption drift, step-only DOM state, or whether
   VoiceOver behavior is generic, prefer a Phase C.5 test over a terminal
   ambiguity label.
+- Before every local-fixture C.5 family scan, prove the requested fixture path,
+  file hash, scan-root identity, AX output, and step snapshots with the
+  diagnostic canary. Wrong or empty evidence is a scanner-path failure, not a
+  family verdict.
 - Phase C.5 is also a Phase D confidence tool. When an engine rule feels too
   broad, site-shaped, or surprising, Phase D should request a mini scan to prove
   the isolated DOM/ARIA/table/list/control behavior before committing the rule.
@@ -314,6 +351,9 @@ the receipts explain why those phases were not required.
   external blocker or risk that prevents safe progress.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
+- Invalid captures must enter the run-level recapture queue and receive skipped
+  A/B plus recapture-only C/E receipts so final accounting covers every target
+  without treating failed scans as zero-mismatch fixtures.
 - Do not promote every scanned site as a full-page golden fixture by default.
   Phase E must decide whether the result belongs in the golden exact corpus,
   candidate/parked corpus, a focused repro fixture, or artifact archive. Promote

@@ -114,6 +114,28 @@ before Phase A.
   explains why the remaining evidence is still useful, and prevents Phase E
   promotion to `refined` until the gap is resolved.
 
+## Recapture Accounting
+
+Every outcome other than `passed` must create or update a run-level recapture
+queue entry under:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/recapture-queue.json
+```
+
+The entry must include the target, failed run/artifact, failure category,
+missing or invalid evidence, recommended scan-option changes, owner, next check
+or retry action, and whether refinement of any partial evidence is allowed.
+Use a stable `recaptureId` so retries append evidence instead of replacing the
+original failure record.
+
+Before final run accounting, the orchestrator must also materialize skipped
+Phase A/B receipts and Phase C/E `recapture-only` dispositions for an invalid
+capture. This keeps every requested target represented without importing a bad
+fixture or inventing zero mismatch counts. A later successful capture may
+supersede the queue entry, but it must retain the failed run id and evidence
+history.
+
 ## Receipt
 
 Write:
@@ -151,6 +173,8 @@ The receipt must include:
 - `decision`
 - `nextAction`
 - `handoffTo`: `intake`, `scan-retry`, `scanner-fix`, or `stop`
+- `recaptureQueueEntry`: `null` for `passed`; otherwise `recaptureId`, queue
+  path, failure category, retry settings, owner, and next action
 
 Phase A must not import a newly downloaded artifact unless the same target/run
 has a passing or explicitly accepted `partial-evidence` Phase 0 receipt.

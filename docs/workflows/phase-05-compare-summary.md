@@ -31,7 +31,12 @@ The run-level summary must also include:
 - `totals`: target, valid, invalid, exact, actionable mismatch-window, and
   conditional-state/outlier mismatch-window counts
 - `recurringFamilies`: family name, affected targets, occurrence count,
-  confidence, C.5 requirement, next owner, and next action
+  confidence, C.5 requirement, next owner, next action, and a reusable
+  `familySignature` derived from semantic HTML/AX shape rather than site copy
+  or CSS classes
+- `sharedShellFamilies`: repeated header, navigation, logo, footer, consent,
+  and legal-tail structures, with their `shellFingerprint`, affected targets,
+  confidence, and proposed family owner
 - `sharedPreflightRef`: `00-agent-preflight.json`
 
 The summary must include one row per target:
@@ -43,6 +48,10 @@ The summary must include one row per target:
 - `actualCount`
 - `mismatchWindowCount`
 - `dominantMismatchFamilies`
+- `shellFingerprint`: a compact signature of repeated page-shell semantics,
+  including landmark order, navigation/list shape, logo/image role shape, and
+  footer structure; do not include unstable CSS classes or full page copy
+- `sharedShellFamilies`: family ids that this target shares with other rows
 - `oracleConfidence`: `high`, `medium`, or `low`
 - `disposition`: `exact`, `fixture-evidence-cleanup`,
   `engine-family-candidate`, `needs-c5`, `needs-recapture`, or
@@ -61,6 +70,13 @@ embedding full logs or announcement arrays.
 - Do not promote targets from Phase 0.5.
 - If the same mismatch family appears on two or more targets, prefer a family
   Phase C.5 or Phase D route over isolated per-site grinding.
+- Compute shell fingerprints before assigning per-target Phase B work. When two
+  or more targets share a shell family, audit one representative evidence
+  packet first, then fan the proven fixture or engine decision out to the
+  remaining targets with per-target verification.
+- Treat a shell fingerprint as a routing hint, not engine evidence. Any engine
+  rule still needs a generic HTML/AX contract and must not depend on a site
+  name, copied text, URL, CSS class, or layout accident.
 - If page identity is uncertain, route back to Phase 0 or recapture before
   trusting compare counts.
 - Keep parked families concrete: owner, next action, blocker, and evidence or

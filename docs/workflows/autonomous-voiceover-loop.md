@@ -63,6 +63,7 @@ Recommended target states:
 - `queued`
 - `scan-running`
 - `scan-health-failed`
+- `needs-recapture`
 - `scanner-fix-required`
 - `artifact-ready`
 - `refining`
@@ -123,6 +124,12 @@ The top-level session or orchestrator agent must:
   screenshots/source evidence. If those are absent, route the target to
   `scanner-fix-required` or `debug-evidence-missing` before Phase D.
 - Wait for artifacts and run Phase 0 before Phase A.
+- Maintain `_summaries/recapture-queue.json`; invalid captures must receive
+  skipped A/B and recapture-only C/E accounting before the run can finish.
+- Use Phase 0.5 shell fingerprints to batch repeated header, logo, navigation,
+  and footer structures before per-target refinement.
+- Require stable `candidateRef` anchors whenever an agent applies or revisits a
+  fixture edit; stale array indexes must be re-resolved before work continues.
 - Spawn the named phase agents required by
   `docs/workflows/voiceover-refinement.md`.
 - Keep write ownership narrow:
@@ -132,6 +139,8 @@ The top-level session or orchestrator agent must:
 - Keep advancing each site toward zero mismatches by repeatedly routing unresolved
   families through B/C/C.5/D until exact match or a genuine fallback condition
   is recorded.
+- Report candidate reviews, fixture repairs, mismatch-window deltas, and final
+  disposition totals as separate metrics.
 - Enforce the initial-HTML oracle: before treating a mismatch as an engine gap,
   confirm the expected refined line is replayable from initial
   `rendered-html.html`, not only from a later `htmlAfterStep` mutation.
