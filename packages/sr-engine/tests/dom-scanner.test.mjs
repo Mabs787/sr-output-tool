@@ -212,6 +212,56 @@ test("scanSubtree suppresses empty headings before exposed media without suppres
   );
 });
 
+test("scanSubtree suppresses empty headings before wrapper-proxied named media", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h2></h2>
+        </x-content>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-card>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-image>
+              <template shadowrootmode="open">
+                <img alt="Airport service desk">
+              </template>
+            </x-image>
+            <x-content>
+              <template shadowrootmode="open"><slot></slot></template>
+              <h3>Travel planning</h3>
+            </x-content>
+          </x-card>
+        </x-grid>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h2></h2>
+        </x-content>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-card>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-content>
+              <template shadowrootmode="open"><slot></slot></template>
+              <p>Text first, no media descendant.</p>
+            </x-content>
+          </x-card>
+        </x-grid>
+      </main>
+    `),
+    [
+      "main",
+      "Airport service desk, image",
+      "heading level 3, Travel planning",
+      "heading level 2",
+      "Text first, no media descendant.",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree itemizes non-interactive heading child text boundaries", () => {
   assert.deepEqual(
     scanHtml(`
@@ -2330,6 +2380,107 @@ test("scanSubtree splits AX-confirmed two-link paragraph text boundaries", () =>
   );
 });
 
+test("scanSubtree skips AX-confirmed inter-link or text for native paragraph links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="request-copy">
+          Before you book, please submit our
+          <a href="/request" data-sr-dom-node-id="request-link">request form</a>
+          or
+          <a href="/contact" data-sr-dom-node-id="contact-link">contact the support team</a>.
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "request-copy",
+              childIds: ["before", "request", "or", "contact", "dot"],
+            },
+            { nodeId: "before", role: "StaticText", name: "Before you book, please submit our " },
+            {
+              nodeId: "request",
+              role: "link",
+              name: "request form",
+              domNodeId: "request-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "or", role: "StaticText", name: " or " },
+            {
+              nodeId: "contact",
+              role: "link",
+              name: "contact the support team",
+              domNodeId: "contact-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "dot", role: "StaticText", name: "." },
+          ],
+        },
+      },
+    ),
+    [
+      "Before you book, please submit our",
+      "link, request form",
+      "link, contact the support team",
+    ],
+  );
+});
+
+test("scanSubtree emits AX-confirmed strong-wrapped native link before following paragraph", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p data-sr-dom-node-id="responsibility-copy">
+            <strong data-sr-dom-node-id="responsibility-strong">
+              <a href="#details" data-sr-dom-node-id="responsibility-link">Confirm your travel documents before you fly</a>.
+            </strong>
+          </p>
+          <p>Check the full entry requirements for your destination.</p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "responsibility-copy",
+              childIds: ["strong"],
+            },
+            {
+              nodeId: "strong",
+              role: "strong",
+              name: "",
+              domNodeId: "responsibility-strong",
+              childIds: ["link", "dot"],
+            },
+            {
+              nodeId: "link",
+              role: "link",
+              name: "Confirm your travel documents before you fly",
+              domNodeId: "responsibility-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "dot", role: "StaticText", name: "." },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, Confirm your travel documents before you fly",
+      "Check the full entry requirements for your destination.",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree splits C5-confirmed one-link direct paragraph text boundaries", () => {
   assert.deepEqual(
     scanHtml(
@@ -3033,6 +3184,59 @@ test("scanSubtree keeps bare or with lead text for AX-confirmed two-link paragra
       },
     ),
     ["Go to or", "link, 111.example", "link, call 111"],
+  );
+});
+
+test("scanSubtree preserves inter-link or when the second link has meaningful trailing text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="commands">
+          They have to rely on
+          <a href="/mouse" data-sr-dom-node-id="mouse-link">mouse commands</a>
+          or
+          <a href="/keyboard" data-sr-dom-node-id="keyboard-link">keyboard commands</a>,
+          which take multiple steps.
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "commands",
+              childIds: ["before", "mouse", "or", "keyboard", "after"],
+            },
+            { nodeId: "before", role: "StaticText", name: "They have to rely on " },
+            {
+              nodeId: "mouse",
+              role: "link",
+              name: "mouse commands",
+              domNodeId: "mouse-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "or", role: "StaticText", name: " or " },
+            {
+              nodeId: "keyboard",
+              role: "link",
+              name: "keyboard commands",
+              domNodeId: "keyboard-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "after", role: "StaticText", name: ", which take multiple steps." },
+          ],
+        },
+      },
+    ),
+    [
+      "They have to rely on",
+      "link, mouse commands",
+      "or",
+      "link, keyboard commands",
+      ", which take multiple steps.",
+    ],
   );
 });
 

@@ -4032,14 +4032,62 @@
             return false;
           if (normalize(accessibleName(el, role) || readableText(el) || el.textContent))
             return false;
-          const next = nextVisibleElementSibling(el);
+          const next = nextVisibleSiblingAcrossTransparentAncestors(el);
           if (!next)
             return false;
           if (implicitRole(next) === "image" || nestedImageLabel(next))
             return true;
+          if (firstMeaningfulDescendantIsNamedImage(next))
+            return true;
           if (normalize(readableText(next) || next.textContent))
             return false;
           return Boolean(next.querySelector?.("img, svg, video, canvas, [role='img']"));
+        }
+        function nextVisibleSiblingAcrossTransparentAncestors(el) {
+          for (let current = el, depth = 0; current && depth < 4; current = current.parentElement, depth += 1) {
+            const next = nextVisibleElementSibling(current);
+            if (next)
+              return next;
+            const parent = current.parentElement;
+            if (!parent || parent === document.body || parent === document.documentElement)
+              return void 0;
+            if (!isTransparentSingleMeaningfulChildWrapper(parent, current))
+              return void 0;
+          }
+          return void 0;
+        }
+        function isTransparentSingleMeaningfulChildWrapper(wrapper, child) {
+          if (!wrapper || wrapper.nodeType !== Node.ELEMENT_NODE || isHidden(wrapper))
+            return false;
+          if (wrapper.matches?.(interactiveSelector))
+            return false;
+          const role = implicitRole(wrapper);
+          if (role && !["generic", "group"].includes(role))
+            return false;
+          if (normalize(accessibleName(wrapper, role || "group") || directOwnText(wrapper)))
+            return false;
+          const meaningfulChildren = Array.from(wrapper.children || []).filter((candidate) => {
+            if (candidate.tagName?.toLowerCase() === "template" && candidate.getAttribute("shadowrootmode")) {
+              return false;
+            }
+            if (isHidden(candidate))
+              return false;
+            return true;
+          });
+          return meaningfulChildren.length === 1 && meaningfulChildren[0] === child;
+        }
+        function firstMeaningfulDescendantIsNamedImage(el) {
+          const first = firstVisibleDescendantMatching(el, (candidate) => {
+            const role = implicitRole(candidate);
+            if (role === "image" && accessibleName(candidate, "image"))
+              return true;
+            if (candidate.matches?.(interactiveSelector))
+              return true;
+            if (role && !["generic", "group"].includes(role))
+              return true;
+            return Boolean(normalize(directOwnText(candidate)) && !candidate.querySelector?.("img, svg, video, canvas, [role='img']"));
+          });
+          return Boolean(first && implicitRole(first) === "image" && accessibleName(first, "image"));
         }
         function isPunctuationOnlyBetweenInlineEmphasis(el, role) {
           if (role !== "text")
@@ -9928,15 +9976,6 @@
           } else if (axLinkCount !== links.length) {
             return void 0;
           }
-          if (axLinkCount === 2 && axChildren.some((node, index) => {
-            if (normalizedAxRole(node.role) !== "statictext")
-              return false;
-            if (normalize(node.name)?.toLowerCase() !== "or")
-              return false;
-            return normalizedAxRole(axChildren[index - 1]?.role) === "link" && normalizedAxRole(axChildren[index + 1]?.role) === "link";
-          })) {
-            return void 0;
-          }
           function elementHeadingLevel(heading) {
             const tag = heading?.tagName?.toLowerCase?.() || "";
             if (/^h[1-6]$/.test(tag)) {
@@ -9985,6 +10024,32 @@
               return false;
             return normalizedAxRole(axChildren[index - 1]?.role) === "link" && normalizedAxRole(axChildren[index + 1]?.role) === "link";
           }
+          function shouldSkipInterLinkConjunction(index, text) {
+            if (text.toLowerCase() !== "or")
+              return false;
+            const firstLinkIndex = axChildren.findIndex((node) => normalizedAxRole(node.role) === "link");
+            const leadingText = normalize(axChildren.slice(0, firstLinkIndex).filter((node) => normalizedAxRole(node.role) === "statictext").map((node) => node.name || "").join(" "));
+            if (!leadingText || (leadingText.match(/[\p{L}\p{N}]+/gu) || []).length < 4) {
+              return false;
+            }
+            const nextLinkIndex = axChildren.findIndex((node, childIndex) => childIndex > index && normalizedAxRole(node.role) === "link");
+            if (nextLinkIndex < 0)
+              return false;
+            const trailingText = normalize(axChildren.slice(nextLinkIndex + 1).filter((node) => normalizedAxRole(node.role) === "statictext").map((node) => node.name || "").join(" "));
+            if (trailingText && /[\p{L}\p{N}]/u.test(trailingText))
+              return false;
+            return normalizedAxRole(axChildren[index - 1]?.role) === "link" && normalizedAxRole(axChildren[index + 1]?.role) === "link";
+          }
+          function shouldJoinInterLinkConjunction(index, text) {
+            if (text.toLowerCase() !== "or")
+              return false;
+            const firstLinkIndex = axChildren.findIndex((node) => normalizedAxRole(node.role) === "link");
+            const leadingText = normalize(axChildren.slice(0, firstLinkIndex).filter((node) => normalizedAxRole(node.role) === "statictext").map((node) => node.name || "").join(" "));
+            if (!leadingText || (leadingText.match(/[\p{L}\p{N}]+/gu) || []).length >= 4) {
+              return false;
+            }
+            return normalizedAxRole(axChildren[index - 1]?.role) === "link" && normalizedAxRole(axChildren[index + 1]?.role) === "link";
+          }
           const fragments = [];
           let disallowedAxChild = false;
           const shortLeadingText = normalize(axChildren[0]?.name);
@@ -10021,6 +10086,15 @@
             const text = normalize(child.name);
             if (!text || !/[\p{L}\p{N}]/u.test(text))
               return;
+            if (shouldSkipInterLinkConjunction(index, text))
+              return;
+            if (shouldJoinInterLinkConjunction(index, text)) {
+              const textIndex = fragments.length - 2;
+              if (textIndex >= 0 && !fragments[textIndex]?.startsWith("link, ")) {
+                fragments[textIndex] = normalize(`${fragments[textIndex]} ${text}`) || fragments[textIndex];
+                return;
+              }
+            }
             fragments.push(shouldCompactLeadParagraphConjunction(index, text) ? ",and" : text);
           }
           for (const [index, child] of axChildren.entries()) {
@@ -10029,6 +10103,79 @@
               return void 0;
           }
           return fragments.length > links.length ? fragments : void 0;
+        }
+        function strongWrappedOnlyNativeLinkParagraphFragments(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName.toLowerCase() !== "p")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || expandedControlledRegionFor(el) || !accessibilityNodes.length) {
+            return void 0;
+          }
+          const directElements = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (directElements.length !== 1)
+            return void 0;
+          const wrapper = directElements[0];
+          if (!["strong", "b", "em", "i"].includes(wrapper.tagName?.toLowerCase())) {
+            return void 0;
+          }
+          if (normalize(directOwnText(el)) || wrapper.querySelector?.("br"))
+            return void 0;
+          const links = Array.from(wrapper.querySelectorAll("a[href], [role='link']")).filter((link) => !isHidden(link));
+          if (links.length !== 1)
+            return void 0;
+          const disallowedInteractive = Array.from(wrapper.querySelectorAll(interactiveSelector)).some((descendant) => descendant !== links[0]);
+          if (disallowedInteractive)
+            return void 0;
+          let textOutsideLink = "";
+          const collectTextOutsideLink = (node) => {
+            if (!node || node === links[0])
+              return;
+            if (node.nodeType === Node.TEXT_NODE) {
+              textOutsideLink += node.textContent || "";
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE)
+              return;
+            if (node.matches?.("a[href], [role='link']"))
+              return;
+            for (const child of Array.from(node.childNodes || [])) {
+              collectTextOutsideLink(child);
+            }
+          };
+          collectTextOutsideLink(wrapper);
+          const outsideText = normalize(textOutsideLink);
+          if (outsideText && /[\p{L}\p{N}]/u.test(outsideText))
+            return void 0;
+          const paragraphAxNode = axNodeForElementRole(el, "paragraph");
+          const paragraphAxChildren = axChildNodes(paragraphAxNode);
+          if (!paragraphAxNode || paragraphAxChildren.length !== 1)
+            return void 0;
+          const wrapperAxNode = paragraphAxChildren[0];
+          if (!["strong", "emphasis"].includes(normalizedAxRole(wrapperAxNode.role) || "")) {
+            return void 0;
+          }
+          const wrapperAxChildren = axChildNodes(wrapperAxNode);
+          if (wrapperAxChildren.length < 1 || wrapperAxChildren.length > 2)
+            return void 0;
+          const [linkAxNode, trailingAxNode] = wrapperAxChildren;
+          if (normalizedAxRole(linkAxNode.role) !== "link")
+            return void 0;
+          if (linkAxNode.properties?.focusable !== true)
+            return void 0;
+          const linkElementAxNode = axNodeForElementRole(links[0], "link");
+          if (!linkElementAxNode || normalize(linkElementAxNode.nodeId) !== normalize(linkAxNode.nodeId)) {
+            return void 0;
+          }
+          if (trailingAxNode) {
+            if (normalizedAxRole(trailingAxNode.role) !== "statictext")
+              return void 0;
+            const trailingText = normalize(trailingAxNode.name);
+            if (trailingText && /[\p{L}\p{N}]/u.test(trailingText))
+              return void 0;
+          }
+          const linkName = normalizeAnnouncementLabel(linkAxNode.name);
+          return linkName ? [`link, ${linkName}`] : void 0;
         }
         function footerInlineBoundaryParagraphFragments(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
@@ -13376,7 +13523,7 @@
             figureMockupHeaderText: figureMockupHeaderText(el, role),
             axStaticTextRunFragments: axStaticTextRunFragments(el, role),
             axLineBreakTextFragments: axLineBreakTextFragments(el, role),
-            inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
+            inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || strongWrappedOnlyNativeLinkParagraphFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             priceDisclosureFragments: priceDisclosureFragments(el, role),
@@ -14038,7 +14185,7 @@
             return hasOnlyInteractiveListItemContent(el) || hasLabeledNativeSelectListItemContent(el) || hasImageLinkWithCaptionListItemContent(el) || hasNamedImageListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
           }
           if (role === "paragraph") {
-            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
+            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !strongWrappedOnlyNativeLinkParagraphFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
           }
           return false;
         }
