@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 paragraph before duplicate link repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      x-content { display: block; }
+      x-action-link { display: block; width: fit-content; }
+      x-action-link a { display: inline-flex; align-items: center; width: fit-content; }
+      svg { width: 1em; height: 1em; margin-left: 4px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-repro-family="paragraph-before-duplicate-link-skip">
+      <h1>Paragraph before duplicate link marker</h1>
+
+      <section aria-labelledby="positive-heading">
+        <h2 id="positive-heading">Positive custom-host case</h2>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h2>Concierge support service</h2>
+          Partner Support offers guided help through busy terminals. The service covers arrivals, transfers, and departure support. Staff follow local airport rules. Service depends on airport availability.
+          <x-action-link href="#support-details">
+            <template shadowrootmode="open">
+              <a href="#support-details">
+                <span><slot></slot></span>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="M3 8h8M8 4l4 4-4 4"></path>
+                </svg>
+              </a>
+            </template>
+            Learn more
+            <a href="#support-details">Learn more</a>
+          </x-action-link>
+        </x-content>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative native paragraph case</h2>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h2>Guided arrival service</h2>
+          <p>Station Support offers guided help through busy terminals. The service covers arrivals and transfers. Staff follow local airport rules. Service depends on station availability.</p>
+          <x-action-link href="#arrival-details">
+            <template shadowrootmode="open">
+              <a href="#arrival-details">
+                <span><slot></slot></span>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="M3 8h8M8 4l4 4-4 4"></path>
+                </svg>
+              </a>
+            </template>
+            Read details
+            <a href="#arrival-details">Read details</a>
+          </x-action-link>
+        </x-content>
+      </section>
+    </main>
+  </body>
+</html>
