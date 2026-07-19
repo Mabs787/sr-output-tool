@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 list item link replay repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      .hidden-link { display: none; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-repro-family="expected-link-missing-from-initial-replay">
+      <h1>Initial list link marker</h1>
+
+      <section aria-labelledby="benefits-heading">
+        <h2 id="benefits-heading">Why join?</h2>
+        <ul>
+          <li>Join for free.</li>
+          <li>Collect points for rewards.</li>
+          <li>Reserved tickets with <a href="#city-music-live">City Music Live</a>.</li>
+          <li>Use free messaging on board.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+        <ul>
+          <li>This item has plain text only.</li>
+          <li>This item has a hidden <a class="hidden-link" href="#hidden-live">Hidden Live</a> link.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

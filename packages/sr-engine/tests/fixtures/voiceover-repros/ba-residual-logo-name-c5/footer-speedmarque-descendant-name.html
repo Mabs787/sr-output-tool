@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Footer logo descendant name C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        display: block;
+        max-width: 640px;
+      }
+
+      .probe-marker {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-c5-identity="C5 footer logo name neutral identity marker."
+      aria-label="Footer logo name repro root"
+    >
+      <p class="probe-marker" aria-hidden="true">C5 footer logo name neutral identity marker.</p>
+
+      <x-page-footer>
+        <nav slot="before-logo" aria-label="Footer links">
+          <a href="#overview">Overview</a>
+          <a href="#feature">Feature route</a>
+        </nav>
+        <x-logo-link
+          slot="logo"
+          href="#home"
+          graphic-title="Ribbon Mark"
+          label-text="Primary Mark"
+          data-probe="footer-ribbon-logo"
+        ></x-logo-link>
+        <ul slot="social">
+          <li><a href="#alpha">Alpha</a></li>
+          <li><a href="#beta">Beta</a></li>
+          <li><a href="#gamma">Gamma</a></li>
+          <li><a href="#delta">Delta</a></li>
+          <li><a href="#epsilon">Epsilon</a></li>
+          <li><a href="#zeta">Zeta</a></li>
+        </ul>
+      </x-page-footer>
+    </main>
+
+    <script>
+      class XLogoLink extends HTMLElement {
+        connectedCallback() {
+          if (this.shadowRoot) {
+            return;
+          }
+
+          const root = this.attachShadow({ mode: 'open' });
+          const probe = this.getAttribute('data-probe') || 'logo';
+          const titleId = `${probe}-title`;
+          const href = this.getAttribute('href') || '#';
+          const graphicTitle = this.getAttribute('graphic-title') || 'Mark';
+          const labelText = this.getAttribute('label-text') || '';
+          const hiddenText = labelText
+            ? `<span class="visually-hidden-text">${labelText}</span>`
+            : '';
+
+          root.innerHTML = `
+            <style>
+              :host {
+                display: inline-block;
+              }
+
+              a {
+                display: inline-flex;
+                min-height: 32px;
+                min-width: 64px;
+              }
+
+              .visually-hidden-text {
+                border: 0;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                white-space: nowrap;
+                width: 1px;
+              }
+            </style>
+            <a href="${href}">
+              <svg role="img" aria-labelledby="${titleId}" width="96" height="24" viewBox="0 0 96 24" focusable="false">
+                <title id="${titleId}">${graphicTitle}</title>
+                <rect width="96" height="24" fill="#334155"></rect>
+                <text x="8" y="16" font-family="Arial" font-size="12" fill="#ffffff">Mark</text>
+              </svg>
+              ${hiddenText}
+            </a>
+          `;
+        }
+      }
+
+      class XPageFooter extends HTMLElement {
+        connectedCallback() {
+          if (this.shadowRoot) {
+            return;
+          }
+
+          const root = this.attachShadow({ mode: 'open' });
+          root.innerHTML = `
+            <style>
+              :host {
+                display: block;
+              }
+
+              footer {
+                display: grid;
+                gap: 12px;
+              }
+
+              .logo {
+                display: block;
+              }
+            </style>
+            <footer>
+              <slot name="before-logo"></slot>
+              <div class="logo">
+                <slot name="logo"></slot>
+              </div>
+              <nav aria-label="Social links">
+                <slot name="social"></slot>
+              </nav>
+            </footer>
+          `;
+        }
+      }
+
+      customElements.define('x-logo-link', XLogoLink);
+      customElements.define('x-page-footer', XPageFooter);
+    </script>
+  </body>
+</html>

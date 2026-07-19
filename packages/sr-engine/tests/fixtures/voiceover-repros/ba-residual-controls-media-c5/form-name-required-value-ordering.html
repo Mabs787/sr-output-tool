@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 form name required value ordering repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      label, input, select, button { font: inherit; }
+      .field { display: grid; gap: 4px; margin: 8px 0; }
+      .hint { font-size: 0.9rem; }
+      .overlay-select { opacity: 0; }
+      .hidden-error[hidden] { display: none; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-repro-family="form-control-name-required-value-order">
+      <h1>Form required value ordering marker</h1>
+
+      <section aria-labelledby="combo-heading">
+        <h2 id="combo-heading">Required editable combobox</h2>
+        <x-typeahead label="Origin" hint="Enter 3 letters" required="">
+          <template shadowrootmode="open">
+            <div class="field">
+              <label for="from-combo">Origin</label>
+              <p id="from-hint" class="hint">Enter 3 letters</p>
+              <div id="from-error" class="hidden-error" role="alert" hidden>
+                <p>This field is required</p>
+              </div>
+              <input
+                id="from-combo"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="from-listbox"
+                aria-describedby="from-hint"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-invalid="false"
+                aria-required="true"
+                autocomplete="off"
+                required>
+            </div>
+          </template>
+        </x-typeahead>
+        <div id="from-listbox" role="listbox" hidden>
+          <div role="option">Paris</div>
+        </div>
+      </section>
+
+      <section aria-labelledby="select-heading">
+        <h2 id="select-heading">Required popup select with selected value</h2>
+        <x-select label="Plan type" value="M" required="">
+          <template shadowrootmode="open">
+            <div class="field">
+              <label for="class-select">Plan type</label>
+              <div id="class-hint"></div>
+              <div role="alert" hidden><p>This field is required</p></div>
+              <select tabindex="-1" aria-hidden="true">
+                <option value="M2">Basic</option>
+                <option value="M" selected>Standard</option>
+              </select>
+              <select
+                id="class-select"
+                name="class"
+                class="overlay-select"
+                aria-describedby="class-hint"
+                aria-invalid="false"
+                aria-required="true"
+                required>
+                <option value="M2">Basic</option>
+                <option value="M" selected>Standard</option>
+                <option value="J">Premium</option>
+              </select>
+              <span aria-hidden="true">v</span>
+            </div>
+          </template>
+        </x-select>
+      </section>
+
+      <section aria-labelledby="date-heading">
+        <h2 id="date-heading">Date fieldsets</h2>
+        <x-date-field label="Start date" required="" value="2026-07-18">
+          <template shadowrootmode="open">
+            <fieldset>
+              <legend>Start date</legend>
+              <div id="depart-hint"></div>
+              <div role="alert" hidden>
+                <p>This field is required</p>
+              </div>
+              <input
+                type="date"
+                name="startDate"
+                value="2026-07-18"
+                required
+                aria-required="true"
+                aria-label="Start date"
+                aria-invalid="false"
+                aria-describedby="depart-hint">
+              <span aria-hidden="true">calendar</span>
+            </fieldset>
+          </template>
+        </x-date-field>
+
+        <x-date-field label="Issue date">
+          <template shadowrootmode="open">
+            <fieldset>
+              <legend>Issue date<span><span>,</span>Optional</span></legend>
+              <div id="ticket-hint">This is the issue date.</div>
+              <div role="alert" hidden>
+                <p>Invalid date</p>
+              </div>
+              <input
+                type="date"
+                name="issueDate"
+                aria-label="Issue date"
+                aria-invalid="false"
+                aria-describedby="ticket-hint">
+              <span aria-hidden="true">calendar</span>
+            </fieldset>
+          </template>
+        </x-date-field>
+      </section>
+
+      <section role="region" aria-labelledby="banner-heading">
+        <h2 id="banner-heading">Region banner button context</h2>
+        <p>We think you are visiting from Canada.</p>
+        <button type="button">I'm in Canada</button>
+        <button type="button">Close this banner</button>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+        <label for="optional-combo">Optional city</label>
+        <input id="optional-combo" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+        <label for="plain-select">Plain class</label>
+        <select id="plain-select">
+          <option selected>Standard</option>
+        </select>
+      </section>
+    </main>
+  </body>
+</html>

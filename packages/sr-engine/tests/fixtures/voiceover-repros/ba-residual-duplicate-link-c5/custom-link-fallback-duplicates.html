@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom link fallback duplicates C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        display: grid;
+        gap: 20px;
+        max-width: 620px;
+      }
+
+      section,
+      article {
+        display: grid;
+        gap: 8px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft" aria-label="Custom link fallback duplicates C.5 root">
+      <p>Custom link fallback duplicate C.5 identity.</p>
+
+      <section aria-labelledby="nav-title">
+        <h2 id="nav-title">Section links</h2>
+        <nav aria-label="Section">
+          <x-action-link data-contract="negative-shadow-slot-plus-visible-fallback-link">
+            <template shadowrootmode="open">
+              <style>
+                a {
+                  align-items: center;
+                  display: inline-flex;
+                  gap: 4px;
+                }
+              </style>
+              <a href="#plan-a">
+                <span><slot></slot></span>
+                <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12">
+                  <path d="M2 6h8M7 3l3 3-3 3"></path>
+                </svg>
+              </a>
+            </template>
+            Plan A
+            <a href="#plan-a">Plan A</a>
+          </x-action-link>
+
+          <x-action-link data-contract="negative-shadow-slot-plus-visible-fallback-link">
+            <template shadowrootmode="open">
+              <a href="#plan-b"><span><slot></slot></span></a>
+            </template>
+            Plan B
+            <a href="#plan-b">Plan B</a>
+          </x-action-link>
+
+          <x-action-link data-contract="negative-shadow-slot-only">
+            <template shadowrootmode="open">
+              <a href="#plan-c"><span><slot></slot></span></a>
+            </template>
+            Plan C
+          </x-action-link>
+        </nav>
+      </section>
+
+      <article aria-labelledby="card-title">
+        <h3 id="card-title">Card link</h3>
+        <p>Short card text.</p>
+        <x-action-link data-contract="negative-card-cta-shadow-slot-plus-fallback">
+          <template shadowrootmode="open">
+            <a href="#card-one"><span><slot></slot></span></a>
+          </template>
+          View card
+          <a href="#card-one">View card</a>
+        </x-action-link>
+      </article>
+
+      <section aria-labelledby="control-title">
+        <h3 id="control-title">Name controls</h3>
+        <a href="#native">Native link</a>
+        <a href="#explicit" aria-label="Explicit name">
+          Explicit name
+          <span>Explicit name</span>
+        </a>
+        <x-action-link data-contract="negative-hidden-fallback-link">
+          <template shadowrootmode="open">
+            <a href="#hidden-fallback"><span><slot></slot></span></a>
+          </template>
+          Hidden case
+          <a class="hidden" href="#hidden-fallback">Hidden case</a>
+        </x-action-link>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mixed navigation card footer links C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        display: grid;
+        gap: 24px;
+        max-width: 680px;
+      }
+
+      nav,
+      footer,
+      .cards {
+        display: grid;
+        gap: 8px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      article {
+        border: 1px solid #c9ced6;
+        padding: 12px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft" aria-label="Mixed navigation card footer links C.5 root">
+      <p>Mixed descendant link C.5 identity.</p>
+
+      <nav aria-labelledby="section-nav-title">
+        <h2 id="section-nav-title">Pages in this section</h2>
+        <ul>
+          <li>
+            <x-action-link data-contract="negative-section-nav-duplicate-fallback">
+              <template shadowrootmode="open">
+                <a href="#one"><span><slot></slot></span></a>
+              </template>
+              Choice one
+              <a href="#one">Choice one</a>
+            </x-action-link>
+          </li>
+          <li>
+            <x-action-link data-contract="negative-section-nav-duplicate-fallback">
+              <template shadowrootmode="open">
+                <a href="#two"><span><slot></slot></span></a>
+              </template>
+              Choice two
+              <a href="#two">Choice two</a>
+            </x-action-link>
+          </li>
+        </ul>
+      </nav>
+
+      <section aria-labelledby="cards-title">
+        <h2 id="cards-title">Cards</h2>
+        <div class="cards">
+          <article>
+            <h3>Card one</h3>
+            <p>Short copy.</p>
+            <x-action-link data-contract="negative-card-duplicate-fallback">
+              <template shadowrootmode="open">
+                <a href="#card-a"><span><slot></slot></span></a>
+              </template>
+              Open card
+              <a href="#card-a">Open card</a>
+            </x-action-link>
+          </article>
+          <article>
+            <h3>Card two</h3>
+            <p>Short copy.</p>
+            <x-action-link data-contract="negative-card-duplicate-fallback">
+              <template shadowrootmode="open">
+                <a href="#card-b"><span><slot></slot></span></a>
+              </template>
+              Read more
+              <a href="#card-b">Read more</a>
+            </x-action-link>
+          </article>
+        </div>
+      </section>
+
+      <footer aria-label="Footer links">
+        <ul>
+          <li><a href="#support">Support</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#legal">Legal</a></li>
+        </ul>
+        <x-action-link data-contract="positive-footer-logo-composed-name">
+          <template shadowrootmode="open">
+            <style>
+              .visually-hidden-text {
+                border: 0 !important;
+                clip: rect(0 0 0 0) !important;
+                clip-path: inset(50%) !important;
+                height: 1px !important;
+                margin: 0 !important;
+                overflow: hidden !important;
+                padding: 0 !important;
+                position: absolute !important;
+                white-space: nowrap !important;
+                width: 1px !important;
+              }
+            </style>
+            <a href="#mark">
+              <svg role="img" aria-labelledby="footer-title" focusable="false" width="40" height="20" viewBox="0 0 40 20">
+                <title id="footer-title">Footer Badge</title>
+                <rect width="40" height="20"></rect>
+              </svg>
+              <span class="visually-hidden-text">Footer Mark</span>
+            </a>
+          </template>
+        </x-action-link>
+      </footer>
+    </main>
+  </body>
+</html>

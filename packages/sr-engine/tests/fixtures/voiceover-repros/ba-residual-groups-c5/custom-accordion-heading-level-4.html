@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom accordion heading level 4 C.5</title>
+    <style>
+      body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      test-page-segment,
+      test-accordion,
+      test-accordion-item,
+      test-control-panel { display: block; }
+      .controls { margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-id="ba-residual-groups-c5/custom-accordion-heading-level-4"
+      data-sr-fixture-status="fixture-ready-awaiting-push"
+    >
+      <test-page-segment data-contract="custom-accordion-heading-level-4">
+        <h2>Contact topics</h2>
+        <section aria-labelledby="account-help">
+          <h3 id="account-help">Account help</h3>
+          <test-accordion heading-level="4">
+            <test-accordion-item>
+              <template shadowrootmode="open">
+                <h4><button type="button" aria-expanded="false" aria-controls="panel-missing"><slot name="summary"></slot></button></h4>
+                <div id="panel-missing" hidden><slot name="panel"></slot></div>
+              </template>
+              <span slot="summary">How do I claim missing points?</span>
+              <p slot="panel">Send the reference number.</p>
+            </test-accordion-item>
+            <test-accordion-item>
+              <template shadowrootmode="open">
+                <h4><button type="button" aria-expanded="false" aria-controls="panel-login"><slot name="summary"></slot></button></h4>
+                <div id="panel-login" hidden><slot name="panel"></slot></div>
+              </template>
+              <span slot="summary">How do I reset login details?</span>
+              <p slot="panel">Use the reset form.</p>
+            </test-accordion-item>
+          </test-accordion>
+        </section>
+      </test-page-segment>
+
+      <test-control-panel class="controls">
+        <div role="group" aria-label="Named control group">
+          <button type="button">Named control</button>
+        </div>
+        <div role="group">
+          <button type="button">Ordinary control</button>
+        </div>
+      </test-control-panel>
+    </main>
+  </body>
+</html>

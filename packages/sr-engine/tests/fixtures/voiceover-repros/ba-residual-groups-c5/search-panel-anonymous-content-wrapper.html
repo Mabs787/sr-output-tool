@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search panel anonymous content wrapper C.5</title>
+    <style>
+      body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      test-page-segment,
+      test-search-panel,
+      test-field-shell,
+      test-control-panel { display: block; }
+      label, input, button { display: block; margin: 8px 0; }
+      .controls { margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-id="ba-residual-groups-c5/search-panel-anonymous-content-wrapper"
+      data-sr-fixture-status="fixture-ready-awaiting-push"
+    >
+      <test-page-segment data-contract="search-panel-anonymous-content-wrapper">
+        <test-search-panel>
+          <h2>Search</h2>
+          <p>Enter a city or airport name.</p>
+
+          <test-field-shell>
+            <label id="route-search-label" for="route-search">Destination</label>
+            <input
+              id="route-search"
+              type="text"
+              role="combobox"
+              aria-labelledby="route-search-label"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="route-options"
+              aria-describedby="route-search-hint"
+            >
+            <p id="route-search-hint">Start typing to see options.</p>
+            <ul id="route-options" role="listbox" hidden>
+              <li id="route-option-one" role="option">City one</li>
+            </ul>
+          </test-field-shell>
+
+          <button type="submit">Search</button>
+        </test-search-panel>
+      </test-page-segment>
+
+      <test-control-panel class="controls">
+        <div role="group" aria-label="Named control group">
+          <button type="button">Named control</button>
+        </div>
+        <div role="group">
+          <button type="button">Ordinary control</button>
+        </div>
+      </test-control-panel>
+    </main>
+  </body>
+</html>

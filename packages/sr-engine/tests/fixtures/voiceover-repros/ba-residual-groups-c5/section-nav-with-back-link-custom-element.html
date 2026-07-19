@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Section nav with back link custom element C.5</title>
+    <style>
+      body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      test-page-segment,
+      test-back-link,
+      test-nav-link,
+      test-control-panel { display: block; }
+      nav { margin: 16px 0; }
+      .controls { margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-id="ba-residual-groups-c5/section-nav-with-back-link-custom-element"
+      data-sr-fixture-status="fixture-ready-awaiting-push"
+    >
+      <test-page-segment data-contract="section-nav-with-back-link-custom-element">
+        <test-back-link>
+          <a href="#overview">Back to overview</a>
+        </test-back-link>
+
+        <h1>Account help</h1>
+
+        <nav aria-label="Pages in this section">
+          <h2>Pages in this section</h2>
+          <test-nav-link><a href="#plan-a">Plan A</a></test-nav-link>
+          <test-nav-link><a href="#plan-b">Plan B</a></test-nav-link>
+          <test-nav-link><a href="#plan-c">Plan C</a></test-nav-link>
+        </nav>
+      </test-page-segment>
+
+      <test-control-panel class="controls">
+        <div role="group" aria-label="Named control group">
+          <button type="button">Named control</button>
+        </div>
+        <div role="group">
+          <button type="button">Ordinary control</button>
+        </div>
+      </test-control-panel>
+    </main>
+  </body>
+</html>

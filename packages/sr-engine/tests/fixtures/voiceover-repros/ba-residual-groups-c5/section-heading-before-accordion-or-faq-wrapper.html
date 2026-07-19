@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Section heading before accordion wrapper C.5</title>
+    <style>
+      body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 720px; }
+      test-page-segment,
+      test-section-shell,
+      test-accordion-list,
+      test-accordion-item,
+      test-control-panel { display: block; }
+      .controls { margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-id="ba-residual-groups-c5/section-heading-before-accordion-or-faq-wrapper"
+      data-sr-fixture-status="fixture-ready-awaiting-push"
+    >
+      <test-page-segment data-contract="section-heading-before-accordion-or-faq-wrapper">
+        <test-section-shell>
+          <h2>Questions</h2>
+          <p>Choose a question to open more details.</p>
+
+          <test-accordion-list>
+            <test-accordion-item>
+              <template shadowrootmode="open">
+                <h3><button type="button" aria-expanded="false" aria-controls="answer-one"><slot name="summary"></slot></button></h3>
+                <div id="answer-one" hidden><slot name="panel"></slot></div>
+              </template>
+              <span slot="summary">How do I check details?</span>
+              <p slot="panel">Use the saved reference.</p>
+            </test-accordion-item>
+          </test-accordion-list>
+        </test-section-shell>
+      </test-page-segment>
+
+      <test-control-panel class="controls">
+        <div role="group" aria-label="Named control group">
+          <button type="button">Named control</button>
+        </div>
+        <div role="group">
+          <button type="button">Ordinary control</button>
+        </div>
+      </test-control-panel>
+    </main>
+  </body>
+</html>

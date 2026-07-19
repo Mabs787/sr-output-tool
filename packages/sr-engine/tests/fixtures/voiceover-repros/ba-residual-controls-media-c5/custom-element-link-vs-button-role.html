@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 anchor role button repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 680px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      .hidden-frame { display: none; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-repro-family="custom-component-link-vs-button-role">
+      <h1>Anchor role button marker</h1>
+
+      <section aria-labelledby="media-heading">
+        <h2 id="media-heading">Media consent action</h2>
+        <x-media-consent>
+          <template shadowrootmode="open">
+            <slot></slot>
+          </template>
+          <p>Functional cookies are needed to play media. <a role="button" href="#">Adjust</a></p>
+          <div class="hidden-frame">
+            <iframe title="Video player"></iframe>
+          </div>
+        </x-media-consent>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+        <p>A normal href stays a link. <a href="#details">Details</a></p>
+        <p>A native command stays a button. <button type="button">Adjust</button></p>
+        <p>A role button without href is separately focusable only with tabindex. <a role="button" tabindex="0">No href action</a></p>
+      </section>
+    </main>
+  </body>
+</html>

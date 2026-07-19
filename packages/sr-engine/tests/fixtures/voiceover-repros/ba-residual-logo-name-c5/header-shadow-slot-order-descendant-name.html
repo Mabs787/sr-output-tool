@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Header logo slot descendant name C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.4;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        display: block;
+        max-width: 640px;
+      }
+
+      .probe-marker {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-c5-identity="C5 header logo slot neutral identity marker."
+      aria-label="Header logo slot repro root"
+    >
+      <p class="probe-marker" aria-hidden="true">C5 header logo slot neutral identity marker.</p>
+
+      <x-page-header>
+        <button slot="skip" type="button">Skip content</button>
+        <x-logo-link
+          slot="logo"
+          href="#home"
+          graphic-title="Primary Mark"
+          label-text="Primary Mark"
+          data-probe="header-primary-logo"
+        ></x-logo-link>
+        <x-logo-link
+          slot="logo"
+          href="#hidden"
+          graphic-title="Hidden Mark"
+          label-text="Hidden Mark"
+          data-probe="header-hidden-logo"
+          style="display: none"
+        ></x-logo-link>
+        <x-logo-link
+          slot="logo"
+          href="#partner"
+          graphic-title="Partner Mark"
+          data-probe="header-partner-logo"
+        ></x-logo-link>
+      </x-page-header>
+
+      <nav aria-label="Primary navigation">
+        <a href="#section">Main section</a>
+      </nav>
+    </main>
+
+    <script>
+      class XLogoLink extends HTMLElement {
+        connectedCallback() {
+          if (this.shadowRoot) {
+            return;
+          }
+
+          const root = this.attachShadow({ mode: 'open' });
+          const probe = this.getAttribute('data-probe') || 'logo';
+          const titleId = `${probe}-title`;
+          const href = this.getAttribute('href') || '#';
+          const graphicTitle = this.getAttribute('graphic-title') || 'Mark';
+          const labelText = this.getAttribute('label-text') || '';
+          const hiddenText = labelText
+            ? `<span class="visually-hidden-text">${labelText}</span>`
+            : '';
+
+          root.innerHTML = `
+            <style>
+              :host {
+                display: inline-block;
+              }
+
+              a {
+                display: inline-flex;
+                min-height: 32px;
+                min-width: 64px;
+              }
+
+              .visually-hidden-text {
+                border: 0;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                white-space: nowrap;
+                width: 1px;
+              }
+            </style>
+            <a href="${href}">
+              <svg role="img" aria-labelledby="${titleId}" width="96" height="24" viewBox="0 0 96 24" focusable="false">
+                <title id="${titleId}">${graphicTitle}</title>
+                <rect width="96" height="24" fill="#253858"></rect>
+                <text x="8" y="16" font-family="Arial" font-size="12" fill="#ffffff">Mark</text>
+              </svg>
+              ${hiddenText}
+            </a>
+          `;
+        }
+      }
+
+      class XPageHeader extends HTMLElement {
+        connectedCallback() {
+          if (this.shadowRoot) {
+            return;
+          }
+
+          const root = this.attachShadow({ mode: 'open' });
+          root.innerHTML = `
+            <style>
+              :host {
+                display: block;
+              }
+
+              header {
+                display: grid;
+                gap: 12px;
+              }
+
+              .logos,
+              .controls {
+                display: flex;
+                gap: 12px;
+              }
+            </style>
+            <header>
+              <slot name="skip"></slot>
+              <div class="logos">
+                <slot name="logo"></slot>
+              </div>
+              <div class="controls">
+                <a href="#search">Search</a>
+                <a href="#account">Sign in</a>
+              </div>
+            </header>
+          `;
+        }
+      }
+
+      customElements.define('x-logo-link', XLogoLink);
+      customElements.define('x-page-header', XPageHeader);
+    </script>
+  </body>
+</html>
