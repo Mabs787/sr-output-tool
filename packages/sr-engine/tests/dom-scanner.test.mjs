@@ -179,6 +179,39 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree splits inline text around href links promoted to buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <p>Choose <a href="#adjust" role="button">Adjust</a> now.</p>
+      <p>Choose <a href="#details">Details</a> now.</p>
+    `),
+    [
+      "Choose now.",
+      "Adjust, button",
+      "Choose now.",
+      "link, Details",
+    ],
+  );
+});
+
+test("scanSubtree suppresses empty headings before exposed media without suppressing named headings", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h2></h2>
+        <img alt="Service desk">
+        <h2>Help desk</h2>
+      </main>
+    `),
+    [
+      "main",
+      "Service desk, image",
+      "heading level 2, Help desk",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree itemizes non-interactive heading child text boundaries", () => {
   assert.deepEqual(
     scanHtml(`
@@ -925,6 +958,47 @@ test("scanSubtree announces named form boundaries around labelled combobox contr
       "Search MCP registry Search MCPs, list box pop up collapsed, combo box",
       "Search, button",
       "end of, Search MCP registry, form",
+    ],
+  );
+});
+
+test("scanSubtree keeps shadow form details and required control ordering generic", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <x-form-shell>
+        <template shadowrootmode="open">
+          <form aria-label="Trip search">
+            <label for="city">Start city</label>
+            <p id="hint">Enter code</p>
+            <input
+              id="city"
+              role="combobox"
+              required
+              aria-required="true"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-describedby="hint"
+            >
+            <label for="plan">Plan type</label>
+            <select id="plan" required>
+              <option selected>Standard</option>
+            </select>
+            <label for="date">Start date</label>
+            <input id="date" type="date" required>
+          </form>
+        </template>
+      </x-form-shell>
+    `),
+    [
+      "Trip search, form",
+      "Enter code",
+      "Start city",
+      "Start city Enter code, required list box pop up collapsed, combo box",
+      "Plan type",
+      "Standard, Plan type, required menu pop up collapsed, button",
+      "Start date",
+      "Start date, required, edit text",
+      "end of, Trip search, form",
     ],
   );
 });
@@ -2070,6 +2144,53 @@ test("scanSubtree does not split ordinary prose around emphasized titles", () =>
       "main",
       "There’s plenty more to enjoy, with a new episode of FROM, while new comedy Best Medicine continues.",
       "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <article>
+          <h3 data-sr-dom-node-id="title">Signal</h3>
+          <p data-sr-dom-node-id="copy">A taut drama, <strong data-sr-dom-node-id="strong-title">Signal</strong> follows one decision through the night.</p>
+        </article>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "title-ax",
+              role: "heading",
+              name: "Signal",
+              domNodeId: "title",
+              properties: { level: 3 },
+            },
+            {
+              nodeId: "copy-ax",
+              role: "paragraph",
+              name: "A taut drama, Signal follows one decision through the night.",
+              domNodeId: "copy",
+              childIds: ["copy-prefix", "copy-strong", "copy-suffix"],
+            },
+            { nodeId: "copy-prefix", role: "StaticText", name: "A taut drama," },
+            {
+              nodeId: "copy-strong",
+              role: "strong",
+              name: "",
+              domNodeId: "strong-title",
+              childIds: ["copy-strong-text"],
+            },
+            { nodeId: "copy-strong-text", role: "StaticText", name: "Signal" },
+            { nodeId: "copy-suffix", role: "StaticText", name: "follows one decision through the night." },
+          ],
+        },
+      },
+    ),
+    [
+      "Signal, article",
+      "heading level 3, Signal",
+      "A taut drama, Signal follows one decision through the night.",
+      "end of, article",
     ],
   );
 });

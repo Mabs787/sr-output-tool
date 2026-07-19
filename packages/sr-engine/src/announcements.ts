@@ -548,6 +548,15 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "textbox":
     case "searchbox": {
+      if ((el as any).dateTextField) {
+        pushIfPresent(parts, [label, el.details].filter(Boolean).join(" "));
+        if (el.required) {
+          parts.push("required");
+        }
+        parts.push("edit text");
+        pushSupplementalText(parts, el, { skipDetails: Boolean(el.details) });
+        break;
+      }
       if (role === "searchbox") {
         const searchPlaceholder = placeholder !== label ? placeholder : undefined;
         pushIfPresent(
@@ -651,11 +660,13 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           pushIfPresent(parts, [selectLabel, selectDetails].filter(Boolean).join(" "));
           detailsAreInline = Boolean(selectDetails);
         }
-        parts.push(`menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
+        parts.push(`${el.required ? "required " : ""}menu pop up ${el.expanded ? "expanded" : "collapsed"}`);
         parts.push("button");
       } else {
         const popupType = formatPopupType(el.hasPopup);
-        const comboLabel = label ?? placeholder;
+        const comboDetails = normalizeText(el.details);
+        const comboLabel = label ? appendInlineDetails(label, comboDetails) : placeholder;
+        detailsAreInline = Boolean(label && comboDetails);
         const comboLabelFromPlaceholder =
           !label && Boolean(placeholder) ||
           Boolean(
@@ -691,9 +702,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
             pushIfPresent(parts, comboLabel);
           }
           if (popupType && el.expanded !== undefined) {
-            parts.push(`${popupType} ${el.expanded ? "expanded" : "collapsed"}`);
+            parts.push(
+              `${el.required ? "required " : ""}${popupType} ${el.expanded ? "expanded" : "collapsed"}`,
+            );
           } else if (popupType) {
-            parts.push(popupType);
+            parts.push(`${el.required ? "required " : ""}${popupType}`);
           } else if (
             !popupType &&
             !(

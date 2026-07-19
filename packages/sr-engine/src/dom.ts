@@ -1647,6 +1647,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if ((input.getAttribute("type") || "text").toLowerCase() !== "text") {
       return undefined;
     }
+    if (implicitRole(input) !== "textbox") return undefined;
     if (input.disabled || input.getAttribute("aria-hidden") === "true") return undefined;
     if (input.getAttribute("aria-label") || input.getAttribute("aria-labelledby")) {
       return undefined;
@@ -1973,6 +1974,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!axNode || axNode.properties?.focusable !== true) return undefined;
     const axName = normalize(axNode.name);
     return axName === labelText ? axName : undefined;
+  }
+
+  function fieldsetCommaSpacedGroupName(el: any, role: string, name?: string): string | undefined {
+    if (role !== "group" || el?.tagName?.toLowerCase() !== "fieldset") return undefined;
+    const normalizedName = normalize(name);
+    if (!normalizedName || !/,\S/u.test(normalizedName)) return undefined;
+    return normalizedName.replace(/,(\S)/gu, ", $1");
   }
 
   function axConfirmedLabelledTabPanelName(el: any, role: string, label?: string): string | undefined {
@@ -3012,6 +3020,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const text = normalize(directOwnText(el) || readableText(el));
     if (!text) return false;
     return /^[\p{Extended_Pictographic}\uFE0F\s]+$/u.test(text);
+  }
+
+  function isEmptyHeadingBeforeContentBoundary(el: any, role: string): boolean {
+    if (role !== "heading") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.matches?.(interactiveSelector) || el.hasAttribute("tabindex")) return false;
+    if (normalize(accessibleName(el, role) || readableText(el) || el.textContent)) return false;
+
+    const next = nextVisibleElementSibling(el);
+    if (!next) return false;
+    if (implicitRole(next) === "image" || nestedImageLabel(next)) return true;
+    if (normalize(readableText(next) || next.textContent)) return false;
+    return Boolean(next.querySelector?.("img, svg, video, canvas, [role='img']"));
   }
 
   function isPunctuationOnlyBetweenInlineEmphasis(el: any, role: string): boolean {
@@ -8935,10 +8956,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (headings.length !== 1) continue;
 
       const heading = headings[0] as any;
+      const documentNode = heading.ownerDocument?.defaultView?.Node || Node;
       if (
         !(
           heading.compareDocumentPosition(el) &
-          heading.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING
+          documentNode.DOCUMENT_POSITION_FOLLOWING
         )
       ) {
         continue;
@@ -9386,11 +9408,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!["div", "p"].includes(el.tagName.toLowerCase())) return undefined;
     if (!expandedControlledRegionFor(el)) return undefined;
 
-    const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
-      (link: any) => !isHidden(link),
+    const links = Array.from(el.querySelectorAll("a[href], [role='link'], [role='button']")).filter(
+      (link: any) => !isHidden(link) && ["link", "button"].includes(implicitRole(link)),
     );
     if (links.length !== 1) return undefined;
     const link = links[0] as any;
+    const linkRole = implicitRole(link);
 
     const before: string[] = [];
     const after: string[] = [];
@@ -9619,11 +9642,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
-    const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
-      (link: any) => !isHidden(link),
+    const links = Array.from(el.querySelectorAll("a[href], [role='link'], [role='button']")).filter(
+      (link: any) => !isHidden(link) && ["link", "button"].includes(implicitRole(link)),
     );
     if (links.length !== 1) return undefined;
     const link = links[0] as any;
+    const linkRole = implicitRole(link);
 
     const elementChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
     if (
@@ -9653,13 +9677,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     const beforeText = normalize(before.join(" "));
-    const linkName = accessibleName(link, "link");
+    const linkName = accessibleName(link, linkRole);
     const afterText = normalize(after.join(" "));
     if (!beforeText || !linkName) return undefined;
 
     return [
       beforeText,
-      `link, ${linkName}`,
+      linkRole === "button" ? `${linkName}, button` : `link, ${linkName}`,
       afterText && /[\p{L}\p{N}]/u.test(afterText) ? afterText : undefined,
     ].filter((fragment): fragment is string => Boolean(fragment));
   }
@@ -9678,11 +9702,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
-    const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
-      (link: any) => !isHidden(link),
+    const links = Array.from(el.querySelectorAll("a[href], [role='link'], [role='button']")).filter(
+      (link: any) => !isHidden(link) && ["link", "button"].includes(implicitRole(link)),
     );
     if (links.length !== 1) return undefined;
     const link = links[0] as any;
+    const linkRole = implicitRole(link);
     if (link.parentElement !== el) return undefined;
 
     const elementChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
@@ -9703,11 +9728,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const beforeText = normalize(before.join(" "));
     const afterText = normalize(after.join(" "));
-    const linkName = accessibleName(link, "link");
+    const linkName = accessibleName(link, linkRole);
     if (!beforeText || !linkName) return undefined;
     if (afterText && /[\p{L}\p{N}]/u.test(afterText)) return undefined;
 
-    return [beforeText, `link, ${linkName}`];
+    return [beforeText, linkRole === "button" ? `${linkName}, button` : `link, ${linkName}`];
   }
 
   function directAxInlineAbbrSupParagraphFragments(el: any): string[] | undefined {
@@ -13792,11 +13817,22 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function nativeSelectValue(el: any): string | undefined {
     if (el?.tagName?.toLowerCase() !== "select") return undefined;
+    const selectedOption = Array.from(el.options || []).find((option: any) =>
+      option.hasAttribute?.("selected"),
+    ) as any;
+    const customHostValue = normalize(closestCustomElement(el)?.getAttribute?.("value"));
+    const customHostOption = customHostValue
+      ? Array.from(el.options || []).find(
+          (option: any) => normalize(option.getAttribute?.("value")) === customHostValue,
+        ) as any
+      : undefined;
     const selectedIndex =
       typeof el.selectedIndex === "number" && el.selectedIndex >= 0
         ? el.selectedIndex
         : undefined;
     return (
+      normalize(selectedOption?.textContent) ||
+      normalize(customHostOption?.textContent) ||
       normalize(el.selectedOptions?.[0]?.textContent) ||
       (selectedIndex !== undefined
         ? normalize(el.options?.[selectedIndex]?.textContent)
@@ -14041,6 +14077,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? finalPostPunctuationWhitespaceCollapsedText(name)
         : name);
     const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
+    const normalizedFieldsetGroupName = fieldsetCommaSpacedGroupName(el, role, name);
     const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag)
       ? labelForControl(stateEl)
       : undefined;
@@ -14166,6 +14203,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       name:
         carouselControlName ||
         visibleTextEllipsisButtonName(el, role) ||
+        normalizedFieldsetGroupName ||
         (nativeInputComboboxPlaceholderName ? undefined : announcementName) ||
         nativeSelectTitleName ||
         focusableFeedbackGroupText,
@@ -14182,7 +14220,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ),
       details: carouselControlName
         ? undefined
-        : textFromIdRefs(
+        : textFromIdRefsFrom(
+            stateEl,
             stateEl.getAttribute("aria-describedby") ?? el.getAttribute("aria-describedby"),
           ),
       errorMessage: textFromIdRefs(
@@ -14530,6 +14569,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "textbox" &&
         tag === "input" &&
         (el.getAttribute("type") || "text").toLowerCase() === "password"
+          ? true
+          : undefined,
+      dateTextField:
+        role === "textbox" &&
+        tag === "input" &&
+        (el.getAttribute("type") || "text").toLowerCase() === "date"
           ? true
           : undefined,
       textboxPlaceholderBeforeRole:
@@ -15117,6 +15162,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (isEmptyHeadingBeforeContentBoundary(el, role)) {
+      return false;
+    }
+
     if (isPunctuationOnlyBetweenInlineEmphasis(el, role)) {
       return false;
     }
@@ -15469,7 +15518,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       ) {
         return true;
       }
-
       return (
         hasOnlyInteractiveListItemContent(el) ||
         hasLabeledNativeSelectListItemContent(el) ||

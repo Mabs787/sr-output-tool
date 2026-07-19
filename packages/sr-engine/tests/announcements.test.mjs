@@ -203,6 +203,61 @@ test("generateAnnouncement formats interactive control states", () => {
     }),
     "All Departments, Search in Select the department you want to search in, menu pop up collapsed, button",
   );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      name: "Origin",
+      details: "Enter 3 letters",
+      required: true,
+      hasPopup: "listbox",
+      expanded: false,
+    }),
+    "Origin Enter 3 letters, required list box pop up collapsed, combo box",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      nativeSelect: true,
+      value: "Standard",
+      name: "Plan type",
+      required: true,
+      expanded: false,
+    }),
+    "Standard, Plan type, required menu pop up collapsed, button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "combobox",
+      nativeSelect: true,
+      value: "Standard",
+      name: "Plain class",
+      expanded: false,
+    }),
+    "Standard, Plain class, menu pop up collapsed, button",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "textbox",
+      name: "Start date",
+      required: true,
+      dateTextField: true,
+    }),
+    "Start date, required, edit text",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "textbox",
+      name: "Issue date",
+      details: "This is the issue date.",
+      dateTextField: true,
+    }),
+    "Issue date This is the issue date., edit text",
+  );
 });
 
 test("generateAnnouncement formats headings, links, and table cells", () => {
