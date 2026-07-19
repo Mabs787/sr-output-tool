@@ -718,6 +718,84 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return safeComputedStyle(el)?.display === "none";
   }
 
+  function hasSerializedShadowRootContent(el: any): boolean {
+    return Boolean(
+      el?.shadowRoot ||
+        Array.from(el?.children || []).some(
+          (child: any) =>
+            child.tagName?.toLowerCase() === "template" &&
+            child.getAttribute("shadowrootmode"),
+        ),
+    );
+  }
+
+  function isSerializedShadowTraversalCarrier(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
+    if (renderedHiddenValue(el) !== "offscreen") return false;
+    if (el.getAttribute("aria-hidden") === "true" || el.hasAttribute("hidden")) return false;
+    if (isRenderedDisplayHidden(el)) return false;
+
+    const hasSupportedShadowSemantics = (node: any): boolean => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE) return false;
+      const tag = node.tagName?.toLowerCase();
+      if (tag === "style" || tag === "script") return false;
+      if (
+        [
+          "a",
+          "button",
+          "input",
+          "select",
+          "textarea",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "nav",
+          "header",
+          "footer",
+          "ul",
+          "ol",
+          "li",
+        ].includes(tag)
+      ) {
+        return true;
+      }
+      const role = normalize(node.getAttribute?.("role"))?.toLowerCase();
+      if (
+        role &&
+        role !== "none" &&
+        role !== "presentation" &&
+        role !== "generic"
+      ) {
+        return true;
+      }
+      if (tag === "slot") return true;
+      return Array.from(node.children || []).some((child: any) =>
+        hasSupportedShadowSemantics(child),
+      );
+    };
+
+    const hosts = [
+      el,
+      ...Array.from(el.querySelectorAll?.("*") || []),
+    ].filter((candidate: any) => hasSerializedShadowRootContent(candidate));
+    return hosts.some((host: any) =>
+      shadowContentChildren(host).some((child: any) => hasSupportedShadowSemantics(child)),
+    );
+  }
+
+  function closestHiddenComputedAncestor(el: any): any | undefined {
+    for (let current = el?.parentElement; current; current = current.parentElement) {
+      if (!current.hasAttribute?.("data-sr-computed-hidden")) continue;
+      if (current.getAttribute("data-sr-computed-hidden") === "false") continue;
+      if (isSerializedShadowTraversalCarrier(current)) continue;
+      return current;
+    }
+    return undefined;
+  }
+
   function isFocusableOpacityHiddenControl(el: any): boolean {
     return Boolean(el?.matches?.(interactiveSelector)) && isOpacityHiddenOnly(el);
   }
@@ -774,16 +852,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     const marker = renderedHiddenValue(el);
-    if (marker && marker !== "false" && !isFocusableOpacityHiddenControl(el)) {
+    if (
+      marker &&
+      marker !== "false" &&
+      !isFocusableOpacityHiddenControl(el) &&
+      !isSerializedShadowTraversalCarrier(el)
+    ) {
       return true;
     }
 
-    const hiddenAncestor = el.closest(
-      "[data-sr-computed-hidden]:not([data-sr-computed-hidden='false'])",
-    );
+    const hiddenAncestor = closestHiddenComputedAncestor(el);
     if (
       el.closest("[aria-hidden='true']") ||
-      (hiddenAncestor && hiddenAncestor !== el)
+      hiddenAncestor
     ) {
       return true;
     }
@@ -855,6 +936,56 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return children;
   }
 
+  function hasSerializedShadowDescendantLink(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    if (el.matches?.("a[href], [role='link']")) return true;
+    const shadowChildren = shadowContentChildren(el);
+    const children = shadowChildren.length
+      ? shadowChildren
+      : Array.from(el.children || []);
+    return children.some((child: any) => hasSerializedShadowDescendantLink(child));
+  }
+
+  function unassignedCustomElementLogoSlotChildren(host: any, slotName: string): any[] {
+    if (slotName.toLowerCase() !== "logo") return [];
+    return Array.from(host.children || []).filter((child: any) => {
+      if (child.nodeType !== Node.ELEMENT_NODE) return false;
+      if (child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")) {
+        return false;
+      }
+      if (child.hasAttribute("slot")) return false;
+      if (!isCustomElement(child)) return false;
+      if (!hasSerializedShadowRootContent(child)) return false;
+      if (isHidden(child)) return false;
+      return hasSerializedShadowDescendantLink(child);
+    });
+  }
+
+  function hasShadowSlotNamed(el: any, slotName: string): boolean {
+    const normalizedSlotName = slotName.toLowerCase();
+    const visit = (node: any): boolean => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE) return false;
+      if (
+        node.tagName?.toLowerCase() === "slot" &&
+        (node.getAttribute("name") || "").toLowerCase() === normalizedSlotName
+      ) {
+        return true;
+      }
+      const shadowChildren = shadowContentChildren(node);
+      const children = shadowChildren.length
+        ? shadowChildren
+        : Array.from(node.children || []);
+      return children.some((child: any) => visit(child));
+    };
+    return shadowContentChildren(el).some((child: any) => visit(child));
+  }
+
+  function isUnassignedCustomElementLogoSlotChild(el: any): boolean {
+    const host = el?.parentElement;
+    if (!host || !hasShadowSlotNamed(host, "logo")) return false;
+    return unassignedCustomElementLogoSlotChildren(host, "logo").includes(el);
+  }
+
   function assignedSlotNodes(slot: any): any[] {
     if (slot?.tagName?.toLowerCase() !== "slot") return [];
     const assignedNodes =
@@ -876,7 +1007,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
       return (child.getAttribute("slot") || "") === slotName;
     });
-    if (namedSlotChildren.length || !slotName) return namedSlotChildren;
+    if (!slotName) {
+      const logoSlotChildren = hasShadowSlotNamed(host, "logo")
+        ? new Set(unassignedCustomElementLogoSlotChildren(host, "logo"))
+        : new Set();
+      return namedSlotChildren.filter((child: any) => !logoSlotChildren.has(child));
+    }
+    if (namedSlotChildren.length) return namedSlotChildren;
+
+    const logoSlotChildren = unassignedCustomElementLogoSlotChildren(host, slotName);
+    if (logoSlotChildren.length) return logoSlotChildren;
 
     const semanticSelectorBySlotName: Record<string, string> = {
       button: "button, [role='button']",
@@ -1017,6 +1157,31 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       value
         .split(/\s+/)
         .map((id) => normalize(resolveIdRef(id)?.textContent) || "")
+        .filter(Boolean)
+        .join(" "),
+    );
+  }
+
+  function resolveIdRefFrom(el: any, id: string): any {
+    if (!id) return null;
+    const root = typeof el?.getRootNode === "function" ? el.getRootNode() : null;
+    let rootMatch: any = null;
+    try {
+      rootMatch =
+        root?.getElementById?.(id) ||
+        root?.querySelector?.(`#${cssEscape(id)}`);
+    } catch {
+      rootMatch = null;
+    }
+    return rootMatch || resolveIdRef(id);
+  }
+
+  function textFromIdRefsFrom(el: any, value?: string | null): string | undefined {
+    if (!value) return undefined;
+    return normalize(
+      value
+        .split(/\s+/)
+        .map((id) => normalize(resolveIdRefFrom(el, id)?.textContent) || "")
         .filter(Boolean)
         .join(" "),
     );
@@ -1982,14 +2147,17 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function nestedImageLabels(el: any): string[] {
-    return Array.from(
-      el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]"),
-    )
+    return descendantElementsAcrossShadow(el)
+      .filter((node: any) => {
+        const tag = node.tagName?.toLowerCase();
+        return tag === "img" || tag === "svg" || node.getAttribute?.("role") === "img";
+      })
       .filter((node: any) => !isHidden(node))
       .map((image: any) => {
         const tag = image.tagName.toLowerCase();
         return normalize(
-          image.getAttribute("aria-label") ||
+          accessibleName(image, "image") ||
+            image.getAttribute("aria-label") ||
             (tag === "img" ? image.getAttribute("alt") : "") ||
             image.getAttribute("title"),
         );
@@ -3128,14 +3296,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function hasShadowRootContent(el: any): boolean {
-    return Boolean(
-      el?.shadowRoot ||
-        Array.from(el?.children || []).some(
-          (child: any) =>
-            child.tagName?.toLowerCase() === "template" &&
-            child.getAttribute("shadowrootmode"),
-        ),
-    );
+    return hasSerializedShadowRootContent(el);
   }
 
   function isLabeledIconActionButton(el: any): boolean {
@@ -4122,7 +4283,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function accessibleName(el: any, role: string): string | undefined {
     const tag = el.tagName.toLowerCase();
     const ariaLabel = normalize(el.getAttribute("aria-label"));
-    const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
+    const labelledBy = textFromIdRefsFrom(el, el.getAttribute("aria-labelledby"));
     const localFooterNavigationListLabel = localFooterNavigationLabelledListLabelName(el, role);
     const labelledByWithControlNames =
       role === "region" && !labelledBy
@@ -12338,7 +12499,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!hasMainAncestorAcrossShadow(el)) return false;
 
     if (isHeaderWrapper) {
-      return hasNamedNavigationOrListDescendant(el) && hasVisibleLinkOrButtonDescendant(el);
+      return hasVisibleLinkOrButtonDescendant(el);
     }
 
     return (
@@ -16619,6 +16780,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
 
       if (isSuppressedScanRootMainBoundary(root, el)) {
+        for (const child of walkChildren(el)) walk(child);
+        return;
+      }
+
+      if (isUnassignedCustomElementLogoSlotChild(el)) {
         for (const child of walkChildren(el)) walk(child);
         return;
       }

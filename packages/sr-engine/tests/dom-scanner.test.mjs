@@ -979,6 +979,109 @@ test("scanSubtree keeps anonymous shadow hosts transparent around named context 
   );
 });
 
+test("scanSubtree preserves serialized shadow slot order and descendant-composed link names", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <div data-sr-rendered-position="offscreen">
+          <x-page-header data-sr-rendered-position="offscreen">
+            <template shadowrootmode="open">
+              <header>
+                <slot name="skip"></slot>
+                <div><slot name="logo"></slot></div>
+                <div>
+                  <a href="#search">Search</a>
+                  <a href="#account">Sign in</a>
+                </div>
+                <nav aria-label="Menu"><slot></slot></nav>
+              </header>
+            </template>
+            <button slot="skip" type="button">Skip content</button>
+            <x-logo-link href="#home">
+              <template shadowrootmode="open">
+                <a href="#home">
+                  <svg role="img" aria-labelledby="primary-title"><title id="primary-title">Primary Mark</title></svg>
+                  <span>Primary Mark</span>
+                </a>
+              </template>
+            </x-logo-link>
+            <x-logo-link href="#hidden" data-sr-computed-hidden="display:none">
+              <template shadowrootmode="open">
+                <a href="#hidden">
+                  <svg role="img" aria-labelledby="hidden-title"><title id="hidden-title">Hidden Mark</title></svg>
+                  <span>Hidden Mark</span>
+                </a>
+              </template>
+            </x-logo-link>
+            <x-tool-control slot="tools">
+              <template shadowrootmode="open">
+                <button type="button">Unassigned tool</button>
+              </template>
+            </x-tool-control>
+            <x-logo-link href="#partner">
+              <template shadowrootmode="open">
+                <a href="#partner">
+                  <svg role="img" aria-labelledby="partner-title"><title id="partner-title">Partner Mark</title></svg>
+                </a>
+              </template>
+            </x-logo-link>
+            <a href="#menu">Menu item</a>
+          </x-page-header>
+        </div>
+        <nav aria-label="Primary navigation"><a href="#section">Main section</a></nav>
+      </main>
+    `),
+    [
+      "Skip content, button",
+      "link, Primary Mark Primary Mark",
+      "link, image, Partner Mark",
+      "link, Search",
+      "link, Sign in",
+      "Menu, navigation",
+      "link, Menu item",
+      "end of, Menu, navigation",
+      "Primary navigation, navigation",
+      "link, Main section",
+      "end of, Primary navigation, navigation",
+    ],
+  );
+});
+
+test("scanSubtree does not assign unmarked custom-element links to non-logo named slots", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <x-toolbar>
+          <template shadowrootmode="open">
+            <div><slot name="actions"></slot></div>
+            <a href="#shadow-action">Shadow action</a>
+          </template>
+          <x-unassigned-action>
+            <template shadowrootmode="open">
+              <a href="#unassigned">Unassigned action</a>
+            </template>
+          </x-unassigned-action>
+        </x-toolbar>
+      </main>
+    `),
+    ["link, Shadow action"],
+  );
+});
+
+test("scanSubtree keeps non-shadow offscreen content hidden", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main data-sr-scan-root>
+        <div data-sr-computed-hidden="offscreen">
+          <a href="#hidden">Hidden offscreen link</a>
+        </div>
+        <a href="#visible">Visible link</a>
+      </main>
+    `),
+    ["link, Visible link"],
+  );
+});
+
 test("scanSubtree announces fieldset legend groups inside named forms", () => {
   assert.deepEqual(
     scanHtml(`

@@ -1645,6 +1645,71 @@
             return true;
           return safeComputedStyle(el)?.display === "none";
         }
+        function hasSerializedShadowRootContent(el) {
+          return Boolean(el?.shadowRoot || Array.from(el?.children || []).some((child) => child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")));
+        }
+        function isSerializedShadowTraversalCarrier(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return false;
+          if (renderedHiddenValue(el) !== "offscreen")
+            return false;
+          if (el.getAttribute("aria-hidden") === "true" || el.hasAttribute("hidden"))
+            return false;
+          if (isRenderedDisplayHidden(el))
+            return false;
+          const hasSupportedShadowSemantics = (node) => {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE)
+              return false;
+            const tag = node.tagName?.toLowerCase();
+            if (tag === "style" || tag === "script")
+              return false;
+            if ([
+              "a",
+              "button",
+              "input",
+              "select",
+              "textarea",
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "h5",
+              "h6",
+              "nav",
+              "header",
+              "footer",
+              "ul",
+              "ol",
+              "li"
+            ].includes(tag)) {
+              return true;
+            }
+            const role = normalize(node.getAttribute?.("role"))?.toLowerCase();
+            if (role && role !== "none" && role !== "presentation" && role !== "generic") {
+              return true;
+            }
+            if (tag === "slot")
+              return true;
+            return Array.from(node.children || []).some((child) => hasSupportedShadowSemantics(child));
+          };
+          const hosts = [
+            el,
+            ...Array.from(el.querySelectorAll?.("*") || [])
+          ].filter((candidate) => hasSerializedShadowRootContent(candidate));
+          return hosts.some((host) => shadowContentChildren(host).some((child) => hasSupportedShadowSemantics(child)));
+        }
+        function closestHiddenComputedAncestor(el) {
+          for (let current = el?.parentElement; current; current = current.parentElement) {
+            if (!current.hasAttribute?.("data-sr-computed-hidden"))
+              continue;
+            if (current.getAttribute("data-sr-computed-hidden") === "false")
+              continue;
+            if (isSerializedShadowTraversalCarrier(current))
+              continue;
+            return current;
+          }
+          return void 0;
+        }
         function isFocusableOpacityHiddenControl(el) {
           return Boolean(el?.matches?.(interactiveSelector)) && isOpacityHiddenOnly(el);
         }
@@ -1687,11 +1752,11 @@
             return true;
           }
           const marker = renderedHiddenValue(el);
-          if (marker && marker !== "false" && !isFocusableOpacityHiddenControl(el)) {
+          if (marker && marker !== "false" && !isFocusableOpacityHiddenControl(el) && !isSerializedShadowTraversalCarrier(el)) {
             return true;
           }
-          const hiddenAncestor = el.closest("[data-sr-computed-hidden]:not([data-sr-computed-hidden='false'])");
-          if (el.closest("[aria-hidden='true']") || hiddenAncestor && hiddenAncestor !== el) {
+          const hiddenAncestor = closestHiddenComputedAncestor(el);
+          if (el.closest("[aria-hidden='true']") || hiddenAncestor) {
             return true;
           }
           const style = safeComputedStyle(el);
@@ -1748,6 +1813,55 @@
           rememberShadowContentHost(children, el);
           return children;
         }
+        function hasSerializedShadowDescendantLink(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.matches?.("a[href], [role='link']"))
+            return true;
+          const shadowChildren = shadowContentChildren(el);
+          const children = shadowChildren.length ? shadowChildren : Array.from(el.children || []);
+          return children.some((child) => hasSerializedShadowDescendantLink(child));
+        }
+        function unassignedCustomElementLogoSlotChildren(host, slotName) {
+          if (slotName.toLowerCase() !== "logo")
+            return [];
+          return Array.from(host.children || []).filter((child) => {
+            if (child.nodeType !== Node.ELEMENT_NODE)
+              return false;
+            if (child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")) {
+              return false;
+            }
+            if (child.hasAttribute("slot"))
+              return false;
+            if (!isCustomElement(child))
+              return false;
+            if (!hasSerializedShadowRootContent(child))
+              return false;
+            if (isHidden(child))
+              return false;
+            return hasSerializedShadowDescendantLink(child);
+          });
+        }
+        function hasShadowSlotNamed(el, slotName) {
+          const normalizedSlotName = slotName.toLowerCase();
+          const visit = (node) => {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE)
+              return false;
+            if (node.tagName?.toLowerCase() === "slot" && (node.getAttribute("name") || "").toLowerCase() === normalizedSlotName) {
+              return true;
+            }
+            const shadowChildren = shadowContentChildren(node);
+            const children = shadowChildren.length ? shadowChildren : Array.from(node.children || []);
+            return children.some((child) => visit(child));
+          };
+          return shadowContentChildren(el).some((child) => visit(child));
+        }
+        function isUnassignedCustomElementLogoSlotChild(el) {
+          const host = el?.parentElement;
+          if (!host || !hasShadowSlotNamed(host, "logo"))
+            return false;
+          return unassignedCustomElementLogoSlotChildren(host, "logo").includes(el);
+        }
         function assignedSlotNodes(slot) {
           if (slot?.tagName?.toLowerCase() !== "slot")
             return [];
@@ -1769,8 +1883,15 @@
             }
             return (child.getAttribute("slot") || "") === slotName;
           });
-          if (namedSlotChildren.length || !slotName)
+          if (!slotName) {
+            const logoSlotChildren2 = hasShadowSlotNamed(host, "logo") ? new Set(unassignedCustomElementLogoSlotChildren(host, "logo")) : /* @__PURE__ */ new Set();
+            return namedSlotChildren.filter((child) => !logoSlotChildren2.has(child));
+          }
+          if (namedSlotChildren.length)
             return namedSlotChildren;
+          const logoSlotChildren = unassignedCustomElementLogoSlotChildren(host, slotName);
+          if (logoSlotChildren.length)
+            return logoSlotChildren;
           const semanticSelectorBySlotName = {
             button: "button, [role='button']",
             link: "a[href], [role='link']"
@@ -1888,6 +2009,23 @@
           if (!value)
             return void 0;
           return normalize(value.split(/\s+/).map((id) => normalize(resolveIdRef(id)?.textContent) || "").filter(Boolean).join(" "));
+        }
+        function resolveIdRefFrom(el, id) {
+          if (!id)
+            return null;
+          const root = typeof el?.getRootNode === "function" ? el.getRootNode() : null;
+          let rootMatch = null;
+          try {
+            rootMatch = root?.getElementById?.(id) || root?.querySelector?.(`#${cssEscape(id)}`);
+          } catch {
+            rootMatch = null;
+          }
+          return rootMatch || resolveIdRef(id);
+        }
+        function textFromIdRefsFrom(el, value) {
+          if (!value)
+            return void 0;
+          return normalize(value.split(/\s+/).map((id) => normalize(resolveIdRefFrom(el, id)?.textContent) || "").filter(Boolean).join(" "));
         }
         function controlNameFromIdRef(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE)
@@ -2815,9 +2953,12 @@
           return Boolean(el.querySelector?.("[role='slider'][aria-label], select[aria-label], button[aria-keyshortcuts]"));
         }
         function nestedImageLabels(el) {
-          return Array.from(el.querySelectorAll("img[alt], [role='img'][aria-label], svg[aria-label]")).filter((node) => !isHidden(node)).map((image) => {
+          return descendantElementsAcrossShadow(el).filter((node) => {
+            const tag = node.tagName?.toLowerCase();
+            return tag === "img" || tag === "svg" || node.getAttribute?.("role") === "img";
+          }).filter((node) => !isHidden(node)).map((image) => {
             const tag = image.tagName.toLowerCase();
-            return normalize(image.getAttribute("aria-label") || (tag === "img" ? image.getAttribute("alt") : "") || image.getAttribute("title"));
+            return normalize(accessibleName(image, "image") || image.getAttribute("aria-label") || (tag === "img" ? image.getAttribute("alt") : "") || image.getAttribute("title"));
           }).filter((label) => Boolean(label));
         }
         function nestedImageLabel(el) {
@@ -3847,7 +3988,7 @@
           return false;
         }
         function hasShadowRootContent(el) {
-          return Boolean(el?.shadowRoot || Array.from(el?.children || []).some((child) => child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")));
+          return hasSerializedShadowRootContent(el);
         }
         function isLabeledIconActionButton(el) {
           if (implicitRole(el) !== "button")
@@ -4664,7 +4805,7 @@
         function accessibleName(el, role) {
           const tag = el.tagName.toLowerCase();
           const ariaLabel = normalize(el.getAttribute("aria-label"));
-          const labelledBy = textFromIdRefs(el.getAttribute("aria-labelledby"));
+          const labelledBy = textFromIdRefsFrom(el, el.getAttribute("aria-labelledby"));
           const localFooterNavigationListLabel = localFooterNavigationLabelledListLabelName(el, role);
           const labelledByWithControlNames = role === "region" && !labelledBy ? textFromIdRefsOrControlNames(el.getAttribute("aria-labelledby")) : void 0;
           const nativeLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag) ? labelForControl(el) : void 0;
@@ -11547,7 +11688,7 @@
           if (!hasMainAncestorAcrossShadow(el))
             return false;
           if (isHeaderWrapper) {
-            return hasNamedNavigationOrListDescendant(el) && hasVisibleLinkOrButtonDescendant(el);
+            return hasVisibleLinkOrButtonDescendant(el);
           }
           return hasVisibleLinkOrButtonDescendant(el) && (hasNamedNavigationOrListDescendant(el) || hasShadowInclusiveDescendantMatching(el, (candidate) => ["ul", "ol", "dl"].includes(candidate.tagName?.toLowerCase())) || hasVisibleFooterTextDescendant(el));
         }
@@ -14446,6 +14587,11 @@
               return;
             }
             if (isSuppressedScanRootMainBoundary(root, el)) {
+              for (const child of walkChildren(el))
+                walk(child);
+              return;
+            }
+            if (isUnassignedCustomElementLogoSlotChild(el)) {
               for (const child of walkChildren(el))
                 walk(child);
               return;
