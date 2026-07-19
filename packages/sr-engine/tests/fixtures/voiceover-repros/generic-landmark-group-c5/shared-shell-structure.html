@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generic landmark group C.5</title>
+    <style>
+      body {
+        font: 16px/1.4 Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        padding: 16px;
+      }
+
+      generic-site-header,
+      generic-page-segment,
+      generic-card-shell,
+      generic-site-footer,
+      .shell-wrapper,
+      .shell-inner,
+      .content-wrapper,
+      .footer-wrapper {
+        display: block;
+      }
+
+      .visually-offscreen {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      data-sr-scan-root
+      data-sr-fixture-id="generic-landmark-group-c5/shared-shell-structure"
+      data-sr-fixture-status="phase-c5-requires-push"
+    >
+      <main id="main-content">
+        <span hidden>generic landmark group c5 identity marker</span>
+
+        <div class="shell-wrapper">
+          <div class="shell-inner">
+            <generic-site-header data-case="shadow-header-wrapper">
+              <template shadowrootmode="open"><!---->
+                <header class="site-header">
+                  <slot name="skip"></slot>
+                  <div class="header-group" data-case="unnamed-header-group">
+                    <slot name="logo"></slot>
+                    <slot name="tools"></slot>
+                  </div>
+                  <nav aria-label="Main">
+                    <slot name="nav"></slot>
+                  </nav>
+                </header>
+              </template>
+
+              <a slot="skip" class="visually-offscreen" href="#main-heading">Skip to main content</a>
+              <a slot="logo" href="#home" aria-label="Example logo">
+                <img alt="Example logo">
+              </a>
+              <a slot="tools" href="#search">Search</a>
+              <a slot="tools" href="#account">Sign in</a>
+              <a slot="nav" href="#plan">Plan</a>
+              <a slot="nav" href="#help">Help</a>
+            </generic-site-header>
+          </div>
+        </div>
+
+        <div class="content-wrapper">
+          <h1 id="main-heading">Travel help</h1>
+
+          <generic-page-segment data-case="leading-image-card-wrapper">
+            <generic-card-shell>
+              <img alt="Desk photo">
+              <h3>Planning</h3>
+              <p>Short planning text.</p>
+              <a href="#planning">Plan now</a>
+            </generic-card-shell>
+          </generic-page-segment>
+
+          <a href="#check">Check in now</a>
+          <generic-page-segment data-case="after-link-heading-content-group">
+            <generic-card-shell>
+              <h4>Boarding</h4>
+              <p>Short boarding text.</p>
+              <a href="#boarding">Boarding help</a>
+            </generic-card-shell>
+          </generic-page-segment>
+
+          <generic-page-segment data-case="footer-adjacent-tail-wrapper">
+            <generic-card-shell>
+              <a href="#support">Support link</a>
+            </generic-card-shell>
+          </generic-page-segment>
+        </div>
+
+        <div class="footer-wrapper">
+          <div class="shell-inner">
+            <generic-site-footer data-case="shadow-footer-wrapper">
+              <template shadowrootmode="open"><!---->
+                <footer class="site-footer">
+                  <nav aria-label="Footer">
+                    <slot name="footer-links"></slot>
+                  </nav>
+                  <slot name="logo"></slot>
+                  <ul aria-label="Social links">
+                    <slot name="social"></slot>
+                  </ul>
+                  <slot name="copyright"></slot>
+                </footer>
+              </template>
+
+              <a slot="footer-links" href="#contact">Help and contacts</a>
+              <a slot="footer-links" href="#terms">Terms</a>
+              <a slot="logo" href="#home" aria-label="Example speedmark">
+                <img alt="Example speedmark">
+              </a>
+              <li slot="social"><a href="#social-a">Social A</a></li>
+              <li slot="social"><a href="#social-b">Social B</a></li>
+              <li slot="social"><a href="#social-c">Social C</a></li>
+              <li slot="social"><a href="#social-d">Social D</a></li>
+              <li slot="social"><a href="#social-e">Social E</a></li>
+              <li slot="social"><a href="#social-f">Social F</a></li>
+              <p slot="copyright">Copyright Example.</p>
+            </generic-site-footer>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
