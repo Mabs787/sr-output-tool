@@ -610,20 +610,33 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const buttonName = normalize(name || accessibleName(el, role));
     if (!buttonName) return false;
 
-    const controls = normalize(el.getAttribute("aria-controls"));
-    if (!controls) return false;
-    const controlledRegions = controls
-      .split(/\s+/)
-      .map((id) => resolveIdRef(id))
-      .filter(Boolean);
-    if (!controlledRegions.length) return false;
-    if (controlledRegions.some((region) => !isHidden(region))) return false;
-    if (controlledRegions.some((region) => !isRenderedDisplayHidden(region))) return false;
+    if (!hasHiddenControlledRegionsForCollapsedNativeButton(el, role)) return false;
 
     const axNode = axNodeForElementRole(el, "button");
     if (!axNode || axNode.properties?.focusable !== true) return false;
     if (axNode.properties?.expanded !== false) return false;
     return normalize(axNode.name) === buttonName;
+  }
+
+  function hiddenControlledRegionsFor(el: any): any[] {
+    const controls = normalize(el?.getAttribute?.("aria-controls"));
+    if (!controls) return [];
+    return controls
+      .split(/\s+/)
+      .map((id) => resolveIdRefFrom(el, id))
+      .filter(Boolean);
+  }
+
+  function hasHiddenControlledRegionsForCollapsedNativeButton(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (el?.tagName?.toLowerCase() !== "button") return false;
+    if (parseBooleanAttribute(el, "aria-expanded") !== false) return false;
+    if (normalizedPopup(el)) return false;
+
+    const controlledRegions = hiddenControlledRegionsFor(el);
+    if (!controlledRegions.length) return false;
+    if (controlledRegions.some((region) => !isHidden(region))) return false;
+    return controlledRegions.every((region) => isRenderedDisplayHidden(region));
   }
 
   function axConfirmedNativeInputButtonName(el: any, role: string): string | undefined {
@@ -986,6 +999,52 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return unassignedCustomElementLogoSlotChildren(host, "logo").includes(el);
   }
 
+  function unassignedCollapsedDisclosureSummarySlotChildren(host: any, slotName: string): any[] {
+    if (slotName.toLowerCase() !== "summary") return [];
+    if (!isCustomElement(host) || !hasSerializedShadowRootContent(host)) return [];
+
+    const hasCollapsedSummarySlot = (node: any): boolean => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE) return false;
+      const tag = node.tagName?.toLowerCase();
+      if (
+        /^h[1-6]$/.test(tag || "") &&
+        Array.from(node.children || []).some((child: any) => {
+          if (child.tagName?.toLowerCase() !== "button") return false;
+          if (parseBooleanAttribute(child, "aria-expanded") !== false) return false;
+          if (!child.hasAttribute("aria-controls")) return false;
+          return Array.from(child.children || []).some(
+            (grandchild: any) =>
+              grandchild.tagName?.toLowerCase() === "slot" &&
+              (grandchild.getAttribute("name") || "").toLowerCase() === "summary",
+          );
+        })
+      ) {
+        return true;
+      }
+      return Array.from(node.children || []).some((child: any) =>
+        hasCollapsedSummarySlot(child),
+      );
+    };
+
+    if (!shadowContentChildren(host).some((child: any) => hasCollapsedSummarySlot(child))) {
+      return [];
+    }
+
+    const candidates = Array.from(host.children || []).filter((child: any) => {
+      if (child.nodeType !== Node.ELEMENT_NODE) return false;
+      if (child.tagName?.toLowerCase() === "template" && child.getAttribute("shadowrootmode")) {
+        return false;
+      }
+      if (child.hasAttribute("slot")) return false;
+      if (isHidden(child)) return false;
+      if (child.matches?.(interactiveSelector)) return false;
+      if (!normalize(readableText(child) || child.textContent)) return false;
+      return true;
+    });
+
+    return candidates.length ? [candidates[0]] : [];
+  }
+
   function assignedSlotNodes(slot: any): any[] {
     if (slot?.tagName?.toLowerCase() !== "slot") return [];
     const assignedNodes =
@@ -1014,6 +1073,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return namedSlotChildren.filter((child: any) => !logoSlotChildren.has(child));
     }
     if (namedSlotChildren.length) return namedSlotChildren;
+
+    const disclosureSummarySlotChildren =
+      unassignedCollapsedDisclosureSummarySlotChildren(host, slotName);
+    if (disclosureSummarySlotChildren.length) return disclosureSummarySlotChildren;
 
     const logoSlotChildren = unassignedCustomElementLogoSlotChildren(host, slotName);
     if (logoSlotChildren.length) return logoSlotChildren;
@@ -12187,6 +12250,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
+  function isCollapsedDisclosureHeadingWithHiddenControlledRegion(
+    el: any,
+    role = implicitRole(el),
+  ): boolean {
+    if (role !== "heading") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+
+    const visibleChildren = walkChildren(el).filter(
+      (child: any) => !isHidden(child) && !child.matches?.("script, style, template"),
+    );
+    if (visibleChildren.length !== 1) return false;
+
+    const button = visibleChildren[0];
+    if (implicitRole(button) !== "button") return false;
+    return hasHiddenControlledRegionsForCollapsedNativeButton(button, "button");
+  }
+
   function isNamedCustomShadowGroupStop(el: any, role = implicitRole(el)): boolean {
     if (role !== "group") return false;
     if (!isCustomElement(el) || !hasShadowRootContent(el)) return false;
@@ -12204,7 +12284,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         const role = implicitRole(node);
         if (
           isNativeExposedLinkButtonOrGroup(node, role) ||
-          isNamedCustomShadowGroupStop(node, role)
+          isNamedCustomShadowGroupStop(node, role) ||
+          isCollapsedDisclosureHeadingWithHiddenControlledRegion(node, role)
         ) {
           exposedStops.push(node);
           return;
@@ -12365,6 +12446,31 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const buttonName = normalize(accessibleName(el, "button") || readableText(el));
     return Boolean(buttonName && normalize(axChildren[0].name) === buttonName);
+  }
+
+  function closestAnonymousCustomMediaWrapper(el: any): any | null {
+    const host = closestCustomElement(el);
+    if (!host || host.matches?.(interactiveSelector)) return null;
+    if (customElementContributesLabelRoleOrState(host)) return null;
+    if (accessibleName(host, "group")) return null;
+    if (shadowInclusiveAncestor(host, "nav,[role='navigation'],ul,ol,dl,[role='list'],table,[role='table'],[role='grid']")) {
+      return null;
+    }
+    return hasShadowInclusiveDescendantMatching(host, (candidate) => {
+      const tag = candidate.tagName?.toLowerCase();
+      return (tag === "video" || tag === "audio") && !isHidden(candidate);
+    })
+      ? host
+      : null;
+  }
+
+  function isPlainButtonInsideAnonymousCustomMediaWrapper(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (el?.tagName?.toLowerCase() !== "button") return false;
+    if (normalizedPopup(el) || el.hasAttribute("aria-expanded") || el.hasAttribute("aria-pressed")) {
+      return false;
+    }
+    return Boolean(closestAnonymousCustomMediaWrapper(el));
   }
 
   function shadowInclusiveAncestor(el: any, selector: string): any | null {
@@ -14024,6 +14130,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "button" && isFooterLegalActionButton(el, role);
     const suppressNamedGroupCollapsedControlGroup =
       collapsedControlInNamedGroup(el, role, nativeDetailsSummary);
+    const suppressHeadingButtonGroup =
+      role === "heading" &&
+      headingButton &&
+      Boolean(anonymousStructuralCustomElementHost) &&
+      hasHiddenControlledRegionsForCollapsedNativeButton(headingButton, "button");
+    const suppressCustomMediaWrapperButtonGroup =
+      role === "button" && isPlainButtonInsideAnonymousCustomMediaWrapper(el, role);
     const nativeRangeValue = nativeRangeValueText(stateEl, role);
     const value =
       tag === "select"
@@ -14214,7 +14327,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           !suppressFooterLegalActionButtonGroup &&
           !suppressNamedGroupCollapsedControlGroup &&
           !(role === "button" && el.hasAttribute("aria-pressed")) &&
-          (Boolean(headingButton) ||
+          ((Boolean(headingButton) && !suppressHeadingButtonGroup) ||
             (role === "tab" && isControlledTablistTab(el, role)) ||
             (role === "button" &&
               !suppressPositionedChoiceGroup &&
@@ -14225,6 +14338,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             (role === "button" &&
               Boolean(closestCustomElement(el)) &&
               !anonymousStructuralCustomElementHost &&
+              !suppressCustomMediaWrapperButtonGroup &&
               !hasSameNameCustomGroupAncestor(el, name) &&
               !normalizedPopup(el) &&
               !hasAssociatedExplicitTooltip(el, name) &&

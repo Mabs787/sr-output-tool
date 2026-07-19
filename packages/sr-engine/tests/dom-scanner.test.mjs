@@ -7033,6 +7033,141 @@ test("scanSubtree skips anonymous custom structural hosts around native controls
   );
 });
 
+test("scanSubtree skips anonymous custom accordion wrappers and button group suffixes", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h2>Account questions</h2>
+        <test-accordion>
+          <test-accordion-item>
+            <template shadowrootmode="open">
+              <h3><button type="button" aria-expanded="false" aria-controls="panel-one"><slot name="summary"></slot></button></h3>
+              <div id="panel-one" hidden><slot name="panel"></slot></div>
+            </template>
+            <span>Where can I see points?</span>
+            <p>Open the account page.</p>
+          </test-accordion-item>
+          <test-accordion-item>
+            <template shadowrootmode="open">
+              <h3><button type="button" aria-expanded="false" aria-controls="panel-two"><slot name="summary"></slot></button></h3>
+              <div id="panel-two" hidden><slot name="panel"></slot></div>
+            </template>
+            <span>How do I update details?</span>
+            <p>Use the profile form.</p>
+          </test-accordion-item>
+        </test-accordion>
+        <section aria-labelledby="account-help">
+          <h3 id="account-help">Account help</h3>
+          <test-accordion>
+            <test-accordion-item>
+              <template shadowrootmode="open">
+                <h4><button type="button" aria-expanded="false" aria-controls="panel-missing"><slot name="summary"></slot></button></h4>
+                <div id="panel-missing" hidden><slot name="panel"></slot></div>
+              </template>
+              <span>How do I claim missing points?</span>
+              <p>Send the reference number.</p>
+            </test-accordion-item>
+          </test-accordion>
+        </section>
+        <div role="group" aria-label="Named control group"><button type="button">Named control</button></div>
+        <div role="group"><button type="button">Ordinary control</button></div>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 2, Account questions",
+      "heading level 3, Where can I see points?, collapsed, button",
+      "heading level 3, How do I update details?, collapsed, button",
+      "Account help, region",
+      "heading level 3, Account help",
+      "heading level 4, How do I claim missing points?, collapsed, button",
+      "end of, Account help, region",
+      "Named control group, group",
+      "Named control, button",
+      "end of, Named control group, group",
+      "Ordinary control, button",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps non-hidden and navigation collapsed button grouping outside accordion wrappers", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <test-accordion-item>
+          <template shadowrootmode="open">
+            <h3><button type="button" aria-expanded="false" aria-controls="visible-panel"><slot name="summary"></slot></button></h3>
+            <div id="visible-panel"><slot name="panel"></slot></div>
+          </template>
+          <span>Visible panel</span>
+          <p>Visible answer.</p>
+        </test-accordion-item>
+        <test-accordion-item>
+          <template shadowrootmode="open">
+            <h3><button type="button" aria-expanded="false" aria-controls="visibility-panel"><slot name="summary"></slot></button></h3>
+            <div id="visibility-panel" data-sr-computed-hidden="visibility:hidden"><slot name="panel"></slot></div>
+          </template>
+          <span>Visibility panel</span>
+          <p data-sr-computed-hidden="visibility:hidden">Hidden by visibility.</p>
+        </test-accordion-item>
+        <nav aria-label="Options">
+          <ul>
+            <li><button type="button" aria-expanded="true">Hide Options</button></li>
+          </ul>
+        </nav>
+      </main>
+    `),
+    [
+      "main",
+      "group",
+      "heading level 3, Visible panel, collapsed, button, group",
+      "group",
+      "heading level 3, Visibility panel, collapsed, button, group",
+      "Options, navigation",
+      "list 1 item",
+      "Hide Options, expanded, button, group",
+      "end of list",
+      "end of, Options, navigation",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree skips anonymous custom media button suffixes while preserving named groups", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h1>Room guide</h1>
+        <test-media-shell>
+          <img alt="Room preview">
+          <test-player-shell>
+            <video controls aria-label="Room video"></video>
+            <button type="button" aria-label="Play room video">Play</button>
+          </test-player-shell>
+        </test-media-shell>
+        <test-action-shell>
+          <button type="button" aria-label="Standalone action">Action</button>
+        </test-action-shell>
+        <div role="group" aria-label="Named control group"><button type="button">Named control</button></div>
+        <div role="group"><button type="button">Ordinary control</button></div>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 1, Room guide",
+      "Room preview, image",
+      "Play room video, button",
+      "Standalone action, button, group",
+      "Named control group, group",
+      "Named control, button",
+      "end of, Named control group, group",
+      "Ordinary control, button",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree adds AX-confirmed trailing group after single shadow button wrappers", () => {
   assert.deepEqual(
     scanHtml(
