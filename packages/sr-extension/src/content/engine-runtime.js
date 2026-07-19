@@ -11464,6 +11464,216 @@
           }
           return null;
         }
+        function firstShadowInclusiveDescendantMatching(el, predicate) {
+          const queue = [...walkChildren(el)];
+          const seen = /* @__PURE__ */ new Set();
+          while (queue.length) {
+            const candidate = queue.shift();
+            if (!candidate || candidate.nodeType !== Node.ELEMENT_NODE || seen.has(candidate)) {
+              continue;
+            }
+            seen.add(candidate);
+            if (isHidden(candidate))
+              continue;
+            if (predicate(candidate))
+              return candidate;
+            queue.push(...walkChildren(candidate));
+          }
+          return void 0;
+        }
+        function hasShadowInclusiveDescendantMatching(el, predicate) {
+          return Boolean(firstShadowInclusiveDescendantMatching(el, predicate));
+        }
+        function isUnnamedElementForRole(el, role) {
+          if (accessibleName(el, role))
+            return false;
+          return !normalize(el?.getAttribute?.("aria-label") || textFromIdRefs(el?.getAttribute?.("aria-labelledby")) || el?.getAttribute?.("title"));
+        }
+        function hasExplicitOrAxName(el, role) {
+          if (normalize(el?.getAttribute?.("aria-label") || textFromIdRefs(el?.getAttribute?.("aria-labelledby")) || el?.getAttribute?.("title"))) {
+            return true;
+          }
+          const axNode = axNodeForElementRole(el, role) || axNodeForElement(el);
+          return Boolean(axNode && normalize(axNode.name));
+        }
+        function isNamedNavigationOrList(el) {
+          const tag = el?.tagName?.toLowerCase();
+          if (tag === "nav" || el?.getAttribute?.("role") === "navigation") {
+            return Boolean(accessibleName(el, "navigation"));
+          }
+          if (["ul", "ol", "dl"].includes(tag) || el?.getAttribute?.("role") === "list") {
+            return Boolean(accessibleName(el, "list"));
+          }
+          return false;
+        }
+        function hasNamedNavigationOrListDescendant(el) {
+          return hasShadowInclusiveDescendantMatching(el, isNamedNavigationOrList);
+        }
+        function hasVisibleLinkOrButtonDescendant(el) {
+          return hasShadowInclusiveDescendantMatching(el, (candidate) => {
+            const role = implicitRole(candidate);
+            return role === "link" || role === "button";
+          });
+        }
+        function hasVisibleFooterTextDescendant(el) {
+          return hasShadowInclusiveDescendantMatching(el, (candidate) => {
+            const tag = candidate.tagName?.toLowerCase();
+            if (["p", "small", "span", "time"].includes(tag) && readableText(candidate)) {
+              return true;
+            }
+            return false;
+          });
+        }
+        function containsNativeLandmark(el, tagName) {
+          if (el?.tagName?.toLowerCase() === tagName)
+            return true;
+          return hasShadowInclusiveDescendantMatching(el, (candidate) => candidate.tagName?.toLowerCase() === tagName);
+        }
+        function hasMainAncestorAcrossShadow(el) {
+          return Boolean(shadowInclusiveAncestor(el, "main,[role='main']"));
+        }
+        function isUnsupportedUnnamedShadowHeaderFooterWrapper(el, role) {
+          if (!["group", "banner", "contentinfo", "sectionfooter"].includes(role))
+            return false;
+          if (hasExplicitOrAxName(el, role))
+            return false;
+          if (el?.matches?.(interactiveSelector))
+            return false;
+          const tag = el?.tagName?.toLowerCase();
+          const isHeaderWrapper = role === "banner" || tag === "header" || role === "group" && containsNativeLandmark(el, "header");
+          const isFooterWrapper = role === "contentinfo" || role === "sectionfooter" || tag === "footer" || role === "group" && containsNativeLandmark(el, "footer");
+          if (!isHeaderWrapper && !isFooterWrapper)
+            return false;
+          if (!hasMainAncestorAcrossShadow(el))
+            return false;
+          if (isHeaderWrapper) {
+            return hasNamedNavigationOrListDescendant(el) && hasVisibleLinkOrButtonDescendant(el);
+          }
+          return hasVisibleLinkOrButtonDescendant(el) && (hasNamedNavigationOrListDescendant(el) || hasShadowInclusiveDescendantMatching(el, (candidate) => ["ul", "ol", "dl"].includes(candidate.tagName?.toLowerCase())) || hasVisibleFooterTextDescendant(el));
+        }
+        function isUnsupportedUnnamedHeaderControlGroup(el, role) {
+          if (role !== "group")
+            return false;
+          if (!isUnnamedElementForRole(el, role))
+            return false;
+          if (el?.matches?.(interactiveSelector))
+            return false;
+          if (!shadowInclusiveAncestor(el, "header,[role='banner']"))
+            return false;
+          if (!hasVisibleLinkOrButtonDescendant(el))
+            return false;
+          if (hasNamedNavigationOrListDescendant(el))
+            return false;
+          const axNode = axNodeForElementRole(el, "generic");
+          if (axNode && normalize(axNode.name))
+            return false;
+          return true;
+        }
+        function axSingleLinkChild(el) {
+          const axNode = axNodeForElementRole(el, "generic") || axNodeAnyForElement(el);
+          if (!axNode)
+            return void 0;
+          const axRole = normalizedAxRole(axNode.role);
+          if (!axNode.ignored && axRole !== "generic")
+            return void 0;
+          if (normalize(axNode.name))
+            return void 0;
+          const children = axChildNodes(axNode);
+          if (children.length !== 1 || normalizedAxRole(children[0].role) !== "link") {
+            return void 0;
+          }
+          return children[0];
+        }
+        function containsNativeFooterAcrossShadow(el) {
+          return containsNativeLandmark(el, "footer") || Boolean(el?.matches?.("footer,[role='contentinfo']"));
+        }
+        function closestAncestorContainingNativeFooter(el) {
+          const boundary = shadowInclusiveAncestor(el, "main,[role='main']") || document.body;
+          const seen = /* @__PURE__ */ new Set();
+          for (let current = el?.parentElement || shadowContentHostByNode.get(el); current && current !== boundary && !seen.has(current); current = current.parentElement || shadowContentHostByNode.get(current)) {
+            seen.add(current);
+            if (containsNativeFooterAcrossShadow(current))
+              return current;
+          }
+          return void 0;
+        }
+        function nextVisibleElementAfterSubtree(el) {
+          const boundary = shadowInclusiveAncestor(el, "main,[role='main']") || document.body;
+          for (let current = el; current && current !== boundary; current = current.parentElement || shadowContentHostByNode.get(current)) {
+            const sibling = nextVisibleElementSibling(current);
+            if (sibling)
+              return sibling;
+          }
+          return void 0;
+        }
+        function previousVisibleElementBeforeSubtree(el) {
+          const boundary = shadowInclusiveAncestor(el, "main,[role='main']") || document.body;
+          for (let current = el; current && current !== boundary; current = current.parentElement || shadowContentHostByNode.get(current)) {
+            const sibling = previousVisibleElementSibling(current);
+            if (sibling)
+              return sibling;
+          }
+          return void 0;
+        }
+        function isFooterAdjacentSingleLinkGenericGroup(el) {
+          if (!axSingleLinkChild(el))
+            return false;
+          const next = nextVisibleElementAfterSubtree(el);
+          return Boolean(next && containsNativeFooterAcrossShadow(next));
+        }
+        function isFooterSingleLinkGenericGroup(el) {
+          if (!axSingleLinkChild(el))
+            return false;
+          return Boolean(shadowInclusiveAncestor(el, "footer,[role='contentinfo']") || closestAncestorContainingNativeFooter(el));
+        }
+        function hasCardLikeContentShape(el) {
+          const hasHeading = hasShadowInclusiveDescendantMatching(el, (candidate) => implicitRole(candidate) === "heading");
+          if (!hasHeading)
+            return false;
+          const hasImage = hasNamedImageDescendant(el);
+          const hasText = hasShadowInclusiveDescendantMatching(el, (candidate) => ["paragraph", "text"].includes(implicitRole(candidate)) && Boolean(readableText(candidate)));
+          const hasLink = hasShadowInclusiveDescendantMatching(el, (candidate) => implicitRole(candidate) === "link");
+          return (hasImage || hasText) && hasLink;
+        }
+        function hasNamedImageDescendant(el) {
+          return hasShadowInclusiveDescendantMatching(el, (candidate) => implicitRole(candidate) === "image" && Boolean(accessibleName(candidate, "image")));
+        }
+        function isImmediatelyAfterVisibleLink(el) {
+          const previous = previousVisibleElementBeforeSubtree(el);
+          if (!previous)
+            return false;
+          if (implicitRole(previous) === "link")
+            return true;
+          return hasShadowInclusiveDescendantMatching(previous, (candidate) => implicitRole(candidate) === "link");
+        }
+        function isUnsupportedLeadingGenericContentWrapper(el) {
+          if (!hasCardLikeContentShape(el))
+            return false;
+          return !isImmediatelyAfterVisibleLink(el) || hasNamedImageDescendant(el);
+        }
+        function isUnsupportedUnnamedGenericContentWrapper(el, role) {
+          if (role !== "group")
+            return false;
+          if (!isUnnamedElementForRole(el, role))
+            return false;
+          if (el?.matches?.(interactiveSelector))
+            return false;
+          if (isFocusableImageListItem(el) || isFocusableStructuredListItemGroup(el) || isAxConfirmedFocusableFeedbackGroup(el) || isFocusableRichTextParagraphGroup(el) || isFocusableHeadingRichTextNavigationGroup(el) || isFocusableGenericListItemDescendantGroup(el) || isFocusableSummaryPanelGroup(el, role) || isSingleTitledIframeWrapper(el) || isButtonShellClusterGroup(el) || isButtonShellGroup(el) || fieldsetPromptText(el)) {
+            return false;
+          }
+          if (hasNamedNavigationOrListDescendant(el))
+            return false;
+          if (shadowInclusiveAncestor(el, "header,[role='banner'],nav,[role='navigation'],ul,ol,dl,[role='list']")) {
+            return false;
+          }
+          const axNode = axNodeForElementRole(el, "generic") || axNodeAnyForElement(el);
+          const axRole = normalizedAxRole(axNode?.role);
+          if (axNode && !axNode.ignored && axRole !== "generic")
+            return false;
+          if (axNode && normalize(axNode.name))
+            return false;
+          return isFooterAdjacentSingleLinkGenericGroup(el) || isFooterSingleLinkGenericGroup(el) || isUnsupportedLeadingGenericContentWrapper(el);
+        }
         function parseBooleanAttribute(el, name) {
           if (!el.hasAttribute(name))
             return void 0;
@@ -13018,6 +13228,15 @@
           }
           const decorativeRoleGroupBeforeNativeLinks = isDecorativeRoleGroupBeforeNativeLinks(el, role);
           const decorativeGenericGroupBeforeNativeLinks = isDecorativeGenericGroupBeforeNativeLinks(el, role);
+          if (isUnsupportedUnnamedShadowHeaderFooterWrapper(el, role)) {
+            return false;
+          }
+          if (isUnsupportedUnnamedHeaderControlGroup(el, role)) {
+            return false;
+          }
+          if (isUnsupportedUnnamedGenericContentWrapper(el, role)) {
+            return false;
+          }
           if (role === "listitem" && axMarkerOnlyListItemStopAnnouncement(el)) {
             return true;
           }

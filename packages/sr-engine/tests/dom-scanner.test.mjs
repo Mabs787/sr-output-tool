@@ -12281,3 +12281,166 @@ test("scanSubtree suppresses wrapper group stops before standalone card headings
     ],
   );
 });
+
+test("scanSubtree skips unnamed shadow shell landmarks and structural groups while preserving children", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main data-sr-dom-node-id="main">
+          <x-site-header data-sr-dom-node-id="header-host">
+            <template shadowrootmode="open">
+              <header data-sr-dom-node-id="header">
+                <div data-sr-dom-node-id="header-tools"><slot name="tools"></slot></div>
+                <nav aria-label="Main"><slot name="nav"></slot></nav>
+              </header>
+            </template>
+            <a slot="tools" href="#logo" data-sr-dom-node-id="logo">Logo</a>
+            <a slot="tools" href="#search" data-sr-dom-node-id="search">Search</a>
+            <a slot="nav" href="#plan" data-sr-dom-node-id="plan">Plan</a>
+          </x-site-header>
+          <h1>Travel help</h1>
+          <x-page-segment data-sr-dom-node-id="leading-card">
+            <template shadowrootmode="open"><section><slot></slot></section></template>
+            <img alt="Desk photo" data-sr-dom-node-id="photo">
+            <h3 data-sr-dom-node-id="planning">Planning</h3>
+            <p data-sr-dom-node-id="planning-text">Short planning text.</p>
+            <a href="#planning" data-sr-dom-node-id="planning-link">Plan now</a>
+          </x-page-segment>
+          <x-link-tail data-sr-dom-node-id="tail">
+            <template shadowrootmode="open"><div><slot></slot></div></template>
+            <a href="#support" data-sr-dom-node-id="support">Support link</a>
+          </x-link-tail>
+          <x-site-footer data-sr-dom-node-id="footer-host">
+            <template shadowrootmode="open">
+              <footer data-sr-dom-node-id="footer">
+                <nav aria-label="Footer"><slot name="footer-links"></slot></nav>
+                <ul aria-label="Social links"><slot name="social"></slot></ul>
+                <slot name="copyright"></slot>
+              </footer>
+            </template>
+            <a slot="footer-links" href="#contact" data-sr-dom-node-id="contact">Help and contacts</a>
+            <li slot="social" data-sr-dom-node-id="social-item"><a href="#social" data-sr-dom-node-id="social-link">Social</a></li>
+            <p slot="copyright" data-sr-dom-node-id="copyright">Copyright Example.</p>
+          </x-site-footer>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            { nodeId: "main", role: "main", name: "", domNodeId: "main", childIds: ["header", "leading-card", "tail", "footer"] },
+            { nodeId: "header", role: "sectionheader", name: "", childIds: ["header-tools", "main-nav"] },
+            { nodeId: "header-tools", role: "generic", name: "", domNodeId: "header-tools", childIds: ["logo", "search"] },
+            { nodeId: "main-nav", role: "navigation", name: "Main", childIds: ["plan"] },
+            { nodeId: "logo", role: "link", name: "Logo", domNodeId: "logo" },
+            { nodeId: "search", role: "link", name: "Search", domNodeId: "search" },
+            { nodeId: "plan", role: "link", name: "Plan", domNodeId: "plan" },
+            { nodeId: "leading-card", role: "generic", name: "", domNodeId: "leading-card", childIds: ["photo", "planning", "planning-text", "planning-link"] },
+            { nodeId: "photo", role: "image", name: "Desk photo", domNodeId: "photo" },
+            { nodeId: "planning", role: "heading", name: "Planning", domNodeId: "planning" },
+            { nodeId: "planning-text", role: "StaticText", name: "Short planning text.", domNodeId: "planning-text" },
+            { nodeId: "planning-link", role: "link", name: "Plan now", domNodeId: "planning-link" },
+            { nodeId: "tail", role: "generic", name: "", domNodeId: "tail", childIds: ["support"] },
+            { nodeId: "support", role: "link", name: "Support link", domNodeId: "support" },
+            { nodeId: "footer", role: "sectionfooter", name: "", childIds: ["footer-nav", "social-list", "copyright"] },
+            { nodeId: "footer-nav", role: "navigation", name: "Footer", childIds: ["contact"] },
+            { nodeId: "contact", role: "link", name: "Help and contacts", domNodeId: "contact" },
+            { nodeId: "social-list", role: "list", name: "Social links", childIds: ["social-item"] },
+            { nodeId: "social-item", role: "listitem", name: "", domNodeId: "social-item", childIds: ["social-link"] },
+            { nodeId: "social-link", role: "link", name: "Social", domNodeId: "social-link" },
+            { nodeId: "copyright", role: "StaticText", name: "Copyright Example.", domNodeId: "copyright" },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, Logo",
+      "link, Search",
+      "Main, navigation",
+      "link, Plan",
+      "end of, Main, navigation",
+      "heading level 1, Travel help",
+      "Desk photo, image",
+      "heading level 3, Planning",
+      "Short planning text.",
+      "link, Plan now",
+      "link, Support link",
+      "Footer, navigation",
+      "link, Help and contacts",
+      "end of, Footer, navigation",
+      "list Social links",
+      "link, Social",
+      "end of list",
+      "Copyright Example.",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree preserves named and ordinary groups outside the shared shell contract", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <x-named-header>
+            <template shadowrootmode="open">
+              <header aria-label="Site header"><a href="#home">Home</a></header>
+            </template>
+          </x-named-header>
+          <nav aria-label="Utility"><a href="#utility">Utility link</a></nav>
+          <ul aria-label="Named links"><li><a href="#named">Named item</a></li></ul>
+          <a href="#check">Check in now</a>
+          <x-after-link data-sr-dom-node-id="after-link">
+            <template shadowrootmode="open"><section><slot></slot></section></template>
+            <h4>Boarding</h4>
+            <p>Boarding text.</p>
+            <a href="#boarding">Boarding help</a>
+          </x-after-link>
+          <x-single-link data-sr-dom-node-id="single-link">
+            <template shadowrootmode="open"><div><slot></slot></div></template>
+            <a href="#not-footer">Not footer adjacent</a>
+          </x-single-link>
+          <x-other-group data-sr-dom-node-id="other-group">
+            <template shadowrootmode="open"><section><slot></slot></section></template>
+            <p>Ordinary text.</p>
+            <a href="#ordinary">Ordinary link</a>
+          </x-other-group>
+          <p>After groups.</p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            { nodeId: "after-link", role: "generic", name: "", domNodeId: "after-link" },
+            { nodeId: "single-link", role: "generic", name: "", domNodeId: "single-link", childIds: ["not-footer"] },
+            { nodeId: "not-footer", role: "link", name: "Not footer adjacent" },
+            { nodeId: "other-group", role: "generic", name: "", domNodeId: "other-group" },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Site header, banner",
+      "link, Home",
+      "end of, Site header, banner",
+      "Utility, navigation",
+      "link, Utility link",
+      "end of, Utility, navigation",
+      "list Named links 1 item",
+      "link, Named item",
+      "end of list",
+      "link, Check in now",
+      "group",
+      "heading level 4, Boarding",
+      "Boarding text.",
+      "link, Boarding help",
+      "link, Not footer adjacent",
+      "group",
+      "Ordinary text.",
+      "link, Ordinary link",
+      "After groups.",
+      "end of, main",
+    ],
+  );
+});
