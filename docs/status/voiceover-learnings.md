@@ -44,8 +44,13 @@ decision, tests added or updated, and what future agents must avoid.
   revisited: `www-microsoft-com-en-us-accessibility` currently reports 164
   expected announcements, 165 actual announcements, and first mismatch index 31
   (`Disability Answer Desk` versus `Ask Microsoft Accessibility`).
+- Before final Phase C/E validation, require the validator-backed exhaustive
+  Phase B OCR/glyph sweep across every refined announcement and text or
+  punctuation mismatch window. The sweep must preserve raw expected output,
+  apply every safe evidence-backed repair, and report zero unreviewed or
+  remaining suspicious literal candidates.
 
-## 2026-07-18 Notion Curation
+## 2026-07-19 Notion Curation Refresh
 
 - Target: Notion run `29641641399` on branch
   `codex/notion-voiceover-refinement`.
@@ -54,10 +59,12 @@ decision, tests added or updated, and what future agents must avoid.
   `_summaries/final-compact-compare.json`,
   `_summaries/final-phase-c-dispositions.json`, and
   `_summaries/phase-e-promotion.json`.
-- Decision: no full-page Notion fixture was promoted. The 19 valid targets stay
-  isolated as candidate/parked evidence, Mail stays recapture-only, raw
-  `expectedAnnouncements` stay preserved, and the canonical fixture index and
-  refinement manifest stay unchanged.
+- Decision: no full-page Notion fixture was promoted. Of 19 valid targets, 18
+  stay parked and Contact Sales stays conditional-state-blocked; Mail stays
+  recapture-only. Final accounting is 481 mismatch windows with no actionable
+  family buckets. The exhaustive Phase B sweep applied 169 evidence-backed
+  OCR/glyph repairs, left zero remaining candidates, and preserved raw
+  `expectedAnnouncements`; the canonical index and manifest stay unchanged.
 - Reusable behavior accepted elsewhere: media icon button grouping, generic
   heading child boundaries, footer `ul[aria-labelledby]` list labels,
   AX-empty article naming, and empty-link URL basename fallback are protected by

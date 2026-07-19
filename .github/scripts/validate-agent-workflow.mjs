@@ -43,6 +43,8 @@ const REQUIRED_COMMON_FIELDS = [
   "handoffTo",
 ];
 
+const PHASE_B_OCR_GLYPH_SWEEP_CHECK = "phase-b-ocr-glyph-sweep";
+
 function usage() {
   return [
     "Usage: node .github/scripts/validate-agent-workflow.mjs <receipt-dir> [options]",
@@ -160,15 +162,15 @@ function validatePreflight(receiptDir, options, errors, warnings) {
   if (!existsSync(preflightPath)) {
     if (options.allowMissingPreflight) {
       warnings.push(`${preflightPath}: missing preflight allowed by flag`);
-      return;
+      return null;
     }
     errors.push(`${preflightPath}: missing agent registry preflight`);
-    return;
+    return null;
   }
 
   const preflight = readJson(preflightPath, errors);
   if (!preflight) {
-    return;
+    return null;
   }
 
   const requiredRoles = asArray(preflight.requiredRoles);
@@ -179,6 +181,7 @@ function validatePreflight(receiptDir, options, errors, warnings) {
   if (preflight.schemaVersion !== 1) {
     errors.push(`${preflightPath}: schemaVersion must be 1`);
   }
+  validatePreflightContract(preflight, preflightPath, errors);
   if (preflight.phase !== "preflight") {
     errors.push(`${preflightPath}: phase must be "preflight"`);
   }
@@ -216,6 +219,23 @@ function validatePreflight(receiptDir, options, errors, warnings) {
     if (typeof agent.sessionId !== "string" || agent.sessionId.trim() === "") {
       errors.push(`${preflightPath}: spawned role ${role} is missing sessionId`);
     }
+  }
+
+  return { preflight, preflightPath };
+}
+
+function validatePreflightContract(preflight, preflightPath, errors) {
+  if (!("contractVersion" in preflight)) {
+    return;
+  }
+  if (preflight.contractVersion !== 2) {
+    errors.push(`${preflightPath}: contractVersion must be 2 when present`);
+    return;
+  }
+
+  const requiredRunChecks = asArray(preflight.requiredRunChecks);
+  if (!requiredRunChecks.includes(PHASE_B_OCR_GLYPH_SWEEP_CHECK)) {
+    errors.push(`${preflightPath}: contractVersion 2 requires requiredRunChecks to include ${PHASE_B_OCR_GLYPH_SWEEP_CHECK}`);
   }
 }
 
@@ -269,6 +289,102 @@ function validatePhase05Summary(summaryPath, errors) {
   if (!Array.isArray(receipt.recurringFamilies)) {
     errors.push(`${resolvedPath}: recurringFamilies must be an array`);
   }
+}
+
+function validateRequiredRunChecks(preflightContext, receiptDir, errors) {
+  if (!preflightContext) {
+    return;
+  }
+
+  const requiredRunChecks = asArray(preflightContext.preflight.requiredRunChecks);
+  if (!requiredRunChecks.includes(PHASE_B_OCR_GLYPH_SWEEP_CHECK)) {
+    return;
+  }
+
+  validatePhaseBOcrGlyphSweep(preflightContext.preflightPath, receiptDir, errors);
+}
+
+function validatePhaseBOcrGlyphSweep(preflightPath, receiptDir, errors) {
+  const summaryPath = path.join(path.dirname(preflightPath), "phase-b-ocr-glyph-sweep.json");
+  if (!existsSync(summaryPath)) {
+    errors.push(`${summaryPath}: missing required ${PHASE_B_OCR_GLYPH_SWEEP_CHECK} run summary`);
+    return;
+  }
+
+  const receipt = readJson(summaryPath, errors);
+  if (!receipt) {
+    return;
+  }
+
+  if (receipt.schemaVersion !== 1) {
+    errors.push(`${summaryPath}: schemaVersion must be 1`);
+  }
+  if (receipt.phase !== "B-ocr-glyph-sweep") {
+    errors.push(`${summaryPath}: phase must be B-ocr-glyph-sweep`);
+  }
+  if (receipt.agent !== "evidence-refiner") {
+    errors.push(`${summaryPath}: agent must be evidence-refiner`);
+  }
+  if (receipt.agentConfigPath !== ".codex/agents/evidence-refiner.toml") {
+    errors.push(`${summaryPath}: agentConfigPath must be .codex/agents/evidence-refiner.toml`);
+  }
+  requireNonEmptyString(receipt, "sessionId", summaryPath, errors);
+  requireNonEmptyString(receipt, "runId", summaryPath, errors);
+  if (receipt.status !== "passed") {
+    errors.push(`${summaryPath}: status must be passed`);
+  }
+  if (receipt.rawExpectedAnnouncementsPreserved !== true) {
+    errors.push(`${summaryPath}: rawExpectedAnnouncementsPreserved must be true`);
+  }
+  if (receipt.unreviewedCandidateCount !== 0) {
+    errors.push(`${summaryPath}: unreviewedCandidateCount must be 0`);
+  }
+  if (receipt.remainingSuspiciousLiteralCandidateCount !== 0) {
+    errors.push(`${summaryPath}: remainingSuspiciousLiteralCandidateCount must be 0`);
+  }
+
+  const target = targetNameForValidation(receiptDir, errors);
+  const rows = asArray(receipt.rows);
+  if (rows.length === 0) {
+    errors.push(`${summaryPath}: rows must be a non-empty array`);
+    return;
+  }
+
+  const targetRow = rows.find((row) => row && typeof row === "object" && row.target === target);
+  if (!targetRow) {
+    errors.push(`${summaryPath}: rows must include target ${target}`);
+    return;
+  }
+
+  if (runCheckRowScanStatus(targetRow) !== "complete") {
+    errors.push(`${summaryPath}: target ${target} scan status must be complete`);
+  }
+}
+
+function targetNameForValidation(receiptDir, errors) {
+  if (existsSync(receiptDir)) {
+    for (const fileName of readdirSync(receiptDir)) {
+      if (!fileName.endsWith(".json")) {
+        continue;
+      }
+      const receipt = readJson(path.join(receiptDir, fileName), errors);
+      if (receipt && typeof receipt.target === "string" && receipt.target.trim() !== "") {
+        return receipt.target;
+      }
+    }
+  }
+
+  return path.basename(receiptDir);
+}
+
+function runCheckRowScanStatus(row) {
+  if (typeof row.scanStatus === "string") {
+    return row.scanStatus;
+  }
+  if (row.scan && typeof row.scan === "object" && typeof row.scan.status === "string") {
+    return row.scan.status;
+  }
+  return "";
 }
 
 function preflightPathFromReceiptReference(receiptDir, errors) {
@@ -395,9 +511,10 @@ function main() {
     process.exit(2);
   }
 
-  validatePreflight(receiptDir, options, errors, warnings);
+  const preflightContext = validatePreflight(receiptDir, options, errors, warnings);
   validateReceipts(receiptDir, options, errors);
   validatePhase05Summary(options.phase05Summary, errors);
+  validateRequiredRunChecks(preflightContext, receiptDir, errors);
 
   for (const warning of warnings) {
     console.warn(`warning: ${warning}`);

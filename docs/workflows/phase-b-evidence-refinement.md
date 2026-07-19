@@ -48,6 +48,25 @@ Build an audit set before editing. The audit set must include:
   and the engine emits descendants
 - any line with OCR/caption/source disagreement
 
+For new refinement runs, Phase B must also complete the run-level OCR/glyph
+sweep declared by the shared preflight `contractVersion: 2` contract. Run this
+sweep after family Phase B cleanup and before final Phase C/E validation. The
+sweep is exhaustive: inspect all final `refinedAnnouncements`, every current
+text and punctuation compare window, and every OCR/caption/glyph candidate
+against the initial `rendered-html.html` and AX tree, using step snapshots,
+source/caption diagnostics, screenshots, and recordings when available.
+
+The sweep must preserve raw `expectedAnnouncements` exactly. OCR, caption, and
+glyph fixes belong only in `refinedAnnouncements` with
+`caption-or-ocr-repair` fixture changes. Use Phase C.5 for OCR/glyph families
+only when the saved evidence resources disagree or cannot decide the real page
+text; do not request C.5 for repairs already proven by initial HTML/AX,
+snapshots/source evidence, or screenshots.
+
+The run-level sweep passes only when both `unreviewedCandidateCount` and
+`remainingSuspiciousLiteralCandidateCount` are zero. A candidate that was
+reviewed and proven safe but not yet applied is still incomplete Phase B work.
+
 The receipt must include an audit coverage summary with audited ranges and any
 unaudited ranges. Do not call the fixture trusted if mismatch-relevant ranges
 were not audited.
@@ -164,6 +183,8 @@ Every disputed line must have a receipt entry with:
 
 - updated fixture JSON when edits are needed
 - `03-evidence-refinement.json`
+- run-level `_summaries/phase-b-ocr-glyph-sweep.json` for new
+  `contractVersion: 2` runs that require `phase-b-ocr-glyph-sweep`
 - remaining uncertain announcements, if any, each with a Phase C.5 request or a
   concrete blocker explaining why no reproduction scan is possible
 

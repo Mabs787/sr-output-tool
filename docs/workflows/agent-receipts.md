@@ -42,6 +42,42 @@ spawned-agent registry applied to that target.
 - `blockedReason`: empty unless `decision` is `blocked`
 - `startedAt` and `finishedAt`: ISO timestamps when available
 
+New refinement runs that use the shared run-level preflight must opt into the
+validator-backed Phase B OCR/glyph sweep contract:
+
+- `contractVersion`: `2`
+- `requiredRunChecks`: array including `phase-b-ocr-glyph-sweep`
+
+Those runs must also include a run-level summary next to the shared preflight:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/phase-b-ocr-glyph-sweep.json
+```
+
+`phase-b-ocr-glyph-sweep.json` must include:
+
+- `schemaVersion`: `1`
+- `phase`: `B-ocr-glyph-sweep`
+- `agent`: `evidence-refiner`
+- `agentConfigPath`: `.codex/agents/evidence-refiner.toml`
+- `sessionId`: non-empty evidence-refiner session id
+- `runId`: non-empty run id
+- `status`: `passed`
+- `rawExpectedAnnouncementsPreserved`: `true`
+- `unreviewedCandidateCount`: `0`
+- `remainingSuspiciousLiteralCandidateCount`: `0`
+- `rows`: one object per target, including `target` and
+  `scanStatus: "complete"`
+
+The sweep covers all final `refinedAnnouncements`, all text and punctuation
+compare windows, and every OCR/caption/glyph candidate against initial
+`rendered-html.html` and AX evidence. It runs after family Phase B cleanup and
+before final Phase C/E validation. A reviewed, safely repairable literal still
+counts as remaining work; the sweep cannot pass merely because every candidate
+was reviewed. Raw `expectedAnnouncements` must remain unchanged; C.5 is
+reserved for cases where saved evidence disagrees or cannot settle the
+OCR/glyph question.
+
 New scan artifacts must also include a scan-health receipt before Phase A:
 
 ```text

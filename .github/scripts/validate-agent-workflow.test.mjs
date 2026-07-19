@@ -59,7 +59,7 @@ function commonReceipt(overrides) {
   };
 }
 
-function preflight(requiredRoles, spawnedRoles = requiredRoles) {
+function preflight(requiredRoles, spawnedRoles = requiredRoles, overrides = {}) {
   return {
     schemaVersion: 1,
     phase: "preflight",
@@ -82,6 +82,32 @@ function preflight(requiredRoles, spawnedRoles = requiredRoles) {
     blockedReason: "",
     startedAt: "2026-07-18T00:00:00.000Z",
     finishedAt: "2026-07-18T00:00:01.000Z",
+    ...overrides,
+  };
+}
+
+function phaseBOcrGlyphSweep(overrides = {}) {
+  return {
+    schemaVersion: 1,
+    phase: "B-ocr-glyph-sweep",
+    agent: "evidence-refiner",
+    agentConfigPath: ".codex/agents/evidence-refiner.toml",
+    spawnedBy: "top-level-codex",
+    sessionId: "agent-evidence-refiner",
+    runId: "run-1",
+    status: "passed",
+    rawExpectedAnnouncementsPreserved: true,
+    unreviewedCandidateCount: 0,
+    remainingSuspiciousLiteralCandidateCount: 0,
+    rows: [{ target: "example-target", scanStatus: "complete" }],
+    ...overrides,
+  };
+}
+
+function phaseBOcrGlyphSweepContract() {
+  return {
+    contractVersion: 2,
+    requiredRunChecks: ["phase-b-ocr-glyph-sweep"],
   };
 }
 
@@ -172,5 +198,124 @@ test("keeps legacy missing-preflight allowance", async () => {
 
     assert.equal(result.exitCode, 0, result.stderr);
     assert.match(result.stderr, /missing preflight allowed by flag/);
+  });
+});
+
+test("rejects v2 shared preflight when the Phase B OCR/glyph sweep is missing", async () => {
+  await withTempRun(async (dir) => {
+    const runDir = path.join(dir, "run-1");
+    const targetDir = path.join(runDir, "example-target");
+    await writeJson(
+      path.join(runDir, "_summaries", "00-agent-preflight.json"),
+      preflight(["scan-health"], ["scan-health"], phaseBOcrGlyphSweepContract()),
+    );
+    await writeJson(
+      path.join(targetDir, "00-scan-health.json"),
+      commonReceipt({ sharedPreflightRef: "../_summaries/00-agent-preflight.json" }),
+    );
+
+    const result = await runValidator([targetDir, "--required-phases", "0"]);
+
+    assert.equal(result.exitCode, 1);
+    assert.match(result.stderr, /missing required phase-b-ocr-glyph-sweep run summary/);
+  });
+});
+
+test("rejects v2 shared preflight when the Phase B OCR/glyph sweep failed", async () => {
+  await withTempRun(async (dir) => {
+    const runDir = path.join(dir, "run-1");
+    const targetDir = path.join(runDir, "example-target");
+    await writeJson(
+      path.join(runDir, "_summaries", "00-agent-preflight.json"),
+      preflight(["scan-health"], ["scan-health"], phaseBOcrGlyphSweepContract()),
+    );
+    await writeJson(
+      path.join(runDir, "_summaries", "phase-b-ocr-glyph-sweep.json"),
+      phaseBOcrGlyphSweep({ status: "failed" }),
+    );
+    await writeJson(
+      path.join(targetDir, "00-scan-health.json"),
+      commonReceipt({ sharedPreflightRef: "../_summaries/00-agent-preflight.json" }),
+    );
+
+    const result = await runValidator([targetDir, "--required-phases", "0"]);
+
+    assert.equal(result.exitCode, 1);
+    assert.match(result.stderr, /status must be passed/);
+  });
+});
+
+test("rejects v2 shared preflight when the Phase B OCR/glyph target sweep is incomplete", async () => {
+  await withTempRun(async (dir) => {
+    const runDir = path.join(dir, "run-1");
+    const targetDir = path.join(runDir, "example-target");
+    await writeJson(
+      path.join(runDir, "_summaries", "00-agent-preflight.json"),
+      preflight(["scan-health"], ["scan-health"], phaseBOcrGlyphSweepContract()),
+    );
+    await writeJson(
+      path.join(runDir, "_summaries", "phase-b-ocr-glyph-sweep.json"),
+      phaseBOcrGlyphSweep({
+        unreviewedCandidateCount: 0,
+        rows: [{ target: "example-target", scanStatus: "partial" }],
+      }),
+    );
+    await writeJson(
+      path.join(targetDir, "00-scan-health.json"),
+      commonReceipt({ sharedPreflightRef: "../_summaries/00-agent-preflight.json" }),
+    );
+
+    const result = await runValidator([targetDir, "--required-phases", "0"]);
+
+    assert.equal(result.exitCode, 1);
+    assert.match(result.stderr, /target example-target scan status must be complete/);
+  });
+});
+
+test("rejects v2 shared preflight when a reviewed OCR/glyph repair remains unapplied", async () => {
+  await withTempRun(async (dir) => {
+    const runDir = path.join(dir, "run-1");
+    const targetDir = path.join(runDir, "example-target");
+    await writeJson(
+      path.join(runDir, "_summaries", "00-agent-preflight.json"),
+      preflight(["scan-health"], ["scan-health"], phaseBOcrGlyphSweepContract()),
+    );
+    await writeJson(
+      path.join(runDir, "_summaries", "phase-b-ocr-glyph-sweep.json"),
+      phaseBOcrGlyphSweep({ remainingSuspiciousLiteralCandidateCount: 1 }),
+    );
+    await writeJson(
+      path.join(targetDir, "00-scan-health.json"),
+      commonReceipt({ sharedPreflightRef: "../_summaries/00-agent-preflight.json" }),
+    );
+
+    const result = await runValidator([targetDir, "--required-phases", "0"]);
+
+    assert.equal(result.exitCode, 1);
+    assert.match(result.stderr, /remainingSuspiciousLiteralCandidateCount must be 0/);
+  });
+});
+
+test("accepts v2 shared preflight when the Phase B OCR/glyph sweep is complete", async () => {
+  await withTempRun(async (dir) => {
+    const runDir = path.join(dir, "run-1");
+    const targetDir = path.join(runDir, "example-target");
+    await writeJson(
+      path.join(runDir, "_summaries", "00-agent-preflight.json"),
+      preflight(["scan-health"], ["scan-health"], phaseBOcrGlyphSweepContract()),
+    );
+    await writeJson(
+      path.join(runDir, "_summaries", "phase-b-ocr-glyph-sweep.json"),
+      phaseBOcrGlyphSweep(),
+    );
+    await writeJson(
+      path.join(targetDir, "00-scan-health.json"),
+      commonReceipt({ sharedPreflightRef: "../_summaries/00-agent-preflight.json" }),
+    );
+
+    const result = await runValidator([targetDir, "--required-phases", "0"]);
+
+    assert.equal(result.exitCode, 0, result.stderr);
+    assert.match(result.stdout, /Agent workflow validation passed/);
   });
 });

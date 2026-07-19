@@ -161,6 +161,31 @@ required role is exposed and can be spawned. Use `decision: "blocked"` when a
 required role is missing after discovery. Use `decision: "degraded"` only when
 the user explicitly asks to continue without a named role.
 
+Every new refinement run must opt into the Phase B OCR/glyph sweep validation
+contract in the shared preflight:
+
+```json
+{
+  "schemaVersion": 1,
+  "phase": "preflight",
+  "contractVersion": 2,
+  "requiredRunChecks": ["phase-b-ocr-glyph-sweep"]
+}
+```
+
+This contract requires a run-level summary next to the shared preflight:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/phase-b-ocr-glyph-sweep.json
+```
+
+Phase B must write that summary after family-level Phase B cleanup and before
+final Phase C/E validation. The sweep must inspect all final refined text and
+all text/punctuation compare windows against the initial HTML/AX evidence,
+preserve raw `expectedAnnouncements`, leave zero unreviewed OCR/glyph
+candidates, leave zero reviewed-but-unapplied suspicious literal candidates,
+and mark each target row with `scanStatus: "complete"`.
+
 A run is `multi-agent` only when at least two phase-specific agents are
 spawned, or when the top-level session records why only one phase was required.
 An orchestrator-only run is not multi-agent.
@@ -239,6 +264,11 @@ the receipts explain why those phases were not required.
   ellipsis artifacts back to the rendered punctuation, and external-link glyph
   misreads such as `↗` captured as `2`, `a`, or `»`. Do not change engine logic
   to reproduce OCR artifacts proven wrong by the saved page evidence.
+- New runs must complete the validator-backed Phase B OCR/glyph sweep before
+  final Phase C/E. This is an exhaustive final pass over refined text and
+  text/punctuation compare windows, not a spot check of known mismatches. Use
+  Phase C.5 only when saved HTML, AX, snapshots/source evidence, screenshots,
+  or recordings disagree or cannot decide the OCR/glyph question.
 - For structural scanner mismatches, require debug evidence before Phase D:
   rendered HTML, AX tree nodes, step snapshots or cursor/source evidence, and
   screenshots when the visual state matters. If a scan reproduces the raw
