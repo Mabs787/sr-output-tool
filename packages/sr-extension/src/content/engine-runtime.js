@@ -64,6 +64,14 @@
           parts.push(`${el.positionInSet} of ${el.setSize}`);
         }
       }
+      function formatAnnouncementParts(parts, el, role) {
+        const normalizedParts = parts.filter(Boolean);
+        const collectionPosition = el.positionInSet && el.setSize && el.setSize !== 1 ? `${el.positionInSet} of ${el.setSize}` : void 0;
+        if (role === "link" && collectionPosition && normalizedParts.length === 3 && normalizedParts[0] === "link" && normalizedParts[1] === "X" && normalizedParts[2] === collectionPosition) {
+          return `link X,${collectionPosition}`;
+        }
+        return normalizedParts.join(", ");
+      }
       function pushTableCoordinates(parts, el) {
         if (el.columnIndex) {
           parts.push(`column ${el.columnIndex}`);
@@ -995,7 +1003,7 @@
         if (el.disabled && role !== "button" && role !== "link") {
           parts.push("dimmed");
         }
-        return parts.filter(Boolean).join(", ");
+        return formatAnnouncementParts(parts, el, role);
       }
       function getContextEndAnnouncement2(descriptor) {
         if (descriptor?.suppressContextEnd) {

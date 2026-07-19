@@ -46,6 +46,27 @@ function pushCollectionPosition(parts: string[], el: ElementDescriptor): void {
   }
 }
 
+function formatAnnouncementParts(parts: string[], el: ElementDescriptor, role: string): string {
+  const normalizedParts = parts.filter(Boolean);
+  const collectionPosition =
+    el.positionInSet && el.setSize && el.setSize !== 1
+      ? `${el.positionInSet} of ${el.setSize}`
+      : undefined;
+
+  if (
+    role === "link" &&
+    collectionPosition &&
+    normalizedParts.length === 3 &&
+    normalizedParts[0] === "link" &&
+    normalizedParts[1] === "X" &&
+    normalizedParts[2] === collectionPosition
+  ) {
+    return `link X,${collectionPosition}`;
+  }
+
+  return normalizedParts.join(", ");
+}
+
 function pushTableCoordinates(parts: string[], el: ElementDescriptor): void {
   if (el.columnIndex) {
     parts.push(`column ${el.columnIndex}`);
@@ -1249,7 +1270,7 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     parts.push("dimmed");
   }
 
-  return parts.filter(Boolean).join(", ");
+  return formatAnnouncementParts(parts, el, role);
 }
 
 export function getContextEndAnnouncement(

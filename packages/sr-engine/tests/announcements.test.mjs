@@ -244,6 +244,54 @@ test("generateAnnouncement formats headings, links, and table cells", () => {
   assert.equal(
     generateAnnouncement({
       role: "link",
+      name: "X",
+      positionInSet: 5,
+      setSize: 6,
+    }),
+    "link X,5 of 6",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "Alpha",
+      positionInSet: 1,
+      setSize: 6,
+    }),
+    "link, Alpha, 1 of 6",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "Y",
+      positionInSet: 5,
+      setSize: 6,
+    }),
+    "link, Y, 5 of 6",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "button",
+      name: "X",
+      positionInSet: 5,
+      setSize: 6,
+    }),
+    "X, button, 5 of 6",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
+      name: "X",
+    }),
+    "link, X",
+  );
+
+  assert.equal(
+    generateAnnouncement({
+      role: "link",
       name: "main content",
       details: "To move between items, use your keyboard's up or down arrows.",
       positionInSet: 1,
