@@ -9834,6 +9834,126 @@ test("scanSubtree emits visible label and described hint before native textboxes
   );
 });
 
+test("scanSubtree keeps AX-backed custom form control hosts transparent", () => {
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "origin-label", role: "StaticText", name: "Origin" },
+      { nodeId: "origin-hint", role: "StaticText", name: "Enter 3 letters" },
+      {
+        nodeId: "origin-control",
+        role: "combobox",
+        name: "Origin",
+        description: "Enter 3 letters",
+        properties: {
+          focusable: true,
+          autocomplete: "list",
+          hasPopup: "listbox",
+          required: true,
+          expanded: false,
+        },
+      },
+      { nodeId: "plan-label", role: "StaticText", name: "Plan type" },
+      {
+        nodeId: "plan-control",
+        role: "combobox",
+        name: "Plan type",
+        value: "Standard",
+        domNodeId: "plan",
+        properties: {
+          focusable: true,
+          hasPopup: "menu",
+          required: true,
+          expanded: false,
+        },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <x-form>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-grid>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-typeahead name="origin">
+              <template shadowrootmode="open">
+                <div>
+                  <label for="origin">Origin</label>
+                  <p id="origin-hint">Enter 3 letters</p>
+                  <div>
+                    <input
+                      id="origin"
+                      role="combobox"
+                      aria-autocomplete="list"
+                      aria-haspopup="listbox"
+                      aria-expanded="false"
+                      aria-required="true"
+                      required
+                      aria-describedby="origin-hint"
+                    >
+                  </div>
+                </div>
+              </template>
+            </x-typeahead>
+            <x-select>
+              <div>
+                <label for="plan" data-sr-rendered-position="offscreen">Plan type</label>
+                <select aria-hidden="true" tabindex="-1">
+                  <option>Basic</option>
+                  <option selected>Standard</option>
+                </select>
+                <select
+                  id="plan"
+                  required
+                  aria-required="true"
+                  data-sr-computed-hidden="opacity:0"
+                  data-sr-dom-node-id="plan"
+                >
+                  <option>Basic</option>
+                  <option selected>Standard</option>
+                </select>
+              </div>
+            </x-select>
+          </x-grid>
+          <button type="submit">Search</button>
+        </x-form>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "Origin",
+      "Enter 3 letters",
+      "Origin Enter 3 letters, required list box pop up collapsed, combo box",
+      "Plan type",
+      "group",
+      "Standard, Plan type, required menu pop up collapsed, button",
+      "Search, button",
+    ],
+  );
+});
+
+test("scanSubtree does not leak optional legend fragments after fieldset prompt split", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <fieldset>
+        <legend data-sr-rendered-position="offscreen">Issue date<span><span>,</span>Optional</span></legend>
+        <div id="issue-hint">This is the issue date.</div>
+        <div>
+          <input type="date" aria-label="Issue date" aria-describedby="issue-hint">
+        </div>
+      </fieldset>
+    `),
+    [
+      "Issue date, Optional, group",
+      "Issue date,Optional",
+      "This is the issue date.",
+      "Issue date This is the issue date., edit text",
+      "end of, Issue date, Optional, group",
+    ],
+  );
+});
+
 test("scanSubtree matches VoiceOver stops for simple labelled contact forms", () => {
   assert.deepEqual(
     scanHtml(`

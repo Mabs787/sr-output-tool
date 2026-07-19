@@ -2062,6 +2062,283 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return axName === labelText ? axName : undefined;
   }
 
+  function labelElementForControlIncludingHidden(el: any): any | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return undefined;
+    if ("labels" in el && el.labels?.length) {
+      return Array.from(el.labels).find((label: any) =>
+        Boolean(normalize(textWithoutInteractive(label) || readableText(label))),
+      );
+    }
+
+    const id = normalize(el.getAttribute("id"));
+    if (!id) return undefined;
+    const selector = `label[for="${cssEscape(id)}"]`;
+    const root = typeof el.getRootNode === "function" ? el.getRootNode() : null;
+    return (
+      root?.querySelector?.(selector) ||
+      document.querySelector(selector) ||
+      undefined
+    );
+  }
+
+  function labelTextForControlIncludingHidden(el: any): string | undefined {
+    const label = labelElementForControlIncludingHidden(el);
+    return label ? normalize(textWithoutInteractive(label) || readableText(label)) : undefined;
+  }
+
+  function describedByElementsForControl(el: any): any[] {
+    const describedBy = normalize(el?.getAttribute?.("aria-describedby"));
+    if (!describedBy) return [];
+    return describedBy
+      .split(/\s+/)
+      .map((id) => resolveIdRefFrom(el, id))
+      .filter(Boolean);
+  }
+
+  function firstDescribedByTextForControl(el: any): string | undefined {
+    for (const ref of describedByElementsForControl(el)) {
+      const text = normalize(textWithoutInteractive(ref) || readableText(ref));
+      if (text) return text;
+    }
+    return undefined;
+  }
+
+  function axFocusableControlNodeForControl(
+    el: any,
+    role: string,
+    labelText: string,
+    detailsText?: string,
+  ): AccessibilityTreeNode | undefined {
+    const expectedRole = role === "textbox" && el?.getAttribute?.("type") === "date"
+      ? "date"
+      : role;
+    const exactNode = axNodeForElementRole(el, expectedRole);
+    const matches = (node?: AccessibilityTreeNode): node is AccessibilityTreeNode => {
+      if (!node || normalizedAxRole(node.role) !== expectedRole) return false;
+      if (node.properties?.focusable !== true) return false;
+      if (normalize(node.name) !== labelText) return false;
+      if (detailsText && normalize(node.description) !== detailsText) return false;
+      return true;
+    };
+
+    if (matches(exactNode)) return exactNode;
+    return accessibilityNodes.find(matches);
+  }
+
+  function axHasStaticText(value?: string): boolean {
+    const text = normalize(value);
+    if (!text) return false;
+    return accessibilityNodes.some(
+      (node) =>
+        !node.ignored &&
+        normalizedAxRole(node.role) === "statictext" &&
+        normalize(node.name) === text,
+    );
+  }
+
+  function nativeFormControlsAcrossShadow(root: any): any[] {
+    const controls: any[] = [];
+    const visit = (node: any): void => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (
+        node !== root &&
+        ["input", "select", "textarea"].includes(node.tagName?.toLowerCase()) &&
+        implicitRole(node) &&
+        node.getAttribute("aria-hidden") !== "true"
+      ) {
+        controls.push(node);
+        return;
+      }
+      for (const child of walkChildren(node)) visit(child);
+    };
+
+    for (const child of walkChildren(root)) visit(child);
+    return controls;
+  }
+
+  function customElementHasOnlyFormControlStructure(el: any): boolean {
+    let sawControl = false;
+    let sawNativeFieldControl = false;
+    let sawDisallowed = false;
+
+    const visit = (node: any): void => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node) || sawDisallowed) {
+        return;
+      }
+      if (node !== el) {
+        const tag = node.tagName?.toLowerCase();
+        const role = implicitRole(node);
+        if (["input", "select", "textarea"].includes(tag)) {
+          sawControl = true;
+          sawNativeFieldControl = true;
+          return;
+        }
+        if (["button"].includes(tag) || role === "button") {
+          sawControl = true;
+          return;
+        }
+        if (
+          [
+            "a",
+            "img",
+            "svg",
+            "video",
+            "canvas",
+            "table",
+            "ul",
+            "ol",
+            "dl",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+          ].includes(tag)
+        ) {
+          sawDisallowed = true;
+          return;
+        }
+        if (
+          role &&
+          ![
+            "group",
+            "generic",
+            "none",
+            "presentation",
+            "alert",
+            "status",
+            "paragraph",
+            "text",
+          ].includes(role)
+        ) {
+          sawDisallowed = true;
+          return;
+        }
+      }
+
+      for (const child of walkChildren(node)) visit(child);
+    };
+
+    visit(el);
+    return sawControl && sawNativeFieldControl && !sawDisallowed;
+  }
+
+  function isAnonymousCustomFormControlContainerGroup(el: any, role: string): boolean {
+    if (role !== "group") return false;
+    if (!isCustomElement(el) || !hasShadowRootContent(el)) return false;
+    if (accessibleName(el, "group")) return false;
+    if (el.matches(interactiveSelector)) return false;
+    if (
+      el.getAttribute("role") ||
+      el.hasAttribute("tabindex") ||
+      normalize(el.getAttribute("aria-label")) ||
+      textFromIdRefs(el.getAttribute("aria-labelledby")) ||
+      normalize(el.getAttribute("title"))
+    ) {
+      return false;
+    }
+    if (!customElementHasOnlyFormControlStructure(el)) return false;
+
+    const axNode = axNodeForElement(el);
+    if (axNode && !["none", "generic"].includes(normalizedAxRole(axNode.role) || "")) {
+      return false;
+    }
+    return !axNode || !normalize(axNode.name);
+  }
+
+  function customFormControlHostSequence(el: any): Array<{
+    source: string;
+    el: any;
+    announcement: string;
+    role?: string;
+    name?: string;
+  }> | undefined {
+    if (!isCustomElement(el)) return undefined;
+    if (el.matches(interactiveSelector)) return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.hasAttribute("tabindex") ||
+      normalize(el.getAttribute("aria-label")) ||
+      textFromIdRefs(el.getAttribute("aria-labelledby")) ||
+      normalize(el.getAttribute("title"))
+    ) {
+      return undefined;
+    }
+
+    const controls = nativeFormControlsAcrossShadow(el).filter((control) => {
+      const tag = control.tagName?.toLowerCase();
+      if (tag === "input" && (control.getAttribute("type") || "text").toLowerCase() === "hidden") {
+        return false;
+      }
+      return ["combobox", "textbox", "searchbox"].includes(implicitRole(control));
+    });
+    if (controls.length !== 1) return undefined;
+
+    const control = controls[0];
+    const role = implicitRole(control);
+    const tag = control.tagName?.toLowerCase();
+    const labelText = labelTextForControlIncludingHidden(control);
+    if (!labelText) return undefined;
+
+    const hintText = firstDescribedByTextForControl(control);
+    if (!accessibilityNodes.length) return undefined;
+    const axNode = axFocusableControlNodeForControl(control, role, labelText, hintText);
+    if (!axNode || !axHasStaticText(labelText)) return undefined;
+    if (hintText && !axHasStaticText(hintText)) return undefined;
+
+    const descriptor = captureElement(control);
+    const controlAnnouncement = descriptor ? generateAnnouncement(descriptor) : undefined;
+    if (!controlAnnouncement) return undefined;
+
+    if (
+      role === "combobox" &&
+      tag === "input" &&
+      hintText &&
+      normalize(control.getAttribute("aria-autocomplete")) === "list" &&
+      (control.getAttribute("aria-haspopup") === "listbox" ||
+        normalize(axNode.properties?.hasPopup as string) === "listbox")
+    ) {
+      return [
+        { source: "custom-form-control-label", el, announcement: labelText },
+        { source: "custom-form-control-hint", el, announcement: hintText },
+        {
+          source: "custom-form-control-combobox",
+          el: control,
+          announcement: controlAnnouncement,
+          role,
+          name: labelText,
+        },
+      ];
+    }
+
+    if (role === "combobox" && tag === "select") {
+      return [
+        { source: "custom-form-control-label", el, announcement: labelText },
+        { source: "custom-form-control-group", el, announcement: "group", role: "group" },
+        {
+          source: "custom-form-control-select",
+          el: control,
+          announcement: controlAnnouncement,
+          role,
+          name: labelText,
+        },
+      ];
+    }
+
+    return undefined;
+  }
+
+  function isLegendTextCoveredByFieldsetPrompt(el: any, role: string): boolean {
+    if (role !== "text" && role !== "paragraph") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const legend = el.closest?.("legend");
+    const fieldset = legend?.parentElement;
+    if (!legend || fieldset?.tagName?.toLowerCase() !== "fieldset") return false;
+    if (!visuallyHiddenFieldsetLegendText(fieldset)) return false;
+    return fieldset.contains(el);
+  }
+
   function fieldsetCommaSpacedGroupName(el: any, role: string, name?: string): string | undefined {
     if (role !== "group" || el?.tagName?.toLowerCase() !== "fieldset") return undefined;
     const normalizedName = normalize(name);
@@ -15256,6 +15533,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    if (isLegendTextCoveredByFieldsetPrompt(el, role)) {
+      return false;
+    }
+
     if (isTrailingAxAdjacentVersionTitleTextChild(el, role)) {
       return false;
     }
@@ -15382,6 +15663,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     if (role === "group" && isAnonymousStructuralCustomElementGroup(el)) {
+      return false;
+    }
+
+    if (role === "group" && isAnonymousCustomFormControlContainerGroup(el, role)) {
       return false;
     }
 
@@ -17056,6 +17341,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             continue;
           }
           if (child.nodeType === Node.ELEMENT_NODE) walk(child);
+        }
+        return;
+      }
+
+      const customControlStops = customFormControlHostSequence(el);
+      if (customControlStops?.length) {
+        const id = `__sr_el_${stopIndex}_${now()}`;
+        stopIndex += 1;
+        el.setAttribute("data-sr-id", id);
+        for (const stop of customControlStops) {
+          emitTraversalStop(id, {
+            kind: "synthetic",
+            source: stop.source,
+            el: stop.el,
+            announcement: stop.announcement,
+            role: stop.role,
+            name: stop.name,
+          });
         }
         return;
       }
