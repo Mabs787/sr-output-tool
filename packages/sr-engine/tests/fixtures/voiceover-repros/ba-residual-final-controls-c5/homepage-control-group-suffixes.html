@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 homepage control group suffix repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      label, input, select, button { font: inherit; }
+      .field { display: grid; gap: 4px; margin: 8px 0; }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      [aria-hidden="true"] { display: none; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="homepage-control-group-suffixes"
+      data-sr-repro-source="run-29664876599">
+      <h1>Search control group marker</h1>
+
+      <section id="tabpanel-0" role="tabpanel" aria-labelledby="tab-0">
+        <h2 id="tab-0">Book a trip</h2>
+        <form>
+          <section aria-label="Trip search">
+            <div class="field">
+              <label id="trip-type-label" for="trip-type">Trip type</label>
+              <select
+                id="trip-type"
+                aria-labelledby="trip-type-label"
+                aria-label="Select your trip. Currently selected Return trip.">
+                <option value="return" selected>Return trip</option>
+                <option value="single">One way</option>
+              </select>
+              <div aria-hidden="false"></div>
+            </div>
+
+            <div>
+              <div>
+                <div id="origin-desc">From</div>
+                <label for="origin-input">From</label>
+                <div>
+                  <input
+                    id="origin-input"
+                    aria-label="input"
+                    type="text"
+                    name="from"
+                    placeholder="Departure city"
+                    aria-describedby="origin-desc"
+                    value="">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div>
+                <label for="passenger-button">Select passengers</label>
+                <button
+                  id="passenger-button"
+                  type="button"
+                  aria-expanded="false"
+                  tabindex="0"
+                  aria-label="Select the type and number of passengers. Currently selected 1 Adult.">
+                  <span>1 Adult</span>
+                  <span aria-hidden="true">v</span>
+                </button>
+                <div aria-live="polite" aria-atomic="true"></div>
+                <div role="dialog" aria-hidden="true">
+                  <span>Who are you travelling with?</span>
+                  <section>
+                    <header>
+                      <label for="adults" id="adults-label">Adults</label>
+                      <span id="adults-description">16+ years</span>
+                    </header>
+                    <div aria-label="">
+                      <button type="button" aria-label="Remove Adults" tabindex="-1">-</button>
+                      <input
+                        id="adults"
+                        aria-label="Adults. 16+ years. Currently selected 1"
+                        type="number"
+                        tabindex="0"
+                        aria-describedby="adults-label adults-description adults-error message-error"
+                        role="spinbutton"
+                        value="1">
+                      <button type="button" aria-label="Add more Adults" tabindex="-1">+</button>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit">Find trips</button>
+          </section>
+        </form>
+      </section>
+
+      <section aria-labelledby="negative-controls-heading">
+        <h2 id="negative-controls-heading">Negative controls</h2>
+        <div class="field">
+          <label for="plain-origin">Plain origin</label>
+          <input id="plain-origin" type="text" aria-describedby="plain-origin-hint">
+          <span id="plain-origin-hint">Type a city code.</span>
+        </div>
+        <div class="field">
+          <label for="required-class">Required class</label>
+          <select id="required-class" required aria-required="true">
+            <option selected>Economy</option>
+            <option>Business</option>
+          </select>
+        </div>
+        <button type="button" aria-expanded="true">Open passenger picker</button>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 wrapped empty heading media repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      x-page-segment, x-grid, x-card, x-content, x-image { display: block; }
+      img { display: block; width: 220px; height: 124px; background: #ddd; }
+      .hidden-heading { display: none; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="wrapped-empty-heading-before-card-media"
+      data-sr-repro-source="run-29664876599">
+      <h1>Wrapped empty heading media marker</h1>
+
+      <x-page-segment>
+        <template shadowrootmode="open"><slot></slot></template>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-grid>
+            <template shadowrootmode="open"><slot></slot></template>
+            <h2></h2>
+            <x-grid>
+              <template shadowrootmode="open"><slot></slot></template>
+              <x-card>
+                <template shadowrootmode="open"><slot></slot></template>
+                <x-image alt="Airport service desk">
+                  <template shadowrootmode="open">
+                    <img
+                      alt="Airport service desk"
+                      src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='124'%3E%3Crect%20width='220'%20height='124'%20fill='%23ddd'/%3E%3C/svg%3E">
+                  </template>
+                </x-image>
+                <x-content>
+                  <template shadowrootmode="open"><slot></slot></template>
+                  <h3>Travel planning</h3>
+                  <p><a href="#bags">Bags</a></p>
+                </x-content>
+              </x-card>
+            </x-grid>
+          </x-grid>
+        </x-grid>
+      </x-page-segment>
+
+      <section aria-labelledby="level-three-heading">
+        <h2 id="level-three-heading">Level-three variant</h2>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h3></h3>
+          <x-grid>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-card>
+              <template shadowrootmode="open"><slot></slot></template>
+              <x-image alt="Child with travel bag">
+                <template shadowrootmode="open">
+                  <img
+                    alt="Child with travel bag"
+                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='124'%3E%3Crect%20width='220'%20height='124'%20fill='%23ddd'/%3E%3C/svg%3E">
+                </template>
+              </x-image>
+              <x-content>
+                <template shadowrootmode="open"><slot></slot></template>
+                <h4>Family guide</h4>
+              </x-content>
+            </x-card>
+          </x-grid>
+        </x-grid>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+        <h2>Visible card heading</h2>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-card>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-image alt="Gate display">
+              <template shadowrootmode="open">
+                <img
+                  alt="Gate display"
+                  src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='220'%20height='124'%3E%3Crect%20width='220'%20height='124'%20fill='%23ddd'/%3E%3C/svg%3E">
+              </template>
+            </x-image>
+          </x-card>
+        </x-grid>
+        <h2 class="hidden-heading"></h2>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-card>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-content>
+              <template shadowrootmode="open"><slot></slot></template>
+              <p>Text first, no media descendant.</p>
+            </x-content>
+          </x-card>
+        </x-grid>
+      </section>
+    </main>
+  </body>
+</html>

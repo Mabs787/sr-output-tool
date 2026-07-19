@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 native inline text link boundary repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { display: grid; gap: 18px; max-width: 760px; }
+      section { border: 1px solid #ccc; padding: 14px; }
+      x-page-segment, x-grid, x-content { display: block; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="native-inline-text-link-boundaries"
+      data-sr-repro-source="run-29664876599">
+      <h1>Native inline link marker</h1>
+
+      <x-page-segment>
+        <template shadowrootmode="open"><slot></slot></template>
+        <x-grid>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-grid>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-content>
+              <template shadowrootmode="open"><slot></slot></template>
+              <h2>Accessible trip help</h2>
+              <p>
+                Before you book, please submit our
+                <a href="/neutral/request-form">request form</a>
+                or
+                <a href="/neutral/contact-team">contact the support team</a>.
+              </p>
+            </x-content>
+          </x-grid>
+        </x-grid>
+      </x-page-segment>
+
+      <section aria-labelledby="strong-link-heading">
+        <h2 id="strong-link-heading">Strong link punctuation case</h2>
+        <x-page-segment>
+          <template shadowrootmode="open"><slot></slot></template>
+          <x-grid>
+            <template shadowrootmode="open"><slot></slot></template>
+            <x-content>
+              <template shadowrootmode="open"><slot></slot></template>
+              <p>
+                <strong><a href="#responsibility">You must bring the right documents</a>.</strong>
+              </p>
+              <p>
+                Check the full entry rules for your journey before travel. This is not a full list.
+              </p>
+            </x-content>
+          </x-grid>
+        </x-page-segment>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+        <p>
+          This sentence has
+          <a href="#one">one inline link</a>
+          and ordinary trailing text.
+        </p>
+        <h3><a href="#title">Watch what is included</a></h3>
+        <p>Keep this title as a normal linked heading, not an inline paragraph split.</p>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          Plain text before
+          <x-action-link>
+            <template shadowrootmode="open"><a href="#custom"><slot></slot></a></template>
+            custom action
+            <a href="#custom">custom action</a>
+          </x-action-link>
+        </x-content>
+      </section>
+    </main>
+  </body>
+</html>
