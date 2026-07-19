@@ -1,6 +1,6 @@
 # VoiceOver Behavior Lab
 
-Last updated: 2026-07-12
+Last updated: 2026-07-19
 
 ## Purpose
 
@@ -8,6 +8,29 @@ The behavior lab moves VoiceOver refinement from broad live-site scans toward
 focused, reusable behavior questions. New engine rules should come from
 VoiceOver-backed DOM/AX contracts, not from site names, class names, product
 copy, or one-off fixture coincidences.
+
+## 2026-07-19 Accepted BA-Backed Generic Behaviors
+
+Run `29664876599` did not promote any British Airways full-page fixture, but
+its C.5 and Phase D receipts accepted two generic behaviors that belong in the
+behavior lab:
+
+- Positioned social `X` links: when a simple link descriptor is exactly role
+  `link`, accessible name `X`, and list-position metadata, VoiceOver compact
+  punctuation is `link X,5 of 6` rather than `link, X, 5 of 6`. Guarded
+  negative controls keep multi-character links, other one-character names,
+  other roles, and links without list metadata unchanged.
+- Unnamed shell traversal: C.5-backed unnamed header/banner wrappers, unnamed
+  header control groups, unnamed footer/contentinfo wrappers, and narrow
+  leading or footer-adjacent generic content tails are transparent for the
+  accepted DOM/AX shapes. Guarded negative controls preserve named landmarks,
+  named navigation/list descendants, ordinary non-ignored after-link groups,
+  and blanket group/landmark semantics.
+
+Receipts:
+`voiceover-smoke/agent-work/29664876599/_summaries/phase-d-social-x-list-punctuation.json`
+and
+`voiceover-smoke/agent-work/29664876599/_summaries/phase-d-shared-shell-structure.json`.
 
 ## Evidence Inputs
 

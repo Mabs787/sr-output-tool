@@ -124,6 +124,24 @@ evidence-backed repairs, left 0 remaining candidates, and preserved raw
 canonical corpus, and `index.json` plus `refinement-manifest.json` remain
 unchanged; focused repros and unit tests cover the reusable behavior.
 
+The British Airways Phase E curation pass for run `29664876599` kept all 18
+valid fresh BA captures as isolated parked evidence and kept Flights plus
+Holidays as recapture-only because Chrome geolocation permission prompts
+captured focus before page traversal. The final valid-target compare has 1,719
+expected announcements, 2,005 actual announcements, and 264 mismatch windows,
+with 0 exact fresh targets and 0 promotions. The sweep applied 100
+evidence-backed repairs, left 0 unreviewed OCR/glyph/source candidates, and
+preserved raw `expectedAnnouncements`. No BA full-page fixture was copied into
+the canonical corpus, and `index.json` plus `refinement-manifest.json` remain
+unchanged.
+
+The canonical BA homepage fixture remains the promoted exact gate at 208
+expected, 208 actual, and 0 mismatch windows. The fresh homepage capture from
+run `29664876599` is a different live `Last-minute getaways` state and remains
+isolated drift evidence only; do not overwrite the canonical `Summer's sorted`
+fixture unless a future Phase E has exact compare output and explicit
+replacement rationale.
+
 `web-dev` remains partial because the direct compare is exact, but the 60-second settle rescan still has capture-timing evidence under review. Do not edit the refined announcements from that rescan unless a future receipt documents a fresh evidence-backed correction.
 
 `developer-mozilla-org-en-us` was promoted after the final Phase E review landed at 180 expected, 180 actual, and 0 mismatch windows.

@@ -49,6 +49,44 @@ decision, tests added or updated, and what future agents must avoid.
   punctuation mismatch window. The sweep must preserve raw expected output,
   apply every safe evidence-backed repair, and report zero unreviewed or
   remaining suspicious literal candidates.
+- For long static text where caption/chosen output stops early, prefer the
+  VoiceOver cursor/source text plus initial DOM/AX name over the visible caption
+  crop. BA run `29664876599` and C.5 run `29669455470` confirmed the tail is
+  spoken when `voCursorText`, `lastPhrase`, rendered HTML, and AX StaticText
+  names all contain it.
+- Treat Chrome geolocation permission prompts as a pre-traversal scanner
+  blocker. BA Flights and Holidays in run `29664876599` produced permission
+  prompt output instead of page traversal and must be recaptured only after the
+  prompt is dismissed, denied, or handled generically before VoiceOver starts.
+
+## 2026-07-19 British Airways Phase E Curation
+
+- Target: British Airways run `29664876599`.
+- Evidence: concise receipts under
+  `voiceover-smoke/agent-work/29664876599/`, especially
+  `_summaries/final-compact-compare-20.json`,
+  `_summaries/final-phase-bc-accounting.json`,
+  `_summaries/phase-c5-family-truncation.json`,
+  `_summaries/phase-d-social-x-list-punctuation.json`,
+  `_summaries/phase-d-shared-shell-structure.json`, and
+  `_summaries/phase-e-promotion.json`.
+- Decision: promote none. All 18 valid fresh BA fixtures remain isolated
+  parked-with-evidence candidates after final compare: 1,719 expected, 2,005
+  actual, and 264 mismatch windows. Flights and Holidays stay recapture-only
+  because the Chrome geolocation permission prompt captured focus before page
+  traversal.
+- Fixture repair accounting: the exhaustive OCR/HTML/AX/source sweep reviewed
+  all text and punctuation candidates, applied 100 evidence-backed refined
+  repairs, left 0 unreviewed candidates, preserved raw
+  `expectedAnnouncements`, and kept unresolved families in revisit queues.
+- Canonical drift rule: keep the promoted BA homepage fixture unchanged. The
+  canonical tracked page remains exact at 208 expected, 208 actual, and 0
+  windows; the fresh homepage is a different `Last-minute getaways` live state
+  and remains drift evidence only.
+- Phase C.5/Phase D checkpoints: the C.5 fixture-path canary passed before
+  family conclusions were trusted. Final compare batches A/B/C were used for
+  the all-target 264-window total; do not replace them with a generic
+  remaining-mismatches summary.
 
 ## 2026-07-19 Notion Curation Refresh
 
