@@ -1003,6 +1003,55 @@ test("scanSubtree keeps shadow form details and required control ordering generi
   );
 });
 
+test("scanSubtree traverses direct slot text before custom link hosts", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h2>Concierge support service</h2>
+          Partner Support offers guided help through busy terminals. The service covers arrivals, transfers, and departure support. Staff follow local airport rules. Service depends on airport availability.
+          <x-action-link href="#support-details">
+            <template shadowrootmode="open">
+              <a href="#support-details">
+                <span><slot></slot></span>
+              </a>
+            </template>
+            Learn more
+            <a href="#support-details">Learn more</a>
+          </x-action-link>
+        </x-content>
+        <x-content>
+          <template shadowrootmode="open"><slot></slot></template>
+          <h2>Guided arrival service</h2>
+          <p>Station Support offers guided help through busy terminals. The service covers arrivals and transfers. Staff follow local airport rules. Service depends on station availability.</p>
+          <x-action-link href="#arrival-details">
+            <template shadowrootmode="open">
+              <a href="#arrival-details">
+                <span><slot></slot></span>
+              </a>
+            </template>
+            Read details
+            <a href="#arrival-details">Read details</a>
+          </x-action-link>
+        </x-content>
+      </main>
+    `),
+    [
+      "main",
+      "group",
+      "heading level 2, Concierge support service",
+      "Partner Support offers guided help through busy terminals. The service covers arrivals, transfers, and departure support. Staff follow local airport rules. Service depends on airport availability.",
+      "link, Learn more Learn more",
+      "group",
+      "heading level 2, Guided arrival service",
+      "Station Support offers guided help through busy terminals. The service covers arrivals and transfers. Staff follow local airport rules. Service depends on station availability.",
+      "link, Read details Read details",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree announces named native form boundaries inside anonymous shadow hosts", () => {
   assert.deepEqual(
     scanHtml(`

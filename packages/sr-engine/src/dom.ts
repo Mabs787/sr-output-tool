@@ -1104,6 +1104,92 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function visibleAssignedElementNode(node: any): boolean {
+    return (
+      node?.nodeType === Node.ELEMENT_NODE &&
+      !isHidden(node) &&
+      !(node.tagName?.toLowerCase() === "template" && node.getAttribute("shadowrootmode"))
+    );
+  }
+
+  function isCustomLinkLikeHost(el: any): boolean {
+    if (!visibleAssignedElementNode(el)) return false;
+    if (!isCustomElement(el) || !hasShadowRootContent(el)) return false;
+    if (implicitRole(el) === "link") return true;
+    return hasSerializedShadowDescendantLink(el);
+  }
+
+  function axConfirmsAssignedTextBeforeCustomLink(
+    host: any,
+    text: string,
+    linkHost: any,
+  ): boolean {
+    if (!accessibilityNodes.length) return true;
+
+    const hostAxNode = axNodeAnyForElement(host);
+    const linkHostDomId = normalize(linkHost?.getAttribute?.("data-sr-dom-node-id"));
+    if (!hostAxNode || !linkHostDomId) return false;
+
+    const flattened: AccessibilityTreeNode[] = [];
+    const visit = (node?: AccessibilityTreeNode): void => {
+      if (!node) return;
+      flattened.push(node);
+      for (const childId of node.childIds || []) {
+        visit(accessibilityNodeById.get(normalize(childId) || ""));
+      }
+    };
+    visit(hostAxNode);
+
+    const textIndex = flattened.findIndex(
+      (node) =>
+        !node.ignored &&
+        normalizedAxRole(node.role) === "statictext" &&
+        normalize(node.name) === text,
+    );
+    const linkHostIndex = flattened.findIndex(
+      (node) => normalize(node.domNodeId) === linkHostDomId,
+    );
+
+    return textIndex >= 0 && linkHostIndex > textIndex;
+  }
+
+  function assignedSlotDirectParagraphTextBeforeCustomLinkStops(
+    slot: any,
+  ): Array<{ node: any; text: string }> | undefined {
+    if (slot?.tagName?.toLowerCase() !== "slot") return undefined;
+    if (normalize(slot.getAttribute("name"))) return undefined;
+
+    const host = shadowContentHostByNode.get(slot);
+    if (!isCustomElement(host) || !hasShadowRootContent(host)) return undefined;
+
+    const nodes = assignedSlotNodes(slot);
+    const stops: Array<{ node: any; text: string }> = [];
+
+    for (let index = 0; index < nodes.length; index += 1) {
+      const node = nodes[index];
+      if (node?.nodeType !== Node.TEXT_NODE) continue;
+
+      const text = normalize(node.textContent);
+      if (!text || !/[\p{L}\p{N}]/u.test(text) || !/[.!?]/u.test(text)) continue;
+
+      const previousElement = nodes
+        .slice(0, index)
+        .reverse()
+        .find((candidate: any) => visibleAssignedElementNode(candidate));
+      const nextElement = nodes
+        .slice(index + 1)
+        .find((candidate: any) => visibleAssignedElementNode(candidate));
+
+      if (!previousElement || implicitRole(previousElement) !== "heading") continue;
+      if (!isCustomLinkLikeHost(nextElement)) continue;
+      if (!axConfirmsAssignedTextBeforeCustomLink(host, text, nextElement)) continue;
+
+      stops.push({ node, text });
+    }
+
+    return stops.length ? stops : undefined;
+  }
+
   function readableText(
     el: any,
     options: { preserveWbrBoundary?: boolean } = {},
@@ -16948,6 +17034,29 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
       if (isUnassignedCustomElementLogoSlotChild(el)) {
         for (const child of walkChildren(el)) walk(child);
+        return;
+      }
+
+      const assignedSlotTextStops =
+        assignedSlotDirectParagraphTextBeforeCustomLinkStops(el);
+      if (assignedSlotTextStops?.length) {
+        const id = `__sr_el_${stopIndex}_${now()}`;
+        stopIndex += 1;
+        el.setAttribute("data-sr-id", id);
+        const textStopsByNode = new Map(
+          assignedSlotTextStops.map((stop) => [stop.node, stop.text] as const),
+        );
+        for (const child of assignedSlotNodes(el)) {
+          const text = textStopsByNode.get(child);
+          if (text) {
+            emitTraversalStop(
+              id,
+              syntheticTextStop("assigned-slot-direct-text-before-custom-link", el, text),
+            );
+            continue;
+          }
+          if (child.nodeType === Node.ELEMENT_NODE) walk(child);
+        }
         return;
       }
 

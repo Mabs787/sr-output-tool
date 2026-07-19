@@ -1984,6 +1984,68 @@
         function assignedSlotChildren(slot) {
           return assignedSlotNodes(slot).filter((child) => child.nodeType === Node.ELEMENT_NODE);
         }
+        function visibleAssignedElementNode(node) {
+          return node?.nodeType === Node.ELEMENT_NODE && !isHidden(node) && !(node.tagName?.toLowerCase() === "template" && node.getAttribute("shadowrootmode"));
+        }
+        function isCustomLinkLikeHost(el) {
+          if (!visibleAssignedElementNode(el))
+            return false;
+          if (!isCustomElement(el) || !hasShadowRootContent(el))
+            return false;
+          if (implicitRole(el) === "link")
+            return true;
+          return hasSerializedShadowDescendantLink(el);
+        }
+        function axConfirmsAssignedTextBeforeCustomLink(host, text, linkHost) {
+          if (!accessibilityNodes.length)
+            return true;
+          const hostAxNode = axNodeAnyForElement(host);
+          const linkHostDomId = normalize(linkHost?.getAttribute?.("data-sr-dom-node-id"));
+          if (!hostAxNode || !linkHostDomId)
+            return false;
+          const flattened = [];
+          const visit = (node) => {
+            if (!node)
+              return;
+            flattened.push(node);
+            for (const childId of node.childIds || []) {
+              visit(accessibilityNodeById.get(normalize(childId) || ""));
+            }
+          };
+          visit(hostAxNode);
+          const textIndex = flattened.findIndex((node) => !node.ignored && normalizedAxRole(node.role) === "statictext" && normalize(node.name) === text);
+          const linkHostIndex = flattened.findIndex((node) => normalize(node.domNodeId) === linkHostDomId);
+          return textIndex >= 0 && linkHostIndex > textIndex;
+        }
+        function assignedSlotDirectParagraphTextBeforeCustomLinkStops(slot) {
+          if (slot?.tagName?.toLowerCase() !== "slot")
+            return void 0;
+          if (normalize(slot.getAttribute("name")))
+            return void 0;
+          const host = shadowContentHostByNode.get(slot);
+          if (!isCustomElement(host) || !hasShadowRootContent(host))
+            return void 0;
+          const nodes = assignedSlotNodes(slot);
+          const stops = [];
+          for (let index = 0; index < nodes.length; index += 1) {
+            const node = nodes[index];
+            if (node?.nodeType !== Node.TEXT_NODE)
+              continue;
+            const text = normalize(node.textContent);
+            if (!text || !/[\p{L}\p{N}]/u.test(text) || !/[.!?]/u.test(text))
+              continue;
+            const previousElement = nodes.slice(0, index).reverse().find((candidate) => visibleAssignedElementNode(candidate));
+            const nextElement = nodes.slice(index + 1).find((candidate) => visibleAssignedElementNode(candidate));
+            if (!previousElement || implicitRole(previousElement) !== "heading")
+              continue;
+            if (!isCustomLinkLikeHost(nextElement))
+              continue;
+            if (!axConfirmsAssignedTextBeforeCustomLink(host, text, nextElement))
+              continue;
+            stops.push({ node, text });
+          }
+          return stops.length ? stops : void 0;
+        }
         function readableText(el, options2 = {}) {
           function collect(node) {
             if (!node)
@@ -14746,6 +14808,23 @@
             if (isUnassignedCustomElementLogoSlotChild(el)) {
               for (const child of walkChildren(el))
                 walk(child);
+              return;
+            }
+            const assignedSlotTextStops = assignedSlotDirectParagraphTextBeforeCustomLinkStops(el);
+            if (assignedSlotTextStops?.length) {
+              const id = `__sr_el_${stopIndex}_${now()}`;
+              stopIndex += 1;
+              el.setAttribute("data-sr-id", id);
+              const textStopsByNode = new Map(assignedSlotTextStops.map((stop) => [stop.node, stop.text]));
+              for (const child of assignedSlotNodes(el)) {
+                const text = textStopsByNode.get(child);
+                if (text) {
+                  emitTraversalStop(id, syntheticTextStop("assigned-slot-direct-text-before-custom-link", el, text));
+                  continue;
+                }
+                if (child.nodeType === Node.ELEMENT_NODE)
+                  walk(child);
+              }
               return;
             }
             if (isStopElement(el)) {
