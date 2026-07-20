@@ -3134,6 +3134,31 @@
             return false;
           }
         }
+        function isSuppressedEmptyNonHttpImageLink(el, role) {
+          if (role !== "link" || el?.tagName?.toLowerCase() !== "a")
+            return false;
+          if (accessibleName(el, role) || readableText(el))
+            return false;
+          if (!hasOnlyEmptyAltImageLinkContent(el))
+            return false;
+          const axNode = axNodeForElementRole(el, "link");
+          const axUrl = axNode?.properties?.url;
+          if (!axNode || normalize(axNode.name) || axNode.properties?.focusable !== true || typeof axUrl !== "string") {
+            return false;
+          }
+          try {
+            const href = normalize(el.getAttribute("href"));
+            if (!href)
+              return false;
+            if (new URL(href, document.baseURI).href !== new URL(axUrl, document.baseURI).href) {
+              return false;
+            }
+            const url = new URL(axUrl, document.baseURI);
+            return !["http:", "https:"].includes(url.protocol);
+          } catch {
+            return false;
+          }
+        }
         function buttonContentName(el) {
           return nativeButtonDirectSpanTextName(el) || generatedPseudoName(el) || embeddedControlContentName(el);
         }
@@ -12852,6 +12877,9 @@
             return false;
           }
           if (role === "object" && !accessibleName(el, role) || role === "link" && el.tagName?.toLowerCase() === "area" && !accessibleName(el, role)) {
+            return false;
+          }
+          if (isSuppressedEmptyNonHttpImageLink(el, role)) {
             return false;
           }
           if (role === "image" && el.tagName?.toLowerCase() === "img" && el.hasAttribute("alt") && !normalize(el.getAttribute("alt"))) {

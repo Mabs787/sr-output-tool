@@ -341,6 +341,85 @@ test("scanSubtree uses AX URL fallback for empty-alt image-only links", () => {
   );
 });
 
+test("scanSubtree suppresses AX-empty non-HTTP empty-alt image-only links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer>
+          <div>
+            <a href="/" data-sr-dom-node-id="http-root"><img alt="" data-sr-dom-node-id="http-root-image"><span style="display:none">Home</span></a>
+            <a href="javascript:void(0)" data-sr-dom-node-id="non-http-empty"><img alt="" data-sr-dom-node-id="non-http-empty-image"><span style="display:none">Hidden partner</span></a>
+            <a href="/help/scam-protection" data-sr-dom-node-id="http-path"><img alt="" data-sr-dom-node-id="http-path-image"><span style="display:none">Scam protection</span></a>
+            <a href="javascript:void(0)" aria-label="Named control" data-sr-dom-node-id="named-non-http"><img alt="" data-sr-dom-node-id="named-non-http-image"></a>
+            <a href="javascript:void(0)" data-sr-dom-node-id="visible-non-http"><span>Visible control</span><img alt="" data-sr-dom-node-id="visible-non-http-image"></a>
+            <a href="/terms" data-sr-dom-node-id="terms-link">Terms</a>
+          </div>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "http-root",
+              role: "link",
+              name: "",
+              domNodeId: "http-root",
+              properties: { focusable: true, url: "https://example.test/" },
+            },
+            {
+              nodeId: "non-http-empty",
+              role: "link",
+              name: "",
+              domNodeId: "non-http-empty",
+              properties: { focusable: true, url: "javascript:void(0)" },
+            },
+            {
+              nodeId: "http-path",
+              role: "link",
+              name: "",
+              domNodeId: "http-path",
+              properties: {
+                focusable: true,
+                url: "https://example.test/help/scam-protection",
+              },
+            },
+            {
+              nodeId: "named-non-http",
+              role: "link",
+              name: "Named control",
+              domNodeId: "named-non-http",
+              properties: { focusable: true, url: "javascript:void(0)" },
+            },
+            {
+              nodeId: "visible-non-http",
+              role: "link",
+              name: "Visible control",
+              domNodeId: "visible-non-http",
+              properties: { focusable: true, url: "javascript:void(0)" },
+            },
+            {
+              nodeId: "terms-link",
+              role: "link",
+              name: "Terms",
+              domNodeId: "terms-link",
+              properties: { focusable: true, url: "https://example.test/terms" },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "footer",
+      "link, https://example.test/",
+      "link, scam-protection",
+      "link, Named control",
+      "link, Visible control",
+      "link, Terms",
+      "end of, footer",
+    ],
+  );
+});
+
 test("scanSubtree preserves image role for unnamed SVG-only AX URL fallback links", () => {
   assert.deepEqual(
     scanHtml(

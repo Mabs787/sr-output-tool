@@ -2407,6 +2407,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
   }
 
+  function isSuppressedEmptyNonHttpImageLink(el: any, role: string): boolean {
+    if (role !== "link" || el?.tagName?.toLowerCase() !== "a") return false;
+    if (accessibleName(el, role) || readableText(el)) return false;
+    if (!hasOnlyEmptyAltImageLinkContent(el)) return false;
+
+    const axNode = axNodeForElementRole(el, "link");
+    const axUrl = axNode?.properties?.url;
+    if (
+      !axNode ||
+      normalize(axNode.name) ||
+      axNode.properties?.focusable !== true ||
+      typeof axUrl !== "string"
+    ) {
+      return false;
+    }
+
+    try {
+      const href = normalize(el.getAttribute("href"));
+      if (!href) return false;
+      if (new URL(href, document.baseURI).href !== new URL(axUrl, document.baseURI).href) {
+        return false;
+      }
+      const url = new URL(axUrl, document.baseURI);
+      return !["http:", "https:"].includes(url.protocol);
+    } catch {
+      return false;
+    }
+  }
+
   function buttonContentName(el: any): string | undefined {
     return nativeButtonDirectSpanTextName(el) || generatedPseudoName(el) || embeddedControlContentName(el);
   }
@@ -14457,6 +14486,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       (role === "object" && !accessibleName(el, role)) ||
       (role === "link" && el.tagName?.toLowerCase() === "area" && !accessibleName(el, role))
     ) {
+      return false;
+    }
+
+    if (isSuppressedEmptyNonHttpImageLink(el, role)) {
       return false;
     }
 
