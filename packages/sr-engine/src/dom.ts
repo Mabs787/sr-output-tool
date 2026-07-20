@@ -2234,52 +2234,95 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const href = normalize(el.getAttribute("href"));
     if (!href || href.startsWith("#")) return undefined;
 
+    const labelFromUrl = (url: URL): string | undefined => {
+      if (!["http:", "https:"].includes(url.protocol)) return undefined;
+
+      const segments = url.pathname
+        .split("/")
+        .map((segment) => segment.trim())
+        .filter(Boolean);
+      const lastSegment = segments.at(-1);
+      if (!lastSegment) return undefined;
+
+      const decoded = decodeURIComponent(lastSegment)
+        .replace(/\.[a-z0-9]+$/i, "")
+        .replace(/_+/g, " ");
+      const acronymWords = new Set([
+        "api",
+        "apis",
+        "css",
+        "dom",
+        "http",
+        "https",
+        "js",
+        "pwa",
+        "svg",
+        "ui",
+        "url",
+        "wai",
+        "wcag",
+      ]);
+
+      return normalize(
+        decoded
+          .split(/\s+/)
+          .map((word) => {
+            if (word.includes("-")) return word;
+            const lower = word.toLowerCase();
+            if (acronymWords.has(lower)) return lower.toUpperCase();
+            return word;
+          })
+          .join(" "),
+      );
+    };
+
+    const emptyNameAxUrl = (): URL | undefined => {
+      const axNode = axNodeForElementRole(el, "link");
+      const axUrl = axNode?.properties?.url;
+      if (
+        !axNode ||
+        normalize(axNode.name) ||
+        axNode.properties?.focusable !== true ||
+        typeof axUrl !== "string"
+      ) {
+        return undefined;
+      }
+      try {
+        const url = new URL(axUrl);
+        if (!["http:", "https:"].includes(url.protocol)) return undefined;
+        return linkMatchesAxUrl(el, axNode) ? url : undefined;
+      } catch {
+        return undefined;
+      }
+    };
+
     let url: URL;
     try {
       url = new URL(href, document.baseURI);
     } catch {
-      return undefined;
+      const axUrl = emptyNameAxUrl();
+      if (!axUrl || !hasOnlyEmptyAltImageLinkContent(el)) return undefined;
+      return labelFromUrl(axUrl) || axUrl.href;
     }
 
-    if (!["http:", "https:"].includes(url.protocol)) return undefined;
+    const slugLabel = labelFromUrl(url);
+    if (slugLabel) return slugLabel;
 
-    const segments = url.pathname
-      .split("/")
-      .map((segment) => segment.trim())
-      .filter(Boolean);
-    const lastSegment = segments.at(-1);
-    if (!lastSegment) return undefined;
+    const axUrl = emptyNameAxUrl();
+    if (!axUrl || !hasOnlyEmptyAltImageLinkContent(el)) return undefined;
+    return labelFromUrl(axUrl) || axUrl.href;
+  }
 
-    const decoded = decodeURIComponent(lastSegment)
-      .replace(/\.[a-z0-9]+$/i, "")
-      .replace(/_+/g, " ");
-    const acronymWords = new Set([
-      "api",
-      "apis",
-      "css",
-      "dom",
-      "http",
-      "https",
-      "js",
-      "pwa",
-      "svg",
-      "ui",
-      "url",
-      "wai",
-      "wcag",
-    ]);
-
-    return normalize(
-      decoded
-        .split(/\s+/)
-        .map((word) => {
-          if (word.includes("-")) return word;
-          const lower = word.toLowerCase();
-          if (acronymWords.has(lower)) return lower.toUpperCase();
-          return word;
-        })
-        .join(" "),
+  function hasOnlyEmptyAltImageLinkContent(el: any): boolean {
+    const visibleChildren = Array.from(el?.children || []).filter(
+      (child: any) => !isHidden(child),
     );
+    if (visibleChildren.length !== 1) return false;
+
+    const image = visibleChildren[0];
+    if (image?.tagName?.toLowerCase() !== "img") return false;
+    if (normalize(image.getAttribute("alt")) !== undefined) return false;
+    return !normalize(readableText(el));
   }
 
   function buttonContentName(el: any): string | undefined {

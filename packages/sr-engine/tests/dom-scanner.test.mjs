@@ -276,6 +276,71 @@ test("scanSubtree preserves image role for AX-named logo links when child image 
   );
 });
 
+test("scanSubtree uses AX URL fallback for empty-alt image-only links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/" data-sr-dom-node-id="root-link"><img alt="" data-sr-dom-node-id="root-image"></a>
+        <a href="/help/scam-protection" data-sr-dom-node-id="path-link"><img alt="" data-sr-dom-node-id="path-image"></a>
+        <a href="/" aria-label="Example home" data-sr-dom-node-id="aria-link"><img alt="" data-sr-dom-node-id="aria-image"></a>
+        <a href="/" title="Titled home" data-sr-dom-node-id="title-link"><img alt="" data-sr-dom-node-id="title-image"></a>
+        <a href="/beta" data-sr-dom-node-id="text-link"><span>Beta partner</span><img alt="" data-sr-dom-node-id="text-image"></a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "root-link",
+              role: "link",
+              name: "",
+              domNodeId: "root-link",
+              properties: { focusable: true, url: "https://example.test/" },
+            },
+            {
+              nodeId: "path-link",
+              role: "link",
+              name: "",
+              domNodeId: "path-link",
+              properties: {
+                focusable: true,
+                url: "https://example.test/help/scam-protection",
+              },
+            },
+            {
+              nodeId: "aria-link",
+              role: "link",
+              name: "Example home",
+              domNodeId: "aria-link",
+              properties: { focusable: true, url: "https://example.test/" },
+            },
+            {
+              nodeId: "title-link",
+              role: "link",
+              name: "Titled home",
+              domNodeId: "title-link",
+              properties: { focusable: true, url: "https://example.test/" },
+            },
+            {
+              nodeId: "text-link",
+              role: "link",
+              name: "Beta partner",
+              domNodeId: "text-link",
+              properties: { focusable: true, url: "https://example.test/beta" },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, https://example.test/",
+      "link, scam-protection",
+      "link, Example home",
+      "link, Titled home",
+      "link, Beta partner",
+    ],
+  );
+});
+
 test("scanSubtree splits AX linebreak static text runs in inline text", () => {
   assert.deepEqual(
     scanHtml(
