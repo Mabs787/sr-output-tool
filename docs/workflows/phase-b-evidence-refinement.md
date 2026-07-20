@@ -52,6 +52,45 @@ The receipt must include an audit coverage summary with audited ranges and any
 unaudited ranges. Do not call the fixture trusted if mismatch-relevant ranges
 were not audited.
 
+For v2/v3 contract runs, Phase B must also complete the run-level OCR/glyph
+sweep declared by the shared preflight. Run this sweep after family Phase B
+cleanup and before final Phase C/E validation. The sweep is exhaustive: inspect
+all final `refinedAnnouncements`, every current text and punctuation compare
+window, and every OCR/caption/glyph candidate against the initial
+`rendered-html.html` and AX tree, using step snapshots, source/caption
+diagnostics, screenshots, and recordings when available.
+
+The sweep must preserve raw `expectedAnnouncements` exactly. OCR, caption, and
+glyph fixes belong only in `refinedAnnouncements` with
+`caption-or-ocr-repair` fixture changes. Use Phase C.5 for OCR/glyph families
+only when the saved evidence resources disagree or cannot decide the real page
+text; do not request C.5 for repairs already proven by initial HTML/AX,
+snapshots/source evidence, or screenshots.
+
+The run-level sweep passes only when both `unreviewedCandidateCount` and
+`remainingSuspiciousLiteralCandidateCount` are zero. A candidate that was
+reviewed and proven safe but not yet applied is still incomplete Phase B work.
+
+## Stable Candidate Identity
+
+Announcement indexes are locators, not durable identity. Fixture edits can
+shift later indexes, so every OCR, truncation, text-boundary, and structural
+candidate must carry a stable `candidateRef` containing:
+
+- `candidateId`: deterministic id for the target and mismatch family
+- `sourceIndex` and `currentRefinedIndex`
+- hashes of raw text, current refined text, and the nearest non-empty previous
+  and next announcements
+- relevant `data-sr-dom-node-id` values or an HTML snippet hash
+- AX role/name hash when available
+- mismatch family and compare-window id
+
+Before applying an edit, resolve the candidate again against the current
+fixture. If the index moved but the text, neighbours, DOM/AX anchors, and
+family still agree, update `currentRefinedIndex` and record the remap. If those
+anchors do not agree, mark the candidate `stale-reference`, rebuild its
+evidence packet, and do not edit by index alone.
+
 For each audited announcement or range:
 
 1. Treat the current refined line as a hypothesis, not truth.
@@ -86,6 +125,10 @@ For each audited announcement or range:
    Do not make the engine emit OCR artifacts when the initial rendered HTML/AX
    proves the actual text. Keep raw `expectedAnnouncements` unchanged as scan
    evidence, and record the refined edit as `caption-or-ocr-repair`.
+   HTML/AX presence proves the page literal, but it does not by itself prove
+   that VoiceOver joins text across an inline boundary. Require cursor/source
+   or focused mini-scan evidence before joining text across links, emphasis,
+   line breaks, or separate AX StaticText nodes.
 6. For structural mismatches where VoiceOver announces one object but the engine decomposes children, build a focused-node contract before deciding:
    - focused/active DOM node tag, `data-sr-dom-node-id`, `tabindex`, role, ARIA attributes, and direct/relevant `outerHTML`
    - nearest semantic ancestor chain from the disputed node to the scan root, including `ul`/`ol`, `li`/`role=listitem`, landmarks, articles, groups, tables, and custom-element/shadow-root boundaries
@@ -133,6 +176,8 @@ For each audited announcement or range:
 
 Every disputed line must have a receipt entry with:
 
+- stable `candidateRef`; an array index alone is invalid after any earlier
+  refined-output edit in the same target
 - announcement index or range
 - raw `expectedAnnouncements` text
 - current `refinedAnnouncements` text
@@ -145,8 +190,17 @@ Every disputed line must have a receipt entry with:
   later page state
 - initial-DOM status: `initial-dom`, `step-only-dom`, `volatile-dom`, or
   `not-found`, with the `htmlAfterStep` fingerprint/stat/excerpt evidence
+- `stateScope`: `initial-dom`, `interaction-sequence`, or `volatile-value`.
+  Store non-initial announcements in `conditionalStateEvidence`; never retain
+  them in initial-state `refinedAnnouncements` merely because VoiceOver spoke
+  them later in navigation
 - text-boundary lookup for text split/join disputes: the relevant `outerHTML`, inline children, text-node/`br`/block boundaries, and whether the expected split follows those boundaries
 - focused-node contract for structural/decomposition disputes, including focusability, computed/AX name evidence, nearest semantic ancestor chain, and sibling context when available
+- `structuralEvidencePacket` for structural families: candidate ref, compare
+  window, focused DOM node id and outerHTML hash, semantic ancestor chain,
+  sibling summary, matched AX node role/name/state/position, VoiceOver step and
+  source reference, screenshot reference when visual state matters, and
+  `completeness: complete|partial|missing`
 - saved/live DOM comparison when local or refreshed evidence shows different order, visibility, or duplicate responsive structures from the saved fixture
 - resource consistency check: whether rendered HTML, AX tree, step snapshots,
   source/caption evidence, scan-debug data, screenshots, or recording agree
@@ -164,6 +218,8 @@ Every disputed line must have a receipt entry with:
 
 - updated fixture JSON when edits are needed
 - `03-evidence-refinement.json`
+- run-level `_summaries/phase-b-ocr-glyph-sweep.json` for v2/v3 contract runs
+  that require `phase-b-ocr-glyph-sweep`
 - remaining uncertain announcements, if any, each with a Phase C.5 request or a
   concrete blocker explaining why no reproduction scan is possible
 

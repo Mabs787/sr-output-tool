@@ -1,6 +1,6 @@
 name = "intake"
 description = "Runs Phase A artifact intake and preprocessing for unprocessed VoiceOver targets."
-model = "gpt-5.4-mini"
+model = "gpt-5.5"
 model_reasoning_effort = "low"
 
 developer_instructions = """

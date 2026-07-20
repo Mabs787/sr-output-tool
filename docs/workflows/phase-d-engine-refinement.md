@@ -18,6 +18,10 @@ Use `.codex/agents/engine-refiner.toml`.
 
 ## Edit Boundary
 
+- Before editing shared engine/runtime/test files, acquire and record an
+  exactly-one-engine-refiner lease for the current branch/run. The receipt
+  should name the lease owner, started timestamp, target family, and whether
+  any separate worktree exception exists.
 - Change `packages/sr-engine/src/dom.ts` when traversal, role, label, grouping, state, or order is wrong.
 - Change `packages/sr-engine/src/announcements.ts` when descriptor data is right but wording or order is wrong.
 - Add focused unit coverage for reusable behavior when practical.

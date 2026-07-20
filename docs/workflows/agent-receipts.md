@@ -12,6 +12,17 @@ Every multi-agent run must also include a preflight receipt before phase work:
 voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
 ```
 
+Multi-target runs may instead use one shared run-level preflight:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/00-agent-preflight.json
+```
+
+Target phase receipts covered by a shared preflight must include
+`agentPreflightRef` or `sharedPreflightRef`, usually
+`../_summaries/00-agent-preflight.json`, so validators and future agents can
+prove which spawned-agent registry applied to that target.
+
 `00-agent-preflight.json` must include:
 
 - `schemaVersion`: `1`
@@ -30,6 +41,45 @@ voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
   agentConfigPath }`
 - `blockedReason`: empty unless `decision` is `blocked`
 - `startedAt` and `finishedAt`: ISO timestamps when available
+
+New refinement runs may opt into stricter validator-backed run contracts while
+remaining backward-compatible with older receipts:
+
+- `contractVersion`: `2` requires `requiredRunChecks` to include
+  `phase-b-ocr-glyph-sweep`
+- `contractVersion`: `3` requires `requiredRunChecks` to include
+  `phase-b-ocr-glyph-sweep`, `phase-05-shell-families`,
+  `recapture-accounting`, `stable-candidate-references`,
+  `structural-evidence-packets`, `c5-fixture-path-diagnostics`, and
+  `final-run-metrics`
+
+When a contract declares `phase-b-ocr-glyph-sweep`, include this run-level
+summary next to the shared preflight:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/phase-b-ocr-glyph-sweep.json
+```
+
+`phase-b-ocr-glyph-sweep.json` must include:
+
+- `schemaVersion`: `1`
+- `phase`: `B-ocr-glyph-sweep`
+- `agent`: `evidence-refiner`
+- `agentConfigPath`: `.codex/agents/evidence-refiner.toml`
+- `sessionId`: non-empty evidence-refiner session id
+- `runId`: non-empty run id
+- `status`: `passed`
+- `rawExpectedAnnouncementsPreserved`: `true`
+- `unreviewedCandidateCount`: `0`
+- `remainingSuspiciousLiteralCandidateCount`: `0`
+- `rows`: one object per target, including `target` and
+  `scanStatus: "complete"`
+
+The sweep covers all final `refinedAnnouncements`, all text and punctuation
+compare windows, and every OCR/caption/glyph candidate against initial
+`rendered-html.html` and AX evidence. Raw `expectedAnnouncements` must remain
+unchanged; C.5 is reserved for cases where saved evidence disagrees or cannot
+settle the OCR/glyph question.
 
 New scan artifacts must also include a scan-health receipt before Phase A:
 
@@ -62,8 +112,11 @@ Receipts must be valid JSON and must include these common fields:
   array when none were made.
 - `nextPhase`: next phase role name, `complete`, or `stop`
 - `handoffReason`: why the next phase should run or why the target stops
-- `handoffFrom`: previous phase or empty for Phase A
+- `handoffFrom`: previous phase or empty for Phase 0/A
 - `handoffTo`: next phase role or `complete`
+- `agentPreflightRef` or `sharedPreflightRef`: optional reference to the
+  run-level `00-agent-preflight.json` when the target directory does not carry
+  its own preflight
 - `nextRecommendedWorker`: a compact machine-readable handoff block when more
   work is expected:
 
@@ -93,6 +146,62 @@ run occurred.
 missing from the tool registry, record the missing role in
 `00-agent-preflight.json` and stop or mark the run `degraded` with explicit user
 approval. A degraded run cannot promote a fixture to `refined`.
+
+## Stable Candidate References
+
+Any receipt that points to an announcement candidate after Phase B starts must
+use `candidateRef`, not an index alone:
+
+```json
+{
+  "candidateId": "www-example-com:text-boundary:4f33d2c1",
+  "sourceIndex": 214,
+  "currentRefinedIndex": 215,
+  "rawTextSha256": "...",
+  "refinedTextSha256": "...",
+  "previousTextSha256": "...",
+  "nextTextSha256": "...",
+  "domNodeIds": ["768"],
+  "htmlSnippetSha256": "...",
+  "axRoleNameSha256": "...",
+  "family": "text-boundary",
+  "compareWindowId": "window-17",
+  "resolution": "remapped"
+}
+```
+
+Valid `resolution` values are `matched`, `remapped`, and `stale-reference`.
+`stale-reference` blocks the edit until the evidence packet is rebuilt.
+
+## Structural Evidence Packets
+
+Structural mismatch receipts must include `structuralEvidencePacket` with the
+focused DOM node, outerHTML hash, semantic ancestor chain, sibling summary,
+matched AX role/name/state/position, VoiceOver step/source pointer, screenshot
+pointer when visual state matters, compare window, and `completeness`.
+`engine-ready` requires `completeness: "complete"`.
+
+## Run Metrics
+
+Final run summaries must report these separately:
+
+- reviewed candidate count
+- applied fixture-repair count
+- rejected candidate count
+- mismatch windows before and after fixture repair
+- mismatch windows before and after engine work
+- exact, actionable, conditional, parked, and recapture-only totals
+
+Do not imply that one repair equals one mismatch window. Window alignment can
+group several repairs or remain unchanged after an evidence-correct edit.
+
+## Recapture Queue Receipts
+
+`_summaries/recapture-queue.json` contains one stable `recaptureId` entry per
+invalid target capture. Each entry records failed and replacement run ids,
+failure category, missing evidence, retry settings, owner, next action, status,
+and the skipped A/B plus recapture-only C/E receipt paths used for complete run
+accounting.
 
 ## Fixture Change Entries
 
@@ -127,6 +236,9 @@ a named scan artifact or the run must stop before push.
 - artifact source, target URL/path, final URL/path, and artifact file list
 - scan options and debug options used
 - page access result
+- page identity: intended URL/path, final URL/path, title or route marker,
+  canonical URL when present, marker text checked, and whether it matches the
+  intended target
 - VoiceOver health checks, including non-empty output, start marker, end marker
   or step-cap reason, repeated-output check, and browser-chrome check
 - popup/interstitial handling evidence
@@ -173,6 +285,8 @@ a named scan artifact or the run must stop before push.
 - one entry per mismatch family
 - classification: `fixture-still-noisy`, `reusable-engine-gap`,
   `dynamic-state-mismatch`, `scanner-evidence-gap`, or `ambiguous`
+- disposition: `resolved`, `fixture-ready`, `engine-ready`, `recapture-only`,
+  `conditional-state-blocked`, or `parked-with-evidence`
 - evidence for the classification
 - resource consistency check for each mismatch family: rendered HTML, AX tree,
   step snapshots, source/caption evidence, scan-debug data, and
@@ -205,7 +319,12 @@ a named scan artifact or the run must stop before push.
 - mini rendered HTML, AX, and step-snapshot evidence summary
 - mini engine output
 - conclusion: `engine-gap-confirmed`, `fixture-noise-confirmed`,
-  `conditional-state-confirmed`, or `insufficient-repro`
+  `conditional-state-confirmed`, `insufficient-repro`, or
+  `debug-evidence-missing`
+- recurring repro family path under
+  `packages/sr-engine/tests/fixtures/voiceover-repros/_families/<family>.html`
+- canary scan or compare evidence showing the reproduction fixture still
+  exercises the intended family before it is used to justify Phase D
 - loop-back target phase and handoff reason for the original site workflow
 
 `05-engine-refinement.json` must include:

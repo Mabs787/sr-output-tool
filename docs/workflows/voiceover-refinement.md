@@ -25,6 +25,7 @@ initial HTML.
 ## Required Phases
 
 0. [Phase 0: Scan Health Gate](phase-0-scan-health.md)
+0.5. [Phase 0.5: Compare Summary Triage](phase-05-compare-summary.md)
 1. [Phase A: Intake](phase-a-intake.md)
 2. [Phase B: Evidence Refinement](phase-b-evidence-refinement.md)
 3. [Phase C: Fixture Judge](phase-c-fixture-judge.md)
@@ -47,7 +48,8 @@ work by mismatch family. Fixed-size batches are acceptable for download,
 intake, or scan-health throughput, but refinement should pivot to family-based
 work as soon as compare results show repeated patterns.
 
-Before Phase B starts in earnest, run a Phase 0.5 compare summary across the
+Before Phase B starts in earnest, run
+[Phase 0.5: Compare Summary Triage](phase-05-compare-summary.md) across the
 whole set and record, for each target:
 
 - expected count, actual count, and mismatch window count
@@ -56,6 +58,8 @@ whole set and record, for each target:
 - whether the target is exact, fixture-evidence cleanup, engine-family
   candidate, needs C.5, needs recapture, or conditional-state blocked
 - the next action and owner
+- a semantic shell fingerprint and shared shell-family ids for repeated header,
+  logo, navigation, consent, and footer structures
 
 Use this triage to separate special cases early:
 
@@ -67,6 +71,10 @@ Use this triage to separate special cases early:
   only if the initial-state replay target remains unclear.
 - Repeated mismatch family: if the same family appears on two or more sites,
   stop per-site grinding and investigate it as a family.
+- Repeated page shell: use one representative target to establish the generic
+  HTML/AX contract, then verify the decision across every target sharing the
+  shell fingerprint. Do not derive engine predicates from site copy or CSS
+  classes.
 - Exact or near-exact target: finish evidence receipts quickly and keep it out
   of broad engine experiments.
 
@@ -104,7 +112,8 @@ Parallelize by ownership:
 - Phase C.5 may run per mismatch family in parallel when repro fixtures and
   receipts do not overlap.
 - Only one Phase D engine-refiner may edit engine/runtime/test files at a time
-  unless separate worktrees are explicitly used.
+  unless separate worktrees are explicitly used. Record an exactly-one
+  engine-refiner lease before editing shared engine/runtime/test files.
 
 For time efficiency, use short per-site limits after triage. Spend only enough
 time to prove whether the issue is fixture evidence, a repeated family, or a
@@ -113,12 +122,31 @@ the affected sites after the family decision. Final receipts for a large set
 must include the compact compare table, C.5 count, engine changes, fixture
 changes, exact targets, parked blockers, and verification results.
 
+## Next-Run Action Checklist
+
+For every new multi-site refinement session, confirm these contracts before
+final Phase C/E:
+
+- Phase 0 has a recapture queue entry and complete skipped/recapture-only
+  accounting for every invalid artifact.
+- Phase 0.5 has semantic shell fingerprints and family signatures before work
+  is divided by target.
+- Phase B uses stable `candidateRef` anchors and re-resolves them after every
+  fixture-edit batch.
+- Structural Phase C decisions have complete DOM/AX/VoiceOver evidence packets.
+- Local-fixture C.5 runs pass the fixture-path diagnostic canary before their
+  family verdict is trusted.
+- Conditional state is stored separately from the initial-DOM fixture oracle.
+- The final report separates candidate reviews, fixture repairs, engine
+  changes, mismatch-window deltas, and disposition totals.
+
 ## Agent Routing
 
 Project-scoped subagents live in `.codex/agents/`.
 
-- `orchestrator`: coordinates phases, handoffs, target order, and Phase 0
-  scan-health checks until a dedicated scan-health agent exists.
+- `scan-health`: Phase 0 scan-health checks.
+- `compare-summarizer`: Phase 0.5 run-level compare triage.
+- `orchestrator`: coordinates phases, handoffs, and target order.
 - `intake`: Phase A artifact intake and preprocessing.
 - `evidence-refiner`: Phase B source-of-truth `refinedAnnouncements` review.
 - `fixture-judge`: Phase C mismatch classification.
@@ -141,6 +169,16 @@ registry preflight receipt:
 voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json
 ```
 
+For multi-target runs, one shared run-level preflight may cover all targets:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/00-agent-preflight.json
+```
+
+Target receipts that rely on the shared preflight must include
+`agentPreflightRef` or `sharedPreflightRef`, normally
+`../_summaries/00-agent-preflight.json`.
+
 The preflight must record the required roles, roles exposed by the current
 multi-agent tool registry, whether tool discovery was attempted, roles still
 missing after discovery, the final decision, and the spawned agent ids for the
@@ -149,6 +187,32 @@ and can be spawned. Use `decision: "blocked"` when a required role is missing
 after discovery. Use `decision: "degraded"` only when the user explicitly asks
 to continue without a named role.
 
+New runs may opt into the backward-compatible validator contract by adding
+`contractVersion` and `requiredRunChecks` to the preflight. Use
+`contractVersion: 2` for the Phase B OCR/glyph sweep only. Use
+`contractVersion: 3` for the full foundation:
+
+```json
+{
+  "schemaVersion": 1,
+  "phase": "preflight",
+  "contractVersion": 3,
+  "requiredRunChecks": [
+    "phase-b-ocr-glyph-sweep",
+    "phase-05-shell-families",
+    "recapture-accounting",
+    "stable-candidate-references",
+    "structural-evidence-packets",
+    "c5-fixture-path-diagnostics",
+    "final-run-metrics"
+  ]
+}
+```
+
+Contract v3 requires the run-level Phase 0.5 summary, recapture accounting,
+stable candidate references, complete structural packets for engine-ready
+families, C.5 fixture-path diagnostics, and separated final metrics.
+
 A run is `multi-agent` only when at least two phase-specific agents are
 spawned, or when the top-level session records why only one phase was required.
 An orchestrator-only run is not multi-agent.
@@ -156,7 +220,8 @@ An orchestrator-only run is not multi-agent.
 The top-level session may spawn `orchestrator` to create a routing plan, but it
 must still spawn phase-specific agents for the actual phase work:
 
-- `orchestrator` for Phase 0 when a new scan artifact needs health validation
+- `scan-health` for Phase 0 when a new scan artifact needs health validation
+- `compare-summarizer` for Phase 0.5 when a run needs target/family triage
 - `intake` for Phase A when artifact import is needed
 - `evidence-refiner` for Phase B
 - `fixture-judge` for Phase C
@@ -214,6 +279,12 @@ the receipts explain why those phases were not required.
   when VoiceOver announces one grouped/card object and the engine decomposes
   children, inspect the active element, focusability, AX/computed name, child
   HTML shape, and scanner descent behavior.
+- Announcement indexes are not stable identity. Every mismatch candidate must
+  use text-neighbour hashes plus DOM/AX anchors, and must be re-resolved after
+  fixture edits before an agent applies a later indexed change.
+- Structural families need a complete evidence packet linking the compare
+  window, focused DOM node, semantic ancestors, AX node, VoiceOver step/source,
+  and screenshot when state is visual before Phase D may act.
 - Text split/join mismatches must include a text-boundary check before they are
   dismissed as OCR noise or flakiness. Inspect the relevant `outerHTML` for
   inline emphasis, `br`, block/span/markdown fragments, list markers, hidden
@@ -226,6 +297,12 @@ the receipts explain why those phases were not required.
   ellipsis artifacts back to the rendered punctuation, and external-link glyph
   misreads such as `↗` captured as `2`, `a`, or `»`. Do not change engine logic
   to reproduce OCR artifacts proven wrong by the saved page evidence.
+- New v2/v3 contract runs must complete the validator-backed Phase B OCR/glyph
+  sweep before final Phase C/E. This is an exhaustive final pass over refined
+  text and text/punctuation compare windows, not a spot check of known
+  mismatches. Use Phase C.5 only when saved HTML, AX, snapshots/source
+  evidence, screenshots, or recordings disagree or cannot decide the OCR/glyph
+  question.
 - For structural scanner mismatches, require debug evidence before Phase D:
   rendered HTML, AX tree nodes, step snapshots or cursor/source evidence, and
   screenshots when the visual state matters. If a scan reproduces the raw
@@ -244,6 +321,9 @@ the receipts explain why those phases were not required.
   as a disputed VoiceOver line, Phase B must classify the line as
   `initial-dom`, `step-only-dom`, `volatile-dom`, or `not-found` before Phase C
   judges the mismatch.
+- Keep interaction-sequence and volatile-value announcements in raw evidence
+  plus `conditionalStateEvidence`; only initial-DOM output belongs in the
+  ordinary refined fixture oracle.
 - When Phase B or Phase C cannot confidently decide whether a disputed line is
   true VoiceOver behavior, capture truncation, conditional state, or an engine
   gap from the saved site evidence, run Phase C.5 before changing fixtures or
@@ -254,6 +334,10 @@ the receipts explain why those phases were not required.
   AX/tree interpretation, source/caption drift, step-only DOM state, or whether
   VoiceOver behavior is generic, prefer a Phase C.5 test over a terminal
   ambiguity label.
+- Before every local-fixture C.5 family scan, prove the requested fixture path,
+  file hash, scan-root identity, AX output, and step snapshots with the
+  diagnostic canary. Wrong or empty evidence is a scanner-path failure, not a
+  family verdict.
 - Phase C.5 is also a Phase D confidence tool. When an engine rule feels too
   broad, site-shaped, or surprising, Phase D should request a mini scan to prove
   the isolated DOM/ARIA/table/list/control behavior before committing the rule.
@@ -271,6 +355,9 @@ the receipts explain why those phases were not required.
   external blocker or risk that prevents safe progress.
 - Do not add site-specific engine logic.
 - Do not move to the next site until the current site has a recorded outcome.
+- Invalid captures must enter the run-level recapture queue and receive skipped
+  A/B plus recapture-only C/E receipts so final accounting covers every target
+  without treating failed scans as zero-mismatch fixtures.
 - Do not promote every scanned site as a full-page golden fixture by default.
   Phase E must decide whether the result belongs in the golden exact corpus,
   candidate/parked corpus, a focused repro fixture, or artifact archive. Promote

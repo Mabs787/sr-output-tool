@@ -10,8 +10,8 @@ successful scan.
 
 ## Agent
 
-Use `.codex/agents/orchestrator.toml` until a dedicated scan-health agent
-exists. The scan-health receipt must still identify the phase as `0`.
+Use `.codex/agents/scan-health.toml`. The scan-health receipt must identify
+the phase as `0`.
 
 ## Required Inputs
 
@@ -29,6 +29,10 @@ The artifact may proceed to Phase A only when all applicable checks pass:
 
 - The runner opened the intended URL or `file://` fixture path, not browser
   chrome, an error page, a login wall, or a blocked navigation page.
+- Page identity is confirmed from the intended URL/path, final URL/path,
+  document title or route marker, canonical URL when present, rendered body
+  marker text, and screenshot/recording evidence when textual identity is
+  ambiguous.
 - `voiceover-output.json`, `voiceover-sources.json`, `rendered-html.html`,
   `accessibility-tree.json`, `scan-debug.json`, and
   `refinement-manifest.json` exist.
@@ -110,6 +114,28 @@ before Phase A.
   explains why the remaining evidence is still useful, and prevents Phase E
   promotion to `refined` until the gap is resolved.
 
+## Recapture Accounting
+
+Every outcome other than `passed` must create or update a run-level recapture
+queue entry under:
+
+```text
+voiceover-smoke/agent-work/<run-id>/_summaries/recapture-queue.json
+```
+
+The entry must include the target, failed run/artifact, failure category,
+missing or invalid evidence, recommended scan-option changes, owner, next check
+or retry action, and whether refinement of any partial evidence is allowed.
+Use a stable `recaptureId` so retries append evidence instead of replacing the
+original failure record.
+
+Before final run accounting, the orchestrator must also materialize skipped
+Phase A/B receipts and Phase C/E `recapture-only` dispositions for an invalid
+capture. This keeps every requested target represented without importing a bad
+fixture or inventing zero mismatch counts. A later successful capture may
+supersede the queue entry, but it must retain the failed run id and evidence
+history.
+
 ## Receipt
 
 Write:
@@ -132,6 +158,9 @@ The receipt must include:
 - `scanOptions`
 - `artifactPath` or download location
 - `artifactFiles`
+- `pageIdentity`: intended URL/path, final URL/path, title or route marker,
+  canonical URL when present, rendered body marker text, screenshot/recording
+  evidence checked, and `matchesIntendedTarget`
 - `urlReached`: intended URL/path, final URL/path, and whether they match
 - `pageAccess`: loaded, login-wall, blocked, error-page, browser-chrome, or
   unknown
@@ -144,6 +173,8 @@ The receipt must include:
 - `decision`
 - `nextAction`
 - `handoffTo`: `intake`, `scan-retry`, `scanner-fix`, or `stop`
+- `recaptureQueueEntry`: `null` for `passed`; otherwise `recaptureId`, queue
+  path, failure category, retry settings, owner, and next action
 
 Phase A must not import a newly downloaded artifact unless the same target/run
 has a passing or explicitly accepted `partial-evidence` Phase 0 receipt.

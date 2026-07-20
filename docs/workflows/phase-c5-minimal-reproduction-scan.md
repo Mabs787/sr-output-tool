@@ -139,6 +139,24 @@ triage evidence, but it is not sufficient proof for a broad engine rule.
 If the reproduction cannot be hosted or scanned, Phase C.5 must return with a
 blocker instead of deciding the mismatch.
 
+## Fixture-Path Diagnostic Gate
+
+Before requesting the family scan, run the local-fixture diagnostic canary and
+record:
+
+- requested repo-relative `fixturePath`
+- resolved absolute path and file SHA-256
+- expected `data-sr-scan-root` marker or fixture identity text
+- rendered page URL/path observed by the runner
+- non-empty rendered HTML, relevant AX-node count, and step-snapshot count
+
+The canary passes only when the runner opened the requested file and the saved
+artifact contains the expected fixture identity plus usable AX and step
+evidence. If the resolved path, identity, AX, or snapshots are wrong or empty,
+stop the family scan and return `debug-evidence-missing` or
+`scanner-fix-required`. Do not interpret that artifact as evidence for or
+against the mismatch family.
+
 Use a small `max_steps` value for minimal reproductions so a missing end marker
 or stalled VoiceOver cursor cannot hold the workflow open indefinitely. This is
 a step cap for focused mini evidence, not a substitute for the normal page end
@@ -171,6 +189,21 @@ After the artifact is ready:
      artifact lacks AX nodes, step snapshots, cursor/source evidence, or
      screenshots needed to identify the reusable DOM/AX contract
 
+Record both fields separately:
+
+- `verdict`: one of `engine-gap-confirmed`, `fixture-noise-confirmed`,
+  `conditional-state-confirmed`, `insufficient-repro`, or
+  `debug-evidence-missing`
+- `debugEvidenceStatus`: `complete`, `partial`, or `missing`
+
+Before Phase C.5 evidence can justify Phase D, keep a family repro path and a
+canary:
+
+- `familyReproPath`:
+  `packages/sr-engine/tests/fixtures/voiceover-repros/_families/<family>.html`
+- `canary`: the focused mini VoiceOver scan or compare check that proves the
+  reproduction still exercises the original family after reduction
+
 ## Loop Back
 
 The repro result must resolve an original site mismatch family, not create a
@@ -188,6 +221,8 @@ Route the original site workflow as follows:
 - `insufficient-repro`: refine the reproduction once and rerun C.5. If it still
   cannot reproduce the behavior, return to Phase C with a concrete blocker and
   classify the original family as `scanner-evidence-gap`.
+- `debug-evidence-missing`: return to Phase 0 or scanner-fix work for a richer
+  artifact before Phase D changes reusable engine behavior.
 
 Do not send a repro fixture to Phase E promotion, add it to the live-site corpus
 manifest, or treat its exact-match status as a site result.
@@ -201,6 +236,10 @@ Write `04-minimal-reproduction-scan.json` with:
 - original expected/refined/actual snippets
 - reason Phase C.5 was required
 - reproduction file/path/URL
+- `fixturePathDiagnostic`: requested path, resolved path, SHA-256, identity
+  marker, rendered path, AX count, snapshot count, and pass/fail decision
+- stable source `candidateRef` copied from Phase B/C; source indexes must be
+  re-resolved if the fixture changed before the mini scan
 - preserved DOM contract checklist
 - original AX contract copied into the reproduction: source node ids and the
   role/name/state/table/list/focusability values that mattered
@@ -213,9 +252,13 @@ Write `04-minimal-reproduction-scan.json` with:
 - mini raw VoiceOver output
 - mini rendered HTML and AX evidence summary
 - mini engine output
-- conclusion:
+- `verdict`:
   `engine-gap-confirmed`, `fixture-noise-confirmed`,
-  `conditional-state-confirmed`, or `insufficient-repro`
+  `conditional-state-confirmed`, `insufficient-repro`, or
+  `debug-evidence-missing`
+- `debugEvidenceStatus`: `complete`, `partial`, or `missing`
+- `familyReproPath`
+- `canary`
 - loop-back target phase and handoff reason for the original site workflow
 
 Do not use the current engine output as proof that the reproduction is correct.

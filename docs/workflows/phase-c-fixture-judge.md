@@ -22,6 +22,15 @@ Classify each mismatch with one of these exact machine enum values:
 - `scanner-evidence-gap`
 - `ambiguous`
 
+After classification, assign one disposition enum:
+
+- `resolved`
+- `fixture-ready`
+- `engine-ready`
+- `recapture-only`
+- `conditional-state-blocked`
+- `parked-with-evidence`
+
 Classification is evidence-weighted, not evenly balanced. After known
 unreplayable state has been removed from the fixture, a remaining mismatch
 between trusted VoiceOver output and deterministic engine replay should default
@@ -51,6 +60,16 @@ Before classifying any mismatch, double-check the evidence packet:
 
 If these resources disagree, return the family to Phase B or Phase C.5 instead
 of making an engine or fixture decision from only the compare output.
+If the resources are absent rather than merely contradictory, classify the
+family as `scanner-evidence-gap`, use `recapture-only` or
+`parked-with-evidence` as the disposition, and route to Phase 0/C.5 before
+Phase D.
+
+For structural families, require a Phase B `structuralEvidencePacket` with
+`completeness: "complete"` before assigning `engine-ready`. A partial packet
+must name the missing DOM, AX, VoiceOver-step, source, or screenshot link and
+route to Phase 0 or C.5. Do not turn repeated compare text alone into a broad
+engine rule.
 
 Phase C judges the engine against the refined initial-HTML oracle. If the
 expected line is explained only by `htmlAfterStep` or another navigation-time
@@ -58,6 +77,13 @@ mutation, return it to Phase B for removal or normalization from
 `refinedAnnouncements`; do not classify it as a reusable engine gap. If the
 same semantic content exists in initial `rendered-html.html` and AX evidence,
 then the mismatch can proceed as a fixture or engine question.
+
+Require `stateScope` on every dynamic or conditional decision. Only
+`initial-dom` belongs in the normal fixture compare. Preserve
+`interaction-sequence` and `volatile-value` announcements in raw evidence and a
+`conditionalStateEvidence` block with trigger, step, before/after DOM
+fingerprints, and replayability decision. Never use a conditional-state label
+to hide a replayable initial-DOM mismatch.
 
 ## Structural Decomposition Gate
 

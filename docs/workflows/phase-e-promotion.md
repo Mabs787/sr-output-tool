@@ -90,6 +90,11 @@ sufficient.
 - `fixtureTier`
 - `uniqueCoverage`
 - `existingCoverageChecked`
+- `runMetrics`: reviewed candidates, applied/rejected fixture repairs,
+  mismatch windows before/after fixture work, mismatch windows before/after
+  engine work, and exact/actionable/conditional/parked/recapture totals
+- `recaptureQueueStatus`: queue path, unresolved recapture ids, and receipt
+  coverage for skipped A/B plus recapture-only C/E targets
 - `fixturePushReview`
 - `checks`: commands with status, exit code, summary, and skip reason
 - `agentWorkflowValidation`: command, required phases, status, exit code,
@@ -139,6 +144,11 @@ end a hard mismatch. The promotion receipt must show:
 
 Do not promote a target with unresolved mismatches unless every remaining
 family has a revisit queue entry that a future autonomous run can resume.
+
+Phase E must not finalize a multi-target run while an invalid artifact is
+absent from `_summaries/recapture-queue.json` or lacks skipped A/B and
+recapture-only C/E receipts. Failed captures are accounting outcomes, not
+zero-mismatch fixtures.
 
 When the promotion decision is `candidate` or `partial`, do not leave the
 remaining mismatch list as a dead end. Update the target status doc and
