@@ -2982,6 +2982,33 @@
         function descendantLinkCardHeading(el) {
           return Array.from(el?.querySelectorAll?.("h1, h2, h3, h4, h5, h6, [role='heading']") || []).find((candidate) => !isHidden(candidate) && Boolean(readableText(candidate)));
         }
+        function axLinkedCardMediaGroupName(el, axNode, axName, heading, headingText, contentName) {
+          const group = Array.from(el?.querySelectorAll?.("[role='group']") || []).find((candidate) => {
+            if (isHidden(candidate))
+              return false;
+            const groupName2 = normalize(accessibleName(candidate, "group"));
+            if (!groupName2)
+              return false;
+            if (!nestedImageLabels(candidate).length)
+              return false;
+            return Boolean(candidate.compareDocumentPosition(heading) & candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING);
+          });
+          if (!group)
+            return void 0;
+          const groupName = normalize(accessibleName(group, "group"));
+          if (!groupName)
+            return void 0;
+          const imageLabel = nestedImageLabel(group);
+          if (!imageLabel || !contentName.startsWith(`${imageLabel} ${headingText}`)) {
+            return void 0;
+          }
+          if (!axName.startsWith(`${groupName} ${headingText}`))
+            return void 0;
+          const axDescendantNodes = axDescendants(axNode);
+          const hasAxGroup = axDescendantNodes.some((node) => normalizedAxRole(node.role) === "group" && normalize(node.name) === groupName);
+          const hasAxHeading = axDescendantNodes.some((node) => normalizedAxRole(node.role) === "heading" && normalize(node.name) === headingText);
+          return hasAxGroup && hasAxHeading ? groupName : void 0;
+        }
         function axLinkedCardContentName(el, role, contentName) {
           if (role !== "link" || !contentName)
             return void 0;
@@ -2997,7 +3024,12 @@
             return void 0;
           const heading = descendantLinkCardHeading(el);
           const headingText = normalize(readableText(heading));
-          if (!headingText || !contentName.startsWith(headingText))
+          if (!headingText)
+            return void 0;
+          if (axLinkedCardMediaGroupName(el, axNode, axName, heading, headingText, contentName)) {
+            return axName;
+          }
+          if (!contentName.startsWith(headingText))
             return void 0;
           const bodyText = normalize(contentName.slice(headingText.length));
           if (comparableLinkedCardText(bodyText) !== comparableLinkedCardText(axName)) {
@@ -3037,7 +3069,7 @@
           for (let current = el?.parentElement; current; current = current.parentElement) {
             const explicit = current.getAttribute("role");
             const tag = current.tagName?.toLowerCase();
-            const role = explicit && explicit !== "none" && explicit !== "presentation" ? explicit : tag === "section" && current.hasAttribute("aria-labelledby") ? "region" : void 0;
+            const role = explicit && explicit !== "none" && explicit !== "presentation" ? explicit : tag === "section" && current.hasAttribute("aria-labelledby") ? "region" : tag === "article" ? "article" : void 0;
             if (!role)
               continue;
             if (!["region", "article"].includes(role))
@@ -12232,14 +12264,15 @@
           const stateEl = control || el;
           const axLinkedOfferHeadingName = role === "heading" ? axConfirmedLinkedOfferHeadingName(el, role) : void 0;
           const accessibleRoleName = accessibleName(el, role);
+          const linkContentNameForSpacing = role === "link" ? linkContentName(el) : void 0;
+          const axLinkedCardName = role === "link" ? axLinkedCardContentName(el, role, linkContentNameForSpacing) : void 0;
           const articleHeadingName = articleNameFromFirstHeading(el, role);
           const adjacentVersionTitleText = axAdjacentVersionTitleTextForFirstChild(el, role);
-          const name = adjacentVersionTitleText || tableCellAbbrTitleButtonName(el, role) || axLinkedOfferHeadingName || axConfirmedTerminalPunctuationLinkedHeadingName(el, role) || accessibleRoleName || articleHeadingName;
+          const name = adjacentVersionTitleText || tableCellAbbrTitleButtonName(el, role) || axLinkedOfferHeadingName || axConfirmedTerminalPunctuationLinkedHeadingName(el, role) || axLinkedCardName || accessibleRoleName || articleHeadingName;
           const axNativeButtonSymbolSpacingName = role === "button" ? axConfirmedNativeButtonSymbolSpacingName(el, role, name) : void 0;
           const axNativeInputButtonName = role === "button" ? axConfirmedNativeInputButtonName(el, role) : void 0;
           const nativeButtonSymbolSpacingName = axNativeButtonSymbolSpacingName || (role === "button" ? nativeButtonStandaloneSymbolSpacingName(el, role, name) : void 0);
           const nativeSelectTitleName = tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : void 0;
-          const linkContentNameForSpacing = role === "link" ? linkContentName(el) : void 0;
           const announcementName = axNativeButtonSymbolSpacingName || nativeButtonSymbolSpacingName || (role === "link" && linkContentNameForSpacing && postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing ? linkContentNameForSpacing : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name) ? finalPostPunctuationWhitespaceCollapsedText(name) : name);
           const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
           const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag) ? labelForControl(stateEl) : void 0;

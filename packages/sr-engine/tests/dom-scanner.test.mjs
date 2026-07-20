@@ -276,6 +276,108 @@ test("scanSubtree preserves image role for AX-named logo links when child image 
   );
 });
 
+test("scanSubtree preserves AX media group names and heading levels for linked cards", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <article aria-labelledby="card-a-title" data-sr-dom-node-id="card-a">
+          <a href="#card-a" data-sr-dom-node-id="card-a-link">
+            <span role="group" aria-label="Plan A media" data-sr-dom-node-id="card-a-media">
+              <svg role="img" aria-label="Plan A image" data-sr-dom-node-id="card-a-image"></svg>
+              <img alt="" data-sr-dom-node-id="card-a-empty-image">
+            </span>
+            <h2 id="card-a-title" data-sr-dom-node-id="card-a-heading">Plan A</h2>
+            <p data-sr-dom-node-id="card-a-body">Use any time.</p>
+          </a>
+        </article>
+        <article aria-labelledby="card-b-title" data-sr-dom-node-id="card-b">
+          <span aria-hidden="true">
+            <svg aria-hidden="true"></svg>
+          </span>
+          <h2 id="card-b-title" data-sr-dom-node-id="card-b-heading">Plan B</h2>
+          <p>Print label later.</p>
+          <a href="#card-b" data-sr-dom-node-id="card-b-link">Choose plan</a>
+        </article>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "card-a",
+              role: "article",
+              name: "Plan A",
+              domNodeId: "card-a",
+              childIds: ["card-a-link"],
+            },
+            {
+              nodeId: "card-a-link",
+              role: "link",
+              name: "Plan A media Plan A Use any time.",
+              domNodeId: "card-a-link",
+              properties: { focusable: true, url: "https://example.test/#card-a" },
+              childIds: ["card-a-media", "card-a-heading", "card-a-body-text"],
+            },
+            {
+              nodeId: "card-a-media",
+              role: "group",
+              name: "Plan A media",
+              domNodeId: "card-a-media",
+              childIds: ["card-a-image"],
+            },
+            {
+              nodeId: "card-a-image",
+              role: "image",
+              name: "Plan A image",
+              domNodeId: "card-a-image",
+            },
+            {
+              nodeId: "card-a-heading",
+              role: "heading",
+              name: "Plan A",
+              domNodeId: "card-a-heading",
+              properties: { level: 2 },
+              childIds: ["card-a-heading-text"],
+            },
+            { nodeId: "card-a-heading-text", role: "StaticText", name: "Plan A" },
+            { nodeId: "card-a-body-text", role: "StaticText", name: "Use any time." },
+            {
+              nodeId: "card-b",
+              role: "article",
+              name: "Plan B",
+              domNodeId: "card-b",
+              childIds: ["card-b-heading", "card-b-link"],
+            },
+            {
+              nodeId: "card-b-heading",
+              role: "heading",
+              name: "Plan B",
+              domNodeId: "card-b-heading",
+              properties: { level: 2 },
+            },
+            {
+              nodeId: "card-b-link",
+              role: "link",
+              name: "Choose plan",
+              domNodeId: "card-b-link",
+              properties: { focusable: true, url: "https://example.test/#card-b" },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Plan A, article",
+      "link, heading level 2, Plan A media Plan A Use any time.",
+      "end of, Plan A, article",
+      "Plan B, article",
+      "heading level 2, Plan B",
+      "Print label later.",
+      "link, Choose plan",
+      "end of, Plan B, article",
+    ],
+  );
+});
+
 test("scanSubtree uses AX URL fallback for empty-alt image-only links", () => {
   assert.deepEqual(
     scanHtml(

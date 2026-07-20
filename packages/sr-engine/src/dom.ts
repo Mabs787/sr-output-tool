@@ -2210,6 +2210,51 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     ).find((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate)));
   }
 
+  function axLinkedCardMediaGroupName(
+    el: any,
+    axNode: AccessibilityTreeNode,
+    axName: string,
+    heading: any,
+    headingText: string,
+    contentName: string,
+  ): string | undefined {
+    const group = Array.from(el?.querySelectorAll?.("[role='group']") || []).find(
+      (candidate: any) => {
+        if (isHidden(candidate)) return false;
+        const groupName = normalize(accessibleName(candidate, "group"));
+        if (!groupName) return false;
+        if (!nestedImageLabels(candidate).length) return false;
+        return Boolean(
+          candidate.compareDocumentPosition(heading) &
+            candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+        );
+      },
+    );
+    if (!group) return undefined;
+    const groupName = normalize(accessibleName(group, "group"));
+    if (!groupName) return undefined;
+
+    const imageLabel = nestedImageLabel(group);
+    if (!imageLabel || !contentName.startsWith(`${imageLabel} ${headingText}`)) {
+      return undefined;
+    }
+
+    if (!axName.startsWith(`${groupName} ${headingText}`)) return undefined;
+
+    const axDescendantNodes = axDescendants(axNode);
+    const hasAxGroup = axDescendantNodes.some(
+      (node) =>
+        normalizedAxRole(node.role) === "group" &&
+        normalize(node.name) === groupName,
+    );
+    const hasAxHeading = axDescendantNodes.some(
+      (node) =>
+        normalizedAxRole(node.role) === "heading" &&
+        normalize(node.name) === headingText,
+    );
+    return hasAxGroup && hasAxHeading ? groupName : undefined;
+  }
+
   function axLinkedCardContentName(el: any, role: string, contentName?: string): string | undefined {
     if (role !== "link" || !contentName) return undefined;
     if (el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby")) return undefined;
@@ -2222,7 +2267,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const heading = descendantLinkCardHeading(el);
     const headingText = normalize(readableText(heading));
-    if (!headingText || !contentName.startsWith(headingText)) return undefined;
+    if (!headingText) return undefined;
+    if (axLinkedCardMediaGroupName(el, axNode, axName, heading, headingText, contentName)) {
+      return axName;
+    }
+    if (!contentName.startsWith(headingText)) return undefined;
 
     const bodyText = normalize(contentName.slice(headingText.length));
     if (
@@ -2276,6 +2325,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? explicit
           : tag === "section" && current.hasAttribute("aria-labelledby")
             ? "region"
+          : tag === "article"
+            ? "article"
             : undefined;
       if (!role) continue;
       if (!["region", "article"].includes(role)) continue;
@@ -13258,6 +13309,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const axLinkedOfferHeadingName =
       role === "heading" ? axConfirmedLinkedOfferHeadingName(el, role) : undefined;
     const accessibleRoleName = accessibleName(el, role);
+    const linkContentNameForSpacing =
+      role === "link" ? linkContentName(el) : undefined;
+    const axLinkedCardName =
+      role === "link" ? axLinkedCardContentName(el, role, linkContentNameForSpacing) : undefined;
     const articleHeadingName = articleNameFromFirstHeading(el, role);
     const adjacentVersionTitleText = axAdjacentVersionTitleTextForFirstChild(el, role);
     const name =
@@ -13265,6 +13320,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       tableCellAbbrTitleButtonName(el, role) ||
       axLinkedOfferHeadingName ||
       axConfirmedTerminalPunctuationLinkedHeadingName(el, role) ||
+      axLinkedCardName ||
       accessibleRoleName ||
       articleHeadingName;
     const axNativeButtonSymbolSpacingName =
@@ -13276,8 +13332,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       (role === "button" ? nativeButtonStandaloneSymbolSpacingName(el, role, name) : undefined);
     const nativeSelectTitleName =
       tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : undefined;
-    const linkContentNameForSpacing =
-      role === "link" ? linkContentName(el) : undefined;
     const announcementName =
       axNativeButtonSymbolSpacingName ||
       nativeButtonSymbolSpacingName ||
