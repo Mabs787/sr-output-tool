@@ -9,7 +9,7 @@ import {
 import os from "node:os";
 import path from "node:path";
 import { createRequire } from "node:module";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { JSDOM } from "jsdom";
@@ -70,6 +70,9 @@ const systemDialogSweepInterval = parseNonNegativeInteger(
   process.env.VOICEOVER_SYSTEM_DIALOG_SWEEP_INTERVAL,
   50,
 );
+const isCli = process.argv[1]
+  ? path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+  : false;
 
 function parsePositiveInteger(value, fallback) {
   const parsed = Number.parseInt(String(value || ""), 10);
@@ -1513,6 +1516,10 @@ function getTargetUrl(target) {
   return pathToFileURL(fixturePath).href;
 }
 
+function hasLiveChromeDiagnosticsTarget(target) {
+  return Boolean(target.url || target.fixturePath);
+}
+
 function getScanRootSelector(target) {
   return (
     target.scanRootSelector || (target.fixturePath ? "[data-sr-scan-root]" : "body")
@@ -2585,8 +2592,11 @@ async function getTargetSourceHtml(target) {
   return "";
 }
 
-async function captureRenderedSourceHtml(target) {
-  if (!target.url) {
+async function captureRenderedSourceHtml(target, deps = {}) {
+  const evaluateInChrome =
+    deps.evaluateJavaScriptInChrome || evaluateJavaScriptInChrome;
+
+  if (!hasLiveChromeDiagnosticsTarget(target)) {
     return {
       ok: true,
       status: 0,
@@ -2670,7 +2680,7 @@ async function captureRenderedSourceHtml(target) {
     "})()",
   ].join(" ");
 
-  const annotation = await evaluateJavaScriptInChrome(annotationScript, 30000);
+  const annotation = await evaluateInChrome(annotationScript, 30000);
   if (!annotation.ok) {
     return {
       ...annotation,
@@ -2678,7 +2688,7 @@ async function captureRenderedSourceHtml(target) {
     };
   }
 
-  const html = await evaluateJavaScriptInChrome(
+  const html = await evaluateInChrome(
     [
       "(() => {",
       "function serializeNodeWithShadowRoots(node) {",
@@ -2710,8 +2720,11 @@ async function captureRenderedSourceHtml(target) {
   };
 }
 
-async function captureStepHtmlAfterStep(target) {
-  if (!target.url || captureStepHtmlMode === "off") {
+async function captureStepHtmlAfterStep(target, deps = {}) {
+  const evaluateInChrome =
+    deps.evaluateJavaScriptInChrome || evaluateJavaScriptInChrome;
+
+  if (!hasLiveChromeDiagnosticsTarget(target) || captureStepHtmlMode === "off") {
     return {
       capture: {
         ok: true,
@@ -2727,7 +2740,7 @@ async function captureStepHtmlAfterStep(target) {
   }
 
   if (captureStepHtmlMode === "full") {
-    const capture = await captureRenderedSourceHtml(target);
+    const capture = await captureRenderedSourceHtml(target, deps);
     const reduced = capture.ok
       ? reduceHtmlForRefinement(capture.stdout || "", target)
       : {
@@ -2826,7 +2839,7 @@ async function captureStepHtmlAfterStep(target) {
     "})()",
   ].join(" ");
 
-  const capture = await evaluateJavaScriptInChrome(summaryScript, 15000);
+  const capture = await evaluateInChrome(summaryScript, 15000);
   let htmlAfterStep = null;
   if (capture.ok) {
     try {
@@ -2932,8 +2945,9 @@ function getSnapshotString(strings, index) {
   return typeof index === "number" && index >= 0 ? strings[index] || "" : "";
 }
 
-async function captureBackendDomNodeMap() {
-  const captured = await sendChromeDevToolsCommand(
+async function captureBackendDomNodeMap(deps = {}) {
+  const sendCommand = deps.sendChromeDevToolsCommand || sendChromeDevToolsCommand;
+  const captured = await sendCommand(
     "DOMSnapshot.captureSnapshot",
     {
       computedStyles: [],
@@ -3028,8 +3042,12 @@ async function captureBackendDomNodeMap() {
   };
 }
 
-async function captureAccessibilityTree(target) {
-  if (!target.url) {
+async function captureAccessibilityTree(target, deps = {}) {
+  const sendCommand = deps.sendChromeDevToolsCommand || sendChromeDevToolsCommand;
+  const captureDomNodeMap =
+    deps.captureBackendDomNodeMap || ((options) => captureBackendDomNodeMap(options));
+
+  if (!hasLiveChromeDiagnosticsTarget(target)) {
     return {
       ok: true,
       source: "not-applicable",
@@ -3040,13 +3058,13 @@ async function captureAccessibilityTree(target) {
       },
       capture: commandResult({
         ok: true,
-        stdout: "fixture/source scans do not expose a live Chrome accessibility tree",
+        stdout: "target does not expose a live Chrome accessibility tree",
         extras: { source: "not-applicable" },
       }),
     };
   }
 
-  const captured = await sendChromeDevToolsCommand(
+  const captured = await sendCommand(
     "Accessibility.getFullAXTree",
     {},
     30000,
@@ -3085,7 +3103,7 @@ async function captureAccessibilityTree(target) {
     };
   }
 
-  const domNodeMap = await captureBackendDomNodeMap();
+  const domNodeMap = await captureDomNodeMap(deps);
   const nodes = Array.isArray(parsed.nodes) ? parsed.nodes : [];
   const reducedNodes = nodes.map((node) =>
     reduceAccessibilityTreeNode(node, domNodeMap.map),
@@ -3111,10 +3129,24 @@ async function captureAccessibilityTree(target) {
   };
 }
 
-async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
-  if (!captureStepSnapshots || !target.url) {
+async function captureStepSnapshot({
+  target,
+  stepIndex,
+  announcement,
+  focus,
+  deps = {},
+}) {
+  if (!captureStepSnapshots || !hasLiveChromeDiagnosticsTarget(target)) {
     return null;
   }
+
+  const evaluateInChrome =
+    deps.evaluateJavaScriptInChrome || evaluateJavaScriptInChrome;
+  const captureHtmlAfterStep =
+    deps.captureStepHtmlAfterStep || ((candidate) => captureStepHtmlAfterStep(candidate, deps));
+  const sendCommand = deps.sendChromeDevToolsCommand || sendChromeDevToolsCommand;
+  const captureDomNodeMap =
+    deps.captureBackendDomNodeMap || ((options) => captureBackendDomNodeMap(options));
 
   const stepSearchTokens = getSearchTokens(
     getSnapshotSearchText({ announcement, focus }),
@@ -3264,7 +3296,7 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
     "})()",
   ].join(" ");
 
-  const pageStateCapture = await evaluateJavaScriptInChrome(pageStateScript, 15000);
+  const pageStateCapture = await evaluateInChrome(pageStateScript, 15000);
   let pageState = {};
   try {
     pageState = JSON.parse(pageStateCapture.stdout || "{}");
@@ -3278,9 +3310,9 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
   const {
     capture: htmlAfterStepCapture,
     htmlAfterStep,
-  } = await captureStepHtmlAfterStep(target);
+  } = await captureHtmlAfterStep(target);
 
-  const axCapture = await sendChromeDevToolsCommand(
+  const axCapture = await sendCommand(
     "Accessibility.getFullAXTree",
     {},
     30000,
@@ -3299,7 +3331,7 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
   if (axCapture.ok) {
     try {
       const parsed = JSON.parse(axCapture.stdout || "{}");
-      const domNodeMap = await captureBackendDomNodeMap();
+      const domNodeMap = await captureDomNodeMap(deps);
       const nodes = Array.isArray(parsed.nodes)
         ? parsed.nodes.map((node) => reduceAccessibilityTreeNode(node, domNodeMap.map))
         : [];
@@ -3356,7 +3388,7 @@ async function captureStepSnapshot({ target, stepIndex, announcement, focus }) {
 }
 
 async function getArtifactSourceHtml(target) {
-  if (target.url) {
+  if (hasLiveChromeDiagnosticsTarget(target)) {
     const rendered = await captureRenderedSourceHtml(target);
     return {
       html: rendered.ok ? rendered.stdout || "" : "",
@@ -4521,26 +4553,42 @@ async function scanTarget(target, index) {
   }
 }
 
-mkdirSync(outputRoot, { recursive: true });
+async function main() {
+  mkdirSync(outputRoot, { recursive: true });
 
-if (!scanManifestPath) {
-  throw new Error("VOICEOVER_SCAN_MANIFEST is required for URL scans.");
-}
-
-const screenRecordingPreflight = await preflightScreenRecordingPermission();
-writeJson(
-  path.join(repoRoot, "voiceover-smoke/screen-recording-preflight.json"),
-  screenRecordingPreflight,
-);
-let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
-if (scanTargetName) {
-  manifest = manifest.filter((target) => target.name === scanTargetName);
-  if (manifest.length === 0) {
-    throw new Error(`No VoiceOver scan target matched "${scanTargetName}".`);
+  if (!scanManifestPath) {
+    throw new Error("VOICEOVER_SCAN_MANIFEST is required for URL scans.");
   }
-} else {
-  manifest = manifest.filter((target) => target.default !== false);
+
+  const screenRecordingPreflight = await preflightScreenRecordingPermission();
+  writeJson(
+    path.join(repoRoot, "voiceover-smoke/screen-recording-preflight.json"),
+    screenRecordingPreflight,
+  );
+  let manifest = JSON.parse(readFileSync(scanManifestPath, "utf8"));
+  if (scanTargetName) {
+    manifest = manifest.filter((target) => target.name === scanTargetName);
+    if (manifest.length === 0) {
+      throw new Error(`No VoiceOver scan target matched "${scanTargetName}".`);
+    }
+  } else {
+    manifest = manifest.filter((target) => target.default !== false);
+  }
+  for (const [index, target] of manifest.entries()) {
+    await scanTarget(target, index);
+  }
 }
-for (const [index, target] of manifest.entries()) {
-  await scanTarget(target, index);
+
+export {
+  captureAccessibilityTree,
+  captureRenderedSourceHtml,
+  captureStepSnapshot,
+  getScanRootSelector,
+  getTargetUrl,
+  hasLiveChromeDiagnosticsTarget,
+  writeStepSnapshotsFile,
+};
+
+if (isCli) {
+  await main();
 }
