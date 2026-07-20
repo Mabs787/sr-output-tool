@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 header nav collapsed controlled region</title>
+    <style>
+      header {
+        max-width: 40rem;
+      }
+
+      [hidden] {
+        display: none;
+      }
+
+      nav ul {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0;
+      }
+
+      nav li {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root aria-label="neutral collapsed header navigation repro">
+      <header>
+        <a href="https://example.test/">Example home</a>
+        <button
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          Menu
+        </button>
+        <nav id="primary-navigation" aria-label="Primary" hidden>
+          <ul>
+            <li><a href="https://example.test/send">Send</a></li>
+            <li><a href="https://example.test/track">Track</a></li>
+            <li><a href="https://example.test/help">Help</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section aria-labelledby="expanded-control-heading">
+        <h2 id="expanded-control-heading">Expanded control</h2>
+        <button
+          type="button"
+          aria-expanded="true"
+          aria-controls="expanded-navigation"
+        >
+          More
+        </button>
+        <nav id="expanded-navigation" aria-label="Expanded sample">
+          <ul>
+            <li><a href="https://example.test/a">Alpha</a></li>
+            <li><a href="https://example.test/b">Beta</a></li>
+          </ul>
+        </nav>
+      </section>
+    </main>
+  </body>
+</html>

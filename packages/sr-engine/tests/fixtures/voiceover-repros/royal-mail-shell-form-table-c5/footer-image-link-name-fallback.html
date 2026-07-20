@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 footer image link name fallback</title>
+    <style>
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      footer {
+        max-width: 36rem;
+      }
+
+      .partner-links,
+      .legal-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0;
+      }
+
+      .partner-links li,
+      .legal-links li {
+        list-style: none;
+      }
+
+      img {
+        height: 32px;
+        width: 92px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root aria-label="neutral footer image link fallback repro">
+      <footer aria-labelledby="footer-heading">
+        <h2 id="footer-heading">Footer links</h2>
+
+        <section aria-labelledby="partners-heading">
+          <h3 id="partners-heading">Partners</h3>
+          <ul class="partner-links">
+            <li>
+              <a href="https://example.test/alpha">
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32' viewBox='0 0 92 32'%3E%3Crect width='92' height='32' fill='%23d9d9d9'/%3E%3C/svg%3E"
+                  alt=""
+                >
+              </a>
+            </li>
+            <li>
+              <a href="https://example.test/beta">
+                <span class="visually-hidden">Beta partner</span>
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32' viewBox='0 0 92 32'%3E%3Crect width='92' height='32' fill='%23ececec'/%3E%3C/svg%3E"
+                  alt=""
+                >
+              </a>
+            </li>
+            <li>
+              <a href="https://example.test/gamma" aria-label="Gamma partner">
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32' viewBox='0 0 92 32'%3E%3Crect width='92' height='32' fill='%23f5f5f5'/%3E%3C/svg%3E"
+                  alt=""
+                >
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <nav aria-label="Legal">
+          <ul class="legal-links">
+            <li><a href="https://example.test/terms">Terms</a></li>
+            <li><a href="https://example.test/privacy">Privacy</a></li>
+            <li><a href="https://example.test/help">Help</a></li>
+          </ul>
+        </nav>
+      </footer>
+    </main>
+  </body>
+</html>

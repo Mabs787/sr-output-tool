@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>List Marker Text Boundary C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      section { margin: 24px 0; }
+      li { margin: 10px 0; }
+      a { color: #0645ad; }
+      .literal-marker { margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-draft"
+      data-sr-repro-family="list-marker-text-boundary"
+    >
+      <h1>List marker text boundary</h1>
+
+      <section aria-labelledby="contents-heading">
+        <h2 id="contents-heading">Guide sections</h2>
+        <h3>Contents</h3>
+        <ol>
+          <li><a href="#alpha">Alpha task</a></li>
+          <li><a href="#beta">Beta task</a></li>
+          <li><a href="#gamma">Gamma task</a></li>
+          <li><a href="#delta">Delta task</a></li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="steps-heading">
+        <h2 id="steps-heading">Ordered steps</h2>
+        <ol>
+          <li>
+            Review the item summary before you continue.
+            <ul>
+              <li>Keep the short reference nearby.</li>
+            </ul>
+          </li>
+          <li>
+            Select the saved address and confirm the details.
+          </li>
+          <li>
+            Choose a slot and finish checkout.
+          </li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="term-heading">
+        <h2 id="term-heading">Nested terms</h2>
+        <ul>
+          <li>
+            The
+            <span>service option</span>
+            sets the available delivery choices.
+          </li>
+          <li>
+            The
+            <span>item description</span>
+            should be short and clear.
+          </li>
+          <li>
+            The
+            <span>quantity</span>
+            changes the total shown below.
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="control-heading">
+        <h2 id="control-heading">Controls</h2>
+        <p class="literal-marker">1. This is literal paragraph text, not a list marker.</p>
+        <p class="literal-marker">* This is literal paragraph text, not a list marker.</p>
+        <div role="list" aria-label="Custom list without native markers">
+          <div role="listitem">Custom item A</div>
+          <div role="listitem">Custom item B</div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neutral group link boundary C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      nav, section { margin-bottom: 18px; }
+      .group { border: 1px solid #777; padding: 12px; }
+      .row { display: flex; gap: 12px; align-items: center; }
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="group-link-boundary"
+      aria-label="C5 neutral group link boundary">
+      <nav aria-label="Utility">
+        <a href="#start">Start</a>
+        <a href="#help">Help</a>
+      </nav>
+
+      <section aria-labelledby="group-title">
+        <h1 id="group-title">Grouped links</h1>
+        <div class="group" role="group" aria-label="Account actions">
+          <a href="#start-task">Start task</a>
+          <span aria-hidden="true"> | </span>
+          <a href="#find-place">Find place</a>
+          <span class="visually-hidden">More account actions</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="plain-title">
+        <h2 id="plain-title">Plain links</h2>
+        <p class="row">
+          <a href="#status">View status</a>
+          <a href="#prices">Prices</a>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

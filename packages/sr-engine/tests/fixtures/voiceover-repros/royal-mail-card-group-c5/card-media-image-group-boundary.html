@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neutral card media image group boundary C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .cluster { display: grid; gap: 16px; }
+      .card { border: 1px solid #777; padding: 16px; }
+      .media { display: block; margin-bottom: 10px; }
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+      svg { display: block; height: 48px; width: 48px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="card-media-image-group-boundary"
+      aria-label="C5 neutral card media image group boundary">
+      <h1>Media card boundary</h1>
+      <section class="cluster" aria-label="Example cards">
+        <article class="card" aria-labelledby="card-a-title">
+          <span class="visually-hidden">Media label</span>
+          <a href="#card-a">
+            <span class="media" role="group" aria-label="Plan A media">
+              <svg role="img" aria-label="Plan A image" viewBox="0 0 48 48" focusable="false">
+                <rect x="6" y="6" width="36" height="36"></rect>
+              </svg>
+              <img alt="" src="missing-plan-a.png">
+            </span>
+            <h2 id="card-a-title">Plan A</h2>
+            <p>Use any time.</p>
+          </a>
+        </article>
+
+        <article class="card" aria-labelledby="card-b-title">
+          <span class="media" aria-hidden="true">
+            <svg aria-hidden="true" viewBox="0 0 48 48" focusable="false">
+              <circle cx="24" cy="24" r="18"></circle>
+            </svg>
+          </span>
+          <h2 id="card-b-title">Plan B</h2>
+          <p>Print label later.</p>
+          <a href="#card-b">Choose plan</a>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

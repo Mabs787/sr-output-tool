@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 header search static text before text field</title>
+    <style>
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      header {
+        max-width: 38rem;
+      }
+
+      form {
+        display: grid;
+        gap: 0.35rem;
+        margin-block: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root aria-label="neutral header search repro">
+      <header>
+        <nav aria-label="Account">
+          <a href="https://example.test/sign-in">Sign in</a>
+          <a href="https://example.test/register">Register</a>
+        </nav>
+
+        <form role="search" action="https://example.test/search" method="get">
+          <label for="site-search-primary">Search</label>
+          <input
+            id="site-search-primary"
+            name="q"
+            type="text"
+            placeholder="Search site"
+            autocomplete="off"
+            value=""
+          >
+          <input type="submit" value="Search">
+        </form>
+
+        <form role="search" action="https://example.test/tools/search" method="get">
+          <label for="site-search-secondary">Search</label>
+          <input
+            id="site-search-secondary"
+            name="q"
+            type="text"
+            placeholder="Search site"
+            autocomplete="off"
+            value=""
+          >
+          <input type="submit" value="Search">
+        </form>
+
+        <form role="search" action="https://example.test/hidden-label-search" method="get">
+          <label class="visually-hidden" for="negative-hidden-label-search">Search</label>
+          <input
+            id="negative-hidden-label-search"
+            name="q"
+            type="text"
+            placeholder="Search site"
+            autocomplete="off"
+            value=""
+          >
+          <button type="submit">Search</button>
+        </form>
+      </header>
+    </main>
+  </body>
+</html>

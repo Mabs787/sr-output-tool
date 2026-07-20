@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neutral product card more information button C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .cards { display: grid; gap: 16px; }
+      .product-card { border: 1px solid #777; padding: 16px; }
+      .price { display: block; margin: 8px 0; }
+      [hidden] { display: none; }
+      button { font: inherit; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="product-card-more-information-button"
+      aria-label="C5 neutral product card more information button">
+      <h1>Product cards</h1>
+      <section class="cards" aria-label="Product options">
+        <article class="product-card" aria-labelledby="product-a-title">
+          <h2 id="product-a-title">Option A</h2>
+          <p>Fast service.</p>
+          <span class="price">from GBP 4</span>
+          <button
+            type="button"
+            aria-expanded="false"
+            aria-controls="product-a-details">
+            More information
+          </button>
+          <div id="product-a-details" hidden>
+            <p>Tracking and signature included.</p>
+          </div>
+        </article>
+
+        <article class="product-card" aria-labelledby="product-b-title">
+          <h2 id="product-b-title">Option B</h2>
+          <p>Economy service.</p>
+          <span class="price">from GBP 2</span>
+          <a href="#buy-b">Buy option</a>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

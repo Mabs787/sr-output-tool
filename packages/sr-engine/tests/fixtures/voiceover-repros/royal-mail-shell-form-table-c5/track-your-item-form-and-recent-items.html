@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 tracking form and recent items</title>
+    <style>
+      form {
+        display: grid;
+        gap: 0.5rem;
+        max-width: 24rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root aria-label="neutral tracking form and recent items repro">
+      <section aria-labelledby="tracking-heading">
+        <h2 id="tracking-heading">Find item</h2>
+        <form action="https://example.test/find" method="get">
+          <label for="reference-input">Reference number*</label>
+          <input
+            id="reference-input"
+            name="reference"
+            type="text"
+            aria-label="Reference number"
+            placeholder="e.g. AB123456789XY"
+            value=""
+            autocomplete="off"
+          >
+          <div class="actions">
+            <button type="button">Cymraeg</button>
+            <button type="submit">Find item</button>
+          </div>
+        </form>
+      </section>
+
+      <section aria-labelledby="recent-heading">
+        <h2 id="recent-heading">Recently tracked items</h2>
+        <p><a href="https://example.test/sign-in">Sign in</a> to see saved items.</p>
+        <p>To save items, <a href="https://example.test/account">create an account</a>.</p>
+      </section>
+    </main>
+  </body>
+</html>

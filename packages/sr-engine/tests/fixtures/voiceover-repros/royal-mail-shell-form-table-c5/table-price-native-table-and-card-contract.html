@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 native table and card contract</title>
+    <style>
+      .cards {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        margin-block: 1rem;
+      }
+
+      article {
+        border: 1px solid #999;
+        padding: 0.75rem;
+      }
+
+      article img {
+        display: block;
+        height: 64px;
+        width: 100%;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-block: 1rem;
+      }
+
+      th,
+      td {
+        border: 1px solid #777;
+        padding: 0.5rem;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root aria-label="neutral native table card and list repro">
+      <nav aria-label="Breadcrumb">
+        <a href="https://example.test/">Home</a>
+        <span>Current page: </span>Prices
+      </nav>
+
+      <section aria-labelledby="price-heading">
+        <h2 id="price-heading">Prices</h2>
+        <table>
+          <caption>Sample prices</caption>
+          <thead>
+            <tr>
+              <th scope="col">Format</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Letter</th>
+              <td>
+                <p>up to</p>
+                <p><strong>100 g</strong></p>
+              </td>
+              <td>
+                <p>from</p>
+                <p><strong>1.00</strong></p>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Parcel</th>
+              <td>
+                <p>up to</p>
+                <p><strong>2 kg</strong></p>
+              </td>
+              <td>
+                <p>from</p>
+                <p><strong>4.00</strong></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="card-heading">
+        <h2 id="card-heading">Cards</h2>
+        <div class="cards">
+          <article>
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='96' viewBox='0 0 320 96'%3E%3Crect width='320' height='96' fill='%23dedede'/%3E%3C/svg%3E"
+              alt="sample card image"
+            >
+            <h3>Plan A</h3>
+            <p>Small item</p>
+            <p><strong>from 1.00</strong></p>
+            <a href="https://example.test/plan-a">Choose plan</a>
+          </article>
+          <article>
+            <h3>Plain card</h3>
+            <p>Text-only control</p>
+            <a href="https://example.test/plain-card">Choose plain card</a>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="list-heading">
+        <h2 id="list-heading">Lists</h2>
+        <ol>
+          <li>
+            Prepare item
+            <ul>
+              <li><a href="https://example.test/label">Print label</a></li>
+              <li><strong>Keep receipt</strong></li>
+            </ul>
+          </li>
+          <li>Drop item</li>
+        </ol>
+        <ul>
+          <li><a href="https://example.test/gift">Gift card</a> <strong>included</strong></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

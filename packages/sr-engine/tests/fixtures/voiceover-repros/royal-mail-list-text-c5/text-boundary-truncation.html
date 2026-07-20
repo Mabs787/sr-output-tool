@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Boundary Truncation C.5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      nav, section { margin: 24px 0; }
+      p { line-height: 1.45; }
+      .panel { border-left: 4px solid #777; padding-left: 14px; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-draft"
+      data-sr-repro-family="text-boundary-truncation"
+    >
+      <h1>Text boundary truncation</h1>
+
+      <nav aria-label="Utility links">
+        <a href="#send">Send item</a>
+        <a href="#drop">Drop item</a>
+        <a href="#help">Help center</a>
+      </nav>
+
+      <section aria-labelledby="plain-heading">
+        <h2 id="plain-heading">Long plain text</h2>
+        <p>
+          This paragraph keeps one continuous text node so the scan can compare
+          whether VoiceOver speaks the full sentence or stops part way through
+          the line before the next heading.
+        </p>
+        <h3>Date</h3>
+        <p>
+          Assuming one slot is available, the page shows several options and
+          asks the user to choose the time that works best.
+        </p>
+      </section>
+
+      <section aria-labelledby="inline-heading" class="panel">
+        <h2 id="inline-heading">Inline boundary</h2>
+        <p>
+          Depending on the option selected, the user may also choose a
+          <span>safe place</span>
+          at this point, and the page asks for any access notes that help the
+          visit go smoothly.
+        </p>
+        <h3>Bring label</h3>
+        <p>
+          If a printer is not available, the user can ask for a label to be
+          supplied at the door when the item is collected.
+        </p>
+      </section>
+
+      <section aria-labelledby="control-heading">
+        <h2 id="control-heading">Controls</h2>
+        <p>Short text should stay as one complete announcement.</p>
+        <p>
+          This sentence has an inline <strong>important phrase</strong> but is
+          short enough that truncation should not be needed.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
