@@ -555,6 +555,14 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           pushSupplementalText(parts, el, { skipDetails: true });
           break;
         }
+        if ((el as ElementDescriptor & { placeholderOnlyTextboxName?: boolean }).placeholderOnlyTextboxName && !value) {
+          const placeholderLabel = placeholderText ?? label;
+          pushIfPresent(parts, placeholderLabel ? `${placeholderLabel} edit text` : "edit text");
+          parts.push("blank");
+          pushAutocomplete(parts, el.autocomplete);
+          pushSupplementalText(parts, el);
+          break;
+        }
         pushIfPresent(
           parts,
           el.textboxPlaceholderBeforeRole && !value

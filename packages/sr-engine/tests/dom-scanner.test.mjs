@@ -341,6 +341,41 @@ test("scanSubtree uses AX URL fallback for empty-alt image-only links", () => {
   );
 });
 
+test("scanSubtree preserves image role for unnamed SVG-only AX URL fallback links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/" data-sr-dom-node-id="svg-root-link"><svg data-sr-dom-node-id="svg-root-image"></svg></a>
+        <a href="/" aria-label="Named home" data-sr-dom-node-id="named-svg-link"><svg data-sr-dom-node-id="named-svg-image"></svg></a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "svg-root-link",
+              role: "link",
+              name: "",
+              domNodeId: "svg-root-link",
+              properties: { focusable: true, url: "https://example.test/" },
+            },
+            {
+              nodeId: "named-svg-link",
+              role: "link",
+              name: "Named home",
+              domNodeId: "named-svg-link",
+              properties: { focusable: true, url: "https://example.test/" },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, image, https://example.test/",
+      "link, Named home",
+    ],
+  );
+});
+
 test("scanSubtree splits AX linebreak static text runs in inline text", () => {
   assert.deepEqual(
     scanHtml(
@@ -781,6 +816,49 @@ test("scanSubtree splits direct text and one inline link in generic div blocks",
   );
 });
 
+test("scanSubtree follows AX order for link-first article paragraphs", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <article>
+          <p data-sr-dom-node-id="recent-text"><a href="/sign-in" data-sr-dom-node-id="sign-in-link">Sign in</a> to see saved items.</p>
+        </article>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "recent-text",
+              childIds: ["link", "tail"],
+            },
+            {
+              nodeId: "link",
+              role: "link",
+              name: "Sign in",
+              domNodeId: "sign-in-link",
+              properties: { focusable: true, url: "https://example.test/sign-in" },
+            },
+            {
+              nodeId: "tail",
+              role: "StaticText",
+              name: " to see saved items.",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "article",
+      "link, Sign in",
+      "to see saved items.",
+      "end of, article",
+    ],
+  );
+});
+
 test("scanSubtree names native submit controls from AX-confirmed form values", () => {
   assert.deepEqual(
     scanHtml(
@@ -910,6 +988,38 @@ test("scanSubtree ignores native search-form shortcut when no label exists", () 
     [
       "input, edit text, Departure city",
       "button",
+    ],
+  );
+});
+
+test("scanSubtree places AX-confirmed placeholder-only textbox names before edit text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <form>
+          <input type="text" placeholder="Reference number e.g. CD123456789XY" value="" data-sr-dom-node-id="reference-input">
+          <a href="/reference-help">Where to find this</a>
+          <button type="submit">Check item</button>
+        </form>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "reference-input",
+              role: "textbox",
+              name: "Reference number e.g. CD123456789XY",
+              domNodeId: "reference-input",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Reference number e.g. CD123456789XY edit text, blank",
+      "link, Where to find this",
+      "Check item, button",
     ],
   );
 });

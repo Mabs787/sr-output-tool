@@ -1547,6 +1547,42 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return hasAssociatedLabelText(el);
   }
 
+  function isAxConfirmedPlaceholderOnlyTextboxName(
+    el: any,
+    stateEl: any,
+    role: string,
+    name?: string,
+    value?: string,
+  ): boolean {
+    if (role !== "textbox") return false;
+    if (el?.tagName?.toLowerCase() !== "input") return false;
+    const type = (el.getAttribute("type") || "text").toLowerCase();
+    if (type !== "text" && type !== "search") return false;
+    if (value) return false;
+    if (name || hasAssociatedLabelText(el)) return false;
+    if (
+      normalize(el.getAttribute("aria-label")) ||
+      normalize(el.getAttribute("aria-labelledby")) ||
+      normalize(el.getAttribute("title")) ||
+      normalize(el.getAttribute("aria-describedby")) ||
+      stateEl.required ||
+      stateEl.getAttribute("aria-required") === "true" ||
+      (stateEl.getAttribute("aria-invalid") &&
+        stateEl.getAttribute("aria-invalid") !== "false")
+    ) {
+      return false;
+    }
+
+    const placeholder = normalize(stateEl?.getAttribute?.("placeholder"));
+    if (!placeholder) return false;
+    const axNode = axNodeForElementRole(el, "textbox");
+    return Boolean(
+      axNode &&
+        axNode.properties?.focusable === true &&
+        normalize(axNode.name) === placeholder,
+    );
+  }
+
   function isAxConfirmedNativeSearchFormTextInput(el: any, role: string): boolean {
     if (role !== "textbox" && role !== "searchbox") return false;
     if (el?.tagName?.toLowerCase() !== "input") return false;
@@ -2304,7 +2340,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       url = new URL(href, document.baseURI);
     } catch {
       const axUrl = emptyNameAxUrl();
-      if (!axUrl || !hasOnlyEmptyAltImageLinkContent(el)) return undefined;
+      if (!axUrl || !hasOnlyEmptyImageRoleLinkContent(el)) return undefined;
       return labelFromUrl(axUrl) || axUrl.href;
     }
 
@@ -2312,7 +2348,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (slugLabel) return slugLabel;
 
     const axUrl = emptyNameAxUrl();
-    if (!axUrl || !hasOnlyEmptyAltImageLinkContent(el)) return undefined;
+    if (!axUrl || !hasOnlyEmptyImageRoleLinkContent(el)) return undefined;
     return labelFromUrl(axUrl) || axUrl.href;
   }
 
@@ -2326,6 +2362,49 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (image?.tagName?.toLowerCase() !== "img") return false;
     if (normalize(image.getAttribute("alt")) !== undefined) return false;
     return !normalize(readableText(el));
+  }
+
+  function hasOnlyEmptySvgImageLinkContent(el: any): boolean {
+    const visibleChildren = Array.from(el?.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (visibleChildren.length !== 1) return false;
+
+    const image = visibleChildren[0];
+    if (image?.tagName?.toLowerCase() !== "svg") return false;
+    if (normalize(image.getAttribute("aria-label")) || normalize(image.getAttribute("title"))) {
+      return false;
+    }
+    return !normalize(readableText(el));
+  }
+
+  function hasOnlyEmptyImageRoleLinkContent(el: any): boolean {
+    return hasOnlyEmptyAltImageLinkContent(el) || hasOnlyEmptySvgImageLinkContent(el);
+  }
+
+  function isEmptySvgImageOnlyAxUrlFallbackLink(
+    el: any,
+    role: string,
+    name?: string,
+  ): boolean {
+    if (role !== "link" || !name || !hasOnlyEmptySvgImageLinkContent(el)) return false;
+    const axNode = axNodeForElementRole(el, "link");
+    const axUrl = axNode?.properties?.url;
+    if (
+      !axNode ||
+      normalize(axNode.name) ||
+      axNode.properties?.focusable !== true ||
+      typeof axUrl !== "string" ||
+      !linkMatchesAxUrl(el, axNode)
+    ) {
+      return false;
+    }
+    try {
+      const url = new URL(axUrl);
+      return ["http:", "https:"].includes(url.protocol) && name === url.href;
+    } catch {
+      return false;
+    }
   }
 
   function buttonContentName(el: any): string | undefined {
@@ -9470,7 +9549,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       (link: any) => !isHidden(link),
     );
     if (links.length < 1) return undefined;
-    if (links.length === 1 && el.closest("article,[role='article']")) return undefined;
+    if (
+      links.length === 1 &&
+      el.closest("article,[role='article']") &&
+      (directElements[0] !== links[0] || normalizedAxRole(axChildren[0]?.role) !== "link")
+    ) {
+      return undefined;
+    }
     if (links.some((link: any) => !axNodeForElementRole(link, "link"))) {
       return undefined;
     }
@@ -13399,7 +13484,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : role === "button"
             ? nativeButtonSymbolSpacingName
             : undefined,
-      iconOnlyLink: role === "link" && isIconOnlyLink(el) || undefined,
+      iconOnlyLink:
+        role === "link" &&
+          (isIconOnlyLink(el) || isEmptySvgImageOnlyAxUrlFallbackLink(el, role, name)) ||
+        undefined,
       textlessCarouselPaginatorLink:
         role === "link" && isTextlessCarouselPaginatorLink(el) || undefined,
       precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : undefined,
@@ -13624,6 +13712,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       textboxPlaceholderBeforeRole:
         textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) ||
+        isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) ||
+        undefined,
+      placeholderOnlyTextboxName:
+        isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) ||
         undefined,
       footerCountrySelector:
         role === "combobox" && isFooterCountrySelector(el) ? true : undefined,

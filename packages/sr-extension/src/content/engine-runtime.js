@@ -468,6 +468,14 @@
                 pushSupplementalText(parts, el, { skipDetails: true });
                 break;
               }
+              if (el.placeholderOnlyTextboxName && !value) {
+                const placeholderLabel = placeholderText ?? label;
+                pushIfPresent(parts, placeholderLabel ? `${placeholderLabel} edit text` : "edit text");
+                parts.push("blank");
+                pushAutocomplete(parts, el.autocomplete);
+                pushSupplementalText(parts, el);
+                break;
+              }
               pushIfPresent(parts, el.textboxPlaceholderBeforeRole && !value ? [label, placeholderText].filter(Boolean).join(" ") : label);
               if (el.invalid) {
                 pushInvalidState(parts, el.invalid === true ? "data" : el.invalid);
@@ -2385,10 +2393,26 @@
             return false;
           return hasAssociatedLabelText(el);
         }
-        function isSearchLandmarkForm(form) {
-          if (!form || form.nodeType !== Node.ELEMENT_NODE || isHidden(form))
+        function isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) {
+          if (role !== "textbox")
             return false;
-          return Boolean(form.matches?.("form[role='search'], search, [role='search']"));
+          if (el?.tagName?.toLowerCase() !== "input")
+            return false;
+          const type = (el.getAttribute("type") || "text").toLowerCase();
+          if (type !== "text" && type !== "search")
+            return false;
+          if (value)
+            return false;
+          if (name || hasAssociatedLabelText(el))
+            return false;
+          if (normalize(el.getAttribute("aria-label")) || normalize(el.getAttribute("aria-labelledby")) || normalize(el.getAttribute("title")) || normalize(el.getAttribute("aria-describedby")) || stateEl.required || stateEl.getAttribute("aria-required") === "true" || stateEl.getAttribute("aria-invalid") && stateEl.getAttribute("aria-invalid") !== "false") {
+            return false;
+          }
+          const placeholder = normalize(stateEl?.getAttribute?.("placeholder"));
+          if (!placeholder)
+            return false;
+          const axNode = axNodeForElementRole(el, "textbox");
+          return Boolean(axNode && axNode.properties?.focusable === true && normalize(axNode.name) === placeholder);
         }
         function isAxConfirmedNativeSearchFormTextInput(el, role) {
           if (role !== "textbox" && role !== "searchbox")
@@ -2440,9 +2464,6 @@
             }
           }
           return true;
-        }
-        function isAxConfirmedNativeSearchLandmarkTextInput(el, role) {
-          return isSearchLandmarkForm(el.closest?.("form")) && isAxConfirmedNativeSearchFormTextInput(el, role);
         }
         function isNativeSearchFormLabelStopInput(el, role) {
           if (role !== "searchbox")
@@ -3060,7 +3081,7 @@
             url = new URL(href, document.baseURI);
           } catch {
             const axUrl2 = emptyNameAxUrl();
-            if (!axUrl2 || !hasOnlyEmptyAltImageLinkContent(el))
+            if (!axUrl2 || !hasOnlyEmptyImageRoleLinkContent(el))
               return void 0;
             return labelFromUrl(axUrl2) || axUrl2.href;
           }
@@ -3068,7 +3089,7 @@
           if (slugLabel)
             return slugLabel;
           const axUrl = emptyNameAxUrl();
-          if (!axUrl || !hasOnlyEmptyAltImageLinkContent(el))
+          if (!axUrl || !hasOnlyEmptyImageRoleLinkContent(el))
             return void 0;
           return labelFromUrl(axUrl) || axUrl.href;
         }
@@ -3082,6 +3103,36 @@
           if (normalize(image.getAttribute("alt")) !== void 0)
             return false;
           return !normalize(readableText(el));
+        }
+        function hasOnlyEmptySvgImageLinkContent(el) {
+          const visibleChildren = Array.from(el?.children || []).filter((child) => !isHidden(child));
+          if (visibleChildren.length !== 1)
+            return false;
+          const image = visibleChildren[0];
+          if (image?.tagName?.toLowerCase() !== "svg")
+            return false;
+          if (normalize(image.getAttribute("aria-label")) || normalize(image.getAttribute("title"))) {
+            return false;
+          }
+          return !normalize(readableText(el));
+        }
+        function hasOnlyEmptyImageRoleLinkContent(el) {
+          return hasOnlyEmptyAltImageLinkContent(el) || hasOnlyEmptySvgImageLinkContent(el);
+        }
+        function isEmptySvgImageOnlyAxUrlFallbackLink(el, role, name) {
+          if (role !== "link" || !name || !hasOnlyEmptySvgImageLinkContent(el))
+            return false;
+          const axNode = axNodeForElementRole(el, "link");
+          const axUrl = axNode?.properties?.url;
+          if (!axNode || normalize(axNode.name) || axNode.properties?.focusable !== true || typeof axUrl !== "string" || !linkMatchesAxUrl(el, axNode)) {
+            return false;
+          }
+          try {
+            const url = new URL(axUrl);
+            return ["http:", "https:"].includes(url.protocol) && name === url.href;
+          } catch {
+            return false;
+          }
         }
         function buttonContentName(el) {
           return nativeButtonDirectSpanTextName(el) || generatedPseudoName(el) || embeddedControlContentName(el);
@@ -9160,8 +9211,9 @@
           const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter((link) => !isHidden(link));
           if (links.length < 1)
             return void 0;
-          if (links.length === 1 && el.closest("article,[role='article']"))
+          if (links.length === 1 && el.closest("article,[role='article']") && (directElements[0] !== links[0] || normalizedAxRole(axChildren[0]?.role) !== "link")) {
             return void 0;
+          }
           if (links.some((link) => !axNodeForElementRole(link, "link"))) {
             return void 0;
           }
@@ -12210,7 +12262,7 @@
             headingFragments,
             headingFragmentCount,
             preserveSpaceBeforePunctuationName: role === "heading" ? axConfirmedSpaceBeforePunctuationHeadingName(el, role) : role === "button" ? nativeButtonSymbolSpacingName : void 0,
-            iconOnlyLink: role === "link" && isIconOnlyLink(el) || void 0,
+            iconOnlyLink: role === "link" && (isIconOnlyLink(el) || isEmptySvgImageOnlyAxUrlFallbackLink(el, role, name)) || void 0,
             textlessCarouselPaginatorLink: role === "link" && isTextlessCarouselPaginatorLink(el) || void 0,
             precedingControlLabel: role === "button" ? precedingControlLabelForButton(el) : void 0,
             fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || void 0,
@@ -12243,14 +12295,14 @@
             nativeControlLabelText: nativeButtonLabelStopText || nativeValueControlLabelStopText || axConfirmedNativeControlLabelStopText(el, role) || (shouldSplitCompositeNativeControlLabelStop(el, role) ? directAssociatedLabelText(el) : void 0),
             nativeSearchFormInputStop: isAxConfirmedNativeSearchFormTextInput(el, role) || shouldSplitNamedSingleControlFormInput(el, role) ? true : void 0,
             nativeSearchFormInputLabelStop: accessibilityNodes.length && isAxConfirmedNativeSearchFormTextInput(el, role) ? true : void 0,
-            nativeSearchLandmarkInputStop: isAxConfirmedNativeSearchLandmarkTextInput(el, role) || void 0,
             nativeFormInlineAlert: role === "alert" && Boolean(el.closest("form[aria-label], form[aria-labelledby]")) ? true : void 0,
             namedAlertBoundary: role === "alert" && isNamedAlertBoundary(el, role) ? true : void 0,
             suppressStatusRolePrefix: isPostFooterTextStatus(el, role) || void 0,
             textEntryArea: role === "textbox" && tag === "textarea" ? true : void 0,
             emailTextField: role === "textbox" && tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "email" ? true : void 0,
             secureTextField: role === "textbox" && tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "password" ? true : void 0,
-            textboxPlaceholderBeforeRole: textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) || void 0,
+            textboxPlaceholderBeforeRole: textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) || isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || void 0,
+            placeholderOnlyTextboxName: isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
             fieldsetPromptText: role === "group" ? fieldsetPromptText(el) : void 0,
             fieldsetLegendText: role === "group" ? radioImageFieldsetLegendText(el) || visuallyHiddenFieldsetLegendText(el) : void 0,
