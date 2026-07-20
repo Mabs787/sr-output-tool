@@ -6035,6 +6035,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function listLevel(el: any): number | undefined {
     if (groupedListItemCardContainerFor(el)) return undefined;
+    if (isInsideVisibleAxControlledRegion(el)) return undefined;
     let depth = 1;
     for (let current = el.parentElement; current; current = current.parentElement) {
       if (implicitRole(current) === "list") depth += 1;
@@ -13340,6 +13341,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "button" && isFooterLegalActionButton(el, role);
     const suppressNamedGroupCollapsedControlGroup =
       collapsedControlInNamedGroup(el, role, nativeDetailsSummary);
+    const collapsedVisibleControlledRegionButton =
+      controlsVisibleAxRegion(el, role);
     const nativeRangeValue = nativeRangeValueText(stateEl, role);
     const value =
       tag === "select"
@@ -13553,6 +13556,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               !suppressPositionedChoiceGroup &&
               el.hasAttribute("aria-label")) ||
             (role === "button" &&
+              collapsedVisibleControlledRegionButton) ||
+            (role === "button" &&
               el.hasAttribute("aria-expanded") &&
               !checkboxRoleButtonAccordionControl &&
               !nativeButtonLabelStopText &&
@@ -13591,6 +13596,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       richTextGroup:
         role === "group" && Boolean(richTextGroupText) || undefined,
       groupedCollectionPosition:
+        role === "button" &&
+          collapsedVisibleControlledRegionButton ||
         role === "button" &&
           Boolean(nativeDetailsSummary) ||
         role === "button" &&
@@ -14721,6 +14728,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
   function collapsedPopupController(container: any): any {
     if (!container?.id) return null;
+    if (isVisibleAxControlledRegion(container)) return null;
     const controlledBy = Array.from(
       document.querySelectorAll(`[aria-controls="${cssEscape(container.id)}"]`),
     ).filter(
@@ -14739,6 +14747,68 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (controller: any) => controller.getAttribute("aria-expanded") === "false",
       ) || null
     );
+  }
+
+  function isCollapsedButtonControllerForVisibleAxRegion(controller: any, region: any): boolean {
+    if (!controller || !region?.id) return false;
+    if (isHidden(controller) || isHidden(region)) return false;
+    if (implicitRole(controller) !== "button") return false;
+    if (parseBooleanAttribute(controller, "aria-expanded") !== false) return false;
+    if (!idRefsContain(controller.getAttribute("aria-controls"), region.id)) return false;
+
+    const buttonNode = axNodeForElementRole(controller, "button");
+    if (!buttonNode || buttonNode.properties?.expanded !== false) return false;
+
+    const regionNode = axNodeForElementRole(region, "region");
+    const regionName = normalize(regionNode?.name);
+    if (!regionNode || !regionName) return false;
+
+    const buttonName = normalize(buttonNode.name) ||
+      accessibleName(controller, "button") ||
+      readableText(controller);
+    return normalize(buttonName) === regionName;
+  }
+
+  function isVisibleAxControlledRegion(container: any): boolean {
+    if (!container?.id || isHidden(container)) return false;
+    if (implicitRole(container) !== "region") return false;
+
+    const regionNode = axNodeForElementRole(container, "region");
+    const regionName = normalize(regionNode?.name);
+    if (!regionNode || !regionName) return false;
+
+    const labelledBy = container.getAttribute("aria-labelledby");
+    if (!labelledBy) return false;
+
+    const controllers = labelledBy
+      .split(/\s+/)
+      .map((id) => resolveIdRef(id))
+      .filter(Boolean)
+      .filter((controller: any) =>
+        isCollapsedButtonControllerForVisibleAxRegion(controller, container),
+      );
+
+    return controllers.length > 0;
+  }
+
+  function controlsVisibleAxRegion(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (parseBooleanAttribute(el, "aria-expanded") !== false) return false;
+    const controls = normalize(el.getAttribute("aria-controls"));
+    if (!controls) return false;
+    return controls
+      .split(/\s+/)
+      .map((id) => resolveIdRef(id))
+      .filter(Boolean)
+      .some((region: any) =>
+        isVisibleAxControlledRegion(region) &&
+        isCollapsedButtonControllerForVisibleAxRegion(el, region),
+      );
+  }
+
+  function isInsideVisibleAxControlledRegion(el: any): boolean {
+    const region = el?.closest?.("[role='region'][id][aria-labelledby]");
+    return Boolean(region && region !== el && isVisibleAxControlledRegion(region));
   }
 
   function isInsideCollapsedPopup(el: any): boolean {

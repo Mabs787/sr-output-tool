@@ -5215,6 +5215,195 @@ test("scanSubtree keeps a group suffix on collapsed native buttons with visible 
   );
 });
 
+test("scanSubtree scans collapsed controlled regions when AX keeps the region visible", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "alpha-button-ax",
+        role: "button",
+        name: "Alpha",
+        domNodeId: "alpha-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "alpha-region" },
+      },
+      {
+        nodeId: "alpha-region-ax",
+        role: "region",
+        name: "Alpha",
+        domNodeId: "alpha-region",
+        tagName: "div",
+      },
+      {
+        nodeId: "epsilon-button-ax",
+        role: "button",
+        name: "Epsilon",
+        domNodeId: "epsilon-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "epsilon-region" },
+      },
+      {
+        nodeId: "zeta-button-ax",
+        role: "button",
+        name: "Zeta",
+        domNodeId: "zeta-button",
+        tagName: "div",
+        properties: { expanded: true, controls: "zeta-region" },
+      },
+      {
+        nodeId: "zeta-region-ax",
+        role: "region",
+        name: "Zeta",
+        domNodeId: "zeta-region",
+        tagName: "div",
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer>
+          <nav aria-label="Footer">
+            <div
+              id="alpha-button"
+              role="button"
+              aria-controls="alpha-region"
+              aria-expanded="false"
+              data-sr-dom-node-id="alpha-button"
+            >Alpha</div>
+            <div
+              id="alpha-region"
+              role="region"
+              aria-labelledby="alpha-button"
+              data-sr-dom-node-id="alpha-region"
+            >
+              <a href="/alpha-one">Alpha one</a>
+            </div>
+
+            <div
+              id="epsilon-button"
+              role="button"
+              aria-controls="epsilon-region"
+              aria-expanded="false"
+              data-sr-dom-node-id="epsilon-button"
+            >Epsilon</div>
+            <div
+              id="epsilon-region"
+              role="region"
+              aria-labelledby="epsilon-button"
+              hidden
+              data-sr-computed-hidden="display:none"
+            >
+              <a href="/hidden-one">Hidden one</a>
+            </div>
+
+            <div
+              id="zeta-button"
+              role="button"
+              aria-controls="zeta-region"
+              aria-expanded="true"
+              data-sr-dom-node-id="zeta-button"
+            >Zeta</div>
+            <div
+              id="zeta-region"
+              role="region"
+              aria-labelledby="zeta-button"
+              data-sr-dom-node-id="zeta-region"
+            >
+              <a href="/visible-one">Visible one</a>
+            </div>
+          </nav>
+        </footer>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "footer",
+      "Footer, navigation",
+      "Alpha, collapsed, button, group",
+      "Alpha, region",
+      "link, Alpha one",
+      "end of, Alpha, region",
+      "Epsilon, collapsed, button, group",
+      "Zeta, expanded, button, group",
+      "Zeta, region",
+      "link, Visible one",
+      "end of, Zeta, region",
+      "end of, Footer, navigation",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree keeps AX-visible collapsed controlled region lists at the VoiceOver level", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "alpha-button-ax",
+        role: "button",
+        name: "Alpha",
+        domNodeId: "alpha-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "alpha-region" },
+      },
+      {
+        nodeId: "alpha-region-ax",
+        role: "region",
+        name: "Alpha",
+        domNodeId: "alpha-region",
+        tagName: "div",
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer>
+          <nav aria-label="Footer">
+            <ul>
+              <li>
+                <div
+                  id="alpha-button"
+                  role="button"
+                  aria-controls="alpha-region"
+                  aria-expanded="false"
+                  data-sr-dom-node-id="alpha-button"
+                >Alpha</div>
+                <div
+                  id="alpha-region"
+                  role="region"
+                  aria-labelledby="alpha-button"
+                  data-sr-dom-node-id="alpha-region"
+                >
+                  <ul>
+                    <li><a href="/alpha-one">Alpha one</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </footer>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "footer",
+      "Footer, navigation",
+      "list 1 item",
+      "Alpha, collapsed, button, group",
+      "Alpha, region",
+      "list 1 item",
+      "link, Alpha one",
+      "end of list",
+      "end of, Alpha, region",
+      "end of list",
+      "end of, Footer, navigation",
+      "end of, footer",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX-confirmed leading-space heading fragments", () => {
   assert.deepEqual(
     scanHtml(
