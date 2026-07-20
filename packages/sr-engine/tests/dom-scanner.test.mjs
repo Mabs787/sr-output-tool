@@ -10864,15 +10864,238 @@ test("scanSubtree emits AX-confirmed marker and trailing text for mixed link lis
         },
       },
     ),
-    [
-      "list 1 item",
-      "•, 1 of 1",
-      "link, Alpha",
-      "• trailing text",
-      "end of list",
-    ],
-  );
-});
+	    [
+	      "list 1 item",
+	      "•, 1 of 1",
+	      "link, Alpha",
+	      "• trailing text",
+	      "end of list",
+	    ],
+	  );
+	});
+
+	test("scanSubtree splits AX-confirmed ordered markers before link list item content", () => {
+	  assert.deepEqual(
+	    scanHtml(
+	      `
+	        <ol data-sr-dom-node-id="10">
+	          <li
+	            data-sr-dom-node-id="11"
+	            data-sr-marker-content="normal"
+	            data-sr-marker-display="inline-block"
+	            data-sr-marker-list-style-type="decimal"
+	          ><a href="/buy" data-sr-dom-node-id="12">Buying your postage</a></li>
+	          <li
+	            data-sr-dom-node-id="13"
+	            data-sr-marker-content="normal"
+	            data-sr-marker-display="inline-block"
+	            data-sr-marker-list-style-type="decimal"
+	          ><a href="/print" data-sr-dom-node-id="14">Print your label</a></li>
+	        </ol>
+	      `,
+	      {
+	        accessibilityTree: {
+	          nodes: [
+	            {
+	              nodeId: "20",
+	              ignored: false,
+	              role: "list",
+	              name: "",
+	              domNodeId: "10",
+	              tagName: "ol",
+	              childIds: ["21", "24"],
+	            },
+	            {
+	              nodeId: "21",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "11",
+	              tagName: "li",
+	              childIds: ["22", "23"],
+	            },
+	            { nodeId: "22", ignored: false, role: "ListMarker", name: "1. " },
+	            {
+	              nodeId: "23",
+	              ignored: false,
+	              role: "link",
+	              name: "Buying your postage",
+	              domNodeId: "12",
+	              tagName: "a",
+	              properties: { focusable: true },
+	            },
+	            {
+	              nodeId: "24",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "13",
+	              tagName: "li",
+	              childIds: ["25", "26"],
+	            },
+	            { nodeId: "25", ignored: false, role: "ListMarker", name: "2. " },
+	            {
+	              nodeId: "26",
+	              ignored: false,
+	              role: "link",
+	              name: "Print your label",
+	              domNodeId: "14",
+	              tagName: "a",
+	              properties: { focusable: true },
+	            },
+	          ],
+	        },
+	      },
+	    ),
+	    [
+	      "list 2 items",
+	      "1.",
+	      "link, Buying your postage",
+	      "2.",
+	      "link, Print your label",
+	      "end of list",
+	    ],
+	  );
+	});
+
+	test("scanSubtree keeps AX-confirmed ordered plain text marker and item text together", () => {
+	  assert.deepEqual(
+	    scanHtml(
+	      `
+	        <ol data-sr-dom-node-id="10">
+	          <li
+	            data-sr-dom-node-id="11"
+	            data-sr-marker-content="normal"
+	            data-sr-marker-display="inline-block"
+	            data-sr-marker-list-style-type="decimal"
+	          >Pick up or print out a swap out form</li>
+	          <li
+	            data-sr-dom-node-id="12"
+	            data-sr-marker-content="normal"
+	            data-sr-marker-display="inline-block"
+	            data-sr-marker-list-style-type="decimal"
+	          >Complete your form</li>
+	        </ol>
+	      `,
+	      {
+	        accessibilityTree: {
+	          nodes: [
+	            {
+	              nodeId: "20",
+	              ignored: false,
+	              role: "list",
+	              name: "",
+	              domNodeId: "10",
+	              tagName: "ol",
+	              childIds: ["21", "24"],
+	            },
+	            {
+	              nodeId: "21",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "11",
+	              tagName: "li",
+	              childIds: ["22", "23"],
+	            },
+	            { nodeId: "22", ignored: false, role: "ListMarker", name: "1. " },
+	            {
+	              nodeId: "23",
+	              ignored: false,
+	              role: "StaticText",
+	              name: "Pick up or print out a swap out form",
+	            },
+	            {
+	              nodeId: "24",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "12",
+	              tagName: "li",
+	              childIds: ["25", "26"],
+	            },
+	            { nodeId: "25", ignored: false, role: "ListMarker", name: "2. " },
+	            {
+	              nodeId: "26",
+	              ignored: false,
+	              role: "StaticText",
+	              name: "Complete your form",
+	            },
+	          ],
+	        },
+	      },
+	    ),
+	    [
+	      "list 2 items",
+	      "1. Pick up or print out a swap out form, 1 of 2",
+	      "2. Complete your form, 2 of 2",
+	      "end of list",
+	    ],
+	  );
+	});
+
+	test("scanSubtree keeps simple AX-confirmed bullet leading text with its marker before a link", () => {
+	  assert.deepEqual(
+	    scanHtml(
+	      `
+	        <ul data-sr-dom-node-id="10">
+	          <li
+	            data-sr-dom-node-id="11"
+	            data-sr-marker-content="normal"
+	            data-sr-marker-display="inline-block"
+	            data-sr-marker-list-style-type="disc"
+	          >13 January - <a href="/issue" data-sr-dom-node-id="12">Stranger Things</a></li>
+	        </ul>
+	      `,
+	      {
+	        accessibilityTree: {
+	          nodes: [
+	            {
+	              nodeId: "20",
+	              ignored: false,
+	              role: "list",
+	              name: "",
+	              domNodeId: "10",
+	              tagName: "ul",
+	              childIds: ["21"],
+	            },
+	            {
+	              nodeId: "21",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "11",
+	              tagName: "li",
+	              childIds: ["22", "23", "24"],
+	            },
+	            { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+	            {
+	              nodeId: "23",
+	              ignored: false,
+	              role: "StaticText",
+	              name: "13 January - ",
+	            },
+	            {
+	              nodeId: "24",
+	              ignored: false,
+	              role: "link",
+	              name: "Stranger Things",
+	              domNodeId: "12",
+	              tagName: "a",
+	              properties: { focusable: true },
+	            },
+	          ],
+	        },
+	      },
+	    ),
+	    [
+	      "list 1 item",
+	      "• 13 January -, 1 of 1",
+	      "link, Stranger Things",
+	      "end of list",
+	    ],
+	  );
+	});
 
 test("scanSubtree emits AX-confirmed marker-only stops before link list item content", () => {
   assert.deepEqual(

@@ -7329,6 +7329,135 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       .filter((child): child is AccessibilityTreeNode => Boolean(child && !child.ignored));
   }
 
+  function nativeAxListMarkerText(markerNode?: AccessibilityTreeNode): string | undefined {
+    if (normalizedAxRole(markerNode?.role) !== "listmarker") return undefined;
+    const marker = normalize(markerNode?.name)?.replace(/\s+$/u, "");
+    if (!marker) return undefined;
+    if (/^\d+[.)]$/u.test(marker)) return marker;
+    return "•";
+  }
+
+  function nativeAxMarkerAnnouncement(
+    markerNode: AccessibilityTreeNode,
+    position?: number,
+    size?: number,
+  ): string | undefined {
+    const marker = nativeAxListMarkerText(markerNode);
+    if (!marker) return undefined;
+    if (/^\d+[.)]$/u.test(marker)) return marker;
+    return position && size ? `${marker}, ${position} of ${size}` : marker;
+  }
+
+  function axNativeMarkerListItemFragmentAnnouncements(el: any): string[] | undefined {
+    if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
+    if (el.getAttribute("data-sr-marker-content") !== "normal") return undefined;
+    const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
+    if (markerDisplay !== "inline" && markerDisplay !== "inline-block") return undefined;
+
+    const list = listForItem(el);
+    if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (list.closest("nav,[role='navigation']")) return undefined;
+    if (isMarkerSeparatedLinkList(list)) return undefined;
+    if (el.querySelector("ul, ol, dl, [role='list']")) return undefined;
+    if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return undefined;
+
+    const axListItem = axNodeForElementRole(el, "listitem");
+    if (normalize(axListItem?.name)) return undefined;
+    const axChildren = axChildNodes(axListItem);
+    if (axChildren.length < 2) return undefined;
+
+    const [markerNode, ...contentNodes] = axChildren;
+    const markerAnnouncement = nativeAxMarkerAnnouncement(
+      markerNode,
+      positionInSet(el, "listitem"),
+      setSize(el, "listitem"),
+    );
+    if (!markerAnnouncement) return undefined;
+
+    const domLinks = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
+      (link: any) =>
+        !isHidden(link) &&
+        link.closest("li,[role='listitem']") === el &&
+        link.closest("ul, ol, dl, [role='list']") === list,
+    );
+    if (
+      Array.from(el.querySelectorAll("button, [role='button'], input, select, textarea")).some(
+        (control: any) =>
+          !isHidden(control) &&
+          control.closest("li,[role='listitem']") === el &&
+          control.closest("ul, ol, dl, [role='list']") === list,
+      )
+    ) {
+      return undefined;
+    }
+
+    let linkIndex = 0;
+    let linkCount = 0;
+    let textCount = 0;
+    let disallowed = false;
+    const fragments: string[] = [];
+
+    function pushText(value?: string): void {
+      const text = normalize(value);
+      if (!text || !/[\p{L}\p{N}]/u.test(text)) return;
+      fragments.push(text);
+      textCount += 1;
+    }
+
+    function pushAxContent(node: AccessibilityTreeNode): void {
+      const role = normalizedAxRole(node.role);
+      if (role === "link") {
+        const link = domLinks[linkIndex];
+        const linkName = normalizeAnnouncementLabel(node.name);
+        if (
+          !link ||
+          !linkName ||
+          node.properties?.focusable !== true ||
+          normalize(node.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))
+        ) {
+          disallowed = true;
+          return;
+        }
+        fragments.push(`link, ${linkName}`);
+        linkIndex += 1;
+        linkCount += 1;
+        return;
+      }
+
+      if (role === "strong" || role === "emphasis") {
+        const children = axChildNodes(node);
+        if (!children.length) {
+          disallowed = true;
+          return;
+        }
+        for (const child of children) {
+          pushAxContent(child);
+          if (disallowed) return;
+        }
+        return;
+      }
+
+      if (role !== "statictext") {
+        disallowed = true;
+        return;
+      }
+      pushText(node.name);
+    }
+
+    for (const node of contentNodes) {
+      pushAxContent(node);
+      if (disallowed) return undefined;
+    }
+    if (linkIndex !== domLinks.length) return undefined;
+    if (!fragments.length) return undefined;
+
+    const marker = nativeAxListMarkerText(markerNode);
+    const isOrderedMarker = Boolean(marker && /^\d+[.)]$/u.test(marker));
+    if (!isOrderedMarker || !linkCount || textCount > 0) return undefined;
+
+    return [markerAnnouncement, ...fragments];
+  }
+
   function axMarkerOnlyListItemStopAnnouncement(el: any): string | undefined {
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
     if (el.getAttribute("data-sr-marker-content") !== "normal") return undefined;
@@ -7350,8 +7479,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (axChildren.length < 2) return undefined;
 
     const [markerNode, ...contentNodes] = axChildren;
-    if (normalizedAxRole(markerNode.role) !== "listmarker") return undefined;
-    if (!normalize(markerNode.name)) return undefined;
+    if (!nativeAxListMarkerText(markerNode)) return undefined;
     const linkTrailingTextAnnouncement =
       axMarkerLinkTrailingTextListItemAnnouncement(el);
 
@@ -7393,9 +7521,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
 
-    const position = positionInSet(el, "listitem");
-    const size = setSize(el, "listitem");
-    return position && size ? `•, ${position} of ${size}` : undefined;
+    return nativeAxMarkerAnnouncement(
+      markerNode,
+      positionInSet(el, "listitem"),
+      setSize(el, "listitem"),
+    );
   }
 
   function axMarkerOnlyListItemInlineTextAnnouncement(el: any): string | undefined {
@@ -7455,7 +7585,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (normalizedAxRole(markerNode.role) !== "listmarker") return undefined;
     if (normalizedAxRole(linkNode.role) !== "link") return undefined;
     if (normalizedAxRole(textNode.role) !== "statictext") return undefined;
-    if (normalize(markerNode.name)?.replace(/\s+$/g, "") !== "•") return undefined;
+    if (nativeAxListMarkerText(markerNode) !== "•") return undefined;
     if (linkNode.properties?.focusable !== true) return undefined;
     if (
       normalize(linkNode.domNodeId) !==
@@ -7929,7 +8059,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
     if (el.getAttribute("data-sr-marker-content") !== "normal") return undefined;
     if (el.getAttribute("data-sr-marker-display") !== "inline-block") return undefined;
-    if (normalize(el.getAttribute("data-sr-marker-list-style-type")) !== "disc") {
+    if (normalize(el.getAttribute("data-sr-marker-list-style-type")) === "none") {
       return undefined;
     }
 
@@ -7947,10 +8077,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (normalizedAxRole(markerNode.role) !== "listmarker") return undefined;
     if (normalizedAxRole(textNode.role) !== "statictext") return undefined;
 
-    const marker = normalize(markerNode.name).replace(/\s+$/g, "");
+    const marker = nativeAxListMarkerText(markerNode);
     const text = normalize(textNode.name);
     if (!marker || !text) return undefined;
-    if (marker !== "•") return undefined;
+    if (marker !== "•" && !/^\d+[.)]$/u.test(marker)) return undefined;
 
     const leadingText = directLeadingText(el);
     if (!leadingText || text !== leadingText) return undefined;
@@ -8016,7 +8146,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const [markerNode, textNode] = axChildren;
     if (normalizedAxRole(markerNode.role) !== "listmarker") return undefined;
     if (normalizedAxRole(textNode.role) !== "statictext") return undefined;
-    if (normalize(markerNode.name)?.replace(/\s+$/g, "") !== "•") return undefined;
+    const marker = nativeAxListMarkerText(markerNode);
+    if (!marker || (marker !== "•" && !/^\d+[.)]$/u.test(marker))) return undefined;
 
     const text = normalize(textNode.name);
     if (!text || text !== normalize(readableText(el))) return undefined;
@@ -8073,7 +8204,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const position = positionInSet(el, "listitem");
     const size = setSize(el, "listitem");
     const suffix = position && size ? `, ${position} of ${size}` : "";
-    return `• ${text}${suffix}`;
+    const axListItem = axNodeForElementRole(el, "listitem");
+    const marker = nativeAxListMarkerText(axChildNodes(axListItem)[0]);
+    if (!marker) return undefined;
+    return `${marker} ${text}${suffix}`;
   }
 
   function splitHeaderListItemParts(el: any):
@@ -13912,6 +14046,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       axInlineTwoLinkListItemAnnouncements:
         role === "listitem" ? axInlineTwoLinkListItemAnnouncements(el) : undefined,
+      axNativeMarkerListItemFragmentAnnouncements:
+        role === "listitem" ? axNativeMarkerListItemFragmentAnnouncements(el) : undefined,
       namedNavigationListItemGroupedLinkAnnouncements:
         role === "listitem" ? namedNavigationListItemGroupedLinkAnnouncements(el) : undefined,
       axPublicationListItemBoundaryAnnouncements:
@@ -14504,6 +14640,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return true;
     }
 
+    if (role === "listitem" && axNativeMarkerListItemFragmentAnnouncements(el)) {
+      return true;
+    }
+
+    if (role === "listitem" && axPlainTextMarkerListItemAnnouncement(el)) {
+      return true;
+    }
+
     if (role === "listitem" && nativeMarkerListItemAnnouncements(el)) {
       return true;
     }
@@ -14807,6 +14951,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return true;
     }
     if (role === "listitem") {
+      if (axNativeMarkerListItemFragmentAnnouncements(el)) return false;
       if (namedNavigationListItemGroupedLinkAnnouncements(el)) return false;
       if (savedRenderedPlainTextMarkerListItemAnnouncement(el)) return false;
       if (nativeMarkerListItemAnnouncements(el)) return nativeMarkerListItemShouldDescend(el);
@@ -15351,6 +15496,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
     return descriptor.axInlineTwoLinkListItemAnnouncements;
+  }
+
+  function splitAxNativeMarkerListItemFragmentAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "listitem" ||
+      !descriptor.axNativeMarkerListItemFragmentAnnouncements?.length
+    ) {
+      return undefined;
+    }
+    return descriptor.axNativeMarkerListItemFragmentAnnouncements;
   }
 
   function splitNamedNavigationListItemGroupedLinkAnnouncements(
@@ -16000,6 +16157,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           announcements: splitAxInlineTwoLinkListItemAnnouncements(descriptor),
         },
         {
+          source: "split-ax-native-marker-listitem-fragments",
+          announcements: splitAxNativeMarkerListItemFragmentAnnouncements(descriptor),
+        },
+        {
           source: "split-named-navigation-listitem-grouped-link",
           announcements: splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor),
         },
@@ -16368,7 +16529,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         }
 
         if (descriptor) {
-          if (descriptor.axMarkerLinkTrailingTextListItemAnnouncement) {
+          if (
+            descriptor.axMarkerLinkTrailingTextListItemAnnouncement &&
+            !descriptor.axNativeMarkerListItemFragmentAnnouncements?.length
+          ) {
             emitTraversalStop(id, {
               kind: "split",
               source: "ax-marker-link-trailing-text-list-item",

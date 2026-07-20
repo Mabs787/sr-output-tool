@@ -7273,6 +7273,117 @@
         function axChildNodes(node) {
           return (node?.childIds || []).map((childId) => accessibilityNodeById.get(normalize(childId) || "")).filter((child) => Boolean(child && !child.ignored));
         }
+        function nativeAxListMarkerText(markerNode) {
+          if (normalizedAxRole(markerNode?.role) !== "listmarker")
+            return void 0;
+          const marker = normalize(markerNode?.name)?.replace(/\s+$/u, "");
+          if (!marker)
+            return void 0;
+          if (/^\d+[.)]$/u.test(marker))
+            return marker;
+          return "\u2022";
+        }
+        function nativeAxMarkerAnnouncement(markerNode, position, size) {
+          const marker = nativeAxListMarkerText(markerNode);
+          if (!marker)
+            return void 0;
+          if (/^\d+[.)]$/u.test(marker))
+            return marker;
+          return position && size ? `${marker}, ${position} of ${size}` : marker;
+        }
+        function axNativeMarkerListItemFragmentAnnouncements(el) {
+          if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
+            return void 0;
+          if (el.getAttribute("data-sr-marker-content") !== "normal")
+            return void 0;
+          const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
+          if (markerDisplay !== "inline" && markerDisplay !== "inline-block")
+            return void 0;
+          const list = listForItem(el);
+          if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase()))
+            return void 0;
+          if (list.closest("nav,[role='navigation']"))
+            return void 0;
+          if (isMarkerSeparatedLinkList(list))
+            return void 0;
+          if (el.querySelector("ul, ol, dl, [role='list']"))
+            return void 0;
+          if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
+            return void 0;
+          const axListItem = axNodeForElementRole(el, "listitem");
+          if (normalize(axListItem?.name))
+            return void 0;
+          const axChildren = axChildNodes(axListItem);
+          if (axChildren.length < 2)
+            return void 0;
+          const [markerNode, ...contentNodes] = axChildren;
+          const markerAnnouncement = nativeAxMarkerAnnouncement(markerNode, positionInSet(el, "listitem"), setSize(el, "listitem"));
+          if (!markerAnnouncement)
+            return void 0;
+          const domLinks = Array.from(el.querySelectorAll("a[href], [role='link']")).filter((link) => !isHidden(link) && link.closest("li,[role='listitem']") === el && link.closest("ul, ol, dl, [role='list']") === list);
+          if (Array.from(el.querySelectorAll("button, [role='button'], input, select, textarea")).some((control) => !isHidden(control) && control.closest("li,[role='listitem']") === el && control.closest("ul, ol, dl, [role='list']") === list)) {
+            return void 0;
+          }
+          let linkIndex = 0;
+          let linkCount = 0;
+          let textCount = 0;
+          let disallowed = false;
+          const fragments = [];
+          function pushText(value) {
+            const text = normalize(value);
+            if (!text || !/[\p{L}\p{N}]/u.test(text))
+              return;
+            fragments.push(text);
+            textCount += 1;
+          }
+          function pushAxContent(node) {
+            const role = normalizedAxRole(node.role);
+            if (role === "link") {
+              const link = domLinks[linkIndex];
+              const linkName = normalizeAnnouncementLabel(node.name);
+              if (!link || !linkName || node.properties?.focusable !== true || normalize(node.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))) {
+                disallowed = true;
+                return;
+              }
+              fragments.push(`link, ${linkName}`);
+              linkIndex += 1;
+              linkCount += 1;
+              return;
+            }
+            if (role === "strong" || role === "emphasis") {
+              const children = axChildNodes(node);
+              if (!children.length) {
+                disallowed = true;
+                return;
+              }
+              for (const child of children) {
+                pushAxContent(child);
+                if (disallowed)
+                  return;
+              }
+              return;
+            }
+            if (role !== "statictext") {
+              disallowed = true;
+              return;
+            }
+            pushText(node.name);
+          }
+          for (const node of contentNodes) {
+            pushAxContent(node);
+            if (disallowed)
+              return void 0;
+          }
+          if (linkIndex !== domLinks.length)
+            return void 0;
+          if (!fragments.length)
+            return void 0;
+          const marker = nativeAxListMarkerText(markerNode);
+          const isOrderedMarker = Boolean(marker && /^\d+[.)]$/u.test(marker));
+          if (!isOrderedMarker || !linkCount || textCount > 0)
+            return void 0;
+          return [markerAnnouncement, ...fragments];
+        }
         function axMarkerOnlyListItemStopAnnouncement(el) {
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
             return void 0;
@@ -7302,9 +7413,7 @@
           if (axChildren.length < 2)
             return void 0;
           const [markerNode, ...contentNodes] = axChildren;
-          if (normalizedAxRole(markerNode.role) !== "listmarker")
-            return void 0;
-          if (!normalize(markerNode.name))
+          if (!nativeAxListMarkerText(markerNode))
             return void 0;
           const linkTrailingTextAnnouncement = axMarkerLinkTrailingTextListItemAnnouncement(el);
           const axLinks = contentNodes.filter((node) => normalizedAxRole(node.role) === "link");
@@ -7338,9 +7447,7 @@
               continue;
             return void 0;
           }
-          const position = positionInSet(el, "listitem");
-          const size = setSize(el, "listitem");
-          return position && size ? `\u2022, ${position} of ${size}` : void 0;
+          return nativeAxMarkerAnnouncement(markerNode, positionInSet(el, "listitem"), setSize(el, "listitem"));
         }
         function axMarkerOnlyListItemInlineTextAnnouncement(el) {
           if (!axMarkerOnlyListItemStopAnnouncement(el))
@@ -7395,7 +7502,7 @@
             return void 0;
           if (normalizedAxRole(textNode.role) !== "statictext")
             return void 0;
-          if (normalize(markerNode.name)?.replace(/\s+$/g, "") !== "\u2022")
+          if (nativeAxListMarkerText(markerNode) !== "\u2022")
             return void 0;
           if (linkNode.properties?.focusable !== true)
             return void 0;
@@ -7800,7 +7907,7 @@
             return void 0;
           if (el.getAttribute("data-sr-marker-display") !== "inline-block")
             return void 0;
-          if (normalize(el.getAttribute("data-sr-marker-list-style-type")) !== "disc") {
+          if (normalize(el.getAttribute("data-sr-marker-list-style-type")) === "none") {
             return void 0;
           }
           const list = listForItem(el);
@@ -7821,11 +7928,11 @@
             return void 0;
           if (normalizedAxRole(textNode.role) !== "statictext")
             return void 0;
-          const marker = normalize(markerNode.name).replace(/\s+$/g, "");
+          const marker = nativeAxListMarkerText(markerNode);
           const text = normalize(textNode.name);
           if (!marker || !text)
             return void 0;
-          if (marker !== "\u2022")
+          if (marker !== "\u2022" && !/^\d+[.)]$/u.test(marker))
             return void 0;
           const leadingText = directLeadingText(el);
           if (!leadingText || text !== leadingText)
@@ -7885,7 +7992,8 @@
             return void 0;
           if (normalizedAxRole(textNode.role) !== "statictext")
             return void 0;
-          if (normalize(markerNode.name)?.replace(/\s+$/g, "") !== "\u2022")
+          const marker = nativeAxListMarkerText(markerNode);
+          if (!marker || marker !== "\u2022" && !/^\d+[.)]$/u.test(marker))
             return void 0;
           const text = normalize(textNode.name);
           if (!text || text !== normalize(readableText(el)))
@@ -7919,7 +8027,11 @@
           const position = positionInSet(el, "listitem");
           const size = setSize(el, "listitem");
           const suffix = position && size ? `, ${position} of ${size}` : "";
-          return `\u2022 ${text}${suffix}`;
+          const axListItem = axNodeForElementRole(el, "listitem");
+          const marker = nativeAxListMarkerText(axChildNodes(axListItem)[0]);
+          if (!marker)
+            return void 0;
+          return `${marker} ${text}${suffix}`;
         }
         function splitHeaderListItemParts(el) {
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
@@ -12454,6 +12566,7 @@
             examplePreviewFrameAnnouncements: role === "link" ? previewFrameAnnouncementsForLink(el, role) : void 0,
             tabExpandedState: role === "tab" && (isPreviewFrameTab(el, role) || isCodePanelTab(el, role)) ? true : void 0,
             axInlineTwoLinkListItemAnnouncements: role === "listitem" ? axInlineTwoLinkListItemAnnouncements(el) : void 0,
+            axNativeMarkerListItemFragmentAnnouncements: role === "listitem" ? axNativeMarkerListItemFragmentAnnouncements(el) : void 0,
             namedNavigationListItemGroupedLinkAnnouncements: role === "listitem" ? namedNavigationListItemGroupedLinkAnnouncements(el) : void 0,
             axPublicationListItemBoundaryAnnouncements: role === "listitem" ? axPublicationListItemBoundaryAnnouncements(el) : void 0,
             axMixedInlineListItemAnnouncements: role === "listitem" ? axMixedInlineListItemAnnouncements(el) : void 0,
@@ -12921,6 +13034,12 @@
           if (role === "listitem" && axMarkerOnlyListItemStopAnnouncement(el)) {
             return true;
           }
+          if (role === "listitem" && axNativeMarkerListItemFragmentAnnouncements(el)) {
+            return true;
+          }
+          if (role === "listitem" && axPlainTextMarkerListItemAnnouncement(el)) {
+            return true;
+          }
           if (role === "listitem" && nativeMarkerListItemAnnouncements(el)) {
             return true;
           }
@@ -13116,6 +13235,8 @@
             return true;
           }
           if (role === "listitem") {
+            if (axNativeMarkerListItemFragmentAnnouncements(el))
+              return false;
             if (namedNavigationListItemGroupedLinkAnnouncements(el))
               return false;
             if (savedRenderedPlainTextMarkerListItemAnnouncement(el))
@@ -13481,6 +13602,12 @@
             return void 0;
           }
           return descriptor.axInlineTwoLinkListItemAnnouncements;
+        }
+        function splitAxNativeMarkerListItemFragmentAnnouncements(descriptor) {
+          if (descriptor.role !== "listitem" || !descriptor.axNativeMarkerListItemFragmentAnnouncements?.length) {
+            return void 0;
+          }
+          return descriptor.axNativeMarkerListItemFragmentAnnouncements;
         }
         function splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) {
           if (descriptor.role !== "listitem" || !descriptor.namedNavigationListItemGroupedLinkAnnouncements?.length) {
@@ -13917,6 +14044,10 @@
                 announcements: splitAxInlineTwoLinkListItemAnnouncements(descriptor)
               },
               {
+                source: "split-ax-native-marker-listitem-fragments",
+                announcements: splitAxNativeMarkerListItemFragmentAnnouncements(descriptor)
+              },
+              {
                 source: "split-named-navigation-listitem-grouped-link",
                 announcements: splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor)
               },
@@ -14220,7 +14351,7 @@
                   walk(child);
               }
               if (descriptor) {
-                if (descriptor.axMarkerLinkTrailingTextListItemAnnouncement) {
+                if (descriptor.axMarkerLinkTrailingTextListItemAnnouncement && !descriptor.axNativeMarkerListItemFragmentAnnouncements?.length) {
                   emitTraversalStop(id, {
                     kind: "split",
                     source: "ax-marker-link-trailing-text-list-item",
