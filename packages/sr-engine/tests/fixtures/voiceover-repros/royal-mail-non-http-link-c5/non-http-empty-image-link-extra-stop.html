@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 non-HTTP empty image link extra stop</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        line-height: 1.4;
+        margin: 2rem;
+      }
+
+      main,
+      footer {
+        max-width: 38rem;
+      }
+
+      footer[role="contentinfo"] {
+        margin-top: 1.5rem;
+      }
+
+      .partner-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .partner-item {
+        display: inline-block;
+      }
+
+      .logo-box {
+        background: #d6d6d6;
+        display: inline-block;
+        height: 32px;
+        width: 92px;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-sr-scan-root aria-label="neutral non-HTTP image link repro">
+      <main>
+        <nav aria-label="Breadcrumb">
+          <a href="https://example.test/">Home</a>
+          <span aria-current="page">Current page: Service page</span>
+        </nav>
+      </main>
+
+      <footer role="contentinfo">
+        <div>
+          <div>
+            <div class="partner-strip" aria-label="Partner links">
+              <div class="partner-item">
+                <a href="https://example.test/">
+                  <img class="logo-box" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32'%3E%3Crect width='92' height='32' fill='%23d6d6d6'/%3E%3C/svg%3E">
+                  <span class="is-hidden">Home partner</span>
+                </a>
+              </div>
+
+              <div class="partner-item">
+                <a href="javascript:void(0)">
+                  <img class="logo-box" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32'%3E%3Crect width='92' height='32' fill='%23bbbbbb'/%3E%3C/svg%3E">
+                  <span class="is-hidden">Hidden partner</span>
+                </a>
+              </div>
+
+              <div class="partner-item">
+                <a href="https://example.test/alert">
+                  <img class="logo-box" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32'%3E%3Crect width='92' height='32' fill='%23c8c8c8'/%3E%3C/svg%3E">
+                  <span class="is-hidden">Alert partner</span>
+                </a>
+              </div>
+
+              <div class="partner-item">
+                <a href="https://example.test/fund">
+                  <img class="logo-box" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32'%3E%3Crect width='92' height='32' fill='%23e3e3e3'/%3E%3C/svg%3E">
+                  <span class="is-hidden">Fund partner</span>
+                </a>
+              </div>
+
+              <div class="partner-item">
+                <a href="javascript:void(0)" aria-label="Named control">
+                  <img class="logo-box" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32'%3E%3Crect width='92' height='32' fill='%23eeeeee'/%3E%3C/svg%3E">
+                  <span class="is-hidden">Hidden named control</span>
+                </a>
+              </div>
+
+              <div class="partner-item">
+                <a href="javascript:void(0)">
+                  <img class="logo-box" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32'%3E%3Crect width='92' height='32' fill='%23f5f5f5'/%3E%3C/svg%3E">
+                  <span>Visible control</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <a href="https://example.test/terms">Terms</a>
+          <a href="https://example.test/privacy">Privacy</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
