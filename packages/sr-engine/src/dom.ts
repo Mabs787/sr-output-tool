@@ -1587,12 +1587,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (textControls.length !== 1 || textControls[0] !== el) return false;
 
     const submitControls = Array.from(
-      form.querySelectorAll("input[type='submit'], input[type='button'], input[type='reset']"),
+      form.querySelectorAll(
+        "input[type='submit'], input[type='button'], input[type='reset'], button:not([type]), button[type='submit'], button[type='button'], button[type='reset'], [role='button']",
+      ),
     ).filter((control: any) => !isHidden(control));
     if (submitControls.length !== 1) return false;
 
     const submitName =
       axConfirmedNativeInputButtonName(submitControls[0], "button") ||
+      accessibleName(submitControls[0], "button") ||
       normalize(submitControls[0].getAttribute("value") || submitControls[0].getAttribute("name"));
     if (submitName !== labelText) return false;
 
@@ -13115,6 +13118,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       articleHeadingName;
     const axNativeButtonSymbolSpacingName =
       role === "button" ? axConfirmedNativeButtonSymbolSpacingName(el, role, name) : undefined;
+    const axNativeInputButtonName =
+      role === "button" ? axConfirmedNativeInputButtonName(el, role) : undefined;
     const nativeButtonSymbolSpacingName =
       axNativeButtonSymbolSpacingName ||
       (role === "button" ? nativeButtonStandaloneSymbolSpacingName(el, role, name) : undefined);
@@ -13250,6 +13255,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       name:
         carouselControlName ||
         visibleTextEllipsisButtonName(el, role) ||
+        axNativeInputButtonName ||
         (nativeInputComboboxPlaceholderName ? undefined : announcementName) ||
         nativeSelectTitleName ||
         focusableFeedbackGroupText,
@@ -13588,6 +13594,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       nativeSearchFormInputStop:
         isAxConfirmedNativeSearchFormTextInput(el, role) ||
         shouldSplitNamedSingleControlFormInput(el, role)
+          ? true
+          : undefined,
+      nativeSearchFormInputLabelStop:
+        accessibilityNodes.length && isAxConfirmedNativeSearchFormTextInput(el, role)
           ? true
           : undefined,
       nativeFormInlineAlert:
@@ -14692,7 +14702,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         ].filter(Boolean).join(", ")}` : ""}`,
       );
       return [
-        descriptor.emailTextField ? label : undefined,
+        descriptor.emailTextField || descriptor.nativeSearchFormInputLabelStop ? label : undefined,
         announcement,
       ].filter((entry): entry is string => Boolean(entry));
     }

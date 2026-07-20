@@ -2385,6 +2385,11 @@
             return false;
           return hasAssociatedLabelText(el);
         }
+        function isSearchLandmarkForm(form) {
+          if (!form || form.nodeType !== Node.ELEMENT_NODE || isHidden(form))
+            return false;
+          return Boolean(form.matches?.("form[role='search'], search, [role='search']"));
+        }
         function isAxConfirmedNativeSearchFormTextInput(el, role) {
           if (role !== "textbox" && role !== "searchbox")
             return false;
@@ -2422,10 +2427,10 @@
           });
           if (textControls.length !== 1 || textControls[0] !== el)
             return false;
-          const submitControls = Array.from(form.querySelectorAll("input[type='submit'], input[type='button'], input[type='reset']")).filter((control) => !isHidden(control));
+          const submitControls = Array.from(form.querySelectorAll("input[type='submit'], input[type='button'], input[type='reset'], button:not([type]), button[type='submit'], button[type='button'], button[type='reset'], [role='button']")).filter((control) => !isHidden(control));
           if (submitControls.length !== 1)
             return false;
-          const submitName = axConfirmedNativeInputButtonName(submitControls[0], "button") || normalize(submitControls[0].getAttribute("value") || submitControls[0].getAttribute("name"));
+          const submitName = axConfirmedNativeInputButtonName(submitControls[0], "button") || accessibleName(submitControls[0], "button") || normalize(submitControls[0].getAttribute("value") || submitControls[0].getAttribute("name"));
           if (submitName !== labelText)
             return false;
           if (accessibilityNodes.length) {
@@ -2435,6 +2440,9 @@
             }
           }
           return true;
+        }
+        function isAxConfirmedNativeSearchLandmarkTextInput(el, role) {
+          return isSearchLandmarkForm(el.closest?.("form")) && isAxConfirmedNativeSearchFormTextInput(el, role);
         }
         function isNativeSearchFormLabelStopInput(el, role) {
           if (role !== "searchbox")
@@ -3000,42 +3008,80 @@
           const href = normalize(el.getAttribute("href"));
           if (!href || href.startsWith("#"))
             return void 0;
+          const labelFromUrl = (url2) => {
+            if (!["http:", "https:"].includes(url2.protocol))
+              return void 0;
+            const segments = url2.pathname.split("/").map((segment) => segment.trim()).filter(Boolean);
+            const lastSegment = segments.at(-1);
+            if (!lastSegment)
+              return void 0;
+            const decoded = decodeURIComponent(lastSegment).replace(/\.[a-z0-9]+$/i, "").replace(/_+/g, " ");
+            const acronymWords = /* @__PURE__ */ new Set([
+              "api",
+              "apis",
+              "css",
+              "dom",
+              "http",
+              "https",
+              "js",
+              "pwa",
+              "svg",
+              "ui",
+              "url",
+              "wai",
+              "wcag"
+            ]);
+            return normalize(decoded.split(/\s+/).map((word) => {
+              if (word.includes("-"))
+                return word;
+              const lower = word.toLowerCase();
+              if (acronymWords.has(lower))
+                return lower.toUpperCase();
+              return word;
+            }).join(" "));
+          };
+          const emptyNameAxUrl = () => {
+            const axNode = axNodeForElementRole(el, "link");
+            const axUrl2 = axNode?.properties?.url;
+            if (!axNode || normalize(axNode.name) || axNode.properties?.focusable !== true || typeof axUrl2 !== "string") {
+              return void 0;
+            }
+            try {
+              const url2 = new URL(axUrl2);
+              if (!["http:", "https:"].includes(url2.protocol))
+                return void 0;
+              return linkMatchesAxUrl(el, axNode) ? url2 : void 0;
+            } catch {
+              return void 0;
+            }
+          };
           let url;
           try {
             url = new URL(href, document.baseURI);
           } catch {
-            return void 0;
+            const axUrl2 = emptyNameAxUrl();
+            if (!axUrl2 || !hasOnlyEmptyAltImageLinkContent(el))
+              return void 0;
+            return labelFromUrl(axUrl2) || axUrl2.href;
           }
-          if (!["http:", "https:"].includes(url.protocol))
+          const slugLabel = labelFromUrl(url);
+          if (slugLabel)
+            return slugLabel;
+          const axUrl = emptyNameAxUrl();
+          if (!axUrl || !hasOnlyEmptyAltImageLinkContent(el))
             return void 0;
-          const segments = url.pathname.split("/").map((segment) => segment.trim()).filter(Boolean);
-          const lastSegment = segments.at(-1);
-          if (!lastSegment)
-            return void 0;
-          const decoded = decodeURIComponent(lastSegment).replace(/\.[a-z0-9]+$/i, "").replace(/_+/g, " ");
-          const acronymWords = /* @__PURE__ */ new Set([
-            "api",
-            "apis",
-            "css",
-            "dom",
-            "http",
-            "https",
-            "js",
-            "pwa",
-            "svg",
-            "ui",
-            "url",
-            "wai",
-            "wcag"
-          ]);
-          return normalize(decoded.split(/\s+/).map((word) => {
-            if (word.includes("-"))
-              return word;
-            const lower = word.toLowerCase();
-            if (acronymWords.has(lower))
-              return lower.toUpperCase();
-            return word;
-          }).join(" "));
+          return labelFromUrl(axUrl) || axUrl.href;
+        }
+        function hasOnlyEmptyAltImageLinkContent(el) {
+          const visibleChildren = Array.from(el?.children || []).filter((child) => !isHidden(child));
+          if (visibleChildren.length !== 1)
+            return false;
+          const image = visibleChildren[0];
+          if (image?.tagName?.toLowerCase() !== "img")
+            return false;
+          if (normalize(image.getAttribute("alt")) !== void 0)
+            return false;
+          return !normalize(readableText(el));
         }
         function buttonContentName(el) {
           return nativeButtonDirectSpanTextName(el) || generatedPseudoName(el) || embeddedControlContentName(el);
@@ -12075,6 +12121,7 @@
           const adjacentVersionTitleText = axAdjacentVersionTitleTextForFirstChild(el, role);
           const name = adjacentVersionTitleText || tableCellAbbrTitleButtonName(el, role) || axLinkedOfferHeadingName || axConfirmedTerminalPunctuationLinkedHeadingName(el, role) || accessibleRoleName || articleHeadingName;
           const axNativeButtonSymbolSpacingName = role === "button" ? axConfirmedNativeButtonSymbolSpacingName(el, role, name) : void 0;
+          const axNativeInputButtonName = role === "button" ? axConfirmedNativeInputButtonName(el, role) : void 0;
           const nativeButtonSymbolSpacingName = axNativeButtonSymbolSpacingName || (role === "button" ? nativeButtonStandaloneSymbolSpacingName(el, role, name) : void 0);
           const nativeSelectTitleName = tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : void 0;
           const linkContentNameForSpacing = role === "link" ? linkContentName(el) : void 0;
@@ -12120,7 +12167,7 @@
           const checkboxRoleButtonAccordionControl = isCheckboxRoleButtonAccordionControl(el, role);
           const descriptor = {
             role,
-            name: carouselControlName || visibleTextEllipsisButtonName(el, role) || (nativeInputComboboxPlaceholderName ? void 0 : announcementName) || nativeSelectTitleName || focusableFeedbackGroupText,
+            name: carouselControlName || visibleTextEllipsisButtonName(el, role) || axNativeInputButtonName || (nativeInputComboboxPlaceholderName ? void 0 : announcementName) || nativeSelectTitleName || focusableFeedbackGroupText,
             inferredArticleName: Boolean(role === "article" && articleHeadingName && !accessibleRoleName && announcementName === articleHeadingName),
             contextEndName,
             text,
@@ -12195,6 +12242,8 @@
             nativeFormControlLabelStop: Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitCompositeNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || shouldSplitVisibleRequiredPasswordLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) ? true : void 0,
             nativeControlLabelText: nativeButtonLabelStopText || nativeValueControlLabelStopText || axConfirmedNativeControlLabelStopText(el, role) || (shouldSplitCompositeNativeControlLabelStop(el, role) ? directAssociatedLabelText(el) : void 0),
             nativeSearchFormInputStop: isAxConfirmedNativeSearchFormTextInput(el, role) || shouldSplitNamedSingleControlFormInput(el, role) ? true : void 0,
+            nativeSearchFormInputLabelStop: accessibilityNodes.length && isAxConfirmedNativeSearchFormTextInput(el, role) ? true : void 0,
+            nativeSearchLandmarkInputStop: isAxConfirmedNativeSearchLandmarkTextInput(el, role) || void 0,
             nativeFormInlineAlert: role === "alert" && Boolean(el.closest("form[aria-label], form[aria-labelledby]")) ? true : void 0,
             namedAlertBoundary: role === "alert" && isNamedAlertBoundary(el, role) ? true : void 0,
             suppressStatusRolePrefix: isPostFooterTextStatus(el, role) || void 0,
@@ -12975,7 +13024,7 @@
               roleText
             ].filter(Boolean).join(", ")}` : ""}`);
             return [
-              descriptor.emailTextField ? label : void 0,
+              descriptor.emailTextField || descriptor.nativeSearchFormInputLabelStop ? label : void 0,
               announcement2
             ].filter((entry) => Boolean(entry));
           }

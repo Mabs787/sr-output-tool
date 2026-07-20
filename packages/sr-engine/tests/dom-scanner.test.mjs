@@ -813,6 +813,7 @@ test("scanSubtree names native submit controls from AX-confirmed form values", (
       },
     ),
     [
+      "Search",
       "Search Search Royal Mail, edit text",
       "Search, button",
     ],
@@ -829,6 +830,71 @@ test("scanSubtree names native submit controls from AX-confirmed form values", (
     [
       "Search Search Royal Mail, edit text",
       "button",
+    ],
+  );
+});
+
+test("scanSubtree emits label stops and submit names for AX-confirmed native search forms", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <form role="search">
+          <label for="primary-search">Search</label>
+          <input id="primary-search" type="text" placeholder="Search site" value="" data-sr-dom-node-id="primary-input">
+          <input type="submit" value="Search" data-sr-dom-node-id="primary-submit">
+        </form>
+        <form role="search">
+          <label for="secondary-search">Search</label>
+          <input id="secondary-search" type="text" placeholder="Search site" value="" data-sr-dom-node-id="secondary-input">
+          <button type="submit" data-sr-dom-node-id="secondary-submit">Search</button>
+        </form>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "primary-input",
+              role: "textbox",
+              name: "Search",
+              domNodeId: "primary-input",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "primary-submit",
+              role: "button",
+              name: "Search",
+              domNodeId: "primary-submit",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "secondary-input",
+              role: "textbox",
+              name: "Search",
+              domNodeId: "secondary-input",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "secondary-submit",
+              role: "button",
+              name: "Search",
+              domNodeId: "secondary-submit",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "search",
+      "Search",
+      "Search Search site, edit text",
+      "Search, button",
+      "end of, search",
+      "search",
+      "Search",
+      "Search Search site, edit text",
+      "Search, button",
+      "end of, search",
     ],
   );
 });
