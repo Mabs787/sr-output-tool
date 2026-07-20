@@ -626,6 +626,42 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalize(axNode.name) === buttonName;
   }
 
+  function isAxConfirmedCollapsedAnchorButtonWithoutGroup(
+    el: any,
+    role: string,
+    name?: string,
+  ): boolean {
+    if (role !== "button") return false;
+    if (el?.tagName?.toLowerCase() !== "a") return false;
+    if (el.getAttribute("role") !== "button") return false;
+    if (el.hasAttribute("href")) return false;
+    if (parseBooleanAttribute(el, "aria-expanded") !== false) return false;
+    if (normalizedPopup(el)) return false;
+
+    const axNode = axNodeForElementRole(el, "button");
+    if (!axNode || axNode.properties?.expanded !== false) return false;
+
+    const buttonName = normalize(axNode.name);
+    if (!buttonName) return false;
+    const descriptorName = normalize(name || accessibleName(el, role));
+    if (descriptorName && descriptorName !== buttonName && !descriptorName.includes(buttonName)) {
+      return false;
+    }
+
+    const children = Array.from(el.children || []);
+    if (!children.length) return false;
+
+    let hiddenTextChildCount = 0;
+    for (const child of children as any[]) {
+      if (isHidden(child)) {
+        const childText = normalize(child.textContent);
+        if (childText) hiddenTextChildCount += 1;
+      }
+    }
+
+    return hiddenTextChildCount >= 1;
+  }
+
   function axConfirmedNativeInputButtonName(el: any, role: string): string | undefined {
     if (role !== "button") return undefined;
     if (el?.tagName?.toLowerCase() !== "input") return undefined;
@@ -13341,6 +13377,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "button" && isFooterLegalActionButton(el, role);
     const suppressNamedGroupCollapsedControlGroup =
       collapsedControlInNamedGroup(el, role, nativeDetailsSummary);
+    const suppressCollapsedAnchorButtonGroup =
+      isAxConfirmedCollapsedAnchorButtonWithoutGroup(el, role, name);
     const collapsedVisibleControlledRegionButton =
       controlsVisibleAxRegion(el, role);
     const nativeRangeValue = nativeRangeValueText(stateEl, role);
@@ -13536,6 +13574,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           !suppressPaginationButtonGroup &&
           !suppressFooterLegalActionButtonGroup &&
           !suppressNamedGroupCollapsedControlGroup &&
+          !suppressCollapsedAnchorButtonGroup &&
           !(role === "button" && el.hasAttribute("aria-pressed")) &&
           (Boolean(headingButton) ||
             (role === "tab" && isControlledTablistTab(el, role)) ||

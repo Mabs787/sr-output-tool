@@ -9209,6 +9209,72 @@ test("scanSubtree preserves real whitespace between direct span fragments in nat
   );
 });
 
+test("scanSubtree omits group suffix for AX-confirmed collapsed anchor buttons with hidden alternate text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <article aria-labelledby="option-title">
+          <h2 id="option-title">Option A</h2>
+          <p>Fast service.</p>
+          <a role="button" aria-expanded="false" data-sr-dom-node-id="details-toggle">
+            <span>Details</span>
+            <span data-sr-computed-hidden="display:none">Hide details</span>
+            <span><svg aria-hidden="true" role="img"></svg></span>
+          </a>
+        </article>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "details-toggle-ax",
+              role: "button",
+              name: "Details",
+              domNodeId: "details-toggle",
+              tagName: "a",
+              properties: { expanded: false },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Option A, article",
+      "heading level 2, Option A",
+      "Fast service.",
+      "Details, collapsed, button",
+      "end of, Option A, article",
+    ],
+  );
+});
+
+test("scanSubtree keeps group suffix for ordinary collapsed anchor role buttons", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a role="button" aria-expanded="false" data-sr-dom-node-id="menu-toggle">
+          Menu
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "menu-toggle-ax",
+              role: "button",
+              name: "Menu",
+              domNodeId: "menu-toggle",
+              tagName: "a",
+              properties: { expanded: false },
+            },
+          ],
+        },
+      },
+    ),
+    ["Menu, collapsed, button, group"],
+  );
+});
+
 test("scanSubtree uses AX-confirmed spacing for compact adjacent span popup buttons", () => {
   assert.deepEqual(
     scanHtml(
