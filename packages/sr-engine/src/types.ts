@@ -138,6 +138,7 @@ export interface ElementDescriptor {
   footerInlineBoundaryTextFragments?: string[];
   figureMockupHeaderText?: string;
   axStaticTextRunFragments?: string[];
+  nativeTableCellTextFragments?: string[];
   axLineBreakTextFragments?: string[];
   inlineTextLinkFragments?: string[];
   inlinePhrasingBoundaryFragments?: string[];

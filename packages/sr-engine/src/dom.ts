@@ -402,9 +402,55 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       .filter((fragment): fragment is string => Boolean(fragment && /[\p{L}\p{N}]/u.test(fragment)));
     if (fragments.length < 2) return undefined;
     if (normalize(fragments.join(" ")) !== text) return undefined;
-    if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment))) return undefined;
+    if (!fragments.some((fragment) => /^\p{N}+(?:[.,]\p{N}+)?(?:\s*[\p{L}%]{1,4})?$/u.test(fragment))) return undefined;
     if (/^\S+\s+\p{N}+\s*[–-]\s*\p{N}+\s+of\s+\p{N}+$/iu.test(text)) return undefined;
     if (/^Showing\s+\p{N}+\s+of\s+\p{N}+\b/iu.test(text)) return undefined;
+
+    return fragments;
+  }
+
+  function nativeTableCellTextFragments(el: any, role: string): string[] | undefined {
+    if (!["cell", "gridcell"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (!["td", "th"].includes(el.tagName?.toLowerCase())) return undefined;
+    if (!accessibilityNodes.length) return undefined;
+    if (el.matches(interactiveSelector) || el.querySelector(interactiveSelector)) return undefined;
+
+    const table = el.closest("table");
+    if (!table || implicitRole(table) !== "table") return undefined;
+    if (tableHasInteractiveDescendant(table)) return undefined;
+
+    const visibleElementChildren = Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child),
+    );
+    if (visibleElementChildren.length < 2) return undefined;
+    if (
+      visibleElementChildren.some((child: any) => {
+        if (!["p", "div"].includes(child.tagName?.toLowerCase())) return true;
+        return child.querySelector(interactiveSelector);
+      })
+    ) {
+      return undefined;
+    }
+
+    const text = normalize(readableText(el));
+    if (!text) return undefined;
+
+    const axNode = axNodeForElementRole(el, role);
+    const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
+    if (axChildren.length < 2) return undefined;
+    if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
+      return undefined;
+    }
+
+    const fragments = axChildren
+      .map((child) => normalize(child.name))
+      .filter((fragment): fragment is string => Boolean(fragment && /[\p{L}\p{N}]/u.test(fragment)));
+    if (fragments.length < 2) return undefined;
+    if (normalize(fragments.join(" ")) !== text) return undefined;
+    if (!fragments.some((fragment) => /^\p{N}+(?:[.,]\p{N}+)?(?:\s*[\p{L}%]{1,4})?$/u.test(fragment))) {
+      return undefined;
+    }
 
     return fragments;
   }
@@ -13916,6 +13962,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           role,
           table.complexColumnHeaderContextText,
         ),
+      nativeTableCellTextFragments: nativeTableCellTextFragments(el, role),
       inlineEmphasisTextFragments: inlineEmphasisTextFragments(el, role),
       blockquoteInlineEmphasisFragments: blockquoteInlineEmphasisFragments(el, role),
       plainSpanOnlyBlockquote:
@@ -15668,6 +15715,31 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitNativeTableCellTextAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.nativeTableCellTextFragments;
+    if (
+      !["cell", "gridcell"].includes(descriptor.role || "") ||
+      !fragments?.length ||
+      descriptor.complexColumnHeaderContextText ||
+      descriptor.tableHasComplexColumnHeaders
+    ) {
+      return undefined;
+    }
+
+    const [firstFragment, ...remainingFragments] = fragments;
+    const firstAnnouncement = generateAnnouncement({
+      ...descriptor,
+      name: firstFragment,
+      text: firstFragment,
+    });
+
+    return [firstAnnouncement, ...remainingFragments].filter(
+      (announcement): announcement is string => Boolean(announcement),
+    );
+  }
+
   function splitAxLineBreakTextAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -16026,6 +16098,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-complex-column-header-context-cell",
           announcements: splitComplexColumnHeaderContextCellAnnouncements(descriptor),
+        },
+        {
+          source: "split-native-table-cell-text",
+          announcements: splitNativeTableCellTextAnnouncements(descriptor),
         },
         {
           source: "split-complex-column-header-text",

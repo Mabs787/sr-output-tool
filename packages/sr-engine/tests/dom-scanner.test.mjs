@@ -596,6 +596,40 @@ test("scanSubtree splits AX linebreak static text runs in inline text", () => {
   );
 });
 
+test("scanSubtree splits AX static text runs with numeric units", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div data-sr-dom-node-id="weight">up to 1kg</div>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "weight",
+              ignored: true,
+              role: "none",
+              domNodeId: "weight",
+              childIds: ["weight-prefix", "weight-value"],
+            },
+            {
+              nodeId: "weight-prefix",
+              role: "StaticText",
+              name: "up to ",
+            },
+            {
+              nodeId: "weight-value",
+              role: "StaticText",
+              name: "1kg",
+            },
+          ],
+        },
+      },
+    ),
+    ["up to", "1kg"],
+  );
+});
+
 test("scanSubtree keeps visible small status text as one stop", () => {
   assert.deepEqual(
     scanHtml(
@@ -2109,6 +2143,61 @@ test("scanSubtree includes native table captions and VoiceOver-style first-colum
       "20, column 2 of 2",
       "row 3 of 3 blank, column 1 of 2",
       "30, column 2 of 2",
+      "end of table",
+    ],
+  );
+});
+
+test("scanSubtree splits AX-confirmed native table cell child text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <table>
+          <thead>
+            <tr><th scope="col">Format</th><th scope="col">Weight</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Letter</th>
+              <td data-sr-dom-node-id="weight-cell">
+                <p>up to</p>
+                <p><strong>100 g</strong></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "weight-cell",
+              role: "cell",
+              name: "up to 100 g",
+              domNodeId: "weight-cell",
+              childIds: ["weight-prefix", "weight-value"],
+            },
+            {
+              nodeId: "weight-prefix",
+              role: "StaticText",
+              name: "up to",
+            },
+            {
+              nodeId: "weight-value",
+              role: "StaticText",
+              name: "100 g",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "table, 2 columns, 2 rows",
+      "Format, column 1 of 2",
+      "Weight Weight, column 2 of 2",
+      "row 2 of 2 Letter Format Letter, column 1 of 2",
+      "Weight up to, column 2 of 2",
+      "100 g",
       "end of table",
     ],
   );

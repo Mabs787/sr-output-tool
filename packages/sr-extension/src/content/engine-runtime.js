@@ -1357,12 +1357,58 @@
             return void 0;
           if (normalize(fragments.join(" ")) !== text)
             return void 0;
-          if (!fragments.some((fragment) => /^\p{N}+$/u.test(fragment)))
+          if (!fragments.some((fragment) => /^\p{N}+(?:[.,]\p{N}+)?(?:\s*[\p{L}%]{1,4})?$/u.test(fragment)))
             return void 0;
           if (/^\S+\s+\p{N}+\s*[–-]\s*\p{N}+\s+of\s+\p{N}+$/iu.test(text))
             return void 0;
           if (/^Showing\s+\p{N}+\s+of\s+\p{N}+\b/iu.test(text))
             return void 0;
+          return fragments;
+        }
+        function nativeTableCellTextFragments(el, role) {
+          if (!["cell", "gridcell"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (!["td", "th"].includes(el.tagName?.toLowerCase()))
+            return void 0;
+          if (!accessibilityNodes.length)
+            return void 0;
+          if (el.matches(interactiveSelector) || el.querySelector(interactiveSelector))
+            return void 0;
+          const table = el.closest("table");
+          if (!table || implicitRole(table) !== "table")
+            return void 0;
+          if (tableHasInteractiveDescendant(table))
+            return void 0;
+          const visibleElementChildren2 = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (visibleElementChildren2.length < 2)
+            return void 0;
+          if (visibleElementChildren2.some((child) => {
+            if (!["p", "div"].includes(child.tagName?.toLowerCase()))
+              return true;
+            return child.querySelector(interactiveSelector);
+          })) {
+            return void 0;
+          }
+          const text = normalize(readableText(el));
+          if (!text)
+            return void 0;
+          const axNode = axNodeForElementRole(el, role);
+          const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
+          if (axChildren.length < 2)
+            return void 0;
+          if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
+            return void 0;
+          }
+          const fragments = axChildren.map((child) => normalize(child.name)).filter((fragment) => Boolean(fragment && /[\p{L}\p{N}]/u.test(fragment)));
+          if (fragments.length < 2)
+            return void 0;
+          if (normalize(fragments.join(" ")) !== text)
+            return void 0;
+          if (!fragments.some((fragment) => /^\p{N}+(?:[.,]\p{N}+)?(?:\s*[\p{L}%]{1,4})?$/u.test(fragment))) {
+            return void 0;
+          }
           return fragments;
         }
         function axLineBreakTextFragments(el, role) {
@@ -12432,6 +12478,7 @@
             complexColumnHeaderColorGroupText: complexColumnHeaderColorGroupText(el, role),
             complexColumnHeaderTextFragments: complexColumnHeaderTextFragments(el, role),
             complexColumnHeaderContextCellTextFragments: complexColumnHeaderContextCellTextFragments(el, role, table.complexColumnHeaderContextText),
+            nativeTableCellTextFragments: nativeTableCellTextFragments(el, role),
             inlineEmphasisTextFragments: inlineEmphasisTextFragments(el, role),
             blockquoteInlineEmphasisFragments: blockquoteInlineEmphasisFragments(el, role),
             plainSpanOnlyBlockquote: role === "blockquote" && isPlainSpanOnlyBlockquote(el, role) ? true : void 0,
@@ -13654,6 +13701,19 @@
           }
           return fragments;
         }
+        function splitNativeTableCellTextAnnouncements(descriptor) {
+          const fragments = descriptor.nativeTableCellTextFragments;
+          if (!["cell", "gridcell"].includes(descriptor.role || "") || !fragments?.length || descriptor.complexColumnHeaderContextText || descriptor.tableHasComplexColumnHeaders) {
+            return void 0;
+          }
+          const [firstFragment, ...remainingFragments] = fragments;
+          const firstAnnouncement = generateAnnouncement2({
+            ...descriptor,
+            name: firstFragment,
+            text: firstFragment
+          });
+          return [firstAnnouncement, ...remainingFragments].filter((announcement) => Boolean(announcement));
+        }
         function splitAxLineBreakTextAnnouncements(descriptor) {
           const fragments = descriptor.axLineBreakTextFragments;
           if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
@@ -13955,6 +14015,10 @@
               {
                 source: "split-complex-column-header-context-cell",
                 announcements: splitComplexColumnHeaderContextCellAnnouncements(descriptor)
+              },
+              {
+                source: "split-native-table-cell-text",
+                announcements: splitNativeTableCellTextAnnouncements(descriptor)
               },
               {
                 source: "split-complex-column-header-text",
