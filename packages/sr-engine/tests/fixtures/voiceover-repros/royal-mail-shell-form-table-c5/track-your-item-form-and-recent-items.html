@@ -14,10 +14,91 @@
         display: flex;
         gap: 0.5rem;
       }
+
+      .shell-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0;
+      }
+
+      .shell-links li {
+        list-style: none;
+      }
+
+      .shell-links img {
+        height: 32px;
+        width: 92px;
+      }
     </style>
   </head>
   <body>
     <main data-sr-scan-root aria-label="neutral tracking form and recent items repro">
+      <section aria-labelledby="shell-heading">
+        <h2 id="shell-heading">Shared shell links</h2>
+        <ul class="shell-links">
+          <li>
+            <a href="https://portal.example.test/">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32' viewBox='0 0 92 32'%3E%3Crect width='92' height='32' fill='%23d9d9d9'/%3E%3C/svg%3E"
+                alt=""
+              >
+            </a>
+          </li>
+          <li>
+            <a href="https://guide.example.test/">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32' viewBox='0 0 92 32'%3E%3Crect width='92' height='32' fill='%23ececec'/%3E%3C/svg%3E"
+                alt=""
+              >
+            </a>
+          </li>
+          <li>
+            <a href="https://portal.example.test/" aria-label="Portal home">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='92' height='32' viewBox='0 0 92 32'%3E%3Crect width='92' height='32' fill='%23f5f5f5'/%3E%3C/svg%3E"
+                alt=""
+              >
+            </a>
+          </li>
+          <li><a href="https://guide.example.test/">Guide home</a></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="lookup-heading">
+        <h2 id="lookup-heading">Check reference</h2>
+        <form action="https://portal.example.test/check" method="get">
+          <input
+            id="lookup-reference"
+            name="refNumber"
+            type="text"
+            placeholder="Reference number e.g. CD123456789XY"
+            value=""
+            autocomplete="off"
+          >
+          <a href="https://guide.example.test/reference-help">Where to find this</a>
+          <button type="submit">Check item</button>
+        </form>
+
+        <h3 id="labeled-control-heading">Labeled control</h3>
+        <form
+          action="https://portal.example.test/labeled-check"
+          method="get"
+          aria-labelledby="labeled-control-heading"
+        >
+          <label for="labeled-reference">Reference number</label>
+          <input
+            id="labeled-reference"
+            name="labeledReference"
+            type="text"
+            placeholder="Reference number e.g. CD123456789XY"
+            value=""
+            autocomplete="off"
+          >
+          <button type="submit">Check labeled item</button>
+        </form>
+      </section>
+
       <section aria-labelledby="tracking-heading">
         <h2 id="tracking-heading">Find item</h2>
         <form action="https://example.test/find" method="get">
