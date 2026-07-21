@@ -38,8 +38,13 @@
         margin-block: 0 8px;
       }
 
+      ol,
       ul {
         margin-block: 8px 0;
+      }
+
+      .boundary-window {
+        margin-block: 16px;
       }
     </style>
   </head>
@@ -109,6 +114,103 @@
           <li><a href="https://example.test/sheets">Miniature sheets</a> - a distinctive alternative to the main set.</li>
           <li><strong>Prestige book</strong> - a keepsake combining design and narrative.</li>
         </ul>
+      </section>
+
+      <section aria-labelledby="ordered-nested-heading">
+        <h3 id="ordered-nested-heading">Positive control: ordered prefix with nested markers</h3>
+        <ol start="14" data-sr-repro-window="ordered-positive-01">
+          <li>
+            On this page, you can:
+            <ul>
+              <li>Add more entries to the sample collection.</li>
+              <li>Edit or remove entries from the collection.</li>
+              <li>Remove individual groups when they are no longer needed.</li>
+              <li>Review the collection before continuing.</li>
+              <li>Choose a date for the next review.</li>
+              <li>Confirm the details shown in the summary.</li>
+              <li>Return to the overview when finished.</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="paragraph-boundary-heading">
+        <h3 id="paragraph-boundary-heading">Positive control: paragraph boundaries before links and blocks</h3>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-01">
+          <p>
+            If a destination requires extra information, enter the package description, quantity, and value after choosing the service. The form then calculates a sample handling amount from the details provided and keeps the complete explanation in this paragraph.
+          </p>
+          <p><a href="https://example.test/details-one">Find out more about handling details</a>.</p>
+        </article>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-02">
+          <p>
+            Before completing the example request, check every name and reference shown in the summary because the final record uses the full text entered here. Corrections can still be made at this stage, and this sentence remains part of the same static text boundary.
+          </p>
+          <p><a href="https://example.test/details-two">Review the preparation guide</a>.</p>
+        </article>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-03">
+          <p>
+            A confirmation message appears after all required fields are complete and explains what happens during the next stage of the sample process. Keep the reference available until the review is finished, including this final sentence in the same paragraph.
+          </p>
+          <p>The next block starts with a separate status update.</p>
+        </article>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-04">
+          <p>
+            When several entries share one request, the overview combines their descriptions into a single readable summary before moving to the next section. Each entry remains available for editing, and this trailing sentence tests whether the complete paragraph is stitched together.
+          </p>
+          <p><a href="https://example.test/details-four">Open the entry overview</a>.</p>
+        </article>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-05">
+          <p>
+            The sample instructions describe how to package a small item, attach its generated label, and retain the reference supplied at the end. They also include a final qualification in this text node so the scan can distinguish truncation from an intentional block boundary.
+          </p>
+          <p>A separate note follows in the next paragraph.</p>
+        </article>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-06">
+          <p>
+            Use the generated label for the selected option and keep the receipt as well. The explanatory text continues with a neutral sentence about checking the destination and confirming the package details before the next link is reached.
+          </p>
+          <p><a href="https://example.test/label-one">View label guidance</a>.</p>
+        </article>
+
+        <article class="boundary-window" data-sr-repro-window="paragraph-positive-07">
+          <p>
+            Use the generated label for the alternate option and keep the receipt as well. This matching variant retains the same paragraph length and following-link structure while changing only neutral content needed to identify the second source window.
+          </p>
+          <p><a href="https://example.test/label-two">View alternate guidance</a>.</p>
+        </article>
+      </section>
+
+      <section aria-labelledby="residual-negative-heading">
+        <h3 id="residual-negative-heading">Negative control: same residual structures with short boundaries</h3>
+        <ol start="14" data-sr-control-for="ordered-positive-01">
+          <li>
+            Reference actions:
+            <ul>
+              <li>Add an entry.</li>
+              <li>Edit an entry.</li>
+              <li>Remove an entry.</li>
+              <li>Review an entry.</li>
+              <li>Choose a date.</li>
+              <li>Confirm details.</li>
+              <li>Return to overview.</li>
+            </ul>
+          </li>
+        </ol>
+        <article class="boundary-window" data-sr-control-for="paragraph-positive-01 paragraph-positive-02 paragraph-positive-03 paragraph-positive-04 paragraph-positive-05 paragraph-positive-06 paragraph-positive-07">
+          <p>Short paragraph text ends cleanly.</p>
+          <p><a href="https://example.test/short-guide">Open the short guide</a>.</p>
+        </article>
+        <article class="boundary-window" data-sr-control-for="paragraph-positive-03 paragraph-positive-05">
+          <p>Short block-boundary text ends cleanly.</p>
+          <p>A separate short note follows.</p>
+        </article>
       </section>
 
       <section aria-labelledby="negative-heading">

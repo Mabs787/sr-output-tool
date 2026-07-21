@@ -45,6 +45,20 @@
         border: 1px solid #555;
       }
 
+      [data-option-pair] {
+        padding: 12px;
+        border: 1px dashed #777;
+      }
+
+      [data-option-pair] article {
+        margin-inline: 0;
+      }
+
+      [data-scalar-row] {
+        display: flex;
+        gap: 6px;
+      }
+
       svg[role="img"],
       [aria-hidden="true"] svg {
         width: 30px;
@@ -94,6 +108,45 @@
             <p>Short body text.</p>
           </div>
         </article>
+
+        <div data-option-pair role="group" aria-labelledby="positive-option-pair-title">
+          <h3 id="positive-option-pair-title">Adjacent options</h3>
+
+          <article id="positive-option-offset-previous" role="article" aria-labelledby="positive-option-offset-previous-title">
+            <svg role="img" aria-label="first option marker" viewBox="0 0 60 36" focusable="false">
+              <rect x="4" y="4" width="52" height="28"></rect>
+            </svg>
+            <div role="group" aria-labelledby="positive-option-offset-previous-title">
+              <h4 id="positive-option-offset-previous-title">First size</h4>
+              <p data-scalar-row><span>up to</span><span>one unit</span></p>
+              <p>Example contents.</p>
+              <p data-scalar-row><span>from</span><span>two credits</span></p>
+            </div>
+          </article>
+
+          <article id="positive-option-offset-target" role="article" aria-labelledby="positive-option-offset-target-title">
+            <svg role="img" aria-label="second option marker" viewBox="0 0 60 36" focusable="false">
+              <circle cx="30" cy="18" r="14"></circle>
+            </svg>
+            <div role="group" aria-labelledby="positive-option-offset-target-title">
+              <h4 id="positive-option-offset-target-title">Second size</h4>
+              <p data-scalar-row><span>up to</span><span>three units</span></p>
+              <p>Example contents.</p>
+              <p data-scalar-row><span>from</span><span>four credits</span></p>
+            </div>
+          </article>
+        </div>
+
+        <article id="positive-title-subtitle" role="article" aria-labelledby="positive-title-subtitle-title">
+          <svg role="img" aria-label="collection picture" viewBox="0 0 60 36" focusable="false">
+            <path d="M4 28 L20 10 L30 20 L40 8 L56 28 Z"></path>
+          </svg>
+          <div role="group" aria-labelledby="positive-title-subtitle-title">
+            <h3 id="positive-title-subtitle-title">Sample collection</h3>
+            <p><span>Series note</span><span>A short description.</span></p>
+            <a href="#positive-title-subtitle">Sample collection</a>
+          </div>
+        </article>
       </section>
 
       <section aria-labelledby="negative-heading">
@@ -117,6 +170,45 @@
           <div role="group" aria-labelledby="negative-beta-title">
             <h3 id="negative-beta-title">Medium box</h3>
             <p>Holds two items.</p>
+          </div>
+        </article>
+
+        <div data-option-pair role="group" aria-labelledby="negative-option-pair-title">
+          <h3 id="negative-option-pair-title">Adjacent options</h3>
+
+          <article id="negative-option-offset-previous" role="article" aria-labelledby="negative-option-offset-previous-title">
+            <svg aria-hidden="true" viewBox="0 0 60 36" focusable="false">
+              <rect x="4" y="4" width="52" height="28"></rect>
+            </svg>
+            <div role="group" aria-labelledby="negative-option-offset-previous-title">
+              <h4 id="negative-option-offset-previous-title">First size</h4>
+              <p data-scalar-row><span>up to</span><span>one unit</span></p>
+              <p>Example contents.</p>
+              <p data-scalar-row><span>from</span><span>two credits</span></p>
+            </div>
+          </article>
+
+          <article id="negative-option-offset-target" role="article" aria-labelledby="negative-option-offset-target-title">
+            <svg aria-hidden="true" viewBox="0 0 60 36" focusable="false">
+              <circle cx="30" cy="18" r="14"></circle>
+            </svg>
+            <div role="group" aria-labelledby="negative-option-offset-target-title">
+              <h4 id="negative-option-offset-target-title">Second size</h4>
+              <p data-scalar-row><span>up to</span><span>three units</span></p>
+              <p>Example contents.</p>
+              <p data-scalar-row><span>from</span><span>four credits</span></p>
+            </div>
+          </article>
+        </div>
+
+        <article id="negative-title-subtitle" role="article" aria-labelledby="negative-title-subtitle-title">
+          <svg aria-hidden="true" viewBox="0 0 60 36" focusable="false">
+            <path d="M4 28 L20 10 L30 20 L40 8 L56 28 Z"></path>
+          </svg>
+          <div role="group" aria-labelledby="negative-title-subtitle-title">
+            <h3 id="negative-title-subtitle-title">Sample collection</h3>
+            <p><span>Series note</span><span>A short description.</span></p>
+            <a href="#negative-title-subtitle">Sample collection</a>
           </div>
         </article>
       </section>
