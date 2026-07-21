@@ -3346,6 +3346,110 @@ test("scanSubtree preserves AX-confirmed whitespace inside link names", () => {
   );
 });
 
+test("scanSubtree preserves AX-confirmed post-punctuation whitespace between link block descendants", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/redelivery" title="Missed a delivery?" data-sr-dom-node-id="redelivery-link">
+          <div>
+            <div><img alt=""></div>
+            <div><div>Missed a delivery?</div></div>
+            <div><div>Arrange to have your item redelivered.</div></div>
+          </div>
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "redelivery",
+              role: "link",
+              name: "Missed a delivery? Arrange to have your item redelivered.",
+              domNodeId: "redelivery-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    ["link, Missed a delivery? Arrange to have your item redelivered."],
+  );
+});
+
+test("scanSubtree limits AX link block-descendant spacing to guarded whitespace-only names", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <a href="/inline" data-sr-dom-node-id="inline-link">Need help?<span>Contact us</span></a>
+        <a href="/aria" aria-label="Need help? Contact us" data-sr-dom-node-id="aria-link">
+          <div>Need help?</div><div>Contact us</div>
+        </a>
+        <a href="/visible" data-sr-dom-node-id="visible-link">
+          <div>Visible title?</div><div>Visible body</div>
+        </a>
+        <a href="/hidden" style="display:none" data-sr-dom-node-id="hidden-link">
+          <div>Visible title?</div><div>Visible body</div>
+        </a>
+        <a href="/changed" data-sr-dom-node-id="changed-link">
+          <div>Need help?</div><div>Contact us</div>
+        </a>
+        <a href="/media" data-sr-dom-node-id="media-link">
+          <svg role="img" aria-label="Support icon"></svg>
+          <div>Need help?</div><div>Contact us</div>
+        </a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "inline",
+              role: "link",
+              name: "Need help? Contact us",
+              domNodeId: "inline-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "aria",
+              role: "link",
+              name: "Need help? Contact us",
+              domNodeId: "aria-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "hidden",
+              role: "link",
+              name: "Visible title? Visible body",
+              domNodeId: "hidden-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "changed",
+              role: "link",
+              name: "Need help? Email us",
+              domNodeId: "changed-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "media",
+              role: "link",
+              name: "Support icon Need help? Contact us",
+              domNodeId: "media-link",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, Need help?Contact us",
+      "link, Need help?Contact us",
+      "link, Visible title?Visible body",
+      "link, Need help?Contact us",
+      "link, Support icon Need help? Contact us",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX-confirmed short one-link paragraph tails", () => {
   assert.deepEqual(
     scanHtml(

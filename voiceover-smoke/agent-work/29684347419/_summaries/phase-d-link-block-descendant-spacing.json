@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "target": "www-royalmail-com",
+  "family": "link-accessible-name-block-descendant-spacing",
+  "candidateRef": "www-royalmail-com:current-window-5:e75:a72",
+  "status": "passed",
+  "startedAt": "2026-07-21T10:42:49Z",
+  "finishedAt": "2026-07-21T10:54:15Z",
+  "leasePath": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+  "leaseOwner": "top-level-codex-link-accessible-name-block-descendant-spacing-2026-07-21T10:42:49Z",
+  "leaseAcquiredAt": "2026-07-21T10:42:49Z",
+  "leaseReleasedAt": "2026-07-21T10:54:15Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "no-overlap",
+    "canonicalLeasePath": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "rootLeaseFileRemoved": true,
+    "summary": "Canonical lease had no active engine-refiner before this family; accidental root-level lease was transferred and deleted before release."
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/phase-d-engine-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/voiceover-refinement.md"
+    ],
+    "phaseCReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-link-block-descendant-spacing-final.json",
+    "renderedHtml": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com/scans/www-royalmail-com/rendered-html.html",
+    "accessibilityTree": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com/scans/www-royalmail-com/accessibility-tree.json",
+    "voiceoverSources": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com/scans/www-royalmail-com/voiceover-sources.json",
+    "engineTraversalDebug": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com/scans/www-royalmail-com/engine-traversal-debug.json",
+    "isolatedFixture": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com/www-royalmail-com.expected.json",
+    "existingTestsRead": "packages/sr-engine/tests/dom-scanner.test.mjs"
+  },
+  "decisions": [
+    "Implemented only the generic AX-backed focusable link name whitespace contract between separate visible block descendants.",
+    "Kept the existing linked-list-card post-punctuation collapse rule intact.",
+    "Did not modify refinedAnnouncements, raw expectedAnnouncements, fixture HTML, fixture AX, or promotion metadata.",
+    "Did not request Phase C.5 because Phase C evidence included initial DOM, same-DOM AX link role/name/focusable state, AX StaticText descendants, and VoiceOver source."
+  ],
+  "evidence": {
+    "before": {
+      "source": "phase-c-link-block-descendant-spacing-final.json",
+      "windowId": "current-window-5",
+      "actualIndex": 72,
+      "expectedIndex": 75,
+      "actual": "link, Missed a delivery?Arrange to have your item redelivered.",
+      "expected": "link, Missed a delivery? Arrange to have your item redelivered."
+    },
+    "after": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com yarn workspace @sr-output/engine voiceover:compare www-royalmail-com",
+      "expectedCount": 188,
+      "actualCount": 179,
+      "mismatchWindowCount": 10,
+      "scopedFamilyResolved": true,
+      "scopedFamilyLatestActual": "link, Missed a delivery? Arrange to have your item redelivered.",
+      "remainingWindowIndexes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "remainingWindowGroups": {
+        "list/marker": 8,
+        "role/structure": 2
+      }
+    },
+    "domAxContract": {
+      "domNodeId": "676",
+      "htmlShape": "native a[href] with title and separate visible descendant div text containers plus empty-alt image wrapper",
+      "axNodeId": "6285",
+      "axRole": "link",
+      "axFocusable": true,
+      "axName": "Missed a delivery? Arrange to have your item redelivered.",
+      "staticTextChildren": ["Missed a delivery?", "Arrange to have your item redelivered."],
+      "voiceOver": "link, Missed a delivery? Arrange to have your item redelivered."
+    }
+  },
+  "behaviorFixed": {
+    "summary": "Focusable links can now use the same-DOM AX link name when the AX and DOM descendant names differ only by whitespace and the missing whitespace is explained by separate visible block descendants.",
+    "guards": [
+      "role must be link and the matched AX node must also be a same-DOM link",
+      "AX node properties.focusable must be true",
+      "AX name and DOM descendant content name must differ only by whitespace",
+      "there must be at least two visible text fragments with distinct block-like boundary ancestors",
+      "explicit aria-label and aria-labelledby links are excluded",
+      "named image/media descendants are excluded from this new rule",
+      "hidden duplicate content is ignored by normal hidden traversal and same-DOM AX matching",
+      "existing linked-list-card post-punctuation collapse remains excluded",
+      "non-whitespace text changes are excluded"
+    ]
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-link-block-descendant-spacing.json"
+  ],
+  "fixtureChanges": [],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript engine build passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"AX-confirmed.*link|link block-descendant spacing|preserves DOM card spacing\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "23 focused link/card tests passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "399 tests: 343 passed, 56 skipped, 0 failed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Initial compare used the promoted corpus directory and failed because this target is an isolated run fixture, not promoted."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com yarn workspace @sr-output/engine voiceover:compare www-royalmail-com",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Homepage affected compare rerun against isolated fixture: scoped link spacing family resolved; target remains 188 expected, 179 actual, 10 unrelated mismatch windows."
+    },
+    {
+      "command": "protected exact compares: www-w3-org-wai-standards-guidelines-wcag, design-system-service-gov-uk-components-text-input, www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "All three protected exact fixtures stayed at 0 mismatch windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected candidate compare preserved known candidate state: 99 expected, 101 actual, 2 list/marker windows."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine and extension runtime bundle rebuilt successfully."
+    },
+    {
+      "command": "perl -e 'alarm shift; exec @ARGV' 240 yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 142,
+      "summary": "Bounded full corpus attempt hit the 240-second alarm with no terminal fixture output; this matches the run's known non-terminal full-corpus state recorded in pre-phase-d-baseline.json.",
+      "knownPreExistingState": "pre-phase-d-baseline.json records bounded full corpus timeout and exact-sweep pre-existing Microsoft mismatch/NHS timeout."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "out-of-scope-royal-mail-list-marker-and-role-structure-windows",
+      "currentWindowIndexes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "latestActual": "Remaining windows include header empty-region/group wording, hero list marker/tab state wording, missing article/frame/end boundary, footer collapsed button group suffixes, and Parcelforce final position wording.",
+      "latestExpected": "See latest isolated homepage compare in this receipt; none are the link-accessible-name-block-descendant-spacing family.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split and classify these out-of-scope Royal Mail windows independently before any further Phase D work.",
+      "blocker": "Current user scope allowed exactly one family only.",
+      "checksNeeded": ["target isolated compare", "family-specific Phase C evidence packet", "focused protected compares for any future engine rule"]
+    }
+  ],
+  "nextPhase": "complete",
+  "handoffReason": "Requested Phase D family is implemented and verified; remaining Royal Mail windows are outside this request.",
+  "handoffFrom": "phase-c-final-implementability-audit",
+  "handoffTo": "complete",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "No further work for link-accessible-name-block-descendant-spacing.",
+    "c5Needed": false,
+    "reason": "Scoped family resolved and guard checks passed."
+  }
+}

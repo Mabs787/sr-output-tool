@@ -3151,6 +3151,134 @@
           const punctuationCount = readableText(lastParagraph)?.match(/[.!?]/gu)?.length || 0;
           return punctuationCount >= 2;
         }
+        const linkNameBlockBoundaryTags = /* @__PURE__ */ new Set([
+          "address",
+          "article",
+          "aside",
+          "blockquote",
+          "dd",
+          "details",
+          "dialog",
+          "div",
+          "dl",
+          "dt",
+          "fieldset",
+          "figcaption",
+          "figure",
+          "footer",
+          "form",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "header",
+          "hr",
+          "li",
+          "main",
+          "nav",
+          "ol",
+          "p",
+          "pre",
+          "section",
+          "table",
+          "tbody",
+          "td",
+          "tfoot",
+          "th",
+          "thead",
+          "tr",
+          "ul"
+        ]);
+        function isLinkNameBlockBoundaryElement(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          const tag = el.tagName?.toLowerCase?.();
+          if (tag === "br")
+            return true;
+          if (linkNameBlockBoundaryTags.has(tag))
+            return true;
+          return ["article", "list", "listitem", "paragraph", "region", "table"].includes(implicitRole(el));
+        }
+        function linkNameBlockBoundaryAncestor(el, root) {
+          let current = el?.nodeType === Node.ELEMENT_NODE ? el : el?.parentElement;
+          while (current && current !== root) {
+            if (isLinkNameBlockBoundaryElement(current))
+              return current;
+            current = current.parentElement;
+          }
+          return void 0;
+        }
+        function hasNamedMediaDescendant(el) {
+          return Array.from(el?.querySelectorAll?.("img, svg, [role='img'], video, audio, canvas, iframe, object, embed") || []).some((media) => !isHidden(media) && Boolean(accessibleName(media, implicitRole(media))));
+        }
+        function visibleLinkTextBlockFragments(el) {
+          const fragments = [];
+          function collect(node) {
+            if (!node)
+              return;
+            if (node.nodeType === Node.TEXT_NODE) {
+              const text = normalize(node.textContent || "");
+              if (text) {
+                fragments.push({
+                  text,
+                  boundary: linkNameBlockBoundaryAncestor(node.parentElement, el)
+                });
+              }
+              return;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            if (node.matches("[aria-hidden='true']"))
+              return;
+            if (node.tagName?.toLowerCase?.() === "br") {
+              fragments.push({ text: "\n", boundary: node });
+              return;
+            }
+            for (const child of Array.from(node.childNodes || []))
+              collect(child);
+            for (const child of shadowContentChildren(node))
+              collect(child);
+          }
+          for (const child of Array.from(el.childNodes || []))
+            collect(child);
+          for (const child of shadowContentChildren(el))
+            collect(child);
+          return fragments.filter((fragment) => normalize(fragment.text));
+        }
+        function hasVisibleLinkTextBlockBoundary(el, name) {
+          const fragments = visibleLinkTextBlockFragments(el);
+          if (fragments.length < 2)
+            return false;
+          const compact = (value) => normalize(value)?.replace(/\s+/g, "");
+          if (compact(fragments.map((fragment) => fragment.text).join("")) !== compact(name)) {
+            return false;
+          }
+          return fragments.some((fragment, index) => {
+            if (index === 0)
+              return false;
+            const previous = fragments[index - 1];
+            return Boolean(previous.boundary && fragment.boundary && previous.boundary !== fragment.boundary);
+          });
+        }
+        function axBackedFocusableLinkBlockDescendantWhitespaceName(el, role, axName, contentName) {
+          if (role !== "link" || !axName || !contentName)
+            return void 0;
+          if (hasExplicitAriaName(el))
+            return void 0;
+          if (hasNamedMediaDescendant(el))
+            return void 0;
+          if (shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, axName))
+            return void 0;
+          const axNode = axNodeForElementRole(el, "link");
+          if (!axNode || axNode.properties?.focusable !== true)
+            return void 0;
+          const compact = (value) => normalize(value).replace(/\s+/g, "");
+          if (compact(axName) !== compact(contentName))
+            return void 0;
+          return hasVisibleLinkTextBlockBoundary(el, contentName) ? axName : void 0;
+        }
         function descendantLinkCardHeading(el) {
           return Array.from(el?.querySelectorAll?.("h1, h2, h3, h4, h5, h6, [role='heading']") || []).find((candidate) => !isHidden(candidate) && Boolean(readableText(candidate)));
         }
@@ -4844,11 +4972,13 @@
             return void 0;
           if (hasOffscreenColonSuffix(el))
             return void 0;
-          const axName = normalize(axNodeForElementRole(el, "link")?.name);
+          const axNode = axNodeForElementRole(el, "link");
+          const axName = normalize(axNode?.name);
           if (!axName || axName === name)
             return void 0;
-          if (postPunctuationWhitespaceCollapsedText(axName) === name)
+          if (postPunctuationWhitespaceCollapsedText(axName) === name && !axBackedFocusableLinkBlockDescendantWhitespaceName(el, role, axName, name)) {
             return void 0;
+          }
           const compact = (value) => normalize(value).replace(/\s+/g, "");
           return compact(axName) === compact(name) ? axName : void 0;
         }
@@ -13204,7 +13334,7 @@
           const axNativeInputButtonName = role === "button" ? axConfirmedNativeInputButtonName(el, role) : void 0;
           const nativeButtonSymbolSpacingName = axNativeButtonSymbolSpacingName || (role === "button" ? nativeButtonStandaloneSymbolSpacingName(el, role, name) : void 0);
           const nativeSelectTitleName = tag === "select" && !name ? normalize(stateEl.getAttribute("title")) : void 0;
-          const announcementName = axNativeButtonSymbolSpacingName || nativeButtonSymbolSpacingName || (role === "link" && linkContentNameForSpacing && postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing ? linkContentNameForSpacing : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name) ? finalPostPunctuationWhitespaceCollapsedText(name) : name);
+          const announcementName = axNativeButtonSymbolSpacingName || nativeButtonSymbolSpacingName || (role === "link" && linkContentNameForSpacing && postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing && !axBackedFocusableLinkBlockDescendantWhitespaceName(el, role, name, linkContentNameForSpacing) ? linkContentNameForSpacing : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name) ? finalPostPunctuationWhitespaceCollapsedText(name) : name);
           const nativeButtonLabelStopText = axConfirmedNativeButtonLabelStopText(el, role, name);
           const nativeDescriptorLabel = ["input", "select", "textarea", "meter", "progress"].includes(tag) ? labelForControl(stateEl) : void 0;
           const nativeInputComboboxPlaceholderName = role === "combobox" && tag === "input" && Boolean(normalize(stateEl.getAttribute("placeholder"))) && normalize(stateEl.getAttribute("placeholder")) === name && !nativeDescriptorLabel && !hasExplicitAriaName(stateEl);

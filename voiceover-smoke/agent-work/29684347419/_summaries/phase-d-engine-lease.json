@@ -4,12 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z",
-  "startedAt": "2026-07-21T06:29:07Z",
-  "adoptedBy": "top-level-codex-recovery-2026-07-21T10:39:06Z",
-  "adoptedAt": "2026-07-21T10:39:06Z",
-  "releasedAt": "2026-07-21T10:39:06Z",
-  "targetFamily": "native-li-inline-child-boundary-traversal",
+  "leaseOwner": "top-level-codex-link-accessible-name-block-descendant-spacing-2026-07-21T10:42:49Z",
+  "startedAt": "2026-07-21T10:42:49Z",
+  "adoptedBy": "",
+  "adoptedAt": "",
+  "releasedAt": "2026-07-21T10:54:15Z",
+  "targetFamily": "link-accessible-name-block-descendant-spacing",
+  "target": "www-royalmail-com",
+  "candidateRef": "www-royalmail-com:current-window-5:e75:a72",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -17,7 +19,7 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "no-overlap",
-    "evidence": "Recovered the only active lease left by interrupted owner codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z; user confirmed no other engine-refiner was active."
+    "evidence": "Before acquisition, the canonical lease file showed no active engine-refiner and only released/recovered prior history; the accidental root-level lease recorded the same start time and has been removed."
   },
   "leaseHistory": [
     {
@@ -35,6 +37,15 @@
       "adoptedAt": "2026-07-21T10:39:06Z",
       "releasedAt": "2026-07-21T10:39:06Z",
       "status": "recovered-and-released"
+    },
+    {
+      "leaseOwner": "top-level-codex-link-accessible-name-block-descendant-spacing-2026-07-21T10:42:49Z",
+      "target": "www-royalmail-com",
+      "candidateRef": "www-royalmail-com:current-window-5:e75:a72",
+      "targetFamily": "link-accessible-name-block-descendant-spacing",
+      "startedAt": "2026-07-21T10:42:49Z",
+      "releasedAt": "2026-07-21T10:54:15Z",
+      "status": "released"
     }
   ]
 }

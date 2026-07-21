@@ -2402,6 +2402,134 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return punctuationCount >= 2;
   }
 
+  const linkNameBlockBoundaryTags = new Set([
+    "address",
+    "article",
+    "aside",
+    "blockquote",
+    "dd",
+    "details",
+    "dialog",
+    "div",
+    "dl",
+    "dt",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hr",
+    "li",
+    "main",
+    "nav",
+    "ol",
+    "p",
+    "pre",
+    "section",
+    "table",
+    "tbody",
+    "td",
+    "tfoot",
+    "th",
+    "thead",
+    "tr",
+    "ul",
+  ]);
+
+  function isLinkNameBlockBoundaryElement(el: any): boolean {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+    const tag = el.tagName?.toLowerCase?.();
+    if (tag === "br") return true;
+    if (linkNameBlockBoundaryTags.has(tag)) return true;
+    return ["article", "list", "listitem", "paragraph", "region", "table"].includes(
+      implicitRole(el),
+    );
+  }
+
+  function linkNameBlockBoundaryAncestor(el: any, root: any): any | undefined {
+    let current = el?.nodeType === Node.ELEMENT_NODE ? el : el?.parentElement;
+    while (current && current !== root) {
+      if (isLinkNameBlockBoundaryElement(current)) return current;
+      current = current.parentElement;
+    }
+    return undefined;
+  }
+
+  function hasNamedMediaDescendant(el: any): boolean {
+    return Array.from(
+      el?.querySelectorAll?.("img, svg, [role='img'], video, audio, canvas, iframe, object, embed") ||
+        [],
+    ).some((media: any) => !isHidden(media) && Boolean(accessibleName(media, implicitRole(media))));
+  }
+
+  function visibleLinkTextBlockFragments(el: any): Array<{ text: string; boundary: any }> {
+    const fragments: Array<{ text: string; boundary: any }> = [];
+
+    function collect(node: any): void {
+      if (!node) return;
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = normalize(node.textContent || "");
+        if (text) {
+          fragments.push({
+            text,
+            boundary: linkNameBlockBoundaryAncestor(node.parentElement, el),
+          });
+        }
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      if (node.matches("[aria-hidden='true']")) return;
+      if (node.tagName?.toLowerCase?.() === "br") {
+        fragments.push({ text: "\n", boundary: node });
+        return;
+      }
+      for (const child of Array.from(node.childNodes || [])) collect(child);
+      for (const child of shadowContentChildren(node)) collect(child);
+    }
+
+    for (const child of Array.from(el.childNodes || [])) collect(child);
+    for (const child of shadowContentChildren(el)) collect(child);
+    return fragments.filter((fragment) => normalize(fragment.text));
+  }
+
+  function hasVisibleLinkTextBlockBoundary(el: any, name?: string): boolean {
+    const fragments = visibleLinkTextBlockFragments(el);
+    if (fragments.length < 2) return false;
+    const compact = (value?: string) => normalize(value)?.replace(/\s+/g, "");
+    if (compact(fragments.map((fragment) => fragment.text).join("")) !== compact(name)) {
+      return false;
+    }
+    return fragments.some((fragment, index) => {
+      if (index === 0) return false;
+      const previous = fragments[index - 1];
+      return Boolean(previous.boundary && fragment.boundary && previous.boundary !== fragment.boundary);
+    });
+  }
+
+  function axBackedFocusableLinkBlockDescendantWhitespaceName(
+    el: any,
+    role: string,
+    axName?: string,
+    contentName?: string,
+  ): string | undefined {
+    if (role !== "link" || !axName || !contentName) return undefined;
+    if (hasExplicitAriaName(el)) return undefined;
+    if (hasNamedMediaDescendant(el)) return undefined;
+    if (shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, axName)) return undefined;
+    const axNode = axNodeForElementRole(el, "link");
+    if (!axNode || axNode.properties?.focusable !== true) return undefined;
+    const compact = (value: string) => normalize(value).replace(/\s+/g, "");
+    if (compact(axName) !== compact(contentName)) return undefined;
+    return hasVisibleLinkTextBlockBoundary(el, contentName) ? axName : undefined;
+  }
+
   function descendantLinkCardHeading(el: any): any | undefined {
     return Array.from(
       el?.querySelectorAll?.("h1, h2, h3, h4, h5, h6, [role='heading']") || [],
@@ -4376,9 +4504,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   ): string | undefined {
     if (role !== "link" || !name || !accessibilityNodes.length) return undefined;
     if (hasOffscreenColonSuffix(el)) return undefined;
-    const axName = normalize(axNodeForElementRole(el, "link")?.name);
+    const axNode = axNodeForElementRole(el, "link");
+    const axName = normalize(axNode?.name);
     if (!axName || axName === name) return undefined;
-    if (postPunctuationWhitespaceCollapsedText(axName) === name) return undefined;
+    if (
+      postPunctuationWhitespaceCollapsedText(axName) === name &&
+      !axBackedFocusableLinkBlockDescendantWhitespaceName(el, role, axName, name)
+    ) {
+      return undefined;
+    }
     const compact = (value: string) => normalize(value).replace(/\s+/g, "");
     return compact(axName) === compact(name) ? axName : undefined;
   }
@@ -14408,7 +14542,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       nativeButtonSymbolSpacingName ||
       (role === "link" &&
       linkContentNameForSpacing &&
-      postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing
+      postPunctuationWhitespaceCollapsedText(name) === linkContentNameForSpacing &&
+      !axBackedFocusableLinkBlockDescendantWhitespaceName(
+        el,
+        role,
+        name,
+        linkContentNameForSpacing,
+      )
         ? linkContentNameForSpacing
         : shouldCollapseLinkedListCardPostPunctuationWhitespace(el, role, name)
           ? finalPostPunctuationWhitespaceCollapsedText(name)
