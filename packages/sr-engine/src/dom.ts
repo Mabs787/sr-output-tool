@@ -528,7 +528,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function nativeTableCellTextFragments(el: any, role: string): string[] | undefined {
     if (!["cell", "gridcell"].includes(role)) return undefined;
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
-    if (!["td", "th"].includes(el.tagName?.toLowerCase())) return undefined;
+    if (el.tagName?.toLowerCase() !== "td") return undefined;
     if (!accessibilityNodes.length) return undefined;
     if (el.matches(interactiveSelector) || el.querySelector(interactiveSelector)) return undefined;
 
@@ -539,32 +539,56 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const visibleElementChildren = Array.from(el.children || []).filter(
       (child: any) => !isHidden(child),
     );
-    if (visibleElementChildren.length < 2) return undefined;
+    if (!visibleElementChildren.length) return undefined;
     if (
       visibleElementChildren.some((child: any) => {
-        if (!["p", "div"].includes(child.tagName?.toLowerCase())) return true;
+        if (child.tagName?.toLowerCase() !== "p") return true;
         return child.querySelector(interactiveSelector);
       })
     ) {
       return undefined;
     }
+    const hasRichParagraphBoundary = visibleElementChildren.some((child: any) =>
+      Boolean(child.querySelector?.("strong,b,em,i")),
+    );
+    if (!hasRichParagraphBoundary) return undefined;
 
     const text = normalize(readableText(el));
     if (!text) return undefined;
 
     const axNode = axNodeForElementRole(el, role);
     const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
-    if (axChildren.length < 2) return undefined;
-    if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
-      return undefined;
+    if (!axChildren.length) return undefined;
+
+    const fragments: string[] = [];
+    let hasAxRichBoundary = false;
+
+    function visitAxCellText(current: AccessibilityTreeNode): boolean {
+      const currentRole = normalizedAxRole(current.role);
+      if (currentRole === "statictext") {
+        const fragment = normalize(current.name);
+        if (fragment && /[\p{L}\p{N}£$€]/u.test(fragment)) {
+          fragments.push(fragment);
+        }
+        return true;
+      }
+      if (!["paragraph", "strong", "emphasis", "generic"].includes(currentRole || "")) {
+        return false;
+      }
+      if (["strong", "emphasis"].includes(currentRole || "")) {
+        hasAxRichBoundary = true;
+      }
+      for (const child of axChildNodes(current).filter((child) => !child.ignored)) {
+        if (!visitAxCellText(child)) return false;
+      }
+      return true;
     }
 
-    const fragments = axChildren
-      .map((child) => normalize(child.name))
-      .filter((fragment): fragment is string => Boolean(fragment && /[\p{L}\p{N}]/u.test(fragment)));
+    if (axChildren.some((child) => !visitAxCellText(child))) return undefined;
     if (fragments.length < 2) return undefined;
-    if (normalize(fragments.join(" ")) !== text) return undefined;
-    if (!fragments.some((fragment) => /^\p{N}+(?:[.,]\p{N}+)?(?:\s*[\p{L}%]{1,4})?$/u.test(fragment))) {
+    if (!hasAxRichBoundary) return undefined;
+    if (!fragmentsAppearInTextOrder(fragments, text)) return undefined;
+    if (!fragments.some((fragment) => isScalarInlineBoundaryText(fragment))) {
       return undefined;
     }
 

@@ -1464,7 +1464,7 @@
             return void 0;
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
-          if (!["td", "th"].includes(el.tagName?.toLowerCase()))
+          if (el.tagName?.toLowerCase() !== "td")
             return void 0;
           if (!accessibilityNodes.length)
             return void 0;
@@ -1476,31 +1476,57 @@
           if (tableHasInteractiveDescendant(table))
             return void 0;
           const visibleElementChildren2 = Array.from(el.children || []).filter((child) => !isHidden(child));
-          if (visibleElementChildren2.length < 2)
+          if (!visibleElementChildren2.length)
             return void 0;
           if (visibleElementChildren2.some((child) => {
-            if (!["p", "div"].includes(child.tagName?.toLowerCase()))
+            if (child.tagName?.toLowerCase() !== "p")
               return true;
             return child.querySelector(interactiveSelector);
           })) {
             return void 0;
           }
+          const hasRichParagraphBoundary = visibleElementChildren2.some((child) => Boolean(child.querySelector?.("strong,b,em,i")));
+          if (!hasRichParagraphBoundary)
+            return void 0;
           const text = normalize(readableText(el));
           if (!text)
             return void 0;
           const axNode = axNodeForElementRole(el, role);
           const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
-          if (axChildren.length < 2)
+          if (!axChildren.length)
             return void 0;
-          if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
-            return void 0;
+          const fragments = [];
+          let hasAxRichBoundary = false;
+          function visitAxCellText(current) {
+            const currentRole = normalizedAxRole(current.role);
+            if (currentRole === "statictext") {
+              const fragment = normalize(current.name);
+              if (fragment && /[\p{L}\p{N}£$€]/u.test(fragment)) {
+                fragments.push(fragment);
+              }
+              return true;
+            }
+            if (!["paragraph", "strong", "emphasis", "generic"].includes(currentRole || "")) {
+              return false;
+            }
+            if (["strong", "emphasis"].includes(currentRole || "")) {
+              hasAxRichBoundary = true;
+            }
+            for (const child of axChildNodes(current).filter((child2) => !child2.ignored)) {
+              if (!visitAxCellText(child))
+                return false;
+            }
+            return true;
           }
-          const fragments = axChildren.map((child) => normalize(child.name)).filter((fragment) => Boolean(fragment && /[\p{L}\p{N}]/u.test(fragment)));
+          if (axChildren.some((child) => !visitAxCellText(child)))
+            return void 0;
           if (fragments.length < 2)
             return void 0;
-          if (normalize(fragments.join(" ")) !== text)
+          if (!hasAxRichBoundary)
             return void 0;
-          if (!fragments.some((fragment) => /^\p{N}+(?:[.,]\p{N}+)?(?:\s*[\p{L}%]{1,4})?$/u.test(fragment))) {
+          if (!fragmentsAppearInTextOrder(fragments, text))
+            return void 0;
+          if (!fragments.some((fragment) => isScalarInlineBoundaryText(fragment))) {
             return void 0;
           }
           return fragments;

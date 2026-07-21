@@ -2269,8 +2269,19 @@ test("scanSubtree splits AX-confirmed native table cell child text", () => {
             <tr>
               <th scope="row">Letter</th>
               <td data-sr-dom-node-id="weight-cell">
-                <p>up to</p>
-                <p><strong>100 g</strong></p>
+                <p data-sr-dom-node-id="weight-prefix-p">up to <strong data-sr-dom-node-id="weight-value-strong">100 g</strong></p>
+                <p data-sr-dom-node-id="weight-express-p">express<strong data-sr-dom-node-id="weight-express-strong">24 </strong>from <strong data-sr-dom-node-id="weight-price-strong">£12.50</strong></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <tbody>
+            <tr>
+              <td>Plain</td>
+              <td data-sr-dom-node-id="plain-cell">
+                <p data-sr-dom-node-id="plain-a">Plan C from 1.00</p>
+                <p data-sr-dom-node-id="plain-b">Tracked C from 6.00</p>
               </td>
             </tr>
           </tbody>
@@ -2282,19 +2293,96 @@ test("scanSubtree splits AX-confirmed native table cell child text", () => {
             {
               nodeId: "weight-cell",
               role: "cell",
-              name: "up to 100 g",
+              name: "up to 100 g express24 from £12.50",
               domNodeId: "weight-cell",
-              childIds: ["weight-prefix", "weight-value"],
+              childIds: ["weight-prefix-p", "weight-express-p"],
+            },
+            {
+              nodeId: "weight-prefix-p",
+              role: "paragraph",
+              name: "",
+              domNodeId: "weight-prefix-p",
+              childIds: ["weight-prefix", "weight-value-strong"],
             },
             {
               nodeId: "weight-prefix",
               role: "StaticText",
-              name: "up to",
+              name: "up to ",
+            },
+            {
+              nodeId: "weight-value-strong",
+              role: "strong",
+              name: "",
+              domNodeId: "weight-value-strong",
+              childIds: ["weight-value"],
             },
             {
               nodeId: "weight-value",
               role: "StaticText",
               name: "100 g",
+            },
+            {
+              nodeId: "weight-express-p",
+              role: "paragraph",
+              name: "",
+              domNodeId: "weight-express-p",
+              childIds: [
+                "weight-express-text",
+                "weight-express-strong",
+                "weight-from-text",
+                "weight-price-strong",
+              ],
+            },
+            {
+              nodeId: "weight-express-text",
+              role: "StaticText",
+              name: "express",
+            },
+            {
+              nodeId: "weight-express-strong",
+              role: "strong",
+              name: "",
+              domNodeId: "weight-express-strong",
+              childIds: ["weight-express-value"],
+            },
+            {
+              nodeId: "weight-express-value",
+              role: "StaticText",
+              name: "24 ",
+            },
+            {
+              nodeId: "weight-from-text",
+              role: "StaticText",
+              name: "from ",
+            },
+            {
+              nodeId: "weight-price-strong",
+              role: "strong",
+              name: "",
+              domNodeId: "weight-price-strong",
+              childIds: ["weight-price"],
+            },
+            {
+              nodeId: "weight-price",
+              role: "StaticText",
+              name: "£12.50",
+            },
+            {
+              nodeId: "plain-cell",
+              role: "cell",
+              name: "Plan C from 1.00 Tracked C from 6.00",
+              domNodeId: "plain-cell",
+              childIds: ["plain-a-text", "plain-b-text"],
+            },
+            {
+              nodeId: "plain-a-text",
+              role: "StaticText",
+              name: "Plan C from 1.00",
+            },
+            {
+              nodeId: "plain-b-text",
+              role: "StaticText",
+              name: "Tracked C from 6.00",
             },
           ],
         },
@@ -2307,6 +2395,14 @@ test("scanSubtree splits AX-confirmed native table cell child text", () => {
       "row 2 of 2 Letter Format Letter, column 1 of 2",
       "Weight up to, column 2 of 2",
       "100 g",
+      "express",
+      "24",
+      "from",
+      "£12.50",
+      "end of table",
+      "table, 2 columns, 1 row",
+      "Plain, column 1 of 2",
+      "Plan C from 1.00 Tracked C from 6.00, column 2 of 2",
       "end of table",
     ],
   );
