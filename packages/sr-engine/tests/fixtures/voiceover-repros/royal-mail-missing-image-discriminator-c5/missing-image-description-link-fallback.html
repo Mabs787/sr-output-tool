@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Missing image description discriminator C.5</title>
+    <style>
+      body {
+        margin: 24px;
+        font-family: system-ui, sans-serif;
+        line-height: 1.35;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      .matrix {
+        display: grid;
+        gap: 12px;
+      }
+
+      article {
+        display: block;
+        padding: 10px;
+        border: 1px solid #777;
+      }
+
+      .media-field,
+      .media-link {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .media-field {
+        gap: 8px;
+      }
+
+      .media-link {
+        justify-content: center;
+        width: 92px;
+        min-height: 42px;
+        border: 1px solid #555;
+      }
+
+      img {
+        display: block;
+        max-width: 81px;
+        max-height: 80px;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="missing-image-description-link-fallback-discriminator"
+      aria-labelledby="fixture-title">
+      <h1 id="fixture-title">Missing image description discriminator</h1>
+
+      <section aria-labelledby="matrix-title">
+        <h2 id="matrix-title">Matched image-link controls</h2>
+        <div class="matrix">
+          <article data-c5-control="named-local-svg">
+            <div hidden>
+              <div>Name</div>
+              <div>named-local-svg</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="assets/local-icon-a.svg">
+                  <img src="assets/local-icon-a.svg" alt="named icon" width="81" height="80">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>Local named guard</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="local-valid-svg-no-dimensions">
+            <div hidden>
+              <div>Name</div>
+              <div>local-valid-svg-no-dimensions</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="assets/local-icon-a.svg">
+                  <img src="assets/local-icon-a.svg">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>Local no dimensions</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="local-valid-svg-sized">
+            <div hidden>
+              <div>Name</div>
+              <div>local-valid-svg-sized</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="assets/local-icon-b.svg">
+                  <img src="assets/local-icon-b.svg" width="81" height="80" loading="lazy" typeof="foaf:Image">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>Local sized</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="https-svg-missing-sized">
+            <div hidden>
+              <div>Name</div>
+              <div>https-svg-missing-sized</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="https://www.example.com/assets/neutral-icon-alpha.svg">
+                  <img src="https://www.example.com/assets/neutral-icon-alpha.svg" width="81" height="80" loading="lazy" typeof="foaf:Image">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>HTTPS missing sized</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="https-svg-missing-no-dimensions">
+            <div hidden>
+              <div>Name</div>
+              <div>https-svg-missing-no-dimensions</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="https://www.example.com/assets/neutral-icon-beta.svg">
+                  <img src="https://www.example.com/assets/neutral-icon-beta.svg">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>HTTPS missing no dimensions</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="https-png-missing-sized">
+            <div hidden>
+              <div>Name</div>
+              <div>https-png-missing-sized</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="https://www.example.com/assets/neutral-banner-gamma.png">
+                  <img src="https://www.example.com/assets/neutral-banner-gamma.png" width="516" height="324" loading="lazy" typeof="foaf:Image">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>HTTPS missing PNG sized</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="local-broken-svg-sized">
+            <div hidden>
+              <div>Name</div>
+              <div>local-broken-svg-sized</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="assets/missing-icon-delta.svg">
+                  <img src="assets/missing-icon-delta.svg" width="81" height="80" loading="lazy" typeof="foaf:Image">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>Local missing sized</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="local-banner-sized">
+            <div hidden>
+              <div>Name</div>
+              <div>local-banner-sized</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="assets/local-banner-c.svg">
+                  <img src="assets/local-banner-c.svg" width="516" height="324" loading="lazy" typeof="foaf:Image">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>Local banner sized</h3>
+          <p>Short text.</p>
+
+          <article data-c5-control="decorative-empty-alt-guard">
+            <div hidden>
+              <div>Name</div>
+              <div>decorative-empty-alt-guard</div>
+            </div>
+            <div hidden>
+              <div>Language</div>
+              <div>Not applicable</div>
+            </div>
+            <div class="media-field">
+              <div class="visually-hidden">Upload</div>
+              <div>
+                <a class="media-link" href="assets/local-icon-a.svg">
+                  <img src="assets/local-icon-a.svg" alt="" width="81" height="80">
+                </a>
+              </div>
+            </div>
+          </article>
+          <h3>Decorative guard</h3>
+          <p>Short text.</p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
