@@ -321,7 +321,66 @@ test("scanSubtree preserves AX heading child text boundaries", () => {
   );
 });
 
-test("scanSubtree ignores whitespace-only AX heading children until separately proven", () => {
+test("scanSubtree preserves separate AX ordinary space children in native headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `<h1 data-sr-dom-node-id="h"><span>Plan A</span> <span>starts now</span></h1>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "Plan A starts now",
+              domNodeId: "h",
+              tagName: "h1",
+              childIds: ["2", "3", "4"],
+              properties: { level: 1 },
+            },
+            { nodeId: "2", role: "StaticText", name: "Plan A" },
+            { nodeId: "3", role: "StaticText", name: " " },
+            { nodeId: "4", role: "StaticText", name: "starts now" },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 1 Plan A space starts now, 3 items",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX trailing NBSP linebreak children in native headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `<h2 data-sr-dom-node-id="h">Why use <span>Postboxes?</span><br>&nbsp;</h2>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "Why use Postboxes?",
+              domNodeId: "h",
+              tagName: "h2",
+              childIds: ["2", "3", "4", "5"],
+              properties: { level: 2 },
+            },
+            { nodeId: "2", role: "StaticText", name: "Why use " },
+            { nodeId: "3", role: "StaticText", name: "Postboxes?" },
+            { nodeId: "4", role: "LineBreak", name: "\n" },
+            { nodeId: "5", role: "StaticText", name: "\u00a0" },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 2 Why use, level 1 Postboxes?, level 1 space, level 1, 3 items",
+    ],
+  );
+});
+
+test("scanSubtree does not infer AX heading space boundaries without the separate child subshape", () => {
   assert.deepEqual(
     scanHtml(
       `<h2 data-sr-dom-node-id="h">Why use <span>Postboxes?</span><br></h2>`,
@@ -347,6 +406,85 @@ test("scanSubtree ignores whitespace-only AX heading children until separately p
     ),
     [
       "heading level 2 Why use, level 1 Postboxes?, level 1, 2 items",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(
+      `<h1 data-sr-dom-node-id="h">Plan A starts now</h1>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "Plan A starts now",
+              domNodeId: "h",
+              tagName: "h1",
+              childIds: ["2", "3"],
+              properties: { level: 1 },
+            },
+            { nodeId: "2", role: "StaticText", name: "Plan A " },
+            { nodeId: "3", role: "StaticText", name: "starts now" },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 1 Plan A starts now, 2 items",
+    ],
+  );
+});
+
+test("scanSubtree does not apply heading whitespace AX subshape to non-heading controls", () => {
+  assert.deepEqual(
+    scanHtml(
+      `<button data-sr-dom-node-id="b"><span>Plan A</span> <span>starts now</span></button>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "button",
+              name: "Plan A starts now",
+              domNodeId: "b",
+              childIds: ["2", "3", "4"],
+            },
+            { nodeId: "2", role: "StaticText", name: "Plan A" },
+            { nodeId: "3", role: "StaticText", name: " " },
+            { nodeId: "4", role: "StaticText", name: "starts now" },
+          ],
+        },
+      },
+    ),
+    [
+      "Plan A starts now, button",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(
+      `<div role="heading" aria-level="1" data-sr-dom-node-id="h"><span>Plan A</span> <span>starts now</span></div>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "Plan A starts now",
+              domNodeId: "h",
+              childIds: ["2", "3", "4"],
+              properties: { level: 1 },
+            },
+            { nodeId: "2", role: "StaticText", name: "Plan A" },
+            { nodeId: "3", role: "StaticText", name: " " },
+            { nodeId: "4", role: "StaticText", name: "starts now" },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 1 Plan A starts now, 2 items",
     ],
   );
 });

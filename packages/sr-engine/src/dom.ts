@@ -13393,17 +13393,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const renderedText = normalize(readableText(el));
       if (!axName || !renderedText || axName !== renderedText) return undefined;
 
+      const tag = el.tagName?.toLowerCase();
+      const isNativeHeading = /^h[1-6]$/u.test(tag || "");
       const fragments: string[] = [];
+      const textFragments: string[] = [];
       let sawBoundary = false;
 
-      function collectStaticText(node?: AccessibilityTreeNode): boolean {
+      function collectStaticText(
+        node?: AccessibilityTreeNode,
+        options: { direct?: boolean; previousDirectRole?: string; nextDirectRole?: string } = {},
+      ): boolean {
         if (!node) return false;
         const role = normalizedAxRole(node.role);
         if (role === "statictext") {
-          const fragment = normalize(node.name);
+          const rawName = node.name || "";
+          const fragment = normalize(rawName);
           if (fragment && /[\p{L}\p{N}$£€]/u.test(fragment)) {
             fragments.push(fragment);
+            textFragments.push(fragment);
             sawBoundary = true;
+          } else if (options.direct && isNativeHeading) {
+            const isOrdinarySpaceChild = /^ +$/u.test(rawName) &&
+              options.previousDirectRole === "statictext" &&
+              options.nextDirectRole === "statictext";
+            const isTrailingNbspAfterLineBreak = /^[\u00A0]+$/u.test(rawName) &&
+              options.previousDirectRole === "linebreak";
+            if (isOrdinarySpaceChild || isTrailingNbspAfterLineBreak) {
+              fragments.push("space");
+              sawBoundary = true;
+            }
           }
           return true;
         }
@@ -13422,16 +13440,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
       const childIds = axNode.childIds || [];
       if (childIds.length < 2) return undefined;
+      const childNodes = childIds.map((childId) =>
+        accessibilityNodeById.get(normalize(childId) || ""),
+      );
       if (
-        !childIds.every((childId) =>
-          collectStaticText(accessibilityNodeById.get(normalize(childId) || "")),
+        !childNodes.every((childNode, index) =>
+          collectStaticText(childNode, {
+            direct: true,
+            previousDirectRole: normalizedAxRole(childNodes[index - 1]?.role),
+            nextDirectRole: normalizedAxRole(childNodes[index + 1]?.role),
+          }),
         )
       ) {
         return undefined;
       }
       if (!sawBoundary || fragments.length < 2) return undefined;
-      if (!fragmentsAppearInTextOrder(fragments, axName)) return undefined;
-      if (normalize(fragments.join(" ")) !== axName) return undefined;
+      if (!fragmentsAppearInTextOrder(textFragments, axName)) return undefined;
+      if (normalize(textFragments.join(" ")) !== axName) return undefined;
       return fragments;
     }
 

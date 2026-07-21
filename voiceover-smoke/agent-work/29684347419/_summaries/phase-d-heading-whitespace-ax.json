@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "royal-mail-heading-whitespace-ax-final",
+  "runId": "29684347419",
+  "sourceRunId": "29802787673",
+  "status": "passed-with-residual-non-whitespace-families",
+  "startedAt": "2026-07-21T05:44:27Z",
+  "finishedAt": "2026-07-21T06:04:59Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "leaseAcquiredAt": "2026-07-21T05:44:27Z",
+  "leaseReleasedAt": "2026-07-21T06:04:59Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "lease": {
+    "file": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "owner": "codex-phase-d-heading-whitespace-ax-2026-07-21T05:44:27Z",
+    "targetFamily": "native-heading-whitespace-statictext-child-boundary",
+    "overlapCheck": "no-overlap-detected",
+    "separateWorktreeException": false
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-heading-whitespace-ax-final.json",
+    "phaseC5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-heading-whitespace-ax-subshape.json",
+    "c5RunId": "29802787673",
+    "currentPushedHeadAtStart": "8d5ac2af8e2fcc6573106d86e836494d3a053325"
+  },
+  "mismatchFamilySelected": "heading-whitespace-ax-subshape",
+  "genericPredicateImplemented": {
+    "summary": "For native h1-h6 headings with AX role heading and matching rendered/AX text, preserve a direct whitespace-only StaticText AX child as a VoiceOver heading fragment only when the saved AX child subshape proves it: U+0020 between direct StaticText siblings, or NBSP directly after a LineBreak child.",
+    "positiveGuards": [
+      "Native h1-h6 only.",
+      "AX node role is heading and AX name matches rendered heading text.",
+      "Direct AX child nodes are static text, line break, or transparent generic/strong/emphasis/none wrappers.",
+      "Ordinary U+0020 space is direct StaticText between direct StaticText siblings.",
+      "Trailing NBSP is direct StaticText immediately after direct LineBreak."
+    ],
+    "negativeGuards": [
+      "No rule for headings whose visible space is folded into adjacent StaticText.",
+      "No spoken-space item added for LineBreak without trailing NBSP StaticText.",
+      "No rule for same-text non-heading controls.",
+      "No rule for ARIA role=heading; C.5 proved native heading behavior only.",
+      "No site URL, class, copy, or Royal Mail specific condition."
+    ]
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-heading-whitespace-ax.json"
+  ],
+  "fixtureChanges": [],
+  "behaviorFixed": [
+    {
+      "candidateRef": "www-royalmail-com-sending-stamps:current-window-2",
+      "before": "heading level 1 Buy postage stamps and our collectible stamp issues online, 2 items",
+      "after": "heading level 1 Buy postage stamps space and our collectible stamp issues online, 3 items",
+      "latestTargetCompareWindow": 2,
+      "status": "aligned"
+    },
+    {
+      "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-11",
+      "before": "heading level 2, Why use our Postboxes?",
+      "after": "heading level 2 Why use our, level 1 Postboxes?, level 1 space, level 1, 3 items",
+      "latestTargetCompareWindow": 6,
+      "status": "aligned"
+    },
+    {
+      "candidateRef": "www-royalmail-com-services-near-you:current-window-6",
+      "before": "heading level 2, Why use Royal Mail drop-off and pick-up points?",
+      "after": "heading level 2 Why use, level 1 Royal Mail drop-off and pick-up points?, level 1 space, level 1, 3 items",
+      "latestTargetCompareWindow": 5,
+      "status": "aligned"
+    }
+  ],
+  "targetCompareDelta": [
+    {
+      "target": "www-royalmail-com-sending-stamps",
+      "beforeSelectedRef": "current-window-2 mismatch: missing spoken space and 3-item boundary",
+      "afterExpectedCount": 270,
+      "afterActualCount": 258,
+      "afterMismatchWindowCount": 22,
+      "fixedWhitespaceRef": true
+    },
+    {
+      "target": "www-royalmail-com-services-near-you-postboxes",
+      "beforeSelectedRef": "current-window-11 mismatch: missing trailing NBSP spoken space and 3-item boundary",
+      "afterExpectedCount": 171,
+      "afterActualCount": 164,
+      "afterMismatchWindowCount": 19,
+      "fixedWhitespaceRef": true
+    },
+    {
+      "target": "www-royalmail-com-services-near-you",
+      "beforeSelectedRef": "current-window-6 mismatch: missing trailing NBSP spoken space and 3-item boundary",
+      "afterExpectedCount": 138,
+      "afterActualCount": 137,
+      "afterMismatchWindowCount": 12,
+      "fixedWhitespaceRef": true
+    }
+  ],
+  "checks": [
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/usr/local/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine TypeScript build passed after the final native-heading guard."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/usr/local/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node --test --test-name-pattern \"AX (ordinary space|trailing NBSP)|without the separate child|non-heading controls\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused heading whitespace tests passed: 4 passed, covering ordinary space, trailing NBSP after LineBreak, no-separate-child, non-heading button, and ARIA heading negative guard."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/usr/local/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full unit passed: 393 tests, 337 passed, 56 skipped."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-stamps node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-stamps 8",
+      "required": true,
+      "status": "passed-with-target-ref-aligned",
+      "exitCode": 0,
+      "summary": "Latest target compare: expected 270, actual 258, 22 windows; whitespace heading ref aligned at latest window 2."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-services-near-you-postboxes 8",
+      "required": true,
+      "status": "passed-with-target-ref-aligned",
+      "exitCode": 0,
+      "summary": "Latest target compare: expected 171, actual 164, 19 windows; whitespace heading ref aligned at latest window 6."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-services-near-you 8",
+      "required": true,
+      "status": "passed-with-target-ref-aligned",
+      "exitCode": 0,
+      "summary": "Latest target compare: expected 138, actual 137, 12 windows; whitespace heading ref aligned at latest window 5."
+    },
+    {
+      "command": "Protected exact compares: www-w3-org-wai-standards-guidelines-wcag, www-gov-uk-find-local-council, www-nhs-uk-service-search-pharmacy-find-a-pharmacy, design-system-service-gov-uk-components-text-input",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "All four protected fixtures remained exact with 0 mismatch windows."
+    },
+    {
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-find-a-postcode 8",
+      "required": true,
+      "status": "passed-with-existing-candidate-tail",
+      "exitCode": 0,
+      "summary": "Candidate guard remained at its known 2 search/list mismatch windows."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/usr/local/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 130,
+      "summary": "Attempted twice. Final attempt remained silent/non-terminal for about 5.5 minutes after the command banner and was interrupted so no process was left running.",
+      "skipReason": "Blocked by non-terminal no-output corpus run in this shell."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/usr/local/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Runtime build passed; turbo rebuilt @sr-output/engine and @sr-output/extension runtime."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "royal-mail-header-footer-collapsed-button-group-region",
+      "currentWindowIndexes": {
+        "www-royalmail-com-sending-stamps": [1, 18, 19, 20],
+        "www-royalmail-com-services-near-you": [1]
+      },
+      "latestActual": "Collapsed navigation/footer buttons omit group suffix or expose non-empty region wording differently.",
+      "latestExpected": "Collapsed navigation/footer buttons include group suffix and empty/region transitions.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify separately from heading-whitespace after current compare; route to Phase D only with focused AX/control evidence.",
+      "blocker": "Outside the native heading whitespace AX contract.",
+      "checksNeeded": ["target compare", "AX controlled-region visibility evidence", "protected collapsed-button compares"]
+    },
+    {
+      "family": "royal-mail-text-boundary-ocr-truncation",
+      "currentWindowIndexes": {
+        "www-royalmail-com-sending-stamps": [2, 3, 4, 16],
+        "www-royalmail-com-services-near-you-postboxes": [1, 2, 3, 4, 5, 18],
+        "www-royalmail-com-services-near-you": [2, 3]
+      },
+      "latestActual": "Engine emits normalized full DOM text, punctuation, or OCR-correct values such as N7 0RN and full paragraphs.",
+      "latestExpected": "Refined target contains VoiceOver/caption truncation, OCR spelling, or tighter inline text boundaries.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Recheck these windows against source/caption/rendered HTML and split true text-boundary gaps from OCR/truncation fixture issues.",
+      "blocker": "Not part of C.5-confirmed whitespace StaticText child behavior.",
+      "checksNeeded": ["source/caption lookup", "text-boundary lookup", "target compare"]
+    },
+    {
+      "family": "royal-mail-card-image-group-boundary",
+      "currentWindowIndexes": {
+        "www-royalmail-com-sending-stamps": [5, 10, 11, 12, 13, 14, 15],
+        "www-royalmail-com-services-near-you-postboxes": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+        "www-royalmail-com-services-near-you": [4, 5, 6, 7, 8, 9, 10, 11, 12]
+      },
+      "latestActual": "Engine groups or names CMS card media/link regions differently and often omits expected unlabeled-image fallbacks.",
+      "latestExpected": "VoiceOver includes image/group/article boundaries and unlabeled image fallback wording.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split image-link name fallback, group/article boundary, and unlabeled-image fallback into independent candidate families.",
+      "blocker": "Mixed structural family, not a native heading AX whitespace subshape.",
+      "checksNeeded": ["focused-node contract", "AX image/link names", "protected card/media compares"]
+    },
+    {
+      "family": "royal-mail-list-marker-link-boundary",
+      "currentWindowIndexes": {
+        "www-royalmail-com-sending-stamps": [6, 7, 8, 9],
+        "www-royalmail-com-services-near-you-postboxes": [17]
+      },
+      "latestActual": "Engine keeps some list marker/link text together or emits different marker placement.",
+      "latestExpected": "VoiceOver separates marker/link/tail stops and positions differently.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify against existing list-marker Phase D receipts and decide whether any residual is already covered, evidence noise, or a new C.5 candidate.",
+      "blocker": "Different reusable family from heading whitespace.",
+      "checksNeeded": ["AX marker contract", "current list-marker protected compares"]
+    }
+  ],
+  "nextPhase": "fixture-judge",
+  "handoffReason": "The three C.5-confirmed heading-whitespace AX refs are fixed. Remaining target windows are separate non-whitespace families and require independent Phase C routing.",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "fixture-judge",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Route residual non-whitespace Royal Mail windows only; do not revisit native-heading whitespace AX unless a regression appears.",
+    "c5Needed": false,
+    "reason": "Run 29802787673-backed native-heading whitespace AX engine gap is implemented and verified on the three affected targets plus protected/candidate guards."
+  }
+}
