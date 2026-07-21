@@ -1,0 +1,6 @@
+## VoiceOver preferences
+2026-07-21 13:13:06.443 defaults[17474:48843] 
+Domain com.apple.VoiceOver4/default does not exist
+
+## VoiceOver processes
+8345 VoiceOver

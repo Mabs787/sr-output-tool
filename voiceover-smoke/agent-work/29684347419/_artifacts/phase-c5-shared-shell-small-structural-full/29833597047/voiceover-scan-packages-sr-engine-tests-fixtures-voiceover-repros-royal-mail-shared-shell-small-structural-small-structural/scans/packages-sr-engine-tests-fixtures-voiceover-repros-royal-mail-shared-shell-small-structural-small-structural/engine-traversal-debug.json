@@ -1,0 +1,717 @@
+{
+  "schemaVersion": 1,
+  "source": "sr-engine-dom-scanner",
+  "input": {
+    "renderedHtmlPath": "rendered-html.html"
+  },
+  "ok": true,
+  "announcementCount": 59,
+  "debugEntryCount": 59,
+  "sourceCounts": {
+    "descriptor-announcement": 43,
+    "context-end-announcement": 12,
+    "split-inline-emphasis-text": 2,
+    "split-label-stop": 2
+  },
+  "kindCounts": {
+    "split": 47,
+    "context-end": 12
+  },
+  "entries": [
+    {
+      "index": 0,
+      "announcement": "neutral shared shell small structural repro, main",
+      "role": "main",
+      "name": "neutral shared shell small structural repro",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "main",
+        "descriptorName": "neutral shared shell small structural repro"
+      }
+    },
+    {
+      "index": 1,
+      "announcement": "SR Output Tool VoiceOver scan start marker",
+      "role": "paragraph",
+      "name": "SR Output Tool VoiceOver scan start marker",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "SR Output Tool VoiceOver scan start marker"
+      }
+    },
+    {
+      "index": 2,
+      "announcement": "heading level 1, Shared shell structural variants",
+      "role": "heading",
+      "name": "Shared shell structural variants",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Shared shell structural variants"
+      }
+    },
+    {
+      "index": 3,
+      "announcement": "Offscreen search textbox, region",
+      "role": "region",
+      "name": "Offscreen search textbox",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Offscreen search textbox"
+      }
+    },
+    {
+      "index": 4,
+      "announcement": "heading level 2, Offscreen search textbox",
+      "role": "heading",
+      "name": "Offscreen search textbox",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Offscreen search textbox"
+      }
+    },
+    {
+      "index": 5,
+      "announcement": "Before hidden search, navigation",
+      "role": "navigation",
+      "name": "Before hidden search",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "navigation",
+        "descriptorName": "Before hidden search"
+      }
+    },
+    {
+      "index": 6,
+      "announcement": "list 5 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 7,
+      "announcement": "link, First item, 1 of 5",
+      "role": "link",
+      "name": "First item",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "First item"
+      }
+    },
+    {
+      "index": 8,
+      "announcement": "link, Second item, 2 of 5",
+      "role": "link",
+      "name": "Second item",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Second item"
+      }
+    },
+    {
+      "index": 9,
+      "announcement": "link, Third item, 3 of 5",
+      "role": "link",
+      "name": "Third item",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Third item"
+      }
+    },
+    {
+      "index": 10,
+      "announcement": "link, Fourth item, 4 of 5",
+      "role": "link",
+      "name": "Fourth item",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Fourth item"
+      }
+    },
+    {
+      "index": 11,
+      "announcement": "link, Final fee link, 5 of 5",
+      "role": "link",
+      "name": "Final fee link",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Final fee link"
+      }
+    },
+    {
+      "index": 12,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 13,
+      "announcement": "end of, Before hidden search, navigation",
+      "role": "navigation",
+      "name": "Before hidden search",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "navigation",
+        "descriptorName": "Before hidden search"
+      }
+    },
+    {
+      "index": 14,
+      "announcement": "search",
+      "role": "search",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "search"
+      }
+    },
+    {
+      "index": 15,
+      "announcement": "edit text, Search",
+      "role": "textbox",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "textbox"
+      }
+    },
+    {
+      "index": 16,
+      "announcement": "Go, button",
+      "role": "button",
+      "name": "Go",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "button",
+        "descriptorName": "Go"
+      }
+    },
+    {
+      "index": 17,
+      "announcement": "end of, search",
+      "role": "search",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "search"
+      }
+    },
+    {
+      "index": 18,
+      "announcement": "After hidden search, navigation",
+      "role": "navigation",
+      "name": "After hidden search",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "navigation",
+        "descriptorName": "After hidden search"
+      }
+    },
+    {
+      "index": 19,
+      "announcement": "list 2 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 20,
+      "announcement": "link, After one, 1 of 2",
+      "role": "link",
+      "name": "After one",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "After one"
+      }
+    },
+    {
+      "index": 21,
+      "announcement": "link, After two, 2 of 2",
+      "role": "link",
+      "name": "After two",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "After two"
+      }
+    },
+    {
+      "index": 22,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 23,
+      "announcement": "end of, After hidden search, navigation",
+      "role": "navigation",
+      "name": "After hidden search",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "navigation",
+        "descriptorName": "After hidden search"
+      }
+    },
+    {
+      "index": 24,
+      "announcement": "search",
+      "role": "search",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "search"
+      }
+    },
+    {
+      "index": 25,
+      "announcement": "Visible search label Search visible, edit text",
+      "role": "textbox",
+      "name": "Visible search label",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "textbox",
+        "descriptorName": "Visible search label"
+      }
+    },
+    {
+      "index": 26,
+      "announcement": "Visible go, button",
+      "role": "button",
+      "name": "Visible go",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "button",
+        "descriptorName": "Visible go"
+      }
+    },
+    {
+      "index": 27,
+      "announcement": "end of, search",
+      "role": "search",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "search"
+      }
+    },
+    {
+      "index": 28,
+      "announcement": "end of, Offscreen search textbox, region",
+      "role": "region",
+      "name": "Offscreen search textbox",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Offscreen search textbox"
+      }
+    },
+    {
+      "index": 29,
+      "announcement": "Article group before note, article",
+      "role": "article",
+      "name": "Article group before note",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "article",
+        "descriptorName": "Article group before note"
+      }
+    },
+    {
+      "index": 30,
+      "announcement": "heading level 2, Article group before note",
+      "role": "heading",
+      "name": "Article group before note",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Article group before note"
+      }
+    },
+    {
+      "index": 31,
+      "announcement": "A short intro explains that the sample item has changed.",
+      "role": "paragraph",
+      "name": "A short intro explains that the sample item has changed.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "A short intro explains that the sample item has changed."
+      }
+    },
+    {
+      "index": 32,
+      "announcement": "A second paragraph says the example is familiar to visitors.",
+      "role": "paragraph",
+      "name": "A second paragraph says the example is familiar to visitors.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "A second paragraph says the example is familiar to visitors."
+      }
+    },
+    {
+      "index": 33,
+      "announcement": "Image of example items, image",
+      "role": "image",
+      "name": "Image of example items",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "image",
+        "descriptorName": "Image of example items"
+      }
+    },
+    {
+      "index": 34,
+      "announcement": "Note:",
+      "role": "paragraph",
+      "name": "Note: Special examples remain valid and do not need changes.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-text",
+        "descriptorRole": "paragraph",
+        "descriptorName": "Note: Special examples remain valid and do not need changes."
+      }
+    },
+    {
+      "index": 35,
+      "announcement": "Special examples remain valid and do not need changes.",
+      "role": "paragraph",
+      "name": "Note: Special examples remain valid and do not need changes.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-text",
+        "descriptorRole": "paragraph",
+        "descriptorName": "Note: Special examples remain valid and do not need changes."
+      }
+    },
+    {
+      "index": 36,
+      "announcement": "end of, Article group before note, article",
+      "role": "article",
+      "name": "Article group before note",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "article",
+        "descriptorName": "Article group before note"
+      }
+    },
+    {
+      "index": 37,
+      "announcement": "Inline link tail order, region",
+      "role": "region",
+      "name": "Inline link tail order",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Inline link tail order"
+      }
+    },
+    {
+      "index": 38,
+      "announcement": "heading level 2, Inline link tail order",
+      "role": "heading",
+      "name": "Inline link tail order",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Inline link tail order"
+      }
+    },
+    {
+      "index": 39,
+      "announcement": "If you sell sample items to the public - please click to access a sample exchange form.",
+      "role": "paragraph",
+      "name": "If you sell sample items to the public - please click to access a sample exchange form.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "If you sell sample items to the public - please click to access a sample exchange form."
+      }
+    },
+    {
+      "index": 40,
+      "announcement": "link, here",
+      "role": "link",
+      "name": "here",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "here"
+      }
+    },
+    {
+      "index": 41,
+      "announcement": "Your old sample items can be exchanged by following these steps:",
+      "role": "paragraph",
+      "name": "Your old sample items can be exchanged by following these steps:",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "Your old sample items can be exchanged by following these steps:"
+      }
+    },
+    {
+      "index": 42,
+      "announcement": "list 3 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 43,
+      "announcement": "Print a form., 1 of 3",
+      "role": "listitem",
+      "name": "Print a form.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Print a form."
+      }
+    },
+    {
+      "index": 44,
+      "announcement": "Complete the form., 2 of 3",
+      "role": "listitem",
+      "name": "Complete the form.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Complete the form."
+      }
+    },
+    {
+      "index": 45,
+      "announcement": "Send the package., 3 of 3",
+      "role": "listitem",
+      "name": "Send the package.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Send the package."
+      }
+    },
+    {
+      "index": 46,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 47,
+      "announcement": "end of, Inline link tail order, region",
+      "role": "region",
+      "name": "Inline link tail order",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Inline link tail order"
+      }
+    },
+    {
+      "index": 48,
+      "announcement": "Check prices and services available by country, region",
+      "role": "region",
+      "name": "Check prices and services available by country",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Check prices and services available by country"
+      }
+    },
+    {
+      "index": 49,
+      "announcement": "heading level 2, Check prices and services available by country",
+      "role": "heading",
+      "name": "Check prices and services available by country",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Check prices and services available by country"
+      }
+    },
+    {
+      "index": 50,
+      "announcement": "*",
+      "role": "text",
+      "name": "*",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "text",
+        "descriptorName": "*"
+      }
+    },
+    {
+      "index": 51,
+      "announcement": "Select a Country *",
+      "role": "combobox",
+      "name": "Select a Country *",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-label-stop",
+        "descriptorRole": "combobox",
+        "descriptorName": "Select a Country *"
+      }
+    },
+    {
+      "index": 52,
+      "announcement": "Select a Country, Select a Country *, menu pop up collapsed, button",
+      "role": "combobox",
+      "name": "Select a Country *",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-label-stop",
+        "descriptorRole": "combobox",
+        "descriptorName": "Select a Country *"
+      }
+    },
+    {
+      "index": 53,
+      "announcement": "Select a Country",
+      "role": "text",
+      "name": "Select a Country",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "text",
+        "descriptorName": "Select a Country"
+      }
+    },
+    {
+      "index": 54,
+      "announcement": "edit text",
+      "role": "textbox",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "textbox"
+      }
+    },
+    {
+      "index": 55,
+      "announcement": "dimmed, button",
+      "role": "button",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "button"
+      }
+    },
+    {
+      "index": 56,
+      "announcement": "end of, Check prices and services available by country, region",
+      "role": "region",
+      "name": "Check prices and services available by country",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Check prices and services available by country"
+      }
+    },
+    {
+      "index": 57,
+      "announcement": "SR Output Tool VoiceOver scan end marker",
+      "role": "paragraph",
+      "name": "SR Output Tool VoiceOver scan end marker",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "SR Output Tool VoiceOver scan end marker"
+      }
+    },
+    {
+      "index": 58,
+      "announcement": "end of, neutral shared shell small structural repro, main",
+      "role": "main",
+      "name": "neutral shared shell small structural repro",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "main",
+        "descriptorName": "neutral shared shell small structural repro"
+      }
+    }
+  ]
+}

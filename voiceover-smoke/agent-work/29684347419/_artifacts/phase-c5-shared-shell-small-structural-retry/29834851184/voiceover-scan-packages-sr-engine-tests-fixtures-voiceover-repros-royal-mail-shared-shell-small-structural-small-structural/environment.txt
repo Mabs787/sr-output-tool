@@ -1,0 +1,13 @@
+## Environment
+ProductName:		macOS
+ProductVersion:		26.4
+BuildVersion:		25E246
+
+10
+993
+
+## Chrome
+Google Chrome 150.0.7871.125 
+No matching processes belonging to you were found
+
+## VoiceOver

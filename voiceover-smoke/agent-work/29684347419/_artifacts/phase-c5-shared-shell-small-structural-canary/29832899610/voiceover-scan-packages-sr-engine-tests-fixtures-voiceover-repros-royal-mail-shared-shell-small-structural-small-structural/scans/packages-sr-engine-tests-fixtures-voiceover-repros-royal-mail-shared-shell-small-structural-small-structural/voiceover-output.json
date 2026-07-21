@@ -1,0 +1,22 @@
+{
+  "announcements": [
+    "heading level 1, Shared shell structural variants",
+    "Offscreen search textbox, region",
+    "heading level 2, Offscreen search textbox",
+    "Before hidden search, navigation",
+    "list 5 items",
+    "., 1 of5",
+    "link, First item",
+    ".,2 of5",
+    "link, Second item",
+    ".,3 of5",
+    "link, Third item",
+    ".,4 of5",
+    "link, Fourth item",
+    "., 5 of5",
+    "link, Final fee link",
+    "end of list"
+  ],
+  "source": "VoiceOver",
+  "normalization": "caption-window-cropped-ocr-system-noise-filtered"
+}

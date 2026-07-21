@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-07-21T13:13:04.386Z",
+  "github": {
+    "actions": "true",
+    "runnerName": "GitHub Actions 1000001991",
+    "runnerOs": "macOS",
+    "runnerArch": "ARM64",
+    "runId": "29832899610",
+    "runAttempt": "1",
+    "repository": "Mabs787/sr-output-tool",
+    "ref": "refs/heads/codex/royal-mail-voiceover-refinement",
+    "sha": "19ee1bab36df8862ec0a6c9c9645631f96453375"
+  },
+  "host": {
+    "hostname": "sjc22-bm209-7a61b420-5bae-44c7-a4b9-071c6a46d37d-165B76EC3D8D.local",
+    "platform": "darwin",
+    "release": "25.4.0",
+    "arch": "arm64",
+    "node": "v24.18.0",
+    "locale": "en-US",
+    "timeZone": "UTC",
+    "timezoneOffsetMinutes": 0
+  },
+  "publicNetwork": {
+    "ok": true,
+    "provider": "ipapi.co",
+    "ip": "13.105.117.86",
+    "city": "San Jose",
+    "region": "California",
+    "countryCode": "US",
+    "countryName": "United States",
+    "timezone": "America/Los_Angeles",
+    "org": "Microsoft Corporation"
+  },
+  "browser": {
+    "ok": true,
+    "capture": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "{\"href\":\"file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36\",\"language\":\"en-US\",\"languages\":[\"en-US\",\"en\"],\"platform\":\"MacIntel\",\"timeZone\":\"UTC\",\"locale\":\"en-US\",\"viewport\":{\"width\":1200,\"height\":543,\"devicePixelRatio\":1},\"screen\":{\"width\":1024,\"height\":768,\"availWidth\":1024,\"availHeight\":677}}",
+      "stderr": "",
+      "error": "",
+      "source": "chrome-devtools"
+    },
+    "value": {
+      "href": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "language": "en-US",
+      "languages": [
+        "en-US",
+        "en"
+      ],
+      "platform": "MacIntel",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "viewport": {
+        "width": 1200,
+        "height": 543,
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "width": 1024,
+        "height": 768,
+        "availWidth": 1024,
+        "availHeight": 677
+      }
+    }
+  }
+}

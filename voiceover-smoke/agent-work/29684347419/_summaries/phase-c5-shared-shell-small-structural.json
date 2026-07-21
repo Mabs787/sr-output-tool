@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_summaries/phase-c5-shared-shell-small-structural",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-21T12:53:00Z",
+  "finishedAt": "2026-07-21T13:58:00Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "auditReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-shared-shell-current-family-audit.json",
+    "sourceEvidence": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-receiving-mail/www-royalmail-com-receiving-mail.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-receiving-mail/www-royalmail-com-receiving-mail.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-receiving-mail/www-royalmail-com-receiving-mail.step-snapshots.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-receiving-mail/scans/www-royalmail-com-receiving-mail/voiceover-sources.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps/www-royalmail-com-sending-barcoded-stamps.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps/www-royalmail-com-sending-barcoded-stamps.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps/www-royalmail-com-sending-barcoded-stamps.step-snapshots.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-barcoded-stamps/scans/www-royalmail-com-sending-barcoded-stamps/voiceover-sources.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-international/www-royalmail-com-sending-international.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-international/www-royalmail-com-sending-international.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-international/www-royalmail-com-sending-international.step-snapshots.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-international/scans/www-royalmail-com-sending-international/voiceover-sources.json"
+    ],
+    "reproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+    "localValidation": [
+      "node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+      "local sr-engine dist scanner traversal of packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html"
+    ]
+  },
+  "mismatchFamily": "shared-shell-small-structural",
+  "requestedPhase": "phase-b-shared-shell-current-family-audit",
+  "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+  "reproduction": {
+    "repoRelativeFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+    "dataSrScanRoot": true,
+    "neutrality": "No source site copy, CSS classes, or source URLs were used in the rendered reproduction content. Source target ids are recorded only in this receipt.",
+    "commits": [
+      {
+        "sha": "19ee1bab36df8862ec0a6c9c9645631f96453375",
+        "message": "Add shared shell small structural VoiceOver repro",
+        "fileSha256": "ff08b752fe64daebedd51bfbeb89c2bec5327b56c48d5ac0e33ce2166d7e1acc"
+      },
+      {
+        "sha": "0014201824df075ca7126f565ecb1ed60fa9f6ef",
+        "message": "Refine shared shell article group repro",
+        "fileSha256": "d78148db1d9ce1bca1a07d4df1520ad97bd9df893a479dbaf7aa75606fb2d9b1"
+      }
+    ],
+    "preservedDomContractChecklist": [
+      "native form role=search, focusable text input, placeholder, hidden visibility label, submit button, hidden form inputs, offscreen ancestor, and preceding/following list/navigation context for offscreen search textbox",
+      "native article with nested anonymous div wrappers, heading, paragraph siblings, image with accessible name, AX-visible generic wrapper before Note, strong inline Note prefix, and following paragraph text for article group before Note",
+      "paragraph text-node / link / tail-text boundary and following list context for inline link tail order",
+      "label text plus required marker span with title, native required select tabindex=-1 with selected placeholder option, custom select wrapper with anchor/textbox/list, disabled submit input, and heading/section context for select-country combobox"
+    ],
+    "contentShorteningNotes": [
+      "Long page prose was shortened to neutral text because none of the four disputes depends on text truncation, wrapping, line breaks, or exact brand vocabulary.",
+      "The inline-link variant kept text/link/tail node boundaries and punctuation shape, but shortened the prose.",
+      "The select-country option list was shortened to three neutral options because the disputed AX contract depends on selected placeholder/value/required-invalid/collapsed popup state, not country list length."
+    ],
+    "omittedPageContext": [
+      {
+        "omission": "Site header, footer, consent UI, analytics, duplicate responsive menus, unrelated cards, and external links/images",
+        "whySafe": "The audited windows were initial-DOM structural/text-boundary questions; these omitted nodes were not ancestors, siblings, IDREF targets, list/table context, labels, or focus/hidden-state sources for the disputed controls."
+      },
+      {
+        "omission": "Original brand names, product names, classes, and URLs",
+        "whySafe": "The suspected causes are generic DOM/AX contracts. Names were replaced with short neutral equivalents except where the control's generic accessible name, such as Search or Select a Country, was the behavior under test."
+      }
+    ]
+  },
+  "fixturePathDiagnostic": {
+    "canary": {
+      "workflowRunId": "29832899610",
+      "workflowUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/29832899610",
+      "requestedRef": "codex/royal-mail-voiceover-refinement",
+      "headSha": "19ee1bab36df8862ec0a6c9c9645631f96453375",
+      "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+      "headFixtureSha256": "ff08b752fe64daebedd51bfbeb89c2bec5327b56c48d5ac0e33ce2166d7e1acc",
+      "localFixtureSha256AtDispatch": "ff08b752fe64daebedd51bfbeb89c2bec5327b56c48d5ac0e33ce2166d7e1acc",
+      "identityMarker": "Shared shell structural variants",
+      "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+      "artifactPath": "voiceover-smoke/agent-work/29684347419/_artifacts/phase-c5-shared-shell-small-structural-canary/29832899610/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural",
+      "renderedIdentityFound": true,
+      "axNodeCount": 170,
+      "stepSnapshotCount": 18,
+      "decision": "passed",
+      "note": "Canary intentionally stopped at max-steps:18 after proving path, identity, AX, and step snapshots. It did not reach all four variants."
+    },
+    "acceptedFullScan": {
+      "workflowRunId": "29834851184",
+      "workflowUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/29834851184",
+      "requestedRef": "codex/royal-mail-voiceover-refinement",
+      "headSha": "0014201824df075ca7126f565ecb1ed60fa9f6ef",
+      "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+      "headFixtureSha256": "d78148db1d9ce1bca1a07d4df1520ad97bd9df893a479dbaf7aa75606fb2d9b1",
+      "localFixtureSha256AtAnalysis": "d78148db1d9ce1bca1a07d4df1520ad97bd9df893a479dbaf7aa75606fb2d9b1",
+      "identityMarker": "Shared shell structural variants",
+      "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+      "artifactPath": "voiceover-smoke/agent-work/29684347419/_artifacts/phase-c5-shared-shell-small-structural-retry/29834851184/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural",
+      "renderedIdentityFound": true,
+      "axNodeCount": 172,
+      "stepSnapshotCount": 67,
+      "screenshotCount": 137,
+      "voiceOverAnnouncementCount": 64,
+      "engineAnnouncementCount": 59,
+      "stopReason": "scan-end-marker",
+      "decision": "passed"
+    }
+  },
+  "scanWorkflow": {
+    "canaryCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html -f capture_step_snapshots=true -f capture_step_screenshots=false -f capture_screen_recording=false -f max_steps=18 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow",
+    "fullScanCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=90 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow",
+    "retryScanCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=90 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow",
+    "waitPollTimeline": [
+      {
+        "runId": "29832899610",
+        "type": "canary",
+        "initialWait": "5 minutes before first status check",
+        "polling": "one-minute polling after first check until completion",
+        "finalStatus": "success",
+        "completedAt": "2026-07-21T13:13:18Z"
+      },
+      {
+        "runId": "29833597047",
+        "type": "full-scan-first-attempt",
+        "initialWait": "5 minutes before first status check",
+        "polling": "one-minute polling after first check until completion",
+        "finalStatus": "success",
+        "completedAt": "2026-07-21T13:28:40Z",
+        "useInVerdict": "Used for offscreen search, inline link, and select-country; article result triggered one refinement because source AX article was unnamed and the initial repro's article had an accessible name."
+      },
+      {
+        "runId": "29834851184",
+        "type": "full-scan-retry",
+        "initialWait": "5 minutes before first status check",
+        "polling": "one-minute polling after first check until completion",
+        "finalStatus": "success",
+        "completedAt": "2026-07-21T13:47:53Z",
+        "useInVerdict": "Accepted terminal C.5 retry evidence for all variants."
+      }
+    ]
+  },
+  "artifactPath": {
+    "repoRelativeFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+    "workflowRunId": "29834851184",
+    "artifactId": "voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural",
+    "downloadRoot": "voiceover-smoke/agent-work/29684347419/_artifacts/phase-c5-shared-shell-small-structural-retry/29834851184",
+    "scanRoot": "voiceover-smoke/agent-work/29684347419/_artifacts/phase-c5-shared-shell-small-structural-retry/29834851184/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+    "renderedFixturePath": "rendered-html.html"
+  },
+  "miniRawVoiceOverOutput": {
+    "acceptedRunId": "29834851184",
+    "announcements": [
+      "heading level 1, Shared shell structural variants",
+      "Offscreen search textbox, region",
+      "heading level 2, Offscreen search textbox",
+      "Before hidden search, navigation",
+      "list 5 items",
+      "., 1 of5",
+      "link, First item",
+      ".,2 of5",
+      "link, Second item",
+      ".,3 of5",
+      "link, Third item",
+      ".,4 of5",
+      "link, Fourth item",
+      "., 5 of5",
+      "link, Final fee link",
+      "end of list",
+      "end of, Before hidden search, navigation",
+      "search",
+      "Search edit text, blank",
+      "Go, button",
+      "end of, search",
+      "After hidden search, navigation",
+      "list 2 items",
+      ".,1of2",
+      "link, After one",
+      ".,2 of2",
+      "link, After two",
+      "end of list",
+      "end of, After hidden search, navigation",
+      "search",
+      "Visible search label",
+      "Visible search label Search visible, edit text",
+      "Visible go, button",
+      "end of, search",
+      "end of, Offscreen search textbox, region",
+      "Article group before note, article",
+      "heading level 2, Article group before note",
+      "A short intro explains that the sample item has changed.",
+      "A second paragraph says the example is familiar to visitors.",
+      "Image of example items, image",
+      "Note:",
+      "Special examples remain valid and do not need changes.",
+      "end of, Article group before note, article",
+      "Inline link tail order, region",
+      "heading level 2, Inline link tail order",
+      "If you sell sample items to the public - please click",
+      "link, here",
+      "to access a sample exchange form.",
+      "Your old sample items can be exchanged by following these steps:",
+      "list 3 items",
+      "1. Print a form., 1 of 3",
+      "2. Complete the form., 2 of 3",
+      "3. Send the package., 3 of 3",
+      "end of list",
+      "end of, Inline link tail order, region",
+      "Check prices and services available by country, region",
+      "heading level 2, Check prices and services available by country",
+      "Select a Country",
+      "*",
+      "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button",
+      "Select a Country",
+      "edit text, blank",
+      "View guide, dimmed, button",
+      "end of, Check prices and services available by country, region"
+    ]
+  },
+  "miniRenderedHtmlAndAxSummary": {
+    "renderedHtml": "accepted scan rendered HTML contains data-sr-scan-root and all four data-sr-variant sections",
+    "ax": [
+      "offscreen hidden search AX includes role=search, unnamed textbox with focusable/editable/plaintext state, placeholder-derived name behavior in VoiceOver, and Go button",
+      "article retry AX includes unnamed role=article plus AX-visible generic nodes around the image/blank wrapper before Note; VoiceOver still skipped the disputed group stop",
+      "inline link AX includes StaticText before link, link name here, and StaticText tail after link",
+      "select AX includes role=combobox name Select a Country *, value Select a Country, invalid=true, focusable=true, hasPopup=menu, expanded=false; selected placeholder option; following unnamed textbox and disabled submit button"
+    ],
+    "debugEvidenceStatus": "complete"
+  },
+  "miniEngineOutput": {
+    "acceptedRunId": "29834851184",
+    "summary": [
+      "Engine emits edit text, Search for the offscreen textbox, while VoiceOver emits Search edit text, blank.",
+      "Engine skips the article generic group before Note, same as retry VoiceOver.",
+      "Engine emits the inline paragraph as one joined text stop before the link and omits the post-link tail stop, while VoiceOver emits prefix, link, tail.",
+      "Engine omits required invalid and blank in the select-country combobox/edit-text announcements, while VoiceOver emits required invalid data menu pop up collapsed, button and edit text, blank."
+    ],
+    "artifact": "voiceover-smoke/agent-work/29684347419/_artifacts/phase-c5-shared-shell-small-structural-retry/29834851184/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-shared-shell-small-structural-small-structural/engine-traversal-debug.json"
+  },
+  "decisions": [
+    {
+      "currentRef": "www-royalmail-com-receiving-mail:current-window-2",
+      "variant": "offscreen search textbox",
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-receiving-mail:offscreen-unlabeled-search-region-textbox-wording:current-window-2:5d75a3556c886abd",
+        "currentWindowIndex": 2,
+        "actualIndex": 20,
+        "expectedIndex": 20,
+        "firstActualSha256": "e8cc3b5de9af8302",
+        "firstExpectedSha256": "f80adb61da884509",
+        "windowSequenceSha256": "129e18e82536a2ce",
+        "resolution": "matched-current-compare"
+      },
+      "originalExpectedRefinedSnippet": "Search edit text, blank",
+      "originalActualSnippet": "edit text, Search",
+      "minimalDomAxContract": "Offscreen role=search form with visibility-hidden label text, empty focusable text input using placeholder Search, and submit button Go after preceding list/navigation context.",
+      "miniVoiceOverSnippet": [
+        "search",
+        "Search edit text, blank",
+        "Go, button"
+      ],
+      "miniEngineSnippet": [
+        "search",
+        "edit text, Search",
+        "Go, button"
+      ],
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "route": "D",
+      "handoffTo": "engine-refiner",
+      "suggestedFocusedUnitCoverage": "Add a guarded sr-engine test for an offscreen role=search form whose text input has an empty value, hidden visibility label, and placeholder Search; assert VoiceOver-style textbox wording includes placeholder before role and blank value.",
+      "controlsReached": {
+        "positive": true,
+        "negative": true,
+        "tailGuard": true
+      }
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-barcoded-stamps:current-window-2",
+      "variant": "article group before Note",
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-barcoded-stamps:article-group-before-note:current-window-2:2ca4e480855c5d0b",
+        "currentWindowIndex": 2,
+        "actualIndex": 58,
+        "expectedIndex": 60,
+        "firstActualSha256": "1150f05446e4d344",
+        "firstExpectedSha256": "ad936fcbed631fa6",
+        "windowSequenceSha256": "6f961195f49edc70",
+        "resolution": "matched-current-compare"
+      },
+      "originalExpectedRefinedSnippet": "group; Note:",
+      "originalActualSnippet": "Note:",
+      "minimalDomAxContract": "Native article with nested anonymous div wrappers, image stop, AX-visible generic blank wrapper before a paragraph beginning with strong Note.",
+      "miniVoiceOverSnippet": [
+        "Image of example items, image",
+        "Note:",
+        "Special examples remain valid and do not need changes."
+      ],
+      "miniEngineSnippet": [
+        "Image of example items, image",
+        "Note:",
+        "Special examples remain valid and do not need changes."
+      ],
+      "retryAttempted": true,
+      "retryChange": "Removed artificial article aria-labelledby and added a non-breaking-space generic wrapper to match source AX-visible blank div before Note.",
+      "verdict": "insufficient-repro",
+      "debugEvidenceStatus": "complete",
+      "route": "park",
+      "handoffTo": "fixture-judge",
+      "handoffReason": "After one refinement, the same-structure mini page still did not reproduce the original group stop. Treat the original ref as scanner-evidence-gap unless a future source packet identifies another omitted condition beyond article/wrapper/image/blank-generic/Note.",
+      "controlsReached": {
+        "positive": false,
+        "negative": true,
+        "tailGuard": true
+      },
+      "retryGate": {
+        "allowedFurtherRetryInThisPass": false,
+        "blocker": "Original source produced a group stop before Note, but a neutral article/image/AX-visible blank-wrapper retry did not. Need a more exact original source packet identifying the generated NBSP/rendered CSS or wrapper geometry that makes VoiceOver stop on that generic node."
+      }
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-barcoded-stamps:current-window-3",
+      "variant": "inline link tail order",
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-barcoded-stamps:paragraph-inline-link-tail-order:current-window-3:057af2e714c37b40",
+        "currentWindowIndex": 3,
+        "actualIndex": 61,
+        "expectedIndex": 64,
+        "firstActualSha256": "9c687a405499e6c5",
+        "firstExpectedSha256": "b1ce5a974e835924",
+        "windowSequenceSha256": "de6761005d610753",
+        "resolution": "matched-current-compare"
+      },
+      "originalExpectedRefinedSnippet": "If you are a retailer who sells stamps to the general public - please click to access a Retail Stamp Exchange form.; link, here",
+      "originalVoiceOverSourceSnippet": "If you are a retailer who sells stamps to the general public - please click; link, here; to access a Retail Stamp Exchange form.",
+      "minimalDomAxContract": "Single paragraph with StaticText before an inline anchor named here and StaticText tail after the anchor, followed by a separate paragraph and ordered list.",
+      "miniVoiceOverSnippet": [
+        "If you sell sample items to the public - please click",
+        "link, here",
+        "to access a sample exchange form."
+      ],
+      "miniEngineSnippet": [
+        "If you sell sample items to the public - please click to access a sample exchange form.",
+        "link, here"
+      ],
+      "verdict": "fixture-noise-confirmed",
+      "debugEvidenceStatus": "complete",
+      "route": "B",
+      "handoffTo": "evidence-refiner",
+      "handoffReason": "Mini VoiceOver confirms the original source split across text/link/tail nodes and contradicts the current joined refined line. Return to Phase B for fixture cleanup against original source evidence; do not promote this repro as a corpus fixture.",
+      "controlsReached": {
+        "positive": true,
+        "negative": true,
+        "tailGuard": true
+      }
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-international:current-window-4",
+      "variant": "select-country combobox",
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-international:select-country-required-invalid-combobox:current-window-4:99126fe2a08fec29",
+        "currentWindowIndex": 4,
+        "actualIndex": 100,
+        "expectedIndex": 104,
+        "firstActualSha256": "baa6b46e4810766c",
+        "firstExpectedSha256": "d4e1edf0dd001235",
+        "windowSequenceSha256": "adeb9530ba992686",
+        "resolution": "matched-current-compare"
+      },
+      "originalExpectedRefinedSnippet": "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button; Select a Country; group; edit text, blank",
+      "originalActualSnippet": "Select a Country *; Select a Country, Select a Country *, menu pop up collapsed, button; Select a Country; edit text",
+      "minimalDomAxContract": "Label text plus required marker span with title, required native select with aria-required=true and tabindex=-1, selected placeholder option, custom wrapper after select with text anchor and empty textbox, and disabled submit input.",
+      "miniVoiceOverSnippet": [
+        "Select a Country",
+        "*",
+        "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button",
+        "Select a Country",
+        "edit text, blank",
+        "View guide, dimmed, button"
+      ],
+      "miniEngineSnippet": [
+        "*",
+        "Select a Country *",
+        "Select a Country, Select a Country *, menu pop up collapsed, button",
+        "Select a Country",
+        "edit text",
+        "dimmed, button"
+      ],
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "route": "D",
+      "handoffTo": "engine-refiner",
+      "handoffReason": "Mini VoiceOver confirms required invalid state and blank textbox value for the core combobox window. The original standalone group sub-stop after Select a Country was not reproduced and must not be included in the D rule from this receipt.",
+      "suggestedFocusedUnitCoverage": "Add guarded sr-engine coverage for a required native select with selected empty placeholder, aria-required=true, tabindex=-1, invalid AX/browser state, and adjacent custom combobox textbox; assert required invalid data menu pop up collapsed, button and edit text, blank wording. Do not assert a generic group stop from this C.5 evidence.",
+      "controlsReached": {
+        "positive": true,
+        "negative": true,
+        "tailGuard": true,
+        "unreachedSubstop": "custom wrapper group after selected placeholder"
+      }
+    }
+  ],
+  "evidence": {
+    "originalAxContracts": [
+      "www-royalmail-com-receiving-mail source AX: role=search form, unnamed textbox, focusable editable plaintext, placeholder Search, Go button.",
+      "www-royalmail-com-sending-barcoded-stamps source AX: unnamed article; image; AX-visible generic div with NBSP child before paragraph whose strong child names Note:.",
+      "www-royalmail-com-sending-barcoded-stamps source AX: paragraph child order StaticText prefix, link name here, StaticText tail.",
+      "www-royalmail-com-sending-international source AX: combobox name Select a Country *, value Select a Country, invalid=true, focusable=true, hasPopup=menu, expanded=false; selected placeholder option; following unnamed textbox; disabled View guide button."
+    ],
+    "artifactFilesInspected": [
+      "voiceover-output.json",
+      "voiceover-sources.json",
+      "rendered-html.html",
+      "accessibility-tree.json",
+      "engine-traversal-debug.json",
+      "step-snapshots.json",
+      "screenshots/**/*.png",
+      "refinement-manifest.json",
+      "runner-environment.json"
+    ],
+    "tests": [
+      {
+        "command": "node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+        "status": "passed"
+      }
+    ]
+  },
+  "fixtureChanges": [
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html",
+      "field": "repro-html",
+      "range": "new file",
+      "before": "",
+      "after": "neutral Phase C.5 repro with four isolated variants under data-sr-scan-root",
+      "reason": "minimal-repro-confirmed",
+      "evidencePointers": [
+        "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-shared-shell-current-family-audit.json",
+        "canary run 29832899610",
+        "full scan run 29833597047",
+        "retry scan run 29834851184"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": true,
+      "approvedByPhase": "C.5"
+    }
+  ],
+  "nextPhase": "mixed",
+  "handoffFrom": "phase-b-shared-shell-current-family-audit",
+  "handoffTo": "engine-refiner,evidence-refiner,fixture-judge",
+  "handoffReason": "C.5 resolved three core structural variants and parked one unreproduced article group subfamily after the single allowed refinement.",
+  "nextRecommendedWorker": {
+    "type": "mixed",
+    "scope": "Engine-refiner: offscreen search textbox and select-country combobox core only. Evidence-refiner: inline link tail refined-output cleanup. Fixture-judge: park article group before Note as scanner-evidence-gap unless more exact original conditions are recovered.",
+    "c5Needed": false,
+    "reason": "Accepted full retry scan has complete debug evidence and reached all four variant windows; article variant remains insufficient after one refinement."
+  }
+}

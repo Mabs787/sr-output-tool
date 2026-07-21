@@ -1,0 +1,2109 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 172,
+  "ignoredNodeCount": 26,
+  "axMappedNodeCount": 76,
+  "domSnapshotMappedNodeCount": 83,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "56",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Phase C.5 shared shell small structural repro",
+      "backendDOMNodeId": 56,
+      "childIds": [
+        "58"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-shared-shell-small-structural/small-structural.html"
+      }
+    },
+    {
+      "nodeId": "58",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 58,
+      "childIds": [
+        "64"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "64",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 64,
+      "childIds": [
+        "65"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "65",
+      "ignored": false,
+      "role": "main",
+      "name": "neutral shared shell small structural repro",
+      "backendDOMNodeId": 65,
+      "domNodeId": "1",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
+      "tagName": "main",
+      "childIds": [
+        "66",
+        "67",
+        "68",
+        "104",
+        "118",
+        "127",
+        "165"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "66",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 66,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "p",
+      "childIds": [
+        "12"
+      ]
+    },
+    {
+      "nodeId": "67",
+      "ignored": false,
+      "role": "heading",
+      "name": "Shared shell structural variants",
+      "backendDOMNodeId": 67,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "h1",
+      "childIds": [
+        "13"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "68",
+      "ignored": false,
+      "role": "region",
+      "name": "Offscreen search textbox",
+      "backendDOMNodeId": 68,
+      "domNodeId": "4",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
+      "tagName": "section",
+      "childIds": [
+        "69",
+        "70",
+        "82",
+        "93",
+        "53"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "104",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 104,
+      "domNodeId": "38",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"38\"]",
+      "tagName": "article",
+      "childIds": [
+        "105",
+        "106"
+      ]
+    },
+    {
+      "nodeId": "118",
+      "ignored": false,
+      "role": "region",
+      "name": "Inline link tail order",
+      "backendDOMNodeId": 118,
+      "domNodeId": "50",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"50\"]",
+      "tagName": "section",
+      "childIds": [
+        "119",
+        "120",
+        "122",
+        "123"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "127",
+      "ignored": false,
+      "role": "region",
+      "name": "Check prices and services available by country",
+      "backendDOMNodeId": 127,
+      "domNodeId": "59",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"59\"]",
+      "tagName": "section",
+      "childIds": [
+        "128",
+        "54"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "165",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 165,
+      "domNodeId": "83",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"83\"]",
+      "tagName": "p",
+      "childIds": [
+        "49"
+      ]
+    },
+    {
+      "nodeId": "12",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "SR Output Tool VoiceOver scan start marker",
+      "backendDOMNodeId": 12,
+      "childIds": [
+        "-1000000045"
+      ]
+    },
+    {
+      "nodeId": "13",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Shared shell structural variants",
+      "backendDOMNodeId": 13,
+      "childIds": [
+        "-1000000046"
+      ]
+    },
+    {
+      "nodeId": "69",
+      "ignored": false,
+      "role": "heading",
+      "name": "Offscreen search textbox",
+      "backendDOMNodeId": 69,
+      "domNodeId": "5",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
+      "tagName": "h2",
+      "childIds": [
+        "14"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "70",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Before hidden search",
+      "backendDOMNodeId": 70,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "nav",
+      "childIds": [
+        "71"
+      ]
+    },
+    {
+      "nodeId": "82",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 82,
+      "domNodeId": "18",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"18\"]",
+      "tagName": "div",
+      "childIds": [
+        "55"
+      ]
+    },
+    {
+      "nodeId": "93",
+      "ignored": false,
+      "role": "navigation",
+      "name": "After hidden search",
+      "backendDOMNodeId": 93,
+      "domNodeId": "28",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"28\"]",
+      "tagName": "nav",
+      "childIds": [
+        "94"
+      ]
+    },
+    {
+      "nodeId": "53",
+      "ignored": false,
+      "role": "search",
+      "name": "",
+      "backendDOMNodeId": 53,
+      "domNodeId": "34",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"34\"]",
+      "tagName": "form",
+      "childIds": [
+        "99",
+        "100",
+        "103"
+      ]
+    },
+    {
+      "nodeId": "105",
+      "ignored": false,
+      "role": "heading",
+      "name": "Article group before note",
+      "backendDOMNodeId": 105,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "h2",
+      "childIds": [
+        "27"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "106",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 106,
+      "domNodeId": "40",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"40\"]",
+      "tagName": "div",
+      "childIds": [
+        "107"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "107",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 107,
+      "domNodeId": "41",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"41\"]",
+      "tagName": "div",
+      "childIds": [
+        "108"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "108",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 108,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "div",
+      "childIds": [
+        "109",
+        "110",
+        "111",
+        "115",
+        "116"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "109",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 109,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "p",
+      "childIds": [
+        "28"
+      ]
+    },
+    {
+      "nodeId": "110",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 110,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "p",
+      "childIds": [
+        "29"
+      ]
+    },
+    {
+      "nodeId": "111",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 111,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "div",
+      "childIds": [
+        "112"
+      ]
+    },
+    {
+      "nodeId": "115",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 115,
+      "domNodeId": "47",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"47\"]",
+      "tagName": "div",
+      "childIds": [
+        "31"
+      ]
+    },
+    {
+      "nodeId": "116",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 116,
+      "domNodeId": "48",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"48\"]",
+      "tagName": "p",
+      "childIds": [
+        "117",
+        "33"
+      ]
+    },
+    {
+      "nodeId": "119",
+      "ignored": false,
+      "role": "heading",
+      "name": "Inline link tail order",
+      "backendDOMNodeId": 119,
+      "domNodeId": "51",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"51\"]",
+      "tagName": "h2",
+      "childIds": [
+        "34"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "120",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 120,
+      "domNodeId": "52",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"52\"]",
+      "tagName": "p",
+      "childIds": [
+        "35",
+        "121",
+        "37"
+      ]
+    },
+    {
+      "nodeId": "122",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 122,
+      "domNodeId": "54",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"54\"]",
+      "tagName": "p",
+      "childIds": [
+        "38"
+      ]
+    },
+    {
+      "nodeId": "123",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 123,
+      "domNodeId": "55",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"55\"]",
+      "tagName": "ol",
+      "childIds": [
+        "124",
+        "125",
+        "126"
+      ]
+    },
+    {
+      "nodeId": "128",
+      "ignored": false,
+      "role": "heading",
+      "name": "Check prices and services available by country",
+      "backendDOMNodeId": 128,
+      "domNodeId": "60",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"60\"]",
+      "tagName": "h2",
+      "childIds": [
+        "42"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "54",
+      "ignored": false,
+      "role": "form",
+      "name": "",
+      "backendDOMNodeId": 54,
+      "domNodeId": "61",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"61\"]",
+      "tagName": "form",
+      "childIds": [
+        "129",
+        "163"
+      ]
+    },
+    {
+      "nodeId": "49",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "SR Output Tool VoiceOver scan end marker",
+      "backendDOMNodeId": 49,
+      "childIds": [
+        "-1000000076"
+      ]
+    },
+    {
+      "nodeId": "-1000000045",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "SR Output Tool VoiceOver scan start marker"
+    },
+    {
+      "nodeId": "-1000000046",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Shared shell structural variants"
+    },
+    {
+      "nodeId": "14",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Offscreen search textbox",
+      "backendDOMNodeId": 14,
+      "childIds": [
+        "-1000000047"
+      ]
+    },
+    {
+      "nodeId": "71",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 71,
+      "domNodeId": "7",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"7\"]",
+      "tagName": "ul",
+      "childIds": [
+        "72",
+        "74",
+        "76",
+        "78",
+        "80"
+      ]
+    },
+    {
+      "nodeId": "55",
+      "ignored": false,
+      "role": "search",
+      "name": "",
+      "backendDOMNodeId": 55,
+      "domNodeId": "19",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"19\"]",
+      "tagName": "form",
+      "childIds": [
+        "83"
+      ]
+    },
+    {
+      "nodeId": "94",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 94,
+      "domNodeId": "29",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"29\"]",
+      "tagName": "ul",
+      "childIds": [
+        "95",
+        "97"
+      ]
+    },
+    {
+      "nodeId": "99",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 99,
+      "domNodeId": "35",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"35\"]",
+      "tagName": "label",
+      "childIds": [
+        "24"
+      ]
+    },
+    {
+      "nodeId": "100",
+      "ignored": false,
+      "role": "textbox",
+      "name": "Visible search label",
+      "backendDOMNodeId": 100,
+      "domNodeId": "36",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"36\"]",
+      "tagName": "input",
+      "childIds": [
+        "101",
+        "102"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": false
+      }
+    },
+    {
+      "nodeId": "103",
+      "ignored": false,
+      "role": "button",
+      "name": "Visible go",
+      "backendDOMNodeId": 103,
+      "domNodeId": "37",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"37\"]",
+      "tagName": "button",
+      "childIds": [
+        "23"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "27",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Article group before note",
+      "backendDOMNodeId": 27,
+      "childIds": [
+        "-1000000057"
+      ]
+    },
+    {
+      "nodeId": "28",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "A short intro explains that the sample item has changed.",
+      "backendDOMNodeId": 28,
+      "childIds": [
+        "-1000000058"
+      ]
+    },
+    {
+      "nodeId": "29",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "A second paragraph says the example is familiar to visitors.",
+      "backendDOMNodeId": 29,
+      "childIds": [
+        "-1000000059"
+      ]
+    },
+    {
+      "nodeId": "112",
+      "ignored": false,
+      "role": "image",
+      "name": "Image of example items",
+      "description": "example-items",
+      "backendDOMNodeId": 112,
+      "domNodeId": "46",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"46\"]",
+      "tagName": "img"
+    },
+    {
+      "nodeId": "31",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " ",
+      "backendDOMNodeId": 31,
+      "childIds": [
+        "-1000000060"
+      ]
+    },
+    {
+      "nodeId": "117",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 117,
+      "domNodeId": "49",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"49\"]",
+      "tagName": "strong",
+      "childIds": [
+        "32"
+      ]
+    },
+    {
+      "nodeId": "33",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " Special examples remain valid and do not need changes.",
+      "backendDOMNodeId": 33,
+      "childIds": [
+        "-1000000062"
+      ]
+    },
+    {
+      "nodeId": "34",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Inline link tail order",
+      "backendDOMNodeId": 34,
+      "childIds": [
+        "-1000000063"
+      ]
+    },
+    {
+      "nodeId": "35",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "If you sell sample items to the public - please click ",
+      "backendDOMNodeId": 35,
+      "childIds": [
+        "-1000000089"
+      ]
+    },
+    {
+      "nodeId": "121",
+      "ignored": false,
+      "role": "link",
+      "name": "here",
+      "backendDOMNodeId": 121,
+      "domNodeId": "53",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"53\"]",
+      "tagName": "a",
+      "childIds": [
+        "36"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/form"
+      }
+    },
+    {
+      "nodeId": "37",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " to access a sample exchange form.",
+      "backendDOMNodeId": 37,
+      "childIds": [
+        "-1000000091"
+      ]
+    },
+    {
+      "nodeId": "38",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Your old sample items can be exchanged by following these steps:",
+      "backendDOMNodeId": 38,
+      "childIds": [
+        "-1000000067"
+      ]
+    },
+    {
+      "nodeId": "124",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 124,
+      "domNodeId": "56",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"56\"]",
+      "tagName": "li",
+      "childIds": [
+        "9",
+        "39"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "125",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 125,
+      "domNodeId": "57",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"57\"]",
+      "tagName": "li",
+      "childIds": [
+        "10",
+        "40"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "126",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 126,
+      "domNodeId": "58",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"58\"]",
+      "tagName": "li",
+      "childIds": [
+        "11",
+        "41"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "42",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Check prices and services available by country",
+      "backendDOMNodeId": 42,
+      "childIds": [
+        "-1000000071"
+      ]
+    },
+    {
+      "nodeId": "129",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 129,
+      "domNodeId": "62",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"62\"]",
+      "tagName": "div",
+      "childIds": [
+        "130",
+        "132",
+        "151"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "130",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 130,
+      "domNodeId": "63",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"63\"]",
+      "tagName": "label",
+      "childIds": [
+        "44",
+        "131"
+      ]
+    },
+    {
+      "nodeId": "132",
+      "ignored": false,
+      "role": "combobox",
+      "name": "Select a Country *",
+      "value": "Select a Country",
+      "backendDOMNodeId": 132,
+      "domNodeId": "65",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"65\"]",
+      "tagName": "select",
+      "childIds": [
+        "135"
+      ],
+      "properties": {
+        "invalid": "true",
+        "focusable": true,
+        "hasPopup": "menu",
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "151",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 151,
+      "domNodeId": "70",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"70\"]",
+      "tagName": "div",
+      "childIds": [
+        "47",
+        "154",
+        "156"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "47",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Select a Country",
+      "backendDOMNodeId": 47,
+      "childIds": [
+        "-1000000074"
+      ]
+    },
+    {
+      "nodeId": "154",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 154,
+      "domNodeId": "73",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"73\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "156",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 156,
+      "domNodeId": "75",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"75\"]",
+      "tagName": "div",
+      "childIds": [
+        "157",
+        "160"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "157",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 157,
+      "domNodeId": "76",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"76\"]",
+      "tagName": "div",
+      "childIds": [
+        "158"
+      ]
+    },
+    {
+      "nodeId": "160",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 160,
+      "domNodeId": "78",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"78\"]",
+      "tagName": "ul"
+    },
+    {
+      "nodeId": "163",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 163,
+      "domNodeId": "81",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"81\"]",
+      "tagName": "div",
+      "childIds": [
+        "164"
+      ]
+    },
+    {
+      "nodeId": "-1000000076",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "SR Output Tool VoiceOver scan end marker"
+    },
+    {
+      "nodeId": "-1000000047",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Offscreen search textbox"
+    },
+    {
+      "nodeId": "72",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 72,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "li",
+      "childIds": [
+        "2",
+        "73"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "74",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 74,
+      "domNodeId": "10",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
+      "tagName": "li",
+      "childIds": [
+        "3",
+        "75"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "76",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 76,
+      "domNodeId": "12",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"12\"]",
+      "tagName": "li",
+      "childIds": [
+        "4",
+        "77"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "78",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 78,
+      "domNodeId": "14",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"14\"]",
+      "tagName": "li",
+      "childIds": [
+        "5",
+        "79"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "80",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 80,
+      "domNodeId": "16",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"16\"]",
+      "tagName": "li",
+      "childIds": [
+        "6",
+        "81"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "83",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 83,
+      "domNodeId": "20",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"20\"]",
+      "tagName": "div",
+      "childIds": [
+        "84"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "84",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 84,
+      "domNodeId": "21",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"21\"]",
+      "tagName": "div",
+      "childIds": [
+        "85",
+        "90"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "85",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 85,
+      "domNodeId": "22",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"22\"]",
+      "tagName": "div",
+      "childIds": [
+        "86",
+        "87"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "86",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 86,
+      "domNodeId": "23",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"23\"]",
+      "tagName": "label",
+      "childIds": [
+        "50"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notVisible",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "50",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 50,
+      "ignoredReasons": [
+        {
+          "name": "notVisible",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "87",
+      "ignored": false,
+      "role": "textbox",
+      "name": "",
+      "backendDOMNodeId": 87,
+      "domNodeId": "24",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"24\"]",
+      "tagName": "input",
+      "childIds": [
+        "88",
+        "89"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": false
+      }
+    },
+    {
+      "nodeId": "90",
+      "ignored": false,
+      "role": "button",
+      "name": "Go",
+      "backendDOMNodeId": 90,
+      "domNodeId": "25",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"25\"]",
+      "tagName": "button",
+      "childIds": [
+        "52"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "95",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 95,
+      "domNodeId": "30",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"30\"]",
+      "tagName": "li",
+      "childIds": [
+        "7",
+        "96"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "97",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 97,
+      "domNodeId": "32",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"32\"]",
+      "tagName": "li",
+      "childIds": [
+        "8",
+        "98"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "24",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Visible search label",
+      "backendDOMNodeId": 24,
+      "childIds": [
+        "-1000000056"
+      ]
+    },
+    {
+      "nodeId": "101",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 101
+    },
+    {
+      "nodeId": "102",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 102,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "23",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Visible go",
+      "backendDOMNodeId": 23,
+      "childIds": [
+        "-1000000055"
+      ]
+    },
+    {
+      "nodeId": "-1000000057",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Article group before note"
+    },
+    {
+      "nodeId": "-1000000058",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "A short intro explains that the sample item has changed."
+    },
+    {
+      "nodeId": "-1000000059",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "A second paragraph says the example is familiar to visitors."
+    },
+    {
+      "nodeId": "-1000000060",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " "
+    },
+    {
+      "nodeId": "32",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Note:",
+      "backendDOMNodeId": 32,
+      "childIds": [
+        "-1000000061"
+      ]
+    },
+    {
+      "nodeId": "-1000000062",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " Special examples remain valid and do not need changes."
+    },
+    {
+      "nodeId": "-1000000063",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Inline link tail order"
+    },
+    {
+      "nodeId": "-1000000089",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "If you sell sample items to the public - please click "
+    },
+    {
+      "nodeId": "36",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "here",
+      "backendDOMNodeId": 36,
+      "childIds": [
+        "-1000000090"
+      ]
+    },
+    {
+      "nodeId": "-1000000091",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " to access a sample exchange form."
+    },
+    {
+      "nodeId": "-1000000067",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Your old sample items can be exchanged by following these steps:"
+    },
+    {
+      "nodeId": "9",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "1. ",
+      "backendDOMNodeId": 9,
+      "childIds": [
+        "-1000000033"
+      ]
+    },
+    {
+      "nodeId": "39",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Print a form.",
+      "backendDOMNodeId": 39,
+      "childIds": [
+        "-1000000068"
+      ]
+    },
+    {
+      "nodeId": "10",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "2. ",
+      "backendDOMNodeId": 10,
+      "childIds": [
+        "-1000000035"
+      ]
+    },
+    {
+      "nodeId": "40",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Complete the form.",
+      "backendDOMNodeId": 40,
+      "childIds": [
+        "-1000000069"
+      ]
+    },
+    {
+      "nodeId": "11",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "3. ",
+      "backendDOMNodeId": 11,
+      "childIds": [
+        "-1000000037"
+      ]
+    },
+    {
+      "nodeId": "41",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Send the package.",
+      "backendDOMNodeId": 41,
+      "childIds": [
+        "-1000000070"
+      ]
+    },
+    {
+      "nodeId": "-1000000071",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Check prices and services available by country"
+    },
+    {
+      "nodeId": "44",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Select a Country ",
+      "backendDOMNodeId": 44,
+      "childIds": [
+        "-1000000072"
+      ]
+    },
+    {
+      "nodeId": "131",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "description": "This field is required.",
+      "backendDOMNodeId": 131,
+      "domNodeId": "64",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"64\"]",
+      "tagName": "span",
+      "childIds": [
+        "45"
+      ]
+    },
+    {
+      "nodeId": "135",
+      "ignored": false,
+      "role": "MenuListPopup",
+      "name": "",
+      "backendDOMNodeId": 135,
+      "childIds": [
+        "139",
+        "142",
+        "145",
+        "148"
+      ]
+    },
+    {
+      "nodeId": "-1000000074",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Select a Country"
+    },
+    {
+      "nodeId": "158",
+      "ignored": false,
+      "role": "textbox",
+      "name": "",
+      "backendDOMNodeId": 158,
+      "domNodeId": "77",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"77\"]",
+      "tagName": "input",
+      "childIds": [
+        "159"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "focused": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": false
+      }
+    },
+    {
+      "nodeId": "164",
+      "ignored": false,
+      "role": "button",
+      "name": "View guide",
+      "backendDOMNodeId": 164,
+      "domNodeId": "82",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"82\"]",
+      "tagName": "input",
+      "childIds": [
+        "48"
+      ],
+      "properties": {
+        "disabled": true,
+        "invalid": "false"
+      }
+    },
+    {
+      "nodeId": "2",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 2,
+      "childIds": [
+        "-1000000005"
+      ]
+    },
+    {
+      "nodeId": "73",
+      "ignored": false,
+      "role": "link",
+      "name": "First item",
+      "backendDOMNodeId": 73,
+      "domNodeId": "9",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"9\"]",
+      "tagName": "a",
+      "childIds": [
+        "15"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/item-one"
+      }
+    },
+    {
+      "nodeId": "3",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 3,
+      "childIds": [
+        "-1000000007"
+      ]
+    },
+    {
+      "nodeId": "75",
+      "ignored": false,
+      "role": "link",
+      "name": "Second item",
+      "backendDOMNodeId": 75,
+      "domNodeId": "11",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
+      "tagName": "a",
+      "childIds": [
+        "16"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/item-two"
+      }
+    },
+    {
+      "nodeId": "4",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 4,
+      "childIds": [
+        "-1000000009"
+      ]
+    },
+    {
+      "nodeId": "77",
+      "ignored": false,
+      "role": "link",
+      "name": "Third item",
+      "backendDOMNodeId": 77,
+      "domNodeId": "13",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"13\"]",
+      "tagName": "a",
+      "childIds": [
+        "17"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/item-three"
+      }
+    },
+    {
+      "nodeId": "5",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 5,
+      "childIds": [
+        "-1000000011"
+      ]
+    },
+    {
+      "nodeId": "79",
+      "ignored": false,
+      "role": "link",
+      "name": "Fourth item",
+      "backendDOMNodeId": 79,
+      "domNodeId": "15",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"15\"]",
+      "tagName": "a",
+      "childIds": [
+        "18"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/item-four"
+      }
+    },
+    {
+      "nodeId": "6",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 6,
+      "childIds": [
+        "-1000000013"
+      ]
+    },
+    {
+      "nodeId": "81",
+      "ignored": false,
+      "role": "link",
+      "name": "Final fee link",
+      "backendDOMNodeId": 81,
+      "domNodeId": "17",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"17\"]",
+      "tagName": "a",
+      "childIds": [
+        "19"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/item-five"
+      }
+    },
+    {
+      "nodeId": "88",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 88
+    },
+    {
+      "nodeId": "89",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 89,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "52",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Go",
+      "backendDOMNodeId": 52,
+      "childIds": [
+        "-1000000077"
+      ]
+    },
+    {
+      "nodeId": "7",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 7,
+      "childIds": [
+        "-1000000016"
+      ]
+    },
+    {
+      "nodeId": "96",
+      "ignored": false,
+      "role": "link",
+      "name": "After one",
+      "backendDOMNodeId": 96,
+      "domNodeId": "31",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"31\"]",
+      "tagName": "a",
+      "childIds": [
+        "20"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/after-one"
+      }
+    },
+    {
+      "nodeId": "8",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 8,
+      "childIds": [
+        "-1000000018"
+      ]
+    },
+    {
+      "nodeId": "98",
+      "ignored": false,
+      "role": "link",
+      "name": "After two",
+      "backendDOMNodeId": 98,
+      "domNodeId": "33",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"33\"]",
+      "tagName": "a",
+      "childIds": [
+        "21"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/after-two"
+      }
+    },
+    {
+      "nodeId": "-1000000056",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Visible search label"
+    },
+    {
+      "nodeId": "-1000000055",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Visible go"
+    },
+    {
+      "nodeId": "-1000000061",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Note:"
+    },
+    {
+      "nodeId": "-1000000090",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "here"
+    },
+    {
+      "nodeId": "-1000000033",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000068",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Print a form."
+    },
+    {
+      "nodeId": "-1000000035",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000069",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Complete the form."
+    },
+    {
+      "nodeId": "-1000000037",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000070",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Send the package."
+    },
+    {
+      "nodeId": "-1000000072",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Select a Country "
+    },
+    {
+      "nodeId": "45",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "*",
+      "backendDOMNodeId": 45,
+      "childIds": [
+        "-1000000073"
+      ]
+    },
+    {
+      "nodeId": "139",
+      "ignored": false,
+      "role": "option",
+      "name": "Select a Country",
+      "backendDOMNodeId": 139,
+      "domNodeId": "66",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"66\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": true
+      }
+    },
+    {
+      "nodeId": "142",
+      "ignored": false,
+      "role": "option",
+      "name": "Alpha",
+      "backendDOMNodeId": 142,
+      "domNodeId": "67",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"67\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "145",
+      "ignored": false,
+      "role": "option",
+      "name": "Bravo",
+      "backendDOMNodeId": 145,
+      "domNodeId": "68",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"68\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "148",
+      "ignored": false,
+      "role": "option",
+      "name": "Charlie",
+      "backendDOMNodeId": 148,
+      "domNodeId": "69",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"69\"]",
+      "tagName": "option",
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "159",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 159,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "48",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "View guide",
+      "backendDOMNodeId": 48,
+      "childIds": [
+        "-1000000075"
+      ]
+    },
+    {
+      "nodeId": "-1000000005",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "15",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "First item",
+      "backendDOMNodeId": 15,
+      "childIds": [
+        "-1000000082"
+      ]
+    },
+    {
+      "nodeId": "-1000000007",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "16",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Second item",
+      "backendDOMNodeId": 16,
+      "childIds": [
+        "-1000000083"
+      ]
+    },
+    {
+      "nodeId": "-1000000009",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "17",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Third item",
+      "backendDOMNodeId": 17,
+      "childIds": [
+        "-1000000084"
+      ]
+    },
+    {
+      "nodeId": "-1000000011",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "18",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Fourth item",
+      "backendDOMNodeId": 18,
+      "childIds": [
+        "-1000000085"
+      ]
+    },
+    {
+      "nodeId": "-1000000013",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "19",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Final fee link",
+      "backendDOMNodeId": 19,
+      "childIds": [
+        "-1000000086"
+      ]
+    },
+    {
+      "nodeId": "-1000000077",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Go"
+    },
+    {
+      "nodeId": "-1000000016",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "After one",
+      "backendDOMNodeId": 20,
+      "childIds": [
+        "-1000000087"
+      ]
+    },
+    {
+      "nodeId": "-1000000018",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "21",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "After two",
+      "backendDOMNodeId": 21,
+      "childIds": [
+        "-1000000088"
+      ]
+    },
+    {
+      "nodeId": "-1000000073",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "*"
+    },
+    {
+      "nodeId": "-1000000075",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "View guide"
+    },
+    {
+      "nodeId": "-1000000082",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "First item"
+    },
+    {
+      "nodeId": "-1000000083",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Second item"
+    },
+    {
+      "nodeId": "-1000000084",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Third item"
+    },
+    {
+      "nodeId": "-1000000085",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Fourth item"
+    },
+    {
+      "nodeId": "-1000000086",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Final fee link"
+    },
+    {
+      "nodeId": "-1000000087",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "After one"
+    },
+    {
+      "nodeId": "-1000000088",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "After two"
+    }
+  ]
+}
