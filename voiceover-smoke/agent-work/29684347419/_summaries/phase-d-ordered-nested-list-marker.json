@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com-help",
+  "runId": "29684347419",
+  "candidateRef": "send-royalmail-com-help:current-window-17:e119:a114",
+  "family": "ordered-list-item-prefix-and-nested-marker-boundary",
+  "status": "passed_with_residuals",
+  "startedAt": "2026-07-21T04:26:35Z",
+  "finishedAt": "2026-07-21T04:39:56Z",
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "audit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-rich-list-c5-audit.json",
+    "c5Run": "29791563158",
+    "c5Artifact": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29791563158/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-rich-list-c5-rich-list-marker-truncation/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-rich-list-c5-rich-list-marker-truncation",
+    "originalHelpFixtureDir": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help",
+    "previousPatchReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-list-marker-text-boundary-supported-subset.json",
+    "leaseReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json"
+  },
+  "lease": {
+    "leaseOwner": "codex-phase-d-ordered-list-item-prefix-and-nested-marker-boundary-2026-07-21T04:26:35Z",
+    "activeEngineRefinerCountAtStart": 1,
+    "activeEngineRefinerCountAtFinish": 0,
+    "soleEngineRefiner": true,
+    "separateWorktreeException": false
+  },
+  "decisions": [
+    "Kept a narrow AX-backed native ol/li rule only for listitem AX children ordered as ListMarker, StaticText, direct nested list, where the DOM is a native li in an ol with rendered marker metadata and exactly one direct nested list child.",
+    "Kept nested marker behavior only for direct text-only nested li children under that AX-confirmed ordered parent shape.",
+    "Mapped AX circle marker U+25E6 to VoiceOver dot only inside the ordered-parent nested-list contract; existing generic bullet and ordered marker behavior remains unchanged.",
+    "Did not edit refinedAnnouncements, raw expectedAnnouncements, fixture HTML, fixture AX, repro HTML, or docs."
+  ],
+  "evidence": {
+    "phaseC": {
+      "route": "engine-ready",
+      "classification": "reusable-engine-gap",
+      "minimalGenericContract": "Native ol/li parent item with ordered AX ListMarker, direct text, and nested list; nested list items expose AX ListMarker plus StaticText."
+    },
+    "originalHelp": {
+      "html": "send-royalmail-com-help.html contains ol/li parent data-sr-dom-node-id 2328 with data-sr-marker-list-style-type decimal and direct nested ul.",
+      "ax": "send-royalmail-com-help.ax.json has listitem node 2420 children ListMarker '14. ', StaticText 'On this page, you can:', and nested list node 2419; nested listitems have ListMarker U+25E6 plus StaticText.",
+      "refinedWindow": "current compare window 16 after patch, previously current-window-17/e119:a114"
+    },
+    "c5": {
+      "positiveWindow": "ordered-positive-01",
+      "afterActualSlice": [
+        "list 1 item",
+        "14. On this page, you can:",
+        "list 7 items, level 2",
+        ". Add more entries to the sample collection., 1 of 7",
+        ". Edit or remove entries from the collection., 2 of 7",
+        ". Remove individual groups when they are no longer needed., 3 of 7",
+        ". Review the collection before continuing., 4 of 7",
+        ". Choose a date for the next review., 5 of 7",
+        ". Confirm the details shown in the summary., 6 of 7",
+        ". Return to the overview when finished., 7 of 7",
+        "end of list",
+        "end of list"
+      ],
+      "negativeControl": "Same native ordered parent shape with short text was reached in C.5; rule is generic and not copy/class based."
+    }
+  },
+  "fixtureChanges": [],
+  "changedFiles": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added AX-backed ordered parent nested-list splitter, nested marker splitter, and parent-position suppression for the direct nested list."
+    },
+    {
+      "file": "packages/sr-engine/src/types.ts",
+      "summary": "Added descriptor fields for the ordered parent and nested marker announcements."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added focused unit coverage for the C.5 ordered parent plus nested circle marker contract."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt extension runtime from the engine change."
+    }
+  ],
+  "targetCompareDelta": {
+    "target": "send-royalmail-com-help",
+    "before": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help npm run voiceover:compare -w packages/sr-engine -- send-royalmail-com-help 5",
+      "expectedCount": 362,
+      "actualCount": 325,
+      "mismatchWindowCount": 38,
+      "grouped": {
+        "role/structure": 8,
+        "list/marker": 28,
+        "punctuation/text-boundary": 2
+      },
+      "candidateActualShape": [
+        "On this page, you can:",
+        "list 7 items, level 2 1 of 1",
+        "bullet-prefixed nested items"
+      ],
+      "candidateExpectedShape": [
+        "14. On this page, you can:",
+        "list 7 items, level 2",
+        "dot/bullet-prefixed nested items"
+      ]
+    },
+    "after": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help npm run voiceover:compare -w packages/sr-engine -- send-royalmail-com-help 5",
+      "expectedCount": 362,
+      "actualCount": 325,
+      "mismatchWindowCount": 38,
+      "grouped": {
+        "role/structure": 8,
+        "list/marker": 28,
+        "punctuation/text-boundary": 2
+      },
+      "candidateActualShape": [
+        "14. On this page, you can:",
+        "list 7 items, level 2",
+        "dot-prefixed nested items"
+      ],
+      "candidateExpectedShape": [
+        "14. On this page, you can:",
+        "list 7 items, level 2",
+        "first four dot-prefixed nested items, last three bullet-prefixed refined items with punctuation differences"
+      ],
+      "result": "non_worsening_count_with_candidate_prefix_and_nested-list-position_fixed"
+    }
+  },
+  "checks": [
+    {
+      "command": "npm run build -w packages/sr-engine",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"ordered parent text|ordered markers|ordered plain text\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused ordered-list marker tests passed: 3 pass, 0 fail."
+    },
+    {
+      "command": "npm run test:unit -w packages/sr-engine",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full unit suite passed: 330 pass, 56 skipped, 0 fail."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- send-royalmail-com-help 5 with SR_VOICEOVER_FIXTURES_DIR set to isolated Help fixture",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Target compare ran; mismatch count stayed 38 and candidate prefix/list-level shape improved."
+    },
+    {
+      "command": "Temporary C.5 compare from run 29791563158 VoiceOver output",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Whole C.5 fixture remains non-exact due unrelated rich-list/paragraph families, but ordered-positive-01 actual slice now matches the C.5 ordered prefix and nested dot-marker sequence."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- www-gov-uk-find-local-council 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 80/80, 0 mismatches."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- www-sky-com-smart-home 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 150/150, 0 mismatches."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- www-nhs-uk-service-search-pharmacy-find-a-pharmacy 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 66/66, 0 mismatches."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- www-w3-org-wai 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 207/207, 0 mismatches."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- www-w3-org-wai-standards-guidelines-wcag 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 320/320, 0 mismatches."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- design-system-service-gov-uk-components-text-input 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 394/394, 0 mismatches."
+    },
+    {
+      "command": "npm run build:extension-runtime",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Root turbo wrapper failed because Turbo could not find the package manager binary in this environment."
+    },
+    {
+      "command": "npm run build:runtime -w packages/sr-extension",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Direct extension runtime rebuild passed and updated packages/sr-extension/src/content/engine-runtime.js."
+    },
+    {
+      "command": "npm run test:voiceover -w packages/sr-engine",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Full corpus ran; 36 passed, 21 skipped, 2 failed. Failures were www-microsoft-com-en-us-accessibility extra text stop and www-sky-com-watch-what-to-watch-this-week inline prose segmentation, both outside the ordered-list marker surface."
+    },
+    {
+      "command": "git diff --check",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "No whitespace errors."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "ordered-list-item-prefix-and-nested-marker-boundary-residual-punctuation-and-mixed-marker-tail",
+      "currentWindowIndexes": [
+        16,
+        17
+      ],
+      "latestActual": [
+        "14. On this page, you can:",
+        "list 7 items, level 2",
+        ". Arrange a collection for your item by clicking \u2018Arrange Collection\u2019., 4 of 7",
+        ". Remove individual collections by clicking 'Delete'., 5 of 7",
+        ". Send a similar item to assist another purchase using previous item information by clicking \u2018Send similar item\u2019., 6 of 7",
+        ". Complete your purchase - see below., 7 of 7"
+      ],
+      "latestExpected": [
+        "14. On this page, you can:",
+        "list 7 items, level 2",
+        ". Arrange a collection for your item by clicking 'Arrange Collection., 4 of 7",
+        "\u2022 Remove individual collections by clicking 'Delete', 5 of 7",
+        "\u2022 Send a similar item to assist another purchase using previous item information by clicking 'Send similar item', 6 of 7",
+        "\u2022 Complete your purchase - see below., 7 of 7"
+      ],
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split the remaining candidate tail into punctuation/quote normalization and mixed dot-versus-bullet nested marker evidence. Return to evidence-refiner if raw/source steps prove the last three bullet-prefixed refined lines are fixture-specific rather than the C.5-confirmed generic circle-marker behavior.",
+      "blocker": "C.5 same-structure positive confirms U+25E6 nested markers as dot-prefixed, while the current Help refined window keeps the last three nested lines bullet-prefixed with punctuation differences.",
+      "checksNeeded": [
+        "Re-read raw/source steps around Help nested list items 4-7",
+        "If evidence remains contradictory, run a focused C.5 for mixed punctuation/button-label nested circle markers",
+        "Re-run Help compare and protected exact list compares after any follow-up"
+      ]
+    },
+    {
+      "family": "out-of-scope-target-residuals",
+      "currentWindowIndexes": [
+        "1-15",
+        "18-38"
+      ],
+      "latestActual": "Remaining Help compare windows include pre-existing role/structure, list/marker, and punctuation/text-boundary mismatches outside ordered-list-item-prefix-and-nested-marker-boundary.",
+      "latestExpected": "See latest Help compare check in this receipt for exact window contexts.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify remaining Help windows independently; do not fold them into this ordered nested marker family.",
+      "blocker": "User requested Phase D for exactly send-royalmail-com-help:current-window-17:e119:a114.",
+      "checksNeeded": [
+        "Fresh Help compare",
+        "Phase C split by mismatch family"
+      ]
+    }
+  ],
+  "nextPhase": "fixture-judge",
+  "handoffReason": "The reusable ordered parent/nested marker engine gap was patched; remaining target mismatches are either punctuation/mixed-marker residuals or out-of-scope families.",
+  "handoffFrom": "C.5",
+  "handoffTo": "fixture-judge",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Classify only the residual punctuation and mixed dot/bullet nested marker tail for send-royalmail-com-help current windows 16-17.",
+    "c5Needed": true,
+    "reason": "Generic C.5 evidence supports dot-prefixed U+25E6 nested markers, while Help refined lines 5-7 remain bullet-prefixed."
+  }
+}

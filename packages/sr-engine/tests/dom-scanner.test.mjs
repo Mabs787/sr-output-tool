@@ -11456,6 +11456,119 @@ test("scanSubtree emits AX-confirmed marker and trailing text for mixed link lis
 	  );
 	});
 
+	test("scanSubtree prefixes AX-confirmed ordered parent text before a nested marker list", () => {
+	  assert.deepEqual(
+	    scanHtml(
+	      `
+	        <ol data-sr-dom-node-id="10">
+	          <li
+	            data-sr-dom-node-id="11"
+	            data-sr-marker-content="normal"
+	            data-sr-marker-display="inline-block"
+	            data-sr-marker-list-style-type="decimal"
+	          >On this page, you can:
+	            <ul data-sr-dom-node-id="12">
+	              <li
+	                data-sr-dom-node-id="13"
+	                data-sr-marker-content="normal"
+	                data-sr-marker-display="inline-block"
+	                data-sr-marker-list-style-type="circle"
+	              >Add more entries to the sample collection.</li>
+	              <li
+	                data-sr-dom-node-id="14"
+	                data-sr-marker-content="normal"
+	                data-sr-marker-display="inline-block"
+	                data-sr-marker-list-style-type="circle"
+	              >Edit or remove entries from the collection.</li>
+	            </ul>
+	          </li>
+	        </ol>
+	      `,
+	      {
+	        accessibilityTree: {
+	          nodes: [
+	            {
+	              nodeId: "20",
+	              ignored: false,
+	              role: "list",
+	              name: "",
+	              domNodeId: "10",
+	              tagName: "ol",
+	              childIds: ["21"],
+	            },
+	            {
+	              nodeId: "21",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "11",
+	              tagName: "li",
+	              childIds: ["22", "23", "24"],
+	            },
+	            { nodeId: "22", ignored: false, role: "ListMarker", name: "14. " },
+	            {
+	              nodeId: "23",
+	              ignored: false,
+	              role: "StaticText",
+	              name: "On this page, you can:",
+	            },
+	            {
+	              nodeId: "24",
+	              ignored: false,
+	              role: "list",
+	              name: "",
+	              domNodeId: "12",
+	              tagName: "ul",
+	              childIds: ["25", "28"],
+	            },
+	            {
+	              nodeId: "25",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "13",
+	              tagName: "li",
+	              childIds: ["26", "27"],
+	            },
+	            { nodeId: "26", ignored: false, role: "ListMarker", name: "◦ " },
+	            {
+	              nodeId: "27",
+	              ignored: false,
+	              role: "StaticText",
+	              name: "Add more entries to the sample collection.",
+	            },
+	            {
+	              nodeId: "28",
+	              ignored: false,
+	              role: "listitem",
+	              name: "",
+	              domNodeId: "14",
+	              tagName: "li",
+	              childIds: ["29", "30"],
+	            },
+	            { nodeId: "29", ignored: false, role: "ListMarker", name: "◦ " },
+	            {
+	              nodeId: "30",
+	              ignored: false,
+	              role: "StaticText",
+	              name: "Edit or remove entries from the collection.",
+	            },
+	          ],
+	        },
+	      },
+	    ),
+	    [
+	      "list 1 item",
+	      "14. On this page, you can:",
+	      "list 2 items, level 2",
+	      ". Add more entries to the sample collection., 1 of 2",
+	      ". Edit or remove entries from the collection., 2 of 2",
+	      "end of list",
+	      "end of list",
+	    ],
+	  );
+	});
+
 	test("scanSubtree keeps simple AX-confirmed bullet leading text with its marker before a link", () => {
 	  assert.deepEqual(
 	    scanHtml(

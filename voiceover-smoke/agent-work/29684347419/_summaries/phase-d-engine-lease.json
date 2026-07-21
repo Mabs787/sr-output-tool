@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": 3,
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "released",
+  "leaseOwner": "codex-phase-d-ordered-list-item-prefix-and-nested-marker-boundary-2026-07-21T04:26:35Z",
+  "startedAt": "2026-07-21T04:26:35Z",
+  "releasedAt": "2026-07-21T04:42:03Z",
+  "targetFamily": "ordered-list-item-prefix-and-nested-marker-boundary",
+  "separateWorktreeException": false,
+  "activeEngineRefinerCount": 0
+}

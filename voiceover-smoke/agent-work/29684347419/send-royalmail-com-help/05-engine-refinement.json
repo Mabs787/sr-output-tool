@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com-help",
+  "runId": "29684347419",
+  "status": "passed_with_residuals",
+  "startedAt": "2026-07-21T04:26:35Z",
+  "finishedAt": "2026-07-21T04:39:56Z",
+  "summaryReceipt": "../_summaries/phase-d-ordered-nested-list-marker.json",
+  "candidateRef": "send-royalmail-com-help:current-window-17:e119:a114",
+  "family": "ordered-list-item-prefix-and-nested-marker-boundary",
+  "inputs": {
+    "summaryReceipt": "../_summaries/phase-d-ordered-nested-list-marker.json",
+    "audit": "../_summaries/phase-c-rich-list-c5-audit.json",
+    "c5Run": "29791563158"
+  },
+  "decisions": [
+    "Implemented the narrow AX-backed native ol/li parent prefix and nested marker rule recorded in the summary receipt.",
+    "Did not edit fixtures, repros, site artifacts, or docs."
+  ],
+  "evidence": {
+    "summaryReceipt": "../_summaries/phase-d-ordered-nested-list-marker.json"
+  },
+  "fixtureChanges": [],
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/src/types.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js"
+  ],
+  "checks": [
+    {
+      "command": "npm run build -w packages/sr-engine",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "See summary receipt."
+    },
+    {
+      "command": "npm run test:unit -w packages/sr-engine",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "See summary receipt."
+    },
+    {
+      "command": "npm run voiceover:compare -w packages/sr-engine -- send-royalmail-com-help 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "See summary receipt."
+    },
+    {
+      "command": "npm run test:voiceover -w packages/sr-engine",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Two non-list corpus failures; see summary receipt."
+    },
+    {
+      "command": "npm run build:runtime -w packages/sr-extension",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "See summary receipt."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "ordered-list-item-prefix-and-nested-marker-boundary-residual-punctuation-and-mixed-marker-tail",
+      "currentWindowIndexes": [
+        16,
+        17
+      ],
+      "latestActual": "See summary receipt.",
+      "latestExpected": "See summary receipt.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split residual punctuation/quote and mixed dot-versus-bullet nested marker tail.",
+      "blocker": "C.5 confirms the generic marker rule, but Help refined lines retain a mixed marker/punctuation tail.",
+      "checksNeeded": [
+        "Re-read raw/source steps around Help nested list items 4-7",
+        "Run focused C.5 if evidence remains contradictory"
+      ]
+    }
+  ],
+  "nextPhase": "fixture-judge",
+  "handoffReason": "Reusable ordered nested marker gap patched; residual tail remains split for follow-up.",
+  "handoffFrom": "C.5",
+  "handoffTo": "fixture-judge",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Residual ordered nested marker punctuation and mixed marker tail only.",
+    "c5Needed": true,
+    "reason": "Generic rule is implemented; remaining mismatch needs evidence classification."
+  }
+}
