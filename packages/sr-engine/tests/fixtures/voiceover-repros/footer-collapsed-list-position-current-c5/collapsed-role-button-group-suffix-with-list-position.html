@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 footer collapsed list position</title>
+    <style>
+      [hidden] {
+        display: none;
+      }
+
+      body {
+        font: 16px/1.4 system-ui, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 48rem;
+      }
+
+      footer {
+        border-top: 1px solid #ccc;
+        padding-top: 1rem;
+      }
+
+      svg {
+        height: 1em;
+        width: 1em;
+      }
+
+      img {
+        height: 28px;
+        width: 80px;
+      }
+
+      .visually-hidden {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>Before footer.</p>
+    </main>
+
+    <div
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      aria-label="neutral footer collapsed list position repro"
+    >
+      <footer role="contentinfo">
+        <nav role="navigation" aria-labelledby="fixture-footer-menu">
+          <h2 id="fixture-footer-menu">Fixture footer</h2>
+          <div>
+            <ul>
+              <li>
+                <div
+                  role="button"
+                  id="fixture-menu-0"
+                  aria-controls="fixture-menu-0-links"
+                  aria-expanded="false"
+                >
+                  <h5>Alpha</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="fixture-menu-0-links"
+                  aria-labelledby="fixture-menu-0"
+                >
+                  <ul>
+                    <li><a href="https://example.test/alpha-one">Alpha one</a></li>
+                    <li><a href="https://example.test/alpha-two">Alpha two</a></li>
+                    <li><a href="https://example.test/alpha-three">Alpha three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="fixture-menu-1"
+                  aria-controls="fixture-menu-1-links"
+                  aria-expanded="false"
+                >
+                  <h5>Beta</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="fixture-menu-1-links"
+                  aria-labelledby="fixture-menu-1"
+                >
+                  <ul>
+                    <li><a href="https://example.test/beta-one">Beta one</a></li>
+                    <li><a href="https://example.test/beta-two">Beta two</a></li>
+                    <li><a href="https://example.test/beta-three">Beta three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="fixture-menu-2"
+                  aria-controls="fixture-menu-2-links"
+                  aria-expanded="false"
+                >
+                  <h5>Gamma</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="fixture-menu-2-links"
+                  aria-labelledby="fixture-menu-2"
+                >
+                  <ul>
+                    <li><a href="https://example.test/gamma-one">Gamma one</a></li>
+                    <li><a href="https://example.test/gamma-two">Gamma two</a></li>
+                    <li><a href="https://example.test/gamma-three">Gamma three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="fixture-menu-3"
+                  aria-controls="fixture-menu-3-links"
+                  aria-expanded="false"
+                >
+                  <h5>Delta</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="fixture-menu-3-links"
+                  aria-labelledby="fixture-menu-3"
+                >
+                  <ul>
+                    <li><a href="https://example.test/delta-one">Delta one</a></li>
+                    <li><a href="https://example.test/delta-two">Delta two</a></li>
+                    <li><a href="https://example.test/delta-three">Delta three</a></li>
+                    <li>
+                      <a href="https://example.test/delta-four">
+                        Delta partner
+                        <span>service directory <span>Opens in a new window</span></span>
+                        <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                          <path d="M2 2h6v6H2z"></path>
+                        </svg>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <div aria-label="neutral media siblings">
+          <div>
+            <a href="https://example.test/home">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='28'%3E%3Crect width='80' height='28' fill='%23ddd'/%3E%3C/svg%3E"
+                alt=""
+              >
+            </a>
+          </div>
+          <div>
+            <a href="https://example.test/partner-media">
+              <img
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='28'%3E%3Crect width='80' height='28' fill='%23eee'/%3E%3C/svg%3E"
+                alt=""
+              >
+            </a>
+          </div>
+        </div>
+
+        <div aria-label="neutral partner controls">
+          <div><a href="https://example.test/partners">Partner links</a></div>
+          <div>
+            <span role="button" aria-expanded="false">Partner toggle</span>
+          </div>
+          <div><a href="https://example.test/partner-one">Partner one</a></div>
+          <div><a href="javascript:void(0)">Partner two</a></div>
+        </div>
+
+        <div aria-label="neutral footer controls">
+          <div><a href="https://example.test/terms" title="Terms">Terms</a></div>
+          <div
+            aria-label="Open preferences modal"
+            role="complementary"
+            hidden
+          >
+            <a
+              role="link"
+              tabindex="0"
+              aria-haspopup="dialog"
+              aria-label="Preferences, opens a dedicated popup modal window"
+            >Preferences</a>
+          </div>
+          <div><a href="https://example.test/privacy" title="Privacy">Privacy</a></div>
+          <div><a href="https://example.test/accessibility" title="Accessibility">Accessibility</a></div>
+        </div>
+
+        <nav role="navigation" aria-labelledby="social-links">
+          <h2 id="social-links">Social links</h2>
+          <ul>
+            <li>
+              <a href="https://example.test/social-a" title="Network A">
+                <span>
+                  <svg role="img" aria-label="Network A" viewBox="0 0 10 10">
+                    <circle cx="5" cy="5" r="4"></circle>
+                  </svg>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="https://example.test/social-b" title="Network B">
+                <span>
+                  <svg role="img" aria-label="Network B" viewBox="0 0 10 10">
+                    <circle cx="5" cy="5" r="4"></circle>
+                  </svg>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </footer>
+
+      <section aria-labelledby="hidden-controlled-heading">
+        <h2 id="hidden-controlled-heading">Hidden controlled region</h2>
+        <ul>
+          <li>
+            <div
+              role="button"
+              id="hidden-menu"
+              aria-controls="hidden-menu-links"
+              aria-expanded="false"
+            >
+              <h5>Hidden</h5>
+            </div>
+            <div
+              role="region"
+              id="hidden-menu-links"
+              aria-labelledby="hidden-menu"
+              hidden
+            >
+              <ul>
+                <li><a href="https://example.test/hidden-one">Hidden one</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="expanded-controlled-heading">
+        <h2 id="expanded-controlled-heading">Expanded visible region</h2>
+        <ul>
+          <li>
+            <div
+              role="button"
+              id="expanded-menu"
+              aria-controls="expanded-menu-links"
+              aria-expanded="true"
+            >
+              <h5>Expanded</h5>
+            </div>
+            <div
+              role="region"
+              id="expanded-menu-links"
+              aria-labelledby="expanded-menu"
+            >
+              <ul>
+                <li><a href="https://example.test/visible-one">Visible one</a></li>
+                <li><a href="https://example.test/visible-two">Visible two</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="uncontrolled-heading">
+        <h2 id="uncontrolled-heading">Uncontrolled role button</h2>
+        <ul>
+          <li>
+            <div role="button" aria-expanded="false">
+              <h5>Standalone</h5>
+            </div>
+          </li>
+          <li><a href="https://example.test/standalone-link">Standalone link</a></li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
