@@ -2782,6 +2782,79 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(footer && !isHidden(footer));
   }
 
+  function isTrailingNativeButtonInFormArticleCluster(el: any, role: string): boolean {
+    if (!isPlainNativeButton(el, role)) return false;
+
+    const form = el.closest?.("form");
+    if (!form || isHidden(form)) return false;
+    const article = form.closest?.("article, [role='article']");
+    if (!article || isHidden(article)) return false;
+
+    const parent = el.parentElement;
+    if (!parent || !form.contains(parent)) return false;
+
+    const previousInteractive = Array.from(parent.children || []).some((sibling: any) => {
+      if (sibling === el) return false;
+      if (
+        !(sibling.compareDocumentPosition(el) &
+          sibling.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)
+      ) {
+        return false;
+      }
+      return visibleInteractiveDescendants(sibling).some((control: any) => control !== el);
+    });
+    if (!previousInteractive) return false;
+
+    const laterSubstantiveSibling = Array.from(parent.children || []).some((sibling: any) => {
+      if (sibling === el) return false;
+      if (
+        !(el.compareDocumentPosition(sibling) &
+          el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)
+      ) {
+        return false;
+      }
+      return !isHidden(sibling) && Boolean(readableText(sibling));
+    });
+    return !laterSubstantiveSibling;
+  }
+
+  function isAxConfirmedEmptyGenericTextNativeButtonGroup(el: any, role: string, name?: string): boolean {
+    if (!isTrailingNativeButtonInFormArticleCluster(el, role)) return false;
+    if (el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby")) return false;
+    if (el.hasAttribute("aria-controls")) return false;
+
+    const buttonName = normalize(name || accessibleName(el, role));
+    if (!buttonName || normalize(readableText(el)) !== buttonName) return false;
+
+    const axNode = axNodeForElementRole(el, "button");
+    if (!axNode || axNode.properties?.focusable !== true) return false;
+    if (normalize(axNode.name) !== buttonName) return false;
+    if (
+      axNode.properties?.expanded !== undefined ||
+      axNode.properties?.pressed !== undefined ||
+      axNode.properties?.haspopup !== undefined
+    ) {
+      return false;
+    }
+
+    const axChildren = axChildNodes(axNode);
+    if (axChildren.length !== 2) return false;
+
+    const [genericChild, staticTextChild] = axChildren;
+    if (normalizedAxRole(genericChild.role) !== "generic" || normalize(genericChild.name)) {
+      return false;
+    }
+    if (normalizedAxRole(staticTextChild.role) !== "statictext") return false;
+    if (normalize(staticTextChild.name) !== buttonName) return false;
+
+    const staticTextChildren = axChildNodes(staticTextChild);
+    return (
+      staticTextChildren.length === 1 &&
+      normalizedAxRole(staticTextChildren[0].role) === "inlinetextbox" &&
+      normalize(staticTextChildren[0].name) === buttonName
+    );
+  }
+
   function nativeButtonSingleTextAndDecorativeMedia(el: any, role = implicitRole(el)): string | undefined {
     if (!isPlainNativeButton(el, role)) return undefined;
     if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
@@ -13777,6 +13850,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       isAxConfirmedCollapsedAnchorButtonWithoutGroup(el, role, name);
     const collapsedVisibleControlledRegionButton =
       controlsVisibleAxRegion(el, role);
+    const emptyGenericTextNativeButtonGroup =
+      isAxConfirmedEmptyGenericTextNativeButtonGroup(el, role, name);
     const nativeRangeValue = nativeRangeValueText(stateEl, role);
     const value =
       tag === "select"
@@ -14021,6 +14096,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             (role === "button" && isGeneratedPseudoPopupButton(el)) ||
             (role === "button" && isShadowHostWrappedNativeButton(el)) ||
             (role === "button" && isNativeButtonDirectSpanGroupButton(el)) ||
+            (role === "button" && emptyGenericTextNativeButtonGroup) ||
             (role === "button" && isFilterRowGroupButton(el, role)) ||
             (role === "button" && isCodeExampleActionGroupButton(el, role)) ||
             (role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role)) ||

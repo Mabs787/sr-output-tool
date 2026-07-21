@@ -5465,6 +5465,105 @@ test("scanSubtree omits group suffix for collapsed ARIA role buttons in grouped 
   );
 });
 
+test("scanSubtree adds a group suffix to AX-confirmed trailing native buttons with empty generic text children", () => {
+  const html = `
+    <main>
+      <article>
+        <form>
+          <h2>Parcel tools</h2>
+          <div>
+            <label for="reference">Reference number</label>
+            <input id="reference" type="text">
+            <button type="submit">Track delivery</button>
+            <button type="button">Need help?</button>
+          </div>
+          <button type="button" data-sr-dom-node-id="language-button">Language</button>
+          <div></div>
+        </form>
+      </article>
+    </main>
+  `;
+
+  const plainNativeButtonAx = {
+    nodes: [
+      {
+        nodeId: "language-button-ax",
+        role: "button",
+        name: "Language",
+        domNodeId: "language-button",
+        tagName: "button",
+        childIds: ["language-static"],
+        properties: { focusable: true, invalid: "false" },
+      },
+      {
+        nodeId: "language-static",
+        role: "StaticText",
+        name: "Language",
+        childIds: ["language-inline"],
+      },
+      {
+        nodeId: "language-inline",
+        role: "InlineTextBox",
+        name: "Language",
+      },
+    ],
+  };
+
+  assert.deepEqual(scanHtml(html, { accessibilityTree: plainNativeButtonAx }), [
+    "main",
+    "article",
+    "heading level 2, Parcel tools",
+    "Reference number, edit text",
+    "Track delivery, button",
+    "Need help?, button",
+    "Language, button",
+    "end of, article",
+    "end of, main",
+  ]);
+
+  const emptyGenericChildAx = {
+    nodes: [
+      {
+        nodeId: "language-button-ax",
+        role: "button",
+        name: "Language",
+        domNodeId: "language-button",
+        tagName: "button",
+        childIds: ["language-generic", "language-static"],
+        properties: { focusable: true, invalid: "false" },
+      },
+      {
+        nodeId: "language-generic",
+        role: "generic",
+        name: "",
+      },
+      {
+        nodeId: "language-static",
+        role: "StaticText",
+        name: "Language",
+        childIds: ["language-inline"],
+      },
+      {
+        nodeId: "language-inline",
+        role: "InlineTextBox",
+        name: "Language",
+      },
+    ],
+  };
+
+  assert.deepEqual(scanHtml(html, { accessibilityTree: emptyGenericChildAx }), [
+    "main",
+    "article",
+    "heading level 2, Parcel tools",
+    "Reference number, edit text",
+    "Track delivery, button",
+    "Need help?, button",
+    "Language, button, group",
+    "end of, article",
+    "end of, main",
+  ]);
+});
+
 test("scanSubtree keeps a group suffix on collapsed native buttons with visibility-hidden controlled regions", () => {
   assert.deepEqual(
     scanHtml(

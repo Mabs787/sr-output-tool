@@ -3451,6 +3451,70 @@
           const footer = el.closest?.("footer, [role='contentinfo']");
           return Boolean(footer && !isHidden(footer));
         }
+        function isTrailingNativeButtonInFormArticleCluster(el, role) {
+          if (!isPlainNativeButton(el, role))
+            return false;
+          const form = el.closest?.("form");
+          if (!form || isHidden(form))
+            return false;
+          const article = form.closest?.("article, [role='article']");
+          if (!article || isHidden(article))
+            return false;
+          const parent = el.parentElement;
+          if (!parent || !form.contains(parent))
+            return false;
+          const previousInteractive = Array.from(parent.children || []).some((sibling) => {
+            if (sibling === el)
+              return false;
+            if (!(sibling.compareDocumentPosition(el) & sibling.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)) {
+              return false;
+            }
+            return visibleInteractiveDescendants(sibling).some((control) => control !== el);
+          });
+          if (!previousInteractive)
+            return false;
+          const laterSubstantiveSibling = Array.from(parent.children || []).some((sibling) => {
+            if (sibling === el)
+              return false;
+            if (!(el.compareDocumentPosition(sibling) & el.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING)) {
+              return false;
+            }
+            return !isHidden(sibling) && Boolean(readableText(sibling));
+          });
+          return !laterSubstantiveSibling;
+        }
+        function isAxConfirmedEmptyGenericTextNativeButtonGroup(el, role, name) {
+          if (!isTrailingNativeButtonInFormArticleCluster(el, role))
+            return false;
+          if (el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby"))
+            return false;
+          if (el.hasAttribute("aria-controls"))
+            return false;
+          const buttonName = normalize(name || accessibleName(el, role));
+          if (!buttonName || normalize(readableText(el)) !== buttonName)
+            return false;
+          const axNode = axNodeForElementRole(el, "button");
+          if (!axNode || axNode.properties?.focusable !== true)
+            return false;
+          if (normalize(axNode.name) !== buttonName)
+            return false;
+          if (axNode.properties?.expanded !== void 0 || axNode.properties?.pressed !== void 0 || axNode.properties?.haspopup !== void 0) {
+            return false;
+          }
+          const axChildren = axChildNodes(axNode);
+          if (axChildren.length !== 2)
+            return false;
+          const [genericChild, staticTextChild] = axChildren;
+          if (normalizedAxRole(genericChild.role) !== "generic" || normalize(genericChild.name)) {
+            return false;
+          }
+          if (normalizedAxRole(staticTextChild.role) !== "statictext")
+            return false;
+          if (normalize(staticTextChild.name) !== buttonName)
+            return false;
+          const staticTextChildren = axChildNodes(staticTextChild);
+          return staticTextChildren.length === 1 && normalizedAxRole(staticTextChildren[0].role) === "inlinetextbox" && normalize(staticTextChildren[0].name) === buttonName;
+        }
         function nativeButtonSingleTextAndDecorativeMedia(el, role = implicitRole(el)) {
           if (!isPlainNativeButton(el, role))
             return void 0;
@@ -12595,6 +12659,7 @@
           const suppressGroupedCollapsedAriaRoleButtonGroup = collapsedAriaRoleButtonInGroupedContext(el, role);
           const suppressCollapsedAnchorButtonGroup = isAxConfirmedCollapsedAnchorButtonWithoutGroup(el, role, name);
           const collapsedVisibleControlledRegionButton = controlsVisibleAxRegion(el, role);
+          const emptyGenericTextNativeButtonGroup = isAxConfirmedEmptyGenericTextNativeButtonGroup(el, role, name);
           const nativeRangeValue = nativeRangeValueText(stateEl, role);
           const value = tag === "select" ? nativeSelectValue(stateEl) : nativeRangeValue ? nativeRangeValue : selectedListboxOption ? accessibleName(selectedListboxOption, "option") || readableText(selectedListboxOption) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
           const listboxSelectedCount = role === "listbox" ? selectedListboxOptions(el).length || void 0 : void 0;
@@ -12654,7 +12719,7 @@
             fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || void 0,
             radioTrailingLabelText: role === "radio" ? radioTrailingLabelText(el, role, announcementName) : void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && rawText) || void 0,
-            groupContext: !leadingGenericGroupStops && !suppressNativeCardActionGroup && !suppressPaginationButtonGroup && !suppressFooterLegalActionButtonGroup && !suppressNamedGroupCollapsedControlGroup && !suppressGroupedCollapsedAriaRoleButtonGroup && !suppressCollapsedAnchorButtonGroup && !(role === "button" && el.hasAttribute("aria-pressed")) && (Boolean(headingButton) || role === "tab" && isControlledTablistTab(el, role) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && !isCollapsedDialogPopupImageTextButton(el) && !el.hasAttribute("aria-pressed") && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !anonymousStructuralCustomElementHost && !hasSameNameCustomGroupAncestor(el, name) && !normalizedPopup(el) && !hasAssociatedExplicitTooltip(el, name) && !isAriaLabelOnlyDecorativeIconButton(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && collapsedVisibleControlledRegionButton || role === "button" && el.hasAttribute("aria-expanded") && !checkboxRoleButtonAccordionControl && !nativeButtonLabelStopText && !anonymousStructuralCustomElementHost && !normalizedPopup(el) && !isAxConfirmedEmptyCollapsedOffscreenButton(el, role, name) && !nativeHiddenControlledCollapsedButton && !isPresentationCollapsedAccordionButton(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isAxConfirmedToolbarIconButton(el, role) || role === "button" && !nativeHiddenControlledCollapsedButton && isMenuDisclosureGroupButton(el) || role === "button" && Boolean(nativeDetailsSummary) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && isGeneratedPseudoPopupButton(el) || role === "button" && isShadowHostWrappedNativeButton(el) || role === "button" && isNativeButtonDirectSpanGroupButton(el) || role === "button" && isFilterRowGroupButton(el, role) || role === "button" && isCodeExampleActionGroupButton(el, role) || role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role) || role === "button" && nativeSubmitTabPanelGroup || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "button" && isExpandedNavigationListItemButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el)) || void 0,
+            groupContext: !leadingGenericGroupStops && !suppressNativeCardActionGroup && !suppressPaginationButtonGroup && !suppressFooterLegalActionButtonGroup && !suppressNamedGroupCollapsedControlGroup && !suppressGroupedCollapsedAriaRoleButtonGroup && !suppressCollapsedAnchorButtonGroup && !(role === "button" && el.hasAttribute("aria-pressed")) && (Boolean(headingButton) || role === "tab" && isControlledTablistTab(el, role) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && !isCollapsedDialogPopupImageTextButton(el) && !el.hasAttribute("aria-pressed") && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !anonymousStructuralCustomElementHost && !hasSameNameCustomGroupAncestor(el, name) && !normalizedPopup(el) && !hasAssociatedExplicitTooltip(el, name) && !isAriaLabelOnlyDecorativeIconButton(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && collapsedVisibleControlledRegionButton || role === "button" && el.hasAttribute("aria-expanded") && !checkboxRoleButtonAccordionControl && !nativeButtonLabelStopText && !anonymousStructuralCustomElementHost && !normalizedPopup(el) && !isAxConfirmedEmptyCollapsedOffscreenButton(el, role, name) && !nativeHiddenControlledCollapsedButton && !isPresentationCollapsedAccordionButton(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isAxConfirmedToolbarIconButton(el, role) || role === "button" && !nativeHiddenControlledCollapsedButton && isMenuDisclosureGroupButton(el) || role === "button" && Boolean(nativeDetailsSummary) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && isGeneratedPseudoPopupButton(el) || role === "button" && isShadowHostWrappedNativeButton(el) || role === "button" && isNativeButtonDirectSpanGroupButton(el) || role === "button" && emptyGenericTextNativeButtonGroup || role === "button" && isFilterRowGroupButton(el, role) || role === "button" && isCodeExampleActionGroupButton(el, role) || role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role) || role === "button" && nativeSubmitTabPanelGroup || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "button" && isExpandedNavigationListItemButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el)) || void 0,
             richTextGroup: role === "group" && Boolean(richTextGroupText) || void 0,
             groupedCollectionPosition: role === "button" && collapsedVisibleControlledRegionButton || role === "button" && Boolean(nativeDetailsSummary) || role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || role === "group" && isFocusableStructuredListItemGroup(el) || void 0,
             parenthesizedCollectionPosition: role === "term" && (isWrappedDefinitionListItem(el) || isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el) || Boolean(definitionListDisclosureButton(el))) || role === "group" && (isFocusableStructuredListItemGroup(el) || isFocusableImageListItem(el)) || void 0,
