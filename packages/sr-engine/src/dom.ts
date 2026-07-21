@@ -10978,6 +10978,148 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function directLinkGeneratedMetadataFragments(el: any): string[] | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    const tag = el.tagName.toLowerCase();
+    if (tag !== "p" && tag !== "small") return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.closest(interactiveSelector) ||
+      el.closest("li,[role='listitem']") ||
+      expandedControlledRegionFor(el)
+    ) {
+      return undefined;
+    }
+
+    const fragments: string[] = [];
+    let plainText = "";
+    let metadataText = "";
+    let sawLink = false;
+    let sawGeneratedMetadataAfterLink = false;
+    let disallowed = false;
+
+    function flushPlainText(): void {
+      const text = normalize(plainText);
+      if (text && /[\p{L}\p{N}]/u.test(text)) {
+        fragments.push(text);
+      }
+      plainText = "";
+    }
+
+    function flushMetadataText(): void {
+      const text = normalize(metadataText);
+      if (text && /[\p{L}\p{N}]/u.test(text)) {
+        fragments.push(text);
+      }
+      metadataText = "";
+    }
+
+    function appendToMetadata(value?: string): void {
+      if (!value) return;
+      const text = normalize(value);
+      if (!text) return;
+      metadataText = metadataText && needsBoundary(metadataText, text)
+        ? `${metadataText} ${text}`
+        : `${metadataText}${metadataText ? " " : ""}${text}`;
+    }
+
+    function generatedMetadataText(node: any): string | undefined {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return undefined;
+      if (node.matches(interactiveSelector) || node.querySelector(interactiveSelector)) {
+        return undefined;
+      }
+      if (
+        node.getAttribute("role") ||
+        node.getAttribute("aria-label") ||
+        node.getAttribute("aria-labelledby")
+      ) {
+        return undefined;
+      }
+
+      const before = generatedPseudoText(node, "before");
+      const after = generatedPseudoText(node, "after");
+      if (before !== "(" || after !== ")") return undefined;
+
+      const text = normalize(readableText(node));
+      if (!text || text.length > 80 || !/[\p{L}\p{N}]/u.test(text)) return undefined;
+      return `(${text})`;
+    }
+
+    for (const child of Array.from(el.childNodes || [])) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        if (metadataText) {
+          appendToMetadata(child.textContent || "");
+        } else {
+          plainText = `${plainText}${child.textContent || ""}`;
+        }
+        continue;
+      }
+
+      if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) {
+        continue;
+      }
+
+      if (child.matches("[aria-hidden='true']")) {
+        continue;
+      }
+
+      if (child.matches("br")) {
+        continue;
+      }
+
+      const metadata = generatedMetadataText(child);
+      if (metadata) {
+        if (!sawLink) {
+          disallowed = true;
+          break;
+        }
+        flushPlainText();
+        appendToMetadata(metadata);
+        sawGeneratedMetadataAfterLink = true;
+        continue;
+      }
+
+      if (child.matches(interactiveSelector)) {
+        if (implicitRole(child) !== "link") {
+          disallowed = true;
+          break;
+        }
+        flushMetadataText();
+        flushPlainText();
+        const linkName = accessibleName(child, "link");
+        if (!linkName) {
+          disallowed = true;
+          break;
+        }
+        fragments.push(`link, ${linkName}`);
+        sawLink = true;
+        continue;
+      }
+
+      if (child.matches("strong, b, em, i, time") && !child.querySelector(interactiveSelector)) {
+        flushMetadataText();
+        flushPlainText();
+        const text = readableText(child);
+        if (text) fragments.push(text);
+        continue;
+      }
+
+      disallowed = true;
+      break;
+    }
+
+    flushMetadataText();
+    flushPlainText();
+
+    if (disallowed || !sawGeneratedMetadataAfterLink || fragments.length < 2) {
+      return undefined;
+    }
+
+    return fragments;
+  }
+
   function inlinePhrasingBoundaryFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     const tag = el.tagName?.toLowerCase();
@@ -14482,6 +14624,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             footerInlineBoundaryTextFragments(el) ||
             articleBylineAuthorListFragments(el) ||
             directAxInlineTextLinkParagraphFragments(el) ||
+            directLinkGeneratedMetadataFragments(el) ||
             inlineCodeBreakTextFragments(el, role) ||
             inlineSemanticTextLinkFragments(el) ||
             plainTextTrailingLinkParagraphFragments(el) ||
@@ -15360,6 +15503,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         !footerInlineBoundaryTextFragments(el) &&
         !articleBylineAuthorListFragments(el) &&
         !directAxInlineTextLinkParagraphFragments(el) &&
+        !directLinkGeneratedMetadataFragments(el) &&
         !inlineCodeBreakTextFragments(el, role) &&
         !inlineSemanticTextLinkFragments(el) &&
         !plainTextTrailingLinkParagraphFragments(el) &&

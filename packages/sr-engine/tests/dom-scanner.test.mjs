@@ -1963,6 +1963,60 @@ test("scanSubtree splits paragraph text around inline semantic and link boundari
   );
 });
 
+test("scanSubtree places links before adjacent generated metadata siblings", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>
+          <a href="/files/guide.pdf">Alpha guide</a>
+          <span data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 2.25 MB</span> - Thursday 9 July 2026
+        </p>
+        <p>
+          <a href="/files/status.html">Current status</a>
+          <span data-sr-pseudo-before="(" data-sr-pseudo-after=")">html, 8 KB</span>
+        </p>
+        <div role="button" aria-expanded="false" aria-controls="hidden-row">Previous guides</div>
+        <div id="hidden-row" hidden>
+          <p>
+            <a href="/files/hidden.pdf">Hidden guide</a>
+            <span data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 1.10 MB</span>
+          </p>
+        </div>
+      </main>
+    `),
+    [
+      "main",
+      "link, Alpha guide",
+      "(pdf, 2.25 MB) - Thursday 9 July 2026",
+      "link, Current status",
+      "(html, 8 KB)",
+      "Previous guides, collapsed, button, group",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree splits following inline emphasis after generated metadata", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <p>
+          <a href="/files/terms.pdf">Scheme terms and conditions</a>
+          <span data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 829.73 KB</span> - last updated 30 March 2026
+          (<em>Please note an update to clause 24)</em>
+        </p>
+      </main>
+    `),
+    [
+      "main",
+      "link, Scheme terms and conditions",
+      "(pdf, 829.73 KB) - last updated 30 March 2026 (",
+      "Please note an update to clause 24)",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree tolerates MathML computed style gaps in JSDOM", () => {
   const announcements = scanHtml(`
     <main>

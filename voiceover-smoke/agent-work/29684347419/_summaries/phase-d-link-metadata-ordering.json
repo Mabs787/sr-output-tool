@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "family": "link-metadata-ordering-and-generated-parentheses",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "headAtStart": "fee8d885301ecc02843c5be15aceb1dfaf5912c1",
+  "startedAt": "2026-07-21T04:45:47Z",
+  "finishedAt": "2026-07-21T05:16:02Z",
+  "status": "accepted_narrow_engine_patch_with_preexisting_corpus_deltas",
+  "progressCheckpoint": "Implemented the C.5-confirmed paragraph/small direct-link plus adjacent generated parenthesized metadata rule. Target compares improved and runtime/unit checks passed. Full corpus still has two protected fixture failures, but a clean HEAD archive reproduced the same Microsoft and Sky mismatches, so they are recorded as pre-existing, not patch regressions.",
+  "agent": {
+    "role": "engine-refiner",
+    "soleEngineRefiner": true,
+    "agentsSpawned": false,
+    "forkUsed": false
+  },
+  "inputsRead": [
+    "docs/workflows/voiceover-refinement.md",
+    "docs/workflows/agent-receipts.md",
+    "docs/workflows/phase-d-engine-refinement.md",
+    "_summaries/phase-c-pdf-link-c5-audit.json",
+    "_summaries/phase-c5-pdf-link-order-and-metadata.json",
+    "_summaries/phase-c5-pdf-link-order-and-metadata-retry.json",
+    "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29792644986/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-pdf-link-c5-pdf-link-order-and-metadata/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-pdf-link-c5-pdf-link-order-and-metadata/voiceover-output.json",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-pdf-link-c5/pdf-link-order-and-metadata.html",
+    "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-stamps/04-fixture-judge.json",
+    "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-barcoded-stamps/04-fixture-judge.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-family-table-price.json"
+  ],
+  "scope": {
+    "implementedFamilies": [
+      "generic-link-before-metadata-sibling-order",
+      "css-pseudo-parentheses-around-metadata",
+      "guarded-metadata-text-boundary-before-following-text"
+    ],
+    "excludedFamilies": [
+      {
+        "family": "long-list-item-text-split-and-truncation",
+        "reason": "User explicitly excluded the separate long-list-item retry contract from run 29799980752."
+      },
+      {
+        "family": "original-ocr-punctuation-tail",
+        "reason": "Audit routed OCR spacing/punctuation artifacts to evidence-refiner rather than Phase D engine logic."
+      }
+    ],
+    "fixtureChanges": []
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added a guarded paragraph/small fragmenter for direct visible links followed by generated before/after parenthesized metadata, preserving link-first VoiceOver order and joining following plain metadata text."
+    },
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Stopped descent into paragraphs handled by the new metadata fragmenter to avoid duplicate link/text stops."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added focused coverage for non-PDF link metadata, hidden controlled rows, generated parentheses, and emphasis boundaries after metadata."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt the packaged extension runtime from the accepted engine change."
+    }
+  ],
+  "narrowingGuards": [
+    "Only p and small containers are eligible.",
+    "The container must not have role, aria-label, aria-labelledby, an interactive ancestor, a listitem ancestor, or an expanded controlled-region relationship.",
+    "The metadata element must be non-interactive, unnamed by ARIA, visible, short, direct, and expose literal generated before '(' and after ')' text.",
+    "Hidden and aria-hidden descendants remain skipped.",
+    "The rule does not inspect hrefs, file extensions, URLs, Royal Mail text, classes, or site-specific copy."
+  ],
+  "targetCompareDelta": [
+    {
+      "target": "www-royalmail-com-sending-barcoded-stamps",
+      "before": {
+        "expectedCount": 198,
+        "actualCount": 172,
+        "mismatchWindowCount": 15,
+        "grouped": {
+          "list/marker": 10,
+          "role/structure": 3,
+          "punctuation/text-boundary": 2
+        }
+      },
+      "after": {
+        "expectedCount": 198,
+        "actualCount": 172,
+        "mismatchWindowCount": 14,
+        "grouped": {
+          "list/marker": 10,
+          "role/structure": 2,
+          "punctuation/text-boundary": 2
+        }
+      },
+      "result": "improved",
+      "fixedShape": "Terms PDF row now emits link first, then parenthesized metadata/date text, then the emphasized note as a separate stop."
+    },
+    {
+      "target": "www-royalmail-com-sending-stamps",
+      "before": {
+        "expectedCount": 270,
+        "actualCount": 258,
+        "mismatchWindowCount": 28,
+        "grouped": {
+          "list/marker": 17,
+          "punctuation/text-boundary": 2,
+          "role/structure": 9
+        }
+      },
+      "after": {
+        "expectedCount": 270,
+        "actualCount": 258,
+        "mismatchWindowCount": 24,
+        "grouped": {
+          "list/marker": 14,
+          "punctuation/text-boundary": 2,
+          "role/structure": 8
+        }
+      },
+      "result": "improved",
+      "fixedShape": "Latest First and download rows now emit link-first stops followed by generated parenthesized metadata. The remaining latest-first difference is the audit-excluded OCR spacing artifact before Thursday."
+    }
+  ],
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "status": "passed"
+    },
+    {
+      "name": "focused generated metadata tests",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin /usr/local/bin/node --test --test-name-pattern \"generated metadata\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "status": "passed",
+      "summary": "2 passed, 320 skipped"
+    },
+    {
+      "name": "full unit",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "summary": "388 tests, 332 passed, 56 skipped"
+    },
+    {
+      "name": "affected target compares",
+      "command": "voiceover:compare against autonomous-run isolated fixtures for www-royalmail-com-sending-barcoded-stamps and www-royalmail-com-sending-stamps",
+      "status": "passed_with_improvements"
+    },
+    {
+      "name": "candidate compare",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "status": "passed_with_known_candidate_windows_preserved",
+      "summary": "Expected 99, actual 101, mismatchWindowCount 2, grouped list/marker 2."
+    },
+    {
+      "name": "protected exact subset",
+      "status": "passed",
+      "results": [
+        {
+          "fixture": "design-system-service-gov-uk-components-text-input",
+          "expectedCount": 394,
+          "actualCount": 394,
+          "mismatchWindowCount": 0
+        },
+        {
+          "fixture": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+          "expectedCount": 66,
+          "actualCount": 66,
+          "mismatchWindowCount": 0
+        }
+      ]
+    },
+    {
+      "name": "full voiceover corpus",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin SR_VOICEOVER_CORPUS_PROGRESS=true /opt/homebrew/bin/yarn workspace @sr-output/engine test:voiceover",
+      "status": "failed_preexisting_not_patch_regression",
+      "summary": "59 tests, 36 passed, 21 skipped, 2 failed. Clean HEAD archive reproduced the same Microsoft and Sky failures.",
+      "preexistingFailures": [
+        {
+          "fixture": "www-microsoft-com-en-us-accessibility",
+          "baseline": {
+            "expectedCount": 164,
+            "actualCount": 165,
+            "mismatchWindowCount": 1,
+            "firstActual": "Ask Microsoft Accessibility",
+            "firstExpected": "heading level 3, Disability Answer Desk"
+          }
+        },
+        {
+          "fixture": "www-sky-com-watch-what-to-watch-this-week",
+          "baseline": {
+            "expectedCount": 171,
+            "actualCount": 179,
+            "mismatchWindowCount": 2,
+            "firstActual": "Alongside the latest trip to the Seven Kingdoms, there\u2019s plenty more to enjoy across Sky and NOW this week, with a new episode of",
+            "firstExpected": "Alongside the latest trip to the Seven Kingdoms, there\u2019s plenty more to enjoy across Sky and NOW this week, with a new episode of FROM, bringing fresh mystery and tension, while new comedy Best Medicine (the US remake of UK television favourite Doc Martin) continues, a new episode airing exclusively on Sky One."
+          }
+        }
+      ]
+    },
+    {
+      "name": "baseline archive proof",
+      "command": "git archive HEAD to /tmp/sr-phase-d-baseline, engine build, then protected compares for Microsoft and Sky",
+      "status": "passed",
+      "summary": "Baseline compare reproduced the same two full-corpus failures before this patch."
+    },
+    {
+      "name": "extension runtime build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn build:extension-runtime",
+      "status": "passed"
+    },
+    {
+      "name": "diff check",
+      "command": "git diff --check",
+      "status": "passed"
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "barcoded-long-list-item-text-split-and-truncation",
+      "latestWindowIndexes": [
+        "www-royalmail-com-sending-barcoded-stamps:after-window-4",
+        "www-royalmail-com-sending-barcoded-stamps:after-window-5"
+      ],
+      "actualShape": "Long swap-out list items remain joined with metadata text and trailing instructions.",
+      "expectedShape": "Expected has marker-only stops, link stops, parenthesized metadata, emphasized/plain text fragments, and truncated VoiceOver tails.",
+      "nextOwner": "engine-refiner-after-user-authorizes-long-list-contract",
+      "nextAction": "Use run 29799980752 retry contract as a separate Phase D packet; do not mix it with paragraph metadata ordering.",
+      "blocker": "Explicitly excluded from this run.",
+      "checksNeeded": [
+        "focused list-item metadata tests",
+        "barcoded-stamps compare",
+        "sending-stamps compare",
+        "full unit",
+        "protected exact corpus subset"
+      ]
+    },
+    {
+      "family": "royal-mail-shell-disclosure-and-footer-button-group",
+      "latestWindowIndexes": [
+        "www-royalmail-com-sending-barcoded-stamps:after-window-1",
+        "www-royalmail-com-sending-barcoded-stamps:after-windows-10-13",
+        "www-royalmail-com-sending-stamps:after-window-1",
+        "www-royalmail-com-sending-stamps:after-window-20+"
+      ],
+      "actualShape": "Some collapsed button stops omit group suffix and some controlled regions emit region rather than empty region.",
+      "expectedShape": "Expected includes collapsed button group suffixes and empty region stops in header/footer disclosure shells.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect focused-node AX/computed contracts for generic collapsed disclosure groups before any scanner-stop/grouping rule.",
+      "blocker": "Separate shell/disclosure family outside link metadata ordering.",
+      "checksNeeded": [
+        "header/footer protected exact compares",
+        "Royal Mail target compares",
+        "full unit"
+      ]
+    },
+    {
+      "family": "royal-mail-card-media-group-boundary",
+      "latestWindowIndexes": [
+        "www-royalmail-com-sending-barcoded-stamps:after-windows-2,5,6",
+        "www-royalmail-com-sending-stamps:after-windows-7,11-17,19"
+      ],
+      "actualShape": "Image/card/group boundaries are omitted or decomposed differently around informational images and stamp issue cards.",
+      "expectedShape": "Expected includes group stops, image stops, and card text/link grouping in selected windows.",
+      "nextOwner": "phase-c5-or-engine-refiner",
+      "nextAction": "Split image-only, card group, and article-end tails; request C.5 if a proposed grouping rule is broad.",
+      "blocker": "Not the direct link + generated metadata sibling contract.",
+      "checksNeeded": [
+        "target compare",
+        "protected media/card exact subset",
+        "runtime build after any accepted patch"
+      ]
+    },
+    {
+      "family": "royal-mail-ocr-punctuation-and-spacing-tail",
+      "latestWindowIndexes": [
+        "www-royalmail-com-sending-barcoded-stamps:after-windows-3,7-9,14",
+        "www-royalmail-com-sending-stamps:after-windows-2-6,18"
+      ],
+      "actualShape": "Engine preserves source punctuation, apostrophes, dash spacing, and full source text.",
+      "expectedShape": "Expected includes OCR-normalized punctuation, OCR spacing such as '-Thursday', and some truncated text.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Reconcile raw OCR/source/refinedAnnouncements before any engine change; do not encode OCR spacing artifacts.",
+      "blocker": "Audit routed this away from Phase D engine behavior.",
+      "checksNeeded": [
+        "raw VoiceOver transcript inspection",
+        "source snapshot inspection",
+        "target compare after refined evidence changes"
+      ]
+    },
+    {
+      "family": "sending-stamps-list-marker-rich-item-decomposition",
+      "latestWindowIndexes": [
+        "www-royalmail-com-sending-stamps:after-windows-8-12"
+      ],
+      "actualShape": "Some linked and plain stamp-product list rows keep marker/text together or include marker glyphs in tail text.",
+      "expectedShape": "Expected separates marker-only stops, link stops, and following dash text.",
+      "nextOwner": "phase-c5-or-engine-refiner",
+      "nextAction": "Use a separate list-marker/text-boundary packet with protected W3/GOV list fixtures before implementation.",
+      "blocker": "Separate from generated metadata paragraph ordering and partly overlaps parked list-marker work.",
+      "checksNeeded": [
+        "focused list-marker unit tests",
+        "sending-stamps compare",
+        "protected list exact compares",
+        "full unit"
+      ]
+    }
+  ],
+  "lease": {
+    "path": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "released": true,
+    "activeEngineRefinerCount": 0
+  },
+  "commitOrPushPerformed": true
+}

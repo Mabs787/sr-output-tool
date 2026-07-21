@@ -4,10 +4,10 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "codex-phase-d-ordered-list-item-prefix-and-nested-marker-boundary-2026-07-21T04:26:35Z",
-  "startedAt": "2026-07-21T04:26:35Z",
-  "releasedAt": "2026-07-21T04:42:03Z",
-  "targetFamily": "ordered-list-item-prefix-and-nested-marker-boundary",
+  "leaseOwner": "codex-phase-d-link-metadata-ordering-2026-07-21T04:45:47Z",
+  "startedAt": "2026-07-21T04:45:47Z",
+  "releasedAt": "2026-07-21T05:16:02Z",
+  "targetFamily": "link-metadata-ordering-and-generated-parentheses",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0
 }

@@ -10408,6 +10408,124 @@
           }
           return fragments;
         }
+        function directLinkGeneratedMetadataFragments(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          const tag = el.tagName.toLowerCase();
+          if (tag !== "p" && tag !== "small")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || expandedControlledRegionFor(el)) {
+            return void 0;
+          }
+          const fragments = [];
+          let plainText = "";
+          let metadataText = "";
+          let sawLink = false;
+          let sawGeneratedMetadataAfterLink = false;
+          let disallowed = false;
+          function flushPlainText() {
+            const text = normalize(plainText);
+            if (text && /[\p{L}\p{N}]/u.test(text)) {
+              fragments.push(text);
+            }
+            plainText = "";
+          }
+          function flushMetadataText() {
+            const text = normalize(metadataText);
+            if (text && /[\p{L}\p{N}]/u.test(text)) {
+              fragments.push(text);
+            }
+            metadataText = "";
+          }
+          function appendToMetadata(value) {
+            if (!value)
+              return;
+            const text = normalize(value);
+            if (!text)
+              return;
+            metadataText = metadataText && needsBoundary(metadataText, text) ? `${metadataText} ${text}` : `${metadataText}${metadataText ? " " : ""}${text}`;
+          }
+          function generatedMetadataText(node) {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return void 0;
+            if (node.matches(interactiveSelector) || node.querySelector(interactiveSelector)) {
+              return void 0;
+            }
+            if (node.getAttribute("role") || node.getAttribute("aria-label") || node.getAttribute("aria-labelledby")) {
+              return void 0;
+            }
+            const before = generatedPseudoText(node, "before");
+            const after = generatedPseudoText(node, "after");
+            if (before !== "(" || after !== ")")
+              return void 0;
+            const text = normalize(readableText(node));
+            if (!text || text.length > 80 || !/[\p{L}\p{N}]/u.test(text))
+              return void 0;
+            return `(${text})`;
+          }
+          for (const child of Array.from(el.childNodes || [])) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              if (metadataText) {
+                appendToMetadata(child.textContent || "");
+              } else {
+                plainText = `${plainText}${child.textContent || ""}`;
+              }
+              continue;
+            }
+            if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) {
+              continue;
+            }
+            if (child.matches("[aria-hidden='true']")) {
+              continue;
+            }
+            if (child.matches("br")) {
+              continue;
+            }
+            const metadata = generatedMetadataText(child);
+            if (metadata) {
+              if (!sawLink) {
+                disallowed = true;
+                break;
+              }
+              flushPlainText();
+              appendToMetadata(metadata);
+              sawGeneratedMetadataAfterLink = true;
+              continue;
+            }
+            if (child.matches(interactiveSelector)) {
+              if (implicitRole(child) !== "link") {
+                disallowed = true;
+                break;
+              }
+              flushMetadataText();
+              flushPlainText();
+              const linkName = accessibleName(child, "link");
+              if (!linkName) {
+                disallowed = true;
+                break;
+              }
+              fragments.push(`link, ${linkName}`);
+              sawLink = true;
+              continue;
+            }
+            if (child.matches("strong, b, em, i, time") && !child.querySelector(interactiveSelector)) {
+              flushMetadataText();
+              flushPlainText();
+              const text = readableText(child);
+              if (text)
+                fragments.push(text);
+              continue;
+            }
+            disallowed = true;
+            break;
+          }
+          flushMetadataText();
+          flushPlainText();
+          if (disallowed || !sawGeneratedMetadataAfterLink || fragments.length < 2) {
+            return void 0;
+          }
+          return fragments;
+        }
         function inlinePhrasingBoundaryFragments(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
@@ -12930,7 +13048,7 @@
             figureMockupHeaderText: figureMockupHeaderText(el, role),
             axStaticTextRunFragments: axStaticTextRunFragments(el, role),
             axLineBreakTextFragments: axLineBreakTextFragments(el, role),
-            inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
+            inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || directLinkGeneratedMetadataFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             priceDisclosureFragments: priceDisclosureFragments(el, role),
@@ -13595,7 +13713,7 @@
             return hasOnlyInteractiveListItemContent(el) || hasLabeledNativeSelectListItemContent(el) || hasImageLinkWithCaptionListItemContent(el) || hasNamedImageListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
           }
           if (role === "paragraph") {
-            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
+            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !directLinkGeneratedMetadataFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
           }
           return false;
         }

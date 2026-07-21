@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "www-royalmail-com-sending-stamps",
+  "relatedTargets": [
+    "www-royalmail-com-sending-barcoded-stamps"
+  ],
+  "runId": "29684347419",
+  "status": "accepted_narrow_engine_patch_with_preexisting_corpus_deltas",
+  "startedAt": "2026-07-21T04:45:47Z",
+  "finishedAt": "2026-07-21T05:16:02Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "summaryReceipt": "../_summaries/phase-d-link-metadata-ordering.json",
+  "progressCheckpoint": "Implemented the C.5-confirmed paragraph/small direct-link plus adjacent generated parenthesized metadata rule. Target compares improved; full unit and runtime build passed. Full corpus still has two protected failures that reproduce on a clean HEAD archive and are not introduced by this patch.",
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCAudit": "_summaries/phase-c-pdf-link-c5-audit.json",
+    "phaseC5Summary": "_summaries/phase-c5-pdf-link-order-and-metadata.json",
+    "c5RunId": "29792644986",
+    "originalEvidence": [
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-stamps/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-barcoded-stamps/04-fixture-judge.json"
+    ],
+    "engineLease": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json"
+  },
+  "decisions": {
+    "implemented": true,
+    "rule": "For direct p/small children, when a visible link is immediately followed by a visible unnamed non-interactive element with generated literal parentheses, emit the link stop before the parenthesized metadata and carry following plain text into that metadata stop until a semantic inline boundary.",
+    "excluded": [
+      "listitem/long-list retry contract from run 29799980752",
+      "PDF URL, href extension, Royal Mail copy, class names, or other site-specific logic",
+      "hidden/conditional rows",
+      "OCR punctuation and spacing tails"
+    ],
+    "fixtureChanges": []
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-link-metadata-ordering.json",
+    "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-stamps/05-engine-refinement.json"
+  ],
+  "targetCompareDelta": [
+    {
+      "target": "www-royalmail-com-sending-stamps",
+      "beforeMismatchWindowCount": 28,
+      "afterMismatchWindowCount": 24
+    },
+    {
+      "target": "www-royalmail-com-sending-barcoded-stamps",
+      "beforeMismatchWindowCount": 15,
+      "afterMismatchWindowCount": 14
+    }
+  ],
+  "checks": [
+    {
+      "name": "engine build",
+      "status": "passed"
+    },
+    {
+      "name": "focused generated metadata tests",
+      "status": "passed"
+    },
+    {
+      "name": "full unit",
+      "status": "passed"
+    },
+    {
+      "name": "affected target compares",
+      "status": "passed_with_improvements"
+    },
+    {
+      "name": "candidate/protected exact compares",
+      "status": "passed_or_preexisting",
+      "summary": "Postcode candidate preserved known 2 windows; text-input and NHS protected subset exact; full corpus failures in Microsoft and Sky reproduce on clean HEAD archive."
+    },
+    {
+      "name": "extension runtime build",
+      "status": "passed"
+    }
+  ],
+  "fixtureChanges": [],
+  "revisitQueueRef": "../_summaries/phase-d-link-metadata-ordering.json#revisitQueue",
+  "lease": {
+    "released": true,
+    "activeEngineRefinerCount": 0
+  },
+  "commitOrPushPerformed": true
+}
