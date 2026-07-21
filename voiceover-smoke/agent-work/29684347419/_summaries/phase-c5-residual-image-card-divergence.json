@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "royal-mail-residual-image-card-c5",
+  "runId": "29684347419",
+  "status": "passed",
+  "scanDispatchStatus": "completed-success-single-dispatch",
+  "startedAt": "2026-07-21T03:55:09Z",
+  "finishedAt": "2026-07-21T04:14:55Z",
+  "family": "named-or-unlabeled-image-card-divergence",
+  "signatureHash": "4fa4a88eb423",
+  "candidateRefCount": 33,
+  "sourceAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-residual-card-88-structural-audit.json",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "signatureSummariesRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-residual-card-88-structural-audit.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-residual-card-c5-audit.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-residual-card-media-boundaries.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-family-card-media.json"
+    ],
+    "representativeOriginalEvidencePacketsRead": [
+      "voiceover-smoke/agent-work/29684347419/send-royalmail-com/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-help/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-personal-receiving-mail-redirection/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-international/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-stamps/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending-uk/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-sending/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-services-near-you-postboxes/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/29684347419/www-royalmail-com-services-near-you/04-fixture-judge.json"
+    ],
+    "representativeRenderedHtmlAndAxRead": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com/send-royalmail-com.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com/send-royalmail-com.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-stamps/www-royalmail-com-sending-stamps.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-stamps/www-royalmail-com-sending-stamps.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you/www-royalmail-com-services-near-you.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you/www-royalmail-com-services-near-you.ax.json"
+    ]
+  },
+  "reproduction": {
+    "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+    "fileSha256": "b8d16cc805b6f355ccb8c4d503d838c3012673ec45ba51d78a1dd1bbb1d35675",
+    "branch": "codex/royal-mail-voiceover-refinement",
+    "head": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "status": "scanned-canary-passed",
+    "publicHostingUsed": false,
+    "containsDataSrScanRoot": true,
+    "neutralCopyOnly": true,
+    "noRoyalMailCopyClassesOrUrls": true
+  },
+  "dispatchPreflight": {
+    "checkedAt": "2026-07-21T03:59:52Z",
+    "requestedBranch": "codex/royal-mail-voiceover-refinement",
+    "requestedHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "localHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "configuredUpstreamHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "githubBranchHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "headsMatch": true,
+    "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+    "resolvedLocalPath": "/Users/mrn41/Documents/Personal/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+    "requestedFixtureSha256": "b8d16cc805b6f355ccb8c4d503d838c3012673ec45ba51d78a1dd1bbb1d35675",
+    "localFixtureSha256": "b8d16cc805b6f355ccb8c4d503d838c3012673ec45ba51d78a1dd1bbb1d35675",
+    "githubFixtureBlobSha": "5c14f5e7e4f013a880f38aca48a63e57c47c80c8",
+    "githubFixtureResolvedAtRequestedHead": true,
+    "fixtureShaMatchesRequested": true,
+    "scanRootSelector": "[data-sr-scan-root]",
+    "scanRootCount": 1,
+    "identityMarker": "data-sr-repro-family=\"named-or-unlabeled-image-card-divergence\"",
+    "workflow": "VoiceOver scan",
+    "dispatchAllowance": "exactly-once",
+    "dispatchCountBefore": 0,
+    "artifactDestinationTemplate": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/<runId>",
+    "requiredPostRunCanary": [
+      "requested fixture path equals runner-resolved rendered file path",
+      "workflow head SHA equals requested pushed head",
+      "fixture SHA-256 equals requested SHA-256",
+      "rendered HTML is non-empty and contains the expected scan-root identity",
+      "accessibility tree is non-empty",
+      "step snapshots are present and complete for every captured VoiceOver step",
+      "step screenshots are present and complete for every captured VoiceOver step"
+    ],
+    "status": "passed"
+  },
+  "workflowRun": {
+    "id": "29800042282",
+    "url": "https://github.com/Mabs787/sr-output-tool/actions/runs/29800042282",
+    "workflow": "VoiceOver scan",
+    "event": "workflow_dispatch",
+    "dispatchCount": 1,
+    "createdAt": "2026-07-21T04:00:32Z",
+    "dispatchedAt": "2026-07-21T04:00:38Z",
+    "completedAt": "2026-07-21T04:14:55Z",
+    "requestedBranch": "codex/royal-mail-voiceover-refinement",
+    "requestedHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "resolvedHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "artifactDestination": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29800042282",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "suspectedCause": "VoiceOver may expose a leading named image, unlabeled image/link media stop, or article/group boundary before card text, while the current engine starts at card text/link or collapses the boundary differently. Prior C.5 evidence did not cover this named/unlabeled card shape.",
+  "minimalDomAxContract": [
+    "data-sr-scan-root wrapper around only the reduced test surface",
+    "native article elements used as card/media shells",
+    "focusable anchor wrapping media-only img/svg children",
+    "img alt values covering named image, empty/unlabeled image, and hidden media cases",
+    "role=\"group\" wrappers around card text where original AX exposed generic/group context",
+    "hidden metadata blocks and visually hidden Single Upload text preserved for the article media-link shape",
+    "aria-hidden and hidden controls preserved for negative decorative/hidden media cases",
+    "heading levels and sibling text after media preserved to test whether traversal starts at media or card text"
+  ],
+  "fixtureVariants": [
+    {
+      "variantId": "named-image-link-card-boundary",
+      "fixtureAnchors": [
+        "named-card-a-title",
+        "named-card-b-title"
+      ],
+      "tests": "Named image or named image link before heading/text/link card boundary."
+    },
+    {
+      "variantId": "unlabeled-empty-image-link-article",
+      "fixtureAnchors": [
+        "unlabeled-card-a-title",
+        "unlabeled-card-b-title"
+      ],
+      "tests": "Article with hidden metadata, visually hidden media label, focusable media link, and empty/unlabeled img/svg."
+    },
+    {
+      "variantId": "hidden-decorative-media-control",
+      "fixtureAnchors": [
+        "decorative-card-title",
+        "hidden-card-title"
+      ],
+      "tests": "Same nearby card shape where media is aria-hidden or hidden and should not create an image stop."
+    },
+    {
+      "variantId": "article-group-context-boundary",
+      "fixtureAnchors": [
+        "unlabeled-card-a-title",
+        "unlabeled-card-b-title",
+        "plain-card-title"
+      ],
+      "tests": "Article and group boundaries before/after media shells and sibling heading text."
+    },
+    {
+      "variantId": "same-structure-without-suspected-condition",
+      "fixtureAnchors": [
+        "plain-card-title",
+        "named-control-title"
+      ],
+      "tests": "Same card/media skeleton with decorative media or an explicitly named media link to distinguish the suspected empty/named-image condition."
+    }
+  ],
+  "candidateRefMapping": [
+    {
+      "signature": "decorative-svg-option-card-image-stop",
+      "variantId": "hidden-decorative-media-control",
+      "candidateRefs": [
+        "send-royalmail-com:current-window-6",
+        "send-royalmail-com:current-window-7",
+        "send-royalmail-com:current-window-8",
+        "send-royalmail-com:current-window-9"
+      ]
+    },
+    {
+      "signature": "promo-card-media-group-boundary",
+      "variantId": "article-group-context-boundary",
+      "candidateRefs": [
+        "send-royalmail-com:current-window-15",
+        "send-royalmail-com:current-window-16"
+      ]
+    },
+    {
+      "signature": "unlabeled-empty-image-link",
+      "variantId": "unlabeled-empty-image-link-article",
+      "candidateRefs": [
+        "www-royalmail-com-help:current-window-10",
+        "www-royalmail-com-personal-receiving-mail-redirection:current-window-7",
+        "www-royalmail-com-personal-receiving-mail-redirection:current-window-8",
+        "www-royalmail-com-sending-international:current-window-8",
+        "www-royalmail-com-sending-stamps:current-window-23",
+        "www-royalmail-com-sending-uk:current-window-5",
+        "www-royalmail-com-sending-uk:current-window-6",
+        "www-royalmail-com-sending:current-window-5",
+        "www-royalmail-com-sending:current-window-6"
+      ]
+    },
+    {
+      "signature": "named-image-before-card-heading",
+      "variantId": "named-image-link-card-boundary",
+      "candidateRefs": [
+        "www-royalmail-com-sending-international:current-window-2",
+        "www-royalmail-com-sending-international:current-window-6",
+        "www-royalmail-com-sending-international:current-window-7",
+        "www-royalmail-com-sending-stamps:current-window-13",
+        "www-royalmail-com-sending-stamps:current-window-19",
+        "www-royalmail-com-sending-stamps:current-window-21",
+        "www-royalmail-com-sending-stamps:current-window-22",
+        "www-royalmail-com-sending-uk:current-window-4",
+        "www-royalmail-com-sending-uk:current-window-7",
+        "www-royalmail-com-sending:current-window-4",
+        "www-royalmail-com-sending:current-window-7"
+      ]
+    },
+    {
+      "signature": "single-upload-article-media-link-boundary",
+      "variantId": "article-group-context-boundary",
+      "candidateRefs": [
+        "www-royalmail-com-services-near-you-postboxes:current-window-9",
+        "www-royalmail-com-services-near-you-postboxes:current-window-15",
+        "www-royalmail-com-services-near-you-postboxes:current-window-17",
+        "www-royalmail-com-services-near-you-postboxes:current-window-20",
+        "www-royalmail-com-services-near-you:current-window-9",
+        "www-royalmail-com-services-near-you:current-window-11",
+        "www-royalmail-com-services-near-you:current-window-13"
+      ]
+    }
+  ],
+  "omittedPageContext": [
+    {
+      "omission": "site header, global nav, footer, consent, search/forms, accordions, maps, iframes, analytics and unrelated promotional copy",
+      "whySafe": "The disputed behavior is localized to image/media card boundaries and adjacent article/group/card text. These omitted areas do not provide labels, descriptions, focus owners, or IDREFs for the sampled card media."
+    },
+    {
+      "omission": "original brand-specific text, classes, asset filenames, and external URLs",
+      "whySafe": "The repro preserves role/name/hidden/focusability/link/media conditions using neutral names and data URI images; brand copy and CSS classes are not part of the accessibility contract under test."
+    }
+  ],
+  "contentShorteningNotes": [
+    "Card titles and body text were shortened to neutral one-line phrases to avoid VoiceOver/caption truncation.",
+    "No long text, wrapping, punctuation, or line-break behavior is under test for this family."
+  ],
+  "validation": {
+    "commands": [
+      {
+        "command": "/usr/local/bin/node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+        "status": "passed"
+      },
+      {
+        "command": "/usr/local/bin/node -e \"<idref/purity check>\"",
+        "status": "passed",
+        "details": {
+          "idCount": 13,
+          "ariaRefCount": 17,
+          "scanRoot": true,
+          "purity": "passed"
+        }
+      },
+      {
+        "command": "xmllint --html --noout packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+        "status": "passed-with-html5-parser-warnings",
+        "details": "xmllint exited 0 while warning about HTML5 elements such as main, section, article, svg."
+      },
+      {
+        "command": "rg -n 'Royal Mail|royalmail|RoyalMail|class=\"[^\"]*royal|https?://[^w]|www\\.royalmail' packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+        "status": "passed-no-matches"
+      }
+    ]
+  },
+  "voiceOverScanCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=80 -f navigation_mode=voiceover-right-arrow",
+  "waitPollTimeline": [
+    {
+      "event": "dispatch",
+      "at": "2026-07-21T04:00:38Z",
+      "runId": "29800042282"
+    },
+    {
+      "event": "initial-wait",
+      "duration": "5 minutes",
+      "result": "No status or artifact check performed during the required quiet period."
+    },
+    {
+      "event": "first-check",
+      "result": "in_progress; Run VoiceOver scan active; head SHA matched the requested pushed head"
+    },
+    {
+      "event": "minute-polls",
+      "count": 8,
+      "result": "in_progress until the eighth one-minute poll reached completed/success"
+    },
+    {
+      "event": "terminal-check",
+      "at": "2026-07-21T04:14:55Z",
+      "result": "completed/success"
+    },
+    {
+      "event": "artifact-download",
+      "path": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29800042282"
+    }
+  ],
+  "miniScanArtifact": {
+    "root": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29800042282",
+    "scanDirectory": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29800042282/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-residual-image-card-c5-named-or-unlabeled-image-card-divergence/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-residual-image-card-c5-named-or-unlabeled-image-card-divergence",
+    "rawVoiceOverOutput": "voiceover-output.json",
+    "voiceOverSources": "voiceover-sources.json",
+    "renderedHtml": "rendered-html.html",
+    "accessibilityTree": "accessibility-tree.json",
+    "engineOutput": "engine-traversal-debug.json",
+    "stepSnapshots": "step-snapshots.json",
+    "screenshotsDirectory": "screenshots",
+    "manifest": "refinement-manifest.json"
+  },
+  "fixturePathDiagnostic": {
+    "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+    "requestedHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "runnerHead": "2c320021c56ea1c3c7a7317988f6405c0ff8e712",
+    "requestedFixtureSha256": "b8d16cc805b6f355ccb8c4d503d838c3012673ec45ba51d78a1dd1bbb1d35675",
+    "verifiedFixtureSha256": "b8d16cc805b6f355ccb8c4d503d838c3012673ec45ba51d78a1dd1bbb1d35675",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "scanRootIdentity": "main[data-sr-repro-family=\"named-or-unlabeled-image-card-divergence\"]",
+    "renderedHtmlBytes": 8132,
+    "renderedHtmlSha256": "d10037d07d0a2655d6638a8dbeb0de0bad627c53095f8c203723f2232cac85aa",
+    "voiceOverAnnouncementCount": 73,
+    "axNodeCount": 127,
+    "axMappedNodeCount": 64,
+    "capturedStepCount": 75,
+    "stepSnapshotCount": 75,
+    "stepScreenshotCount": 75,
+    "totalScreenshotFileCount": 152,
+    "missingStepScreenshots": [],
+    "stepSnapshotsPartial": false,
+    "scanStopReason": "scan-end-marker",
+    "decision": "passed"
+  },
+  "canary": {
+    "requestedPathMatchesRunnerResolvedPath": true,
+    "workflowHeadMatchesRequestedPushedHead": true,
+    "fixtureShaMatchesRequested": true,
+    "renderedHtmlNonEmpty": true,
+    "scanRootRenderedIdentityMatches": true,
+    "voiceOverNonEmpty": true,
+    "accessibilityTreeNonEmpty": true,
+    "fullStepSnapshots": true,
+    "fullStepScreenshots": true,
+    "snapshotCaptureFailures": [],
+    "pageStateCaptureFailures": [],
+    "emptyAxSnapshotSteps": [],
+    "htmlAfterStepFingerprintCount": 1,
+    "htmlAfterStepFingerprint": "4d3bcb5e",
+    "publicHostingUsed": false,
+    "status": "passed"
+  },
+  "miniScanEvidence": {
+    "debugEvidenceStatus": "complete",
+    "voiceOverAnnouncementCount": 73,
+    "engineAnnouncementCount": 77,
+    "axNodeCount": 127,
+    "stepSnapshotCount": 75,
+    "stepScreenshotCount": 75,
+    "namedDirectImage": {
+      "voiceOver": "sample-card-picture, image",
+      "engine": "sample-card-picture, image",
+      "result": "matched for an explicit-alt direct image"
+    },
+    "namedLinkedImage": {
+      "voiceOver": "link, image, sample-linked-picture",
+      "engine": "link, image, sample-linked-picture",
+      "result": "matched for an explicit-alt image-only link"
+    },
+    "emptyImageLink": {
+      "voiceOver": "link,named-or-unlabeled-image-card-divergence.html",
+      "engine": "link",
+      "result": "mini-only divergence; the local fragment resolves to the fixture filename"
+    },
+    "emptyInlineSvgLink": {
+      "voiceOver": "link, image, named-or-unlabeled-image-card-divergence.html",
+      "engine": "link",
+      "result": "mini-only divergence for an inline role=image SVG inside a local fragment link"
+    },
+    "hiddenDecorativeMedia": {
+      "voiceOver": "No image stop in either aria-hidden or hidden control",
+      "engine": "No image descriptor stop; one generic group stop remains in the aria-hidden wrapper control",
+      "result": "hidden controls are not evidence for exposed unnamed SVGs"
+    },
+    "explicitlyNamedMediaLink": {
+      "voiceOver": "link, Open media file",
+      "engine": "link, Open media file",
+      "result": "matched explicit anchor naming control"
+    },
+    "conditionalState": "No mini-fixture state mutation was observed; all 75 htmlAfterStep fingerprints were identical."
+  },
+  "candidateRefVerdicts": [
+    {
+      "signature": "decorative-svg-option-card-image-stop",
+      "variantId": "hidden-decorative-media-control",
+      "decision": "parked with evidence",
+      "count": 4,
+      "candidateRefs": [
+        "send-royalmail-com:current-window-6",
+        "send-royalmail-com:current-window-7",
+        "send-royalmail-com:current-window-8",
+        "send-royalmail-com:current-window-9"
+      ],
+      "evidence": "The original option cards contain exposed unnamed AX role=image SVG nodes nested under generic wrappers. The mapped mini control hides its SVG with aria-hidden or hidden, so its suppression result cannot be extrapolated to these refs."
+    },
+    {
+      "signature": "promo-card-media-group-boundary",
+      "variantId": "article-group-context-boundary",
+      "decision": "parked with evidence",
+      "count": 2,
+      "candidateRefs": [
+        "send-royalmail-com:current-window-15",
+        "send-royalmail-com:current-window-16"
+      ],
+      "evidence": "The originals expect a six-image promo sequence and a separate image before a tracking form. The mini article/group controls contain neither the multi-image promo shell nor the form boundary, so they do not reproduce these signatures."
+    },
+    {
+      "signature": "unlabeled-empty-image-link",
+      "variantId": "unlabeled-empty-image-link-article",
+      "decision": "recapture-only",
+      "count": 4,
+      "candidateRefs": [
+        "www-royalmail-com-help:current-window-10",
+        "www-royalmail-com-personal-receiving-mail-redirection:current-window-7",
+        "www-royalmail-com-sending-international:current-window-8",
+        "www-royalmail-com-sending-stamps:current-window-23"
+      ],
+      "evidence": "Each original expected window contains the VoiceOver image-description assistance prompt. The current verified runner, with recognition disabled, did not reproduce that prompt for either empty-media control; a current site recapture is required before fixture or engine routing."
+    },
+    {
+      "signature": "unlabeled-empty-image-link",
+      "variantId": "unlabeled-empty-image-link-article",
+      "decision": "parked with evidence",
+      "count": 5,
+      "candidateRefs": [
+        "www-royalmail-com-personal-receiving-mail-redirection:current-window-8",
+        "www-royalmail-com-sending-uk:current-window-5",
+        "www-royalmail-com-sending-uk:current-window-6",
+        "www-royalmail-com-sending:current-window-5",
+        "www-royalmail-com-sending:current-window-6"
+      ],
+      "evidence": "The originals are direct missing-alt img siblings before card headings, not media-only anchors inside article shells. The mini has no direct missing-alt, non-link image control, so its empty-link result is not reusable evidence for these refs."
+    },
+    {
+      "signature": "named-image-before-card-heading",
+      "variantId": "named-image-link-card-boundary",
+      "decision": "parked with evidence",
+      "count": 11,
+      "candidateRefs": [
+        "www-royalmail-com-sending-international:current-window-2",
+        "www-royalmail-com-sending-international:current-window-6",
+        "www-royalmail-com-sending-international:current-window-7",
+        "www-royalmail-com-sending-stamps:current-window-13",
+        "www-royalmail-com-sending-stamps:current-window-19",
+        "www-royalmail-com-sending-stamps:current-window-21",
+        "www-royalmail-com-sending-stamps:current-window-22",
+        "www-royalmail-com-sending-uk:current-window-4",
+        "www-royalmail-com-sending-uk:current-window-7",
+        "www-royalmail-com-sending:current-window-4",
+        "www-royalmail-com-sending:current-window-7"
+      ],
+      "evidence": "The mini's matched named controls use explicit alt text and a separate media-only anchor. Original names are generally filename-derived from missing-alt direct images, and one ref embeds images inside composite linked cards. Because the mini engine does not reproduce the original image omission, these refs cannot be routed from this control."
+    },
+    {
+      "signature": "single-upload-article-media-link-boundary",
+      "variantId": "article-group-context-boundary",
+      "decision": "recapture-only",
+      "count": 2,
+      "candidateRefs": [
+        "www-royalmail-com-services-near-you-postboxes:current-window-9",
+        "www-royalmail-com-services-near-you:current-window-9"
+      ],
+      "evidence": "The original expected media stop contains the image-description assistance prompt, which the complete current scan did not reproduce. A current site recapture is required before deciding whether the prompt was environment-dependent capture output."
+    },
+    {
+      "signature": "single-upload-article-media-link-boundary",
+      "variantId": "article-group-context-boundary",
+      "decision": "parked with evidence",
+      "count": 5,
+      "candidateRefs": [
+        "www-royalmail-com-services-near-you-postboxes:current-window-15",
+        "www-royalmail-com-services-near-you-postboxes:current-window-17",
+        "www-royalmail-com-services-near-you-postboxes:current-window-20",
+        "www-royalmail-com-services-near-you:current-window-11",
+        "www-royalmail-com-services-near-you:current-window-13"
+      ],
+      "evidence": "Original AX articles are unnamed and use HTTP asset links containing missing-alt img nodes; the mini articles are named by aria-labelledby and its fragment href resolves to the fixture filename. Original group preambles also vary. The mini media-link divergence therefore cannot settle the full original windows."
+    }
+  ],
+  "splitVerdictCounts": {
+    "totalCandidateRefs": 33,
+    "reusable engine-supported": 0,
+    "fixture-supported": 0,
+    "conditional": 0,
+    "recapture-only": 6,
+    "parked with evidence": 27
+  },
+  "verdict": "insufficient-repro",
+  "terminalVerdict": "split-conservative-complete",
+  "debugEvidenceStatus": "complete",
+  "decisions": [
+    "Dispatched workflow VoiceOver scan exactly once as run 29800042282 against pushed head 2c320021c56ea1c3c7a7317988f6405c0ff8e712.",
+    "Accepted the artifact only after path, head, fixture SHA, rendered identity, non-empty VoiceOver/AX, full snapshot, and full step-screenshot canaries passed.",
+    "Did not extrapolate explicit-alt, hidden-media, fragment-link, or labelled-article controls to original refs with missing-alt, exposed-image, HTTP-asset-link, unnamed-article, form, or composite-link shapes.",
+    "No candidateRef is engine-supported or fixture-supported by this scan; six require current site recapture and 27 remain parked with concrete shape evidence.",
+    "Did not edit the repro fixture, reusable engine logic, site fixtures, manifests, or Phase E fixtures; did not issue a second dispatch."
+  ],
+  "fixtureChanges": [
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-residual-image-card-c5/named-or-unlabeled-image-card-divergence.html",
+      "field": "html",
+      "range": "new file",
+      "before": null,
+      "after": "scan-rooted neutral C.5 repro for named/unlabeled image card divergence",
+      "reason": "minimal-repro-preparation"
+    }
+  ],
+  "nextPhase": "stop",
+  "handoffReason": "Run 29800042282 passed every evidence canary, but no original ref matches a deciding mini contract closely enough for engine or fixture routing. Six image-description-prompt refs are recapture-only; 27 shape-divergent refs remain parked with evidence.",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "stop",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "This C.5 task is terminal. Preserve the six recapture-only refs and 27 parked refs listed in candidateRefVerdicts; do not route any of these 33 refs to Phase D from run 29800042282.",
+    "c5Needed": false,
+    "reason": "The single authorized scan and receipt are complete; remaining uncertainty belongs to future original-site recapture or a separately authorized shape-faithful repro, not this task."
+  }
+}
