@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Outer article terminal popup button before breadcrumb</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 780px; }
+      .module { margin: 0 0 32px; }
+      .shell { margin: 0 0 18px; }
+      .hidden-dialog { display: none; }
+      .hidden-icon { display: none; }
+      .media { width: 1px; height: 1px; }
+      .trail { display: grid; gap: 8px; }
+      .crumb-icon { width: 0; height: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="outer-article-terminal-popup-button-before-breadcrumb"
+      data-sr-repro-id="c5-article-end-popup-button-current"
+    >
+      <h1>Article boundary checks</h1>
+
+      <section class="module" aria-labelledby="popup-four-child-heading">
+        <h2 id="popup-four-child-heading">Popup button terminal, four article children</h2>
+        <div>
+          <div>
+            <article role="article">
+              <div></div>
+              <div class="shell">
+                <div>
+                  <h3>Plan A</h3>
+                  <p>Short plan text.</p>
+                </div>
+              </div>
+              <div class="shell">
+                <div>
+                  <h3>Plan details</h3>
+                  <p>Small details.</p>
+                </div>
+              </div>
+              <div class="shell">
+                <div>
+                  <div>
+                    <a href="#stamp-choice">
+                      <span class="hidden-icon">Buy now</span>
+                      <span><svg aria-hidden="true" role="img" class="media"></svg></span>
+                    </a>
+                  </div>
+                  <div>
+                    <div class="hidden-dialog">
+                      <div role="dialog" aria-modal="true">
+                        <h3>Quick action</h3>
+                        <div>Pick one short option.</div>
+                        <a title="Send a test item" href="#send-test">
+                          <span><svg aria-hidden="true" role="img" aria-label="Mail" class="media"></svg></span>
+                          <span>Send a test item</span>
+                        </a>
+                      </div>
+                    </div>
+                    <a aria-expanded="false" aria-haspopup="true" role="button" href="#popup-a">
+                      <span><svg aria-hidden="true" role="img" class="media"></svg></span>
+                      <div><span>Send an item now</span></div>
+                      <span><svg aria-hidden="true" role="img" class="hidden-icon"></svg></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-a">
+                  <h2 id="breadcrumb-a">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-a">Home</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><a href="#section-a">Section</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><a href="#subsection-a">Subsection</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><span>Current page: </span>Plan A</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" aria-labelledby="popup-single-child-heading">
+        <h2 id="popup-single-child-heading">Popup button terminal, single wrapper child</h2>
+        <div>
+          <div>
+            <article role="article">
+              <div>
+                <div>
+                  <h3>Plan B</h3>
+                  <p>Short plan text.</p>
+                </div>
+                <div class="trail">
+                  <div>Nearby service text</div>
+                  <h2>Find services</h2>
+                  <a href="#locations-b">
+                    <span>Our locations</span>
+                    <span><svg aria-hidden="true" role="img" class="media"></svg></span>
+                  </a>
+                </div>
+                <div>
+                  <div class="hidden-dialog">
+                    <div role="dialog" aria-modal="true">
+                      <h3>Quick action</h3>
+                      <div>Pick one short option.</div>
+                      <a title="Send a test item" href="#send-test-b">
+                        <span><svg aria-hidden="true" role="img" aria-label="Mail" class="media"></svg></span>
+                        <span>Send a test item</span>
+                      </a>
+                    </div>
+                  </div>
+                  <a aria-expanded="false" aria-haspopup="true" role="button" href="#popup-b">
+                    <span><svg aria-hidden="true" role="img" class="media"></svg></span>
+                    <div><span>Send an item now</span></div>
+                    <span><svg aria-hidden="true" role="img" class="hidden-icon"></svg></span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-b">
+                  <h2 id="breadcrumb-b">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-b">Home</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><a href="#section-b">Section</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><span>Current page: </span>Plan B</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" aria-labelledby="link-control-heading">
+        <h2 id="link-control-heading">Terminal link control</h2>
+        <article role="article">
+          <div>
+            <h3>Plan C</h3>
+            <p>Short plan text.</p>
+            <a href="#plain-link">Read details</a>
+          </div>
+        </article>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-c">
+                  <h2 id="breadcrumb-c">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-c">Home</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><span>Current page: </span>Plan C</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" aria-labelledby="media-control-heading">
+        <h2 id="media-control-heading">Terminal media control</h2>
+        <article role="article">
+          <div>
+            <h3>Plan D</h3>
+            <p>Short plan text.</p>
+            <a href="#media-link">Media details</a>
+            <div role="group">
+              <img alt="Plan image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+            </div>
+          </div>
+        </article>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-d">
+                  <h2 id="breadcrumb-d">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-d">Home</a><span><svg aria-hidden="true" role="img" class="crumb-icon"></svg></span></li>
+                    <li><span>Current page: </span>Plan D</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
