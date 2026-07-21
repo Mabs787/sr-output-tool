@@ -13384,6 +13384,57 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (implicitRole(el) !== "heading") return undefined;
     if (el.querySelector("button, [role='button'], a[href]")) return undefined;
 
+    function axHeadingStaticTextBoundaryFragments(): string[] | undefined {
+      if (!accessibilityNodes.length) return undefined;
+      const axNode = axNodeForElementRole(el, "heading");
+      if (!axNode || normalizedAxRole(axNode.role) !== "heading") return undefined;
+
+      const axName = normalize(axNode.name);
+      const renderedText = normalize(readableText(el));
+      if (!axName || !renderedText || axName !== renderedText) return undefined;
+
+      const fragments: string[] = [];
+      let sawBoundary = false;
+
+      function collectStaticText(node?: AccessibilityTreeNode): boolean {
+        if (!node) return false;
+        const role = normalizedAxRole(node.role);
+        if (role === "statictext") {
+          const fragment = normalize(node.name);
+          if (fragment && /[\p{L}\p{N}$£€]/u.test(fragment)) {
+            fragments.push(fragment);
+            sawBoundary = true;
+          }
+          return true;
+        }
+        if (role === "linebreak") {
+          sawBoundary = true;
+          return true;
+        }
+        if (role && !["generic", "strong", "emphasis", "none"].includes(role)) {
+          return false;
+        }
+        if (!node.childIds?.length) return true;
+        return node.childIds.every((childId) =>
+          collectStaticText(accessibilityNodeById.get(normalize(childId) || "")),
+        );
+      }
+
+      const childIds = axNode.childIds || [];
+      if (childIds.length < 2) return undefined;
+      if (
+        !childIds.every((childId) =>
+          collectStaticText(accessibilityNodeById.get(normalize(childId) || "")),
+        )
+      ) {
+        return undefined;
+      }
+      if (!sawBoundary || fragments.length < 2) return undefined;
+      if (!fragmentsAppearInTextOrder(fragments, axName)) return undefined;
+      if (normalize(fragments.join(" ")) !== axName) return undefined;
+      return fragments;
+    }
+
     function axLeadingSpaceHeadingFragments(): string[] | undefined {
       const tag = el.tagName?.toLowerCase();
       const level = Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2;
@@ -13478,7 +13529,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         (child: any) => child.tagName?.toLowerCase() !== "br" && !isHidden(child),
       )
     ) {
-      return axTrailingLineBreakMarkerFragments(lineBreakFragments(visibleChildren[0]));
+      const fragments = axTrailingLineBreakMarkerFragments(lineBreakFragments(visibleChildren[0]));
+      if (fragments) return fragments;
     }
 
     const hasLineBreak = Array.from(el.childNodes).some(
@@ -13487,8 +13539,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         child.tagName?.toLowerCase() === "br",
     );
     if (hasLineBreak) {
-      return axTrailingLineBreakMarkerFragments(lineBreakFragments(el));
+      const fragments = axTrailingLineBreakMarkerFragments(lineBreakFragments(el));
+      if (fragments) return fragments;
     }
+
+    const axBoundaryFragments = axHeadingStaticTextBoundaryFragments();
+    if (axBoundaryFragments) return axBoundaryFragments;
 
     const axFragments = axLeadingSpaceHeadingFragments();
     if (axFragments) return axFragments;

@@ -276,6 +276,81 @@ test("scanSubtree preserves image role for AX-named logo links when child image 
   );
 });
 
+test("scanSubtree preserves AX heading child text boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <article aria-labelledby="title">
+          <h2 id="title" data-sr-dom-node-id="h">Try our new <span data-sr-dom-node-id="s">Locations tool</span></h2>
+          <p>Static text follows.</p>
+          <a href="#next">Next step</a>
+        </article>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "Try our new Locations tool",
+              domNodeId: "h",
+              tagName: "h2",
+              childIds: ["2", "3"],
+              properties: { level: 2 },
+            },
+            { nodeId: "2", role: "StaticText", name: "Try our new" },
+            {
+              nodeId: "3",
+              role: "generic",
+              name: "",
+              domNodeId: "s",
+              childIds: ["4"],
+            },
+            { nodeId: "4", role: "StaticText", name: "Locations tool" },
+          ],
+        },
+      },
+    ),
+    [
+      "Try our new Locations tool, article",
+      "heading level 2 Try our new, level 1 Locations tool, level 1, 2 items",
+      "Static text follows.",
+      "link, Next step",
+      "end of, Try our new Locations tool, article",
+    ],
+  );
+});
+
+test("scanSubtree ignores whitespace-only AX heading children until separately proven", () => {
+  assert.deepEqual(
+    scanHtml(
+      `<h2 data-sr-dom-node-id="h">Why use <span>Postboxes?</span><br></h2>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "Why use Postboxes?",
+              domNodeId: "h",
+              tagName: "h2",
+              childIds: ["2", "3", "4", "5"],
+              properties: { level: 2 },
+            },
+            { nodeId: "2", role: "StaticText", name: "Why use " },
+            { nodeId: "3", role: "StaticText", name: "Postboxes?" },
+            { nodeId: "4", role: "LineBreak", name: "\n" },
+            { nodeId: "5", role: "StaticText", name: " " },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 2 Why use, level 1 Postboxes?, level 1, 2 items",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX media group names and heading levels for linked cards", () => {
   assert.deepEqual(
     scanHtml(

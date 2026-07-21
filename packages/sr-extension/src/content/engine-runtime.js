@@ -12385,6 +12385,55 @@
             return void 0;
           if (el.querySelector("button, [role='button'], a[href]"))
             return void 0;
+          function axHeadingStaticTextBoundaryFragments() {
+            if (!accessibilityNodes.length)
+              return void 0;
+            const axNode = axNodeForElementRole(el, "heading");
+            if (!axNode || normalizedAxRole(axNode.role) !== "heading")
+              return void 0;
+            const axName = normalize(axNode.name);
+            const renderedText = normalize(readableText(el));
+            if (!axName || !renderedText || axName !== renderedText)
+              return void 0;
+            const fragments2 = [];
+            let sawBoundary = false;
+            function collectStaticText(node) {
+              if (!node)
+                return false;
+              const role = normalizedAxRole(node.role);
+              if (role === "statictext") {
+                const fragment = normalize(node.name);
+                if (fragment && /[\p{L}\p{N}$£€]/u.test(fragment)) {
+                  fragments2.push(fragment);
+                  sawBoundary = true;
+                }
+                return true;
+              }
+              if (role === "linebreak") {
+                sawBoundary = true;
+                return true;
+              }
+              if (role && !["generic", "strong", "emphasis", "none"].includes(role)) {
+                return false;
+              }
+              if (!node.childIds?.length)
+                return true;
+              return node.childIds.every((childId) => collectStaticText(accessibilityNodeById.get(normalize(childId) || "")));
+            }
+            const childIds = axNode.childIds || [];
+            if (childIds.length < 2)
+              return void 0;
+            if (!childIds.every((childId) => collectStaticText(accessibilityNodeById.get(normalize(childId) || "")))) {
+              return void 0;
+            }
+            if (!sawBoundary || fragments2.length < 2)
+              return void 0;
+            if (!fragmentsAppearInTextOrder(fragments2, axName))
+              return void 0;
+            if (normalize(fragments2.join(" ")) !== axName)
+              return void 0;
+            return fragments2;
+          }
           function axLeadingSpaceHeadingFragments() {
             const tag2 = el.tagName?.toLowerCase();
             const level2 = Number.parseInt(el.getAttribute("aria-level") || tag2.slice(1), 10) || 2;
@@ -12457,12 +12506,19 @@
           const tag = el.tagName?.toLowerCase();
           const level = Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2;
           if (level === 1 && visibleChildren.length === 1 && !directOwnText(el) && visibleChildren[0].querySelector("br") && Array.from(visibleChildren[0].children || []).some((child) => child.tagName?.toLowerCase() !== "br" && !isHidden(child))) {
-            return axTrailingLineBreakMarkerFragments(lineBreakFragments(visibleChildren[0]));
+            const fragments2 = axTrailingLineBreakMarkerFragments(lineBreakFragments(visibleChildren[0]));
+            if (fragments2)
+              return fragments2;
           }
           const hasLineBreak = Array.from(el.childNodes).some((child) => child.nodeType === Node.ELEMENT_NODE && child.tagName?.toLowerCase() === "br");
           if (hasLineBreak) {
-            return axTrailingLineBreakMarkerFragments(lineBreakFragments(el));
+            const fragments2 = axTrailingLineBreakMarkerFragments(lineBreakFragments(el));
+            if (fragments2)
+              return fragments2;
           }
+          const axBoundaryFragments = axHeadingStaticTextBoundaryFragments();
+          if (axBoundaryFragments)
+            return axBoundaryFragments;
           const axFragments = axLeadingSpaceHeadingFragments();
           if (axFragments)
             return axFragments;
