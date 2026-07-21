@@ -2496,7 +2496,7 @@
           const axNode = axNodeForElementRole(el, "textbox");
           return Boolean(axNode && axNode.properties?.focusable === true && normalize(axNode.name) === placeholder);
         }
-        function isAxConfirmedNativeSearchFormTextInput(el, role) {
+        function nativeSearchFormTextInputContract(el, role) {
           if (role !== "textbox" && role !== "searchbox")
             return false;
           if (el?.tagName?.toLowerCase() !== "input")
@@ -2539,13 +2539,19 @@
           const submitName = axConfirmedNativeInputButtonName(submitControls[0], "button") || accessibleName(submitControls[0], "button") || normalize(submitControls[0].getAttribute("value") || submitControls[0].getAttribute("name"));
           if (submitName !== labelText)
             return false;
+          let axName;
           if (accessibilityNodes.length) {
             const inputNode = axNodeForElementRole(el, role === "searchbox" ? "searchbox" : "textbox");
-            if (inputNode && (normalize(inputNode.name) !== labelText || inputNode.properties?.focusable !== true)) {
+            axName = normalize(inputNode?.name);
+            const duplicatedLabelName = normalize(`${labelText} ${labelText}`);
+            if (!inputNode || inputNode.properties?.focusable !== true || !axName || ![labelText, placeholder, duplicatedLabelName].includes(axName)) {
               return false;
             }
           }
-          return true;
+          return { labelText, placeholder, axName };
+        }
+        function isAxConfirmedNativeSearchFormTextInput(el, role) {
+          return Boolean(nativeSearchFormTextInputContract(el, role));
         }
         function isNativeSearchFormLabelStopInput(el, role) {
           if (role !== "searchbox")
@@ -12482,6 +12488,7 @@
           const selectedListboxSize = selectedListboxOption ? setSize(selectedListboxOption, "option") : void 0;
           const leadingGenericGroupStops = leadingGenericGroupStopCountBeforeDisabledControl(el, role);
           const checkboxRoleButtonAccordionControl = isCheckboxRoleButtonAccordionControl(el, role);
+          const nativeSearchFormInputContract = nativeSearchFormTextInputContract(el, role);
           const descriptor = {
             role,
             name: carouselControlName || visibleTextEllipsisButtonName(el, role) || axNativeInputButtonName || (nativeInputComboboxPlaceholderName ? void 0 : announcementName) || nativeSelectTitleName || focusableFeedbackGroupText,
@@ -12558,8 +12565,10 @@
             splitLabelStop: ["searchbox", "textbox"].includes(role) && tag === "input" && Boolean(name?.endsWith(":") || name && stateEl.getAttribute("aria-invalid") === "true" && normalize(stateEl.getAttribute("placeholder")) === name) || isNativeSearchFormLabelStopInput(el, role) || isAutocompleteGridPopupLabelStopInput(el, role) || isAxConfirmedNativeSearchFormTextInput(el, role) || shouldSplitNamedSingleControlFormInput(el, role) || shouldSplitCompositeNativeControlLabelStop(el, role) || role === "combobox" && tag === "select" && Boolean(name?.endsWith(":") || value && name?.endsWith(value)) || Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitCompositeNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || shouldSplitVisibleRequiredPasswordLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) || Boolean(nativeButtonLabelStopText) ? true : void 0,
             nativeFormControlLabelStop: Boolean(nativeValueControlLabelStopText) || shouldSplitNativeControlLabelStop(el, role) || shouldSplitCompositeNativeControlLabelStop(el, role) || shouldSplitDirectVisibleTextInputLabelStop(el, role) || shouldSplitVisibleRequiredPasswordLabelStop(el, role) || Boolean(axConfirmedNativeControlLabelStopText(el, role)) ? true : void 0,
             nativeControlLabelText: nativeButtonLabelStopText || nativeValueControlLabelStopText || axConfirmedNativeControlLabelStopText(el, role) || (shouldSplitCompositeNativeControlLabelStop(el, role) ? directAssociatedLabelText(el) : void 0),
-            nativeSearchFormInputStop: isAxConfirmedNativeSearchFormTextInput(el, role) || shouldSplitNamedSingleControlFormInput(el, role) ? true : void 0,
-            nativeSearchFormInputLabelStop: accessibilityNodes.length && isAxConfirmedNativeSearchFormTextInput(el, role) ? true : void 0,
+            nativeSearchFormInputStop: Boolean(nativeSearchFormInputContract) || shouldSplitNamedSingleControlFormInput(el, role) ? true : void 0,
+            nativeSearchFormInputLabelStop: accessibilityNodes.length && Boolean(nativeSearchFormInputContract) ? true : void 0,
+            nativeSearchFormInputLabelText: nativeSearchFormInputContract?.labelText,
+            nativeSearchFormInputAxName: nativeSearchFormInputContract?.axName,
             nativeFormInlineAlert: role === "alert" && Boolean(el.closest("form[aria-label], form[aria-labelledby]")) ? true : void 0,
             namedAlertBoundary: role === "alert" && isNamedAlertBoundary(el, role) ? true : void 0,
             suppressStatusRolePrefix: isPostFooterTextStatus(el, role) || void 0,
@@ -13394,11 +13403,19 @@
         function splitLabelStopAnnouncements(descriptor) {
           if (!descriptor.splitLabelStop)
             return void 0;
-          const label = normalize(descriptor.nativeControlLabelText || descriptor.name || descriptor.text);
+          const label = normalize(descriptor.nativeSearchFormInputLabelText || descriptor.nativeControlLabelText || descriptor.name || descriptor.text);
           if (descriptor.nativeSearchFormInputStop && descriptor.role === "textbox") {
             const roleText = descriptor.textEntryArea ? "text entry area" : descriptor.secureTextField ? "secure text field" : descriptor.emailTextField ? "email" : "edit text";
             const value = normalize(descriptor.emailTextField && descriptor.details ? descriptor.details : descriptor.placeholder);
-            const announcement2 = normalize(`${[label, value].filter(Boolean).join(" ")}${[
+            const axName = normalize(descriptor.nativeSearchFormInputAxName);
+            if (axName && value && axName === value) {
+              return [
+                descriptor.nativeSearchFormInputLabelStop ? label : void 0,
+                normalize(`${axName} ${roleText}, blank`)
+              ].filter((entry) => Boolean(entry));
+            }
+            const controlLabel = normalize(axName && axName !== label ? axName : label);
+            const announcement2 = normalize(`${[controlLabel, value].filter(Boolean).join(" ")}${[
               descriptor.required ? "required" : void 0,
               roleText
             ].filter(Boolean).length ? `, ${[

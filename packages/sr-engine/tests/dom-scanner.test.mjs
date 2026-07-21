@@ -1236,6 +1236,71 @@ test("scanSubtree emits label stops and submit names for AX-confirmed native sea
   );
 });
 
+test("scanSubtree preserves AX-confirmed native search textbox wording variants", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <form role="search">
+          <label for="duplicate-search">Search</label>
+          <input id="duplicate-search" type="text" placeholder="Search directory" value="" data-sr-dom-node-id="duplicate-input">
+          <input type="submit" value="Search" data-sr-dom-node-id="duplicate-submit">
+        </form>
+        <form role="search">
+          <label for="placeholder-search">Search</label>
+          <input id="placeholder-search" type="text" placeholder="Search directory" value="" data-sr-dom-node-id="placeholder-input">
+          <input type="submit" value="Search" data-sr-dom-node-id="placeholder-submit">
+        </form>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "duplicate-input",
+              role: "textbox",
+              name: "Search Search",
+              domNodeId: "duplicate-input",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "duplicate-submit",
+              role: "button",
+              name: "Search",
+              domNodeId: "duplicate-submit",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "placeholder-input",
+              role: "textbox",
+              name: "Search directory",
+              domNodeId: "placeholder-input",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "placeholder-submit",
+              role: "button",
+              name: "Search",
+              domNodeId: "placeholder-submit",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "search",
+      "Search",
+      "Search Search Search directory, edit text",
+      "Search, button",
+      "end of, search",
+      "search",
+      "Search",
+      "Search directory edit text, blank",
+      "Search, button",
+      "end of, search",
+    ],
+  );
+});
+
 test("scanSubtree ignores native search-form shortcut when no label exists", () => {
   assert.deepEqual(
     scanHtml(`

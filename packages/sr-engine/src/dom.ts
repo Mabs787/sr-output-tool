@@ -1665,7 +1665,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
-  function isAxConfirmedNativeSearchFormTextInput(el: any, role: string): boolean {
+  function nativeSearchFormTextInputContract(
+    el: any,
+    role: string,
+  ): { labelText: string; placeholder: string; axName?: string } | undefined {
     if (role !== "textbox" && role !== "searchbox") return false;
     if (el?.tagName?.toLowerCase() !== "input") return false;
     const type = (el.getAttribute("type") || "text").toLowerCase();
@@ -1717,17 +1720,26 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       normalize(submitControls[0].getAttribute("value") || submitControls[0].getAttribute("name"));
     if (submitName !== labelText) return false;
 
+    let axName: string | undefined;
     if (accessibilityNodes.length) {
       const inputNode = axNodeForElementRole(el, role === "searchbox" ? "searchbox" : "textbox");
+      axName = normalize(inputNode?.name);
+      const duplicatedLabelName = normalize(`${labelText} ${labelText}`);
       if (
-        inputNode &&
-        (normalize(inputNode.name) !== labelText || inputNode.properties?.focusable !== true)
+        !inputNode ||
+        inputNode.properties?.focusable !== true ||
+        !axName ||
+        ![labelText, placeholder, duplicatedLabelName].includes(axName)
       ) {
         return false;
       }
     }
 
-    return true;
+    return { labelText, placeholder, axName };
+  }
+
+  function isAxConfirmedNativeSearchFormTextInput(el: any, role: string): boolean {
+    return Boolean(nativeSearchFormTextInputContract(el, role));
   }
 
   function isNativeSearchFormLabelStopInput(el: any, role: string): boolean {
@@ -13653,6 +13665,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const checkboxRoleButtonAccordionControl =
       isCheckboxRoleButtonAccordionControl(el, role);
 
+    const nativeSearchFormInputContract = nativeSearchFormTextInputContract(el, role);
+
     const descriptor: CapturedElementDescriptor = {
       role,
       name:
@@ -14003,14 +14017,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? directAssociatedLabelText(el)
           : undefined),
       nativeSearchFormInputStop:
-        isAxConfirmedNativeSearchFormTextInput(el, role) ||
+        Boolean(nativeSearchFormInputContract) ||
         shouldSplitNamedSingleControlFormInput(el, role)
           ? true
           : undefined,
       nativeSearchFormInputLabelStop:
-        accessibilityNodes.length && isAxConfirmedNativeSearchFormTextInput(el, role)
+        accessibilityNodes.length && Boolean(nativeSearchFormInputContract)
           ? true
           : undefined,
+      nativeSearchFormInputLabelText:
+        nativeSearchFormInputContract?.labelText,
+      nativeSearchFormInputAxName:
+        nativeSearchFormInputContract?.axName,
       nativeFormInlineAlert:
         role === "alert" &&
         Boolean(el.closest("form[aria-label], form[aria-labelledby]"))
@@ -15172,7 +15190,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   ): string[] | undefined {
     if (!descriptor.splitLabelStop) return undefined;
 
-    const label = normalize(descriptor.nativeControlLabelText || descriptor.name || descriptor.text);
+    const label = normalize(
+      descriptor.nativeSearchFormInputLabelText ||
+        descriptor.nativeControlLabelText ||
+        descriptor.name ||
+        descriptor.text,
+    );
     if (descriptor.nativeSearchFormInputStop && descriptor.role === "textbox") {
       const roleText = descriptor.textEntryArea
         ? "text entry area"
@@ -15186,8 +15209,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           ? descriptor.details
           : descriptor.placeholder,
       );
+      const axName = normalize(descriptor.nativeSearchFormInputAxName);
+      if (axName && value && axName === value) {
+        return [
+          descriptor.nativeSearchFormInputLabelStop ? label : undefined,
+          normalize(`${axName} ${roleText}, blank`),
+        ].filter((entry): entry is string => Boolean(entry));
+      }
+      const controlLabel = normalize(axName && axName !== label ? axName : label);
       const announcement = normalize(
-        `${[label, value].filter(Boolean).join(" ")}${[
+        `${[controlLabel, value].filter(Boolean).join(" ")}${[
           descriptor.required ? "required" : undefined,
           roleText,
         ].filter(Boolean).length ? `, ${[
