@@ -12301,6 +12301,162 @@ test("scanSubtree emits AX-confirmed marker and trailing text for mixed link lis
 	  );
 	});
 
+test("scanSubtree prefixes nested AX rich bullet fragments without changing top-level product bullets", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul data-sr-dom-node-id="10">
+          <li data-sr-dom-node-id="11">Outer item
+            <ul data-sr-dom-node-id="12">
+              <li
+                data-sr-dom-node-id="13"
+                data-sr-marker-content="normal"
+                data-sr-marker-display="inline-block"
+                data-sr-marker-list-style-type="disc"
+              >The <strong data-sr-dom-node-id="14">declaration category</strong> is required.</li>
+              <li
+                data-sr-dom-node-id="15"
+                data-sr-marker-content="normal"
+                data-sr-marker-display="inline-block"
+                data-sr-marker-list-style-type="disc"
+              >The <strong data-sr-dom-node-id="16">item description</strong> should be short.</li>
+            </ul>
+          </li>
+        </ul>
+        <ul data-sr-dom-node-id="30">
+          <li
+            data-sr-dom-node-id="31"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><a href="/product" data-sr-dom-node-id="32">Framed sample</a> - mounted artwork.</li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ul",
+              childIds: ["21"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23"],
+            },
+            { nodeId: "22", ignored: false, role: "StaticText", name: "Outer item" },
+            {
+              nodeId: "23",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "12",
+              tagName: "ul",
+              childIds: ["24", "28"],
+            },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "13",
+              tagName: "li",
+              childIds: ["25", "26", "27"],
+            },
+            { nodeId: "25", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "26", ignored: false, role: "StaticText", name: "The " },
+            {
+              nodeId: "27",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "14",
+              tagName: "strong",
+              childIds: ["34"],
+            },
+            { nodeId: "34", ignored: false, role: "StaticText", name: "declaration category" },
+            {
+              nodeId: "28",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "15",
+              tagName: "li",
+              childIds: ["29", "33", "35"],
+            },
+            { nodeId: "29", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "33", ignored: false, role: "StaticText", name: "The " },
+            {
+              nodeId: "35",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "16",
+              tagName: "strong",
+              childIds: ["36"],
+            },
+            { nodeId: "36", ignored: false, role: "StaticText", name: "item description" },
+            {
+              nodeId: "40",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "30",
+              tagName: "ul",
+              childIds: ["41"],
+            },
+            {
+              nodeId: "41",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "31",
+              tagName: "li",
+              childIds: ["42", "43", "44"],
+            },
+            { nodeId: "42", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "43",
+              ignored: false,
+              role: "link",
+              name: "Framed sample",
+              domNodeId: "32",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "44", ignored: false, role: "StaticText", name: " - mounted artwork." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 1 item",
+      "Outer item",
+      "list 2 items, level 2 1 of 1",
+      "• The, 1 of 2",
+      "declaration category",
+      "• The, 2 of 2",
+      "item description",
+      "end of list",
+      "end of list",
+      "list 1 item",
+      "•, 1 of 1",
+      "link, Framed sample",
+      "• - mounted artwork.",
+      "end of list",
+    ],
+  );
+});
+
 	test("scanSubtree keeps simple AX-confirmed bullet leading text with its marker before a link", () => {
 	  assert.deepEqual(
 	    scanHtml(

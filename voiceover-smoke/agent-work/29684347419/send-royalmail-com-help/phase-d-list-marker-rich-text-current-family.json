@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "runId": "29684347419",
+  "target": "send-royalmail-com-help",
+  "family": "list-marker-rich-text-current-family",
+  "status": "passed_with_residuals",
+  "startedAt": "2026-07-21T13:25:39Z",
+  "finishedAt": "2026-07-21T13:54:43Z",
+  "lease": {
+    "file": "../_summaries/phase-d-engine-lease.json",
+    "leaseOwner": "top-level-codex-list-marker-rich-text-current-family-2026-07-21T13:25:39Z",
+    "activeLeaseCountAtStart": 0,
+    "activeLeaseCountAtFinish": 0,
+    "result": "no-overlap"
+  },
+  "inputs": [
+    "docs/workflows/voiceover-refinement.md",
+    "docs/workflows/agent-receipts.md",
+    "docs/workflows/phase-d-engine-refinement.md",
+    "../_summaries/phase-b-list-marker-current-family-audit.json",
+    "../_summaries/phase-c5-list-marker-rich-text-current-family.json",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-send-help-list-marker-rich-text-c5/current-family.html"
+  ],
+  "scope": {
+    "acceptedSubfamily": {
+      "name": "send-help-nested-rich-bullet-marker-and-inline-fragment-boundaries",
+      "candidateRefs": [
+        "send-royalmail-com-help:current-window-11",
+        "send-royalmail-com-help:current-window-12",
+        "send-royalmail-com-help:current-window-13",
+        "send-royalmail-com-help:current-window-14",
+        "send-royalmail-com-help:current-window-30",
+        "send-royalmail-com-help:current-window-32"
+      ]
+    },
+    "rejectedSubfamily": {
+      "name": "send-help-numbered-long-list-truncation-and-marker-stitching",
+      "candidateRefs": [
+        "send-royalmail-com-help:current-window-5",
+        "send-royalmail-com-help:current-window-7",
+        "send-royalmail-com-help:current-window-9",
+        "send-royalmail-com-help:current-window-10",
+        "send-royalmail-com-help:current-window-15",
+        "send-royalmail-com-help:current-window-16",
+        "send-royalmail-com-help:current-window-18",
+        "send-royalmail-com-help:current-window-19",
+        "send-royalmail-com-help:current-window-20",
+        "send-royalmail-com-help:current-window-23",
+        "send-royalmail-com-help:current-window-24",
+        "send-royalmail-com-help:current-window-25",
+        "send-royalmail-com-help:current-window-27",
+        "send-royalmail-com-help:current-window-33"
+      ]
+    }
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "For native AX-backed nested listitems with a visible non-ordered ListMarker and rich inline AX content, prefix the first text fragment with the bullet marker and list position while preserving subsequent strong/link/static fragment boundaries.",
+      "guards": [
+        "native li/list AX contract with ListMarker plus content nodes",
+        "saved rendered marker content is normal and marker display is inline/inline-block",
+        "list level is greater than 1",
+        "marker is not decimal ordered marker",
+        "AX content includes a link, strong, or emphasis role plus text",
+        "listitem AX name remains empty",
+        "existing hidden, nav, disabled, nested complex controls, and direct-link count guards remain in force"
+      ]
+    }
+  ],
+  "fixtureChanges": [],
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/phase-d-list-marker-rich-text-current-family.json"
+  ],
+  "rejectedPrototypes": [
+    {
+      "subfamily": "send-help-numbered-long-list-truncation-and-marker-stitching",
+      "attemptedRule": "Emit a separate decimal marker stop before native ordered listitem long text when AX exposes a decimal ListMarker and long paragraph/static content.",
+      "targetDelta": {
+        "before": {
+          "expectedCount": 362,
+          "actualCount": 325,
+          "mismatchWindowCount": 33,
+          "grouped": {
+            "role/structure": 5,
+            "list/marker": 26,
+            "punctuation/text-boundary": 2
+          }
+        },
+        "prototype": {
+          "actualCount": 353,
+          "mismatchWindowCount": 33,
+          "grouped": {
+            "list/marker": 24,
+            "punctuation/text-boundary": 4
+          }
+        }
+      },
+      "rejectionReason": "The same generic AX ordered-marker plus long-text shape appears in unscoped simple ordered lists where current VoiceOver/refined output keeps the marker stitched with item text and position metadata. The prototype regressed that simple ordered-list shape, so it was removed."
+    }
+  ],
+  "compareEvidence": {
+    "targetBefore": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help yarn workspace @sr-output/engine voiceover:compare send-royalmail-com-help 5",
+      "expectedCount": 362,
+      "actualCount": 325,
+      "mismatchWindowCount": 33,
+      "grouped": {
+        "role/structure": 5,
+        "list/marker": 26,
+        "punctuation/text-boundary": 2
+      }
+    },
+    "targetAfter": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help node packages/sr-engine/tests/compare-voiceover-fixture.mjs send-royalmail-com-help 5",
+      "expectedCount": 362,
+      "actualCount": 335,
+      "mismatchWindowCount": 32,
+      "grouped": {
+        "role/structure": 5,
+        "list/marker": 24,
+        "punctuation/text-boundary": 3
+      },
+      "scopedLatestWindows": [
+        {
+          "currentWindow": 5,
+          "actualIndex": 72,
+          "expectedIndex": 73,
+          "actualShape": "long ordered list item text with position metadata, marker omitted",
+          "expectedShape": "separate decimal marker before truncated caption text"
+        },
+        {
+          "currentWindow": 9,
+          "actualIndex": 99,
+          "expectedIndex": 103,
+          "actualShape": "nested rich bullet item text without leading marker on plain fragment",
+          "expectedShape": "dot/bullet-prefixed fragment before inline boundaries"
+        },
+        {
+          "currentWindow": 13,
+          "actualIndex": 120,
+          "expectedIndex": 124,
+          "actualShape": "nested rich bullet first fragment now marker-prefixed; residual smart-quote and mixed marker tail remain",
+          "expectedShape": "same fragment order with raw quote punctuation and later bullet tails"
+        },
+        {
+          "currentWindow": 20,
+          "actualIndex": 185,
+          "expectedIndex": 194,
+          "actualShape": "inline text/link/static boundary offset after ordered-list residuals",
+          "expectedShape": "separate static fragments around tracking-number emphasis"
+        },
+        {
+          "currentWindow": 27,
+          "actualIndex": 228,
+          "expectedIndex": 248,
+          "actualShape": "plain nested bullet text with position metadata, marker omitted",
+          "expectedShape": "bullet-prefixed plain item text"
+        },
+        {
+          "currentWindow": 33,
+          "actualShape": "not present in latest compare",
+          "expectedShape": "resolved or absorbed after earlier window alignment shifted"
+        }
+      ]
+    },
+    "protectedCompares": [
+      {
+        "fixture": "www-w3-org-wai-standards-guidelines-wcag",
+        "type": "golden-exact",
+        "expectedCount": 320,
+        "actualCount": 320,
+        "mismatchWindowCount": 0
+      },
+      {
+        "fixture": "design-system-service-gov-uk-components-text-input",
+        "type": "golden-exact",
+        "expectedCount": 394,
+        "actualCount": 394,
+        "mismatchWindowCount": 0
+      },
+      {
+        "fixture": "www-royalmail-com-sending-stamps",
+        "type": "royalmail-protected-candidate",
+        "expectedCount": 270,
+        "actualCount": 258,
+        "mismatchWindowCount": 21
+      },
+      {
+        "fixture": "www-royalmail-com-sending-barcoded-stamps",
+        "type": "royalmail-protected-candidate",
+        "expectedCount": 200,
+        "actualCount": 195,
+        "mismatchWindowCount": 9
+      },
+      {
+        "fixture": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm",
+        "type": "royalmail-protected-candidate",
+        "expectedCount": 186,
+        "actualCount": 175,
+        "mismatchWindowCount": 9
+      }
+    ]
+  },
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "status": "passed",
+      "required": true
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit --test-name-pattern \"nested AX rich bullet|ordered plain text marker|ordered parent text|ordered markers before link\"",
+      "status": "passed",
+      "required": true
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "required": true,
+      "summary": "348 passed, 56 skipped"
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "status": "passed",
+      "required": true
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "status": "failed",
+      "required": true,
+      "summary": "36 passed, 21 skipped, 2 failed. Failures were www-microsoft-com-en-us-accessibility adding an unrelated Ask Microsoft Accessibility stop and www-sky-com-watch-what-to-watch-this-week splitting unrelated inline title text; neither is a listitem marker path."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "send-help-numbered-long-list-truncation-and-marker-stitching",
+      "currentWindowIndexes": [
+        5,
+        7,
+        15,
+        16,
+        18,
+        19,
+        23,
+        24,
+        25,
+        33
+      ],
+      "latestActualShape": "Native ordered listitems keep long text stitched with position metadata or shift into downstream inline boundary residuals.",
+      "latestExpectedShape": "VoiceOver/refined output uses separate decimal marker stops for some long items and caption-length text fragments.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Create an isolated same-structure matrix that distinguishes stitched ordered long text from separate decimal marker stops without using page copy, URL, classes, or target position.",
+      "blocker": "The attempted generic ordered rule regressed unscoped simple ordered lists that share the AX marker plus text shape.",
+      "checksNeeded": [
+        "focused ordered-list unit coverage",
+        "send-royalmail-com-help target compare",
+        "protected ordered/list corpus compares",
+        "full corpus"
+      ]
+    },
+    {
+      "family": "send-help-nested-rich-bullet-marker-and-inline-fragment-boundaries",
+      "currentWindowIndexes": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        20,
+        27,
+        30,
+        32
+      ],
+      "latestActualShape": "Accepted nested rich bullet fix prefixes first rich fragments; residuals are mixed dot-versus-bullet punctuation, smart-quote normalization, plain nested bullet items without rich content, or offsets from unresolved ordered-list windows.",
+      "latestExpectedShape": "C.5 order keeps marker/position on the first rich fragment and preserves following strong/link/static boundaries.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Split remaining residuals into punctuation normalization, plain nested bullet item marker, and downstream alignment tails before any additional engine rule.",
+      "blocker": "Only the rich nested AX subshape had a narrow reusable rule. Plain nested bullets and punctuation tails need independent C.5/evidence classification.",
+      "checksNeeded": [
+        "target compare with latest window indexes",
+        "focused C.5 or unit proof for plain nested bullet marker shape",
+        "protected Royal Mail stamps/product-list compares"
+      ]
+    }
+  ],
+  "handoffTo": "repro-scanner",
+  "handoffReason": "One narrow AX-backed nested rich bullet engine gap was fixed and verified; ordered long-list behavior needs a safer generic discriminator before another Phase D patch."
+}

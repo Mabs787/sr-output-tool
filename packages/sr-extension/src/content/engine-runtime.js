@@ -8099,6 +8099,13 @@
             return void 0;
           const marker = nativeAxListMarkerText(markerNode);
           const isOrderedMarker = Boolean(marker && /^\d+[.)]$/u.test(marker));
+          const isNestedRichBullet = !isOrderedMarker && (listLevel(list) || 1) > 1 && (linkCount > 0 || contentNodes.some((node) => ["strong", "emphasis"].includes(normalizedAxRole(node.role) || "")));
+          if (isNestedRichBullet && textCount > 0) {
+            const position = positionInSet(el, "listitem");
+            const size = setSize(el, "listitem");
+            const suffix = position && size ? `, ${position} of ${size}` : "";
+            return [`${marker} ${fragments[0]}${suffix}`, ...fragments.slice(1)];
+          }
           if (!isOrderedMarker || !linkCount || textCount > 0)
             return void 0;
           return [markerAnnouncement, ...fragments];

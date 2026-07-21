@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-native-li-no-metadata-boundaries-2026-07-21T11:30:14Z",
-  "startedAt": "2026-07-21T11:30:14Z",
+  "leaseOwner": "top-level-codex-list-marker-rich-text-current-family-2026-07-21T13:25:39Z",
+  "startedAt": "2026-07-21T13:25:39Z",
   "adoptedBy": "",
   "adoptedAt": "",
-  "releasedAt": "2026-07-21T11:43:49Z",
-  "targetFamily": "native-li-no-metadata-inline-child-boundary-traversal",
-  "target": "www-royalmail-com-sending-barcoded-stamps",
-  "candidateRef": "www-royalmail-com-sending-barcoded-stamps:native-li-no-metadata-tail:li591:refined-97",
+  "releasedAt": "2026-07-21T13:54:43Z",
+  "targetFamily": "send-help-list-marker-rich-text-current-family",
+  "target": "send-royalmail-com-help",
+  "candidateRef": "send-royalmail-com-help:current-window-5,current-window-7,current-window-9,current-window-10,current-window-11,current-window-12,current-window-13,current-window-14,current-window-15,current-window-16,current-window-18,current-window-19,current-window-20,current-window-23,current-window-24,current-window-25,current-window-27,current-window-30,current-window-32,current-window-33",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,7 +19,7 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "no-overlap",
-    "evidence": "Before acquisition, the canonical lease file status was released with activeEngineRefinerCount 0; this lease is the only active engine-refiner for run 29684347419."
+    "evidence": "Before acquisition, the canonical lease file status was released with activeEngineRefinerCount 0; this active lease is the only engine-refiner for run 29684347419."
   },
   "leaseHistory": [
     {
@@ -72,6 +72,24 @@
       "targetFamily": "native-li-no-metadata-inline-child-boundary-traversal",
       "startedAt": "2026-07-21T11:30:14Z",
       "releasedAt": "2026-07-21T11:43:49Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-missing-image-description-link-fallback-2026-07-21T11:48:25Z",
+      "target": "www-royalmail-com-services-near-you",
+      "candidateRef": "www-royalmail-com-services-near-you:current-window-8",
+      "targetFamily": "missing-image-description-link-fallback",
+      "startedAt": "2026-07-21T11:48:25Z",
+      "releasedAt": "2026-07-21T12:04:11Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-list-marker-rich-text-current-family-2026-07-21T13:25:39Z",
+      "target": "send-royalmail-com-help",
+      "candidateRef": "send-royalmail-com-help:current-window-5,current-window-7,current-window-9,current-window-10,current-window-11,current-window-12,current-window-13,current-window-14,current-window-15,current-window-16,current-window-18,current-window-19,current-window-20,current-window-23,current-window-24,current-window-25,current-window-27,current-window-30,current-window-32,current-window-33",
+      "targetFamily": "send-help-list-marker-rich-text-current-family",
+      "startedAt": "2026-07-21T13:25:39Z",
+      "releasedAt": "2026-07-21T13:54:43Z",
       "status": "released"
     }
   ]
