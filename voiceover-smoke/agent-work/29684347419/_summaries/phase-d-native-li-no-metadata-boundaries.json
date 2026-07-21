@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "target": "www-royalmail-com-sending-barcoded-stamps",
+  "family": "native-li-no-metadata-inline-child-boundary-traversal",
+  "status": "passed",
+  "startedAt": "2026-07-21T11:30:14Z",
+  "finishedAt": "2026-07-21T11:43:49Z",
+  "leaseOwner": "top-level-codex-native-li-no-metadata-boundaries-2026-07-21T11:30:14Z",
+  "leaseAcquiredAt": "2026-07-21T11:30:14Z",
+  "leaseReleasedAt": "2026-07-21T11:43:49Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "no-overlap",
+    "evidence": "Canonical phase-d-engine-lease.json was released with activeEngineRefinerCount 0 before acquisition, then released back to activeEngineRefinerCount 0 at finish."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-native-li-tail-revisit.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-native-li-tail-repair.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-native-li-no-metadata-tail.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-native-li-inline-child-boundaries.json"
+    ],
+    "reproRead": "packages/sr-engine/tests/fixtures/voiceover-repros/native-li-no-metadata-c5/inline-child-boundary.html",
+    "engineLease": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json"
+  },
+  "candidateRef": {
+    "candidateId": "www-royalmail-com-sending-barcoded-stamps:native-li-no-metadata-tail:li591:refined-97",
+    "sourceIndex": 98,
+    "currentRefinedIndex": 97,
+    "domNodeIds": [
+      "591",
+      "592",
+      "593",
+      "594",
+      "595"
+    ],
+    "family": "native-li-no-metadata-tail",
+    "compareWindowId": "current-windows-4-6",
+    "resolution": "remapped-after-phase-b-tail-repair"
+  },
+  "implementedRule": {
+    "file": "packages/sr-engine/src/dom.ts",
+    "summary": "Extended the existing AX-backed native ul/ol > li inline child-boundary splitter to the C.5-confirmed no-metadata shape.",
+    "genericPredicate": [
+      "native li under native ul/ol",
+      "unnamed, non-focusable AX listitem with empty AX name and direct AX marker",
+      "no explicit role, aria-label, aria-labelledby, tabindex, nav ancestor, aria-live, aria-disabled, hidden state, nested list, table/grid/treegrid, form control, button, image, svg, generated metadata, block wrapper, or unsupported child role",
+      "exactly one direct href link with matching focusable AX link",
+      "at least two direct emphasis boundaries before the link, plain text before the link, post-link StaticText before a direct LineBreak, and final StaticText after the LineBreak",
+      "uses DOM/AX role, state, child order, and domNodeId matching only; no Royal Mail copy, classes, URLs, file extensions, titles, or data-sr-candidate predicates"
+    ]
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Allowed the native inline list-item splitter to run without generated metadata only for the C.5-backed strong/static/strong/static/link/static/br/static child shape."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added focused positive no-metadata coverage and guards for missing br/tail and image shapes, while preserving the existing metadata-backed tests."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt extension runtime from the updated engine."
+    }
+  ],
+  "fixtureChanges": [],
+  "selectedResidual": {
+    "before": {
+      "source": "phase-c5-native-li-no-metadata-tail.json engineOutput",
+      "actualShape": [
+        "If you cannot print you can request a paper form by post by. Instructions depend on the form selected. Forms are also available from the local service desk, or you can call the support team., 3 of 3"
+      ],
+      "expectedShape": [
+        "marker/position",
+        "strong text",
+        "plain text",
+        "strong text",
+        "plain text",
+        "direct link",
+        "post-link text",
+        "post-br tail text"
+      ]
+    },
+    "after": {
+      "c5LocalReplayActual": [
+        "•, 3 of 3",
+        "If you cannot print",
+        "you can request a",
+        "paper form by post",
+        "by",
+        "link, using this form",
+        ". Instructions depend on the form selected.",
+        "Forms are also available from the local service desk, or you can call the support team."
+      ],
+      "affectedTargetActual": [
+        "•, 3 of 3",
+        "If you don’t have access to a printer",
+        "you can request a",
+        "Stamp Swap Out form to be posted to you",
+        "by",
+        "link, completing this form online",
+        ". The instructions for sending back to us will depend on the form you request.",
+        "'Stamp Swap Out' forms are also available from the Customer Service Point at your local Delivery Offices (but please note they will only have the forms for the up to £200 option). Or you can call our Customer Experience Team on 03457 740740."
+      ],
+      "note": "The selected li is no longer flattened. The current Royal Mail refined expected still joins the post-link text and post-br tail into one announcement, while C.5 and saved AX expose separate StaticText nodes around LineBreak."
+    }
+  },
+  "targetCompareDelta": {
+    "beforePatchReference": {
+      "source": "phase-b-native-li-tail-repair.json compareDelta.after and phase-c5-native-li-no-metadata-tail.json engineOutput",
+      "expectedCount": 198,
+      "actualCount": 187,
+      "mismatchWindowCount": 14,
+      "selectedResidualActualShape": "flattened third no-metadata native li"
+    },
+    "afterPatch": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-barcoded-stamps 4",
+      "expectedCount": 198,
+      "actualCount": 195,
+      "mismatchWindowCount": 16,
+      "grouped": {
+        "list/marker": 10,
+        "punctuation/text-boundary": 1,
+        "role/structure": 5
+      },
+      "selectedResidualResult": "marker, strong/plain text, direct link, post-link text, and post-br tail are emitted in AX order; remaining selected-window mismatch is expected line join, not flattened traversal"
+    }
+  },
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "tsc passed."
+    },
+    {
+      "name": "focused unit",
+      "command": "node --test --test-name-pattern \"native inline list items|no-metadata native inline list items|native inline list-item boundary rule guarded\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "3 focused tests passed."
+    },
+    {
+      "name": "c5 local replay",
+      "command": "node --input-type=module -e '<scan C.5 rendered-html/accessibility-tree with rebuilt dist and print positive slice>'",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Positive C.5 candidate emitted marker/position, two emphasis boundaries, plain text stops, direct link, post-link text, and post-br tail text."
+    },
+    {
+      "name": "repro fixture validator",
+      "command": "node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "1 test passed."
+    },
+    {
+      "name": "full unit",
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "403 tests: 347 passed, 56 skipped."
+    },
+    {
+      "name": "affected target compare",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-barcoded-stamps 4",
+      "required": true,
+      "status": "passed-with-residual-mismatches",
+      "exitCode": 0,
+      "summary": "Expected 198, actual 195, mismatchWindowCount 16; selected li decomposes, but the refined expected still joins post-link and post-br StaticText."
+    },
+    {
+      "name": "protected candidate compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode 5",
+      "required": true,
+      "status": "passed-with-known-candidate-windows",
+      "exitCode": 0,
+      "summary": "Candidate sentinel preserved: expected 99, actual 101, mismatchWindowCount 2."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare design-system-service-gov-uk-components-text-input 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 394, actual 394, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-nhs-uk-service-search-pharmacy-find-a-pharmacy 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 66, actual 66, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 320, actual 320, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 207, actual 207, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 80, actual 80, mismatchWindowCount 0."
+    },
+    {
+      "name": "extension runtime build",
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Turbo build:runtime passed and rebuilt packages/sr-extension/src/content/engine-runtime.js."
+    },
+    {
+      "name": "bounded corpus",
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_PROGRESS=true yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed-known-corpus-tail",
+      "exitCode": 1,
+      "summary": "36 passed, 2 failed, 21 skipped. Failures were the pre-existing Microsoft extra Ask Microsoft Accessibility stop and Sky inline emphasis split recorded in prior Phase D receipts; no native-li regression was identified."
+    },
+    {
+      "name": "diff check",
+      "command": "git diff --check",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "No whitespace errors."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "native-li-no-metadata-post-br-tail-expected-shape",
+      "currentWindowIndexes": [
+        6,
+        7
+      ],
+      "latestActual": [
+        ". The instructions for sending back to us will depend on the form you request.",
+        "'Stamp Swap Out' forms are also available from the Customer Service Point at your local Delivery Offices (but please note they will only have the forms for the up to £200 option). Or you can call our Customer Experience Team on 03457 740740."
+      ],
+      "latestExpected": [
+        ". The instructions for sending back to us will depend on the form you request.'Stamp Swap Out' forms are also available from the Customer Service Point at your local Delivery Offices (but please note they will only have the forms for the up to £200 option). Or you can call our Customer Experience Team on 03457 740740."
+      ],
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Reconcile refinedAnnouncements for li#591 against Phase C.5 and saved AX LineBreak/StaticText evidence; split the post-link and post-br tail only if Phase B accepts the C.5 evidence for the Royal Mail isolated fixture.",
+      "blocker": "Phase D cannot edit refinedAnnouncements. Joining these AX-separated text nodes in engine would contradict the C.5-confirmed generic no-metadata contract.",
+      "checksNeeded": [
+        "target compare after any Phase B refined-output update",
+        "same focused unit tests",
+        "protected exact/candidate compares if fixture repair changes alignment"
+      ]
+    },
+    {
+      "family": "remaining-target-unrelated-header-content-footer-punctuation",
+      "currentWindowIndexes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "latestActual": "Target still has header collapsed region/group wording, missing image group stops, quote/apostrophe punctuation, long text truncation, content image group, and footer button group wording windows.",
+      "latestExpected": "See latest affected compare output for exact actual/expected windows.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep these split from the no-metadata native-li family and route through their existing Phase C/D owners.",
+      "blocker": "Out of scope for the requested exactly-one-family Phase D pass.",
+      "checksNeeded": [
+        "fresh target compare after each separate family patch",
+        "family-specific protected compares"
+      ]
+    }
+  ],
+  "decisions": {
+    "reusableEngineLogicModified": true,
+    "fixturesModified": false,
+    "fixturesPromoted": false,
+    "c5NeededBeforePatch": false,
+    "whyNoAdditionalC5": "Phase C.5 scan 29824285651 passed the fixture-path canary and confirmed the no-metadata native li child-boundary shape."
+  },
+  "nextPhase": "evidence-refiner",
+  "handoffFrom": "repro-scanner",
+  "handoffTo": "evidence-refiner",
+  "handoffReason": "Reusable no-metadata native-li boundary logic is implemented and guarded. The selected target residual now exposes a fixture expected-shape issue for the post-br tail that Phase D cannot edit.",
+  "nextRecommendedWorker": {
+    "type": "evidence-refiner",
+    "scope": "Review only www-royalmail-com-sending-barcoded-stamps li#591 post-link/post-br refinedAnnouncements shape against Phase C.5 29824285651 and saved AX LineBreak evidence.",
+    "c5Needed": false,
+    "reason": "The C.5 same-structure scan and saved AX already contain the relevant br/static-text boundary evidence."
+  }
+}

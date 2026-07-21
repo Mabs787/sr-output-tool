@@ -7772,7 +7772,8 @@
           if (!directLinks.length)
             return void 0;
           const metadataElements = Array.from(el.children || []).filter((child) => Boolean(generatedParentheticalMetadataText(child)));
-          if (!metadataElements.length)
+          const noMetadataBoundaryShape = isNoMetadataNativeInlineListItemBoundaryShape(el, directLinks, metadataElements);
+          if (!metadataElements.length && !noMetadataBoundaryShape)
             return void 0;
           let hasEmphasisBoundary = false;
           for (const child of Array.from(el.childNodes || [])) {
@@ -7813,6 +7814,11 @@
           let metadataIndex = 0;
           let disallowed = false;
           let metadataText = "";
+          let noMetadataLinkSeen = false;
+          let noMetadataLineBreakSeen = false;
+          let noMetadataTextAfterLinkBeforeBreak = false;
+          let noMetadataTextAfterBreak = false;
+          let noMetadataEmphasisBeforeLinkCount = 0;
           const fragments = [];
           function flushMetadataText() {
             const text = normalize(metadataText);
@@ -7867,9 +7873,21 @@
           }
           function pushAxContent(node) {
             const role = normalizedAxRole(node.role);
-            if (role === "linebreak")
+            if (role === "linebreak") {
+              if (noMetadataBoundaryShape && noMetadataLinkSeen) {
+                noMetadataLineBreakSeen = true;
+              }
               return;
+            }
             if (role === "statictext") {
+              if (noMetadataBoundaryShape) {
+                if (noMetadataLinkSeen && !noMetadataLineBreakSeen) {
+                  noMetadataTextAfterLinkBeforeBreak = true;
+                }
+                if (noMetadataLineBreakSeen) {
+                  noMetadataTextAfterBreak = true;
+                }
+              }
               pushText(axStaticText(node));
               return;
             }
@@ -7883,10 +7901,20 @@
               }
               fragments.push(`link, ${linkName}`);
               linkIndex += 1;
+              if (noMetadataBoundaryShape) {
+                noMetadataLinkSeen = true;
+              }
               return;
             }
             if (role === "strong" || role === "emphasis") {
               flushMetadataText();
+              if (noMetadataBoundaryShape) {
+                if (noMetadataLinkSeen) {
+                  disallowed = true;
+                  return;
+                }
+                noMetadataEmphasisBeforeLinkCount += 1;
+              }
               const textFragments = axDescendantStaticTextFragments(node);
               if (!textFragments.length) {
                 disallowed = true;
@@ -7923,9 +7951,61 @@
           if (linkIndex !== directLinks.length || metadataIndex !== metadataElements.length) {
             return void 0;
           }
+          if (noMetadataBoundaryShape && (metadataElements.length || directLinks.length !== 1 || noMetadataEmphasisBeforeLinkCount < 2 || !noMetadataTextAfterLinkBeforeBreak || !noMetadataLineBreakSeen || !noMetadataTextAfterBreak)) {
+            return void 0;
+          }
           if (fragments.length < 5)
             return void 0;
           return [markerAnnouncement, ...fragments];
+        }
+        function isNoMetadataNativeInlineListItemBoundaryShape(el, directLinks, metadataElements) {
+          if (metadataElements.length || directLinks.length !== 1)
+            return false;
+          if (el.querySelector("img, svg, [role='img'], [role='image']"))
+            return false;
+          const tokens = [];
+          for (const child of Array.from(el.childNodes || [])) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              const text = normalize(child.textContent);
+              if (text && /[\p{L}\p{N}]/u.test(text))
+                tokens.push("text");
+              continue;
+            }
+            if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child))
+              continue;
+            if (child.matches?.("[aria-hidden='true']"))
+              continue;
+            const tag = child.tagName?.toLowerCase();
+            if (tag === "br") {
+              tokens.push("br");
+              continue;
+            }
+            if (directLinks.includes(child)) {
+              tokens.push("link");
+              continue;
+            }
+            if (["strong", "b", "em", "i"].includes(tag)) {
+              if (child.querySelector?.(interactiveSelector))
+                return false;
+              tokens.push("emphasis");
+              continue;
+            }
+            return false;
+          }
+          const linkIndexes = tokens.map((token, index) => token === "link" ? index : -1).filter((index) => index >= 0);
+          if (linkIndexes.length !== 1)
+            return false;
+          const linkIndex = linkIndexes[0];
+          const breakIndex = tokens.indexOf("br", linkIndex + 1);
+          if (breakIndex < 0)
+            return false;
+          const emphasisBeforeLink = tokens.slice(0, linkIndex).filter((token) => token === "emphasis").length;
+          if (emphasisBeforeLink < 2)
+            return false;
+          const hasPlainTextBeforeLink = tokens.slice(0, linkIndex).some((token) => token === "text");
+          const hasPostLinkText = tokens.slice(linkIndex + 1, breakIndex).some((token) => token === "text");
+          const hasTailText = tokens.slice(breakIndex + 1).some((token) => token === "text");
+          return hasPlainTextBeforeLink && hasPostLinkText && hasTailText;
         }
         function axNativeMarkerListItemFragmentAnnouncements(el) {
           const inlineBoundaryAnnouncements = axNativeInlineChildBoundaryListItemAnnouncements(el);

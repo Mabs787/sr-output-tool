@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-focusable-offscreen-wrapper-group-2026-07-21T11:12:37Z",
-  "startedAt": "2026-07-21T11:12:37Z",
+  "leaseOwner": "top-level-codex-native-li-no-metadata-boundaries-2026-07-21T11:30:14Z",
+  "startedAt": "2026-07-21T11:30:14Z",
   "adoptedBy": "",
   "adoptedAt": "",
-  "releasedAt": "2026-07-21T11:26:36Z",
-  "targetFamily": "focusable-offscreen-wrapper-announced-as-group-before-main",
-  "target": "www-royalmail-com-help",
-  "candidateRef": "www-royalmail-com-help:current-window-1",
+  "releasedAt": "2026-07-21T11:43:49Z",
+  "targetFamily": "native-li-no-metadata-inline-child-boundary-traversal",
+  "target": "www-royalmail-com-sending-barcoded-stamps",
+  "candidateRef": "www-royalmail-com-sending-barcoded-stamps:native-li-no-metadata-tail:li591:refined-97",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -63,6 +63,15 @@
       "targetFamily": "focusable-offscreen-wrapper-announced-as-group-before-main",
       "startedAt": "2026-07-21T11:12:37Z",
       "releasedAt": "2026-07-21T11:26:36Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-native-li-no-metadata-boundaries-2026-07-21T11:30:14Z",
+      "target": "www-royalmail-com-sending-barcoded-stamps",
+      "candidateRef": "www-royalmail-com-sending-barcoded-stamps:native-li-no-metadata-tail:li591:refined-97",
+      "targetFamily": "native-li-no-metadata-inline-child-boundary-traversal",
+      "startedAt": "2026-07-21T11:30:14Z",
+      "releasedAt": "2026-07-21T11:43:49Z",
       "status": "released"
     }
   ]

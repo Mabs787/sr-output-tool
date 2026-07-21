@@ -13335,6 +13335,132 @@ test("scanSubtree splits native inline list items at AX-confirmed child boundari
   );
 });
 
+test("scanSubtree splits no-metadata native inline list items at C5-confirmed child boundaries", () => {
+  const output = scanHtml(
+    `
+      <ul data-sr-dom-node-id="10">
+        <li data-sr-dom-node-id="11">Prepare the envelope before posting.</li>
+        <li data-sr-dom-node-id="12">Keep the receipt for your records.</li>
+        <li data-sr-dom-node-id="13">
+          <strong data-sr-dom-node-id="14">If you cannot print</strong> you can request a
+          <strong data-sr-dom-node-id="15">paper form by post</strong> by
+          <a href="/forms/request" data-sr-dom-node-id="16">using this form</a>. Instructions depend on the form selected.<br data-sr-dom-node-id="17">
+          Forms are also available from the local service desk, or you can call the support team.
+        </li>
+      </ul>
+    `,
+    {
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "20",
+            ignored: false,
+            role: "list",
+            name: "",
+            domNodeId: "10",
+            tagName: "ul",
+            childIds: ["21", "24", "27"],
+          },
+          {
+            nodeId: "21",
+            ignored: false,
+            role: "listitem",
+            name: "",
+            domNodeId: "11",
+            tagName: "li",
+            childIds: ["22", "23"],
+          },
+          { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+          { nodeId: "23", ignored: false, role: "StaticText", name: "Prepare the envelope before posting." },
+          {
+            nodeId: "24",
+            ignored: false,
+            role: "listitem",
+            name: "",
+            domNodeId: "12",
+            tagName: "li",
+            childIds: ["25", "26"],
+          },
+          { nodeId: "25", ignored: false, role: "ListMarker", name: "• " },
+          { nodeId: "26", ignored: false, role: "StaticText", name: "Keep the receipt for your records." },
+          {
+            nodeId: "27",
+            ignored: false,
+            role: "listitem",
+            name: "",
+            domNodeId: "13",
+            tagName: "li",
+            childIds: ["28", "29", "31", "32", "34", "35", "36", "37", "38"],
+          },
+          { nodeId: "28", ignored: false, role: "ListMarker", name: "• " },
+          {
+            nodeId: "29",
+            ignored: false,
+            role: "strong",
+            name: "",
+            domNodeId: "14",
+            tagName: "strong",
+            childIds: ["30"],
+          },
+          { nodeId: "30", ignored: false, role: "StaticText", name: "If you cannot print" },
+          { nodeId: "31", ignored: false, role: "StaticText", name: " you can request a " },
+          {
+            nodeId: "32",
+            ignored: false,
+            role: "strong",
+            name: "",
+            domNodeId: "15",
+            tagName: "strong",
+            childIds: ["33"],
+          },
+          { nodeId: "33", ignored: false, role: "StaticText", name: "paper form by post" },
+          { nodeId: "34", ignored: false, role: "StaticText", name: " by " },
+          {
+            nodeId: "35",
+            ignored: false,
+            role: "link",
+            name: "using this form",
+            domNodeId: "16",
+            tagName: "a",
+            properties: { focusable: true },
+          },
+          { nodeId: "36", ignored: false, role: "StaticText", name: ". Instructions depend on the form selected." },
+          { nodeId: "37", ignored: false, role: "LineBreak", name: "\\n", domNodeId: "17", tagName: "br" },
+          {
+            nodeId: "38",
+            ignored: false,
+            role: "StaticText",
+            name: "Forms are also available from the local service desk, or you can call the support team.",
+          },
+        ],
+      },
+    },
+  );
+
+  const candidateStart = output.indexOf("•, 3 of 3");
+  assert.notEqual(candidateStart, -1);
+  assert.deepEqual(
+    output.slice(candidateStart, candidateStart + 8),
+    [
+      "•, 3 of 3",
+      "If you cannot print",
+      "you can request a",
+      "paper form by post",
+      "by",
+      "link, using this form",
+      ". Instructions depend on the form selected.",
+      "Forms are also available from the local service desk, or you can call the support team.",
+    ],
+  );
+  assert.equal(
+    output.some((announcement) =>
+      announcement.includes("If you cannot print you can request a paper form by post by") &&
+      announcement.includes("3 of 3"),
+    ),
+    false,
+  );
+});
+
 test("scanSubtree keeps native inline list-item boundary rule guarded", () => {
   const accessibilityTree = {
     nodes: [
@@ -13420,6 +13546,90 @@ test("scanSubtree keeps native inline list-item boundary rule guarded", () => {
     { accessibilityTree },
   );
   assert.equal(blockWrappedOutput.includes("•, 1 of 1"), false);
+
+  const noMetadataMissingBreakTree = {
+    nodes: [
+      {
+        nodeId: "20",
+        ignored: false,
+        role: "list",
+        name: "",
+        domNodeId: "10",
+        tagName: "ul",
+        childIds: ["21"],
+      },
+      {
+        nodeId: "21",
+        ignored: false,
+        role: "listitem",
+        name: "",
+        domNodeId: "11",
+        tagName: "li",
+        childIds: ["22", "23", "25", "26", "28", "29", "30"],
+      },
+      { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+      {
+        nodeId: "23",
+        ignored: false,
+        role: "strong",
+        name: "",
+        domNodeId: "12",
+        tagName: "strong",
+        childIds: ["24"],
+      },
+      { nodeId: "24", ignored: false, role: "StaticText", name: "If you cannot print" },
+      { nodeId: "25", ignored: false, role: "StaticText", name: " you can request a " },
+      {
+        nodeId: "26",
+        ignored: false,
+        role: "strong",
+        name: "",
+        domNodeId: "13",
+        tagName: "strong",
+        childIds: ["27"],
+      },
+      { nodeId: "27", ignored: false, role: "StaticText", name: "paper form by post" },
+      { nodeId: "28", ignored: false, role: "StaticText", name: " by " },
+      {
+        nodeId: "29",
+        ignored: false,
+        role: "link",
+        name: "using this form",
+        domNodeId: "14",
+        tagName: "a",
+        properties: { focusable: true },
+      },
+      { nodeId: "30", ignored: false, role: "StaticText", name: ". Instructions depend on the form selected." },
+    ],
+  };
+  const noMetadataMissingBreakOutput = scanHtml(
+    `
+      <ul data-sr-dom-node-id="10">
+        <li data-sr-dom-node-id="11">
+          <strong data-sr-dom-node-id="12">If you cannot print</strong> you can request a
+          <strong data-sr-dom-node-id="13">paper form by post</strong> by
+          <a href="/forms/request" data-sr-dom-node-id="14">using this form</a>. Instructions depend on the form selected.
+        </li>
+      </ul>
+    `,
+    { accessibilityTree: noMetadataMissingBreakTree },
+  );
+  assert.equal(noMetadataMissingBreakOutput.includes("•, 1 of 1"), false);
+
+  const noMetadataImageOutput = scanHtml(
+    `
+      <ul data-sr-dom-node-id="10">
+        <li data-sr-dom-node-id="11">
+          <strong data-sr-dom-node-id="12">If you cannot print</strong> you can request a
+          <strong data-sr-dom-node-id="13">paper form by post</strong> by
+          <a href="/forms/request" data-sr-dom-node-id="14">using this form</a>. Instructions depend on the form selected.<br data-sr-dom-node-id="15">
+          <img alt="Request form preview" src="/preview.png"> Forms are also available from the service desk.
+        </li>
+      </ul>
+    `,
+    { accessibilityTree: noMetadataMissingBreakTree },
+  );
+  assert.equal(noMetadataImageOutput.includes("•, 1 of 1"), false);
 });
 
 test("scanSubtree uses focused marker formatting for non-interactive 11-item disc link lists", () => {
