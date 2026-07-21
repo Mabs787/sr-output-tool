@@ -1450,6 +1450,68 @@ test("scanSubtree preserves AX paragraph order for direct links across line brea
   );
 });
 
+test("scanSubtree preserves AX paragraph order for direct static text link static text", () => {
+  const entries = scanEntries(
+    `
+      <p data-sr-dom-node-id="proof-p">
+        Print a label and use the <a href="/app" data-sr-dom-node-id="app-link">local app</a>. Select scan now, then place the item in the box.
+      </p>
+    `,
+    {
+      includeTraversalDebug: true,
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "proof-p",
+            role: "paragraph",
+            name: "",
+            domNodeId: "proof-p",
+            childIds: ["proof-prefix", "app-link", "proof-tail"],
+          },
+          {
+            nodeId: "proof-prefix",
+            role: "StaticText",
+            name: "Print a label and use the ",
+          },
+          {
+            nodeId: "app-link",
+            role: "link",
+            name: "local app",
+            domNodeId: "app-link",
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "proof-tail",
+            role: "StaticText",
+            name: ". Select scan now, then place the item in the box.",
+          },
+        ],
+      },
+    },
+  );
+
+  assert.deepEqual(
+    entries.map((entry) => ({
+      announcement: entry.announcement,
+      source: entry.traversalDebug?.stopSource,
+    })),
+    [
+      {
+        announcement: "Print a label and use the",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "link, local app",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: ". Select scan now, then place the item in the box.",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+    ],
+  );
+});
+
 test("scanSubtree keeps direct link and br paragraph order guard-scoped", () => {
   const guardedParagraphAx = {
     nodes: [

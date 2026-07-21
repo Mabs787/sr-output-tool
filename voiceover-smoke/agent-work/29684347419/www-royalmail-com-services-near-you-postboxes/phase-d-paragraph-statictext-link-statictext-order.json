@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": 3,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "",
+  "target": "www-royalmail-com-services-near-you-postboxes",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-21T10:58:41Z",
+  "finishedAt": "2026-07-21T11:07:37Z",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "headBefore": "c54dbb65f3791fc2f07965a61623c952703ef8ef",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "complete",
+  "nextPhase": "complete",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "leaseAcquiredAt": "2026-07-21T10:58:41Z",
+  "leaseReleasedAt": "2026-07-21T11:07:37Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "commitChecked": "1fd5fc0",
+    "result": "not-resolved-by-overlap",
+    "evidence": "Initial isolated compare at HEAD c54dbb6 still joined the selected paragraph text before `link, Royal Mail app`; mismatchWindowCount was 18 and actualCount was 164."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseC5Receipt": "../_summaries/phase-c5-other-shifted-card-window.json",
+    "phaseCAudit": "../_summaries/phase-c-other-shifted-card-c5-audit.json",
+    "engineQueueAudit": "../_summaries/phase-c-final-engine-queue-audit.json",
+    "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-6",
+    "isolatedFixturesDir": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes"
+  },
+  "decisions": [
+    "Implemented the minimal generic no-br branch in the existing direct AX paragraph fragmenter.",
+    "Predicate requires a plain paragraph with one direct focusable anchor and AX children exactly StaticText, link, StaticText.",
+    "Kept existing exclusions for labelled/role paragraphs, interactive ancestors, listitems, tables, expanded controlled regions, and non-link direct children.",
+    "Added guards for aside/footer/nav, short service-action one-link paragraphs, and dash-wrapped article prose after an initial broad prototype regressed unit tests.",
+    "No Royal Mail selectors, copy, classes, URLs, fixtures, or refinedAnnouncements were changed."
+  ],
+  "behaviorFixed": {
+    "family": "paragraph-statictext-link-statictext-order-preservation",
+    "beforeActualShape": [
+      "For proof of posting, all you need is the. Select ... postbox.",
+      "link, Royal Mail app"
+    ],
+    "afterActualShape": [
+      "For proof of posting, all you need is the",
+      "link, Royal Mail app",
+      ". Select ... postbox."
+    ],
+    "expectedShape": [
+      "For proof of posting, all you need is the",
+      "link, Royal Mail app",
+      ".Select ... in the",
+      "group"
+    ],
+    "remainingDifference": "The selected order sub-gap is fixed; punctuation/quote normalization, terminal `postbox` truncation, missing group, and following heading spacing remain separate residuals."
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/www-royalmail-com-services-near-you-postboxes/phase-d-paragraph-statictext-link-statictext-order.json"
+  ],
+  "fixtureChanges": [],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript engine build passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "400 tests: 344 passed, 56 skipped, 0 failed."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-services-near-you-postboxes",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Target compare remains 18 windows, actualCount changed 164 to 165; selected paragraph now emits leading text, link, trailing text in VoiceOver order."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected refined exact fixture stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected Royal Mail candidate compare completed with its existing 2 search-label windows."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime rebuilt from engine output."
+    },
+    {
+      "command": "perl alarm wrapper, 120s: yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 124,
+      "summary": "Bounded full corpus attempt hit the known 120 second timeout cap.",
+      "skipReason": "Not skipped; intentionally bounded and timed out."
+    }
+  ],
+  "remainingMismatches": {
+    "latestTargetCompare": {
+      "expectedCount": 171,
+      "actualCount": 165,
+      "mismatchWindowCount": 18,
+      "grouped": {
+        "role/structure": 12,
+        "punctuation/text-boundary": 4,
+        "list/marker": 2
+      }
+    }
+  },
+  "revisitQueue": [
+    {
+      "family": "paragraph-inline-link-two-link-tail-boundary",
+      "currentWindowIndexes": [2, 3],
+      "latestActual": "So why not buy your postage online via or, print your label, drop it in to your nearest postbox and get proof of posting. / link, the app / link, website",
+      "latestExpected": "So why not buy your postage online via / link, the app / link, website / ,print your label, drop it in to your nearest postbox and get proof of posting.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Treat as separate two-link paragraph split/join family; inspect AX children and existing paragraph-inline-link-br receipt before changing rules.",
+      "blocker": "Out of scope for this exact Phase D family.",
+      "checksNeeded": ["focused unit", "target isolated compare", "protected Royal Mail candidate compare", "test:unit"]
+    },
+    {
+      "family": "paragraph-statictext-link-statictext-punctuation-and-following-group",
+      "currentWindowIndexes": [3, 4],
+      "latestActual": "For proof of posting, all you need is the / link, Royal Mail app / . Select ... postbox. / heading level 3 What can you send at a, level 2 Royal Mail Postbox?, level 2, 2 items",
+      "latestExpected": "For proof of posting, all you need is the / link, Royal Mail app / .Select ... in the / group / heading level 3 What can you send at a, level 2 Royal Mail Postbox? , level 2, 2 items",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split residual punctuation/truncation, missing group, and following heading-space behavior into independent families before any further Phase D.",
+      "blocker": "The order-preservation sub-gap is fixed; remaining residuals are not the selected family.",
+      "checksNeeded": ["Phase C residual split", "target isolated compare"]
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Classify only residual punctuation/group sub-gaps still visible around postboxes current windows 3-4 after paragraph order fix.",
+    "c5Needed": false,
+    "reason": "The authorized Phase D family was fixed; remaining nearby differences are separate families."
+  },
+  "handoffReason": "Accepted focused engine patch for exactly one family; no fixture edits or promotion."
+}

@@ -11495,10 +11495,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const directLinks = directElements.filter(
       (child: any) => implicitRole(child) === "link" && child.tagName?.toLowerCase() === "a",
     );
-    const directBreaks = directElements.filter(
-      (child: any) => child.tagName?.toLowerCase() === "br",
-    );
-    if (!directLinks.length || !directBreaks.length) return undefined;
+    if (!directLinks.length) return undefined;
 
     if (
       directElements.some((child: any) => {
@@ -11518,7 +11515,35 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const paragraphAxNode = axNodeForElementRole(el, "paragraph");
     const axChildren = axChildNodes(paragraphAxNode);
     if (!paragraphAxNode || !axChildren.length) return undefined;
-    if (!axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")) {
+    const hasAxLineBreak = axChildren.some((child) => normalizedAxRole(child.role) === "linebreak");
+    const hasDirectStaticTextLinkStaticTextShape =
+      directLinks.length === 1 &&
+      directElements.length === 1 &&
+      axChildren.length === 3 &&
+      normalizedAxRole(axChildren[0]?.role) === "statictext" &&
+      normalizedAxRole(axChildren[1]?.role) === "link" &&
+      normalizedAxRole(axChildren[2]?.role) === "statictext";
+    const noBreakLeadingText = normalize(axChildren[0]?.name);
+    const noBreakLinkName = normalize(axChildren[1]?.name);
+    const noBreakTrailingText = normalize(axChildren[2]?.name);
+    const isShortServiceActionNoBreakShape =
+      hasDirectStaticTextLinkStaticTextShape &&
+      noBreakLeadingText &&
+      noBreakLeadingText.length < 12 &&
+      Boolean(noBreakLinkName?.match(/^[a-z]/u)) &&
+      Boolean(noBreakLinkName?.match(/\band\b/u)) &&
+      Boolean(noBreakTrailingText?.match(/^[\p{L}\p{N}]/u)) &&
+      !noBreakTrailingText?.endsWith(":");
+    const isDashWrappedArticleProseLink =
+      hasDirectStaticTextLinkStaticTextShape &&
+      Boolean(el.closest("article,[role='article']")) &&
+      Boolean(noBreakTrailingText?.match(/^[–-]\s*/u));
+    const canUseNoBreakStaticTextLinkStaticTextShape =
+      hasDirectStaticTextLinkStaticTextShape &&
+      !el.closest("aside,footer,nav") &&
+      !isShortServiceActionNoBreakShape &&
+      !isDashWrappedArticleProseLink;
+    if (!hasAxLineBreak && !canUseNoBreakStaticTextLinkStaticTextShape) {
       return undefined;
     }
 

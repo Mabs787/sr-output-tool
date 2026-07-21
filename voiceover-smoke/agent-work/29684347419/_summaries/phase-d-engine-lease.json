@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-link-accessible-name-block-descendant-spacing-2026-07-21T10:42:49Z",
-  "startedAt": "2026-07-21T10:42:49Z",
+  "leaseOwner": "top-level-codex-paragraph-statictext-link-statictext-order-2026-07-21T10:58:41Z",
+  "startedAt": "2026-07-21T10:58:41Z",
   "adoptedBy": "",
   "adoptedAt": "",
-  "releasedAt": "2026-07-21T10:54:15Z",
-  "targetFamily": "link-accessible-name-block-descendant-spacing",
-  "target": "www-royalmail-com",
-  "candidateRef": "www-royalmail-com:current-window-5:e75:a72",
+  "releasedAt": "2026-07-21T11:07:37Z",
+  "targetFamily": "paragraph-statictext-link-statictext-order-preservation",
+  "target": "www-royalmail-com-services-near-you-postboxes",
+  "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-6",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,7 +19,7 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "no-overlap",
-    "evidence": "Before acquisition, the canonical lease file showed no active engine-refiner and only released/recovered prior history; the accidental root-level lease recorded the same start time and has been removed."
+    "evidence": "Before acquisition, the canonical lease file status was released with activeEngineRefinerCount 0; this lease is the only active engine-refiner for run 29684347419."
   },
   "leaseHistory": [
     {
@@ -45,6 +45,15 @@
       "targetFamily": "link-accessible-name-block-descendant-spacing",
       "startedAt": "2026-07-21T10:42:49Z",
       "releasedAt": "2026-07-21T10:54:15Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-paragraph-statictext-link-statictext-order-2026-07-21T10:58:41Z",
+      "target": "www-royalmail-com-services-near-you-postboxes",
+      "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-6",
+      "targetFamily": "paragraph-statictext-link-statictext-order-preservation",
+      "startedAt": "2026-07-21T10:58:41Z",
+      "releasedAt": "2026-07-21T11:07:37Z",
       "status": "released"
     }
   ]
