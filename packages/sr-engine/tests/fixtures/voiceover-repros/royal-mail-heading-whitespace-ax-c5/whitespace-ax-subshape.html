@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heading whitespace AX subshape C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      section,
+      article {
+        margin-block: 24px;
+      }
+
+      article {
+        border: 1px solid #777;
+        padding: 12px;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .offscreen {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="whitespace-ax-subshape"
+      aria-labelledby="repro-title"
+    >
+      <h1 id="repro-title">Heading whitespace AX subshape</h1>
+
+      <section aria-labelledby="ordinary-space-title">
+        <h2 id="ordinary-space-title">Ordinary space child</h2>
+        <article aria-labelledby="space-heading-title" aria-describedby="space-heading-body">
+          <h1 id="space-heading-title"><span><span>Plan A</span></span> <span><span>starts now</span></span></h1>
+          <p id="space-heading-body">Short body text.</p>
+          <a href="#space-next">Next step</a>
+        </article>
+      </section>
+
+      <section aria-labelledby="linebreak-space-title">
+        <h2 id="linebreak-space-title">Line break space child</h2>
+        <article aria-labelledby="linebreak-heading-title" aria-describedby="linebreak-heading-body">
+          <h2 id="linebreak-heading-title"><span><span>Why use </span></span><span><span>Plan B?</span></span><br>&nbsp;</h2>
+          <p id="linebreak-heading-body">Body after line break.</p>
+        </article>
+        <article aria-labelledby="linebreak-wide-title" aria-describedby="linebreak-wide-body">
+          <h2 id="linebreak-wide-title"><span><span>Why use </span></span><span><span>the later option?</span></span><br>&nbsp;</h2>
+          <p id="linebreak-wide-body">Another short body.</p>
+        </article>
+      </section>
+
+      <section aria-labelledby="matched-controls-title">
+        <h2 id="matched-controls-title">Matched controls without whitespace child</h2>
+        <article aria-labelledby="matched-ordinary-title">
+          <h1 id="matched-ordinary-title"><span><span>Plan A</span></span><span><span> starts now</span></span></h1>
+          <p>Same words with no separate ordinary-space text node.</p>
+        </article>
+        <article aria-labelledby="matched-linebreak-title">
+          <h2 id="matched-linebreak-title"><span><span>Why use </span></span><span><span>Plan B?</span></span><br></h2>
+          <p>Same heading with no explicit non-breaking-space text node.</p>
+        </article>
+        <button id="same-text-button" type="button">
+          <span><span>Plan A</span></span> <span><span>starts now</span></span>
+        </button>
+      </section>
+
+      <p class="offscreen" id="fixture-identity">
+        c5 heading whitespace ax subshape neutral repro
+      </p>
+    </main>
+  </body>
+</html>
