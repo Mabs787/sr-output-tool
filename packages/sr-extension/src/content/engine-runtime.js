@@ -10526,6 +10526,76 @@
           }
           return fragments;
         }
+        function directAxInlineLinkBreakParagraphFragments(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName.toLowerCase() !== "p")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || el.closest("table,[role='table'],[role='grid'],[role='treegrid']") || expandedControlledRegionFor(el) || !accessibilityNodes.length) {
+            return void 0;
+          }
+          const directElements = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (!directElements.length)
+            return void 0;
+          const directLinks = directElements.filter((child) => implicitRole(child) === "link" && child.tagName?.toLowerCase() === "a");
+          const directBreaks = directElements.filter((child) => child.tagName?.toLowerCase() === "br");
+          if (!directLinks.length || !directBreaks.length)
+            return void 0;
+          if (directElements.some((child) => {
+            const tag = child.tagName?.toLowerCase();
+            if (tag === "br")
+              return false;
+            if (directLinks.includes(child)) {
+              return Array.from(child.querySelectorAll(interactiveSelector)).some((descendant) => descendant !== child);
+            }
+            return true;
+          })) {
+            return void 0;
+          }
+          const paragraphAxNode = axNodeForElementRole(el, "paragraph");
+          const axChildren = axChildNodes(paragraphAxNode);
+          if (!paragraphAxNode || !axChildren.length)
+            return void 0;
+          if (!axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")) {
+            return void 0;
+          }
+          const axLinks = axChildren.filter((child) => normalizedAxRole(child.role) === "link");
+          if (axLinks.length !== directLinks.length)
+            return void 0;
+          if (directLinks.some((link, index) => {
+            const axLink = axLinks[index];
+            return normalize(axLink?.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id")) || axLink?.properties?.focusable !== true || !normalizeAnnouncementLabel(axLink?.name);
+          })) {
+            return void 0;
+          }
+          const fragments = [];
+          let disallowedAxChild = false;
+          for (const child of axChildren) {
+            const role = normalizedAxRole(child.role);
+            if (role === "linebreak") {
+              continue;
+            }
+            if (role === "link") {
+              const linkName = normalizeAnnouncementLabel(child.name);
+              if (!linkName) {
+                disallowedAxChild = true;
+                break;
+              }
+              fragments.push(`link, ${linkName}`);
+              continue;
+            }
+            if (role === "statictext") {
+              const text = normalize(child.name);
+              if (text && /[\p{L}\p{N}]/u.test(text)) {
+                fragments.push(text);
+              }
+              continue;
+            }
+            disallowedAxChild = true;
+            break;
+          }
+          return !disallowedAxChild && fragments.length > directLinks.length ? fragments : void 0;
+        }
         function inlinePhrasingBoundaryFragments(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
@@ -13117,6 +13187,7 @@
             blockquoteInlineEmphasisFragments: blockquoteInlineEmphasisFragments(el, role),
             plainSpanOnlyBlockquote: role === "blockquote" && isPlainSpanOnlyBlockquote(el, role) ? true : void 0,
             inlineCodeBreakTextFragments: inlineCodeBreakTextFragments(el, role),
+            directAxInlineLinkBreakParagraphFragments: role === "paragraph" ? directAxInlineLinkBreakParagraphFragments(el) : void 0,
             footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
             figureMockupHeaderText: figureMockupHeaderText(el, role),
             axStaticTextRunFragments: axStaticTextRunFragments(el, role),
@@ -13786,7 +13857,7 @@
             return hasOnlyInteractiveListItemContent(el) || hasLabeledNativeSelectListItemContent(el) || hasImageLinkWithCaptionListItemContent(el) || hasNamedImageListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
           }
           if (role === "paragraph") {
-            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !directLinkGeneratedMetadataFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
+            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !directLinkGeneratedMetadataFragments(el) && !directAxInlineLinkBreakParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
           }
           return false;
         }
@@ -14362,6 +14433,13 @@
           }
           return fragments;
         }
+        function splitDirectAxInlineLinkBreakParagraphAnnouncements(descriptor) {
+          const fragments = descriptor.directAxInlineLinkBreakParagraphFragments;
+          if (descriptor.role !== "paragraph" || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
         function splitFooterInlineBoundaryTextAnnouncements(descriptor) {
           const fragments = descriptor.footerInlineBoundaryTextFragments;
           if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
@@ -14725,6 +14803,10 @@
               {
                 source: "split-inline-code-break-text",
                 announcements: splitInlineCodeBreakTextAnnouncements(descriptor)
+              },
+              {
+                source: "split-direct-ax-inline-link-break-paragraph",
+                announcements: splitDirectAxInlineLinkBreakParagraphAnnouncements(descriptor)
               },
               {
                 source: "split-footer-inline-boundary-text",

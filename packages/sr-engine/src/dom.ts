@@ -11120,6 +11120,103 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function directAxInlineLinkBreakParagraphFragments(el: any): string[] | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName.toLowerCase() !== "p") return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.closest(interactiveSelector) ||
+      el.closest("li,[role='listitem']") ||
+      el.closest("table,[role='table'],[role='grid'],[role='treegrid']") ||
+      expandedControlledRegionFor(el) ||
+      !accessibilityNodes.length
+    ) {
+      return undefined;
+    }
+
+    const directElements = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (!directElements.length) return undefined;
+
+    const directLinks = directElements.filter(
+      (child: any) => implicitRole(child) === "link" && child.tagName?.toLowerCase() === "a",
+    );
+    const directBreaks = directElements.filter(
+      (child: any) => child.tagName?.toLowerCase() === "br",
+    );
+    if (!directLinks.length || !directBreaks.length) return undefined;
+
+    if (
+      directElements.some((child: any) => {
+        const tag = child.tagName?.toLowerCase();
+        if (tag === "br") return false;
+        if (directLinks.includes(child)) {
+          return Array.from(child.querySelectorAll(interactiveSelector)).some(
+            (descendant: any) => descendant !== child,
+          );
+        }
+        return true;
+      })
+    ) {
+      return undefined;
+    }
+
+    const paragraphAxNode = axNodeForElementRole(el, "paragraph");
+    const axChildren = axChildNodes(paragraphAxNode);
+    if (!paragraphAxNode || !axChildren.length) return undefined;
+    if (!axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")) {
+      return undefined;
+    }
+
+    const axLinks = axChildren.filter((child) => normalizedAxRole(child.role) === "link");
+    if (axLinks.length !== directLinks.length) return undefined;
+    if (
+      directLinks.some((link: any, index: number) => {
+        const axLink = axLinks[index];
+        return (
+          normalize(axLink?.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id")) ||
+          axLink?.properties?.focusable !== true ||
+          !normalizeAnnouncementLabel(axLink?.name)
+        );
+      })
+    ) {
+      return undefined;
+    }
+
+    const fragments: string[] = [];
+    let disallowedAxChild = false;
+
+    for (const child of axChildren) {
+      const role = normalizedAxRole(child.role);
+      if (role === "linebreak") {
+        continue;
+      }
+      if (role === "link") {
+        const linkName = normalizeAnnouncementLabel(child.name);
+        if (!linkName) {
+          disallowedAxChild = true;
+          break;
+        }
+        fragments.push(`link, ${linkName}`);
+        continue;
+      }
+      if (role === "statictext") {
+        const text = normalize(child.name);
+        if (text && /[\p{L}\p{N}]/u.test(text)) {
+          fragments.push(text);
+        }
+        continue;
+      }
+      disallowedAxChild = true;
+      break;
+    }
+
+    return !disallowedAxChild && fragments.length > directLinks.length
+      ? fragments
+      : undefined;
+  }
+
   function inlinePhrasingBoundaryFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     const tag = el.tagName?.toLowerCase();
@@ -14695,6 +14792,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       plainSpanOnlyBlockquote:
         role === "blockquote" && isPlainSpanOnlyBlockquote(el, role) ? true : undefined,
       inlineCodeBreakTextFragments: inlineCodeBreakTextFragments(el, role),
+      directAxInlineLinkBreakParagraphFragments:
+        role === "paragraph" ? directAxInlineLinkBreakParagraphFragments(el) : undefined,
       footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
       figureMockupHeaderText: figureMockupHeaderText(el, role),
       axStaticTextRunFragments: axStaticTextRunFragments(el, role),
@@ -15585,6 +15684,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         !articleBylineAuthorListFragments(el) &&
         !directAxInlineTextLinkParagraphFragments(el) &&
         !directLinkGeneratedMetadataFragments(el) &&
+        !directAxInlineLinkBreakParagraphFragments(el) &&
         !inlineCodeBreakTextFragments(el, role) &&
         !inlineSemanticTextLinkFragments(el) &&
         !plainTextTrailingLinkParagraphFragments(el) &&
@@ -16484,6 +16584,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitDirectAxInlineLinkBreakParagraphAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.directAxInlineLinkBreakParagraphFragments;
+    if (descriptor.role !== "paragraph" || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
   function splitFooterInlineBoundaryTextAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -16927,6 +17037,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-inline-code-break-text",
           announcements: splitInlineCodeBreakTextAnnouncements(descriptor),
+        },
+        {
+          source: "split-direct-ax-inline-link-break-paragraph",
+          announcements: splitDirectAxInlineLinkBreakParagraphAnnouncements(descriptor),
         },
         {
           source: "split-footer-inline-boundary-text",

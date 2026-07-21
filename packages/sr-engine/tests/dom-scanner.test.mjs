@@ -1331,6 +1331,169 @@ test("scanSubtree follows AX order for link-first article paragraphs", () => {
   );
 });
 
+test("scanSubtree preserves AX paragraph order for direct links across line breaks", () => {
+  const entries = scanEntries(
+    `
+      <p data-sr-dom-node-id="price-p">
+        For detailed price breakdowns, please see our
+        <a href="/prices" data-sr-dom-node-id="price-link">price guides</a>.<br data-sr-dom-node-id="price-br">
+        For an exact price enter your item details at
+        <a href="/send" data-sr-dom-node-id="send-link">Send an item with Click &amp; <span>Drop Opens in a new window</span></a>.
+      </p>
+      <p data-sr-dom-node-id="postbox-p">
+        <a href="/parcel-postboxes" data-sr-dom-node-id="postbox-link"><strong>Parcel Postboxes</strong></a><br data-sr-dom-node-id="postbox-br">
+        If your parcel is too big for a regular postbox then our Parcel Postboxes may be the perfect solution.
+      </p>
+    `,
+    {
+      includeTraversalDebug: true,
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "price-p",
+            role: "paragraph",
+            name: "",
+            domNodeId: "price-p",
+            childIds: [
+              "price-prefix",
+              "price-link",
+              "price-dot",
+              "price-br",
+              "price-tail",
+              "send-link",
+              "send-dot",
+            ],
+          },
+          {
+            nodeId: "price-prefix",
+            role: "StaticText",
+            name: "For detailed price breakdowns, please see our ",
+          },
+          {
+            nodeId: "price-link",
+            role: "link",
+            name: "price guides",
+            domNodeId: "price-link",
+            properties: { focusable: true },
+          },
+          { nodeId: "price-dot", role: "StaticText", name: "." },
+          { nodeId: "price-br", role: "LineBreak", name: "\n", domNodeId: "price-br" },
+          {
+            nodeId: "price-tail",
+            role: "StaticText",
+            name: "For an exact price enter your item details at ",
+          },
+          {
+            nodeId: "send-link",
+            role: "link",
+            name: "Send an item with Click & Drop Opens in a new window",
+            domNodeId: "send-link",
+            properties: { focusable: true },
+          },
+          { nodeId: "send-dot", role: "StaticText", name: "." },
+          {
+            nodeId: "postbox-p",
+            role: "paragraph",
+            name: "",
+            domNodeId: "postbox-p",
+            childIds: ["postbox-link", "postbox-br", "postbox-tail"],
+          },
+          {
+            nodeId: "postbox-link",
+            role: "link",
+            name: "Parcel Postboxes",
+            domNodeId: "postbox-link",
+            properties: { focusable: true },
+          },
+          { nodeId: "postbox-br", role: "LineBreak", name: "\n", domNodeId: "postbox-br" },
+          {
+            nodeId: "postbox-tail",
+            role: "StaticText",
+            name: "If your parcel is too big for a regular postbox then our Parcel Postboxes may be the perfect solution.",
+          },
+        ],
+      },
+    },
+  );
+
+  assert.deepEqual(
+    entries.map((entry) => ({
+      announcement: entry.announcement,
+      source: entry.traversalDebug?.stopSource,
+    })),
+    [
+      {
+        announcement: "For detailed price breakdowns, please see our",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "link, price guides",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "For an exact price enter your item details at",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "link, Send an item with Click & Drop Opens in a new window",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "link, Parcel Postboxes",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "If your parcel is too big for a regular postbox then our Parcel Postboxes may be the perfect solution.",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+    ],
+  );
+});
+
+test("scanSubtree keeps direct link and br paragraph order guard-scoped", () => {
+  const guardedParagraphAx = {
+    nodes: [
+      {
+        nodeId: "guard-p",
+        role: "paragraph",
+        name: "",
+        domNodeId: "guard-p",
+        childIds: ["guard-link", "guard-br", "guard-tail"],
+      },
+      {
+        nodeId: "guard-link",
+        role: "link",
+        name: "Guard link",
+        domNodeId: "guard-link",
+        properties: { focusable: true },
+      },
+      { nodeId: "guard-br", role: "LineBreak", name: "\n", domNodeId: "guard-br" },
+      { nodeId: "guard-tail", role: "StaticText", name: "Guard tail text." },
+    ],
+  };
+
+  for (const html of [
+    `<ul><li><p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br">Guard tail text.</p></li></ul>`,
+    `<table><tbody><tr><td><p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br">Guard tail text.</p></td></tr></tbody></table>`,
+    `<button><p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br">Guard tail text.</p></button>`,
+    `<p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br"><span data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 2 KB</span></p>`,
+  ]) {
+    const entries = scanEntries(html, {
+      includeTraversalDebug: true,
+      accessibilityTree: guardedParagraphAx,
+    });
+
+    assert.equal(
+      entries.some(
+        (entry) =>
+          entry.traversalDebug?.stopSource ===
+          "split-direct-ax-inline-link-break-paragraph",
+      ),
+      false,
+    );
+  }
+});
+
 test("scanSubtree names native submit controls from AX-confirmed form values", () => {
   assert.deepEqual(
     scanHtml(

@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "target": "paragraph-inline-link-br-order",
+  "family": "paragraph-inline-link-br-order",
+  "status": "passed",
+  "startedAt": "2026-07-21T06:09:44Z",
+  "finishedAt": "2026-07-21T06:25:02Z",
+  "leaseAcquiredAt": "2026-07-21T06:09:44Z",
+  "leaseReleasedAt": "2026-07-21T06:25:02Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "branch": "codex/royal-mail-voiceover-refinement",
+    "runId": "29684347419",
+    "result": "no-overlap",
+    "evidence": "Existing lease was released with activeEngineRefinerCount 0 before acquisition; this run recorded one active owner and releases it at finish."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/phase-d-engine-refinement.md",
+      "docs/workflows/agent-receipts.md"
+    ],
+    "phaseCReceiptRead": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-paragraph-inline-link-br-final.json",
+    "sourceFixturesRead": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices/www-royalmail-com-current-postage-prices.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices/www-royalmail-com-current-postage-prices.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices/www-royalmail-com-current-postage-prices.expected.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.expected.json"
+    ],
+    "focusedTestsRead": [
+      "packages/sr-engine/tests/dom-scanner.test.mjs"
+    ]
+  },
+  "scope": {
+    "candidateRefs": [
+      "www-royalmail-com-current-postage-prices:current-window-3:e42:a41",
+      "www-royalmail-com-current-postage-prices:current-window-4:e44:a43",
+      "www-royalmail-com-services-near-you-postboxes:current-window-7:e59:a54"
+    ],
+    "implementedContract": "AX-confirmed paragraph nodes whose direct visible children are links and br elements preserve AX child order across StaticText, link, and LineBreak children. LineBreak and punctuation-only StaticText are boundaries, not spoken stops.",
+    "guards": [
+      "p elements only",
+      "requires saved AX paragraph node, direct AX LineBreak child, direct AX link children matching direct DOM links in order, and focusable AX link names",
+      "skips role, aria-label, aria-labelledby, interactive ancestors, listitem ancestors, native/ARIA table ancestors, and expanded controlled regions",
+      "skips generated metadata and other direct element children by requiring visible direct elements to be only a or br",
+      "does not inspect Royal Mail selectors, copy, URLs, classes, filenames, layout, href extensions, or site-specific strings"
+    ]
+  },
+  "decisions": {
+    "refinedAnnouncementsTrusted": true,
+    "c5RequiredBeforeImplementation": false,
+    "enginePatchKept": true,
+    "announcementWordingChangeNeeded": false,
+    "whyGeneric": "The saved HTML and AX snapshots show ordinary p elements with direct inline links and direct br children. AX exposes the same child-order contract independent of site copy.",
+    "whyNarrow": "The rule is limited to AX-backed paragraph/link/br children and does not broaden existing inline link, generated metadata, listitem, table, or interactive-wrapper behavior."
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added directAxInlineLinkBreakParagraphFragments for AX-backed p + direct a + br child-order traversal."
+    },
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added a dedicated split-direct-ax-inline-link-break-paragraph traversal source and descent guard."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added positive tests for text-link-br-text-link and link-br-text plus negative guards for listitems, table cells, interactive wrappers, and generated metadata."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt extension runtime from the updated engine."
+    }
+  ],
+  "fixtureChanges": [],
+  "targetCompareDelta": [
+    {
+      "target": "www-royalmail-com-current-postage-prices",
+      "before": {
+        "expectedCount": 194,
+        "actualCount": 184,
+        "mismatchWindowCount": 11,
+        "relevantWindows": [
+          {
+            "candidateRef": "www-royalmail-com-current-postage-prices:current-window-3:e42:a41",
+            "actualIndex": 41,
+            "expectedIndex": 41,
+            "firstActual": "For detailed price breakdowns, please see our. For an exact price enter your item details at",
+            "firstExpected": "For detailed price breakdowns, please see our"
+          },
+          {
+            "candidateRef": "www-royalmail-com-current-postage-prices:current-window-4:e44:a43",
+            "actualIndex": 43,
+            "expectedIndex": 43,
+            "firstActual": "link, Send an item with Click & Drop Opens in a new window",
+            "firstExpected": "For an exact price enter your item details at"
+          }
+        ]
+      },
+      "after": {
+        "expectedCount": 194,
+        "actualCount": 185,
+        "mismatchWindowCount": 9,
+        "relevantWindowsRemaining": [],
+        "firstRemainingWindow": {
+          "index": 1,
+          "actualIndex": 45,
+          "expectedIndex": 45,
+          "firstActual": "United Kingdom, table, 3 columns, 2 rows",
+          "firstExpected": "group"
+        }
+      },
+      "result": "scoped-family-fixed"
+    },
+    {
+      "target": "www-royalmail-com-services-near-you-postboxes",
+      "before": {
+        "expectedCount": 171,
+        "actualCount": 164,
+        "mismatchWindowCount": 20,
+        "relevantWindows": [
+          {
+            "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-7:e59:a54",
+            "actualIndex": 56,
+            "expectedIndex": 59,
+            "firstActual": "If your parcel is too big for a regular postbox then our Parcel Postboxes may be the perfect solution.",
+            "firstExpected": "link, Parcel Postboxes"
+          }
+        ]
+      },
+      "after": {
+        "expectedCount": 171,
+        "actualCount": 164,
+        "mismatchWindowCount": 18,
+        "relevantWindowsRemaining": [],
+        "firstRemainingWindow": {
+          "index": 1,
+          "actualIndex": 43,
+          "expectedIndex": 43,
+          "firstActual": "Find by postcode e.g. N7 0RN, edit text",
+          "firstExpected": "Find by postcode e.g. N7 ORN, edit text"
+        }
+      },
+      "result": "scoped-family-fixed"
+    }
+  ],
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "tsc passed."
+    },
+    {
+      "name": "focused dom scanner test file",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /usr/local/bin/node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "329 passed."
+    },
+    {
+      "name": "full unit",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "395 tests: 339 passed, 56 skipped."
+    },
+    {
+      "name": "affected compare postage prices",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-current-postage-prices",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Mismatch windows improved 11 to 9; scoped candidate refs no longer appear."
+    },
+    {
+      "name": "affected compare postboxes",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-services-near-you-postboxes",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Mismatch windows improved 20 to 18; scoped candidate ref no longer appears."
+    },
+    {
+      "name": "candidate guard compare",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Known candidate windows preserved: expected 99, actual 101, mismatchWindowCount 2, grouped list/marker 2."
+    },
+    {
+      "name": "protected exact compare govuk text input",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare design-system-service-gov-uk-components-text-input",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 394, actual 394, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare nhs pharmacy",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 66, actual 66, mismatchWindowCount 0."
+    },
+    {
+      "name": "extension runtime build first attempt",
+      "command": "PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn build:extension-runtime",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Environment used Node 18.17.1 and root package requires Node >=24."
+    },
+    {
+      "name": "extension runtime build node24",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Turbo build:runtime passed and rebuilt packages/sr-extension/src/content/engine-runtime.js."
+    },
+    {
+      "name": "full voiceover corpus",
+      "command": "SR_VOICEOVER_CORPUS_PROGRESS=true SR_VOICEOVER_CORPUS_TESTS=true PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 130,
+      "summary": "Attempted because the run was initially behaving. It progressed through GOV.UK, Storybook, BBC, British Airways, Google, GOV.UK, Microsoft, National Rail, then produced no output for three consecutive minutes after starting www-nhs-uk-conditions; stopped with Ctrl-C and recorded as non-terminal.",
+      "blocker": "Non-terminal corpus runner behavior; no patch-specific failure was emitted before interruption."
+    },
+    {
+      "name": "diff check",
+      "command": "git diff --check",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "No whitespace errors."
+    }
+  ],
+  "remainingMismatches": {
+    "www-royalmail-com-current-postage-prices": {
+      "expectedCount": 194,
+      "actualCount": 185,
+      "mismatchWindowCount": 9
+    },
+    "www-royalmail-com-services-near-you-postboxes": {
+      "expectedCount": 171,
+      "actualCount": 164,
+      "mismatchWindowCount": 18
+    }
+  },
+  "revisitQueue": [
+    {
+      "family": "paragraph-inline-link-br-order",
+      "currentWindowIndexes": [],
+      "latestActual": "No remaining compare window maps to the three scoped candidateRefs.",
+      "latestExpected": "AX/VoiceOver order for the three scoped refs is now matched.",
+      "nextOwner": "promoter",
+      "nextAction": "No further work for this family in this Phase D scope.",
+      "blocker": "",
+      "checksNeeded": []
+    },
+    {
+      "family": "current-postage-prices-group-boundary-around-tables-and-article",
+      "currentWindowIndexes": [1, 3, 4, 5, 6, 7, 8, 9],
+      "latestActual": "Actual omits several standalone group and article-end stops around tables, price-guide clusters, the All prices heading, and the article end.",
+      "latestExpected": "Expected includes group boundaries before/around table sections and end of article before Breadcrumb.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify these remaining structure windows as a separate Phase C family before any further engine work.",
+      "blocker": "Out of scope for the requested single-family Phase D.",
+      "checksNeeded": ["target compare", "protected exact structure compares"]
+    },
+    {
+      "family": "current-postage-prices-ocr-glyph-91p",
+      "currentWindowIndexes": [2],
+      "latestActual": "91p",
+      "latestExpected": "91р",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Recheck OCR/source glyph evidence before any fixture or engine decision.",
+      "blocker": "Not a DOM traversal family.",
+      "checksNeeded": ["Phase B OCR/glyph sweep"]
+    },
+    {
+      "family": "postboxes-search-inline-link-and-punctuation-boundaries",
+      "currentWindowIndexes": [1, 2, 3, 4],
+      "latestActual": "Search uses N7 0RN; prose around app/website and Royal Mail app is joined with punctuation and later text.",
+      "latestExpected": "Search uses N7 ORN; prose is split before link, link, link, tail, then Royal Mail app link and following sentence fragment.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split OCR-like postcode evidence from reusable inline text/link boundary evidence before Phase D.",
+      "blocker": "Different mismatch family from paragraph-inline-link-br-order.",
+      "checksNeeded": ["source/AX text-boundary packet", "target compare", "candidate guard compare"]
+    },
+    {
+      "family": "postboxes-media-card-image-and-group-boundaries",
+      "currentWindowIndexes": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17],
+      "latestActual": "Actual includes or omits group/image/link/card boundaries differently around CMS upload articles and related location cards.",
+      "latestExpected": "Expected has group stops, Single Upload/image wording, and shorter related-card text in several card/media regions.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Use existing card/media Phase C/C.5 packets or create a fresh structural packet for the latest window indexes.",
+      "blocker": "Out of scope for this single paragraph/link/br family.",
+      "checksNeeded": ["structural evidence packet", "target compare", "protected media/card exact subset"]
+    },
+    {
+      "family": "postboxes-list-marker-rich-list-steps",
+      "currentWindowIndexes": [16],
+      "latestActual": "List step text is joined into list items and omits separate marker/link stops.",
+      "latestExpected": "Expected has marker-only stops, Buy postage online and Use our app links, and split list tails.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Run a separate Phase D only after Phase C confirms the latest rich-list marker contract.",
+      "blocker": "Separate list/marker family.",
+      "checksNeeded": ["focused list-marker tests", "target compare", "protected list exact compares"]
+    },
+    {
+      "family": "postboxes-article-end-boundary",
+      "currentWindowIndexes": [18],
+      "latestActual": "Breadcrumb navigation follows FAQ buttons without an article-end stop.",
+      "latestExpected": "end of, article before Breadcrumb navigation.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reconcile latest structural article boundary evidence before a separate engine patch.",
+      "blocker": "Separate structure family.",
+      "checksNeeded": ["target compare", "article-boundary protected compare"]
+    }
+  ],
+  "nextPhase": "promoter",
+  "handoffReason": "The requested single mismatch family is fixed and verified; remaining target mismatches are recorded as separate revisit families.",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "promoter",
+  "nextRecommendedWorker": {
+    "type": "promoter",
+    "scope": "Review the scoped Phase D receipt and decide whether this family can be promoted after other target families finish.",
+    "c5Needed": false,
+    "reason": "No paragraph-inline-link-br-order candidate refs remain after target compares."
+  }
+}
