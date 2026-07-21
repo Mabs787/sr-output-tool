@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-paragraph-statictext-link-statictext-order-2026-07-21T10:58:41Z",
-  "startedAt": "2026-07-21T10:58:41Z",
+  "leaseOwner": "top-level-codex-focusable-offscreen-wrapper-group-2026-07-21T11:12:37Z",
+  "startedAt": "2026-07-21T11:12:37Z",
   "adoptedBy": "",
   "adoptedAt": "",
-  "releasedAt": "2026-07-21T11:07:37Z",
-  "targetFamily": "paragraph-statictext-link-statictext-order-preservation",
-  "target": "www-royalmail-com-services-near-you-postboxes",
-  "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-6",
+  "releasedAt": "2026-07-21T11:26:36Z",
+  "targetFamily": "focusable-offscreen-wrapper-announced-as-group-before-main",
+  "target": "www-royalmail-com-help",
+  "candidateRef": "www-royalmail-com-help:current-window-1",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -54,6 +54,15 @@
       "targetFamily": "paragraph-statictext-link-statictext-order-preservation",
       "startedAt": "2026-07-21T10:58:41Z",
       "releasedAt": "2026-07-21T11:07:37Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-focusable-offscreen-wrapper-group-2026-07-21T11:12:37Z",
+      "target": "www-royalmail-com-help",
+      "candidateRef": "www-royalmail-com-help:current-window-1",
+      "targetFamily": "focusable-offscreen-wrapper-announced-as-group-before-main",
+      "startedAt": "2026-07-21T11:12:37Z",
+      "releasedAt": "2026-07-21T11:26:36Z",
       "status": "released"
     }
   ]

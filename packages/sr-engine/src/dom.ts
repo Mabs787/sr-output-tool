@@ -4746,6 +4746,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
       const listItemDescendantGroupText = focusableGenericListItemDescendantGroupText(el);
       if (listItemDescendantGroupText) return listItemDescendantGroupText;
+      const offscreenPreMainWrapperName =
+        axConfirmedFocusableOffscreenPreMainWrapperGroupName(el);
+      if (offscreenPreMainWrapperName) return offscreenPreMainWrapperName;
       return normalize(el.getAttribute("title"));
     }
 
@@ -5472,6 +5475,123 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(axConfirmedFocusableFeedbackGroupText(el));
   }
 
+  function axConfirmedFocusableOffscreenPreMainWrapperGroupName(el: any): string | undefined {
+    if (!accessibilityNodes.length) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (el.tagName?.toLowerCase() !== "div") return undefined;
+    if (el.getAttribute("role")) return undefined;
+    if (el.getAttribute("tabindex") !== "-1") return undefined;
+    if (
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.getAttribute("title")
+    ) {
+      return undefined;
+    }
+    if (normalize(el.getAttribute("data-sr-rendered-position")) !== "offscreen") {
+      return undefined;
+    }
+    if (el.closest("main,[role='main']")) return undefined;
+
+    const landmark = el.closest("header,[role='banner']");
+    if (!landmark || !landmark.contains(el)) return undefined;
+
+    const precedingNavigation = Array.from(
+      landmark.querySelectorAll("nav,[role='navigation']"),
+    ).some((candidate: any) => {
+      if (candidate.contains(el) || isHidden(candidate)) return false;
+      return Boolean(
+        candidate.compareDocumentPosition(el) &
+          candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+      );
+    });
+    if (!precedingNavigation) return undefined;
+
+    const followingMain = Array.from(document.querySelectorAll("main,[role='main']")).some(
+      (candidate: any) => {
+        if (candidate.contains(el) || el.contains(candidate) || isHidden(candidate)) return false;
+        return Boolean(
+          el.compareDocumentPosition(candidate) &
+            candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING,
+        );
+      },
+    );
+    if (!followingMain) return undefined;
+
+    const axNode = axNodeForElementRole(el, "generic");
+    if (!axNode || axNode.properties?.focusable !== true || normalize(axNode.name)) {
+      return undefined;
+    }
+
+    const headings = Array.from(
+      el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']"),
+    ).filter((candidate: any) => !isHidden(candidate) && Boolean(readableText(candidate)));
+    if (headings.length !== 1) return undefined;
+
+    const heading = headings[0] as any;
+    const headingText = normalize(readableText(heading));
+    const headingNode = axNodeForElementRole(heading, "heading");
+    if (!headingText || !headingNode || normalize(headingNode.name) !== headingText) {
+      return undefined;
+    }
+
+    const search = Array.from(el.querySelectorAll("search,[role='search']")).find(
+      (candidate: any) => !isHidden(candidate),
+    ) as any;
+    if (!search || !axNodeForElementRole(search, "search")) return undefined;
+
+    const combo = Array.from(
+      el.querySelectorAll("input[role='combobox'],[role='combobox']"),
+    ).find((candidate: any) => !isHidden(candidate)) as any;
+    const comboNode = combo ? axNodeForElementRole(combo, "combobox") : undefined;
+    if (!comboNode || comboNode.properties?.focusable !== true) return undefined;
+
+    const axDescendantRoles = new Set(
+      axDescendants(axNode)
+        .filter((node) => !node.ignored)
+        .map((node) => normalizedAxRole(node.role))
+        .filter(Boolean),
+    );
+    if (
+      !axDescendantRoles.has("heading") ||
+      !axDescendantRoles.has("search") ||
+      !axDescendantRoles.has("combobox")
+    ) {
+      return undefined;
+    }
+
+    return headingText;
+  }
+
+  function isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el: any): boolean {
+    return Boolean(axConfirmedFocusableOffscreenPreMainWrapperGroupName(el));
+  }
+
+  function isBannerWithTerminalFocusableOffscreenPreMainWrapperGroup(
+    el: any,
+    role = implicitRole(el),
+  ): boolean {
+    if (role !== "banner") return false;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
+
+    const wrappers = Array.from(el.querySelectorAll("div[tabindex='-1']")).filter(
+      (candidate: any) =>
+        candidate.closest("header,[role='banner']") === el &&
+        isAxConfirmedFocusableOffscreenPreMainWrapperGroup(candidate),
+    );
+    if (wrappers.length !== 1) return false;
+
+    const wrapper = wrappers[0] as any;
+    for (let sibling = wrapper.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+      if (isHidden(sibling)) continue;
+      if (readableText(sibling) || hasVisibleInteractiveDescendant(sibling) || isStopElement(sibling)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   function isSiblingArticleCollectionItem(el: any): boolean {
     const parent = el?.parentElement;
     if (!parent) return false;
@@ -5512,6 +5632,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (isFocusableHeadingRichTextNavigationGroup(el)) return "group";
     if (isFocusableGenericListItemDescendantGroup(el)) return "group";
     if (isAxConfirmedFocusableFeedbackGroup(el)) return "group";
+    if (isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el)) return "group";
     if (isFocusableSummaryPanelGroup(el, "group")) return "group";
     if (isScanRootLeadingFocusableIframeStop(el)) return "group";
     if (isSingleTitledIframeWrapper(el)) return "group";
@@ -15205,10 +15326,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
       suppressContextEnd:
         (role === "banner" && isEmptyContextStop(el, role)) ||
+        (role === "banner" &&
+          isBannerWithTerminalFocusableOffscreenPreMainWrapperGroup(el, role)) ||
         (role === "region" && isEmptyNamedRegionStop(el, role)) ||
         role === "tooltip" ||
         (role === "group" && isNamedEmptyDecorativeMediaGroup(el, role)) ||
         (role === "group" && isScanRootLeadingFocusableIframeStop(el)) ||
+        (role === "group" && isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el)) ||
         (role === "group" && Boolean(compactInputActionGroupLabel(el))) ||
         shouldSuppressSingletonDocumentArticleEnd(el, role) ||
         (role === "group" && isButtonShellClusterGroup(el)) ||
@@ -15902,6 +16026,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !accessibleName(el, role) &&
       !el.matches(interactiveSelector) &&
       !isAxConfirmedFocusableFeedbackGroup(el) &&
+      !isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el) &&
       !isFocusableRichTextParagraphGroup(el) &&
       !isFocusableHeadingRichTextNavigationGroup(el) &&
       !isFocusableGenericListItemDescendantGroup(el) &&
@@ -15987,6 +16112,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
     if (role === "group" && isAxConfirmedFocusableFeedbackGroup(el)) {
+      return false;
+    }
+    if (role === "group" && isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el)) {
       return false;
     }
     if (role === "group" && isFocusableRichTextParagraphGroup(el)) {

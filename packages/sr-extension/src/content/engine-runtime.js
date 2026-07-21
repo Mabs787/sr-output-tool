@@ -5167,6 +5167,9 @@
             const listItemDescendantGroupText = focusableGenericListItemDescendantGroupText(el);
             if (listItemDescendantGroupText)
               return listItemDescendantGroupText;
+            const offscreenPreMainWrapperName = axConfirmedFocusableOffscreenPreMainWrapperGroupName(el);
+            if (offscreenPreMainWrapperName)
+              return offscreenPreMainWrapperName;
             return normalize(el.getAttribute("title"));
           }
           if (tag === "img")
@@ -5709,6 +5712,89 @@
         function isAxConfirmedFocusableFeedbackGroup(el) {
           return Boolean(axConfirmedFocusableFeedbackGroupText(el));
         }
+        function axConfirmedFocusableOffscreenPreMainWrapperGroupName(el) {
+          if (!accessibilityNodes.length)
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (el.tagName?.toLowerCase() !== "div")
+            return void 0;
+          if (el.getAttribute("role"))
+            return void 0;
+          if (el.getAttribute("tabindex") !== "-1")
+            return void 0;
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("title")) {
+            return void 0;
+          }
+          if (normalize(el.getAttribute("data-sr-rendered-position")) !== "offscreen") {
+            return void 0;
+          }
+          if (el.closest("main,[role='main']"))
+            return void 0;
+          const landmark = el.closest("header,[role='banner']");
+          if (!landmark || !landmark.contains(el))
+            return void 0;
+          const precedingNavigation = Array.from(landmark.querySelectorAll("nav,[role='navigation']")).some((candidate) => {
+            if (candidate.contains(el) || isHidden(candidate))
+              return false;
+            return Boolean(candidate.compareDocumentPosition(el) & candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING);
+          });
+          if (!precedingNavigation)
+            return void 0;
+          const followingMain = Array.from(document.querySelectorAll("main,[role='main']")).some((candidate) => {
+            if (candidate.contains(el) || el.contains(candidate) || isHidden(candidate))
+              return false;
+            return Boolean(el.compareDocumentPosition(candidate) & candidate.ownerDocument.defaultView.Node.DOCUMENT_POSITION_FOLLOWING);
+          });
+          if (!followingMain)
+            return void 0;
+          const axNode = axNodeForElementRole(el, "generic");
+          if (!axNode || axNode.properties?.focusable !== true || normalize(axNode.name)) {
+            return void 0;
+          }
+          const headings = Array.from(el.querySelectorAll("h1,h2,h3,h4,h5,h6,[role='heading']")).filter((candidate) => !isHidden(candidate) && Boolean(readableText(candidate)));
+          if (headings.length !== 1)
+            return void 0;
+          const heading = headings[0];
+          const headingText = normalize(readableText(heading));
+          const headingNode = axNodeForElementRole(heading, "heading");
+          if (!headingText || !headingNode || normalize(headingNode.name) !== headingText) {
+            return void 0;
+          }
+          const search = Array.from(el.querySelectorAll("search,[role='search']")).find((candidate) => !isHidden(candidate));
+          if (!search || !axNodeForElementRole(search, "search"))
+            return void 0;
+          const combo = Array.from(el.querySelectorAll("input[role='combobox'],[role='combobox']")).find((candidate) => !isHidden(candidate));
+          const comboNode = combo ? axNodeForElementRole(combo, "combobox") : void 0;
+          if (!comboNode || comboNode.properties?.focusable !== true)
+            return void 0;
+          const axDescendantRoles = new Set(axDescendants(axNode).filter((node) => !node.ignored).map((node) => normalizedAxRole(node.role)).filter(Boolean));
+          if (!axDescendantRoles.has("heading") || !axDescendantRoles.has("search") || !axDescendantRoles.has("combobox")) {
+            return void 0;
+          }
+          return headingText;
+        }
+        function isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el) {
+          return Boolean(axConfirmedFocusableOffscreenPreMainWrapperGroupName(el));
+        }
+        function isBannerWithTerminalFocusableOffscreenPreMainWrapperGroup(el, role = implicitRole(el)) {
+          if (role !== "banner")
+            return false;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          const wrappers = Array.from(el.querySelectorAll("div[tabindex='-1']")).filter((candidate) => candidate.closest("header,[role='banner']") === el && isAxConfirmedFocusableOffscreenPreMainWrapperGroup(candidate));
+          if (wrappers.length !== 1)
+            return false;
+          const wrapper = wrappers[0];
+          for (let sibling = wrapper.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+            if (isHidden(sibling))
+              continue;
+            if (readableText(sibling) || hasVisibleInteractiveDescendant(sibling) || isStopElement(sibling)) {
+              return false;
+            }
+          }
+          return true;
+        }
         function isSiblingArticleCollectionItem(el) {
           const parent = el?.parentElement;
           if (!parent)
@@ -5761,6 +5847,8 @@
           if (isFocusableGenericListItemDescendantGroup(el))
             return "group";
           if (isAxConfirmedFocusableFeedbackGroup(el))
+            return "group";
+          if (isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el))
             return "group";
           if (isFocusableSummaryPanelGroup(el, "group"))
             return "group";
@@ -13524,7 +13612,7 @@
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
             preserveSpaceBeforeColonName: axSpaceBeforeColonLinkName(el, role, name),
-            suppressContextEnd: role === "banner" && isEmptyContextStop(el, role) || role === "region" && isEmptyNamedRegionStop(el, role) || role === "tooltip" || role === "group" && isNamedEmptyDecorativeMediaGroup(el, role) || role === "group" && isScanRootLeadingFocusableIframeStop(el) || role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isFocusableGenericListItemDescendantGroup(el) || role === "group" && isFocusableSummaryPanelGroup(el, role) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && (isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el)) || shouldSuppressNativeMarkerNestedSingletonListEnd(el, role) || role === "dialog" && el.getAttribute("aria-modal") === "true" && (hasExplicitDialogName(el) && modalDialogSummaryItemCount(el) || !hasExplicitDialogName(el) && !readableText(el)) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
+            suppressContextEnd: role === "banner" && isEmptyContextStop(el, role) || role === "banner" && isBannerWithTerminalFocusableOffscreenPreMainWrapperGroup(el, role) || role === "region" && isEmptyNamedRegionStop(el, role) || role === "tooltip" || role === "group" && isNamedEmptyDecorativeMediaGroup(el, role) || role === "group" && isScanRootLeadingFocusableIframeStop(el) || role === "group" && isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el) || role === "group" && Boolean(compactInputActionGroupLabel(el)) || shouldSuppressSingletonDocumentArticleEnd(el, role) || role === "group" && isButtonShellClusterGroup(el) || role === "group" && isButtonShellGroup(el) || role === "group" && isFocusableImageListItem(el) || role === "group" && isFocusableStructuredListItemGroup(el) || role === "group" && isAxConfirmedFocusableFeedbackGroup(el) || role === "group" && isFocusableRichTextParagraphGroup(el) || role === "group" && isFocusableHeadingRichTextNavigationGroup(el) || role === "group" && isFocusableGenericListItemDescendantGroup(el) || role === "group" && isFocusableSummaryPanelGroup(el, role) || role === "group" && isDecorativeRoleGroupBeforeNativeLinks(el) || role === "group" && isDecorativeGenericGroupBeforeNativeLinks(el) || role === "group" && Boolean(fieldsetPromptText(el)) || role === "term" && (isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el)) || shouldSuppressNativeMarkerNestedSingletonListEnd(el, role) || role === "dialog" && el.getAttribute("aria-modal") === "true" && (hasExplicitDialogName(el) && modalDialogSummaryItemCount(el) || !hasExplicitDialogName(el) && !readableText(el)) || role === "group" && isCustomElement(el) && hasShadowRootContent(el) && !accessibleName(el, role) ? true : void 0,
             ...table,
             ...complexColumnHeaderFragments(el, role),
             boundingBox: {
@@ -14057,7 +14145,7 @@
           if (isInlineLinkPunctuationWrapperGroup(el, role)) {
             return false;
           }
-          if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !isAxConfirmedFocusableFeedbackGroup(el) && !isFocusableRichTextParagraphGroup(el) && !isFocusableHeadingRichTextNavigationGroup(el) && !isFocusableGenericListItemDescendantGroup(el) && !isFocusableSummaryPanelGroup(el, role) && !isSingleTitledIframeWrapper(el) && !isButtonShellClusterGroup(el) && !isButtonShellGroup(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !fieldsetPromptText(el) && !(isCustomElement(el) && hasShadowRootContent(el)) || role === "group" && isAnonymousShadowPromptFieldsetHost(el)) {
+          if (role === "group" && !accessibleName(el, role) && !el.matches(interactiveSelector) && !isAxConfirmedFocusableFeedbackGroup(el) && !isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el) && !isFocusableRichTextParagraphGroup(el) && !isFocusableHeadingRichTextNavigationGroup(el) && !isFocusableGenericListItemDescendantGroup(el) && !isFocusableSummaryPanelGroup(el, role) && !isSingleTitledIframeWrapper(el) && !isButtonShellClusterGroup(el) && !isButtonShellGroup(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !fieldsetPromptText(el) && !(isCustomElement(el) && hasShadowRootContent(el)) || role === "group" && isAnonymousShadowPromptFieldsetHost(el)) {
             return false;
           }
           if (role === "row" && isInsideExpandedAutocompletePopupGrid(el)) {
@@ -14121,6 +14209,9 @@
             return false;
           }
           if (role === "group" && isAxConfirmedFocusableFeedbackGroup(el)) {
+            return false;
+          }
+          if (role === "group" && isAxConfirmedFocusableOffscreenPreMainWrapperGroup(el)) {
             return false;
           }
           if (role === "group" && isFocusableRichTextParagraphGroup(el)) {

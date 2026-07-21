@@ -179,6 +179,142 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+function offscreenPreMainWrapperHtml(wrapperAttributes = "", placement = "before-main") {
+  const wrapper = `
+    <div ${wrapperAttributes} data-sr-dom-node-id="wrapper">
+      <h2 data-sr-dom-node-id="heading">Help center</h2>
+      <div role="search" data-sr-dom-node-id="search">
+        <label for="site-search">Search</label>
+        <input id="site-search" role="combobox" aria-label="Search" data-sr-dom-node-id="combo">
+      </div>
+    </div>
+  `;
+
+  if (placement === "inside-main") {
+    return `
+      <header>
+        <nav aria-label="Site navigation"><a href="/help" aria-current="page">Help</a></nav>
+      </header>
+      <main aria-label="Primary main">${wrapper}<p>Go to</p></main>
+    `;
+  }
+
+  return `
+    <header>
+      <nav aria-label="Site navigation"><a href="/help" aria-current="page">Help</a></nav>
+      ${wrapper}
+    </header>
+    <main aria-label="Primary main"><p>Go to</p></main>
+  `;
+}
+
+function offscreenPreMainWrapperAx({
+  rootRole = "generic",
+  rootName = "",
+  focusable = true,
+} = {}) {
+  return {
+    nodes: [
+      {
+        nodeId: "wrapper",
+        role: rootRole,
+        name: rootName,
+        domNodeId: "wrapper",
+        properties: { focusable },
+        childIds: ["heading", "search"],
+      },
+      {
+        nodeId: "heading",
+        role: "heading",
+        name: "Help center",
+        domNodeId: "heading",
+        properties: { level: 2 },
+      },
+      {
+        nodeId: "search",
+        role: "search",
+        name: "",
+        domNodeId: "search",
+        childIds: ["combo"],
+      },
+      {
+        nodeId: "combo",
+        role: "combobox",
+        name: "Search",
+        domNodeId: "combo",
+        properties: { focusable: true, expanded: false, hasPopup: "listbox" },
+      },
+    ],
+  };
+}
+
+test("scanSubtree groups AX-confirmed focusable offscreen wrappers before main", () => {
+  const announcements = scanHtml(
+    offscreenPreMainWrapperHtml('tabindex="-1" data-sr-rendered-position="offscreen"'),
+    { accessibilityTree: offscreenPreMainWrapperAx() },
+  );
+
+  assert.ok(announcements.includes("Help center, group"));
+  assert.equal(announcements.includes("heading level 2, Help center"), false);
+  assert.equal(announcements.includes("search"), false);
+  assert.equal(announcements.includes("Search, combo box"), false);
+  assert.equal(announcements.includes("end of, banner"), false);
+  assert.ok(announcements.includes("Primary main, main"));
+});
+
+test("scanSubtree does not group unmatched offscreen pre-main wrapper shapes", () => {
+  const cases = [
+    {
+      name: "nonfocusable wrapper",
+      html: offscreenPreMainWrapperHtml('data-sr-rendered-position="offscreen"'),
+      ax: offscreenPreMainWrapperAx({ focusable: false }),
+    },
+    {
+      name: "visible wrapper",
+      html: offscreenPreMainWrapperHtml('tabindex="-1"'),
+      ax: offscreenPreMainWrapperAx(),
+    },
+    {
+      name: "wrapper inside main",
+      html: offscreenPreMainWrapperHtml(
+        'tabindex="-1" data-sr-rendered-position="offscreen"',
+        "inside-main",
+      ),
+      ax: offscreenPreMainWrapperAx(),
+    },
+    {
+      name: "explicitly named group",
+      html: offscreenPreMainWrapperHtml(
+        'role="group" aria-label="Named support search" tabindex="-1" data-sr-rendered-position="offscreen"',
+      ),
+      ax: offscreenPreMainWrapperAx({ rootRole: "group", rootName: "Named support search" }),
+    },
+    {
+      name: "explicitly named region",
+      html: offscreenPreMainWrapperHtml(
+        'role="region" aria-label="Named support search" tabindex="-1" data-sr-rendered-position="offscreen"',
+      ),
+      ax: offscreenPreMainWrapperAx({ rootRole: "region", rootName: "Named support search" }),
+    },
+    {
+      name: "ordinary offscreen hidden content",
+      html: offscreenPreMainWrapperHtml(
+        'tabindex="-1" data-sr-rendered-position="offscreen" data-sr-computed-hidden="display:none"',
+      ),
+      ax: offscreenPreMainWrapperAx(),
+    },
+  ];
+
+  for (const testCase of cases) {
+    const announcements = scanHtml(testCase.html, { accessibilityTree: testCase.ax });
+    assert.equal(
+      announcements.includes("Help center, group"),
+      false,
+      testCase.name,
+    );
+  }
+});
+
 test("scanSubtree does not inject child image role into AX-named labelled links", () => {
   assert.deepEqual(
     scanHtml(
