@@ -9645,6 +9645,83 @@ test("scanSubtree uses AX-confirmed spacing for compact adjacent span popup butt
   );
 });
 
+test("scanSubtree splits AX-confirmed inline strong static text boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="payment">
+          Pay with <strong data-sr-dom-node-id="card">card</strong>,
+          <strong data-sr-dom-node-id="wallet">wallet</strong> or
+          <strong data-sr-dom-node-id="mobile">mobile pay</strong>
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "payment-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "payment",
+              childIds: ["pay-with", "card-ax", "comma", "wallet-ax", "or", "mobile-ax"],
+            },
+            { nodeId: "pay-with", role: "StaticText", name: "Pay with" },
+            { nodeId: "card-ax", role: "strong", name: "", domNodeId: "card", childIds: ["card-text"] },
+            { nodeId: "card-text", role: "StaticText", name: "card" },
+            { nodeId: "comma", role: "StaticText", name: "," },
+            { nodeId: "wallet-ax", role: "strong", name: "", domNodeId: "wallet", childIds: ["wallet-text"] },
+            { nodeId: "wallet-text", role: "StaticText", name: "wallet" },
+            { nodeId: "or", role: "StaticText", name: "or" },
+            { nodeId: "mobile-ax", role: "strong", name: "", domNodeId: "mobile", childIds: ["mobile-text"] },
+            { nodeId: "mobile-text", role: "StaticText", name: "mobile pay" },
+          ],
+        },
+      },
+    ),
+    ["Pay with", "card", "wallet", "mobile pay"],
+  );
+});
+
+test("scanSubtree splits AX-confirmed scalar span boundaries without splitting unrelated spans", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="scalar"><span data-sr-dom-node-id="label">up to</span><span data-sr-dom-node-id="value">one unit</span></p>
+        <p data-sr-dom-node-id="plain"><span data-sr-dom-node-id="title">Series note</span><span data-sr-dom-node-id="body">A short description.</span></p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "scalar-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "scalar",
+              childIds: ["label-ax", "value-ax"],
+            },
+            { nodeId: "label-ax", role: "generic", name: "", domNodeId: "label", childIds: ["label-text"] },
+            { nodeId: "label-text", role: "StaticText", name: "up to" },
+            { nodeId: "value-ax", role: "generic", name: "", domNodeId: "value", childIds: ["value-text"] },
+            { nodeId: "value-text", role: "StaticText", name: "one unit" },
+            {
+              nodeId: "plain-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "plain",
+              childIds: ["title-ax", "body-ax"],
+            },
+            { nodeId: "title-ax", role: "generic", name: "", domNodeId: "title", childIds: ["title-text"] },
+            { nodeId: "title-text", role: "StaticText", name: "Series note" },
+            { nodeId: "body-ax", role: "generic", name: "", domNodeId: "body", childIds: ["body-text"] },
+            { nodeId: "body-text", role: "StaticText", name: "A short description." },
+          ],
+        },
+      },
+    ),
+    ["up to", "one unit", "Series note A short description."],
+  );
+});
+
 test("scanSubtree keeps ordinary compact input action wrappers grouped", () => {
   assert.deepEqual(
     scanHtml(`

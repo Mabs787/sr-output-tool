@@ -1340,14 +1340,21 @@
           if (el.closest(interactiveSelector) || el.querySelector(interactiveSelector))
             return void 0;
           const visibleElementChildren2 = Array.from(el.children || []).filter((child) => !isHidden(child));
-          if (visibleElementChildren2.length)
+          const hasOnlyInlinePhrasingChildren = visibleElementChildren2.length > 0 && visibleElementChildren2.every((child) => ["span", "strong", "b", "em", "i"].includes(child.tagName?.toLowerCase()));
+          if (visibleElementChildren2.length && !hasOnlyInlinePhrasingChildren) {
             return void 0;
+          }
           const text = normalize(readableText(el) || el.textContent);
           if (!text)
             return void 0;
           const axNode = axNodeAnyForElement(el);
           const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
           if (axChildren.length < 2)
+            return void 0;
+          const inlineFragments = axInlinePhrasingStaticTextRunFragments(axChildren, Boolean(visibleElementChildren2.length), text);
+          if (inlineFragments)
+            return inlineFragments;
+          if (visibleElementChildren2.length)
             return void 0;
           if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
             return void 0;
@@ -1364,6 +1371,93 @@
           if (/^Showing\s+\p{N}+\s+of\s+\p{N}+\b/iu.test(text))
             return void 0;
           return fragments;
+        }
+        function axInlinePhrasingStaticTextRunFragments(axChildren, hasVisibleElementChildren, text) {
+          if (!hasVisibleElementChildren)
+            return void 0;
+          const fragments = [];
+          const boundaryFragments = [];
+          for (const child of axChildren) {
+            const role = normalizedAxRole(child.role);
+            if (role === "statictext") {
+              const fragment = normalize(child.name);
+              if (fragment && !isIgnorableInlineBoundaryStaticText(fragment)) {
+                fragments.push(fragment);
+              }
+              continue;
+            }
+            if (!["strong", "emphasis", "generic"].includes(role)) {
+              return void 0;
+            }
+            const childFragments = axDescendantStaticTextFragments(child);
+            if (!childFragments.length)
+              return void 0;
+            for (const fragment of childFragments) {
+              fragments.push(fragment);
+              boundaryFragments.push({ role, text: fragment });
+            }
+          }
+          if (fragments.length < 2 || !boundaryFragments.length)
+            return void 0;
+          if (!fragmentsAppearInTextOrder(fragments, text))
+            return void 0;
+          const strongBoundaryCount = boundaryFragments.filter((fragment) => ["strong", "emphasis"].includes(fragment.role)).length;
+          const hasScalarBoundary = boundaryFragments.some((fragment) => isScalarInlineBoundaryText(fragment.text));
+          const hasRepeatedEmphasisBoundary = strongBoundaryCount >= 2;
+          if (!hasScalarBoundary && !hasRepeatedEmphasisBoundary)
+            return void 0;
+          return fragments;
+        }
+        function axDescendantStaticTextFragments(node) {
+          const fragments = [];
+          function visit(current) {
+            if (!current || current.ignored)
+              return;
+            const role = normalizedAxRole(current.role);
+            if (role === "statictext") {
+              const fragment = normalize(current.name);
+              if (fragment && /[\p{L}\p{N}£$€]/u.test(fragment)) {
+                fragments.push(fragment);
+              }
+              return;
+            }
+            if (!["strong", "emphasis", "generic"].includes(role))
+              return;
+            for (const child of axChildNodes(current))
+              visit(child);
+          }
+          visit(node);
+          return fragments;
+        }
+        function isIgnorableInlineBoundaryStaticText(fragment) {
+          const normalized = normalize(fragment)?.toLowerCase();
+          return !normalized || /^[,.;:!?]+$/u.test(normalized) || normalized === "or";
+        }
+        function isScalarInlineBoundaryText(fragment) {
+          const normalized = normalize(fragment);
+          if (!normalized)
+            return false;
+          if (/[£$€]\s*\p{N}/u.test(normalized))
+            return true;
+          if (/\p{N}/u.test(normalized))
+            return true;
+          return /^(?:midnight|noon|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:\b|\s)/iu.test(normalized);
+        }
+        function fragmentsAppearInTextOrder(fragments, text) {
+          const normalizedText = normalize(text)?.toLowerCase();
+          if (!normalizedText)
+            return false;
+          let offset = 0;
+          for (const fragment of fragments) {
+            const normalizedFragment = normalize(fragment)?.toLowerCase();
+            if (!normalizedFragment)
+              continue;
+            const index = normalizedText.indexOf(normalizedFragment, offset);
+            if (index < 0)
+              return false;
+            offset = index + normalizedFragment.length;
+          }
+          return true;
         }
         function nativeTableCellTextFragments(el, role) {
           if (!["cell", "gridcell"].includes(role))

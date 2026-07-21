@@ -385,7 +385,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const visibleElementChildren = Array.from(el.children || []).filter(
       (child: any) => !isHidden(child),
     );
-    if (visibleElementChildren.length) return undefined;
+    const hasOnlyInlinePhrasingChildren =
+      visibleElementChildren.length > 0 &&
+      visibleElementChildren.every((child: any) =>
+        ["span", "strong", "b", "em", "i"].includes(child.tagName?.toLowerCase()),
+      );
+    if (visibleElementChildren.length && !hasOnlyInlinePhrasingChildren) {
+      return undefined;
+    }
 
     const text = normalize(readableText(el) || el.textContent);
     if (!text) return undefined;
@@ -393,6 +400,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const axNode = axNodeAnyForElement(el);
     const axChildren = axChildNodes(axNode).filter((child) => !child.ignored);
     if (axChildren.length < 2) return undefined;
+
+    const inlineFragments = axInlinePhrasingStaticTextRunFragments(
+      axChildren,
+      Boolean(visibleElementChildren.length),
+      text,
+    );
+    if (inlineFragments) return inlineFragments;
+
+    if (visibleElementChildren.length) return undefined;
     if (axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
       return undefined;
     }
@@ -407,6 +423,106 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (/^Showing\s+\p{N}+\s+of\s+\p{N}+\b/iu.test(text)) return undefined;
 
     return fragments;
+  }
+
+  function axInlinePhrasingStaticTextRunFragments(
+    axChildren: AccessibilityTreeNode[],
+    hasVisibleElementChildren: boolean,
+    text: string,
+  ): string[] | undefined {
+    if (!hasVisibleElementChildren) return undefined;
+
+    const fragments: string[] = [];
+    const boundaryFragments: Array<{ role: string; text: string }> = [];
+
+    for (const child of axChildren) {
+      const role = normalizedAxRole(child.role);
+      if (role === "statictext") {
+        const fragment = normalize(child.name);
+        if (fragment && !isIgnorableInlineBoundaryStaticText(fragment)) {
+          fragments.push(fragment);
+        }
+        continue;
+      }
+
+      if (!["strong", "emphasis", "generic"].includes(role)) {
+        return undefined;
+      }
+
+      const childFragments = axDescendantStaticTextFragments(child);
+      if (!childFragments.length) return undefined;
+      for (const fragment of childFragments) {
+        fragments.push(fragment);
+        boundaryFragments.push({ role, text: fragment });
+      }
+    }
+
+    if (fragments.length < 2 || !boundaryFragments.length) return undefined;
+    if (!fragmentsAppearInTextOrder(fragments, text)) return undefined;
+
+    const strongBoundaryCount = boundaryFragments.filter((fragment) =>
+      ["strong", "emphasis"].includes(fragment.role),
+    ).length;
+    const hasScalarBoundary = boundaryFragments.some((fragment) =>
+      isScalarInlineBoundaryText(fragment.text),
+    );
+    const hasRepeatedEmphasisBoundary = strongBoundaryCount >= 2;
+
+    if (!hasScalarBoundary && !hasRepeatedEmphasisBoundary) return undefined;
+
+    return fragments;
+  }
+
+  function axDescendantStaticTextFragments(node: AccessibilityTreeNode): string[] {
+    const fragments: string[] = [];
+
+    function visit(current?: AccessibilityTreeNode): void {
+      if (!current || current.ignored) return;
+      const role = normalizedAxRole(current.role);
+      if (role === "statictext") {
+        const fragment = normalize(current.name);
+        if (fragment && /[\p{L}\p{N}£$€]/u.test(fragment)) {
+          fragments.push(fragment);
+        }
+        return;
+      }
+      if (!["strong", "emphasis", "generic"].includes(role)) return;
+      for (const child of axChildNodes(current)) visit(child);
+    }
+
+    visit(node);
+    return fragments;
+  }
+
+  function isIgnorableInlineBoundaryStaticText(fragment: string): boolean {
+    const normalized = normalize(fragment)?.toLowerCase();
+    return !normalized || /^[,.;:!?]+$/u.test(normalized) || normalized === "or";
+  }
+
+  function isScalarInlineBoundaryText(fragment: string): boolean {
+    const normalized = normalize(fragment);
+    if (!normalized) return false;
+    if (/[£$€]\s*\p{N}/u.test(normalized)) return true;
+    if (/\p{N}/u.test(normalized)) return true;
+    return /^(?:midnight|noon|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:\b|\s)/iu.test(
+      normalized,
+    );
+  }
+
+  function fragmentsAppearInTextOrder(fragments: string[], text: string): boolean {
+    const normalizedText = normalize(text)?.toLowerCase();
+    if (!normalizedText) return false;
+
+    let offset = 0;
+    for (const fragment of fragments) {
+      const normalizedFragment = normalize(fragment)?.toLowerCase();
+      if (!normalizedFragment) continue;
+      const index = normalizedText.indexOf(normalizedFragment, offset);
+      if (index < 0) return false;
+      offset = index + normalizedFragment.length;
+    }
+
+    return true;
   }
 
   function nativeTableCellTextFragments(el: any, role: string): string[] | undefined {
