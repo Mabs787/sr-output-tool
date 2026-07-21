@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neutral group article boundary offset C.5</title>
+    <style>
+      body {
+        margin: 24px;
+        font-family: Arial, sans-serif;
+        line-height: 1.35;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      section,
+      article,
+      [role="group"] {
+        margin-block: 14px;
+      }
+
+      article,
+      [role="group"] {
+        display: block;
+        padding: 12px;
+        border: 1px solid #777;
+      }
+
+      img,
+      svg {
+        display: block;
+        width: 72px;
+        height: 48px;
+      }
+
+      a,
+      button,
+      input {
+        font: inherit;
+      }
+
+      .inline-pieces span {
+        display: inline;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="group-article-boundary-offset"
+      aria-labelledby="fixture-title">
+      <h1 id="fixture-title">Group article boundary offset</h1>
+
+      <section aria-labelledby="order-title">
+        <h2 id="order-title">Order variants</h2>
+
+        <article aria-labelledby="article-before-title">
+          <h3 id="article-before-title">Before article</h3>
+          <p>Before detail.</p>
+          <a href="#before-action">Before action</a>
+        </article>
+
+        <div role="group" aria-labelledby="named-group-title">
+          <h3 id="named-group-title">Named group</h3>
+          <article aria-labelledby="article-inside-title">
+            <h4 id="article-inside-title">Inside article</h4>
+            <p class="inline-pieces"><span>Inside detail</span><span> joins here.</span></p>
+            <a href="#inside-action">Inside action</a>
+          </article>
+        </div>
+
+        <article aria-labelledby="article-after-title">
+          <h3 id="article-after-title">After article</h3>
+          <p>After detail.</p>
+          <a href="#after-action">After action</a>
+        </article>
+      </section>
+
+      <section aria-labelledby="image-title">
+        <h2 id="image-title">Image leading article</h2>
+        <article aria-labelledby="image-article-title">
+          <div role="group" aria-label="Sample media">
+            <img
+              alt="Sample image"
+              src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+            <span>frame 0</span>
+          </div>
+          <h3 id="image-article-title">Image card</h3>
+          <p>Image detail.</p>
+          <a href="#image-action">Image action</a>
+        </article>
+
+        <article aria-labelledby="image-after-title">
+          <h3 id="image-after-title">Image after text</h3>
+          <p>Trailing image detail.</p>
+          <a href="#image-after-action">Trailing action</a>
+          <img
+            alt="Trailing sample"
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+        </article>
+      </section>
+
+      <section aria-labelledby="sibling-title">
+        <h2 id="sibling-title">Sibling group boundaries</h2>
+
+        <div role="group" aria-labelledby="sibling-one-title">
+          <h3 id="sibling-one-title">Sibling group one</h3>
+          <p>First group text.</p>
+        </div>
+
+        <div role="group" aria-labelledby="sibling-two-title">
+          <h3 id="sibling-two-title">Sibling group two</h3>
+          <p>Second group text.</p>
+          <button type="button" aria-expanded="false" aria-controls="sibling-two-panel">
+            More details
+          </button>
+          <div id="sibling-two-panel" hidden>
+            <p>Hidden detail.</p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="plain-controls-title">
+        <h2 id="plain-controls-title">Plain controls</h2>
+        <form role="search" aria-labelledby="plain-controls-title">
+          <label for="plain-reference">Reference</label>
+          <input
+            id="plain-reference"
+            name="plain-reference"
+            type="text"
+            aria-describedby="plain-reference-hint">
+          <p id="plain-reference-hint">Short hint.</p>
+          <button type="submit">Check item</button>
+        </form>
+
+        <button type="button" aria-expanded="false" aria-controls="plain-extra-panel">
+          Plain disclosure
+        </button>
+        <div id="plain-extra-panel" hidden>
+          <p>Extra detail.</p>
+        </div>
+
+        <a href="#plain-link">Plain link</a>
+      </section>
+    </main>
+  </body>
+</html>
