@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "target": "_summaries/footer-collapsed-list-position-current",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "passed",
+  "startedAt": "2026-07-21T12:32:00Z",
+  "finishedAt": "2026-07-21T13:31:52Z",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "sourceAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-shared-shell-current-family-audit.json",
+    "priorReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-collapsed-button-group-suffix.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-collapsed-button-group-suffix.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-footer-collapsed-region.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-footer-collapsed-region-decomposition.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-footer-list-position-truncation.json"
+    ],
+    "sourceEvidenceBasis": "Original rendered HTML, AX trees, step snapshots, VoiceOver sources, expected JSON, and current compare windows named by phase-b-shared-shell-current-family-audit.json were used. Current engine output was not used as source of truth."
+  },
+  "family": {
+    "name": "footer-collapsed-role-button-group-suffix-with-list-position",
+    "windowCount": 10,
+    "suspectedCause": "The current engine suppresses the group suffix for ARIA role=button controls, but source VoiceOver keeps group when the collapsed role button is the stop for a positioned list item in the footer shell.",
+    "minimalDomAxContract": "footer/contentinfo > navigation labelled by heading > native 4-item list. Each li has a div role=button aria-expanded=false aria-controls=<id> with a child heading text node and aria-hidden svg sibling; its adjacent controlled div role=region aria-labelledby=<button id> remains AX-visible. AX button role/name/state/control relationship and list position metadata must be preserved."
+  },
+  "sourceRefs": [
+    {
+      "currentRef": "www-royalmail-com-find-postcode:current-window-2",
+      "actual": "Personal, collapsed, button, 1 of 4",
+      "expected": "Personal, collapsed, button, group, 1 of 4",
+      "candidateId": "www-royalmail-com-find-postcode:footer-collapsed-role-button-group-suffix-with-list-position:current-window-2:1b15caef812b8ab1"
+    },
+    {
+      "currentRef": "www-royalmail-com-personal-receiving-mail-redirection:current-window-10",
+      "actual": "Our websites, collapsed, button, 4 of 4",
+      "expected": "Our websites, collapsed, button, group, 4 of 4",
+      "candidateId": "www-royalmail-com-personal-receiving-mail-redirection:footer-collapsed-role-button-group-suffix-with-list-position:current-window-10:660d61ab9f7f104e"
+    },
+    {
+      "currentRef": "www-royalmail-com-receiving-mail-redelivery:current-window-7",
+      "actual": "Business, collapsed, button, 2 of 4",
+      "expected": "Business, collapsed, button, group, 2 of 4",
+      "candidateId": "www-royalmail-com-receiving-mail-redelivery:footer-collapsed-role-button-group-suffix-with-list-position:current-window-7:59cf6f5083d77cf9"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-barcoded-stamps:current-window-12",
+      "actual": "Business, collapsed, button, 2 of 4",
+      "expected": "Business, collapsed, button, group, 2 of 4",
+      "candidateId": "www-royalmail-com-sending-barcoded-stamps:footer-collapsed-role-button-group-suffix-with-list-position:current-window-12:59cf6f5083d77cf9"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-international:current-window-10",
+      "actual": "Personal, collapsed, button, 1 of 4",
+      "expected": "Personal, collapsed, button, group, 1 of 4",
+      "candidateId": "www-royalmail-com-sending-international:footer-collapsed-role-button-group-suffix-with-list-position:current-window-10:1b15caef812b8ab1"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7",
+      "actual": "Personal, collapsed, button, 1 of 4",
+      "expected": "Personal, collapsed, button, group, 1 of 4",
+      "candidateId": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:footer-collapsed-role-button-group-suffix-with-list-position:current-window-7:1b15caef812b8ab1"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-uk-tracked-24:current-window-9",
+      "actual": "Personal, collapsed, button, 1 of 4",
+      "expected": "Personal, collapsed, button, group, 1 of 4",
+      "candidateId": "www-royalmail-com-sending-uk-tracked-24:footer-collapsed-role-button-group-suffix-with-list-position:current-window-9:1b15caef812b8ab1"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-uk-tracked-48:current-window-9",
+      "actual": "Personal, collapsed, button, 1 of 4",
+      "expected": "Personal, collapsed, button, group, 1 of 4",
+      "candidateId": "www-royalmail-com-sending-uk-tracked-48:footer-collapsed-role-button-group-suffix-with-list-position:current-window-9:1b15caef812b8ab1"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending-uk:current-window-9",
+      "actual": "Business, collapsed, button, 2 of 4",
+      "expected": "Business, collapsed, button, group, 2 of 4",
+      "candidateId": "www-royalmail-com-sending-uk:footer-collapsed-role-button-group-suffix-with-list-position:current-window-9:59cf6f5083d77cf9"
+    },
+    {
+      "currentRef": "www-royalmail-com-sending:current-window-9",
+      "actual": "Business, collapsed, button, 2 of 4",
+      "expected": "Business, collapsed, button, group, 2 of 4",
+      "candidateId": "www-royalmail-com-sending:footer-collapsed-role-button-group-suffix-with-list-position:current-window-9:59cf6f5083d77cf9"
+    }
+  ],
+  "reproduction": {
+    "path": "packages/sr-engine/tests/fixtures/voiceover-repros/footer-collapsed-list-position-current-c5/collapsed-role-button-group-suffix-with-list-position.html",
+    "sha256": "824f11a9058e1c89bf3a6e5e2cf7acd2ff253ce60cb30dfb550d47268a0464fa",
+    "identity": "neutral footer collapsed list position repro",
+    "dataSrScanRoot": true,
+    "publicHosting": false,
+    "noRoyalMailCopyClassesOrUrls": true,
+    "omissions": [
+      "Brand names, public URLs, CSS classes, and page-specific marketing/content copy were replaced with neutral short labels because the disputed behavior depends on role/name/state/list position/control-region relationships, not brand or content wording.",
+      "Large unrelated body/header content was removed because the target windows occur in the shared footer shell and nearby media, partner, footer-control, and social siblings were retained.",
+      "List marker visuals were suppressed only after the first insufficient scan showed marker stops split the button position; native ul/li semantics and AX list/listitem metadata remain."
+    ],
+    "controlsIncluded": [
+      "Collapsed controlled footer role buttons with AX-visible regions and list position metadata.",
+      "Adjacent partner/media/footer/social controls.",
+      "Collapsed hidden controlled region guard.",
+      "Expanded visible controlled region guard.",
+      "Uncontrolled list-position role button guard.",
+      "Terminal list-position link text-boundary guard with nested spans and hidden svg."
+    ]
+  },
+  "localValidation": {
+    "reproStructureTest": {
+      "command": "env PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+      "result": "passed"
+    },
+    "neutralityCheck": {
+      "command": "rg -n 'Royal Mail|RoyalMail|royalmail|RML|Parcelforce|royal-mail' packages/sr-engine/tests/fixtures/voiceover-repros/footer-collapsed-list-position-current-c5/collapsed-role-button-group-suffix-with-list-position.html",
+      "result": "no matches"
+    },
+    "localEngineSmokeNotSourceOfTruth": [
+      "Alpha, collapsed, button, 1 of 4",
+      "Beta, collapsed, button, 2 of 4",
+      "Gamma, collapsed, button, 3 of 4",
+      "Delta, collapsed, button, 4 of 4"
+    ]
+  },
+  "dispatch": {
+    "command": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/footer-collapsed-list-position-current-c5/collapsed-role-button-group-suffix-with-list-position.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=100 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow",
+    "commitsPushedBeforeDispatch": [
+      {
+        "sha": "3bcbc5bd347ab5330a8b08d208b1cb40d3e14b53",
+        "message": "Add footer collapsed list position C.5 repro"
+      },
+      {
+        "sha": "f1ecfda95950f99fa0403ee4e472d7ac5b7000b0",
+        "message": "Refine footer list position C.5 repro markers"
+      }
+    ],
+    "currentBranchHeadAtReceipt": "0014201824df075ca7126f565ecb1ed60fa9f6ef"
+  },
+  "scanAttempts": [
+    {
+      "attempt": 1,
+      "runId": "29831438083",
+      "runUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/29831438083",
+      "headSha": "3bcbc5bd347ab5330a8b08d208b1cb40d3e14b53",
+      "artifactId": "8495970864",
+      "artifactDigest": "sha256:585f7b6b3c649f998ff79651e7c1d621149cfad36441f4d5ade9578ce8ab2343",
+      "artifactPath": "voiceover-smoke/agent-work/29684347419/c5-footer-collapsed-list-position-current-artifacts/29831438083",
+      "initialWaitSeconds": 300,
+      "oneMinutePollsBeforeTerminal": 10,
+      "workflowConclusion": "success",
+      "scanStopReason": "max-steps:100",
+      "scanPartial": false,
+      "capturedSteps": 100,
+      "verdict": "insufficient-repro",
+      "reason": "VoiceOver placed list positions on separate bullet marker stops, so the positive button announcements had group but no inline list-position suffix."
+    },
+    {
+      "attempt": 2,
+      "runId": "29833028697",
+      "runUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/29833028697",
+      "headSha": "f1ecfda95950f99fa0403ee4e472d7ac5b7000b0",
+      "artifactId": "8496641517",
+      "artifactDigest": "sha256:38501544c6b7e8ae2e95dd1b8a6e86be51162bd500610227121a5fed8bfb8f6e",
+      "artifactPath": "voiceover-smoke/agent-work/29684347419/c5-footer-collapsed-list-position-current-artifacts/29833028697",
+      "initialWaitSeconds": 300,
+      "oneMinutePollsBeforeTerminal": 10,
+      "workflowConclusion": "success",
+      "scanStopReason": "scan-end-marker",
+      "scanPartial": false,
+      "capturedSteps": 89,
+      "verdict": "engine-gap-confirmed",
+      "reason": "After the single allowed refinement, VoiceOver reproduced group plus inline list-position on the collapsed footer role buttons."
+    }
+  ],
+  "canary": {
+    "status": "passed",
+    "attemptRunId": "29833028697",
+    "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/footer-collapsed-list-position-current-c5/collapsed-role-button-group-suffix-with-list-position.html",
+    "resolvedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/footer-collapsed-list-position-current-c5/collapsed-role-button-group-suffix-with-list-position.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "renderedHtmlSha256": "7ea082b86449a40ef244737b28ec52d5a58889aa8f503e50d468d0145b8cd7ea",
+    "renderedHtmlContainsIdentity": true,
+    "accessibilityTreeSha256": "ce32eeca15759e5e555cc71c3e1692bebbe68071b0db18626243d2a24aaf704e",
+    "accessibilityTreeNodeCount": 197,
+    "ignoredNodeCount": 11,
+    "axMappedNodeCount": 118,
+    "domSnapshotMappedNodeCount": 138,
+    "voiceOverSourcesSha256": "67847cf49c1277b1e47cae8ef543fd4b513c229820d95f792a7e2bcbce282baa",
+    "voiceOverAnnouncementCount": 88,
+    "stepSnapshotsSha256": "a781e8bcec3ec8a61e1f1d90315aa84aaa37ae97ced6da4b13ec43800d5438f9",
+    "stepSnapshotsCount": 89,
+    "stepSnapshotsAllPageStateOk": true,
+    "stepSnapshotsAllHtmlAfterStepOk": true,
+    "stepSnapshotsAllAccessibilityOk": true,
+    "stepScreenshotsCount": 89,
+    "engineTraversalDebugSha256": "fa657a0d673e2f14aa881729060c4fa04d715840b5ca55804c10be127fd26a87",
+    "engineTraversalOk": true,
+    "engineAnnouncementCount": 64
+  },
+  "miniScanEvidence": {
+    "voiceOverPositiveStops": [
+      "list 4 items",
+      "Alpha, collapsed, button, group, 1 of 4",
+      "Beta, collapsed, button, group, 2 of 4",
+      "Gamma, collapsed, button, group, 3 of 4",
+      "Delta, collapsed, button, group, 4 of 4"
+    ],
+    "enginePositiveStops": [
+      "list 4 items",
+      "Alpha, collapsed, button, 1 of 4",
+      "Beta, collapsed, button, 2 of 4",
+      "Gamma, collapsed, button, 3 of 4",
+      "Delta, collapsed, button, 4 of 4"
+    ],
+    "axPositiveContract": [
+      "button Alpha expanded=false controls=fixture-menu-0-links; adjacent region name=Alpha",
+      "button Beta expanded=false controls=fixture-menu-1-links; adjacent region name=Beta",
+      "button Gamma expanded=false controls=fixture-menu-2-links; adjacent region name=Gamma",
+      "button Delta expanded=false controls=fixture-menu-3-links; adjacent region name=Delta"
+    ],
+    "controlStops": {
+      "terminalListPositionTextBoundary": {
+        "voiceOver": "link, Delta partner service directory Opens in a new window, 4 of 4",
+        "route": "park",
+        "reason": "Control reached and structurally useful, but the earlier terminal list-position family remains exhausted and this support scan must not become a standalone fixture or Phase E target."
+      },
+      "partnerUncontrolledButton": {
+        "voiceOver": "Partner toggle, collapsed, button",
+        "engine": "Partner toggle, collapsed, button",
+        "route": "B",
+        "reason": "No mismatch in this adjacent non-list partner control."
+      },
+      "hiddenControlledRegionGuard": {
+        "voiceOver": "Hidden, collapsed, button, group",
+        "engine": "Hidden, collapsed, button",
+        "route": "park",
+        "reason": "Guard proves the mini page was traversed, but it is not one of the 10 current refs and needs original source evidence before routing."
+      },
+      "expandedControlledRegionGuard": {
+        "voiceOver": "Expanded, expanded, button, group",
+        "engine": "Expanded, expanded, button",
+        "route": "park",
+        "reason": "Guard only; expanded state is outside the accepted current family."
+      },
+      "uncontrolledListPositionGuard": {
+        "voiceOver": "Standalone, collapsed, button, group, 1 of 2",
+        "engine": "Standalone, collapsed, button",
+        "route": "park",
+        "reason": "Guard only; it is not the controlled visible-region footer shell shape from the 10 current refs."
+      }
+    }
+  },
+  "conclusion": {
+    "familyVerdict": "engine-gap-confirmed",
+    "primaryMismatch": "VoiceOver keeps group before the list-position suffix on collapsed ARIA role=button controls inside the footer list; engine omits group while preserving the position suffix.",
+    "retryUsed": true,
+    "secondRetryAllowed": false,
+    "noEngineLogicModified": true,
+    "noReusableFixturesPromoted": true,
+    "noPublicHostingUsed": true
+  },
+  "splitRoutes": {
+    "B": [
+      {
+        "subshape": "adjacent non-list partner collapsed role button",
+        "decision": "no source mismatch from this control"
+      }
+    ],
+    "C": [],
+    "D": [
+      "www-royalmail-com-find-postcode:current-window-2",
+      "www-royalmail-com-personal-receiving-mail-redirection:current-window-10",
+      "www-royalmail-com-receiving-mail-redelivery:current-window-7",
+      "www-royalmail-com-sending-barcoded-stamps:current-window-12",
+      "www-royalmail-com-sending-international:current-window-10",
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-9",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-9",
+      "www-royalmail-com-sending-uk:current-window-9",
+      "www-royalmail-com-sending:current-window-9"
+    ],
+    "park": [
+      "terminal list-position text-boundary guard",
+      "hidden controlled-region guard",
+      "expanded controlled-region guard",
+      "uncontrolled list-position role-button guard"
+    ],
+    "recapture": []
+  },
+  "engineRefinerHandoff": {
+    "sendTo": "engine-refiner",
+    "minimalDomAxContract": "For a non-native collapsed role=button in a native footer/navigation list item, with aria-controls pointing to an adjacent AX-visible role=region and no separate marker stop, VoiceOver announces '<name>, collapsed, button, group, N of 4'. Current engine emits '<name>, collapsed, button, N of 4'.",
+    "suggestedFocusedUnitCoverage": [
+      "Four-item native footer list with collapsed role=button controls at positions 1, 2, 3, and 4, each controlling adjacent visible regions.",
+      "Assert group is retained before list position for this controlled footer-list shape.",
+      "Guard against regressing prior non-positional collapsed-button Phase D behavior.",
+      "Keep hidden-region, expanded-region, uncontrolled list-button, and terminal link-position guards separate until source-backed."
+    ]
+  },
+  "fixtureChanges": [
+    {
+      "path": "packages/sr-engine/tests/fixtures/voiceover-repros/footer-collapsed-list-position-current-c5/collapsed-role-button-group-suffix-with-list-position.html",
+      "kind": "minimal-reproduction",
+      "status": "tracked",
+      "reason": "Neutral Phase C.5 support reproduction for the current footer collapsed role-button group suffix with list-position family."
+    },
+    {
+      "path": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-footer-collapsed-list-position-current.json",
+      "kind": "receipt",
+      "status": "tracked",
+      "reason": "Concise Phase C.5 conclusion and route handoff."
+    }
+  ],
+  "handoffTo": "engine-refiner",
+  "nextPhase": "D",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Only the 10 current footer collapsed role-button group suffix with list-position refs listed in splitRoutes.D."
+  }
+}
