@@ -527,6 +527,8 @@ test("scanSubtree preserves image role for unnamed SVG-only AX URL fallback link
     scanHtml(
       `
         <a href="/" data-sr-dom-node-id="svg-root-link"><svg data-sr-dom-node-id="svg-root-image"></svg></a>
+        <a href="/parcel" data-sr-dom-node-id="svg-path-link"><svg data-sr-dom-node-id="svg-path-image"></svg></a>
+        <footer><a href="/footer" data-sr-dom-node-id="svg-footer-link"><svg data-sr-dom-node-id="svg-footer-image"></svg></a></footer>
         <a href="/" aria-label="Named home" data-sr-dom-node-id="named-svg-link"><svg data-sr-dom-node-id="named-svg-image"></svg></a>
       `,
       {
@@ -538,6 +540,44 @@ test("scanSubtree preserves image role for unnamed SVG-only AX URL fallback link
               name: "",
               domNodeId: "svg-root-link",
               properties: { focusable: true, url: "https://example.test/" },
+              childIds: ["svg-root-image"],
+            },
+            {
+              nodeId: "svg-root-image",
+              role: "image",
+              name: "",
+              domNodeId: "svg-root-image",
+              tagName: "svg",
+            },
+            {
+              nodeId: "svg-path-link",
+              role: "link",
+              name: "",
+              domNodeId: "svg-path-link",
+              properties: { focusable: true, url: "https://example.test/parcel" },
+              childIds: ["svg-path-image"],
+            },
+            {
+              nodeId: "svg-path-image",
+              role: "image",
+              name: "",
+              domNodeId: "svg-path-image",
+              tagName: "svg",
+            },
+            {
+              nodeId: "svg-footer-link",
+              role: "link",
+              name: "",
+              domNodeId: "svg-footer-link",
+              properties: { focusable: true, url: "https://example.test/footer" },
+              childIds: ["svg-footer-image"],
+            },
+            {
+              nodeId: "svg-footer-image",
+              role: "image",
+              name: "",
+              domNodeId: "svg-footer-image",
+              tagName: "svg",
             },
             {
               nodeId: "named-svg-link",
@@ -552,6 +592,10 @@ test("scanSubtree preserves image role for unnamed SVG-only AX URL fallback link
     ),
     [
       "link, image, https://example.test/",
+      "link, image, parcel",
+      "footer",
+      "link, image, footer",
+      "end of, footer",
       "link, Named home",
     ],
   );

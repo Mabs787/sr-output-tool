@@ -2401,52 +2401,52 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return false;
   }
 
+  function labelFromHttpUrl(url: URL): string | undefined {
+    if (!["http:", "https:"].includes(url.protocol)) return undefined;
+
+    const segments = url.pathname
+      .split("/")
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+    const lastSegment = segments.at(-1);
+    if (!lastSegment) return undefined;
+
+    const decoded = decodeURIComponent(lastSegment)
+      .replace(/\.[a-z0-9]+$/i, "")
+      .replace(/_+/g, " ");
+    const acronymWords = new Set([
+      "api",
+      "apis",
+      "css",
+      "dom",
+      "http",
+      "https",
+      "js",
+      "pwa",
+      "svg",
+      "ui",
+      "url",
+      "wai",
+      "wcag",
+    ]);
+
+    return normalize(
+      decoded
+        .split(/\s+/)
+        .map((word) => {
+          if (word.includes("-")) return word;
+          const lower = word.toLowerCase();
+          if (acronymWords.has(lower)) return lower.toUpperCase();
+          return word;
+        })
+        .join(" "),
+    );
+  }
+
   function hrefSlugLabel(el: any): string | undefined {
     if (el?.tagName?.toLowerCase() !== "a") return undefined;
     const href = normalize(el.getAttribute("href"));
     if (!href || href.startsWith("#")) return undefined;
-
-    const labelFromUrl = (url: URL): string | undefined => {
-      if (!["http:", "https:"].includes(url.protocol)) return undefined;
-
-      const segments = url.pathname
-        .split("/")
-        .map((segment) => segment.trim())
-        .filter(Boolean);
-      const lastSegment = segments.at(-1);
-      if (!lastSegment) return undefined;
-
-      const decoded = decodeURIComponent(lastSegment)
-        .replace(/\.[a-z0-9]+$/i, "")
-        .replace(/_+/g, " ");
-      const acronymWords = new Set([
-        "api",
-        "apis",
-        "css",
-        "dom",
-        "http",
-        "https",
-        "js",
-        "pwa",
-        "svg",
-        "ui",
-        "url",
-        "wai",
-        "wcag",
-      ]);
-
-      return normalize(
-        decoded
-          .split(/\s+/)
-          .map((word) => {
-            if (word.includes("-")) return word;
-            const lower = word.toLowerCase();
-            if (acronymWords.has(lower)) return lower.toUpperCase();
-            return word;
-          })
-          .join(" "),
-      );
-    };
 
     const emptyNameAxUrl = (): URL | undefined => {
       const axNode = axNodeForElementRole(el, "link");
@@ -2474,15 +2474,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     } catch {
       const axUrl = emptyNameAxUrl();
       if (!axUrl || !hasOnlyEmptyImageRoleLinkContent(el)) return undefined;
-      return labelFromUrl(axUrl) || axUrl.href;
+      return labelFromHttpUrl(axUrl) || axUrl.href;
     }
 
-    const slugLabel = labelFromUrl(url);
+    const slugLabel = labelFromHttpUrl(url);
     if (slugLabel) return slugLabel;
 
     const axUrl = emptyNameAxUrl();
     if (!axUrl || !hasOnlyEmptyImageRoleLinkContent(el)) return undefined;
-    return labelFromUrl(axUrl) || axUrl.href;
+    return labelFromHttpUrl(axUrl) || axUrl.href;
   }
 
   function hasOnlyEmptyAltImageLinkContent(el: any): boolean {
@@ -2515,6 +2515,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return hasOnlyEmptyAltImageLinkContent(el) || hasOnlyEmptySvgImageLinkContent(el);
   }
 
+  function hasEmptySvgAxImageChild(axNode: AccessibilityTreeNode): boolean {
+    const children = (axNode.childIds || [])
+      .map((id) => accessibilityNodeById.get(normalize(id) || ""))
+      .filter((child): child is AccessibilityTreeNode => Boolean(child) && !child.ignored);
+    if (children.length !== 1) return false;
+
+    const child = children[0];
+    return normalizedAxRole(child.role) === "image" &&
+      normalize(child.name) === undefined &&
+      normalize(child.tagName)?.toLowerCase() === "svg";
+  }
+
   function isEmptySvgImageOnlyAxUrlFallbackLink(
     el: any,
     role: string,
@@ -2528,13 +2540,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       normalize(axNode.name) ||
       axNode.properties?.focusable !== true ||
       typeof axUrl !== "string" ||
-      !linkMatchesAxUrl(el, axNode)
+      !linkMatchesAxUrl(el, axNode) ||
+      !hasEmptySvgAxImageChild(axNode)
     ) {
       return false;
     }
     try {
       const url = new URL(axUrl);
-      return ["http:", "https:"].includes(url.protocol) && name === url.href;
+      if (!["http:", "https:"].includes(url.protocol)) return false;
+      return name === (labelFromHttpUrl(url) || url.href);
     } catch {
       return false;
     }

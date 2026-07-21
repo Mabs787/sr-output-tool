@@ -3137,44 +3137,44 @@
           }
           return false;
         }
+        function labelFromHttpUrl(url) {
+          if (!["http:", "https:"].includes(url.protocol))
+            return void 0;
+          const segments = url.pathname.split("/").map((segment) => segment.trim()).filter(Boolean);
+          const lastSegment = segments.at(-1);
+          if (!lastSegment)
+            return void 0;
+          const decoded = decodeURIComponent(lastSegment).replace(/\.[a-z0-9]+$/i, "").replace(/_+/g, " ");
+          const acronymWords = /* @__PURE__ */ new Set([
+            "api",
+            "apis",
+            "css",
+            "dom",
+            "http",
+            "https",
+            "js",
+            "pwa",
+            "svg",
+            "ui",
+            "url",
+            "wai",
+            "wcag"
+          ]);
+          return normalize(decoded.split(/\s+/).map((word) => {
+            if (word.includes("-"))
+              return word;
+            const lower = word.toLowerCase();
+            if (acronymWords.has(lower))
+              return lower.toUpperCase();
+            return word;
+          }).join(" "));
+        }
         function hrefSlugLabel(el) {
           if (el?.tagName?.toLowerCase() !== "a")
             return void 0;
           const href = normalize(el.getAttribute("href"));
           if (!href || href.startsWith("#"))
             return void 0;
-          const labelFromUrl = (url2) => {
-            if (!["http:", "https:"].includes(url2.protocol))
-              return void 0;
-            const segments = url2.pathname.split("/").map((segment) => segment.trim()).filter(Boolean);
-            const lastSegment = segments.at(-1);
-            if (!lastSegment)
-              return void 0;
-            const decoded = decodeURIComponent(lastSegment).replace(/\.[a-z0-9]+$/i, "").replace(/_+/g, " ");
-            const acronymWords = /* @__PURE__ */ new Set([
-              "api",
-              "apis",
-              "css",
-              "dom",
-              "http",
-              "https",
-              "js",
-              "pwa",
-              "svg",
-              "ui",
-              "url",
-              "wai",
-              "wcag"
-            ]);
-            return normalize(decoded.split(/\s+/).map((word) => {
-              if (word.includes("-"))
-                return word;
-              const lower = word.toLowerCase();
-              if (acronymWords.has(lower))
-                return lower.toUpperCase();
-              return word;
-            }).join(" "));
-          };
           const emptyNameAxUrl = () => {
             const axNode = axNodeForElementRole(el, "link");
             const axUrl2 = axNode?.properties?.url;
@@ -3197,15 +3197,15 @@
             const axUrl2 = emptyNameAxUrl();
             if (!axUrl2 || !hasOnlyEmptyImageRoleLinkContent(el))
               return void 0;
-            return labelFromUrl(axUrl2) || axUrl2.href;
+            return labelFromHttpUrl(axUrl2) || axUrl2.href;
           }
-          const slugLabel = labelFromUrl(url);
+          const slugLabel = labelFromHttpUrl(url);
           if (slugLabel)
             return slugLabel;
           const axUrl = emptyNameAxUrl();
           if (!axUrl || !hasOnlyEmptyImageRoleLinkContent(el))
             return void 0;
-          return labelFromUrl(axUrl) || axUrl.href;
+          return labelFromHttpUrl(axUrl) || axUrl.href;
         }
         function hasOnlyEmptyAltImageLinkContent(el) {
           const visibleChildren = Array.from(el?.children || []).filter((child) => !isHidden(child));
@@ -3233,17 +3233,26 @@
         function hasOnlyEmptyImageRoleLinkContent(el) {
           return hasOnlyEmptyAltImageLinkContent(el) || hasOnlyEmptySvgImageLinkContent(el);
         }
+        function hasEmptySvgAxImageChild(axNode) {
+          const children = (axNode.childIds || []).map((id) => accessibilityNodeById.get(normalize(id) || "")).filter((child2) => Boolean(child2) && !child2.ignored);
+          if (children.length !== 1)
+            return false;
+          const child = children[0];
+          return normalizedAxRole(child.role) === "image" && normalize(child.name) === void 0 && normalize(child.tagName)?.toLowerCase() === "svg";
+        }
         function isEmptySvgImageOnlyAxUrlFallbackLink(el, role, name) {
           if (role !== "link" || !name || !hasOnlyEmptySvgImageLinkContent(el))
             return false;
           const axNode = axNodeForElementRole(el, "link");
           const axUrl = axNode?.properties?.url;
-          if (!axNode || normalize(axNode.name) || axNode.properties?.focusable !== true || typeof axUrl !== "string" || !linkMatchesAxUrl(el, axNode)) {
+          if (!axNode || normalize(axNode.name) || axNode.properties?.focusable !== true || typeof axUrl !== "string" || !linkMatchesAxUrl(el, axNode) || !hasEmptySvgAxImageChild(axNode)) {
             return false;
           }
           try {
             const url = new URL(axUrl);
-            return ["http:", "https:"].includes(url.protocol) && name === url.href;
+            if (!["http:", "https:"].includes(url.protocol))
+              return false;
+            return name === (labelFromHttpUrl(url) || url.href);
           } catch {
             return false;
           }
