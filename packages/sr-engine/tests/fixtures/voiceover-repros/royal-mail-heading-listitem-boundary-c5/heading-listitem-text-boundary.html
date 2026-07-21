@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heading list item text boundary C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      section,
+      article {
+        margin-block: 24px;
+      }
+
+      li {
+        margin-block: 12px;
+      }
+
+      a {
+        color: #0645ad;
+      }
+
+      .offscreen {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-dispatch-ready"
+      data-sr-repro-family="heading-listitem-text-boundary"
+      aria-labelledby="repro-title"
+    >
+      <h1 id="repro-title">Heading list item text boundary</h1>
+
+      <section aria-labelledby="positive-list-heading">
+        <h2 id="positive-list-heading">Positive: heading inside list item</h2>
+        <ul aria-label="List item heading cases">
+          <li id="positive-listitem-heading-body">
+            <h3 id="positive-listitem-heading-body-title">
+              Plan <span>Alpha</span> launch
+            </h3>
+            <p>Short body text.</p>
+          </li>
+          <li id="positive-listitem-heading-linebreak">
+            <h3 id="positive-listitem-heading-linebreak-title">
+              Review <span>Beta</span><br>
+            </h3>
+            <p>Second body text.</p>
+          </li>
+          <li id="positive-listitem-heading-empty-inline">
+            <h3 id="positive-listitem-heading-empty-inline-title">
+              Buy sample<span><span></span></span><span> items online</span>
+            </h3>
+            <p>Third body text.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="negative-outside-heading">
+        <h2 id="negative-outside-heading">Negative: heading outside list item</h2>
+        <article aria-labelledby="negative-outside-heading-title">
+          <h3 id="negative-outside-heading-title">
+            Plan <span>Gamma</span> launch
+          </h3>
+          <p>Short body text.</p>
+        </article>
+        <ul aria-label="Plain sibling list">
+          <li>Plain list text.</li>
+          <li><a href="#outside-link-control">Linked list text</a></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="heading-boundary-title">
+        <h2 id="heading-boundary-title">Heading to static text boundaries</h2>
+        <article aria-labelledby="positive-heading-static-text-title">
+          <h3 id="positive-heading-static-text-title">
+            Try <span><span>new</span><span> tools</span></span>
+          </h3>
+          <p id="positive-heading-static-text-body">Static text follows.</p>
+          <a id="positive-heading-static-text-link" href="#next-step">Next step</a>
+        </article>
+        <article aria-labelledby="positive-heading-split-line-title">
+          <h3 id="positive-heading-split-line-title">
+            Why use <span><span>sample points?</span></span><br>
+          </h3>
+          <p id="positive-heading-split-line-body">Body text after a heading line break.</p>
+        </article>
+      </section>
+
+      <section aria-labelledby="linked-listitem-title">
+        <h2 id="linked-listitem-title">Linked and unlinked list item variants</h2>
+        <ul aria-label="Linked heading list">
+          <li id="positive-linked-listitem-heading">
+            <a href="#linked-card" aria-labelledby="positive-linked-listitem-heading-title positive-linked-listitem-heading-body">
+              <h3 id="positive-linked-listitem-heading-title">
+                Linked <span>heading</span> card
+              </h3>
+              <p id="positive-linked-listitem-heading-body">Linked body text.</p>
+            </a>
+          </li>
+          <li id="positive-unlinked-listitem-heading">
+            <h3 id="positive-unlinked-listitem-heading-title">
+              Unlinked <span>heading</span> card
+            </h3>
+            <p>Unlinked body text.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="same-shape-controls-title">
+        <h2 id="same-shape-controls-title">Same-shape controls</h2>
+        <button id="same-shape-button" type="button">
+          Plan <span>Delta</span> launch
+        </button>
+        <p>
+          <a id="same-shape-inline-link" href="#inline-control">
+            Plan <span>Epsilon</span> launch
+          </a>
+        </p>
+        <div role="list" aria-label="ARIA list controls">
+          <div role="listitem" id="same-shape-aria-listitem">
+            <button type="button" aria-describedby="same-shape-aria-listitem-note">
+              Action <span>Zeta</span> item
+            </button>
+            <span id="same-shape-aria-listitem-note">Short note.</span>
+          </div>
+        </div>
+      </section>
+
+      <p class="offscreen" id="fixture-identity">
+        c5 heading-listitem-text-boundary neutral repro
+      </p>
+    </main>
+  </body>
+</html>
