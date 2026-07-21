@@ -225,6 +225,20 @@ status docs are edited, the responsible receipt must include one
 - `engineGapStillOpen`: boolean
 - `approvedByPhase`: `B`, `C.5`, `E`, or `manual`
 
+Fixture-change coverage may also include hunk-level identity fields when one
+logical insert, delete, or replacement shifts later indexes:
+
+- `logicalHunkId`
+- `candidateRefs`: stable candidate refs covered by the hunk
+- `beforeRange` and `afterRange`
+- `sequenceBeforeSha256` and `sequenceAfterSha256`
+- `indexShift`: signed integer when known
+
+Coverage audits must resolve shifted ranges through stable `candidateRef`
+anchors before declaring uncovered refined-output edits. Downstream per-index
+diffs caused only by a covered insertion or deletion are not independent
+fixture changes.
+
 Raw VoiceOver scan output must not be hand-edited. If a receipt contains a
 fixture change with `field: "expectedAnnouncements"`, it must be an import from
 a named scan artifact or the run must stop before push.

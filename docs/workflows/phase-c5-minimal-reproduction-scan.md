@@ -119,7 +119,7 @@ Record the exact command or workflow invocation in the receipt. A typical
 workflow invocation should include:
 
 ```bash
-gh workflow run "VoiceOver smoke" \
+gh workflow run "VoiceOver scan" \
   --ref <branch> \
   -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/<target>/<family>.html \
   -f capture_step_snapshots=true \
@@ -128,6 +128,10 @@ gh workflow run "VoiceOver smoke" \
   -f max_steps=80 \
   -f navigation_mode=voiceover-right-arrow
 ```
+
+If a workflow alias is rejected before a run is created, record that command as
+an operational no-op, then dispatch the accepted workflow name. A rejected alias
+is not a failed C.5 scan attempt and is not evidence for or against the family.
 
 For structural behavior questions, prefer full debug evidence even in small
 repros. Use `capture_step_screenshots=true`, and enable screen recording when
@@ -145,7 +149,9 @@ Before requesting the family scan, run the local-fixture diagnostic canary and
 record:
 
 - requested repo-relative `fixturePath`
+- requested ref and dispatched workflow run head SHA
 - resolved absolute path and file SHA-256
+- SHA-256 of the fixture file as resolved from the dispatched head git object
 - expected `data-sr-scan-root` marker or fixture identity text
 - rendered page URL/path observed by the runner
 - non-empty rendered HTML, relevant AX-node count, and step-snapshot count
@@ -156,6 +162,11 @@ evidence. If the resolved path, identity, AX, or snapshots are wrong or empty,
 stop the family scan and return `debug-evidence-missing` or
 `scanner-fix-required`. Do not interpret that artifact as evidence for or
 against the mismatch family.
+
+For remote scans, a local working-tree hash is not enough. The canary must bind
+the accepted artifact to the fixture content checked out by the runner at the
+dispatched head; if the branch moved or the file differs, rerun with the
+intended git object before using the artifact.
 
 Use a small `max_steps` value for minimal reproductions so a missing end marker
 or stalled VoiceOver cursor cannot hold the workflow open indefinitely. This is
@@ -196,6 +207,12 @@ Record both fields separately:
   `debug-evidence-missing`
 - `debugEvidenceStatus`: `complete`, `partial`, or `missing`
 
+Also record which positive controls, negative controls, and tail or guard
+windows were reached. If a required negative control or tail window was not
+reached, the verdict applies only to the reached positive contracts. Return the
+unreached shapes to Phase C with a concrete retry, blocker, or parked-evidence
+entry; do not extrapolate the C.5 result across the whole family.
+
 Before Phase C.5 evidence can justify Phase D, keep a family repro path and a
 canary:
 
@@ -227,6 +244,12 @@ Route the original site workflow as follows:
 Do not send a repro fixture to Phase E promotion, add it to the live-site corpus
 manifest, or treat its exact-match status as a site result.
 
+Before terminally parking an `insufficient-repro` family, write a retry gate in
+the receipt. It must name the source `candidateRef`s, what source contract the
+failed repro changed or omitted, the same-structure retry shape, max
+steps/timeouts, the workflow command to dispatch, polling cadence, and the
+post-artifact checks needed to prove the retry preserved the original shape.
+
 ## Receipt
 
 Write `04-minimal-reproduction-scan.json` with:
@@ -238,6 +261,8 @@ Write `04-minimal-reproduction-scan.json` with:
 - reproduction file/path/URL
 - `fixturePathDiagnostic`: requested path, resolved path, SHA-256, identity
   marker, rendered path, AX count, snapshot count, and pass/fail decision
+- `artifactPath`: `repoRelativeFixturePath`, `workflowRunId`, `artifactId`,
+  `downloadRoot`, `scanRoot`, `runnerRenderedUrl`, and `renderedFixturePath`
 - stable source `candidateRef` copied from Phase B/C; source indexes must be
   re-resolved if the fixture changed before the mini scan
 - preserved DOM contract checklist
@@ -257,9 +282,16 @@ Write `04-minimal-reproduction-scan.json` with:
   `conditional-state-confirmed`, `insufficient-repro`, or
   `debug-evidence-missing`
 - `debugEvidenceStatus`: `complete`, `partial`, or `missing`
+- controls reached: positive controls, negative controls, and tail/guard
+  windows, including any unreached indexes
+- retry gate for any unresolved `insufficient-repro` outcome
 - `familyReproPath`
 - `canary`
 - loop-back target phase and handoff reason for the original site workflow
 
 Do not use the current engine output as proof that the reproduction is correct.
 The mini VoiceOver scan is the deciding evidence.
+Every verdict evidence pointer must resolve under the accepted `scanRoot`.
+Distinguish the downloaded artifact root, scan artifact root, rendered file URL,
+and repo-relative fixture path; do not mix stale dispatch paths with the current
+accepted scan.

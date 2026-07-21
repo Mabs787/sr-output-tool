@@ -211,6 +211,13 @@ decisive evidence. Phase C.5 is required when:
 The Phase C receipt must either route the family to `repro-scanner` or record
 why a reproduction scan is impossible or unnecessary.
 
+A C.5 verdict may be applied only to original `candidateRef`s whose DOM, AX,
+and VoiceOver evidence packet shape was matched by the reached reproduction
+contract. Do not extrapolate a positive C.5 result across candidate refs,
+negative controls, or tail windows that were not reached or shape-matched; keep
+those windows unresolved with a specific retry, owner, blocker, and checks
+needed.
+
 Longer page-settle waits do not automatically replace C.5. If a delayed rescan
 still captures a different DOM from manual local testing, keep the existing
 initial-HTML oracle until a focused scan proves the exact structure and

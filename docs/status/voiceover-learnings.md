@@ -40,6 +40,11 @@ decision, tests added or updated, and what future agents must avoid.
 - Treat initial-DOM trust and conditional-state evidence as separate problems:
   a page can still be a useful candidate even when a focused repro has already
   accepted the generic behavior.
+- Scope C.5 conclusions to reached, shape-matched controls only. Bind
+  repo-local scans to the dispatched head fixture SHA, treat rejected workflow
+  aliases as no-op operations, account for fixture edits by stable logical
+  hunks instead of shifted indexes, and require an auditable Phase D engine
+  lease history before Phase E promotion.
 
 ## 2026-07-12 Behavior Lab: Modal Dialogs
 

@@ -96,6 +96,9 @@ sufficient.
 - `recaptureQueueStatus`: queue path, unresolved recapture ids, and receipt
   coverage for skipped A/B plus recapture-only C/E targets
 - `fixturePushReview`
+- `engineLeaseReview`: active lease count, lease history receipts checked,
+  unreleased leases, overlap result, and whether status or promotion is blocked
+  by engine-edit ownership
 - `checks`: commands with status, exit code, summary, and skip reason
 - `agentWorkflowValidation`: command, required phases, status, exit code,
   summary, and any degraded/manual/default-agent blockers
@@ -139,6 +142,8 @@ end a hard mismatch. The promotion receipt must show:
 - the latest compare count and mismatch families
 - which resources were rechecked for each unresolved family
 - whether Phase C.5 was run, requested, or impossible
+- rejected workflow aliases or dispatch commands separately from completed C.5
+  scan attempts
 - what reusable engine/scanner fix was attempted or why it was unsafe
 - the exact blocker, owner, and next action
 
@@ -187,6 +192,11 @@ Block the push when it is not required for scan/workflow execution, when raw
 VoiceOver output appears hand-edited, when refined output changed without
 evidence receipt coverage, or when fixture-heavy changes only reduce mismatch
 counts without valid evidence classifications.
+
+Assess refined-output coverage over logical sequence hunks anchored by stable
+`candidateRef`s. Shifted per-index diffs after a covered insertion or deletion
+are not separate uncovered edits unless their text or evidence changed outside
+the covered hunk.
 
 When engine, fixture, docs, and workflow changes are mixed, do not push the
 whole working tree to trigger a scan. Stage and push only the minimal files

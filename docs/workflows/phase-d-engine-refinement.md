@@ -22,6 +22,10 @@ Use `.codex/agents/engine-refiner.toml`.
   exactly-one-engine-refiner lease for the current branch/run. The receipt
   should name the lease owner, started timestamp, target family, and whether
   any separate worktree exception exists.
+- Phase D receipts must include `leaseAcquiredAt`, `leaseReleasedAt`,
+  `activeLeaseCountAtStart`, `activeLeaseCountAtFinish`, and the overlap-check
+  result for the current branch/run. If a lease remains active or an overlap is
+  detected, stop shared engine edits and hand off the blocker before promotion.
 - Change `packages/sr-engine/src/dom.ts` when traversal, role, label, grouping, state, or order is wrong.
 - Change `packages/sr-engine/src/announcements.ts` when descriptor data is right but wording or order is wrong.
 - Add focused unit coverage for reusable behavior when practical.
