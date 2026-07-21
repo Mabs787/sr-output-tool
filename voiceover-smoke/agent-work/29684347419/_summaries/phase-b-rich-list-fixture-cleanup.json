@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "phase": "B",
+  "agent": "evidence-refiner",
+  "agentConfigPath": ".codex/agents/evidence-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "rich-list-fixture-ready-refs",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-21T03:47:49Z",
+  "finishedAt": "2026-07-21T03:47:49Z",
+  "scope": {
+    "onlyCandidateRefs": [
+      "www-royalmail-com-sending-uk-tracked-24:current-window-5:e80:a75",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-5:e80:a75"
+    ],
+    "ownedFiles": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-24/www-royalmail-com-sending-uk-tracked-24.expected.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-48/www-royalmail-com-sending-uk-tracked-48.expected.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-rich-list-fixture-cleanup.json"
+    ],
+    "excluded": [
+      "raw expectedAnnouncements edits",
+      "engine or reusable scanner logic edits",
+      "repro fixture edits",
+      "docs edits",
+      "fixture promotion"
+    ]
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-b-evidence-refinement.md"
+    ],
+    "phaseCAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-rich-list-c5-audit.json",
+    "c5RunIdReviewed": "29791563158",
+    "c5ReceiptReviewed": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-rich-list-marker-truncation.json",
+    "c5ArtifactReviewed": "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29791563158/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-rich-list-c5-rich-list-marker-truncation",
+    "compareCommandTemplate": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/<target> /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+  },
+  "decisions": {
+    "rawExpectedAnnouncementsPreserved": true,
+    "refinedAnnouncementsTreatedAsUntrustedDraft": true,
+    "appliedFixtureRepairCount": 2,
+    "rejectedCandidateCount": 0,
+    "uncertainCandidateCount": 0,
+    "phaseC5Requested": false,
+    "phaseC5RequestReason": "not needed; original initial rendered HTML, AX, VoiceOver cursor/source, htmlAfterStep, and screenshots agree on 'label too!' while only caption/OCR/chosen text says 'label tool'",
+    "c5UseDecision": "reviewed-not-decisive-for-typo",
+    "c5UseReason": "C.5 run 29791563158 validated rich-list marker/truncation behavior and used neutral generated-label paragraphs; it was not a same-shape source/caption control for this Royal Mail typo family."
+  },
+  "compareSummary": {
+    "before": [
+      {
+        "target": "www-royalmail-com-sending-uk-tracked-24",
+        "expectedCount": 184,
+        "actualCount": 178,
+        "mismatchWindowCount": 13,
+        "grouped": {
+          "list/marker": 11,
+          "role/structure": 2
+        },
+        "candidateWindow": {
+          "window": 5,
+          "expectedIndex": 80,
+          "actualIndex": 75,
+          "firstExpected": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
+          "firstActual": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!"
+        }
+      },
+      {
+        "target": "www-royalmail-com-sending-uk-tracked-48",
+        "expectedCount": 184,
+        "actualCount": 178,
+        "mismatchWindowCount": 13,
+        "grouped": {
+          "list/marker": 11,
+          "role/structure": 2
+        },
+        "candidateWindow": {
+          "window": 5,
+          "expectedIndex": 80,
+          "actualIndex": 75,
+          "firstExpected": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
+          "firstActual": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!"
+        }
+      }
+    ],
+    "after": [
+      {
+        "target": "www-royalmail-com-sending-uk-tracked-24",
+        "expectedCount": 184,
+        "actualCount": 178,
+        "mismatchWindowCount": 13,
+        "grouped": {
+          "list/marker": 10,
+          "punctuation/text-boundary": 1,
+          "role/structure": 2
+        },
+        "candidateWindow": {
+          "window": 5,
+          "expectedIndex": 81,
+          "actualIndex": 76,
+          "labelTypoResolved": true,
+          "remainingFirstExpected": "Alternatively, you can choose to print and apply your own label or opt to drop your Tracked 24 items off at a Post Office branch, Royal Mail Shop, Parcel Locker or at",
+          "remainingFirstActual": "Alternatively, you can choose to print and apply your own label or opt to drop your Tracked 24 items off at a Post Office branch, Royal Mail Shop, Parcel Locker or at a Parcel Postbox near you."
+        }
+      },
+      {
+        "target": "www-royalmail-com-sending-uk-tracked-48",
+        "expectedCount": 184,
+        "actualCount": 178,
+        "mismatchWindowCount": 13,
+        "grouped": {
+          "list/marker": 10,
+          "punctuation/text-boundary": 1,
+          "role/structure": 2
+        },
+        "candidateWindow": {
+          "window": 5,
+          "expectedIndex": 81,
+          "actualIndex": 76,
+          "labelTypoResolved": true,
+          "remainingFirstExpected": "Alternatively, you can choose to print and apply your own label or opt to drop your Tracked 48 items off at a Post Office branch, Royal Mail Shop or at a Parcel",
+          "remainingFirstActual": "Alternatively, you can choose to print and apply your own label or opt to drop your Tracked 48 items off at a Post Office branch, Royal Mail Shop or at a Parcel Postbox near you."
+        }
+      }
+    ],
+    "note": "Mismatch window count did not decrease because the adjacent long-text truncation remains in the same compare window after the typo repair."
+  },
+  "rawHashProof": [
+    {
+      "target": "www-royalmail-com-sending-uk-tracked-24",
+      "beforeRawExpectedAnnouncementsSha256": "61fc752983ed0822296d4149d9b5c68038f10960594f02476da7a067993741b3",
+      "afterRawExpectedAnnouncementsSha256": "61fc752983ed0822296d4149d9b5c68038f10960594f02476da7a067993741b3",
+      "rawIndex81Preserved": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool"
+    },
+    {
+      "target": "www-royalmail-com-sending-uk-tracked-48",
+      "beforeRawExpectedAnnouncementsSha256": "f47b49caa154e44d141f93e0c441ca4e16ddbaef389914aa97d4ec7393b59eb6",
+      "afterRawExpectedAnnouncementsSha256": "f47b49caa154e44d141f93e0c441ca4e16ddbaef389914aa97d4ec7393b59eb6",
+      "rawIndex81Preserved": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool"
+    }
+  ],
+  "evidencePackets": [
+    {
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-uk-tracked-24:tracked-service-source-caption-typo-label-tool:current-window-5:e80:a75",
+        "sourceIndex": 81,
+        "currentRefinedIndex": 80,
+        "rawTextSha256": "d405801120c8ee606e35d4dc20351d91bf25d15d74a7192afdd6d08e9dc9fd57",
+        "refinedTextSha256Before": "d405801120c8ee606e35d4dc20351d91bf25d15d74a7192afdd6d08e9dc9fd57",
+        "refinedTextSha256After": "17e881ac8d1ff351bbe26d9cc0be77f172be730d0fe0133da223b6832adfb301",
+        "previousTextSha256": "4c5bd81c9d15a03a4a311f2328197a59fa2ce9e89dbe3856237a6f676130ea00",
+        "nextTextSha256": "fd72ef6c5791960daf5e88f5cf3a9d5509a7408c84913a9c1ece42af44aaf9b7",
+        "domNodeIds": [
+          "563"
+        ],
+        "htmlSnippetSha256": "520e01dacb1ebfa5cb54000c59c5d00143f187b6e0688061276014aa1ccc0d7a",
+        "family": "tracked-service-source-caption-typo-label-tool",
+        "compareWindowId": "current-window-5",
+        "resolution": "matched"
+      },
+      "expectedText": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
+      "refinedTextBefore": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
+      "refinedTextAfter": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!",
+      "htmlLookup": "initial rendered-html.html and isolated fixture HTML contain data-sr-dom-node-id 563: <p>...We can even bring your label too!</p>; 'label tool' not found in initial HTML",
+      "axLookup": "accessibility-tree.json has StaticText node 7206 named 'You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!' and InlineTextBox node -1000001877 named 'even bring your label too!'",
+      "snapshotSourceLookup": {
+        "voiceoverSourceStep": 84,
+        "chosenAnnouncement": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
+        "captionOcrText": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
+        "voCursorText": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!",
+        "stepSnapshotIndex": 84,
+        "htmlAfterStepFingerprint": "39c7f0c3",
+        "htmlAfterStepStats": {
+          "originalLength": 309863,
+          "compactLength": 116614,
+          "bodyTextLength": 3306,
+          "nodeCount": 1666,
+          "shadowHostCount": 0
+        },
+        "htmlAfterStepBodyTextExcerpt": "How to use this service You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!",
+        "screenshot": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-uk-tracked-24/scans/www-royalmail-com-sending-uk-tracked-24/screenshots/084-step.png shows highlighted paragraph ending 'label too!'"
+      },
+      "textBoundaryLookup": {
+        "outerHTML": "<p data-sr-dom-node-id=\"563\">You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!</p>",
+        "inlineBoundaryChecked": "single paragraph text; no strong/b/em/i/br or child inline boundary at the disputed 'too!' text",
+        "hiddenOffscreenChecked": "no 'label tool' hidden/offscreen text found in initial HTML"
+      },
+      "initialDomStatus": "initial-dom",
+      "stateScope": "initial-dom",
+      "resourceConsistency": "HTML, AX, voCursorText, htmlAfterStep body text, screenshot, and current engine actual agree on 'label too!'; caption/OCR/chosen raw announcement is the only 'label tool' source.",
+      "decision": "edited",
+      "confidence": "high",
+      "reason": "caption-or-ocr-repair"
+    },
+    {
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-uk-tracked-48:tracked-service-source-caption-typo-label-tool:current-window-5:e80:a75",
+        "sourceIndex": 81,
+        "currentRefinedIndex": 80,
+        "rawTextSha256": "91497831131aa1316a42d976f57180b8cb5c89d259345dae613f7ea4b3e711e9",
+        "refinedTextSha256Before": "91497831131aa1316a42d976f57180b8cb5c89d259345dae613f7ea4b3e711e9",
+        "refinedTextSha256After": "0a0abb3b2bec5f4297575e99b7b0fbd9b0b5c922346d574f69493fa4ef18eb75",
+        "previousTextSha256": "4c5bd81c9d15a03a4a311f2328197a59fa2ce9e89dbe3856237a6f676130ea00",
+        "nextTextSha256": "49344e695e77fc4b419d6d8c7c2a9677c9abb5daf97e7ff8cc804c5db5bbac1f",
+        "domNodeIds": [
+          "563"
+        ],
+        "htmlSnippetSha256": "9a34a931ce0333be6783894f1091627d9aabf18b79950ca47de96087516ee80a",
+        "family": "tracked-service-source-caption-typo-label-tool",
+        "compareWindowId": "current-window-5",
+        "resolution": "matched"
+      },
+      "expectedText": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
+      "refinedTextBefore": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
+      "refinedTextAfter": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!",
+      "htmlLookup": "initial rendered-html.html and isolated fixture HTML contain data-sr-dom-node-id 563: <p>...We can even bring your label too!</p>; 'label tool' not found in initial HTML",
+      "axLookup": "accessibility-tree.json has StaticText node 5420 named 'You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!' and InlineTextBox node -1000001873 named 'even bring your label too!'",
+      "snapshotSourceLookup": {
+        "voiceoverSourceStep": 84,
+        "chosenAnnouncement": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
+        "captionOcrText": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
+        "voCursorText": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!",
+        "stepSnapshotIndex": 84,
+        "htmlAfterStepFingerprint": "f8bc1088",
+        "htmlAfterStepStats": {
+          "originalLength": 309984,
+          "compactLength": 116610,
+          "bodyTextLength": 3308,
+          "nodeCount": 1666,
+          "shadowHostCount": 0
+        },
+        "htmlAfterStepBodyTextExcerpt": "How to use this service You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!",
+        "screenshot": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-uk-tracked-48/scans/www-royalmail-com-sending-uk-tracked-48/screenshots/084-step.png shows highlighted paragraph ending 'label too!'"
+      },
+      "textBoundaryLookup": {
+        "outerHTML": "<p data-sr-dom-node-id=\"563\">You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!</p>",
+        "inlineBoundaryChecked": "single paragraph text; no strong/b/em/i/br or child inline boundary at the disputed 'too!' text",
+        "hiddenOffscreenChecked": "no 'label tool' hidden/offscreen text found in initial HTML"
+      },
+      "initialDomStatus": "initial-dom",
+      "stateScope": "initial-dom",
+      "resourceConsistency": "HTML, AX, voCursorText, htmlAfterStep body text, screenshot, and current engine actual agree on 'label too!'; caption/OCR/chosen raw announcement is the only 'label tool' source.",
+      "decision": "edited",
+      "confidence": "high",
+      "reason": "caption-or-ocr-repair"
+    }
+  ],
+  "fixtureChanges": [
+    {
+      "file": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-24/www-royalmail-com-sending-uk-tracked-24.expected.json",
+      "field": "refinedAnnouncements",
+      "range": [
+        80,
+        80
+      ],
+      "before": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
+      "after": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!",
+      "reason": "caption-or-ocr-repair",
+      "evidencePointers": [
+        "rendered-html.html data-sr-dom-node-id 563",
+        "accessibility-tree.json StaticText node 7206",
+        "voiceover-sources.json step 84 voCursorText",
+        "step-snapshots.json step 84 htmlAfterStep fingerprint 39c7f0c3",
+        "screenshots/084-step.png",
+        "compare current-window-5 e80:a75"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": false,
+      "approvedByPhase": "B"
+    },
+    {
+      "file": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-48/www-royalmail-com-sending-uk-tracked-48.expected.json",
+      "field": "refinedAnnouncements",
+      "range": [
+        80,
+        80
+      ],
+      "before": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
+      "after": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!",
+      "reason": "caption-or-ocr-repair",
+      "evidencePointers": [
+        "rendered-html.html data-sr-dom-node-id 563",
+        "accessibility-tree.json StaticText node 5420",
+        "voiceover-sources.json step 84 voCursorText",
+        "step-snapshots.json step 84 htmlAfterStep fingerprint f8bc1088",
+        "screenshots/084-step.png",
+        "compare current-window-5 e80:a75"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": false,
+      "approvedByPhase": "B"
+    }
+  ],
+  "nextPhase": "complete",
+  "handoffReason": "The two fixture-ready rich-list typo refs were repaired in refinedAnnouncements only; raw VoiceOver expectedAnnouncements remain preserved and remaining compare windows are outside this scoped Phase B cleanup.",
+  "handoffFrom": "phase-c-rich-list-c5-audit",
+  "handoffTo": "complete",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "No further work for these two fixture-ready refs",
+    "c5Needed": false,
+    "reason": "Evidence is decisive for caption/OCR repair and both after-compares show the label typo no longer drives current-window-5."
+  }
+}
