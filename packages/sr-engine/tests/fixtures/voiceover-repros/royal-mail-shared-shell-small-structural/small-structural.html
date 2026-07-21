@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phase C.5 shared shell small structural repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        display: grid;
+        gap: 28px;
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      section {
+        display: grid;
+        gap: 10px;
+      }
+
+      .offscreen {
+        height: 1px;
+        left: -10000px;
+        overflow: hidden;
+        position: absolute;
+        top: auto;
+        width: 1px;
+      }
+
+      .hidden-label {
+        visibility: hidden;
+      }
+
+      .form-row {
+        display: grid;
+        gap: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5"
+      aria-label="neutral shared shell small structural repro"
+    >
+      <p>SR Output Tool VoiceOver scan start marker</p>
+      <h1>Shared shell structural variants</h1>
+
+      <section
+        aria-labelledby="offscreen-search-heading"
+        data-sr-variant="offscreen-unlabeled-search-region-textbox-wording"
+      >
+        <h2 id="offscreen-search-heading">Offscreen search textbox</h2>
+        <nav aria-label="Before hidden search">
+          <ul>
+            <li><a href="https://example.test/item-one">First item</a></li>
+            <li><a href="https://example.test/item-two">Second item</a></li>
+            <li><a href="https://example.test/item-three">Third item</a></li>
+            <li><a href="https://example.test/item-four">Fourth item</a></li>
+            <li><a href="https://example.test/item-five">Final fee link</a></li>
+          </ul>
+        </nav>
+        <div class="offscreen">
+          <form role="search" action="https://example.test/search" method="get">
+            <div>
+              <div>
+                <div class="form-row">
+                  <label class="hidden-label" for="hidden-site-search">Search this site</label>
+                  <input
+                    type="text"
+                    name="q"
+                    id="hidden-site-search"
+                    value=""
+                    placeholder="Search"
+                    autocomplete="off"
+                  >
+                </div>
+                <button type="submit" name="submit">Go</button>
+                <input type="hidden" name="form_build_id" value="neutral-hidden-search">
+                <input type="hidden" name="form_id" value="search_theme_form">
+              </div>
+            </div>
+          </form>
+        </div>
+        <nav aria-label="After hidden search">
+          <ul>
+            <li><a href="https://example.test/after-one">After one</a></li>
+            <li><a href="https://example.test/after-two">After two</a></li>
+          </ul>
+        </nav>
+        <form role="search" action="https://example.test/visible-search" method="get">
+          <label for="visible-site-search">Visible search label</label>
+          <input id="visible-site-search" name="q" type="text" placeholder="Search visible" value="">
+          <button type="submit">Visible go</button>
+        </form>
+      </section>
+
+      <article
+        aria-labelledby="article-heading"
+        data-sr-variant="article-group-before-note"
+      >
+        <h2 id="article-heading">Article group before note</h2>
+        <div>
+          <div>
+            <div>
+              <p>A short intro explains that the sample item has changed.</p>
+              <p>A second paragraph says the example is familiar to visitors.</p>
+              <div alt="Image of example items">
+                <img alt="Image of example items" title="example-items">
+              </div>
+              <div></div>
+              <p><strong>Note:</strong> Special examples remain valid and do not need changes.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <section
+        aria-labelledby="inline-link-heading"
+        data-sr-variant="paragraph-inline-link-tail-order"
+      >
+        <h2 id="inline-link-heading">Inline link tail order</h2>
+        <p>If you sell sample items to the public - please click <a href="https://example.test/form">here</a> to access a sample exchange form.</p>
+        <p>Your old sample items can be exchanged by following these steps:</p>
+        <ol>
+          <li>Print a form.</li>
+          <li>Complete the form.</li>
+          <li>Send the package.</li>
+        </ol>
+      </section>
+
+      <section
+        aria-labelledby="country-heading"
+        data-sr-variant="select-country-required-invalid-combobox"
+      >
+        <h2 id="country-heading">Check prices and services available by country</h2>
+        <form action="https://example.test/country" method="get">
+          <div>
+            <label for="edit-country">Select a Country <span title="This field is required.">*</span></label>
+            <select id="edit-country" name="country" required aria-required="true" tabindex="-1">
+              <option value="" selected>Select a Country</option>
+              <option value="alpha">Alpha</option>
+              <option value="bravo">Bravo</option>
+              <option value="charlie">Charlie</option>
+            </select>
+            <div title="">
+              <a>
+                <span>Select a Country</span>
+                <div><b hidden></b></div>
+              </a>
+              <div>
+                <div>
+                  <input type="text">
+                </div>
+                <ul></ul>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="form_build_id" value="neutral-country-selector">
+          <input type="hidden" name="form_id" value="country_selector">
+          <div>
+            <input type="submit" name="op" value="View guide" disabled>
+          </div>
+        </form>
+      </section>
+
+      <p>SR Output Tool VoiceOver scan end marker</p>
+    </main>
+  </body>
+</html>
