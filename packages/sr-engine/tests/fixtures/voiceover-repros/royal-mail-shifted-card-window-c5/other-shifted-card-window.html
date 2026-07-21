@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Other shifted card window C.5 repro</title>
+    <style>
+      body {
+        margin: 24px;
+        font-family: system-ui, sans-serif;
+        line-height: 1.35;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 880px;
+      }
+
+      section,
+      article,
+      footer,
+      header {
+        margin-block: 20px;
+      }
+
+      [data-card],
+      [data-control] {
+        display: block;
+        padding: 12px;
+        border: 1px solid #777;
+      }
+
+      [data-grid] {
+        display: grid;
+        gap: 12px;
+      }
+
+      [data-media-link] {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      img,
+      svg {
+        display: inline-block;
+        width: 42px;
+        height: 30px;
+      }
+
+      [data-offscreen] {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      [hidden] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="other-shifted-card-window"
+      aria-labelledby="fixture-title">
+      <h1 id="fixture-title">Shifted card window repro</h1>
+
+      <section aria-labelledby="signature-one-title">
+        <h2 id="signature-one-title">Focusable banner wrapper before main</h2>
+
+        <div data-control aria-label="Positive banner wrapper variant">
+          <header>
+            <nav aria-label="Multi item navigation">
+              <ul>
+                <li><a href="#nav-alpha">Alpha</a></li>
+                <li><a href="#nav-beta">Beta</a></li>
+                <li><a href="#nav-gamma">Gamma</a></li>
+                <li><a href="#nav-delta" aria-current="page">Delta</a></li>
+              </ul>
+            </nav>
+            <div tabindex="-1" data-offscreen>
+              <h2>Help center</h2>
+              <div role="search">
+                <label for="positive-banner-search">Search</label>
+                <input
+                  id="positive-banner-search"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-label="Search">
+                <ul role="listbox" hidden>
+                  <li role="option" aria-selected="false">Result</li>
+                </ul>
+              </div>
+            </div>
+          </header>
+          <main tabindex="-1" aria-label="Positive banner main">
+            <p>Go to</p>
+            <a href="#positive-banner-link">Personal</a>
+          </main>
+        </div>
+
+        <div data-control aria-label="Negative banner wrapper variant">
+          <header>
+            <nav aria-label="Simple navigation">
+              <ul>
+                <li><a href="#simple-alpha">Alpha</a></li>
+                <li><a href="#simple-beta" aria-current="page">Beta</a></li>
+              </ul>
+            </nav>
+          </header>
+          <main aria-labelledby="negative-banner-heading">
+            <h2 id="negative-banner-heading">Help center</h2>
+            <p>Go to</p>
+            <a href="#negative-banner-link">Personal</a>
+          </main>
+        </div>
+      </section>
+
+      <section aria-labelledby="signature-two-title">
+        <h2 id="signature-two-title">Footer partner media link split</h2>
+
+        <footer aria-labelledby="positive-footer-title">
+          <button
+            id="positive-footer-title"
+            type="button"
+            aria-expanded="false"
+            aria-controls="positive-partner-region">
+            Partner links
+          </button>
+          <div id="positive-partner-region" role="region" aria-labelledby="positive-footer-title">
+            <a data-media-link href="#partner-one" title="Partner one">
+              <img
+                alt="Safe rooms"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 30'%3E%3Crect width='42' height='30'/%3E%3C/svg%3E">
+              <span>Community support</span>
+            </a>
+            <a data-media-link href="#partner-two" tabindex="0" title="Partner two">
+              <img
+                alt="Trusted spaces"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 30'%3E%3Ccircle cx='21' cy='15' r='12'/%3E%3C/svg%3E">
+              <span>Together now</span>
+            </a>
+          </div>
+        </footer>
+
+        <footer aria-labelledby="negative-footer-title">
+          <button
+            id="negative-footer-title"
+            type="button"
+            aria-expanded="false"
+            aria-controls="negative-partner-region">
+            Partner links
+          </button>
+          <div id="negative-partner-region" role="region" aria-labelledby="negative-footer-title">
+            <a data-media-link href="#partner-control-one" aria-label="Partner one community support">
+              <img
+                alt=""
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 30'%3E%3Crect width='42' height='30'/%3E%3C/svg%3E">
+              <span aria-hidden="true">Community support</span>
+            </a>
+            <a data-media-link href="#partner-control-two" aria-label="Partner two together now">
+              <img
+                alt=""
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 30'%3E%3Ccircle cx='21' cy='15' r='12'/%3E%3C/svg%3E">
+              <span aria-hidden="true">Together now</span>
+            </a>
+          </div>
+        </footer>
+      </section>
+
+      <section aria-labelledby="signature-three-title">
+        <h2 id="signature-three-title">Repeated scalar before following heading</h2>
+
+        <article data-card aria-labelledby="positive-repeat-heading">
+          <a href="#repeat-start">Start</a>
+          <a href="#repeat-renew">Renew</a>
+          <p>Quote time one minute</p>
+          <p>Quote time one minute</p>
+          <a href="#repeat-quote">Get quote</a>
+          <div>
+            <h3 id="positive-repeat-heading">What is forwarding?</h3>
+            <p>Mail moves with you.</p>
+            <p><strong>Forwarded mail uses normal delivery.</strong></p>
+          </div>
+        </article>
+
+        <article data-card aria-labelledby="negative-repeat-heading">
+          <a href="#repeat-control-start">Start</a>
+          <a href="#repeat-control-renew">Renew</a>
+          <p>Quote time one minute</p>
+          <a href="#repeat-control-quote">Get quote</a>
+          <div>
+            <h3 id="negative-repeat-heading">What is forwarding?</h3>
+            <p>Mail moves with you.</p>
+            <p><strong>Forwarded mail uses normal delivery.</strong></p>
+          </div>
+        </article>
+      </section>
+
+      <section aria-labelledby="signature-four-title">
+        <h2 id="signature-four-title">Paragraph link before grouped heading</h2>
+
+        <article data-card>
+          <p>
+            Print a label and use the
+            <a href="#positive-app-link">local app</a>.
+            Select scan now, then place the item in the box.
+          </p>
+          <div>
+            <h3>
+              <span>What can you send at a</span><br>
+              <span><span>drop box?</span></span>
+            </h3>
+            <p>Two box types are available.</p>
+            <p><strong>Regular boxes</strong><br>Use these for small items.</p>
+            <p><a href="#positive-large-box"><strong>Large boxes</strong></a><br>Use these for bigger items.</p>
+          </div>
+        </article>
+
+        <article data-card>
+          <p>
+            Print a label and use the
+            <a href="#negative-app-link">local app</a>.
+          </p>
+          <p>Select scan now, then place the item in the box.</p>
+          <h3>What can you send at a drop box?</h3>
+          <p>Two box types are available.</p>
+          <p><strong>Regular boxes</strong></p>
+        </article>
+      </section>
+    </div>
+  </body>
+</html>
