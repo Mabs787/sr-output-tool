@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 rich table cell segmentation</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 780px;
+        padding: 24px;
+      }
+
+      section {
+        margin-block: 20px;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-block: 12px;
+        width: 100%;
+      }
+
+      caption {
+        font-weight: 700;
+        padding-block-end: 6px;
+        text-align: left;
+      }
+
+      td {
+        border: 1px solid #777;
+        padding: 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      td p {
+        margin: 0 0 6px;
+      }
+
+      td p:last-child {
+        margin-block-end: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-draft"
+      data-sr-repro-family="native-table-rich-price-cell-segmentation"
+    >
+      <h1>Rich table cell segmentation</h1>
+
+      <section aria-labelledby="positive-heading">
+        <h2 id="positive-heading">Positive control</h2>
+        <p>
+          Short intro text
+          <a href="#guides">Guide link</a>.
+        </p>
+        <div>
+          <table>
+            <caption>Domestic</caption>
+            <tbody>
+              <tr>
+                <td>Letters</td>
+                <td>
+                  <p>Plan A from <strong>1.80</strong></p>
+                  <p>Plan A signed from <strong>3.80</strong></p>
+                </td>
+                <td>
+                  <p>Plan B from <strong>0.91</strong></p>
+                  <p>Plan B signed from <strong>2.91</strong></p>
+                </td>
+              </tr>
+              <tr>
+                <td>Parcels</td>
+                <td>
+                  <p>Plan A from <strong>5.15</strong></p>
+                  <p>Tracked A from <strong>4.65</strong></p>
+                  <p>express<strong>24 </strong>from <strong>12.50</strong></p>
+                  <p>express<strong>AM </strong>from <strong>16.50</strong></p>
+                </td>
+                <td>
+                  <p>Plan B from <strong>3.95</strong></p>
+                  <p>Tracked B from <strong>3.65</strong></p>
+                  <p>express<strong>48 </strong>from <strong>11.95</strong></p>
+                  <p>express<strong>Large </strong>from <strong>51.65</strong></p>
+                  <p></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Online prices shown</p>
+        <div id="guides">
+          <p>
+            <a href="#guide-a">View the domestic price guide Opens in a new window</a>
+            <span>(pdf, 442 KB)</span>
+          </p>
+          <p>
+            <a href="#guide-b">View the parcel price guide Opens in a new window</a>
+            <span>(pdf, 1 MB)</span>
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="positive-second-heading">
+        <h2 id="positive-second-heading">Second positive control</h2>
+        <div>
+          <table>
+            <caption>International</caption>
+            <tbody>
+              <tr>
+                <td>Letters</td>
+                <td>
+                  <p>Standard from <strong>3.40</strong></p>
+                  <p>Tracked signed from <strong>8.50</strong></p>
+                </td>
+                <td>
+                  <p>Tracked from <strong>8.10</strong></p>
+                  <p></p>
+                </td>
+              </tr>
+              <tr>
+                <td>Parcels</td>
+                <td>
+                  <p>Standard from <strong>6.60</strong></p>
+                  <p>Tracked heavy from <strong>11.10</strong></p>
+                  <p>global express <strong>53.20</strong></p>
+                  <p>global priority <strong>16.25</strong></p>
+                </td>
+                <td>
+                  <p>Tracked from <strong>8.15</strong></p>
+                  <p>Ireland express <strong>16.68</strong></p>
+                  <p>global row <strong>28.80</strong></p>
+                  <p></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Online prices shown</p>
+        <div>
+          <div>
+            <p>
+              <a href="#guide-c">View the international price guide Opens in a new window</a>
+              <span>(pdf, 442 KB)</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Same-structure negative control</h2>
+        <div>
+          <table>
+            <caption>Plain control</caption>
+            <tbody>
+              <tr>
+                <td>Letters</td>
+                <td>
+                  <p>Plan C from 1.00</p>
+                  <p>Plan C signed from 2.00</p>
+                </td>
+                <td>
+                  <p>Plan D from 3.00</p>
+                  <p>Plan D signed from 4.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>Parcels</td>
+                <td>
+                  <p>Plan C parcel from 5.00</p>
+                  <p>Tracked C from 6.00</p>
+                </td>
+                <td>
+                  <p>Plan D parcel from 7.00</p>
+                  <p>Tracked D from 8.00</p>
+                  <p></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Plain prices shown</p>
+      </section>
+    </main>
+  </body>
+</html>

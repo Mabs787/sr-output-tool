@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Residual card media boundary repro</title>
+    <style>
+      [data-sr-scan-root] {
+        max-width: 760px;
+        margin: 24px;
+        font-family: system-ui, sans-serif;
+        line-height: 1.35;
+      }
+
+      section {
+        margin-block: 24px;
+      }
+
+      article {
+        display: block;
+        margin-block: 12px;
+        padding: 12px;
+        border: 1px solid #777;
+      }
+
+      [data-hidden-label] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      [data-media-only],
+      [data-hidden-media] {
+        display: inline-flex;
+        width: 44px;
+        height: 44px;
+        align-items: center;
+        justify-content: center;
+        margin-block-end: 8px;
+        border: 1px solid #555;
+      }
+
+      svg[role="img"],
+      [aria-hidden="true"] svg {
+        width: 30px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="draft" aria-labelledby="fixture-title">
+      <h1 id="fixture-title">Card media boundary repro</h1>
+
+      <section aria-labelledby="positive-heading">
+        <h2 id="positive-heading">Positive controls</h2>
+
+        <article role="article" aria-labelledby="positive-alpha-title">
+          <span data-hidden-label>Upload marker</span>
+          <a data-media-only href="#positive-alpha-media">
+            <svg role="img" aria-label="" viewBox="0 0 30 30" focusable="false">
+              <rect x="4" y="4" width="22" height="22"></rect>
+            </svg>
+          </a>
+          <div role="group" aria-labelledby="positive-alpha-title">
+            <h3 id="positive-alpha-title">Small box</h3>
+            <p>Fits one item.</p>
+          </div>
+        </article>
+
+        <article role="article" aria-labelledby="positive-beta-title">
+          <span data-hidden-label>Upload marker</span>
+          <a data-media-only href="#positive-beta-media">
+            <svg role="img" aria-label="" viewBox="0 0 30 30" focusable="false">
+              <circle cx="15" cy="15" r="11"></circle>
+            </svg>
+          </a>
+          <div role="group" aria-labelledby="positive-beta-title">
+            <h3 id="positive-beta-title">Medium box</h3>
+            <p>Holds two items.</p>
+          </div>
+        </article>
+
+        <article role="article" aria-labelledby="positive-gamma-title">
+          <svg role="img" aria-label="sample card picture" viewBox="0 0 60 36" focusable="false">
+            <rect x="4" y="4" width="52" height="28"></rect>
+          </svg>
+          <div role="group" aria-labelledby="positive-gamma-title">
+            <h3 id="positive-gamma-title">Picture card</h3>
+            <p>Short body text.</p>
+          </div>
+        </article>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+
+        <article role="article" aria-labelledby="negative-alpha-title">
+          <span data-hidden-label>Upload marker</span>
+          <span data-hidden-media aria-hidden="true">
+            <svg viewBox="0 0 30 30" focusable="false" aria-hidden="true">
+              <rect x="4" y="4" width="22" height="22"></rect>
+            </svg>
+          </span>
+          <div role="group" aria-labelledby="negative-alpha-title">
+            <h3 id="negative-alpha-title">Small box</h3>
+            <p>Fits one item.</p>
+          </div>
+        </article>
+
+        <article role="article" aria-labelledby="negative-beta-title">
+          <span data-hidden-label>Upload marker</span>
+          <div role="group" aria-labelledby="negative-beta-title">
+            <h3 id="negative-beta-title">Medium box</h3>
+            <p>Holds two items.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

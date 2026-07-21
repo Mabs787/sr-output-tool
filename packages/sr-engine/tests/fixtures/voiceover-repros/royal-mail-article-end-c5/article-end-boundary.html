@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article end boundary C.5 repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [data-sr-scan-root] { max-width: 760px; }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .module { margin: 0 0 32px; }
+      .promo-shell { display: grid; grid-template-columns: 1fr auto; gap: 16px; }
+      .promo-media img { width: 90px; height: 64px; object-fit: cover; }
+      .breadcrumb svg { width: 0; height: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-repro-family="article-end-boundary" data-sr-repro-id="c5-article-end-boundary">
+      <h1>Article end boundary</h1>
+
+      <section class="module" aria-labelledby="positive-heading">
+        <h2 id="positive-heading">Positive control</h2>
+        <article aria-label="Plan article">
+          <div>
+            <div>
+              <div>
+                <div class="promo-shell">
+                  <div>
+                    <div>
+                      <div>
+                        <div></div>
+                        <div>
+                          <div>
+                            <h3>Plan update</h3>
+                            <p>Short summary text.</p>
+                            <p><a href="#positive-plan">Read plan details</a></p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="promo-media"><img alt="Plan card" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav class="breadcrumb" role="navigation" aria-labelledby="positive-breadcrumb">
+                  <h2 id="positive-breadcrumb" class="visually-hidden">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#positive-home">Home</a><span><svg aria-hidden="true" role="img"></svg></span></li>
+                    <li><a href="#positive-section">Section</a><span><svg aria-hidden="true" role="img"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span> Plan</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" aria-labelledby="negative-no-article-heading">
+        <h2 id="negative-no-article-heading">Negative control without article</h2>
+        <div aria-label="Plan block">
+          <div>
+            <div>
+              <div>
+                <div class="promo-shell">
+                  <div>
+                    <div>
+                      <div>
+                        <div></div>
+                        <div>
+                          <div>
+                            <h3>Plan update</h3>
+                            <p>Short summary text.</p>
+                            <p><a href="#negative-plan">Read plan details</a></p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="promo-media"><img alt="Plan card" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav class="breadcrumb" role="navigation" aria-labelledby="negative-no-article-breadcrumb">
+                  <h2 id="negative-no-article-breadcrumb" class="visually-hidden">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#negative-home">Home</a><span><svg aria-hidden="true" role="img"></svg></span></li>
+                    <li><a href="#negative-section">Section</a><span><svg aria-hidden="true" role="img"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span> Plan</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" aria-labelledby="negative-contained-heading">
+        <h2 id="negative-contained-heading">Negative control with contained breadcrumb</h2>
+        <article aria-label="Contained plan article">
+          <div>
+            <div>
+              <div>
+                <div class="promo-shell">
+                  <div>
+                    <div>
+                      <div>
+                        <div></div>
+                        <div>
+                          <div>
+                            <h3>Plan update</h3>
+                            <p>Short summary text.</p>
+                            <p><a href="#contained-plan">Read plan details</a></p>
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="promo-media"><img alt="Plan card" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></div>
+                </div>
+                <nav class="breadcrumb" role="navigation" aria-labelledby="negative-contained-breadcrumb">
+                  <h2 id="negative-contained-breadcrumb" class="visually-hidden">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#contained-home">Home</a><span><svg aria-hidden="true" role="img"></svg></span></li>
+                    <li><a href="#contained-section">Section</a><span><svg aria-hidden="true" role="img"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span> Plan</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

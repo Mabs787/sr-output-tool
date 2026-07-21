@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 footer list position truncation</title>
+    <style>
+      [hidden] {
+        display: none;
+      }
+
+      body {
+        font: 16px/1.4 system-ui, sans-serif;
+        margin: 24px;
+      }
+
+      .scan-surface {
+        max-width: 46rem;
+      }
+
+      footer {
+        border-top: 1px solid #ccc;
+        padding-top: 1rem;
+      }
+
+      svg {
+        height: 1em;
+        width: 1em;
+      }
+
+      .visually-hidden {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>Before footer.</p>
+    </main>
+
+    <div
+      class="scan-surface"
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      aria-label="neutral footer list position truncation repro"
+    >
+      <footer role="contentinfo">
+        <nav role="navigation" aria-labelledby="footer-menu-heading">
+          <h2 id="footer-menu-heading">Fixture footer</h2>
+          <div>
+            <ul>
+              <li>
+                <div
+                  role="button"
+                  id="footer-section-alpha"
+                  aria-controls="footer-section-alpha-links"
+                  aria-expanded="false"
+                >
+                  <h5>Alpha</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="footer-section-alpha-links"
+                  aria-labelledby="footer-section-alpha"
+                >
+                  <ul>
+                    <li><a href="#alpha-one">Alpha one</a></li>
+                    <li><a href="#alpha-two">Alpha two</a></li>
+                    <li><a href="#alpha-three">Alpha three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="footer-section-beta"
+                  aria-controls="footer-section-beta-links"
+                  aria-expanded="false"
+                >
+                  <h5>Beta</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="footer-section-beta-links"
+                  aria-labelledby="footer-section-beta"
+                >
+                  <ul>
+                    <li><a href="#beta-one">Beta one</a></li>
+                    <li><a href="#beta-two">Beta two</a></li>
+                    <li><a href="#beta-three">Beta three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="footer-section-gamma"
+                  aria-controls="footer-section-gamma-links"
+                  aria-expanded="false"
+                >
+                  <h5>Gamma</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="footer-section-gamma-links"
+                  aria-labelledby="footer-section-gamma"
+                >
+                  <ul>
+                    <li><a href="#gamma-one">Gamma one</a></li>
+                    <li><a href="#gamma-two">Gamma two</a></li>
+                    <li><a href="#gamma-three">Gamma three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="footer-section-long"
+                  aria-controls="footer-section-long-links"
+                  aria-expanded="false"
+                >
+                  <h5>Long links</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="footer-section-long-links"
+                  aria-labelledby="footer-section-long"
+                >
+                  <ul>
+                    <li><a href="#long-a">Help desk</a></li>
+                    <li><a href="#long-b">Contact team</a></li>
+                    <li><a href="#long-c">Work with us</a></li>
+                    <li>
+                      <a href="#long-d">
+                        Courier partner
+                        <span>service directory<span>Opens in a new window</span></span>
+                        <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                          <path d="M2 2h6v6H2z"></path>
+                        </svg>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <nav role="navigation" aria-labelledby="control-footer-menu-heading">
+          <h2 id="control-footer-menu-heading">Fixture footer control</h2>
+          <div>
+            <ul>
+              <li>
+                <div
+                  role="button"
+                  id="control-section-alpha"
+                  aria-controls="control-section-alpha-links"
+                  aria-expanded="false"
+                >
+                  <h5>Alpha</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="control-section-alpha-links"
+                  aria-labelledby="control-section-alpha"
+                >
+                  <ul>
+                    <li><a href="#control-alpha-one">Alpha one</a></li>
+                    <li><a href="#control-alpha-two">Alpha two</a></li>
+                    <li><a href="#control-alpha-three">Alpha three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="control-section-beta"
+                  aria-controls="control-section-beta-links"
+                  aria-expanded="false"
+                >
+                  <h5>Beta</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="control-section-beta-links"
+                  aria-labelledby="control-section-beta"
+                >
+                  <ul>
+                    <li><a href="#control-beta-one">Beta one</a></li>
+                    <li><a href="#control-beta-two">Beta two</a></li>
+                    <li><a href="#control-beta-three">Beta three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="control-section-gamma"
+                  aria-controls="control-section-gamma-links"
+                  aria-expanded="false"
+                >
+                  <h5>Gamma</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="control-section-gamma-links"
+                  aria-labelledby="control-section-gamma"
+                >
+                  <ul>
+                    <li><a href="#control-gamma-one">Gamma one</a></li>
+                    <li><a href="#control-gamma-two">Gamma two</a></li>
+                    <li><a href="#control-gamma-three">Gamma three</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div
+                  role="button"
+                  id="control-section-short"
+                  aria-controls="control-section-short-links"
+                  aria-expanded="false"
+                >
+                  <h5>Short links</h5>
+                  <span>
+                    <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                      <path d="M2 3h6L5 7z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  role="region"
+                  id="control-section-short-links"
+                  aria-labelledby="control-section-short"
+                >
+                  <ul>
+                    <li><a href="#short-a">Help desk</a></li>
+                    <li><a href="#short-b">Contact team</a></li>
+                    <li><a href="#short-c">Work with us</a></li>
+                    <li>
+                      <a href="#short-d">
+                        Courier
+                        <span>link<span class="visually-hidden">Opens in a new window</span></span>
+                        <svg aria-hidden="true" role="img" viewBox="0 0 10 10">
+                          <path d="M2 2h6v6H2z"></path>
+                        </svg>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>

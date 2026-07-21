@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Collapsed button group suffix C.5</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      footer {
+        margin-top: 24px;
+      }
+
+      .visually-hidden-control {
+        display: none;
+      }
+
+      .menu-set,
+      .partner-set,
+      .tracking-card {
+        margin: 16px 0;
+      }
+
+      .menu-set > div,
+      .partner-set > div {
+        margin: 12px 0;
+      }
+
+      [role="button"],
+      button {
+        font: inherit;
+      }
+
+      ul {
+        margin: 8px 0 0 20px;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-status="phase-c5-draft">
+      <h1>Collapsed button group suffix C.5</h1>
+      <p>Neutral controls for a focused VoiceOver scan.</p>
+
+      <article aria-label="Native button same-structure control" class="tracking-card">
+        <h2>Lookup panel</h2>
+        <form>
+          <label for="lookup-id">
+            Reference number
+            <input id="lookup-id" type="text" placeholder="A123" aria-label="Reference number">
+          </label>
+          <button type="submit">Check item</button>
+          <button type="button">Need help?</button>
+          <button type="button">Language</button>
+        </form>
+      </article>
+
+      <footer aria-hidden="false">
+        <div class="menu-set" aria-label="Footer sections">
+          <div>
+            <input id="menu-a-toggle" class="visually-hidden-control" type="checkbox">
+            <label
+              for="menu-a-toggle"
+              id="menu-a"
+              role="button"
+              aria-expanded="false"
+              aria-controls="menu-a-links">Plan A</label>
+            <div id="menu-a-links" role="region" aria-labelledby="menu-a">
+              <ul>
+                <li><a title="First option" href="#plan-a-first">First option</a></li>
+                <li><a title="Second option" href="#plan-a-second">Second option</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <input id="menu-b-toggle" class="visually-hidden-control" type="checkbox">
+            <label
+              for="menu-b-toggle"
+              id="menu-b"
+              role="button"
+              aria-expanded="false"
+              aria-controls="menu-b-links">Plan B</label>
+            <div id="menu-b-links" role="region" aria-labelledby="menu-b">
+              <ul>
+                <li><a title="Alpha link" href="#plan-b-alpha">Alpha link</a></li>
+                <li><a title="Beta link" href="#plan-b-beta">Beta link</a></li>
+                <li><a title="Gamma link" href="#plan-b-gamma">Gamma link</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="partner-set" aria-label="Partner links">
+          <div>
+            <span role="button" aria-expanded="false">Partners</span>
+          </div>
+          <div><a title="Partner one" href="#partner-one">Partner one</a></div>
+          <div><a title="Partner two" tabindex="0">Partner two</a></div>
+          <div><a title="Partner three" href="#partner-three">Partner three</a></div>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Phase C.5 rich list marker truncation repro</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 24px;
+        line-height: 1.45;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      article,
+      section {
+        margin-block: 24px;
+      }
+
+      h2,
+      h3 {
+        margin-block: 0 8px;
+      }
+
+      ul {
+        margin-block: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-sr-fixture-id="c5-rich-list-marker-truncation">
+      <p class="visually-hidden" data-sr-voiceover-scan-boundary="start" tabindex="-1">
+        SR Output Tool VoiceOver scan start marker
+      </p>
+
+      <article aria-labelledby="rich-copy-heading">
+        <h2 id="rich-copy-heading">
+          <span>Planning guide</span><br>
+          <span><span>for collection points</span></span>
+        </h2>
+        <p>
+          The demo guide explains how nearby collection points support quick local drop off for letters and small parcels.
+        </p>
+        <p>
+          Buy a label using <a href="https://example.test/app">the app</a> or
+          <a href="https://example.test/site">website</a>, print it, attach it, and keep the receipt for later checks.
+        </p>
+        <p>
+          For confirmation, open the
+          <a href="https://example.test/help">demo help app</a>. Select "Get receipt", choose "Post item now", and scan the code on the label. Then place the item in the collection point and continue.
+        </p>
+      </article>
+
+      <section aria-labelledby="rich-list-heading">
+        <h3 id="rich-list-heading">Positive control: rich inline list</h3>
+        <p>These list items preserve native markers, inline links, trailing text nodes, and item position context.</p>
+        <ul>
+          <li>
+            <a href="https://example.test/buy">Buy label online</a>
+            <span>(you can use the demo app)</span> or purchase a stamp for your letter
+          </li>
+          <li>
+            Print your label and attach it to the item
+          </li>
+          <li>
+            <a href="https://example.test/proof">Use the app</a>
+            to scan your label for proof of posting
+          </li>
+          <li>
+            <a href="https://example.test/find">Find a collection point</a>, post your item, and leave the rest to us
+          </li>
+        </ul>
+      </section>
+
+      <article aria-labelledby="truncate-heading">
+        <h3 id="truncate-heading">
+          <span>Positive control: rich copy boundary</span>
+        </h3>
+        <p>
+          This paragraph keeps the long text-node boundary used by the source evidence. It describes a sample service with enough words to wrap across lines, and it ends after a comma so a focused scan can show whether VoiceOver stops before the next sentence or continues through the full static text.
+          The next sentence remains in the same paragraph to preserve the truncation-sensitive boundary.
+        </p>
+        <p>
+          Alternatively, explore our <a href="https://example.test/archive">annual collection</a>, showcasing a full set in a premium presentation - useful for comparison.
+        </p>
+      </article>
+
+      <section aria-labelledby="hyphen-list-heading">
+        <h3 id="hyphen-list-heading">Positive control: marker plus hyphen text</h3>
+        <p><strong>Popular ideas:</strong></p>
+        <ul>
+          <li><a href="https://example.test/framed">Framed set</a> - mounted artwork from recent issues.</li>
+          <li><a href="https://example.test/sheets">Miniature sheets</a> - a distinctive alternative to the main set.</li>
+          <li><strong>Prestige book</strong> - a keepsake combining design and narrative.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="negative-heading">
+        <h3 id="negative-heading">Negative control: same structure without rich boundary</h3>
+        <p>These controls keep the same article, heading, list, and item structure while removing the inline link boundary or truncation-prone long text.</p>
+        <article aria-labelledby="negative-copy-heading">
+          <h3 id="negative-copy-heading"><span>Short guide</span></h3>
+          <p>Short copy stays in one static text node.</p>
+        </article>
+        <ul>
+          <li>First plain item without an inline link</li>
+          <li>Second plain item without trailing linked text</li>
+          <li>Third plain item without punctuation-sensitive joining</li>
+        </ul>
+      </section>
+
+      <p class="visually-hidden" data-sr-voiceover-scan-boundary="end" tabindex="-1">
+        SR Output Tool VoiceOver scan end marker
+      </p>
+    </main>
+  </body>
+</html>
