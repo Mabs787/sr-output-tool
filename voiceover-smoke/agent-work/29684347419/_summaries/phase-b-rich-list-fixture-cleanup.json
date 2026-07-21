@@ -258,6 +258,23 @@
         80,
         80
       ],
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-uk-tracked-24:tracked-service-source-caption-typo-label-tool:current-window-5:e80:a75",
+        "sourceIndex": 81,
+        "currentRefinedIndex": 80,
+        "rawTextSha256": "d405801120c8ee606e35d4dc20351d91bf25d15d74a7192afdd6d08e9dc9fd57",
+        "refinedTextSha256Before": "d405801120c8ee606e35d4dc20351d91bf25d15d74a7192afdd6d08e9dc9fd57",
+        "refinedTextSha256After": "17e881ac8d1ff351bbe26d9cc0be77f172be730d0fe0133da223b6832adfb301",
+        "previousTextSha256": "4c5bd81c9d15a03a4a311f2328197a59fa2ce9e89dbe3856237a6f676130ea00",
+        "nextTextSha256": "fd72ef6c5791960daf5e88f5cf3a9d5509a7408c84913a9c1ece42af44aaf9b7",
+        "domNodeIds": [
+          "563"
+        ],
+        "htmlSnippetSha256": "520e01dacb1ebfa5cb54000c59c5d00143f187b6e0688061276014aa1ccc0d7a",
+        "family": "tracked-service-source-caption-typo-label-tool",
+        "compareWindowId": "current-window-5",
+        "resolution": "matched"
+      },
       "before": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label tool",
       "after": "You can purchase your Tracked 24 items online and book a collection from your door. We can even bring your label too!",
       "reason": "caption-or-ocr-repair",
@@ -280,6 +297,23 @@
         80,
         80
       ],
+      "candidateRef": {
+        "candidateId": "www-royalmail-com-sending-uk-tracked-48:tracked-service-source-caption-typo-label-tool:current-window-5:e80:a75",
+        "sourceIndex": 81,
+        "currentRefinedIndex": 80,
+        "rawTextSha256": "91497831131aa1316a42d976f57180b8cb5c89d259345dae613f7ea4b3e711e9",
+        "refinedTextSha256Before": "91497831131aa1316a42d976f57180b8cb5c89d259345dae613f7ea4b3e711e9",
+        "refinedTextSha256After": "0a0abb3b2bec5f4297575e99b7b0fbd9b0b5c922346d574f69493fa4ef18eb75",
+        "previousTextSha256": "4c5bd81c9d15a03a4a311f2328197a59fa2ce9e89dbe3856237a6f676130ea00",
+        "nextTextSha256": "49344e695e77fc4b419d6d8c7c2a9677c9abb5daf97e7ff8cc804c5db5bbac1f",
+        "domNodeIds": [
+          "563"
+        ],
+        "htmlSnippetSha256": "9a34a931ce0333be6783894f1091627d9aabf18b79950ca47de96087516ee80a",
+        "family": "tracked-service-source-caption-typo-label-tool",
+        "compareWindowId": "current-window-5",
+        "resolution": "matched"
+      },
       "before": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label tool",
       "after": "You can purchase your Tracked 48 items online and book a collection from your door. We can even bring your label too!",
       "reason": "caption-or-ocr-repair",
