@@ -2648,6 +2648,24 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return group.contains(el);
   }
 
+  function collapsedAriaRoleButtonInGroupedContext(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (el?.getAttribute?.("role") !== "button") return false;
+    if (parseBooleanAttribute(el, "aria-expanded") !== false) return false;
+    if (normalizedPopup(el)) return false;
+
+    const tag = el.tagName?.toLowerCase();
+    if (tag === "button" || tag === "a") return false;
+
+    const namedGroup = el.closest?.("[role='group'][aria-label], [role='group'][aria-labelledby]");
+    if (namedGroup && !isHidden(namedGroup) && accessibleName(namedGroup, "group")) {
+      return true;
+    }
+
+    const footer = el.closest?.("footer, [role='contentinfo']");
+    return Boolean(footer && !isHidden(footer));
+  }
+
   function nativeButtonSingleTextAndDecorativeMedia(el: any, role = implicitRole(el)): string | undefined {
     if (!isPlainNativeButton(el, role)) return undefined;
     if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
@@ -13637,6 +13655,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       role === "button" && isFooterLegalActionButton(el, role);
     const suppressNamedGroupCollapsedControlGroup =
       collapsedControlInNamedGroup(el, role, nativeDetailsSummary);
+    const suppressGroupedCollapsedAriaRoleButtonGroup =
+      collapsedAriaRoleButtonInGroupedContext(el, role);
     const suppressCollapsedAnchorButtonGroup =
       isAxConfirmedCollapsedAnchorButtonWithoutGroup(el, role, name);
     const collapsedVisibleControlledRegionButton =
@@ -13836,6 +13856,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           !suppressPaginationButtonGroup &&
           !suppressFooterLegalActionButtonGroup &&
           !suppressNamedGroupCollapsedControlGroup &&
+          !suppressGroupedCollapsedAriaRoleButtonGroup &&
           !suppressCollapsedAnchorButtonGroup &&
           !(role === "button" && el.hasAttribute("aria-pressed")) &&
           (Boolean(headingButton) ||

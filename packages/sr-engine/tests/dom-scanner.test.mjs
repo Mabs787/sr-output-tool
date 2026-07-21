@@ -5424,6 +5424,47 @@ test("scanSubtree suppresses child control group suffixes inside named action gr
   );
 });
 
+test("scanSubtree omits group suffix for collapsed ARIA role buttons in grouped footer context", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <footer>
+          <div aria-label="Footer sections">
+            <div>
+              <input id="plan-a-toggle" type="checkbox" hidden>
+              <label
+                for="plan-a-toggle"
+                id="plan-a"
+                role="button"
+                aria-expanded="false"
+                aria-controls="plan-a-links"
+              >Plan A</label>
+              <div id="plan-a-links" role="region" aria-labelledby="plan-a">
+                <a href="/first">First option</a>
+              </div>
+            </div>
+            <div>
+              <span role="button" aria-expanded="false">Partners</span>
+            </div>
+          </div>
+          <button type="button" aria-expanded="false">Native menu</button>
+          <a role="button" aria-expanded="false">Anchor menu</a>
+        </footer>
+      </main>
+    `),
+    [
+      "main",
+      "Footer sections, group",
+      "Plan A, collapsed, button",
+      "Partners, collapsed, button",
+      "end of, Footer sections, group",
+      "Native menu, collapsed, button, group",
+      "Anchor menu, collapsed, button, group",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree keeps a group suffix on collapsed native buttons with visibility-hidden controlled regions", () => {
   assert.deepEqual(
     scanHtml(
@@ -5620,11 +5661,11 @@ test("scanSubtree scans collapsed controlled regions when AX keeps the region vi
     [
       "footer",
       "Footer, navigation",
-      "Alpha, collapsed, button, group",
+      "Alpha, collapsed, button",
       "Alpha, region",
       "link, Alpha one",
       "end of, Alpha, region",
-      "Epsilon, collapsed, button, group",
+      "Epsilon, collapsed, button",
       "Zeta, expanded, button, group",
       "Zeta, region",
       "link, Visible one",
@@ -5691,7 +5732,7 @@ test("scanSubtree keeps AX-visible collapsed controlled region lists at the Voic
       "footer",
       "Footer, navigation",
       "list 1 item",
-      "Alpha, collapsed, button, group",
+      "Alpha, collapsed, button",
       "Alpha, region",
       "list 1 item",
       "link, Alpha one",
