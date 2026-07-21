@@ -4,10 +4,37 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "codex-phase-d-paragraph-inline-link-br-order-2026-07-21T06:09:44Z",
-  "startedAt": "2026-07-21T06:09:44Z",
-  "releasedAt": "2026-07-21T06:25:02Z",
-  "targetFamily": "paragraph-inline-link-br-order",
+  "leaseOwner": "codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z",
+  "startedAt": "2026-07-21T06:29:07Z",
+  "adoptedBy": "top-level-codex-recovery-2026-07-21T10:39:06Z",
+  "adoptedAt": "2026-07-21T10:39:06Z",
+  "releasedAt": "2026-07-21T10:39:06Z",
+  "targetFamily": "native-li-inline-child-boundary-traversal",
   "separateWorktreeException": false,
-  "activeEngineRefinerCount": 0
+  "activeEngineRefinerCount": 0,
+  "overlapCheck": {
+    "activeLeaseCountAtStart": 0,
+    "currentLeaseCount": 0,
+    "activeLeaseCountAtFinish": 0,
+    "result": "no-overlap",
+    "evidence": "Recovered the only active lease left by interrupted owner codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z; user confirmed no other engine-refiner was active."
+  },
+  "leaseHistory": [
+    {
+      "leaseOwner": "codex-phase-d-paragraph-inline-link-br-order-2026-07-21T06:09:44Z",
+      "targetFamily": "paragraph-inline-link-br-order",
+      "startedAt": "2026-07-21T06:09:44Z",
+      "releasedAt": "2026-07-21T06:25:02Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z",
+      "targetFamily": "native-li-inline-child-boundary-traversal",
+      "startedAt": "2026-07-21T06:29:07Z",
+      "adoptedBy": "top-level-codex-recovery-2026-07-21T10:39:06Z",
+      "adoptedAt": "2026-07-21T10:39:06Z",
+      "releasedAt": "2026-07-21T10:39:06Z",
+      "status": "recovered-and-released"
+    }
+  ]
 }

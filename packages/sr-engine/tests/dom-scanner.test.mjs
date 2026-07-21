@@ -12904,6 +12904,222 @@ test("scanSubtree splits AX-confirmed contribution list items", () => {
   );
 });
 
+test("scanSubtree splits native inline list items at AX-confirmed child boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul data-sr-dom-node-id="10">
+          <li data-sr-dom-node-id="11">
+            <strong data-sr-dom-node-id="12">Alpha intro</strong>, plain bridge
+            <strong data-sr-dom-node-id="13">£200 value</strong>
+            before this
+            <a href="/download" data-sr-dom-node-id="14">Download <span>PDF <span>Opens in a new window</span></span></a><span data-sr-dom-node-id="15" data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 2 KB</span>.
+            Send it to
+            <strong data-sr-dom-node-id="16">Freepost SAMPLE</strong> at <em data-sr-dom-node-id="18">Royal<br data-sr-dom-node-id="19">Mail</em>. No postcode is needed.
+            <br data-sr-dom-node-id="17">
+          </li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ul",
+              childIds: ["21"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23", "25", "26", "28", "29", "33", "34", "36", "43", "44", "38", "39"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "23",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "12",
+              tagName: "strong",
+              childIds: ["24"],
+            },
+            { nodeId: "24", ignored: false, role: "StaticText", name: "Alpha intro" },
+            { nodeId: "25", ignored: false, role: "StaticText", name: ", plain bridge " },
+            {
+              nodeId: "26",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "13",
+              tagName: "strong",
+              childIds: ["27"],
+            },
+            { nodeId: "27", ignored: false, role: "StaticText", name: "£200 value" },
+            { nodeId: "28", ignored: false, role: "StaticText", name: " before this " },
+            {
+              nodeId: "29",
+              ignored: false,
+              role: "link",
+              name: "Download PDF Opens in a new window",
+              domNodeId: "14",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "33",
+              ignored: false,
+              role: "none",
+              name: "",
+              domNodeId: "15",
+              tagName: "span",
+              childIds: ["40", "41", "42"],
+            },
+            { nodeId: "40", ignored: false, role: "StaticText", name: "(" },
+            { nodeId: "41", ignored: false, role: "StaticText", name: "pdf, 2 KB" },
+            { nodeId: "42", ignored: false, role: "StaticText", name: ")" },
+            { nodeId: "34", ignored: false, role: "StaticText", name: ". Send it to " },
+            {
+              nodeId: "36",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "16",
+              tagName: "strong",
+              childIds: ["37"],
+            },
+            { nodeId: "37", ignored: false, role: "StaticText", name: "Freepost SAMPLE" },
+            { nodeId: "43", ignored: false, role: "StaticText", name: " at " },
+            {
+              nodeId: "44",
+              ignored: false,
+              role: "emphasis",
+              name: "",
+              domNodeId: "18",
+              tagName: "em",
+              childIds: ["45", "46", "47"],
+            },
+            { nodeId: "45", ignored: false, role: "StaticText", name: "Royal" },
+            { nodeId: "46", ignored: false, role: "LineBreak", name: "\\n", domNodeId: "19", tagName: "br" },
+            { nodeId: "47", ignored: false, role: "StaticText", name: "Mail" },
+            { nodeId: "38", ignored: false, role: "StaticText", name: ". No postcode is needed." },
+            { nodeId: "39", ignored: false, role: "LineBreak", name: "\\n", domNodeId: "17", tagName: "br" },
+          ],
+        },
+      },
+    ),
+    [
+      "list 1 item",
+      "•, 1 of 1",
+      "Alpha intro",
+      ", plain bridge",
+      "£200 value",
+      "before this",
+      "link, Download PDF Opens in a new window",
+      "(pdf, 2 KB). Send it to",
+      "Freepost SAMPLE",
+      "at",
+      "RoyalMail",
+      ". No postcode is needed.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree keeps native inline list-item boundary rule guarded", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "20",
+        ignored: false,
+        role: "list",
+        name: "",
+        domNodeId: "10",
+        tagName: "ul",
+        childIds: ["21"],
+      },
+      {
+        nodeId: "21",
+        ignored: false,
+        role: "listitem",
+        name: "",
+        domNodeId: "11",
+        tagName: "li",
+        properties: { focusable: true },
+        childIds: ["22", "23", "25", "26", "28", "29", "33", "34"],
+      },
+      { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+      {
+        nodeId: "23",
+        ignored: false,
+        role: "strong",
+        name: "",
+        domNodeId: "12",
+        tagName: "strong",
+        childIds: ["24"],
+      },
+      { nodeId: "24", ignored: false, role: "StaticText", name: "Alpha intro" },
+      { nodeId: "25", ignored: false, role: "StaticText", name: " plain bridge " },
+      {
+        nodeId: "26",
+        ignored: false,
+        role: "link",
+        name: "Download PDF Opens in a new window",
+        domNodeId: "14",
+        tagName: "a",
+        properties: { focusable: true },
+      },
+      {
+        nodeId: "28",
+        ignored: false,
+        role: "none",
+        name: "",
+        domNodeId: "15",
+        tagName: "span",
+        childIds: ["40", "41", "42"],
+      },
+      { nodeId: "40", ignored: false, role: "StaticText", name: "(" },
+      { nodeId: "41", ignored: false, role: "StaticText", name: "pdf, 2 KB" },
+      { nodeId: "42", ignored: false, role: "StaticText", name: ")" },
+      { nodeId: "33", ignored: false, role: "StaticText", name: ". Send it." },
+    ],
+  };
+
+  const focusableOutput = scanHtml(
+    `
+      <ul data-sr-dom-node-id="10">
+        <li tabindex="0" data-sr-dom-node-id="11">
+          <strong data-sr-dom-node-id="12">Alpha intro</strong> plain bridge
+          <a href="/download" data-sr-dom-node-id="14">Download <span>PDF <span>Opens in a new window</span></span></a><span data-sr-dom-node-id="15" data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 2 KB</span>. Send it.
+        </li>
+      </ul>
+    `,
+    { accessibilityTree },
+  );
+  assert.equal(focusableOutput.includes("•, 1 of 1"), false);
+  assert.equal(focusableOutput.includes("link, Download PDF Opens in a new window"), false);
+
+  const blockWrappedOutput = scanHtml(
+    `
+      <ul data-sr-dom-node-id="10">
+        <li data-sr-dom-node-id="11">
+          <p><strong data-sr-dom-node-id="12">Alpha intro</strong> plain bridge</p>
+          <a href="/download" data-sr-dom-node-id="14">Download <span>PDF <span>Opens in a new window</span></span></a><span data-sr-dom-node-id="15" data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 2 KB</span>. Send it.
+        </li>
+      </ul>
+    `,
+    { accessibilityTree },
+  );
+  assert.equal(blockWrappedOutput.includes("•, 1 of 1"), false);
+});
+
 test("scanSubtree uses focused marker formatting for non-interactive 11-item disc link lists", () => {
   const items = Array.from({ length: 11 }, (_, index) => `
     <li

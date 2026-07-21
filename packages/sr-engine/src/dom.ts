@@ -7589,6 +7589,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       .filter((child): child is AccessibilityTreeNode => Boolean(child && !child.ignored));
   }
 
+  function axRawChildNodes(node?: AccessibilityTreeNode): AccessibilityTreeNode[] {
+    return (node?.childIds || [])
+      .map((childId) => accessibilityNodeById.get(normalize(childId) || ""))
+      .filter((child): child is AccessibilityTreeNode => Boolean(child));
+  }
+
   function nativeAxListMarkerRawText(markerNode?: AccessibilityTreeNode): string | undefined {
     if (normalizedAxRole(markerNode?.role) !== "listmarker") return undefined;
     const marker = normalize(markerNode?.name)?.replace(/\s+$/u, "");
@@ -7621,7 +7627,220 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return position && size ? `${marker}, ${position} of ${size}` : marker;
   }
 
+  function axNativeInlineChildBoundaryListItemAnnouncements(el: any): string[] | undefined {
+    if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
+    if (el.getAttribute("role")) return undefined;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return undefined;
+    if (el.matches?.(interactiveSelector) || el.hasAttribute?.("tabindex") || el.tabIndex >= 0) {
+      return undefined;
+    }
+
+    const list = listForItem(el);
+    if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (list.getAttribute("role") && list.getAttribute("role") !== "list") return undefined;
+    if (list.closest("nav,[role='navigation']")) return undefined;
+    if (isMarkerSeparatedLinkList(list)) return undefined;
+    if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return undefined;
+    if (
+      el.querySelector(
+        "ul, ol, dl, table, [role='list'], [role='table'], [role='grid'], [role='treegrid'], button, [role='button'], input, select, textarea",
+      )
+    ) {
+      return undefined;
+    }
+
+    const directLinks = Array.from(el.children || []).filter(
+      (child: any) =>
+        !isHidden(child) &&
+        child.tagName?.toLowerCase() === "a" &&
+        child.hasAttribute("href"),
+    );
+    if (!directLinks.length) return undefined;
+
+    const metadataElements = Array.from(el.children || []).filter(
+      (child: any) => Boolean(generatedParentheticalMetadataText(child)),
+    );
+    if (!metadataElements.length) return undefined;
+
+    let hasEmphasisBoundary = false;
+    for (const child of Array.from(el.childNodes || [])) {
+      if (child.nodeType === Node.TEXT_NODE) continue;
+      if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) continue;
+      if (child.matches?.("[aria-hidden='true']")) continue;
+
+      const tag = child.tagName?.toLowerCase();
+      if (tag === "br") continue;
+      if (directLinks.includes(child) || metadataElements.includes(child)) continue;
+      if (["strong", "b", "em", "i"].includes(tag)) {
+        if (child.querySelector?.(interactiveSelector)) return undefined;
+        hasEmphasisBoundary = true;
+        continue;
+      }
+      return undefined;
+    }
+    if (!hasEmphasisBoundary) return undefined;
+
+    const axListItem = axNodeForElementRole(el, "listitem");
+    if (!axListItem || normalize(axListItem.name)) return undefined;
+    if (axListItem.properties?.focusable === true) return undefined;
+
+    const axChildren = axRawChildNodes(axListItem);
+    if (axChildren.length < 5) return undefined;
+
+    const [markerNode, ...contentNodes] = axChildren;
+    const markerAnnouncement = nativeAxMarkerAnnouncement(
+      markerNode,
+      positionInSet(el, "listitem"),
+      setSize(el, "listitem"),
+    );
+    if (!markerAnnouncement) return undefined;
+
+    let linkIndex = 0;
+    let metadataIndex = 0;
+    let disallowed = false;
+    let metadataText = "";
+    const fragments: string[] = [];
+
+    function flushMetadataText(): void {
+      const text = normalize(metadataText);
+      if (text && /[\p{L}\p{N}]/u.test(text)) {
+        fragments.push(text);
+      }
+      metadataText = "";
+    }
+
+    function pushText(value?: string): void {
+      const text = normalize(value);
+      if (!text || !/[\p{L}\p{N}]/u.test(text)) return;
+      if (metadataText) {
+        const separator = needsBoundary(metadataText, text)
+          ? " "
+          : /^[,.;:!?)]/u.test(text)
+            ? ""
+            : " ";
+        metadataText = `${metadataText}${separator}${text}`;
+      } else {
+        fragments.push(text);
+      }
+    }
+
+    function axStaticText(node: AccessibilityTreeNode): string | undefined {
+      return normalize(node.name);
+    }
+
+    function axGeneratedMetadataText(node: AccessibilityTreeNode): string | undefined {
+      const metadataElement = metadataElements[metadataIndex] as any;
+      if (!metadataElement) return undefined;
+      if (
+        normalize(node.domNodeId) &&
+        normalize(metadataElement.getAttribute("data-sr-dom-node-id")) &&
+        normalize(node.domNodeId) !== normalize(metadataElement.getAttribute("data-sr-dom-node-id"))
+      ) {
+        return undefined;
+      }
+
+      const fragments: string[] = [];
+      function collect(current?: AccessibilityTreeNode): void {
+        if (!current) return;
+        if (current.ignored) {
+          for (const child of axRawChildNodes(current)) collect(child);
+          return;
+        }
+        if (normalizedAxRole(current.role) === "statictext") {
+          const text = normalize(current.name);
+          if (text) fragments.push(text);
+          return;
+        }
+        for (const child of axRawChildNodes(current)) collect(child);
+      }
+      collect(node);
+
+      const text = normalize(fragments.join(""));
+      const expected = generatedParentheticalMetadataText(metadataElement);
+      return text && expected && text === expected ? text : undefined;
+    }
+
+    function pushAxContent(node: AccessibilityTreeNode): void {
+      const role = normalizedAxRole(node.role);
+      if (role === "linebreak") return;
+
+      if (role === "statictext") {
+        pushText(axStaticText(node));
+        return;
+      }
+
+      if (role === "link") {
+        flushMetadataText();
+        const link = directLinks[linkIndex] as any;
+        const linkName = normalizeAnnouncementLabel(node.name) || accessibleName(link, "link");
+        if (
+          !link ||
+          !linkName ||
+          node.properties?.focusable !== true ||
+          normalize(node.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))
+        ) {
+          disallowed = true;
+          return;
+        }
+        fragments.push(`link, ${linkName}`);
+        linkIndex += 1;
+        return;
+      }
+
+      if (role === "strong" || role === "emphasis") {
+        flushMetadataText();
+        const textFragments = axDescendantStaticTextFragments(node);
+        if (!textFragments.length) {
+          disallowed = true;
+          return;
+        }
+        if (
+          textFragments.length > 1 &&
+          axRawChildNodes(node).some((child) => normalizedAxRole(child.role) === "linebreak")
+        ) {
+          fragments.push(textFragments.join(""));
+          return;
+        }
+        for (const fragment of textFragments) {
+          fragments.push(fragment);
+        }
+        return;
+      }
+
+      if (role === "generic" || role === "none") {
+        const metadata = axGeneratedMetadataText(node);
+        if (!metadata) {
+          disallowed = true;
+          return;
+        }
+        flushMetadataText();
+        metadataText = metadata;
+        metadataIndex += 1;
+        return;
+      }
+
+      disallowed = true;
+    }
+
+    for (const node of contentNodes) {
+      pushAxContent(node);
+      if (disallowed) return undefined;
+    }
+    flushMetadataText();
+
+    if (linkIndex !== directLinks.length || metadataIndex !== metadataElements.length) {
+      return undefined;
+    }
+    if (fragments.length < 5) return undefined;
+
+    return [markerAnnouncement, ...fragments];
+  }
+
   function axNativeMarkerListItemFragmentAnnouncements(el: any): string[] | undefined {
+    const inlineBoundaryAnnouncements =
+      axNativeInlineChildBoundaryListItemAnnouncements(el);
+    if (inlineBoundaryAnnouncements) return inlineBoundaryAnnouncements;
+
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
     if (el.getAttribute("data-sr-marker-content") !== "normal") return undefined;
     const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
@@ -9995,6 +10214,28 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     ].filter((fragment): fragment is string => Boolean(fragment));
   }
 
+  function generatedParentheticalMetadataText(node: any): string | undefined {
+    if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return undefined;
+    if (node.matches(interactiveSelector) || node.querySelector(interactiveSelector)) {
+      return undefined;
+    }
+    if (
+      node.getAttribute("role") ||
+      node.getAttribute("aria-label") ||
+      node.getAttribute("aria-labelledby")
+    ) {
+      return undefined;
+    }
+
+    const before = generatedPseudoText(node, "before");
+    const after = generatedPseudoText(node, "after");
+    if (before !== "(" || after !== ")") return undefined;
+
+    const text = normalize(readableText(node));
+    if (!text || text.length > 80 || !/[\p{L}\p{N}]/u.test(text)) return undefined;
+    return `(${text})`;
+  }
+
   function plainTextTrailingLinkParagraphFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     if (el.tagName.toLowerCase() !== "p") return undefined;
@@ -11025,28 +11266,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         : `${metadataText}${metadataText ? " " : ""}${text}`;
     }
 
-    function generatedMetadataText(node: any): string | undefined {
-      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return undefined;
-      if (node.matches(interactiveSelector) || node.querySelector(interactiveSelector)) {
-        return undefined;
-      }
-      if (
-        node.getAttribute("role") ||
-        node.getAttribute("aria-label") ||
-        node.getAttribute("aria-labelledby")
-      ) {
-        return undefined;
-      }
-
-      const before = generatedPseudoText(node, "before");
-      const after = generatedPseudoText(node, "after");
-      if (before !== "(" || after !== ")") return undefined;
-
-      const text = normalize(readableText(node));
-      if (!text || text.length > 80 || !/[\p{L}\p{N}]/u.test(text)) return undefined;
-      return `(${text})`;
-    }
-
     for (const child of Array.from(el.childNodes || [])) {
       if (child.nodeType === Node.TEXT_NODE) {
         if (metadataText) {
@@ -11069,7 +11288,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         continue;
       }
 
-      const metadata = generatedMetadataText(child);
+      const metadata = generatedParentheticalMetadataText(child);
       if (metadata) {
         if (!sawLink) {
           disallowed = true;

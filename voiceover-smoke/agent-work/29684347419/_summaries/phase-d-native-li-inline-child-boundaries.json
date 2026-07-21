@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "target": "www-royalmail-com-sending-barcoded-stamps",
+  "candidateId": "www-royalmail-com-sending-barcoded-stamps:table-price-structure:window-6:ad936fcbed63",
+  "alias": "current-window-6",
+  "family": "native-li-inline-child-boundary-traversal",
+  "status": "passed",
+  "startedAt": "2026-07-21T06:29:07Z",
+  "adoptedAt": "2026-07-21T10:39:06Z",
+  "finishedAt": "2026-07-21T10:39:06Z",
+  "leaseAcquiredAt": "2026-07-21T06:29:07Z",
+  "leaseAdoptedAt": "2026-07-21T10:39:06Z",
+  "leaseReleasedAt": "2026-07-21T10:39:06Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "no-overlap",
+    "evidence": "User confirmed no other engine-refiner was active. The only active lease was the interrupted owner codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z, which this recovery adopted and released."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-long-listitem-boundary-final.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-pdf-link-order-and-metadata-retry.json"
+    ],
+    "sourceFixturesRead": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps/www-royalmail-com-sending-barcoded-stamps.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps/www-royalmail-com-sending-barcoded-stamps.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps/www-royalmail-com-sending-barcoded-stamps.expected.json"
+    ],
+    "inheritedDirtyFiles": [
+      "packages/sr-engine/src/dom.ts",
+      "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json"
+    ]
+  },
+  "interruptedPredecessor": {
+    "leaseOwner": "codex-phase-d-native-li-inline-child-boundaries-2026-07-21T06:29:07Z",
+    "receiptPresentAtRecovery": false,
+    "inheritedPatchAssumedCorrect": false,
+    "diffReview": "Inherited patch was generic and guarded, but its first built target compare did not trigger on the real fixture because the Royal Mail AX tree exposes generated metadata through an ignored wrapper whose static text children are direct raw AX descendants. The recovery narrowed the implementation to read raw AX children only inside this guarded list-item rule."
+  },
+  "scope": {
+    "implementedContract": "For native ul/ol > li elements with unnamed, non-focusable native listitem AX nodes, direct inline phrasing children, direct focusable links, generated parenthesized metadata spans, and direct emphasis/static-text boundaries, emit a marker stop followed by AX-confirmed child-boundary stops instead of one flattened listitem name.",
+    "guards": [
+      "native li only under native ul or ol",
+      "no explicit role, aria-label, aria-labelledby, tabindex/focusability, nav ancestor, aria-live, aria-disabled, hidden state, or marker-separated link-list shape",
+      "descendants exclude nested lists, tables/grids, buttons, form controls, controls, images, and block wrappers",
+      "requires at least one direct link, at least one generated parenthetical metadata element, and at least one emphasis boundary",
+      "requires AX listitem with empty name and non-focusable state, direct AX marker, AX-confirmed link names/order, and generated metadata text matching the DOM pseudo-parentheses span",
+      "does not inspect Royal Mail selectors, copy, classes, URLs, hrefs, file extensions, titles, PDF strings, or data-sr-candidate attributes"
+    ],
+    "explicitlyRejectedSubGap": {
+      "family": "native-li-inline-child-boundary-traversal/no-metadata-third-item-tail",
+      "reason": "The third list item lacks generated metadata and its saved AX text includes more tail content than the refined expected line. Broadening the rule to all no-metadata inline li shapes would exceed the C.5-supported metadata-backed contract and could hide an oracle/evidence issue.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reconcile the third list item refined tail against saved AX/static text and step evidence before any separate no-metadata listitem rule."
+    }
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added a guarded AX-backed native inline list-item boundary splitter that emits marker, static text, emphasis, direct link, generated metadata, and following text stops."
+    },
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Hoisted generated parenthetical metadata recognition for reuse and added raw AX child traversal only for the generated-metadata/listitem path."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added focused positive coverage for metadata-backed native inline li splitting, ignored/raw metadata AX wrappers, emphasis line-break joining, and negative guards for focusable and block-wrapped list items."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt extension runtime from the updated engine."
+    }
+  ],
+  "fixtureChanges": [],
+  "targetCompareDelta": {
+    "inheritedPatchCheck": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-barcoded-stamps 8",
+      "expectedCount": 198,
+      "actualCount": 172,
+      "mismatchWindowCount": 14,
+      "scopedFamilyResult": "still flattened the metadata-backed long list items; inherited patch was not accepted as-is"
+    },
+    "afterNarrowedPatch": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-barcoded-stamps 8",
+      "expectedCount": 198,
+      "actualCount": 187,
+      "mismatchWindowCount": 14,
+      "scopedFamilyResult": "metadata-backed list items now emit marker and inline child-boundary stops; second item emphasized address is joined as Royal MailSwap OutTallents House21 South Gyle CrescentEDINBURGHEH12 9PB shape"
+    }
+  },
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "tsc passed before focused compare; runtime build later also rebuilt engine successfully."
+    },
+    {
+      "name": "focused unit",
+      "command": "node --test --test-name-pattern \"native inline list-item|native inline list items\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "2 focused tests passed."
+    },
+    {
+      "name": "full unit",
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "397 tests: 341 passed, 56 skipped."
+    },
+    {
+      "name": "affected target compare",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-barcoded-stamps node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-barcoded-stamps 8",
+      "required": true,
+      "status": "passed-with-residual-mismatches",
+      "exitCode": 0,
+      "summary": "Scoped metadata-backed native-li family improved from flattened list items to child-boundary stops. Overall window count remains 14 because unrelated and third-list-item residual windows remain."
+    },
+    {
+      "name": "protected candidate compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode 5",
+      "required": true,
+      "status": "passed-with-known-candidate-windows",
+      "exitCode": 0,
+      "summary": "Candidate sentinel preserved: expected 99, actual 101, mismatchWindowCount 2."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare design-system-service-gov-uk-components-text-input 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 394, actual 394, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-nhs-uk-service-search-pharmacy-find-a-pharmacy 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 66, actual 66, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 320, actual 320, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 207, actual 207, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 80, actual 80, mismatchWindowCount 0."
+    },
+    {
+      "name": "full voiceover corpus silent attempt",
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "non-terminal",
+      "exitCode": 130,
+      "elapsed": "about 5m30s",
+      "lastOutput": "$ SR_VOICEOVER_CORPUS_TESTS=true node --test tests/voiceover-corpus.test.mjs",
+      "summary": "No fixture progress was emitted; interrupted and retried once with progress logging."
+    },
+    {
+      "name": "full voiceover corpus progress retry",
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_PROGRESS=true yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed-known-corpus-tail",
+      "exitCode": 1,
+      "summary": "36 passed, 2 failed, 21 skipped. Failures were www-microsoft-com-en-us-accessibility at extra Ask Microsoft Accessibility stop and www-sky-com-watch-what-to-watch-this-week at inline emphasis split; these are the same protected failures previously recorded as pre-existing in phase-d-link-metadata-ordering, not native-li metadata regressions."
+    },
+    {
+      "name": "extension runtime build",
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Turbo build:runtime passed and rebuilt packages/sr-extension/src/content/engine-runtime.js."
+    },
+    {
+      "name": "diff check",
+      "command": "git diff --check",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "No whitespace errors."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "native-li-inline-child-boundary-traversal/no-metadata-third-item-tail",
+      "currentWindowIndexes": [
+        "latest target compare windows 4-6"
+      ],
+      "latestActual": [
+        "If you don’t have access to a printer you can request a Stamp Swap Out form to be posted to you by. The instructions for sending back to us will depend on the form you request. 'Stamp Swap Out' forms are also available from the Customer Service Point at your local Delivery Offices (but please note they will only have the forms for the up to £200 option). Or you can call our Customer Experience Team on 03457 740740., 3 of 3"
+      ],
+      "latestExpected": [
+        "•, 3 of 3",
+        "If you don’t have access to a printer",
+        "you can request a",
+        "Stamp Swap Out form to be posted to you",
+        "by",
+        "link, completing this form online",
+        ". The instructions for sending back to us will depend on the form you request.'Stamp Swap Out' forms are also available from the Customer Service Point at your local"
+      ],
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reconcile no-metadata third li expected truncation against saved AX and step evidence; request C.5 if the intended no-metadata split contract remains engine-ready.",
+      "blocker": "The authorized C.5 contract and this safe patch are metadata-backed. The no-metadata item also has an expected tail shorter than saved AX text, so a broader rule is not evidence-safe in this recovery.",
+      "checksNeeded": [
+        "target compare",
+        "saved AX/static text inspection for li domNodeId 591",
+        "step snapshot/source check around current-window-6",
+        "protected list exact compares if a separate no-metadata rule is proposed"
+      ]
+    },
+    {
+      "family": "remaining-target-unrelated-header-footer-image-punctuation",
+      "currentWindowIndexes": [
+        "latest target compare windows 1-3 and 7-14"
+      ],
+      "latestActual": "Remaining target windows include header collapsed region/group wording, missing image group stops, quote/apostrophe punctuation, long text truncation, and footer button group wording.",
+      "latestExpected": "See latest affected compare output recorded in checks for exact actual/expected contexts.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep these families split from native-li-inline-child-boundary-traversal and route each through its existing Phase C/D owner.",
+      "blocker": "Out of scope for the assigned recovery family.",
+      "checksNeeded": [
+        "fresh target compare after any separate family patch",
+        "protected exact/candidate compares relevant to that family"
+      ]
+    }
+  ],
+  "decisions": {
+    "refinedAnnouncementsTrustedForScopedMetadataBackedItems": true,
+    "inheritedPatchAcceptedAsIs": false,
+    "narrowedPatchAccepted": true,
+    "reusableEngineLogicModified": true,
+    "fixturesModified": false,
+    "fixturePromoted": false,
+    "c5NeededBeforeThisPatch": false,
+    "whyNoAdditionalC5": "Phase C.5 retry 29799980752 confirmed the metadata-backed native-li child-boundary contract across PDF and matched HTML controls."
+  },
+  "nextPhase": "complete",
+  "handoffFrom": "fixture-judge/repro-scanner",
+  "handoffTo": "complete",
+  "handoffReason": "Safe reusable metadata-backed native-li child-boundary patch implemented, verified, receipt written, and lease released. Remaining no-metadata/truncated-tail and unrelated target windows are separately queued.",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Reconcile only the no-metadata third list item tail if more work is desired.",
+    "c5Needed": true,
+    "reason": "A separate no-metadata rule would exceed the confirmed metadata-backed C.5 contract unless fixture evidence is reconciled or a focused C.5 scan confirms the same structure."
+  }
+}
