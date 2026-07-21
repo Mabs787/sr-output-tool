@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Boundary Inline Media C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      section,
+      article {
+        margin: 24px 0;
+      }
+
+      p {
+        line-height: 1.45;
+      }
+
+      .feature-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin: 12px 0;
+      }
+
+      .icon {
+        width: 24px;
+        height: 24px;
+        flex: 0 0 auto;
+      }
+
+      .media-strip {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .media-strip [role="img"],
+      .media-strip img {
+        display: inline-block;
+        width: 32px;
+        height: 22px;
+      }
+
+      .hidden-control {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-dispatch-ready"
+      data-sr-repro-family="text-boundary-truncation-and-inline-media"
+      aria-labelledby="repro-title"
+    >
+      <h1 id="repro-title">Text boundary inline media</h1>
+
+      <section aria-labelledby="positive-payment">
+        <h2 id="positive-payment">Positive: inline text before media</h2>
+        <div class="feature-row">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"></circle>
+          </svg>
+          <p id="positive-payment-text">
+            Pay with <strong>card</strong>, <strong>wallet</strong> or
+            <strong>mobile pay</strong>
+          </p>
+        </div>
+        <div class="media-strip" aria-label="Payment methods">
+          <div title="Card" role="img" aria-label="Card icon">
+            <svg aria-hidden="true" viewBox="0 0 32 22">
+              <rect width="32" height="22"></rect>
+            </svg>
+          </div>
+          <div title="Wallet" role="img" aria-label="Wallet icon">
+            <svg aria-hidden="true" viewBox="0 0 32 22">
+              <circle cx="11" cy="11" r="8"></circle>
+            </svg>
+          </div>
+          <img alt="Mobile pay icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+        </div>
+      </section>
+
+      <section aria-labelledby="positive-links">
+        <h2 id="positive-links">Positive: text around inline links and media</h2>
+        <div class="feature-row">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M4 12h16"></path>
+          </svg>
+          <p id="positive-links-text">
+            Choose from
+            <strong><a href="#locations">nearby points</a></strong>
+            or use our
+            <strong><a href="#collection">collection service</a></strong>
+            option
+          </p>
+        </div>
+        <div class="media-strip" aria-label="Location types">
+          <div title="Point one" role="img" aria-label="Point one icon">
+            <svg viewBox="0 0 32 22">
+              <rect width="14" height="22"></rect>
+            </svg>
+          </div>
+          <div title="Point two" role="img" aria-label="Point two icon">
+            <svg viewBox="0 0 32 22">
+              <rect x="8" width="16" height="22"></rect>
+            </svg>
+          </div>
+          <div title="Point three" role="img" aria-label="Point three icon">
+            <svg viewBox="0 0 32 22">
+              <rect x="16" width="14" height="22"></rect>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="positive-emphasis">
+        <h2 id="positive-emphasis">Positive: emphasized text boundary</h2>
+        <p id="positive-emphasis-text">
+          With over <strong>twenty local</strong> points nearby, sending and
+          returning items is simpler today.
+        </p>
+        <p>
+          Whether through local
+          <a href="#shop">shops</a>, <a href="#locker">lockers</a>, or service
+          <a href="#box">boxes</a>, choose a route and finish when ready.
+        </p>
+      </section>
+
+      <section aria-labelledby="inline-emphasized-scalar-title">
+        <h2 id="inline-emphasized-scalar-title">Inline emphasized scalar split</h2>
+        <article
+          id="positive-emphasized-time"
+          data-c5-variant="positive"
+          aria-labelledby="positive-emphasized-time-title"
+        >
+          <h3 id="positive-emphasized-time-title">Positive: emphasized time</h3>
+          <p>
+            Available until <strong id="positive-emphasized-time-scalar">noon</strong>,
+            then review begins.
+          </p>
+        </article>
+        <article
+          id="negative-emphasized-time"
+          data-c5-variant="negative"
+          aria-labelledby="negative-emphasized-time-title"
+        >
+          <h3 id="negative-emphasized-time-title">Negative: plain time</h3>
+          <p>
+            Available until <span id="negative-emphasized-time-scalar">noon</span>,
+            then review begins.
+          </p>
+        </article>
+        <article
+          id="positive-emphasized-price"
+          data-c5-variant="positive"
+          aria-labelledby="positive-emphasized-price-title"
+        >
+          <h3 id="positive-emphasized-price-title">Positive: emphasized price</h3>
+          <p>
+            A monthly plan starts at
+            <strong id="positive-emphasized-price-scalar">GBP 24.00</strong>.
+          </p>
+        </article>
+        <article
+          id="negative-emphasized-price"
+          data-c5-variant="negative"
+          aria-labelledby="negative-emphasized-price-title"
+        >
+          <h3 id="negative-emphasized-price-title">Negative: plain price</h3>
+          <p>
+            A monthly plan starts at
+            <span id="negative-emphasized-price-scalar">GBP 24.00</span>.
+          </p>
+        </article>
+      </section>
+
+      <section aria-labelledby="paragraph-link-boundary-title">
+        <h2 id="paragraph-link-boundary-title">Paragraph and link boundaries</h2>
+        <article
+          id="positive-paragraph-link-pairs"
+          data-c5-variant="positive"
+          aria-labelledby="positive-paragraph-link-pairs-title"
+        >
+          <h3 id="positive-paragraph-link-pairs-title">Positive: sibling links</h3>
+          <p id="positive-paragraph-link-first-text">For a full breakdown, see the</p>
+          <a id="positive-paragraph-link-first-link" href="#neutral-guide">reference guide</a>
+          <p id="positive-paragraph-link-second-text">For a tailored result, use the</p>
+          <a id="positive-paragraph-link-second-link" href="#neutral-form">sample form</a>
+          <div id="positive-paragraph-link-group" role="group" aria-label="Following content">
+            <p>Next content block.</p>
+          </div>
+        </article>
+        <article
+          id="negative-paragraph-link-pairs"
+          data-c5-variant="negative"
+          aria-labelledby="negative-paragraph-link-pairs-title"
+        >
+          <h3 id="negative-paragraph-link-pairs-title">Negative: inline links</h3>
+          <p id="negative-paragraph-link-first-text">
+            For a full breakdown, see the
+            <a id="negative-paragraph-link-first-link" href="#neutral-guide-control">reference guide</a>.
+          </p>
+          <p id="negative-paragraph-link-second-text">
+            For a tailored result, use the
+            <a id="negative-paragraph-link-second-link" href="#neutral-form-control">sample form</a>.
+          </p>
+          <div id="negative-paragraph-link-group" role="group" aria-label="Following control content">
+            <p>Next content block.</p>
+          </div>
+        </article>
+        <article
+          id="positive-link-paragraph-order"
+          data-c5-variant="positive"
+          aria-labelledby="positive-link-paragraph-order-title"
+        >
+          <h3 id="positive-link-paragraph-order-title">Positive: link before paragraph</h3>
+          <a id="positive-leading-sibling-link" href="#large-item-points">Large item points</a>
+          <p id="positive-following-sibling-text">
+            If an item needs more room, a larger point may be suitable.
+          </p>
+          <div id="positive-link-paragraph-group" role="group" aria-label="Result group">
+            <p>Grouped result.</p>
+          </div>
+        </article>
+        <article
+          id="negative-link-paragraph-order"
+          data-c5-variant="negative"
+          aria-labelledby="negative-link-paragraph-order-title"
+        >
+          <h3 id="negative-link-paragraph-order-title">Negative: paragraph before link</h3>
+          <p id="negative-following-sibling-text">
+            If an item needs more room, a larger point may be suitable.
+          </p>
+          <a id="negative-leading-sibling-link" href="#large-item-points-control">Large item points</a>
+          <div id="negative-link-paragraph-group" role="group" aria-label="Control result group">
+            <p>Grouped result.</p>
+          </div>
+        </article>
+      </section>
+
+      <section aria-labelledby="inline-link-whitespace-title">
+        <h2 id="inline-link-whitespace-title">Inline link whitespace</h2>
+        <article
+          id="positive-inline-link-no-whitespace"
+          data-c5-variant="positive"
+          aria-labelledby="positive-inline-link-no-whitespace-title"
+        >
+          <h3 id="positive-inline-link-no-whitespace-title">Positive: adjacent link fragments</h3>
+          <a id="positive-inline-link-no-whitespace-anchor" href="#new-slot"><span>Need a new time?</span><span>Arrange another slot.</span></a>
+        </article>
+        <article
+          id="negative-inline-link-with-whitespace"
+          data-c5-variant="negative"
+          aria-labelledby="negative-inline-link-with-whitespace-title"
+        >
+          <h3 id="negative-inline-link-with-whitespace-title">Negative: separated link fragments</h3>
+          <a id="negative-inline-link-with-whitespace-anchor" href="#new-slot-control"><span>Need a new time?</span> <span>Arrange another slot.</span></a>
+        </article>
+      </section>
+
+      <article aria-labelledby="same-structure-control">
+        <h2 id="same-structure-control">Control: same structure without media names</h2>
+        <div class="feature-row">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="7"></circle>
+          </svg>
+          <p id="same-structure-payment-text">
+            Pay with <strong>card</strong>, <strong>wallet</strong> or
+            <strong>mobile pay</strong>
+          </p>
+        </div>
+        <div class="media-strip" aria-hidden="true">
+          <svg viewBox="0 0 32 22"><rect width="32" height="22"></rect></svg>
+          <svg viewBox="0 0 32 22"><circle cx="11" cy="11" r="8"></circle></svg>
+        </div>
+      </article>
+
+      <section aria-labelledby="plain-control">
+        <h2 id="plain-control">Control: plain text boundary</h2>
+        <p id="plain-payment-control">
+          Pay with card, wallet or mobile pay.
+        </p>
+        <p id="plain-links-control">
+          Choose from nearby points or use our collection service option.
+        </p>
+        <p id="plain-emphasis-control">
+          With over twenty local points nearby, sending and returning items is simpler today.
+        </p>
+      </section>
+
+      <section class="hidden-control" aria-hidden="true">
+        <h2>Hidden duplicate</h2>
+        <p>Hidden text and media must not affect the scan root result.</p>
+        <img alt="Hidden icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+      </section>
+    </main>
+  </body>
+</html>
