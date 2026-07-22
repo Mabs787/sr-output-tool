@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_summaries/footer-collapsed-list-position-current",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "passed",
+  "startedAt": "2026-07-21T13:59:21Z",
+  "finishedAt": "2026-07-22T03:50:00Z",
+  "leaseAcquiredAt": "2026-07-21T13:59:21Z",
+  "leaseReleasedAt": "2026-07-22T03:50:00Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "no-overlap",
+    "evidence": "Canonical lease was released with activeEngineRefinerCount 0 before acquisition; this Phase D pass held the only active engine-refiner lease for run 29684347419 and released it before commit."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseBCurrentFamilyAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-shared-shell-current-family-audit.json",
+    "phaseC5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-footer-collapsed-list-position-current.json",
+    "priorPhaseDReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-collapsed-button-group-suffix.json",
+    "candidateRefs": [
+      "www-royalmail-com-find-postcode:current-window-2",
+      "www-royalmail-com-personal-receiving-mail-redirection:current-window-10",
+      "www-royalmail-com-receiving-mail-redelivery:current-window-7",
+      "www-royalmail-com-sending-barcoded-stamps:current-window-12",
+      "www-royalmail-com-sending-international:current-window-10",
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-9",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-9",
+      "www-royalmail-com-sending-uk:current-window-9",
+      "www-royalmail-com-sending:current-window-9"
+    ]
+  },
+  "mismatchFamilySelected": "footer-collapsed-role-button-group-suffix-with-list-position",
+  "genericPredicateImplemented": "Retain groupContext for explicit non-native, non-anchor role=button elements only when they are collapsed, not popup controls, have native list position metadata, live under footer/contentinfo, are inside a native li of a native ul/ol, and aria-controls points to an adjacent AX-visible role=region whose AX name matches the collapsed controller.",
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-footer-collapsed-list-position-current.json"
+  ],
+  "fixtureChanges": [],
+  "behaviorFixed": {
+    "before": {
+      "shape": "Engine emitted '<name>, collapsed, button, N of 4' for the 10 C.5-confirmed footer list-position role-button refs.",
+      "sourceRefs": [
+        { "ref": "www-royalmail-com-find-postcode:current-window-2", "actual": "Personal, collapsed, button, 1 of 4", "expected": "Personal, collapsed, button, group, 1 of 4" },
+        { "ref": "www-royalmail-com-personal-receiving-mail-redirection:current-window-10", "actual": "Our websites, collapsed, button, 4 of 4", "expected": "Our websites, collapsed, button, group, 4 of 4" },
+        { "ref": "www-royalmail-com-receiving-mail-redelivery:current-window-7", "actual": "Business, collapsed, button, 2 of 4", "expected": "Business, collapsed, button, group, 2 of 4" },
+        { "ref": "www-royalmail-com-sending-barcoded-stamps:current-window-12", "actual": "Business, collapsed, button, 2 of 4", "expected": "Business, collapsed, button, group, 2 of 4" },
+        { "ref": "www-royalmail-com-sending-international:current-window-10", "actual": "Personal, collapsed, button, 1 of 4", "expected": "Personal, collapsed, button, group, 1 of 4" },
+        { "ref": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7", "actual": "Personal, collapsed, button, 1 of 4", "expected": "Personal, collapsed, button, group, 1 of 4" },
+        { "ref": "www-royalmail-com-sending-uk-tracked-24:current-window-9", "actual": "Personal, collapsed, button, 1 of 4", "expected": "Personal, collapsed, button, group, 1 of 4" },
+        { "ref": "www-royalmail-com-sending-uk-tracked-48:current-window-9", "actual": "Personal, collapsed, button, 1 of 4", "expected": "Personal, collapsed, button, group, 1 of 4" },
+        { "ref": "www-royalmail-com-sending-uk:current-window-9", "actual": "Business, collapsed, button, 2 of 4", "expected": "Business, collapsed, button, group, 2 of 4" },
+        { "ref": "www-royalmail-com-sending:current-window-9", "actual": "Business, collapsed, button, 2 of 4", "expected": "Business, collapsed, button, group, 2 of 4" }
+      ]
+    },
+    "after": {
+      "result": "All 10 source refs no longer appear as current compare mismatches. The latest affected compares retain only unrelated split families."
+    }
+  },
+  "compareDeltas": [
+    { "target": "www-royalmail-com-find-postcode", "beforeWindows": 6, "afterWindows": 2, "resolvedRef": "current-window-2" },
+    { "target": "www-royalmail-com-personal-receiving-mail-redirection", "beforeWindows": 11, "afterWindows": 7, "resolvedRef": "current-window-10" },
+    { "target": "www-royalmail-com-receiving-mail-redelivery", "beforeWindows": 10, "afterWindows": 4, "resolvedRef": "current-window-7" },
+    { "target": "www-royalmail-com-sending-barcoded-stamps", "beforeWindows": 15, "afterWindows": 5, "resolvedRef": "current-window-12" },
+    { "target": "www-royalmail-com-sending-international", "beforeWindows": 14, "afterWindows": 10, "resolvedRef": "current-window-10" },
+    { "target": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm", "beforeWindows": 11, "afterWindows": 5, "resolvedRef": "current-window-7" },
+    { "target": "www-royalmail-com-sending-uk-tracked-24", "beforeWindows": 13, "afterWindows": 6, "resolvedRef": "current-window-9" },
+    { "target": "www-royalmail-com-sending-uk-tracked-48", "beforeWindows": 13, "afterWindows": 6, "resolvedRef": "current-window-9" },
+    { "target": "www-royalmail-com-sending-uk", "beforeWindows": 12, "afterWindows": 7, "resolvedRef": "current-window-9" },
+    { "target": "www-royalmail-com-sending", "beforeWindows": 12, "afterWindows": 8, "resolvedRef": "current-window-9" }
+  ],
+  "guardsPreserved": [
+    "hidden controlled region remains ungrouped",
+    "expanded controlled region remains outside the collapsed retained-group rule",
+    "uncontrolled list-position role-button remains ungrouped",
+    "terminal list-position link text-boundary remains unchanged",
+    "adjacent non-list partner role-button remains ungrouped",
+    "prior non-positional collapsed ARIA role-button grouped-footer suppression remains covered"
+  ],
+  "checks": [
+    { "command": "yarn workspace @sr-output/engine build", "required": true, "status": "passed", "exitCode": 0, "summary": "TypeScript engine build passed." },
+    { "command": "node --test --test-name-pattern \"collapsed ARIA role buttons|footer list-position group suffix guards\" packages/sr-engine/tests/dom-scanner.test.mjs", "required": false, "status": "passed", "exitCode": 0, "summary": "Focused positive and guard tests passed: 3 passed, 0 failed." },
+    { "command": "node --test --test-name-pattern \"AX-empty non-HTTP|footer static text around direct inline|normalizes AX inline link spacing|collapsed ARIA role buttons|footer list-position group suffix guards\" packages/sr-engine/tests/dom-scanner.test.mjs", "required": false, "status": "passed", "exitCode": 0, "summary": "Focused regression sweep passed: 6 passed, 0 failed." },
+    { "command": "yarn workspace @sr-output/engine test:unit", "required": true, "status": "passed", "exitCode": 0, "summary": "Full unit suite passed: 350 passed, 56 skipped, 0 failed." },
+    { "command": "10 affected Royal Mail target compares", "required": true, "status": "passed", "exitCode": 0, "summary": "All 10 C.5-backed footer list-position suffix refs resolved; remaining windows are unrelated split families." },
+    { "command": "protected exact compares: design-system text-input, NHS pharmacy search, GOV.UK local council, British Airways home, Google accessibility", "required": true, "status": "passed", "exitCode": 0, "summary": "All five protected exact fixtures stayed exact with mismatchWindowCount 0." },
+    { "command": "protected candidate compare: www-royalmail-com-find-a-postcode", "required": true, "status": "passed-with-known-candidate-windows", "exitCode": 0, "summary": "Candidate guard preserved known 2 list/marker windows: expected 99, actual 101." },
+    { "command": "yarn build:extension-runtime", "required": true, "status": "passed", "exitCode": 0, "summary": "Extension runtime rebuilt successfully." },
+    { "command": "yarn workspace @sr-output/engine test:voiceover", "required": true, "status": "failed-known-unrelated", "exitCode": 1, "summary": "Bounded full corpus completed after long silent intervals and failed two previously recorded unrelated fixtures: Microsoft extra 'Ask Microsoft Accessibility' stop at index 31 and Sky inline FROM/Best Medicine paragraph split at index 55. Last output was the terminal failure summary; no rerun was performed after user instruction." },
+    { "command": "interrupt prior session ids 66130 and 37489", "required": false, "status": "skipped", "summary": "Both sessions were already gone; no active command remained to interrupt." }
+  ],
+  "remainingMismatchFamilies": [
+    "header-empty-region-controlled-nav",
+    "footer-link-position-truncation",
+    "article/image/group boundary residuals",
+    "form/search combobox residual",
+    "list-marker/text-boundary residuals",
+    "post-footer/social image fallback residuals"
+  ],
+  "revisitQueue": [
+    {
+      "family": "header-empty-region-controlled-nav",
+      "currentWindowIndexes": [1],
+      "latestActual": "Personal, region; Business, collapsed, button, 2 of 3",
+      "latestExpected": "Personal, empty region; Business, collapsed, button, group, 2 of 3",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Use existing shell-form-table C.5 terminal/insufficient-repro decision or rerun a focused header controlled-region repro if the terminal blocker is reopened.",
+      "blocker": "Prior C.5 did not prove a safe reusable header empty-region rule.",
+      "checksNeeded": ["header controlled-region C.5 packet", "affected header compares"]
+    },
+    {
+      "family": "footer-link-position-truncation",
+      "currentWindowIndexes": [2, 7, 4, 5, 10, 5, 6, 6, 7, 8],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep separate from collapsed button group suffix; reconcile against existing terminal list-position truncation evidence before any engine change.",
+      "blocker": "C.5 footer list-position support parked this terminal link guard and did not authorize a link-position truncation rule.",
+      "checksNeeded": ["phase-c5-footer-list-position-truncation.json", "target footer link compares"]
+    },
+    {
+      "family": "article-image-group-boundary-residuals",
+      "currentWindowIndexes": [2, 3, 4, 5, 6, 7, 8, 9],
+      "latestActual": "article/image/card content is decomposed or lacks expected group/end-of-article stops",
+      "latestExpected": "group/image/end-of-article stops in several body sections",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split image fallback, article end, and card/group boundaries into independent current candidate refs before another Phase D pass.",
+      "blocker": "Out of footer collapsed list-position role-button scope.",
+      "checksNeeded": ["article/card C.5 receipts", "current target compares"]
+    },
+    {
+      "family": "form-search-combobox-residual",
+      "currentWindowIndexes": [2, 3, 4, 5],
+      "latestActual": "Select a Country *, then menu pop up collapsed button without required invalid data wording",
+      "latestExpected": "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run or consume the separate select-country combobox C.5 before engine work.",
+      "blocker": "Different control contract from collapsed footer role buttons.",
+      "checksNeeded": ["select-country combobox C.5", "international compare"]
+    },
+    {
+      "family": "corpus-known-unrelated",
+      "currentWindowIndexes": [31, 55],
+      "latestActual": "Microsoft extra Ask Microsoft Accessibility stop; Sky inline FROM/Best Medicine split",
+      "latestExpected": "Microsoft Disability Answer Desk heading; Sky joined paragraph oracle",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Handle under their existing corpus residual routes; do not block this footer list-position Phase D patch.",
+      "blocker": "Known unrelated full-corpus failures recorded in prior Phase D receipts.",
+      "checksNeeded": ["Microsoft compare", "Sky inline text-boundary evidence"]
+    }
+  ],
+  "nextPhase": "promoter",
+  "handoffFrom": "phase-c5-footer-collapsed-list-position-current",
+  "handoffTo": "promoter",
+  "handoffReason": "C.5-confirmed reusable engine gap fixed for all 10 refs, protected exact/candidate/runtime checks completed, and unrelated residual families are queued separately.",
+  "nextRecommendedWorker": {
+    "type": "promoter",
+    "scope": "Commit and push the Phase D engine/runtime/test/receipt/lease files only; do not promote fixtures.",
+    "c5Needed": false,
+    "reason": "Engine patch accepted; fixtureChanges is empty."
+  }
+}

@@ -6293,6 +6293,157 @@ test("scanSubtree omits group suffix for collapsed ARIA role buttons in grouped 
   );
 });
 
+test("scanSubtree keeps group suffix for collapsed ARIA role buttons controlling visible footer list regions", () => {
+  const names = ["Alpha", "Beta", "Gamma", "Delta"];
+  const accessibilityTree = {
+    nodes: names.flatMap((name, index) => [
+      {
+        nodeId: `${name.toLowerCase()}-button-ax`,
+        role: "button",
+        name,
+        domNodeId: `${name.toLowerCase()}-button`,
+        properties: { focusable: true, expanded: false },
+      },
+      {
+        nodeId: `${name.toLowerCase()}-region-ax`,
+        role: "region",
+        name,
+        domNodeId: `${name.toLowerCase()}-region`,
+      },
+    ]),
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer role="contentinfo">
+          <nav aria-label="Footer">
+            <ul>
+              ${names.map((name) => {
+                const key = name.toLowerCase();
+                return `
+                  <li>
+                    <div
+                      id="${key}-button-id"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="${key}-region-id"
+                      data-sr-dom-node-id="${key}-button"
+                    >
+                      <h3>${name}</h3>
+                      <svg aria-hidden="true"></svg>
+                    </div>
+                    <div
+                      id="${key}-region-id"
+                      role="region"
+                      aria-labelledby="${key}-button-id"
+                      data-sr-dom-node-id="${key}-region"
+                    >
+                      <ul><li><a href="/${key}">${name} link</a></li></ul>
+                    </div>
+                  </li>
+                `;
+              }).join("")}
+            </ul>
+          </nav>
+        </footer>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "content information",
+      "Footer, navigation",
+      "list 4 items",
+      "Alpha, collapsed, button, group, 1 of 4",
+      "Alpha, region",
+      "list 1 item",
+      "link, Alpha link",
+      "end of list",
+      "end of, Alpha, region",
+      "Beta, collapsed, button, group, 2 of 4",
+      "Beta, region",
+      "list 1 item",
+      "link, Beta link",
+      "end of list",
+      "end of, Beta, region",
+      "Gamma, collapsed, button, group, 3 of 4",
+      "Gamma, region",
+      "list 1 item",
+      "link, Gamma link",
+      "end of list",
+      "end of, Gamma, region",
+      "Delta, collapsed, button, group, 4 of 4",
+      "Delta, region",
+      "list 1 item",
+      "link, Delta link",
+      "end of list",
+      "end of, Delta, region",
+      "end of list",
+      "end of, Footer, navigation",
+      "end of, content information",
+    ],
+  );
+});
+
+test("scanSubtree preserves collapsed footer list-position group suffix guards", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <footer role="contentinfo">
+        <nav aria-label="Footer">
+          <ul>
+            <li>
+              <div role="button" aria-expanded="false" aria-controls="hidden-region">Hidden</div>
+              <div id="hidden-region" role="region" hidden data-sr-computed-hidden="display:none">
+                <a href="/hidden">Hidden link</a>
+              </div>
+            </li>
+            <li>
+              <div role="button" aria-expanded="true" aria-controls="expanded-region">Expanded</div>
+              <div id="expanded-region" role="region" aria-label="Expanded">
+                <ul><li><a href="/expanded">Expanded link</a></li></ul>
+              </div>
+            </li>
+            <li>
+              <div role="button" aria-expanded="false">Standalone</div>
+            </li>
+            <li>
+              <a href="/directory">
+                <span>Delta partner service directory</span>
+                <span>Opens in a new window</span>
+                <svg aria-hidden="true"></svg>
+              </a>
+            </li>
+          </ul>
+          <div role="button" aria-expanded="false" aria-controls="partner-region" id="partner-button">
+            Partner toggle
+          </div>
+          <div id="partner-region" role="region" aria-labelledby="partner-button">
+            <a href="/partner">Partner link</a>
+          </div>
+        </nav>
+      </footer>
+    `),
+    [
+      "content information",
+      "Footer, navigation",
+      "list 4 items",
+      "Hidden, collapsed, button, 1 of 4",
+      "Expanded, expanded, button, 2 of 4",
+      "Expanded, region",
+      "list 1 item, level 2",
+      "link, Expanded link",
+      "end of list",
+      "end of, Expanded, region",
+      "Standalone, collapsed, button, 3 of 4",
+      "link, Delta partner service directory Opens in a new window, 4 of 4",
+      "end of list",
+      "Partner toggle, collapsed, button",
+      "end of, Footer, navigation",
+      "end of, content information",
+    ],
+  );
+});
+
 test("scanSubtree adds a group suffix to AX-confirmed trailing native buttons with empty generic text children", () => {
   const html = `
     <main>

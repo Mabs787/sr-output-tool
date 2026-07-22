@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-list-marker-rich-text-current-family-2026-07-21T13:25:39Z",
-  "startedAt": "2026-07-21T13:25:39Z",
+  "leaseOwner": "top-level-codex-footer-collapsed-list-position-2026-07-21T13:59:21Z",
+  "startedAt": "2026-07-21T13:59:21Z",
   "adoptedBy": "",
   "adoptedAt": "",
-  "releasedAt": "2026-07-21T13:54:43Z",
-  "targetFamily": "send-help-list-marker-rich-text-current-family",
-  "target": "send-royalmail-com-help",
-  "candidateRef": "send-royalmail-com-help:current-window-5,current-window-7,current-window-9,current-window-10,current-window-11,current-window-12,current-window-13,current-window-14,current-window-15,current-window-16,current-window-18,current-window-19,current-window-20,current-window-23,current-window-24,current-window-25,current-window-27,current-window-30,current-window-32,current-window-33",
+  "releasedAt": "2026-07-22T03:50:00Z",
+  "targetFamily": "footer-collapsed-role-button-group-suffix-with-list-position",
+  "target": "_summaries/footer-collapsed-list-position-current",
+  "candidateRef": "www-royalmail-com-find-postcode:current-window-2,www-royalmail-com-personal-receiving-mail-redirection:current-window-10,www-royalmail-com-receiving-mail-redelivery:current-window-7,www-royalmail-com-sending-barcoded-stamps:current-window-12,www-royalmail-com-sending-international:current-window-10,www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7,www-royalmail-com-sending-uk-tracked-24:current-window-9,www-royalmail-com-sending-uk-tracked-48:current-window-9,www-royalmail-com-sending-uk:current-window-9,www-royalmail-com-sending:current-window-9",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -90,6 +90,15 @@
       "targetFamily": "send-help-list-marker-rich-text-current-family",
       "startedAt": "2026-07-21T13:25:39Z",
       "releasedAt": "2026-07-21T13:54:43Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-footer-collapsed-list-position-2026-07-21T13:59:21Z",
+      "target": "_summaries/footer-collapsed-list-position-current",
+      "candidateRef": "www-royalmail-com-find-postcode:current-window-2,www-royalmail-com-personal-receiving-mail-redirection:current-window-10,www-royalmail-com-receiving-mail-redelivery:current-window-7,www-royalmail-com-sending-barcoded-stamps:current-window-12,www-royalmail-com-sending-international:current-window-10,www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7,www-royalmail-com-sending-uk-tracked-24:current-window-9,www-royalmail-com-sending-uk-tracked-48:current-window-9,www-royalmail-com-sending-uk:current-window-9,www-royalmail-com-sending:current-window-9",
+      "targetFamily": "footer-collapsed-role-button-group-suffix-with-list-position",
+      "startedAt": "2026-07-21T13:59:21Z",
+      "releasedAt": "2026-07-22T03:50:00Z",
       "status": "released"
     }
   ]

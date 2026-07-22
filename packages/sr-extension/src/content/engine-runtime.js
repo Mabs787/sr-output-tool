@@ -13549,9 +13549,10 @@
           const suppressPaginationButtonGroup = role === "button" && isPaginationNavigationButton(el, role);
           const suppressFooterLegalActionButtonGroup = role === "button" && isFooterLegalActionButton(el, role);
           const suppressNamedGroupCollapsedControlGroup = collapsedControlInNamedGroup(el, role, nativeDetailsSummary);
-          const suppressGroupedCollapsedAriaRoleButtonGroup = collapsedAriaRoleButtonInGroupedContext(el, role);
           const suppressCollapsedAnchorButtonGroup = isAxConfirmedCollapsedAnchorButtonWithoutGroup(el, role, name);
           const collapsedVisibleControlledRegionButton = controlsVisibleAxRegion(el, role);
+          const retainGroupedCollapsedAriaRoleButtonWithListPosition = isFooterListPositionedCollapsedAriaRoleButtonWithVisibleRegion(el, role, position, size);
+          const suppressGroupedCollapsedAriaRoleButtonGroup = collapsedAriaRoleButtonInGroupedContext(el, role) && !retainGroupedCollapsedAriaRoleButtonWithListPosition;
           const emptyGenericTextNativeButtonGroup = isAxConfirmedEmptyGenericTextNativeButtonGroup(el, role, name);
           const nativeRangeValue = nativeRangeValueText(stateEl, role);
           const value = tag === "select" ? nativeSelectValue(stateEl) : nativeRangeValue ? nativeRangeValue : selectedListboxOption ? accessibleName(selectedListboxOption, "option") || readableText(selectedListboxOption) : "value" in stateEl && stateEl.value ? stateEl.value : void 0;
@@ -14424,15 +14425,51 @@
           const controllers = labelledBy.split(/\s+/).map((id) => resolveIdRef(id)).filter(Boolean).filter((controller) => isCollapsedButtonControllerForVisibleAxRegion(controller, container));
           return controllers.length > 0;
         }
-        function controlsVisibleAxRegion(el, role) {
+        function visibleAxControlledRegionsForButton(el, role) {
           if (role !== "button")
+            return [];
+          if (parseBooleanAttribute(el, "aria-expanded") !== false)
+            return [];
+          const controls = normalize(el.getAttribute("aria-controls"));
+          if (!controls)
+            return [];
+          return controls.split(/\s+/).map((id) => resolveIdRef(id)).filter(Boolean).filter((region) => isVisibleAxControlledRegion(region) && isCollapsedButtonControllerForVisibleAxRegion(el, region));
+        }
+        function controlsVisibleAxRegion(el, role) {
+          return visibleAxControlledRegionsForButton(el, role).length > 0;
+        }
+        function isFooterListPositionedCollapsedAriaRoleButtonWithVisibleRegion(el, role, position, size) {
+          if (role !== "button")
+            return false;
+          if (el?.getAttribute?.("role") !== "button")
             return false;
           if (parseBooleanAttribute(el, "aria-expanded") !== false)
             return false;
-          const controls = normalize(el.getAttribute("aria-controls"));
-          if (!controls)
+          if (normalizedPopup(el))
             return false;
-          return controls.split(/\s+/).map((id) => resolveIdRef(id)).filter(Boolean).some((region) => isVisibleAxControlledRegion(region) && isCollapsedButtonControllerForVisibleAxRegion(el, region));
+          const tag = el.tagName?.toLowerCase();
+          if (tag === "button" || tag === "a")
+            return false;
+          if (!position || !size || size <= 1)
+            return false;
+          const footer = el.closest?.("footer, [role='contentinfo']");
+          if (!footer || isHidden(footer))
+            return false;
+          const { listItem, list } = semanticListContext(el);
+          if (!listItem || !list || isHidden(listItem))
+            return false;
+          if (listItem.tagName?.toLowerCase() !== "li")
+            return false;
+          if (!["ul", "ol"].includes(list.tagName?.toLowerCase()))
+            return false;
+          const controlledRegions = visibleAxControlledRegionsForButton(el, role);
+          if (!controlledRegions.length)
+            return false;
+          return controlledRegions.some((region) => {
+            if (region.parentElement !== el.parentElement)
+              return false;
+            return nextVisibleElementSibling(el) === region || previousVisibleElementSibling(el) === region;
+          });
         }
         function isInsideVisibleAxControlledRegion(el) {
           const region = el?.closest?.("[role='region'][id][aria-labelledby]");
