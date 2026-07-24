@@ -22,5 +22,6 @@
     "isolatedStepSnapshots": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-personal-receiving-mail-redirection/www-royalmail-com-personal-receiving-mail-redirection.step-snapshots.json",
     "scanRoot": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-personal-receiving-mail-redirection/scans/www-royalmail-com-personal-receiving-mail-redirection"
   },
-  "status": "pending-voiceover-canary"
+  "status": "pending-voiceover-canary-retry",
+  "retryReason": "Initial canary preserved the secondary navigation and main transition but did not reproduce the source group, banner stop. Retry moves data-sr-scan-root to body and preserves the source body flex/root-wrapper condition observed in step snapshots."
 }
