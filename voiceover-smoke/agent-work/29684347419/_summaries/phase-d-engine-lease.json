@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-postboxes-h3-linebreak-trailing-whitespace-statictext-tail-2026-07-24T14:59:54Z",
-  "startedAt": "2026-07-24T14:59:54Z",
+  "leaseOwner": "top-level-codex-native-list-marker-rich-text-boundary-2026-07-24T15:20:30Z",
+  "startedAt": "2026-07-24T15:20:30Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T15:13:21Z",
-  "targetFamily": "h3-linebreak-trailing-whitespace-statictext-tail",
-  "target": "www-royalmail-com-services-near-you-postboxes",
-  "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1",
+  "releasedAt": "2026-07-24T15:40:21Z",
+  "targetFamily": "native-list-marker-rich-text-boundary",
+  "target": "_summaries/native-list-marker-rich-text-boundary",
+  "candidateRef": "phase-c-list-marker-rich-text-post-c5-engine-queue:17-engineQueueRefs",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,18 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "released-single-engine-refiner",
-    "evidence": "Canonical lease was released with active count 0 immediately before acquisition. This worker owned only www-royalmail-com-services-near-you-postboxes:current-window-1 for the h3 LineBreak final StaticText trailing whitespace tail Phase D family and released the lease after checks and receipts."
+    "evidence": "Canonical lease was released with active count 0 immediately before acquisition. This worker owned only the 17 native-list-marker-rich-text-boundary refs from phase-c-list-marker-rich-text-post-c5-engine-queue.json and released the lease after checks and receipt creation."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-native-list-marker-rich-text-boundary-2026-07-24T15:20:30Z",
+      "target": "_summaries/native-list-marker-rich-text-boundary",
+      "candidateRef": "phase-c-list-marker-rich-text-post-c5-engine-queue:17-engineQueueRefs",
+      "targetFamily": "native-list-marker-rich-text-boundary",
+      "startedAt": "2026-07-24T15:20:30Z",
+      "releasedAt": "2026-07-24T15:40:21Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "top-level-codex-postboxes-h3-linebreak-trailing-whitespace-statictext-tail-2026-07-24T14:59:54Z",
       "target": "www-royalmail-com-services-near-you-postboxes",

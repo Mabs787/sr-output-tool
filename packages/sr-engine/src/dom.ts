@@ -7966,6 +7966,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function savedRenderedPlainTextMarkerListItemAnnouncement(el: any): string | undefined {
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
     if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return undefined;
+    if (el.querySelector("[hidden], [aria-hidden='true']")) return undefined;
     if (el.querySelector("a[href], [role='link'], button, [role='button'], ul, ol, dl, [role='list']")) {
       return undefined;
     }
@@ -8440,6 +8441,37 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return position && size ? `${marker}, ${position} of ${size}` : marker;
   }
 
+  function nativeAxMarkerText(markerNode: AccessibilityTreeNode, list: any): string | undefined {
+    return (listLevel(list) || 1) > 1
+      ? nativeAxNestedListMarkerText(markerNode)
+      : nativeAxListMarkerText(markerNode);
+  }
+
+  function nativeAxMarkerTextWithPosition(
+    markerNode: AccessibilityTreeNode,
+    list: any,
+    position?: number,
+    size?: number,
+  ): string | undefined {
+    const marker = nativeAxMarkerText(markerNode, list);
+    if (!marker) return undefined;
+    if (/^\d+[.)]$/u.test(marker)) return marker;
+    return position && size && size > 1 ? `${marker}, ${position} of ${size}` : marker;
+  }
+
+  function nativeAxMarkerPrefixedTextAnnouncement(
+    markerNode: AccessibilityTreeNode,
+    list: any,
+    text: string,
+    position?: number,
+    size?: number,
+  ): string | undefined {
+    const marker = nativeAxMarkerText(markerNode, list);
+    if (!marker || !text) return undefined;
+    const suffix = position && size && size > 1 ? `, ${position} of ${size}` : "";
+    return `${marker} ${text}${suffix}`;
+  }
+
   function isAxBackedNativeOrderedListItem(el: any): boolean {
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return false;
     if (el.getAttribute("role")) return false;
@@ -8646,6 +8678,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (list.closest("nav,[role='navigation']")) return undefined;
     if (isMarkerSeparatedLinkList(list)) return undefined;
     if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return undefined;
+    if (el.querySelector("[hidden], [aria-hidden='true']")) return undefined;
     if (
       el.querySelector(
         "ul, ol, dl, table, [role='list'], [role='table'], [role='grid'], [role='treegrid'], button, [role='button'], input, select, textarea",
@@ -8704,7 +8737,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       setSize(el, "listitem"),
     );
     if (!markerAnnouncement) return undefined;
-
     let linkIndex = 0;
     let metadataIndex = 0;
     let disallowed = false;
@@ -8954,19 +8986,36 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (inlineBoundaryAnnouncements) return inlineBoundaryAnnouncements;
 
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
+    if (el.getAttribute("role")) return undefined;
+    if (
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      el.getAttribute("aria-describedby")
+    ) {
+      return undefined;
+    }
+    if (el.matches?.(interactiveSelector) || el.hasAttribute?.("tabindex") || el.tabIndex >= 0) {
+      return undefined;
+    }
     if (el.getAttribute("data-sr-marker-content") !== "normal") return undefined;
     const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
     if (markerDisplay !== "inline" && markerDisplay !== "inline-block") return undefined;
 
     const list = listForItem(el);
     if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase())) return undefined;
+    if (list.getAttribute("role") && list.getAttribute("role") !== "list") return undefined;
     if (list.closest("nav,[role='navigation']")) return undefined;
     if (isMarkerSeparatedLinkList(list)) return undefined;
-    if (el.querySelector("ul, ol, dl, [role='list']")) return undefined;
+    if (el.querySelector("ul, ol, dl, table, [role='list'], [role='table'], [role='grid'], [role='treegrid']")) {
+      return undefined;
+    }
     if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return undefined;
+    if (el.querySelector("[hidden], [aria-hidden='true']")) return undefined;
 
     const axListItem = axNodeForElementRole(el, "listitem");
-    if (normalize(axListItem?.name)) return undefined;
+    if (!axListItem || normalize(axListItem.name) || axListItem.properties?.focusable === true) {
+      return undefined;
+    }
     const axChildren = axChildNodes(axListItem);
     if (axChildren.length < 2) return undefined;
 
@@ -8977,7 +9026,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       setSize(el, "listitem"),
     );
     if (!markerAnnouncement) return undefined;
-
     const domLinks = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
       (link: any) =>
         !isHidden(link) &&
@@ -8999,12 +9047,27 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     let linkCount = 0;
     let textCount = 0;
     let disallowed = false;
-    const fragments: string[] = [];
+    let hasEmphasisBoundary = false;
+    const fragments: { kind: "text" | "boundary" | "link"; value: string }[] = [];
+
+    function pushFragment(kind: "text" | "boundary" | "link", value?: string): void {
+      const text = normalize(value);
+      if (!text || (kind !== "link" && !/[\p{L}\p{N}]/u.test(text))) return;
+      const previous = fragments[fragments.length - 1];
+      if (kind === "text" && previous?.kind === "text") {
+        const separator = needsBoundary(previous.value, text)
+          ? " "
+          : /^[,.;:!?)]/u.test(text)
+            ? ""
+            : " ";
+        previous.value = `${previous.value}${separator}${text}`;
+        return;
+      }
+      fragments.push({ kind, value: text });
+    }
 
     function pushText(value?: string): void {
-      const text = normalize(value);
-      if (!text || !/[\p{L}\p{N}]/u.test(text)) return;
-      fragments.push(text);
+      pushFragment("text", value);
       textCount += 1;
     }
 
@@ -9022,24 +9085,38 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           disallowed = true;
           return;
         }
-        fragments.push(`link, ${linkName}`);
+        pushFragment("link", `link, ${linkName}`);
         linkIndex += 1;
         linkCount += 1;
         return;
       }
 
       if (role === "strong" || role === "emphasis") {
+        hasEmphasisBoundary = true;
         const children = axChildNodes(node);
         if (!children.length) {
           disallowed = true;
           return;
         }
         for (const child of children) {
-          pushAxContent(child);
-          if (disallowed) return;
+          const childRole = normalizedAxRole(child.role);
+          if (childRole === "statictext") {
+            pushFragment("boundary", child.name);
+            textCount += 1;
+            continue;
+          }
+          if (childRole === "link") {
+            pushAxContent(child);
+            if (disallowed) return;
+            continue;
+          }
+          disallowed = true;
+          return;
         }
         return;
       }
+
+      if (role === "linebreak") return;
 
       if (role !== "statictext") {
         disallowed = true;
@@ -9057,6 +9134,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     const marker = nativeAxListMarkerText(markerNode);
     const isOrderedMarker = Boolean(marker && /^\d+[.)]$/u.test(marker));
+    const fragmentValues = fragments.map((fragment) => fragment.value);
     const isNestedRichBullet =
       !isOrderedMarker &&
       (listLevel(list) || 1) > 1 &&
@@ -9067,13 +9145,50 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (isNestedRichBullet && textCount > 0) {
       const position = positionInSet(el, "listitem");
       const size = setSize(el, "listitem");
-      const suffix = position && size ? `, ${position} of ${size}` : "";
-      return [`${marker} ${fragments[0]}${suffix}`, ...fragments.slice(1)];
+      const first = nativeAxMarkerPrefixedTextAnnouncement(
+        markerNode,
+        list,
+        fragmentValues[0],
+        position,
+        size,
+      );
+      return first ? [first, ...fragmentValues.slice(1)] : undefined;
+    }
+
+    if (!isOrderedMarker && !linkCount && !hasEmphasisBoundary && textCount > 0) {
+      if ((listLevel(list) || 1) > 1) return undefined;
+      const position = positionInSet(el, "listitem");
+      const size = setSize(el, "listitem");
+      const text = normalize(fragmentValues.join(" "));
+      const announcement = nativeAxMarkerPrefixedTextAnnouncement(
+        markerNode,
+        list,
+        text,
+        position,
+        size,
+      );
+      return announcement ? [announcement] : undefined;
+    }
+
+    if (!isOrderedMarker && (hasEmphasisBoundary || (linkCount && textCount > 0))) {
+      if (hasEmphasisBoundary && fragments[0]?.kind === "link") return undefined;
+      const directChildren = directSemanticChildren(el);
+      const directSingleLinkWithTextTail =
+        directChildren.length === 1 &&
+        directChildren[0].tagName?.toLowerCase() === "a" &&
+        directChildren[0].hasAttribute("href") &&
+        !hasEmphasisBoundary;
+      if (directSingleLinkWithTextTail) return undefined;
+
+      const position = positionInSet(el, "listitem");
+      const size = setSize(el, "listitem");
+      const markerAnnouncement = nativeAxMarkerTextWithPosition(markerNode, list, position, size);
+      return markerAnnouncement ? [markerAnnouncement, ...fragmentValues] : undefined;
     }
 
     if (!isOrderedMarker || !linkCount || textCount > 0) return undefined;
 
-    return [markerAnnouncement, ...fragments];
+    return [markerAnnouncement, ...fragmentValues];
   }
 
   function axSimpleNativeUlInlineStrongListItemAnnouncements(el: any): string[] | undefined {

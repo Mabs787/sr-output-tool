@@ -7811,6 +7811,8 @@
             return void 0;
           if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
             return void 0;
+          if (el.querySelector("[hidden], [aria-hidden='true']"))
+            return void 0;
           if (el.querySelector("a[href], [role='link'], button, [role='button'], ul, ol, dl, [role='list']")) {
             return void 0;
           }
@@ -8231,6 +8233,24 @@
             return marker;
           return position && size ? `${marker}, ${position} of ${size}` : marker;
         }
+        function nativeAxMarkerText(markerNode, list) {
+          return (listLevel(list) || 1) > 1 ? nativeAxNestedListMarkerText(markerNode) : nativeAxListMarkerText(markerNode);
+        }
+        function nativeAxMarkerTextWithPosition(markerNode, list, position, size) {
+          const marker = nativeAxMarkerText(markerNode, list);
+          if (!marker)
+            return void 0;
+          if (/^\d+[.)]$/u.test(marker))
+            return marker;
+          return position && size && size > 1 ? `${marker}, ${position} of ${size}` : marker;
+        }
+        function nativeAxMarkerPrefixedTextAnnouncement(markerNode, list, text, position, size) {
+          const marker = nativeAxMarkerText(markerNode, list);
+          if (!marker || !text)
+            return void 0;
+          const suffix = position && size && size > 1 ? `, ${position} of ${size}` : "";
+          return `${marker} ${text}${suffix}`;
+        }
         function isAxBackedNativeOrderedListItem(el) {
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
             return false;
@@ -8411,6 +8431,8 @@
           if (isMarkerSeparatedLinkList(list))
             return void 0;
           if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
+            return void 0;
+          if (el.querySelector("[hidden], [aria-hidden='true']"))
             return void 0;
           if (el.querySelector("ul, ol, dl, table, [role='list'], [role='table'], [role='grid'], [role='treegrid'], button, [role='button'], input, select, textarea")) {
             return void 0;
@@ -8663,6 +8685,14 @@
             return inlineBoundaryAnnouncements;
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
             return void 0;
+          if (el.getAttribute("role"))
+            return void 0;
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("aria-describedby")) {
+            return void 0;
+          }
+          if (el.matches?.(interactiveSelector) || el.hasAttribute?.("tabindex") || el.tabIndex >= 0) {
+            return void 0;
+          }
           if (el.getAttribute("data-sr-marker-content") !== "normal")
             return void 0;
           const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
@@ -8671,17 +8701,23 @@
           const list = listForItem(el);
           if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase()))
             return void 0;
+          if (list.getAttribute("role") && list.getAttribute("role") !== "list")
+            return void 0;
           if (list.closest("nav,[role='navigation']"))
             return void 0;
           if (isMarkerSeparatedLinkList(list))
             return void 0;
-          if (el.querySelector("ul, ol, dl, [role='list']"))
+          if (el.querySelector("ul, ol, dl, table, [role='list'], [role='table'], [role='grid'], [role='treegrid']")) {
             return void 0;
+          }
           if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
             return void 0;
-          const axListItem = axNodeForElementRole(el, "listitem");
-          if (normalize(axListItem?.name))
+          if (el.querySelector("[hidden], [aria-hidden='true']"))
             return void 0;
+          const axListItem = axNodeForElementRole(el, "listitem");
+          if (!axListItem || normalize(axListItem.name) || axListItem.properties?.focusable === true) {
+            return void 0;
+          }
           const axChildren = axChildNodes(axListItem);
           if (axChildren.length < 2)
             return void 0;
@@ -8697,12 +8733,22 @@
           let linkCount = 0;
           let textCount = 0;
           let disallowed = false;
+          let hasEmphasisBoundary = false;
           const fragments = [];
-          function pushText(value) {
+          function pushFragment(kind, value) {
             const text = normalize(value);
-            if (!text || !/[\p{L}\p{N}]/u.test(text))
+            if (!text || kind !== "link" && !/[\p{L}\p{N}]/u.test(text))
               return;
-            fragments.push(text);
+            const previous = fragments[fragments.length - 1];
+            if (kind === "text" && previous?.kind === "text") {
+              const separator = needsBoundary(previous.value, text) ? " " : /^[,.;:!?)]/u.test(text) ? "" : " ";
+              previous.value = `${previous.value}${separator}${text}`;
+              return;
+            }
+            fragments.push({ kind, value: text });
+          }
+          function pushText(value) {
+            pushFragment("text", value);
             textCount += 1;
           }
           function pushAxContent(node) {
@@ -8714,24 +8760,38 @@
                 disallowed = true;
                 return;
               }
-              fragments.push(`link, ${linkName}`);
+              pushFragment("link", `link, ${linkName}`);
               linkIndex += 1;
               linkCount += 1;
               return;
             }
             if (role === "strong" || role === "emphasis") {
+              hasEmphasisBoundary = true;
               const children = axChildNodes(node);
               if (!children.length) {
                 disallowed = true;
                 return;
               }
               for (const child of children) {
-                pushAxContent(child);
-                if (disallowed)
-                  return;
+                const childRole = normalizedAxRole(child.role);
+                if (childRole === "statictext") {
+                  pushFragment("boundary", child.name);
+                  textCount += 1;
+                  continue;
+                }
+                if (childRole === "link") {
+                  pushAxContent(child);
+                  if (disallowed)
+                    return;
+                  continue;
+                }
+                disallowed = true;
+                return;
               }
               return;
             }
+            if (role === "linebreak")
+              return;
             if (role !== "statictext") {
               disallowed = true;
               return;
@@ -8749,16 +8809,38 @@
             return void 0;
           const marker = nativeAxListMarkerText(markerNode);
           const isOrderedMarker = Boolean(marker && /^\d+[.)]$/u.test(marker));
+          const fragmentValues = fragments.map((fragment) => fragment.value);
           const isNestedRichBullet = !isOrderedMarker && (listLevel(list) || 1) > 1 && (linkCount > 0 || contentNodes.some((node) => ["strong", "emphasis"].includes(normalizedAxRole(node.role) || "")));
           if (isNestedRichBullet && textCount > 0) {
             const position = positionInSet(el, "listitem");
             const size = setSize(el, "listitem");
-            const suffix = position && size ? `, ${position} of ${size}` : "";
-            return [`${marker} ${fragments[0]}${suffix}`, ...fragments.slice(1)];
+            const first = nativeAxMarkerPrefixedTextAnnouncement(markerNode, list, fragmentValues[0], position, size);
+            return first ? [first, ...fragmentValues.slice(1)] : void 0;
+          }
+          if (!isOrderedMarker && !linkCount && !hasEmphasisBoundary && textCount > 0) {
+            if ((listLevel(list) || 1) > 1)
+              return void 0;
+            const position = positionInSet(el, "listitem");
+            const size = setSize(el, "listitem");
+            const text = normalize(fragmentValues.join(" "));
+            const announcement = nativeAxMarkerPrefixedTextAnnouncement(markerNode, list, text, position, size);
+            return announcement ? [announcement] : void 0;
+          }
+          if (!isOrderedMarker && (hasEmphasisBoundary || linkCount && textCount > 0)) {
+            if (hasEmphasisBoundary && fragments[0]?.kind === "link")
+              return void 0;
+            const directChildren = directSemanticChildren(el);
+            const directSingleLinkWithTextTail = directChildren.length === 1 && directChildren[0].tagName?.toLowerCase() === "a" && directChildren[0].hasAttribute("href") && !hasEmphasisBoundary;
+            if (directSingleLinkWithTextTail)
+              return void 0;
+            const position = positionInSet(el, "listitem");
+            const size = setSize(el, "listitem");
+            const markerAnnouncement2 = nativeAxMarkerTextWithPosition(markerNode, list, position, size);
+            return markerAnnouncement2 ? [markerAnnouncement2, ...fragmentValues] : void 0;
           }
           if (!isOrderedMarker || !linkCount || textCount > 0)
             return void 0;
-          return [markerAnnouncement, ...fragments];
+          return [markerAnnouncement, ...fragmentValues];
         }
         function axSimpleNativeUlInlineStrongListItemAnnouncements(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE)

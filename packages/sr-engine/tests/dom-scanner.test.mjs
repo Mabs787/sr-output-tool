@@ -14535,7 +14535,12 @@ test("scanSubtree prefixes nested AX rich bullet fragments without changing top-
     scanHtml(
       `
         <ul data-sr-dom-node-id="10">
-          <li data-sr-dom-node-id="11">Outer item
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >Outer item
             <ul data-sr-dom-node-id="12">
               <li
                 data-sr-dom-node-id="13"
@@ -15550,6 +15555,256 @@ test("scanSubtree splits AX-confirmed strong link product-list tails after nativ
       "end of list",
     ],
   );
+});
+
+test("scanSubtree preserves AX-backed native list marker rich text boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          >Trusted service for <span data-sr-dom-node-id="12">500 years</span></li>
+          <li
+            data-sr-dom-node-id="13"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><span data-sr-dom-node-id="14"><a href="/buy" data-sr-dom-node-id="15">Buy postage online</a> before you post</span></li>
+          <li
+            data-sr-dom-node-id="16"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><strong data-sr-dom-node-id="17">Prestige books</strong> - premium keepsakes.</li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ul",
+              childIds: ["21", "25", "30"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23", "24"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "23", ignored: false, role: "StaticText", name: "Trusted service for " },
+            { nodeId: "24", ignored: false, role: "StaticText", name: "500 years" },
+            {
+              nodeId: "25",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "13",
+              tagName: "li",
+              childIds: ["26", "27", "29"],
+            },
+            { nodeId: "26", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "27",
+              ignored: false,
+              role: "link",
+              name: "Buy postage online",
+              domNodeId: "15",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "29", ignored: false, role: "StaticText", name: " before you post" },
+            {
+              nodeId: "30",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "16",
+              tagName: "li",
+              childIds: ["31", "32", "34"],
+            },
+            { nodeId: "31", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "32",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "17",
+              tagName: "strong",
+              childIds: ["33"],
+            },
+            { nodeId: "33", ignored: false, role: "StaticText", name: "Prestige books" },
+            { nodeId: "34", ignored: false, role: "StaticText", name: " - premium keepsakes." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 3 items",
+      "• Trusted service for 500 years, 1 of 3",
+      "•, 2 of 3",
+      "link, Buy postage online",
+      "before you post",
+      "•, 3 of 3",
+      "Prestige books",
+      "- premium keepsakes.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree omits native list position metadata for AX-backed nested singleton rich markers", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ol data-sr-dom-node-id="10">
+          <li data-sr-dom-node-id="11">Outer item
+            <ul data-sr-dom-node-id="12">
+              <li
+                data-sr-dom-node-id="13"
+                data-sr-marker-content="normal"
+                data-sr-marker-display="inline-block"
+                data-sr-marker-list-style-type="disc"
+              >Nested note <a href="/more" data-sr-dom-node-id="14">Find out more</a>.</li>
+            </ul>
+          </li>
+        </ol>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ol",
+              childIds: ["21"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23", "24"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "1. " },
+            { nodeId: "23", ignored: false, role: "StaticText", name: "Outer item" },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "12",
+              tagName: "ul",
+              childIds: ["25"],
+            },
+            {
+              nodeId: "25",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "13",
+              tagName: "li",
+              childIds: ["26", "27", "28", "29"],
+            },
+            { nodeId: "26", ignored: false, role: "ListMarker", name: "◦ " },
+            { nodeId: "27", ignored: false, role: "StaticText", name: "Nested note " },
+            {
+              nodeId: "28",
+              ignored: false,
+              role: "link",
+              name: "Find out more",
+              domNodeId: "14",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "29", ignored: false, role: "StaticText", name: "." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 1 item",
+      "Outer item",
+      "list 1 item, level 2 1 of 1",
+      ". Nested note",
+      "link, Find out more",
+      "end of list",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree keeps AX-backed native marker rich text rule narrowly guarded", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "20",
+        ignored: false,
+        role: "list",
+        name: "",
+        domNodeId: "10",
+        tagName: "ul",
+        childIds: ["21"],
+      },
+      {
+        nodeId: "21",
+        ignored: false,
+        role: "listitem",
+        name: "",
+        domNodeId: "11",
+        tagName: "li",
+        childIds: ["22", "23", "24"],
+      },
+      { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+      {
+        nodeId: "23",
+        ignored: false,
+        role: "link",
+        name: "Action",
+        domNodeId: "12",
+        tagName: "a",
+        properties: { focusable: true },
+      },
+      { nodeId: "24", ignored: false, role: "StaticText", name: " visible tail" },
+    ],
+  };
+
+  const variants = [
+    `<li role="presentation" data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/a" data-sr-dom-node-id="12">Action</a> visible tail</li>`,
+    `<li aria-label="Named item" data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/a" data-sr-dom-node-id="12">Action</a> visible tail</li>`,
+    `<li tabindex="0" data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/a" data-sr-dom-node-id="12">Action</a> visible tail</li>`,
+    `<li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/a" data-sr-dom-node-id="12">Action</a><span aria-hidden="true">hidden</span> visible tail</li>`,
+    `<li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/a" data-sr-dom-node-id="12">Action</a><button>Control</button> visible tail</li>`,
+    `<li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc"><a href="/a" data-sr-dom-node-id="12">Action</a><ul><li>Nested</li></ul> visible tail</li>`,
+  ];
+
+  for (const variant of variants) {
+    const output = scanHtml(`<ul data-sr-dom-node-id="10">${variant}</ul>`, { accessibilityTree });
+    assert.notDeepEqual(output, [
+      "list 1 item",
+      "•, 1 of 1",
+      "link, Action",
+      "visible tail",
+      "end of list",
+    ]);
+  }
 });
 
 test("scanSubtree splits AX-confirmed contribution list items", () => {

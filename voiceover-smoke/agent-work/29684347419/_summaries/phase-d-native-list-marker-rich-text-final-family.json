@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "targetFamily": "native-list-marker-rich-text-boundary",
+  "target": "_summaries/native-list-marker-rich-text-boundary",
+  "status": "partial-engine-patch-committable",
+  "startedAt": "2026-07-24T15:20:30Z",
+  "finishedAt": "2026-07-24T15:40:21Z",
+  "inputs": [
+    "docs/workflows/voiceover-refinement.md",
+    "docs/workflows/agent-receipts.md",
+    "docs/workflows/phase-d-engine-refinement.md",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-list-marker-rich-text-post-c5-engine-queue.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-list-marker-rich-text-final-family.json"
+  ],
+  "lease": {
+    "leaseFile": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "leaseOwner": "top-level-codex-native-list-marker-rich-text-boundary-2026-07-24T15:20:30Z",
+    "acquiredAt": "2026-07-24T15:20:30Z",
+    "releasedAt": "2026-07-24T15:40:21Z",
+    "activeLeaseCountAtStart": 0,
+    "activeLeaseCountAtFinish": 0
+  },
+  "engineQueueRefs": [
+    "send-royalmail-com-help:current-window-3@f32183e26e0d",
+    "send-royalmail-com-help:current-window-4@3993daa6a2d4",
+    "send-royalmail-com-help:current-window-5@7857254d099d",
+    "send-royalmail-com-help:current-window-6@31f9b58443d8",
+    "send-royalmail-com-help:current-window-7@71c103c74b53",
+    "send-royalmail-com-help:current-window-8@597dc910fbb3",
+    "send-royalmail-com-help:current-window-9@fa4bc0c6e4a7",
+    "send-royalmail-com-help:current-window-10@4ac357ec4cf5",
+    "send-royalmail-com-help:current-window-11@15c7c7fb8def",
+    "send-royalmail-com-help:current-window-12@76be222bcb35",
+    "send-royalmail-com-help:current-window-13@8181facf115e",
+    "send-royalmail-com-help:current-window-14@8a1102424984",
+    "send-royalmail-com-help:current-window-15@c659a992bc8c",
+    "www-royalmail-com:current-window-2@5557a0561253",
+    "www-royalmail-com-sending-stamps:current-window-5@c3c2133be111",
+    "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-2@654fc4543fb0",
+    "www-royalmail-com-services-near-you-postboxes:current-window-11@545ab7f1d1ff"
+  ],
+  "decisions": {
+    "modifiedReusableEngineLogic": true,
+    "modifiedFixtures": false,
+    "fixtureChanges": [],
+    "implementedSafeSubset": [
+      "AX-backed native ul/ol li ListMarker plus descendant StaticText/link/strong/emphasis boundaries are parsed from AX child order instead of flattening descriptor text.",
+      "Top-level static native bullet text keeps marker prefix and set position only when set size is greater than one.",
+      "Rich native bullet items with descendant links or strong/emphasis keep a marker stop before child link/static/boundary stops.",
+      "Nested rich marker items keep the existing nested marker glyph behavior and omit singleton item-position metadata where VoiceOver does not retain it.",
+      "Existing ordered list marker/link behavior, simple list behavior, marker-separated list behavior, and superscript symbol splitting were preserved."
+    ],
+    "unsafeOrDeferredSubshapes": [
+      "Nested static-only bullet items need a discriminator before dropping singleton position metadata; a prototype regressed existing ordered/simple nested-list unit coverage.",
+      "Nested AX hollow-circle markers remain mapped by the existing engine to period-style output; C.5/source evidence conflicts across OCR/refined expectations, so changing the glyph broadly is unsafe without a narrower proof scan.",
+      "Special-delivery symbol adjacency includes dagger/plus/apostrophe normalization outside the native marker boundary patch and was left to a symbol/text-boundary owner.",
+      "Homepage third list item pairs an image with list position metadata and is not a text/link/strong-only native list item."
+    ]
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-native-list-marker-rich-text-final-family.json"
+  ],
+  "compareSummary": {
+    "prePatch": {
+      "send-royalmail-com-help": {
+        "expectedCount": 364,
+        "actualCount": 354,
+        "mismatchWindowCount": 15,
+        "grouped": {
+          "role/structure": 6,
+          "list/marker": 9
+        }
+      },
+      "www-royalmail-com": {
+        "expectedCount": 188,
+        "actualCount": 186,
+        "mismatchWindowCount": 4,
+        "grouped": {
+          "list/marker": 3,
+          "role/structure": 1
+        }
+      },
+      "www-royalmail-com-sending-stamps": {
+        "expectedCount": 269,
+        "actualCount": 260,
+        "mismatchWindowCount": 11,
+        "grouped": {
+          "punctuation/text-boundary": 1,
+          "list/marker": 5,
+          "role/structure": 5
+        }
+      },
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm": {
+        "expectedCount": 186,
+        "actualCount": 180,
+        "mismatchWindowCount": 4,
+        "grouped": {
+          "list/marker": 4
+        }
+      },
+      "www-royalmail-com-services-near-you-postboxes": {
+        "expectedCount": 170,
+        "actualCount": 167,
+        "mismatchWindowCount": 10,
+        "grouped": {
+          "punctuation/text-boundary": 1,
+          "role/structure": 7,
+          "list/marker": 2
+        }
+      }
+    },
+    "postPatch": {
+      "send-royalmail-com-help": {
+        "expectedCount": 364,
+        "actualCount": 354,
+        "mismatchWindowCount": 19,
+        "grouped": {
+          "role/structure": 6,
+          "punctuation/text-boundary": 1,
+          "list/marker": 12
+        }
+      },
+      "www-royalmail-com": {
+        "expectedCount": 188,
+        "actualCount": 186,
+        "mismatchWindowCount": 4,
+        "grouped": {
+          "list/marker": 3,
+          "role/structure": 1
+        }
+      },
+      "www-royalmail-com-sending-stamps": {
+        "expectedCount": 269,
+        "actualCount": 265,
+        "mismatchWindowCount": 9,
+        "grouped": {
+          "punctuation/text-boundary": 1,
+          "list/marker": 3,
+          "role/structure": 5
+        }
+      },
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm": {
+        "expectedCount": 186,
+        "actualCount": 186,
+        "mismatchWindowCount": 4,
+        "grouped": {
+          "list/marker": 4
+        }
+      },
+      "www-royalmail-com-services-near-you-postboxes": {
+        "expectedCount": 170,
+        "actualCount": 173,
+        "mismatchWindowCount": 10,
+        "grouped": {
+          "punctuation/text-boundary": 1,
+          "role/structure": 7,
+          "list/marker": 2
+        }
+      }
+    }
+  },
+  "revisitQueue": [
+    {
+      "family": "nested-hollow-marker-glyph",
+      "latestWindowIndexes": [
+        "send-royalmail-com-help:current-window-3",
+        "send-royalmail-com-help:current-window-5",
+        "send-royalmail-com-help:current-window-6",
+        "send-royalmail-com-help:current-window-7",
+        "send-royalmail-com-help:current-window-8",
+        "send-royalmail-com-help:current-window-11",
+        "send-royalmail-com-help:current-window-12",
+        "send-royalmail-com-help:current-window-13"
+      ],
+      "actualShape": "AX nested ListMarker name is hollow circle and engine announces period-prefixed stops such as '. The, 1 of 7'.",
+      "expectedShape": "refined expected uses bullet-prefixed nested stops such as '• The, 1 of 7'.",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Run isolated same-structure nested ul/li scans for hollow-circle AX markers to prove whether VoiceOver announces hollow markers as bullet or period before changing nativeAxNestedListMarkerText.",
+      "blocker": "Changing hollow-circle mapping broadly regresses existing nested list coverage and conflicts with Phase B OCR entries that captured hollow-circle cursor text.",
+      "checksNeeded": [
+        "focused unit for nested hollow-marker glyph",
+        "send-royalmail-com-help compare",
+        "full unit",
+        "bounded corpus"
+      ]
+    },
+    {
+      "family": "nested-static-singleton-position",
+      "latestWindowIndexes": [
+        "send-royalmail-com-help:current-window-4",
+        "send-royalmail-com-help:current-window-12"
+      ],
+      "actualShape": "singleton nested static bullet retains ', 1 of 1' or lacks marker prefix depending on existing ordered/simple nested-list path.",
+      "expectedShape": "refined expected omits singleton position metadata while retaining a marker prefix.",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Prove a narrower generic discriminator for nested static-only list items that does not change existing ordered/simple nested-list fixtures.",
+      "blocker": "A narrow prototype dropping singleton metadata for nested static-only AX markers regressed existing ordered/simple nested list unit tests.",
+      "checksNeeded": [
+        "focused ordered/simple nested list unit exclusions",
+        "send-royalmail-com-help compare",
+        "full unit"
+      ]
+    },
+    {
+      "family": "native-list-marker-with-symbol-adjacent-text",
+      "latestWindowIndexes": [
+        "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-2"
+      ],
+      "actualShape": "marker is missing before text containing adjacent footnote symbols; symbol stop is dagger and apostrophe normalization differs.",
+      "expectedShape": "marker-prefixed item text followed by separate '+' symbol and normalized apostrophe text.",
+      "nextOwner": "engine-refiner-symbol-text-boundary",
+      "nextAction": "Inspect superscript/direct symbol contracts and implement only if the symbol node, marker, and text boundaries can be discriminated without altering existing superscript rules.",
+      "blocker": "The user explicitly required preserving superscript rules; this subshape mixes marker prefix, symbol glyph normalization, and punctuation normalization.",
+      "checksNeeded": [
+        "superscript unit coverage",
+        "special-delivery compare",
+        "full unit"
+      ]
+    },
+    {
+      "family": "native-list-item-image-content",
+      "latestWindowIndexes": [
+        "www-royalmail-com:current-window-2"
+      ],
+      "actualShape": "image-bearing list item keeps image with list position metadata and lacks text marker stop.",
+      "expectedShape": "separate bullet-prefixed text stop plus separate image stop.",
+      "nextOwner": "engine-refiner-image-listitem-boundary",
+      "nextAction": "Inspect AX/source for image-bearing native li and build an image-specific rule if VoiceOver proves marker/text/image separation generically.",
+      "blocker": "This Phase D patch was limited to static/link/strong boundaries and excludes image descendants.",
+      "checksNeeded": [
+        "homepage compare",
+        "image list-item unit positives/exclusions",
+        "protected W3/GOV.UK"
+      ]
+    },
+    {
+      "family": "native-list-rich-static-boundary-long-text",
+      "latestWindowIndexes": [
+        "send-royalmail-com-help:current-window-14",
+        "send-royalmail-com-help:current-window-15"
+      ],
+      "actualShape": "long nested li text is flattened across static/strong/code-like boundaries.",
+      "expectedShape": "marker-prefixed leading static text, separate strong/static/code-like phrase stops, and tails in AX order.",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Create a reduced same-structure scan for long nested static/strong/code text before extending segmentation beyond the safe static/link/strong subset implemented here.",
+      "blocker": "Current evidence includes long text truncation and nested hollow-marker conflicts; a broad segmentation rule would be unsafe.",
+      "checksNeeded": [
+        "focused long nested rich text unit",
+        "send-royalmail-com-help compare",
+        "bounded corpus"
+      ]
+    },
+    {
+      "family": "unrelated-structural-and-media-tail",
+      "latestWindowIndexes": [
+        "send-royalmail-com-help:current-window-1",
+        "send-royalmail-com-help:current-window-2",
+        "www-royalmail-com:current-window-3",
+        "www-royalmail-com-sending-stamps:current-window-2",
+        "www-royalmail-com-sending-stamps:current-window-3",
+        "www-royalmail-com-services-near-you-postboxes:current-window-1"
+      ],
+      "actualShape": "missing images, extra empty links, missing article ends, or media/link grouping differences.",
+      "expectedShape": "refined media/article/footer structural stops.",
+      "nextOwner": "separate Phase D structural/media families",
+      "nextAction": "Route to the existing structural/media queues; no native-list marker rule should handle these.",
+      "blocker": "Not part of native-list-marker-rich-text-boundary.",
+      "checksNeeded": [
+        "family-specific compares",
+        "protected corpus"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "exitCode": 0,
+      "summary": "437 tests: 381 pass, 56 skipped."
+    },
+    {
+      "command": "affected compares for send-royalmail-com-help, www-royalmail-com, www-royalmail-com-sending-stamps, www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm, www-royalmail-com-services-near-you-postboxes",
+      "exitCode": 0,
+      "summary": "All compare commands completed; stamps improved from 260 to 265 actual stops and list/marker windows from 5 to 3, special-delivery actual count reached expected count 186, remaining windows are routed above."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag 3",
+      "exitCode": 0,
+      "summary": "expectedCount 320, actualCount 320, mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk 3",
+      "exitCode": 0,
+      "summary": "expectedCount 150, actualCount 150, mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode 3",
+      "exitCode": 0,
+      "summary": "candidate compare completed with 2 existing search-label mismatches, not native-list-marker-related."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "exitCode": 1,
+      "summary": "Bounded corpus ran; failed unrelated Microsoft extra CTA stop and Sky inline emphasis prose split. W3/GOV protected fixtures passed inside this run."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "exitCode": 0,
+      "summary": "Extension runtime build passed."
+    }
+  ]
+}
