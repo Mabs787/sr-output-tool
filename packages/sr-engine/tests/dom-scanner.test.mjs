@@ -564,6 +564,64 @@ test("scanSubtree preserves AX trailing NBSP linebreak children in native headin
   );
 });
 
+test("scanSubtree preserves AX final StaticText trailing whitespace after heading linebreaks", () => {
+  assert.deepEqual(
+    scanHtml(
+      `<h3 data-sr-dom-node-id="h"><span>What can you send at a</span><br> <span><span>Royal Mail Postbox?&nbsp;</span></span></h3>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "What can you send at a Royal Mail Postbox?\u00a0",
+              domNodeId: "h",
+              tagName: "h3",
+              childIds: ["2", "3", "4"],
+              properties: { level: 3 },
+            },
+            { nodeId: "2", role: "StaticText", name: "What can you send at a" },
+            { nodeId: "3", role: "LineBreak", name: "\n" },
+            { nodeId: "4", role: "StaticText", name: "Royal Mail Postbox?\u00a0" },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 3 What can you send at a, level 2 Royal Mail Postbox? , level 2, 2 items",
+    ],
+  );
+});
+
+test("scanSubtree does not add final StaticText heading whitespace without an AX tail", () => {
+  assert.deepEqual(
+    scanHtml(
+      `<h3 data-sr-dom-node-id="h"><span>What can you send at a</span><br><span>Royal Mail Postbox?</span></h3>`,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "1",
+              role: "heading",
+              name: "What can you send at a Royal Mail Postbox?",
+              domNodeId: "h",
+              tagName: "h3",
+              childIds: ["2", "3", "4"],
+              properties: { level: 3 },
+            },
+            { nodeId: "2", role: "StaticText", name: "What can you send at a" },
+            { nodeId: "3", role: "LineBreak", name: "\n" },
+            { nodeId: "4", role: "StaticText", name: "Royal Mail Postbox?" },
+          ],
+        },
+      },
+    ),
+    [
+      "heading level 3 What can you send at a, level 2 Royal Mail Postbox?, level 2, 2 items",
+    ],
+  );
+});
+
 test("scanSubtree does not infer AX heading space boundaries without the separate child subshape", () => {
   assert.deepEqual(
     scanHtml(

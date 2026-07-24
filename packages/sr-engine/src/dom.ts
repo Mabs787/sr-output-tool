@@ -15305,7 +15305,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           const rawName = node.name || "";
           const fragment = normalize(rawName);
           if (fragment && /[\p{L}\p{N}$£€]/u.test(fragment)) {
-            fragments.push(fragment);
+            const preserveTrailingWhitespaceAfterLineBreak =
+              options.direct &&
+              isNativeHeading &&
+              options.previousDirectRole === "linebreak" &&
+              !options.nextDirectRole &&
+              /[\s\u00A0]$/u.test(rawName);
+            fragments.push(preserveTrailingWhitespaceAfterLineBreak ? `${fragment} ` : fragment);
             textFragments.push(fragment);
             sawBoundary = true;
           } else if (options.direct && isNativeHeading) {
@@ -15454,6 +15460,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       if (fragments) return fragments;
     }
 
+    const axBoundaryFragments = axHeadingStaticTextBoundaryFragments();
+    if (axBoundaryFragments) return axBoundaryFragments;
+
     const hasLineBreak = Array.from(el.childNodes).some(
       (child: any) =>
         child.nodeType === Node.ELEMENT_NODE &&
@@ -15463,9 +15472,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const fragments = axTrailingLineBreakMarkerFragments(lineBreakFragments(el));
       if (fragments) return fragments;
     }
-
-    const axBoundaryFragments = axHeadingStaticTextBoundaryFragments();
-    if (axBoundaryFragments) return axBoundaryFragments;
 
     const axFragments = axLeadingSpaceHeadingFragments();
     if (axFragments) return axFragments;
@@ -15518,6 +15524,88 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       .filter((fragment): fragment is string => Boolean(fragment));
 
     return fragments.length > 1 ? fragments : undefined;
+  }
+
+  function normalizedHeadingFragmentForAnnouncement(fragment?: string): string | undefined {
+    const normalized = fragment
+      ?.replace(/[\u200B-\u200F\uFEFF]/g, "")
+      .replace(/\s+/g, " ")
+      .replace(/\s+([,!?;:]|\.(?![\p{L}\p{N}]))/gu, "$1")
+      .trim();
+    if (!normalized) return undefined;
+    return /[\s\u00A0]$/u.test(fragment || "") ? `${normalized} ` : normalized;
+  }
+
+  function formatHeadingFragmentsPreservingFinalTail(
+    level: number,
+    fragments?: string[],
+    fragmentCount?: number,
+  ): string | undefined {
+    const normalizedFragments = fragments
+      ?.map((fragment) => normalizedHeadingFragmentForAnnouncement(fragment))
+      .filter((fragment): fragment is string => Boolean(fragment));
+    if (!normalizedFragments?.length) return undefined;
+
+    const itemCount = fragmentCount && fragmentCount > normalizedFragments.length
+      ? fragmentCount
+      : normalizedFragments.length;
+    if (level === 1) {
+      return `heading level ${level} ${normalizedFragments.join(" ")}, ${itemCount} items`;
+    }
+
+    const [firstFragment, ...nestedFragments] = normalizedFragments;
+    const nestedLevel = Math.max(1, level - 1);
+    const shouldExpandBoundaryFragments =
+      Boolean(fragmentCount && fragmentCount > normalizedFragments.length);
+    const nestedAnnouncements = nestedFragments.flatMap((fragment) => {
+      const parenthesized = shouldExpandBoundaryFragments
+        ? fragment.match(/^\((.+)\)$/u)
+        : undefined;
+      if (!parenthesized) return [`level ${nestedLevel} ${fragment}`];
+      return [
+        `level ${nestedLevel} (`,
+        `level ${nestedLevel} ${parenthesized[1]}`,
+        `level ${nestedLevel})`,
+      ];
+    });
+    return [
+      `heading level ${level} ${firstFragment}`,
+      ...nestedAnnouncements,
+      `level ${nestedLevel}, ${itemCount} items`,
+    ].join(", ");
+  }
+
+  function axLineBreakTrailingWhitespaceHeadingAnnouncement(
+    el: any,
+    role: string,
+    fragments?: string[],
+    fragmentCount?: number,
+  ): string | undefined {
+    if (role !== "heading" || !fragments?.length || !accessibilityNodes.length) {
+      return undefined;
+    }
+    const tag = el.tagName?.toLowerCase() || "";
+    if (!/^h[1-6]$/u.test(tag)) return undefined;
+
+    const axNode = axNodeForElementRole(el, "heading");
+    if (!axNode || normalizedAxRole(axNode.role) !== "heading") return undefined;
+
+    const childNodes = axChildNodes(axNode);
+    const finalChild = childNodes[childNodes.length - 1];
+    const previousChild = childNodes[childNodes.length - 2];
+    if (
+      normalizedAxRole(previousChild?.role) !== "linebreak" ||
+      normalizedAxRole(finalChild?.role) !== "statictext"
+    ) {
+      return undefined;
+    }
+
+    const finalText = finalChild?.name || "";
+    if (!normalize(finalText) || !/[\s\u00A0]$/u.test(finalText)) return undefined;
+    if (!/[\s\u00A0]$/u.test(fragments[fragments.length - 1] || "")) return undefined;
+
+    const level = Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2;
+    return formatHeadingFragmentsPreservingFinalTail(level, fragments, fragmentCount);
   }
 
   function parenthesizedBoundaryPartCount(el: any): number | undefined {
@@ -16336,6 +16424,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : undefined,
       headingFragments,
       headingFragmentCount,
+      headingLineBreakTrailingWhitespaceAnnouncement:
+        role === "heading"
+          ? axLineBreakTrailingWhitespaceHeadingAnnouncement(
+              el,
+              role,
+              headingFragments,
+              headingFragmentCount,
+            )
+          : undefined,
       preserveSpaceBeforePunctuationName:
         role === "heading"
           ? axConfirmedSpaceBeforePunctuationHeadingName(el, role)
@@ -18589,6 +18686,18 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return announcement ? ["list item", announcement] : ["list item"];
   }
 
+  function splitHeadingLineBreakTrailingWhitespaceAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "heading" ||
+      !descriptor.headingLineBreakTrailingWhitespaceAnnouncement
+    ) {
+      return undefined;
+    }
+    return [descriptor.headingLineBreakTrailingWhitespaceAnnouncement];
+  }
+
   function formatConjunctiveList(
     fragments: string[],
     options: { oxfordComma?: boolean } = {},
@@ -19161,6 +19270,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-rich-product-card-feature-heading",
           announcements: splitRichProductCardFeatureHeadingAnnouncements(descriptor),
+        },
+        {
+          source: "split-heading-linebreak-trailing-whitespace",
+          announcements: splitHeadingLineBreakTrailingWhitespaceAnnouncements(descriptor),
         },
         {
           source: "split-rich-product-card-feature-row",

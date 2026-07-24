@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-stabilized-header-nav-empty-region-role-buttons-2026-07-24T14:39:52Z",
-  "startedAt": "2026-07-24T14:39:52Z",
+  "leaseOwner": "top-level-codex-postboxes-h3-linebreak-trailing-whitespace-statictext-tail-2026-07-24T14:59:54Z",
+  "startedAt": "2026-07-24T14:59:54Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T14:50:48Z",
-  "targetFamily": "header/nav visible empty outer region stops with list-positioned role buttons",
-  "target": "_summaries/stabilized-header-nav-empty-region-role-buttons",
-  "candidateRef": "phase-c5-stabilized-header-nav-empty-region-role-buttons:12-current-sha-confirmed-refs",
+  "releasedAt": "2026-07-24T15:13:21Z",
+  "targetFamily": "h3-linebreak-trailing-whitespace-statictext-tail",
+  "target": "www-royalmail-com-services-near-you-postboxes",
+  "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,18 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "released-single-engine-refiner",
-    "evidence": "Canonical lease was released with active count 0 immediately before acquisition. This worker owned only the 12 Phase C.5-confirmed header/nav visible empty outer region refs requested for Phase D and released the lease after writing the Phase D receipt."
+    "evidence": "Canonical lease was released with active count 0 immediately before acquisition. This worker owned only www-royalmail-com-services-near-you-postboxes:current-window-1 for the h3 LineBreak final StaticText trailing whitespace tail Phase D family and released the lease after checks and receipts."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-postboxes-h3-linebreak-trailing-whitespace-statictext-tail-2026-07-24T14:59:54Z",
+      "target": "www-royalmail-com-services-near-you-postboxes",
+      "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1",
+      "targetFamily": "h3-linebreak-trailing-whitespace-statictext-tail",
+      "startedAt": "2026-07-24T14:59:54Z",
+      "releasedAt": "2026-07-24T15:13:21Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "top-level-codex-stabilized-header-nav-empty-region-role-buttons-2026-07-24T14:39:52Z",
       "target": "_summaries/stabilized-header-nav-empty-region-role-buttons",

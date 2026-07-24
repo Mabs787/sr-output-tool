@@ -13990,7 +13990,8 @@
                 const rawName = node.name || "";
                 const fragment = normalize(rawName);
                 if (fragment && /[\p{L}\p{N}$£€]/u.test(fragment)) {
-                  fragments2.push(fragment);
+                  const preserveTrailingWhitespaceAfterLineBreak = options2.direct && isNativeHeading && options2.previousDirectRole === "linebreak" && !options2.nextDirectRole && /[\s\u00A0]$/u.test(rawName);
+                  fragments2.push(preserveTrailingWhitespaceAfterLineBreak ? `${fragment} ` : fragment);
                   textFragments.push(fragment);
                   sawBoundary = true;
                 } else if (options2.direct && isNativeHeading) {
@@ -14109,15 +14110,15 @@
             if (fragments2)
               return fragments2;
           }
+          const axBoundaryFragments = axHeadingStaticTextBoundaryFragments();
+          if (axBoundaryFragments)
+            return axBoundaryFragments;
           const hasLineBreak = Array.from(el.childNodes).some((child) => child.nodeType === Node.ELEMENT_NODE && child.tagName?.toLowerCase() === "br");
           if (hasLineBreak) {
             const fragments2 = axTrailingLineBreakMarkerFragments(lineBreakFragments(el));
             if (fragments2)
               return fragments2;
           }
-          const axBoundaryFragments = axHeadingStaticTextBoundaryFragments();
-          if (axBoundaryFragments)
-            return axBoundaryFragments;
           const axFragments = axLeadingSpaceHeadingFragments();
           if (axFragments)
             return axFragments;
@@ -14156,6 +14157,63 @@
             return void 0;
           const fragments = Array.from(el.children).filter((child) => !isHidden(child)).map((child) => readableText(child)).filter((fragment) => Boolean(fragment));
           return fragments.length > 1 ? fragments : void 0;
+        }
+        function normalizedHeadingFragmentForAnnouncement(fragment) {
+          const normalized = fragment?.replace(/[\u200B-\u200F\uFEFF]/g, "").replace(/\s+/g, " ").replace(/\s+([,!?;:]|\.(?![\p{L}\p{N}]))/gu, "$1").trim();
+          if (!normalized)
+            return void 0;
+          return /[\s\u00A0]$/u.test(fragment || "") ? `${normalized} ` : normalized;
+        }
+        function formatHeadingFragmentsPreservingFinalTail(level, fragments, fragmentCount) {
+          const normalizedFragments = fragments?.map((fragment) => normalizedHeadingFragmentForAnnouncement(fragment)).filter((fragment) => Boolean(fragment));
+          if (!normalizedFragments?.length)
+            return void 0;
+          const itemCount = fragmentCount && fragmentCount > normalizedFragments.length ? fragmentCount : normalizedFragments.length;
+          if (level === 1) {
+            return `heading level ${level} ${normalizedFragments.join(" ")}, ${itemCount} items`;
+          }
+          const [firstFragment, ...nestedFragments] = normalizedFragments;
+          const nestedLevel = Math.max(1, level - 1);
+          const shouldExpandBoundaryFragments = Boolean(fragmentCount && fragmentCount > normalizedFragments.length);
+          const nestedAnnouncements = nestedFragments.flatMap((fragment) => {
+            const parenthesized = shouldExpandBoundaryFragments ? fragment.match(/^\((.+)\)$/u) : void 0;
+            if (!parenthesized)
+              return [`level ${nestedLevel} ${fragment}`];
+            return [
+              `level ${nestedLevel} (`,
+              `level ${nestedLevel} ${parenthesized[1]}`,
+              `level ${nestedLevel})`
+            ];
+          });
+          return [
+            `heading level ${level} ${firstFragment}`,
+            ...nestedAnnouncements,
+            `level ${nestedLevel}, ${itemCount} items`
+          ].join(", ");
+        }
+        function axLineBreakTrailingWhitespaceHeadingAnnouncement(el, role, fragments, fragmentCount) {
+          if (role !== "heading" || !fragments?.length || !accessibilityNodes.length) {
+            return void 0;
+          }
+          const tag = el.tagName?.toLowerCase() || "";
+          if (!/^h[1-6]$/u.test(tag))
+            return void 0;
+          const axNode = axNodeForElementRole(el, "heading");
+          if (!axNode || normalizedAxRole(axNode.role) !== "heading")
+            return void 0;
+          const childNodes = axChildNodes(axNode);
+          const finalChild = childNodes[childNodes.length - 1];
+          const previousChild = childNodes[childNodes.length - 2];
+          if (normalizedAxRole(previousChild?.role) !== "linebreak" || normalizedAxRole(finalChild?.role) !== "statictext") {
+            return void 0;
+          }
+          const finalText = finalChild?.name || "";
+          if (!normalize(finalText) || !/[\s\u00A0]$/u.test(finalText))
+            return void 0;
+          if (!/[\s\u00A0]$/u.test(fragments[fragments.length - 1] || ""))
+            return void 0;
+          const level = Number.parseInt(el.getAttribute("aria-level") || tag.slice(1), 10) || 2;
+          return formatHeadingFragmentsPreservingFinalTail(level, fragments, fragmentCount);
         }
         function parenthesizedBoundaryPartCount(el) {
           const text = normalize(readableText(el));
@@ -14675,6 +14733,7 @@
             linkHeadingLevel: role === "link" ? descendantLinkCardHeadingLevel(el) : void 0,
             headingFragments,
             headingFragmentCount,
+            headingLineBreakTrailingWhitespaceAnnouncement: role === "heading" ? axLineBreakTrailingWhitespaceHeadingAnnouncement(el, role, headingFragments, headingFragmentCount) : void 0,
             preserveSpaceBeforePunctuationName: role === "heading" ? axConfirmedSpaceBeforePunctuationHeadingName(el, role) : role === "button" ? nativeButtonSymbolSpacingName : void 0,
             iconOnlyLink: role === "link" && (isIconOnlyLink(el) || isEmptySvgImageOnlyAxUrlFallbackLink(el, role, name)) || void 0,
             textlessCarouselPaginatorLink: role === "link" && isTextlessCarouselPaginatorLink(el) || void 0,
@@ -16119,6 +16178,12 @@
           const announcement = generateAnnouncement2(descriptor);
           return announcement ? ["list item", announcement] : ["list item"];
         }
+        function splitHeadingLineBreakTrailingWhitespaceAnnouncements(descriptor) {
+          if (descriptor.role !== "heading" || !descriptor.headingLineBreakTrailingWhitespaceAnnouncement) {
+            return void 0;
+          }
+          return [descriptor.headingLineBreakTrailingWhitespaceAnnouncement];
+        }
         function formatConjunctiveList(fragments, options2 = {}) {
           if (fragments.length <= 1)
             return fragments[0] || "";
@@ -16563,6 +16628,10 @@
               {
                 source: "split-rich-product-card-feature-heading",
                 announcements: splitRichProductCardFeatureHeadingAnnouncements(descriptor)
+              },
+              {
+                source: "split-heading-linebreak-trailing-whitespace",
+                announcements: splitHeadingLineBreakTrailingWhitespaceAnnouncements(descriptor)
               },
               {
                 source: "split-rich-product-card-feature-row",
