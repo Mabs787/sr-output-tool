@@ -88,6 +88,54 @@ function scanEntries(html, scannerOptions = {}) {
   }
 }
 
+test("scanSubtree clears text and visibility caches between scans", () => {
+  const dom = new JSDOM(`<main><p id="message">Before update</p></main>`);
+  const previousDocument = globalThis.document;
+  const previousCSS = globalThis.CSS;
+  const previousGetComputedStyle = globalThis.getComputedStyle;
+  const previousHTMLElement = globalThis.HTMLElement;
+  const previousNode = globalThis.Node;
+
+  globalThis.document = dom.window.document;
+  globalThis.CSS = dom.window.CSS;
+  globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
+  globalThis.HTMLElement = dom.window.HTMLElement;
+  globalThis.Node = dom.window.Node;
+
+  try {
+    const scanner = createDomScanner({
+      generateAnnouncement,
+      getContextEndAnnouncement,
+    });
+    assert.deepEqual(
+      scanner.scanSubtree(dom.window.document.body).map((entry) => entry.announcement),
+      ["main", "Before update", "end of, main"],
+    );
+
+    dom.window.document.getElementById("message").textContent = "After update";
+
+    assert.deepEqual(
+      scanner.scanSubtree(dom.window.document.body).map((entry) => entry.announcement),
+      ["main", "After update", "end of, main"],
+    );
+  } finally {
+    if (previousDocument === undefined) delete globalThis.document;
+    else globalThis.document = previousDocument;
+
+    if (previousCSS === undefined) delete globalThis.CSS;
+    else globalThis.CSS = previousCSS;
+
+    if (previousGetComputedStyle === undefined) delete globalThis.getComputedStyle;
+    else globalThis.getComputedStyle = previousGetComputedStyle;
+
+    if (previousHTMLElement === undefined) delete globalThis.HTMLElement;
+    else globalThis.HTMLElement = previousHTMLElement;
+
+    if (previousNode === undefined) delete globalThis.Node;
+    else globalThis.Node = previousNode;
+  }
+});
+
 test("scanSubtree exposes traversal debug metadata only when requested", () => {
   const html = `<main><h1>Debug heading</h1><p>Debug body</p></main>`;
 

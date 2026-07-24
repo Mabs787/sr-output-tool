@@ -1871,6 +1871,14 @@
           if (!el || el.nodeType !== Node.ELEMENT_NODE) {
             return false;
           }
+          const cached = hiddenStateCache.get(el);
+          if (cached !== void 0)
+            return cached;
+          const hidden = computeIsHidden(el);
+          hiddenStateCache.set(el, hidden);
+          return hidden;
+        }
+        function computeIsHidden(el) {
           if (el.getAttribute("aria-hidden") === "true") {
             return true;
           }
@@ -1916,6 +1924,10 @@
         const shadowContentHostByNode = /* @__PURE__ */ new WeakMap();
         let flattenedSlottedCarouselListCache;
         const flattenedSlottedCarouselStopCache = /* @__PURE__ */ new WeakMap();
+        let hiddenStateCache = /* @__PURE__ */ new WeakMap();
+        let readableTextDefaultCache = /* @__PURE__ */ new WeakMap();
+        let readableTextPreserveWbrCache = /* @__PURE__ */ new WeakMap();
+        let simpleNativeUlInlineStrongListItemAnnouncementsCache = /* @__PURE__ */ new WeakMap();
         function rememberShadowContentHost(nodes, host) {
           const visit = (node) => {
             if (!node || node.nodeType !== Node.ELEMENT_NODE)
@@ -1987,6 +1999,10 @@
           return assignedSlotNodes(slot).filter((child) => child.nodeType === Node.ELEMENT_NODE);
         }
         function readableText(el, options2 = {}) {
+          const cache = options2.preserveWbrBoundary ? readableTextPreserveWbrCache : readableTextDefaultCache;
+          if (el?.nodeType === Node.ELEMENT_NODE && cache.has(el)) {
+            return cache.get(el) || void 0;
+          }
           function collect(node) {
             if (!node)
               return "";
@@ -2008,34 +2024,38 @@
               const quoteText = collectElementText(node);
               return quoteText ? `\u201C${quoteText}\u201D` : "''''";
             }
-            let text = "";
+            let text2 = "";
             const shadowChildren = shadowContentChildren(node);
             const children = shadowChildren.length ? shadowChildren : Array.from(node.childNodes);
             for (const child of children) {
               const part = collect(child);
               if (!part)
                 continue;
-              if (text && needsBoundary(text, part))
-                text += " ";
-              text += part;
+              if (text2 && needsBoundary(text2, part))
+                text2 += " ";
+              text2 += part;
             }
-            return text;
+            return text2;
           }
           function collectElementText(node) {
-            let text = "";
+            let text2 = "";
             const shadowChildren = shadowContentChildren(node);
             const children = shadowChildren.length ? shadowChildren : Array.from(node.childNodes);
             for (const child of children) {
               const part = collect(child);
               if (!part)
                 continue;
-              if (text && needsBoundary(text, part))
-                text += " ";
-              text += part;
+              if (text2 && needsBoundary(text2, part))
+                text2 += " ";
+              text2 += part;
             }
-            return normalize(text) || "";
+            return normalize(text2) || "";
           }
-          return normalize(collect(el))?.replace(/''''\s+/g, "''''");
+          const text = normalize(collect(el))?.replace(/''''\s+/g, "''''") || void 0;
+          if (el?.nodeType === Node.ELEMENT_NODE) {
+            cache.set(el, text || null);
+          }
+          return text;
         }
         function directOwnText(el) {
           return normalize(Array.from(el?.childNodes || []).filter((child) => child.nodeType === Node.TEXT_NODE).map((child) => child.textContent || "").join(" "));
@@ -8351,6 +8371,16 @@
           return [markerAnnouncement, ...fragments];
         }
         function axSimpleNativeUlInlineStrongListItemAnnouncements(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return void 0;
+          if (simpleNativeUlInlineStrongListItemAnnouncementsCache.has(el)) {
+            return simpleNativeUlInlineStrongListItemAnnouncementsCache.get(el) || void 0;
+          }
+          const announcements = computeAxSimpleNativeUlInlineStrongListItemAnnouncements(el);
+          simpleNativeUlInlineStrongListItemAnnouncementsCache.set(el, announcements || null);
+          return announcements;
+        }
+        function computeAxSimpleNativeUlInlineStrongListItemAnnouncements(el) {
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
             return void 0;
           if (el.getAttribute("role"))
@@ -15621,6 +15651,10 @@
           };
         }
         function scanSubtree(root) {
+          hiddenStateCache = /* @__PURE__ */ new WeakMap();
+          readableTextDefaultCache = /* @__PURE__ */ new WeakMap();
+          readableTextPreserveWbrCache = /* @__PURE__ */ new WeakMap();
+          simpleNativeUlInlineStrongListItemAnnouncementsCache = /* @__PURE__ */ new WeakMap();
           const log = [];
           let stopIndex = 0;
           function emitTraversalStop(srId, stop) {

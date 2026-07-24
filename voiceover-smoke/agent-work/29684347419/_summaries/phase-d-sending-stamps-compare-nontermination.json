@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "www-royalmail-com-sending-stamps",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T12:13:51Z",
+  "finishedAt": "2026-07-24T12:22:10Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "handoffFrom": "D-regression-repair",
+  "handoffTo": "complete",
+  "nextPhase": "complete",
+  "leaseOwner": "top-level-codex-sending-stamps-compare-nontermination-2026-07-24T12:13:51Z",
+  "leaseAcquiredAt": "2026-07-24T12:13:51Z",
+  "leaseReleasedAt": "2026-07-24T12:22:10Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "released-single-engine-refiner",
+    "evidence": "Canonical lease was released before acquisition; this worker held activeEngineRefinerCount exactly 1 and released it after bounded verification."
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "receiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-product-list-link-static-tail.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-article-end-terminal-link-before-breadcrumb.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-send-help-inline-payment-list-boundary.json"
+    ],
+    "commitsReviewed": ["2d1e1f8", "7b69a54", "e34e42e"],
+    "targetFixtureDir": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-stamps",
+    "canonicalLease": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json"
+  },
+  "decisions": [
+    {
+      "family": "isolated-compare-nontermination",
+      "decision": "implemented-generic-performance-repair",
+      "reason": "The bounded target compare timed out at 90s with no compare output. A 45s V8 profile of the same isolated fixture showed scanner time dominated by repeated static DOM visibility and readable-text walks under descriptor capture, with the recent list-item helper path contributing repeated calls."
+    },
+    {
+      "family": "recent-c5-backed-list-and-article-behaviors",
+      "decision": "preserved",
+      "reason": "The patch memoizes deterministic per-scan DOM facts and the simple native ul inline-strong result; it does not change announcement wording or predicates."
+    }
+  ],
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-sending-stamps-compare-nontermination.json"
+  ],
+  "behaviorFixed": [
+    "Caches isHidden and readableText results for one scanSubtree pass, then resets caches at the next scanSubtree entry.",
+    "Caches simple native ul inline-strong list-item announcements by element within one scanSubtree pass.",
+    "Keeps cache reset coverage so reused scanners observe later DOM text changes."
+  ],
+  "fixtureChanges": [],
+  "evidence": {
+    "before": {
+      "command": "perl -e 'alarm shift; exec @ARGV' 90 ... voiceover:compare www-royalmail-com-sending-stamps 5",
+      "status": "timed-out",
+      "exitCode": 142,
+      "summary": "No compare JSON printed before the 90s alarm."
+    },
+    "profiling": {
+      "command": "perl -e 'alarm shift; exec @ARGV' 45 ... node --prof packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-stamps 5",
+      "status": "bounded-profile-collected",
+      "summary": "Processed profile showed dominant time in repeated jsdom getComputedStyle/closest/readableText collect paths during scanner capture."
+    },
+    "afterTargetCompare": {
+      "elapsedSeconds": 9.74,
+      "expectedCount": 270,
+      "actualCount": 258,
+      "mismatchWindowCount": 14,
+      "grouped": {
+        "list/marker": 8,
+        "role/structure": 6
+      }
+    }
+  },
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine TypeScript build passed in 1.53s before target compare and again as part of runtime build."
+    },
+    {
+      "command": "node --test --test-name-pattern \"clears text and visibility caches|simple native ul marker inline strong|strong link product-list tails|terminal-link article end\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused cache/family units passed: 5 tests."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full unit suite passed under 180s: 360 pass, 56 skipped, 0 failures."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=.../www-royalmail-com-sending-stamps yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-sending-stamps 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Target compare completed in 9.74s: expected 270, actual 258, mismatchWindowCount 14."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=.../send-royalmail-com-help yarn workspace @sr-output/engine voiceover:compare send-royalmail-com-help 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Send-help affected compare completed in 4.88s: expected 362, actual 349, mismatchWindowCount 29."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=.../www-royalmail-com-personal-receiving-mail-redirection yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-personal-receiving-mail-redirection 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Article affected compare completed in 2.57s: expected 174, actual 159, mismatchWindowCount 6."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=.../www-royalmail-com-sending-international yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-sending-international 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Article affected compare completed in 3.64s: expected 202, actual 194, mismatchWindowCount 9."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 320/320, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 207/207, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 80/80, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-apply-blue-badge 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 123/123, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare design-system-service-gov-uk-components-text-input 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 394/394, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode 5",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Known candidate baseline unchanged: expected 99, actual 101, mismatchWindowCount 2."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=www-w3-org-wai node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Bounded corpus check passed for www-w3-org-wai plus paired WAI WCAG fixture: 5 pass, 0 skipped."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Runtime generation passed in 2.78s."
+    }
+  ],
+  "remainingMismatches": {
+    "target": "www-royalmail-com-sending-stamps",
+    "expectedCount": 270,
+    "actualCount": 258,
+    "mismatchWindowCount": 14,
+    "summary": "Same known mismatch count as the pre-regression compare; this urgent Phase D pass only repaired nontermination/performance."
+  },
+  "revisitQueue": [
+    {
+      "family": "sending-stamps-existing-14-window-tail",
+      "currentWindowIndexes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      "latestActual": "Known remaining sending-stamps list/marker and role/structure windows after compare now completes.",
+      "latestExpected": "Trusted refined announcements remain unchanged.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Resume normal Phase D family work only after this performance repair is merged.",
+      "blocker": "Out of urgent nontermination repair scope.",
+      "checksNeeded": ["target compare", "focused family units", "protected exact compares"]
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "Urgent sending-stamps compare nontermination repaired.",
+    "c5Needed": false,
+    "reason": "Target compare completes under bound and recent C.5-backed behaviors are preserved."
+  }
+}

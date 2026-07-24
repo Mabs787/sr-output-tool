@@ -983,6 +983,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return false;
     }
 
+    const cached = hiddenStateCache.get(el);
+    if (cached !== undefined) return cached;
+
+    const hidden = computeIsHidden(el);
+    hiddenStateCache.set(el, hidden);
+    return hidden;
+  }
+
+  function computeIsHidden(el: any): boolean {
     if (el.getAttribute("aria-hidden") === "true") {
       return true;
     }
@@ -1048,6 +1057,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   const flattenedSlottedCarouselStopCache = new WeakMap<
     any,
     Array<{ el: any; counted: boolean }>
+  >();
+  let hiddenStateCache = new WeakMap<any, boolean>();
+  let readableTextDefaultCache = new WeakMap<any, string | null>();
+  let readableTextPreserveWbrCache = new WeakMap<any, string | null>();
+  let simpleNativeUlInlineStrongListItemAnnouncementsCache = new WeakMap<
+    any,
+    string[] | null
   >();
 
   function rememberShadowContentHost(nodes: any[], host: any): void {
@@ -1127,6 +1143,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     el: any,
     options: { preserveWbrBoundary?: boolean } = {},
   ): string | undefined {
+    const cache = options.preserveWbrBoundary
+      ? readableTextPreserveWbrCache
+      : readableTextDefaultCache;
+    if (el?.nodeType === Node.ELEMENT_NODE && cache.has(el)) {
+      return cache.get(el) || undefined;
+    }
+
     function collect(node: any): string {
       if (!node) return "";
       if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
@@ -1178,7 +1201,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return normalize(text) || "";
     }
 
-    return normalize(collect(el))?.replace(/''''\s+/g, "''''");
+    const text = normalize(collect(el))?.replace(/''''\s+/g, "''''") || undefined;
+    if (el?.nodeType === Node.ELEMENT_NODE) {
+      cache.set(el, text || null);
+    }
+    return text;
   }
 
   function directOwnText(el: any): string | undefined {
@@ -8613,6 +8640,19 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function axSimpleNativeUlInlineStrongListItemAnnouncements(el: any): string[] | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return undefined;
+    if (simpleNativeUlInlineStrongListItemAnnouncementsCache.has(el)) {
+      return simpleNativeUlInlineStrongListItemAnnouncementsCache.get(el) || undefined;
+    }
+
+    const announcements = computeAxSimpleNativeUlInlineStrongListItemAnnouncements(el);
+    simpleNativeUlInlineStrongListItemAnnouncementsCache.set(el, announcements || null);
+    return announcements;
+  }
+
+  function computeAxSimpleNativeUlInlineStrongListItemAnnouncements(
+    el: any,
+  ): string[] | undefined {
     if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return undefined;
     if (el.getAttribute("role")) return undefined;
     if (
@@ -18053,6 +18093,12 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   }
 
   function scanSubtree(root: any): ScanLogEntry[] {
+    hiddenStateCache = new WeakMap<any, boolean>();
+    readableTextDefaultCache = new WeakMap<any, string | null>();
+    readableTextPreserveWbrCache = new WeakMap<any, string | null>();
+    simpleNativeUlInlineStrongListItemAnnouncementsCache =
+      new WeakMap<any, string[] | null>();
+
     const log: ScanLogEntry[] = [];
     let stopIndex = 0;
 
