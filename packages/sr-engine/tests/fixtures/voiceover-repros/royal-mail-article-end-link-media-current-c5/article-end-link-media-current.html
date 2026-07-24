@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article end link and media current C.5 repro</title>
+    <style>
+      body { font-family: Arial, sans-serif; line-height: 1.35; margin: 24px; }
+      [data-sr-scan-root] { max-width: 820px; }
+      .module { margin: 0 0 36px; }
+      .shell { display: block; }
+      .card-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+      .media-slot { display: inline-block; min-width: 32px; min-height: 24px; }
+      img, svg { display: inline-block; height: 32px; width: 48px; }
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="article-end-link-media-current"
+      data-sr-repro-id="c5-article-end-link-media-current"
+    >
+      <h1>Article end current variants</h1>
+
+      <section class="module" data-sr-variant="terminal-link-single-wrapper" aria-labelledby="link-single-heading">
+        <h2 id="link-single-heading">Terminal link, single wrapper</h2>
+        <div>
+          <div>
+            <article role="article" data-sr-source-contract="outer-article-single-child-terminal-link">
+              <div class="shell">
+                <h3>Help topic</h3>
+                <p>Short help text.</p>
+                <p>
+                  <a href="#link-single-action">
+                    <span>Help link</span>
+                    <span class="visually-hidden"> Opens in a new window</span>
+                  </a>
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-link-single">
+                  <h2 id="breadcrumb-link-single">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-link-single">Home</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><a href="#section-link-single">Section</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span>Help topic</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" data-sr-variant="terminal-link-services-shell" aria-labelledby="link-services-heading">
+        <h2 id="link-services-heading">Terminal link, nearby heading shell</h2>
+        <div>
+          <div>
+            <article role="article" data-sr-source-contract="outer-article-services-terminal-link">
+              <div class="shell">
+                <div>Nearby text</div>
+                <h2>Find services</h2>
+                <a href="#link-services-action">
+                  <span>Location link</span>
+                  <span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-link-services">
+                  <h2 id="breadcrumb-link-services">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-link-services">Home</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><a href="#section-link-services">Section</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span>Services</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" data-sr-variant="terminal-link-after-nested-article" aria-labelledby="link-nested-heading">
+        <h2 id="link-nested-heading">Terminal link after nested article</h2>
+        <div>
+          <div>
+            <article role="article" data-sr-source-contract="outer-article-with-inner-article-terminal-link">
+              <div class="shell">
+                <article aria-labelledby="inner-card-heading">
+                  <div class="card-row">
+                    <div>
+                      <h3 id="inner-card-heading">Inner card</h3>
+                      <p>Short card text.</p>
+                      <p><a href="#inner-card-action">Inner action</a></p>
+                    </div>
+                    <div class="media-slot">
+                      <img alt="Card image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+                    </div>
+                  </div>
+                </article>
+                <h2>Next offer</h2>
+                <p>Short offer text.</p>
+                <p><a href="#outer-link-action">Outer action</a></p>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-link-nested">
+                  <h2 id="breadcrumb-link-nested">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-link-nested">Home</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span>Offer</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" data-sr-variant="terminal-link-trailing-media-group" aria-labelledby="media-tail-heading">
+        <h2 id="media-tail-heading">Terminal link with trailing media group</h2>
+        <div>
+          <div>
+            <article role="article" data-sr-source-contract="outer-article-terminal-link-group-image">
+              <div class="shell">
+                <h3>Image card</h3>
+                <p>Short image text.</p>
+                <p><a href="#media-tail-action">Image action</a></p>
+                <div role="group">
+                  <img alt="Sample image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-media-tail">
+                  <h2 id="breadcrumb-media-tail">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-media-tail">Home</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><a href="#section-media-tail">Section</a><span><svg aria-hidden="true" role="img" viewBox="0 0 10 10"></svg></span></li>
+                    <li><span class="visually-hidden">Current page: </span>Image card</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" data-sr-variant="negative-no-article" aria-labelledby="negative-no-article-heading">
+        <h2 id="negative-no-article-heading">Negative control without article</h2>
+        <div data-sr-source-contract="no-article-before-breadcrumb">
+          <h3>Plain block</h3>
+          <p>Short plain text.</p>
+          <p><a href="#negative-no-article-action">Plain action</a></p>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <nav role="navigation" aria-labelledby="breadcrumb-negative-no-article">
+                  <h2 id="breadcrumb-negative-no-article">Breadcrumb</h2>
+                  <ol>
+                    <li><a href="#home-negative-no-article">Home</a></li>
+                    <li><span class="visually-hidden">Current page: </span>Plain block</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" data-sr-variant="negative-contained-breadcrumb" aria-labelledby="negative-contained-heading">
+        <h2 id="negative-contained-heading">Negative control with contained breadcrumb</h2>
+        <article role="article" data-sr-source-contract="breadcrumb-contained-in-article">
+          <div class="shell">
+            <h3>Contained block</h3>
+            <p>Short contained text.</p>
+            <p><a href="#negative-contained-action">Contained action</a></p>
+            <nav role="navigation" aria-labelledby="breadcrumb-negative-contained">
+              <h2 id="breadcrumb-negative-contained">Breadcrumb</h2>
+              <ol>
+                <li><a href="#home-negative-contained">Home</a></li>
+                <li><span class="visually-hidden">Current page: </span>Contained block</li>
+              </ol>
+            </nav>
+          </div>
+        </article>
+      </section>
+
+      <p>SR Output Tool VoiceOver scan end marker</p>
+    </main>
+  </body>
+</html>
