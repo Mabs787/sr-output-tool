@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T13:48:15Z",
+  "finishedAt": "2026-07-24T14:47:11Z",
+  "receipt": "../send-royalmail-com/04-minimal-reproduction-scan.json",
+  "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+  "canary": {
+    "workflowRunId": "30100709931",
+    "artifactId": "8599704049",
+    "headSha": "f6f439f9d811156f9a3255dd9604de3e6bf83f91",
+    "fixtureBlobSha256": "3fe672772a4438e6ea1f31760c4778fa97044f697631c56c4afa819ba2105ed4",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "scanRootPresent": true,
+    "identityPresent": true,
+    "axNodeCount": 178,
+    "stepSnapshotCount": 28,
+    "passed": true
+  },
+  "fullScan": {
+    "workflowRunId": "30101393564",
+    "artifactId": "8600137692",
+    "headSha": "42c61a0a2fb0bce42c7c9300bf32b93321ee7b6f",
+    "acceptedHeadBlobSha256MatchesCanary": true,
+    "downloadRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com/c5-nonsemantic-card-media-current-refined-full-artifacts/30101393564",
+    "axNodeCount": 178,
+    "stepSnapshotCount": 66,
+    "voiceOverAnnouncementCount": 60,
+    "engineAnnouncementCount": 37
+  },
+  "retryHistory": [
+    {
+      "canaryRunId": "30098819530",
+      "fullRunId": "30099519132",
+      "result": "insufficient-repro-for-current-window-12",
+      "reason": "Empty SVGs pruned image-child AX nodes, causing generic group stops instead of original image stops."
+    },
+    {
+      "canaryRunId": "30100709931",
+      "fullRunId": "30101393564",
+      "result": "accepted",
+      "reason": "Non-empty SVG children restored the generic-div-with-image-child AX contract."
+    }
+  ],
+  "verdicts": [
+    {
+      "candidateRef": "send-royalmail-com:current-window-10",
+      "subfamily": "send-nonsemantic-product-option-button-group",
+      "verdict": "engine-gap-confirmed",
+      "sourceEvidence": "Original VoiceOver/refined indexes 87-91 say group, group, button, product-note text, Find out more button group; original DOM is nonsemantic div/span/p/button around source nodes 2534-2542.",
+      "miniVoiceOverEvidence": "Retry full scan says group, image, image, button, Save online.* Drop at a postbox., Find out more button group in the same nonsemantic product shell.",
+      "engineEvidence": "Mini engine emits button and Find out more button without the group/text/button-group sequence."
+    },
+    {
+      "candidateRef": "send-royalmail-com:current-window-12",
+      "subfamily": "send-nonsemantic-multi-image-promo-bank",
+      "verdict": "engine-gap-confirmed",
+      "sourceEvidence": "Original VoiceOver/refined indexes 94-103 split Pay with/card/PayPal/mobile payment and then five image stops before No printer; original AX exposes titled generic payment wrappers with child SVG image nodes.",
+      "miniVoiceOverEvidence": "Retry canary and full scan reproduce Pay with, card, PayPal, mobile payment, image x5, No printer? No problem.",
+      "engineEvidence": "Mini engine joins Pay with card, PayPal or mobile payment and skips the five nonsemantic image stops."
+    }
+  ],
+  "loopBack": {
+    "handoffTo": "engine-refiner",
+    "promotionTarget": false,
+    "reason": "Both refs are engine-gap-confirmed supporting evidence for the original send-royalmail-com workflow, not standalone Phase E fixtures."
+  },
+  "rulesObserved": {
+    "currentEngineOutputUsedAsTruth": false,
+    "reusableEngineLogicModified": false,
+    "isolatedFixturesModified": false,
+    "docsModified": false,
+    "leaseModified": false,
+    "fixturesPromoted": false,
+    "publicHostingUsed": false
+  }
+}

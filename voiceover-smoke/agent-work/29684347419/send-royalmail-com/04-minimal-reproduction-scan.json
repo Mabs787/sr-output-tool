@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T13:48:15Z",
+  "finishedAt": "2026-07-24T14:47:11Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "requestingPhase": "C",
+  "mismatchFamily": "send-nonsemantic-card-media-current",
+  "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+  "sourceRefs": [
+    {
+      "candidateRef": "send-royalmail-com:current-window-10",
+      "currentCompareWindow": "current-window-10",
+      "subfamily": "send-nonsemantic-product-option-button-group",
+      "sourceExpectedIndexes": [87, 88, 89, 90, 91],
+      "sourceActualIndex": 81,
+      "originalExpectedSnippet": [
+        "group",
+        "group",
+        "button",
+        "Save by buying postage online.* Now you can drop off smaller parcels at a postbox.t",
+        "Find out more, button, group"
+      ],
+      "originalActualSnippet": [
+        "button",
+        "Find out more, button"
+      ],
+      "reasonPhaseC5Required": "The prior semantic C.5/Phase D result used role=group/article option cards. The surviving original DOM is nonsemantic div/span/p/button with generic wrappers, carousel arrow button, sibling SVGs, and a native button inside a span."
+    },
+    {
+      "candidateRef": "send-royalmail-com:current-window-12",
+      "currentCompareWindow": "current-window-12",
+      "subfamily": "send-nonsemantic-multi-image-promo-bank",
+      "sourceExpectedIndexes": [94, 95, 96, 97, 98, 99, 100, 101, 102, 103],
+      "sourceActualIndex": 89,
+      "originalExpectedSnippet": [
+        "Pay with",
+        "card",
+        "PayPal",
+        "mobile payment",
+        "image",
+        "image",
+        "image",
+        "image",
+        "image",
+        "No printer? No problem."
+      ],
+      "originalActualSnippet": [
+        "Pay with card, PayPal or mobile payment",
+        "No printer? No problem."
+      ],
+      "reasonPhaseC5Required": "Prior residual-image C.5 did not preserve the original five-item nonsemantic payment promo bank: titled generic div wrappers around non-hidden SVG image children before the No printer promo text."
+    }
+  ],
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "sourceReceipts": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/final-family-audit-card-media-image-group.json",
+      "voiceover-smoke/agent-work/29684347419/send-royalmail-com/03-evidence-refinement.json",
+      "voiceover-smoke/agent-work/29684347419/send-royalmail-com/04-fixture-judge.json"
+    ],
+    "sourceArtifacts": [
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com/scans/send-royalmail-com/rendered-html.html",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com/scans/send-royalmail-com/accessibility-tree.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com/scans/send-royalmail-com/step-snapshots.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com/scans/send-royalmail-com/voiceover-output.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com/scans/send-royalmail-com/engine-traversal-debug.json"
+    ],
+    "initialLocalEngineSanityCommand": "node -e <scan repro HTML with packages/sr-engine dist scanner>",
+    "sourceCompareCommand": "env SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com yarn workspace @sr-output/engine voiceover:compare send-royalmail-com"
+  },
+  "reproduction": {
+    "repoRelativeFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "fileSha256": "3fe672772a4438e6ea1f31760c4778fa97044f697631c56c4afa819ba2105ed4",
+    "gitObjectSha256AtAcceptedFullHead": "3fe672772a4438e6ea1f31760c4778fa97044f697631c56c4afa819ba2105ed4",
+    "scanRootMarker": "data-sr-scan-root",
+    "identityMarker": "send-nonsemantic-card-media-current",
+    "preservedDomContractChecklist": [
+      "nonsemantic div wrapper depth around product-option card media/text",
+      "native button with no accessible name before the product note",
+      "sibling non-hidden SVG wrappers before the product note",
+      "span text immediately followed by native button containing p text and aria-hidden SVG",
+      "paragraph text with strong descendants split into Pay with/card/PayPal/mobile payment boundaries",
+      "five titled generic div wrappers containing non-hidden SVG image children before No printer text",
+      "No printer paragraph with strong prefix and br boundary",
+      "hidden media negative control uses display:none so it is absent from AX traversal"
+    ],
+    "originalAxContract": [
+      {
+        "sourceDomNodeIds": ["2534", "2538", "2539", "2540", "2541", "2542"],
+        "contract": "StaticText Save by buying... followed by focusable native button name Find out more inside nonsemantic span/div ancestors; VoiceOver source steps 89-93 include group, group, button, text, Find out more button group."
+      },
+      {
+        "sourceDomNodeIds": ["2564", "2565", "2573", "2576", "2581", "2590"],
+        "contract": "Each payment wrapper is role generic with title-derived description and a child SVG role image with empty name; VoiceOver source steps 102-106 announce five image stops before No printer text."
+      }
+    ],
+    "contentShorteningNotes": [
+      "Product note shortened to avoid caption truncation; retained inline text-to-button boundary and punctuation before the button.",
+      "No printer body shortened after the heading/br boundary; disputed behavior is the five image stops before that paragraph, not the long body copy.",
+      "Currency was normalized to ASCII GBP because glyph pronunciation is outside these two card/media requests."
+    ],
+    "omittedContext": [
+      {
+        "omission": "header, navigation, form combobox, footer, analytics, and unrelated page cards",
+        "whySafe": "The disputed behavior is local to nonsemantic product/promo wrappers and adjacent text/button/media siblings; no source evidence showed header/footer landmarks affecting these two AX contracts."
+      },
+      {
+        "omission": "full Royal Mail CSS and decorative sizing",
+        "whySafe": "Only display, visibility, hidden state, focusability, and SVG presence affect the AX contracts under test."
+      }
+    ]
+  },
+  "scanWorkflow": {
+    "branch": "codex/royal-mail-voiceover-refinement",
+    "commits": [
+      {
+        "sha": "1c6fb225848c7b511ff5ef685b897f033aa16e7b",
+        "message": "Add send nonsemantic card media repro"
+      },
+      {
+        "sha": "f6f439f9d811156f9a3255dd9604de3e6bf83f91",
+        "message": "Refine send nonsemantic media repro"
+      }
+    ],
+    "commands": [
+      "gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_step_seconds=10 -f max_steps=28 -f navigation_mode=voiceover-right-arrow",
+      "gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_step_seconds=10 -f max_steps=80 -f navigation_mode=voiceover-right-arrow"
+    ],
+    "pollingCadence": "Waited 5 minutes before first status check for each canary/full run, then polled approximately once per minute until completion.",
+    "attempts": [
+      {
+        "attempt": 1,
+        "canaryRunId": "30098819530",
+        "canaryArtifactId": "8598926831",
+        "fullRunId": "30099519132",
+        "fullArtifactId": "8599383186",
+        "result": "insufficient-repro-for-promo-bank",
+        "reason": "The initial mini had empty SVGs in the titled payment wrappers; Chrome AX exposed generic nodes without image children and VoiceOver announced five group stops, not the original five image stops."
+      },
+      {
+        "attempt": 2,
+        "canaryRunId": "30100709931",
+        "canaryArtifactId": "8599704049",
+        "fullRunId": "30101393564",
+        "fullArtifactId": "8600137692",
+        "result": "accepted",
+        "reason": "Refined mini preserved non-empty SVG image children under the titled generic payment wrappers and reproduced both source contracts."
+      }
+    ]
+  },
+  "fixturePathDiagnostic": {
+    "decision": "passed",
+    "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "requestedRef": "codex/royal-mail-voiceover-refinement",
+    "canaryWorkflowRunId": "30100709931",
+    "canaryHeadSha": "f6f439f9d811156f9a3255dd9604de3e6bf83f91",
+    "fullWorkflowRunId": "30101393564",
+    "fullHeadSha": "42c61a0a2fb0bce42c7c9300bf32b93321ee7b6f",
+    "resolvedRunnerUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "scanRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com/c5-nonsemantic-card-media-current-refined-full-artifacts/30101393564/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-nonsemantic-card-media-current/scans/packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-nonsemantic-card-media-current",
+    "renderedFixturePath": "rendered-html.html",
+    "expectedIdentityText": "send-nonsemantic-card-media-current",
+    "canaryAxNodeCount": 178,
+    "canaryStepSnapshotCount": 28,
+    "fullAxNodeCount": 178,
+    "fullStepSnapshotCount": 66,
+    "stepScreenshotCount": 200,
+    "captionScreenshotCount": 212,
+    "renderedHtmlNonEmpty": true,
+    "acceptedFullHeadBlobSha256MatchesRefinedCanary": true
+  },
+  "artifactPath": {
+    "repoRelativeFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "workflowRunId": "30101393564",
+    "artifactId": "8600137692",
+    "downloadRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com/c5-nonsemantic-card-media-current-refined-full-artifacts/30101393564",
+    "scanRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com/c5-nonsemantic-card-media-current-refined-full-artifacts/30101393564/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-nonsemantic-card-media-current/scans/packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-nonsemantic-card-media-current",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "renderedFixturePath": "rendered-html.html"
+  },
+  "evidence": {
+    "miniRawVoiceOverOutput": [
+      "group",
+      "Tube",
+      "up to 20kg",
+      "e.g. posters",
+      "from GBP 5.55",
+      "image",
+      "image",
+      "button",
+      "Save online.* Drop at a postbox.",
+      "Find out more, button, group",
+      "No",
+      "registration required",
+      "Pay with",
+      "card",
+      "PayPal",
+      "mobile payment",
+      "image",
+      "image",
+      "image",
+      "image",
+      "image",
+      "No printer? No problem."
+    ],
+    "miniRenderedHtmlSummary": "Rendered HTML contains data-sr-scan-root and identity send-nonsemantic-card-media-current; positive product variant preserves nonsemantic div/span/p/button shell; positive promo variant preserves five titled generic div wrappers around non-hidden SVG children before No printer text.",
+    "miniAxEvidenceSummary": "Accepted full scan AX has 178 nodes. The refined canary AX exposes payment wrappers as generic nodes with descriptions Mastercard/Visa/PayPal/Apple pay/Google pay and child image nodes, matching the original source AX contract.",
+    "miniEngineOutput": [
+      "button",
+      "Find out more, button",
+      "No",
+      "registration required",
+      "Pay with card, PayPal or mobile payment",
+      "No printer? No problem."
+    ],
+    "controlsReached": {
+      "positiveControls": [
+        "positive-send-nonsemantic-product-option-button-group",
+        "positive-send-nonsemantic-multi-image-promo-bank"
+      ],
+      "semanticControls": [
+        "semantic-control-product-option",
+        "semantic-control-promo-bank"
+      ],
+      "negativeControls": [
+        "negative-hidden-media-control"
+      ],
+      "tailGuardWindows": [
+        "Hidden media should not create image stops reached; hidden SVG/button descendants did not produce image stops."
+      ],
+      "unreached": []
+    }
+  },
+  "decisions": {
+    "currentEngineOutputUsedAsTruth": false,
+    "siteFixtureModified": false,
+    "reusableEngineLogicModified": false,
+    "fixturesPromoted": false,
+    "publicHostingUsed": false,
+    "retryCount": 1,
+    "debugEvidenceStatus": "complete",
+    "verdict": "engine-gap-confirmed",
+    "splitVerdicts": [
+      {
+        "candidateRef": "send-royalmail-com:current-window-10",
+        "verdict": "engine-gap-confirmed",
+        "minimalDomAxContract": "Nonsemantic product-option shell with nested div wrappers, non-hidden SVG siblings producing image/group stops, a native empty-name carousel button, and span text immediately followed by a focusable native button containing p text; VoiceOver says group/group/button/text/Find out more button group while engine emits button/Find out more button and omits group/text boundaries.",
+        "suggestedFocusedUnitCoverage": "Add a scanner unit covering a same-structure div/span/native-button product note where AX/VoiceOver produces group stops around generic visual wrappers and a button group suffix."
+      },
+      {
+        "candidateRef": "send-royalmail-com:current-window-12",
+        "verdict": "engine-gap-confirmed",
+        "minimalDomAxContract": "Paragraph with strong inline text split into Pay with/card/PayPal/mobile payment followed by five titled generic div wrappers each containing a non-hidden SVG image child; VoiceOver says five image stops before No printer text while engine joins the paragraph and skips the nonsemantic SVG image bank.",
+        "suggestedFocusedUnitCoverage": "Add a scanner unit for titled generic div plus non-hidden SVG image-child banks that preserves VoiceOver image stops when the AX contract has generic description plus child image nodes."
+      }
+    ]
+  },
+  "fixtureChanges": [
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+      "field": "html",
+      "range": "new file",
+      "before": "",
+      "after": "same-structure synthetic C.5 repro with two positive nonsemantic variants plus semantic and hidden negative controls",
+      "reason": "minimal-repro-confirmed",
+      "evidencePointers": [
+        "canary run 30100709931 artifact 8599704049",
+        "full scan run 30101393564 artifact 8600137692",
+        "source current-window-10",
+        "source current-window-12"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": true,
+      "approvedByPhase": "C.5"
+    }
+  ],
+  "nextPhase": "engine-refiner",
+  "handoffReason": "Both surviving send-royalmail-com nonsemantic card/media refs reproduced the original VoiceOver behavior under the minimal DOM/AX contract while the engine output differs.",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "engine-refiner",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Implement focused generic coverage for send-nonsemantic-product-option-button-group and send-nonsemantic-multi-image-promo-bank only; do not promote the repro as a Phase E target.",
+    "c5Needed": false,
+    "reason": "C.5 mini VoiceOver evidence is complete and engine-gap-confirmed for both source refs."
+  }
+}
