@@ -12059,6 +12059,218 @@ test("scanSubtree prefixes AX-confirmed plain text disc list items with native m
   );
 });
 
+test("scanSubtree splits C5-confirmed simple native ul marker inline strong boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          >Enter your email address so we can send you your confirmation emails.</li>
+          <li
+            data-sr-dom-node-id="12"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          >Confirm you are not sending any prohibited or restricted items.</li>
+          <li
+            data-sr-dom-node-id="13"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          >Confirm you have understood the terms. Choose whether to pay with a <strong data-sr-dom-node-id="14">debit or credit card</strong> or by <strong data-sr-dom-node-id="15">PayPal</strong> or <strong data-sr-dom-node-id="16">mobile payment</strong>.</li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ul",
+              childIds: ["21", "24", "27"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "23", ignored: false, role: "StaticText", name: "Enter your email address so we can send you your confirmation emails." },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "12",
+              tagName: "li",
+              childIds: ["25", "26"],
+            },
+            { nodeId: "25", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "26", ignored: false, role: "StaticText", name: "Confirm you are not sending any prohibited or restricted items." },
+            {
+              nodeId: "27",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "13",
+              tagName: "li",
+              childIds: ["28", "29", "31", "32", "34", "35", "36", "38", "39"],
+            },
+            { nodeId: "28", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "29", ignored: false, role: "StaticText", name: "Confirm you have understood the terms. Choose whether to pay with a " },
+            {
+              nodeId: "31",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "14",
+              tagName: "strong",
+              childIds: ["33"],
+            },
+            { nodeId: "33", ignored: false, role: "StaticText", name: "debit or credit card" },
+            { nodeId: "32", ignored: false, role: "StaticText", name: " or by " },
+            {
+              nodeId: "34",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "15",
+              tagName: "strong",
+              childIds: ["37"],
+            },
+            { nodeId: "37", ignored: false, role: "StaticText", name: "PayPal" },
+            { nodeId: "35", ignored: false, role: "StaticText", name: " or " },
+            {
+              nodeId: "36",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "16",
+              tagName: "strong",
+              childIds: ["40"],
+            },
+            { nodeId: "40", ignored: false, role: "StaticText", name: "mobile payment" },
+            { nodeId: "38", ignored: false, role: "StaticText", name: "." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 3 items",
+      "• Enter your email address so we can send you your confirmation emails., 1 of 3",
+      "• Confirm you are not sending any prohibited or restricted items., 2 of 3",
+      "• Confirm you have understood the terms. Choose whether to pay with a, 3 of 3",
+      "debit or credit card",
+      "orby",
+      "PayPal",
+      "mobile payment",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree keeps simple native ul inline strong marker rule guarded", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "20",
+        ignored: false,
+        role: "list",
+        name: "",
+        domNodeId: "10",
+        tagName: "ul",
+        childIds: ["21"],
+      },
+      {
+        nodeId: "21",
+        ignored: false,
+        role: "listitem",
+        name: "",
+        domNodeId: "11",
+        tagName: "li",
+        childIds: ["22", "23", "25", "26", "28", "29"],
+      },
+      { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+      { nodeId: "23", ignored: false, role: "StaticText", name: "Pay with a " },
+      {
+        nodeId: "25",
+        ignored: false,
+        role: "strong",
+        name: "",
+        domNodeId: "12",
+        tagName: "strong",
+        childIds: ["27"],
+      },
+      { nodeId: "27", ignored: false, role: "StaticText", name: "card" },
+      { nodeId: "26", ignored: false, role: "StaticText", name: " or " },
+      {
+        nodeId: "28",
+        ignored: false,
+        role: "strong",
+        name: "",
+        domNodeId: "13",
+        tagName: "strong",
+        childIds: ["30"],
+      },
+      { nodeId: "30", ignored: false, role: "StaticText", name: "cash" },
+      { nodeId: "29", ignored: false, role: "StaticText", name: "." },
+    ],
+  };
+
+  function assertGuarded(html) {
+    const output = scanHtml(html, { accessibilityTree });
+    assert.equal(output.includes("• Pay with a, 1 of 1"), false);
+  }
+
+  assertGuarded(`
+    <ol data-sr-dom-node-id="10">
+      <li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc">
+        Pay with a <strong data-sr-dom-node-id="12">card</strong> or <strong data-sr-dom-node-id="13">cash</strong>.
+      </li>
+    </ol>
+  `);
+  assertGuarded(`
+    <ul data-sr-dom-node-id="10">
+      <li aria-label="Payment methods" data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc">
+        Pay with a <strong data-sr-dom-node-id="12">card</strong> or <strong data-sr-dom-node-id="13">cash</strong>.
+      </li>
+    </ul>
+  `);
+  assertGuarded(`
+    <ul data-sr-dom-node-id="10">
+      <li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc">
+        Pay with a <strong data-sr-dom-node-id="12">card</strong> or <button>cash</button>.
+      </li>
+    </ul>
+  `);
+  assertGuarded(`
+    <ul data-sr-dom-node-id="10">
+      <li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc">
+        Pay with a <span tabindex="0"><strong data-sr-dom-node-id="12">card</strong></span> or <strong data-sr-dom-node-id="13">cash</strong>.
+      </li>
+    </ul>
+  `);
+  assertGuarded(`
+    <ul data-sr-dom-node-id="10">
+      <li data-sr-dom-node-id="11" data-sr-marker-content="normal" data-sr-marker-display="inline-block" data-sr-marker-list-style-type="disc">
+        Pay with a <strong data-sr-dom-node-id="12">card</strong> or <strong data-sr-dom-node-id="13">cash</strong>.
+        <ul><li>Nested choice</li></ul>
+      </li>
+    </ul>
+  `);
+});
+
 test("scanSubtree prefixes AX-confirmed leading text in mixed text-link list items", () => {
   assert.deepEqual(
     scanHtml(

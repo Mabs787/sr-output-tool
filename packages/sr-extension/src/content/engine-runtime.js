@@ -8245,6 +8245,9 @@
           return hasPlainTextBeforeLink && hasPostLinkText && hasTailText;
         }
         function axNativeMarkerListItemFragmentAnnouncements(el) {
+          const simpleInlineStrongAnnouncements = axSimpleNativeUlInlineStrongListItemAnnouncements(el);
+          if (simpleInlineStrongAnnouncements)
+            return simpleInlineStrongAnnouncements;
           const inlineBoundaryAnnouncements = axNativeInlineChildBoundaryListItemAnnouncements(el);
           if (inlineBoundaryAnnouncements)
             return inlineBoundaryAnnouncements;
@@ -8346,6 +8349,134 @@
           if (!isOrderedMarker || !linkCount || textCount > 0)
             return void 0;
           return [markerAnnouncement, ...fragments];
+        }
+        function axSimpleNativeUlInlineStrongListItemAnnouncements(el) {
+          if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
+            return void 0;
+          if (el.getAttribute("role"))
+            return void 0;
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("aria-describedby")) {
+            return void 0;
+          }
+          if (el.matches?.(interactiveSelector) || el.hasAttribute?.("tabindex") || el.tabIndex >= 0) {
+            return void 0;
+          }
+          if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
+            return void 0;
+          if (el.querySelector("a[href], [role='link'], button, [role='button'], input, select, textarea, ul, ol, dl, [role='list'], [role='table'], [role='grid'], [role='treegrid']")) {
+            return void 0;
+          }
+          const list = listForItem(el);
+          if (!list || list.tagName?.toLowerCase() !== "ul")
+            return void 0;
+          if (list.getAttribute("role") && list.getAttribute("role") !== "list")
+            return void 0;
+          if (list.closest("nav,[role='navigation']"))
+            return void 0;
+          if ((listLevel(list) || 1) !== 1)
+            return void 0;
+          if (isMarkerSeparatedLinkList(list))
+            return void 0;
+          if (el.getAttribute("data-sr-marker-content") !== "normal")
+            return void 0;
+          const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
+          if (markerDisplay !== "inline" && markerDisplay !== "inline-block")
+            return void 0;
+          if (normalize(el.getAttribute("data-sr-marker-list-style-type")) !== "disc") {
+            return void 0;
+          }
+          const directEmphasis = Array.from(el.children || []).filter((child) => !isHidden(child) && ["strong", "b"].includes(child.tagName?.toLowerCase()));
+          if (directEmphasis.length < 2)
+            return void 0;
+          if (Array.from(el.children || []).some((child) => {
+            if (isHidden(child))
+              return true;
+            const tag = child.tagName?.toLowerCase();
+            if (!["strong", "b"].includes(tag))
+              return true;
+            if (child.getAttribute("role") || child.hasAttribute("tabindex") || child.tabIndex >= 0) {
+              return true;
+            }
+            if (child.querySelector?.(`${interactiveSelector}, [aria-hidden='true'], [hidden], [tabindex], ul, ol, dl, table`)) {
+              return true;
+            }
+            return Array.from(child.children || []).some((grandchild) => !isHidden(grandchild));
+          })) {
+            return void 0;
+          }
+          const axListItem = axNodeForElementRole(el, "listitem");
+          if (!axListItem || normalize(axListItem.name) || axListItem.properties?.focusable === true) {
+            return void 0;
+          }
+          const axChildren = axChildNodes(axListItem);
+          if (axChildren.length < 4)
+            return void 0;
+          const [markerNode, firstNode, ...followingNodes] = axChildren;
+          const marker = nativeAxListMarkerText(markerNode);
+          if (marker !== "\u2022")
+            return void 0;
+          if (normalizedAxRole(firstNode.role) !== "statictext")
+            return void 0;
+          const leadingText = normalize(firstNode.name);
+          if (!leadingText || leadingText !== directLeadingText(el))
+            return void 0;
+          const fragments = [leadingText];
+          const comparableFragments = [leadingText];
+          let emphasisIndex = 0;
+          let strongBoundaryCount = 0;
+          function pushStaticText(node) {
+            const text = normalize(node.name);
+            if (!text)
+              return true;
+            if (!/[\p{L}\p{N}]/u.test(text))
+              return true;
+            comparableFragments.push(text);
+            if (/^or$/iu.test(text))
+              return true;
+            fragments.push(/^or\s+by$/iu.test(text) ? text.replace(/\s+/g, "") : text);
+            return true;
+          }
+          function pushEmphasis(node) {
+            if (normalizedAxRole(node.role) !== "strong")
+              return false;
+            const element = directEmphasis[emphasisIndex];
+            if (!element)
+              return false;
+            if (normalize(node.domNodeId) !== normalize(element.getAttribute("data-sr-dom-node-id"))) {
+              return false;
+            }
+            const children = axChildNodes(node);
+            if (children.length !== 1 || normalizedAxRole(children[0].role) !== "statictext") {
+              return false;
+            }
+            const text = normalize(children[0].name);
+            if (!text || text !== normalize(readableText(element)))
+              return false;
+            fragments.push(text);
+            comparableFragments.push(text);
+            emphasisIndex += 1;
+            strongBoundaryCount += 1;
+            return true;
+          }
+          for (const node of followingNodes) {
+            const role = normalizedAxRole(node.role);
+            if (role === "statictext") {
+              if (!pushStaticText(node))
+                return void 0;
+              continue;
+            }
+            if (!pushEmphasis(node))
+              return void 0;
+          }
+          if (emphasisIndex !== directEmphasis.length || strongBoundaryCount < 2)
+            return void 0;
+          if (!fragmentsAppearInTextOrder(comparableFragments, normalize(readableText(el)) || "")) {
+            return void 0;
+          }
+          const position = positionInSet(el, "listitem");
+          const size = setSize(el, "listitem");
+          const suffix = position && size ? `, ${position} of ${size}` : "";
+          return [`${marker} ${fragments[0]}${suffix}`, ...fragments.slice(1)];
         }
         function axOrderedParentNestedListItemAnnouncements(el) {
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
@@ -9137,7 +9268,7 @@
           if (!list)
             return void 0;
           const siblings = announcedListChildren(list);
-          const hasCompatibleMarkerSiblings = siblings.every((item) => axPlainTextMarkerListItemText(item) || axPlainTextMarkerTextOnlyListItemText(item) || axStrongWrappedMarkerListItemAnnouncements(item));
+          const hasCompatibleMarkerSiblings = siblings.every((item) => axPlainTextMarkerListItemText(item) || axPlainTextMarkerTextOnlyListItemText(item) || axSimpleNativeUlInlineStrongListItemAnnouncements(item) || axStrongWrappedMarkerListItemAnnouncements(item));
           if (!siblings.length || !hasCompatibleMarkerSiblings) {
             return void 0;
           }
@@ -9150,7 +9281,8 @@
           });
           const hasTextLinkSibling = siblings.some((item) => item !== el && directSemanticChildren(item).some((child) => child.tagName?.toLowerCase() === "a" && child.hasAttribute("href")));
           const hasStrongWrappedMarkerSibling = siblings.some((item) => item !== el && axStrongWrappedMarkerListItemAnnouncements(item));
-          if (!hasDirectLink && !allSiblingsArePlainText && !hasTextLinkSibling && !hasStrongWrappedMarkerSibling) {
+          const hasSimpleNativeUlInlineStrongSibling = siblings.some((item) => item !== el && axSimpleNativeUlInlineStrongListItemAnnouncements(item));
+          if (!hasDirectLink && !allSiblingsArePlainText && !hasTextLinkSibling && !hasStrongWrappedMarkerSibling && !hasSimpleNativeUlInlineStrongSibling) {
             return void 0;
           }
           const position = positionInSet(el, "listitem");
@@ -15987,9 +16119,9 @@
     }
   });
 
-  // packages/sr-engine/dist/ax-tree.js
+  // ../sr-engine/dist/ax-tree.js
   var require_ax_tree = __commonJS({
-    "packages/sr-engine/dist/ax-tree.js"(exports) {
+    "../sr-engine/dist/ax-tree.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.axNodeToDescriptor = axNodeToDescriptor;
@@ -16105,9 +16237,9 @@
     }
   });
 
-  // packages/sr-engine/dist/index.js
+  // ../sr-engine/dist/index.js
   var require_dist = __commonJS({
-    "packages/sr-engine/dist/index.js"(exports) {
+    "../sr-engine/dist/index.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.axNodeToDescriptor = exports.EventTracker = exports.createDomScanner = exports.getContextEndAnnouncement = exports.generateAnnouncement = void 0;
@@ -16134,7 +16266,7 @@
     }
   });
 
-  // packages/sr-extension/src/content/engine-runtime-entry.js
+  // src/content/engine-runtime-entry.js
   var import_engine = __toESM(require_dist());
   window.__srEngineGenerateAnnouncement = import_engine.generateAnnouncement;
   window.__srEngineGetContextEndAnnouncement = import_engine.getContextEndAnnouncement;

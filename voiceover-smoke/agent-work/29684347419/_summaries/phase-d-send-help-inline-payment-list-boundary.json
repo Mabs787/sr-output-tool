@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com-help",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T11:41:49Z",
+  "finishedAt": "2026-07-24T12:04:41Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "handoffFrom": "C.5",
+  "handoffTo": "complete",
+  "nextPhase": "complete",
+  "handoffReason": "Scoped Phase D completed the C.5-confirmed simple native ul marker plus inline strong payment-descendant boundary family. Remaining target mismatches are outside this requested family and are recorded in revisitQueue.",
+  "leaseOwner": "top-level-codex-send-help-inline-payment-list-boundary-2026-07-24T11:41:49Z",
+  "leaseAcquiredAt": "2026-07-24T11:41:49Z",
+  "leaseReleasedAt": "2026-07-24T12:04:41Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "released-single-engine-refiner",
+    "evidence": "Canonical run-level lease was released before acquisition. This worker held activeEngineRefinerCount 1 for only send-royalmail-com-help:current-window-26 and released it after checks."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "c5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-send-help-inline-payment-list-boundary.json",
+    "reproFixture": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "targetFixtureDir": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help",
+    "candidateRef": "send-royalmail-com-help:current-window-26"
+  },
+  "decisions": [
+    {
+      "family": "simple-native-ul-marker-inline-strong-payment-descendant-boundary",
+      "decision": "implemented",
+      "reason": "C.5 confirmed a native top-level ul/li AX contract with ListMarker, leading StaticText, and direct inline strong descendants. Current engine omitted marker prefixes for plain siblings and joined the rich payment descendant text."
+    },
+    {
+      "family": "ordered-or-nested-list-families",
+      "decision": "excluded",
+      "reason": "The rule requires tag ul, list level 1, disc marker metadata, no nested lists, no controls, no role override, no labels, no focusability, and direct strong/b children only."
+    }
+  ],
+  "evidence": {
+    "c5VoiceOver": [
+      ". Enter your email address so we can send you your confirmation emails., 1 of 3",
+      ". Confirm you are not sending any prohibited or restricted items., 2 of 3",
+      ". Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a, 3 of 3",
+      "debit or credit card",
+      "orby",
+      "PayPal",
+      "mobile payment"
+    ],
+    "targetRefinedWindow": [
+      "list 3 items",
+      "\u2022 Enter your email address so we can send you your confirmation emails., 1 of 3",
+      "\u2022 Confirm you are not sending any prohibited or restricted items., 2 of 3",
+      "\u2022 Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a, 3 of 3",
+      "debit or credit card",
+      "orby",
+      "PayPal",
+      "mobile payment",
+      "end of list"
+    ],
+    "before": {
+      "source": "prior Phase D baseline after ordered-list work",
+      "expectedCount": 362,
+      "actualCount": 345,
+      "mismatchWindowCount": 30
+    },
+    "after": {
+      "expectedCount": 362,
+      "actualCount": 349,
+      "mismatchWindowCount": 29,
+      "resolvedFamily": "send-royalmail-com-help:current-window-26 no longer appears in current mismatch windows"
+    }
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-send-help-inline-payment-list-boundary.json"
+  ],
+  "behaviorFixed": [
+    "AX-backed simple native top-level ul/li entries with ListMarker now keep marker-prefixed first announcements when a sibling li has direct inline strong descendants.",
+    "A simple li with leading StaticText followed by direct AX strong descendants splits in AX/VoiceOver order, preserving the C.5-confirmed connector output and suppressing standalone trailing connector/punctuation stops."
+  ],
+  "fixtureChanges": [],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"simple native ul marker inline strong|plain text disc list items|native inline list items|native list-item boundary rule guarded\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused nearby unit set passed, 4 tests."
+    },
+    {
+      "command": "node --test --test-name-pattern \"keeps simple native ul inline strong marker rule guarded\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused guard unit passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full unit suite passed: 359 pass, 56 skipped, 0 failures."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help yarn workspace @sr-output/engine voiceover:compare send-royalmail-com-help 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Target compare now expected 362, actual 349, mismatchWindowCount 29; scoped payment-list family resolved."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 320/320, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 207/207, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: 80/80, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Candidate baseline unchanged: 99 expected, 101 actual, 2 known search-label windows."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension engine runtime regenerated successfully."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=www-microsoft-com-en-us-accessibility node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Microsoft bounded baseline failed on existing extra Ask Microsoft Accessibility text stop at index 31; no matching simple ul/li inline-strong marker shape found in fixture HTML."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility 5",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Direct compare reports expected 164, actual 165, mismatchWindowCount 1 for the same Microsoft extra text stop."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=www-sky-com-smart-home node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Bounded Sky smart-home baseline passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Full refined corpus ran to completion: 36 pass, 21 skipped, 2 failures. Failures were Microsoft extra text stop and Sky Watch paragraph inline-emphasis split, both outside native li marker scope."
+    }
+  ],
+  "remainingMismatches": {
+    "expectedCount": 362,
+    "actualCount": 349,
+    "mismatchWindowCount": 29,
+    "grouped": {
+      "role/structure": 6,
+      "list/marker": 20,
+      "punctuation/text-boundary": 3
+    }
+  },
+  "revisitQueue": [
+    {
+      "family": "header-navigation-media-and-empty-link-structure",
+      "currentWindowIndexes": [1, 2, 29],
+      "latestActual": "Missing header/footer image stops and an extra unlabeled link stop.",
+      "latestExpected": "Expected image stop before navigation/banner end, no extra unlabeled nav link, and footer image before terms link.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Recheck AX/source snapshots for image/link name and visibility contracts, then split media fallback from empty link traversal.",
+      "blocker": "Outside current C.5-confirmed payment-list family.",
+      "checksNeeded": ["target compare", "AX image/link role-name evidence", "protected linked-image compares"]
+    },
+    {
+      "family": "long-ordered-list-text-truncation-and-marker-position",
+      "currentWindowIndexes": [3, 5, 7, 8, 11, 12, 15, 16, 17, 18, 21, 28],
+      "latestActual": "Engine emits longer paragraph/listitem text and curly quote variants.",
+      "latestExpected": "Refined oracle has shorter VoiceOver chunks, apostrophe variants, and some item text without full trailing continuation.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify each as truncation fixture evidence versus reusable long-list segmentation before routing any narrow sub-family to engine-refiner.",
+      "blocker": "Mixed long-text/truncation family not part of requested C.5 rule.",
+      "checksNeeded": ["target compare with full windows", "Phase B source/caption lookup", "long text boundary C.5 if reusable"]
+    },
+    {
+      "family": "single-item-nested-list-marker-position-suffix",
+      "currentWindowIndexes": [4, 6, 14, 19, 25],
+      "latestActual": "Engine includes item position suffix or omits marker prefix in nested/link-bearing list shapes.",
+      "latestExpected": "Refined oracle omits some 1 of 1 suffixes and expects marker prefix for selected simple descendants.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Use existing ordered/nested-list receipts and C.5 evidence to split single-item suffix suppression from link-bearing marker-prefix behavior.",
+      "blocker": "Requested rule deliberately excludes nested lists and link-bearing listitems.",
+      "checksNeeded": ["target compare", "protected ordered/nested list compares", "focused unit for selected sub-gap"]
+    },
+    {
+      "family": "nested-list-late-item-marker-formatting",
+      "currentWindowIndexes": [9, 10, 13, 20],
+      "latestActual": "Late nested list items keep dot or no marker variants and quote/punctuation differences.",
+      "latestExpected": "Refined oracle expects dot-prefixed or bullet-prefixed item starts with shorter text.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split punctuation/quote fixture evidence from native marker formatting; route only C.5-backed reusable marker formatting to engine-refiner.",
+      "blocker": "Nested/ordered families explicitly excluded by this Phase D.",
+      "checksNeeded": ["target compare", "AX marker style/level evidence", "quote normalization evidence"]
+    },
+    {
+      "family": "inline-strong-paragraph-boundaries",
+      "currentWindowIndexes": [22, 23, 24, 26, 27],
+      "latestActual": "Engine splits Bring My Label and 15 minutes paragraph descendants where expected joins or splits differently.",
+      "latestExpected": "Refined oracle has separate strong-descendant stops for some phrases and joined paragraph text for others.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Use Phase B text-boundary lookup to decide which paragraph inline strong boundaries are reusable and which are oracle/truncation cleanup.",
+      "blocker": "This patch only handles simple li leading StaticText followed by direct strong descendants.",
+      "checksNeeded": ["Phase B text-boundary lookup", "target compare", "paragraph inline strong unit if routed"]
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "Scoped Phase D complete for send-help current-window-26 simple native ul marker inline strong family.",
+    "c5Needed": false,
+    "reason": "No unresolved work remains inside the requested family; all other target mismatches are queued separately."
+  }
+}

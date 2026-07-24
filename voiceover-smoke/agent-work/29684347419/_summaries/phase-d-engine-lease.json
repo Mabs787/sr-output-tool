@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-article-end-terminal-link-before-breadcrumb-2026-07-24T11:20:40Z",
-  "startedAt": "2026-07-24T11:20:40Z",
+  "leaseOwner": "top-level-codex-send-help-inline-payment-list-boundary-2026-07-24T11:41:49Z",
+  "startedAt": "2026-07-24T11:41:49Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T11:27:54Z",
-  "targetFamily": "article-end-terminal-link-before-breadcrumb",
-  "target": "_families/article-end-link-media-current",
-  "candidateRef": "www-royalmail-com-personal-receiving-mail-redirection:current-window-6,www-royalmail-com-sending-international:current-window-9",
+  "releasedAt": "2026-07-24T12:04:41Z",
+  "targetFamily": "simple-native-ul-marker-inline-strong-payment-descendant-boundary",
+  "target": "send-royalmail-com-help",
+  "candidateRef": "send-royalmail-com-help:current-window-26",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,18 @@
     "currentLeaseCount": 1,
     "activeLeaseCountAtFinish": 0,
     "result": "released-single-engine-refiner",
-    "evidence": "The previous canonical lease was released with activeEngineRefinerCount 0. This replacement Phase D acquired the canonical lease at 2026-07-24T11:20:40Z with activeEngineRefinerCount exactly 1 and released it at 2026-07-24T11:27:54Z."
+    "evidence": "The previous canonical lease was released with activeEngineRefinerCount 0. This Phase D acquired the canonical lease at 2026-07-24T11:41:49Z with activeEngineRefinerCount exactly 1 for only the send-help simple native ul marker plus inline strong payment-descendant boundary family, then released it at 2026-07-24T12:04:41Z."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-send-help-inline-payment-list-boundary-2026-07-24T11:41:49Z",
+      "target": "send-royalmail-com-help",
+      "candidateRef": "send-royalmail-com-help:current-window-26",
+      "targetFamily": "simple-native-ul-marker-inline-strong-payment-descendant-boundary",
+      "startedAt": "2026-07-24T11:41:49Z",
+      "releasedAt": "2026-07-24T12:04:41Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "top-level-codex-article-end-terminal-link-before-breadcrumb-2026-07-24T11:20:40Z",
       "target": "_families/article-end-link-media-current",
