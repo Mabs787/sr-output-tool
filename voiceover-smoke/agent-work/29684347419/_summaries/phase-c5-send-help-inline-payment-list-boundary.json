@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com-help",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T11:07:58Z",
+  "finishedAt": "2026-07-24T11:33:09Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "request": {
+    "requestingPhase": "C",
+    "sourceAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-send-help-list-text-post-ordered-engine-audit.json",
+    "sourceRef": "send-royalmail-com-help:current-window-26",
+    "currentWindowId": "current-window-25",
+    "family": "simple-list-marker-plus-inline-payment-text-boundary",
+    "stableCandidateRef": {
+      "candidateId": "send-royalmail-com-help:shifted-card-shell-current-family:current-window-26:efb9bdd4521d",
+      "resolution": "remapped",
+      "previousTextSha256": "056c56d78558354c627d66df9f1187f06a913a49efb4e542d9d84cef91cc29e0",
+      "refinedTextSha256": "3b4c6f1df97623ee91d164647417d9bd9001bdb11fbfe4e5166ee629199ee9c5",
+      "nextTextSha256": "0c2300222b398f1ad710bcddd74dca30d17d355aa0819ceec46656b90273c21b",
+      "actualTextSha256": "11a1242b6c75a671074e3252e3683d9d98dae28e3bb5e7a64c60d30a8707784c",
+      "domNodeIds": [
+        "2436"
+      ]
+    },
+    "suspectedCause": "Native simple-list marker prefixes and inline strong text boundaries inside the third payment-method list item were not supported by existing ordered-list or inline-media C.5 evidence."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "agentConfigRead": ".codex/agents/repro-scanner.toml",
+    "originalRenderedHtml": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help/send-royalmail-com-help.html",
+    "originalAx": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help/send-royalmail-com-help.ax.json",
+    "originalStepSnapshots": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help/send-royalmail-com-help.step-snapshots.json",
+    "originalVoiceOverOutput": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com-help/scans/send-royalmail-com-help/voiceover-output.json",
+    "originalVoiceOverSources": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com-help/scans/send-royalmail-com-help/voiceover-sources.json"
+  },
+  "git": {
+    "branch": "codex/royal-mail-voiceover-refinement",
+    "reproCommit": "1654b13cd02272618daa32369d549ccc904f6e99",
+    "reproCommitShort": "1654b13",
+    "pushedBeforeDispatch": true,
+    "dispatchedHeadSha": "1654b13cd02272618daa32369d549ccc904f6e99"
+  },
+  "reproduction": {
+    "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "expectedPath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.expected.json",
+    "manifestPath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/manifest.json",
+    "fixtureSha256": "97c1874c66c90854cd8a055b2ff93bf73629b7ef4e1c86b3020342d2e08a8621",
+    "headObjectSha256": "97c1874c66c90854cd8a055b2ff93bf73629b7ef4e1c86b3020342d2e08a8621",
+    "identityMarker": "rm-send-help-inline-payment-list-boundary-c5",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "preservedDomContract": [
+      "Immediate prior h3/p/p context from Add to your basket, including inline strong 15 minutes.",
+      "h3 Complete your purchase, native paragraph lead-in, native ul, and exactly three native li children.",
+      "Third li preserves text-node boundaries around strong debit or credit card, strong PayPal, and strong mobile payment.",
+      "Following payment confirmation paragraph and next h3 guard were retained."
+    ],
+    "contentShorteningNotes": [
+      "The first prior paragraph was shortened to remove unrelated slot-entry details; it remains outside the disputed list/payment behavior.",
+      "The second prior paragraph was shortened but keeps the inline strong boundary used as a nearby non-list control.",
+      "The disputed three list items and payment-method text boundaries were preserved."
+    ],
+    "omittedPageContext": [
+      "Earlier nested Checkout ordered-list shape omitted by user scope and because source current-window-26 remapped to the later simple ul.",
+      "Header, footer, cookie dialog, hidden mobile menu, unrelated long help content, and later lists omitted because they do not contribute to the simple-list marker/payment AX contract.",
+      "Earlier link-bearing Checkout items omitted because the source AX contract for DOM 2438-2444 has no link descendants."
+    ]
+  },
+  "originalEvidence": {
+    "expectedSnippet": [
+      "bullet Enter your email address so we can send you your confirmation emails., 1 of 3",
+      "bullet Confirm you are not sending any prohibited or restricted items., 2 of 3",
+      "bullet Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a, 3 of 3",
+      "debit or credit card",
+      "orby",
+      "PayPal",
+      "mobile payment",
+      "end of list"
+    ],
+    "actualSnippetFromCurrentEngineAudit": [
+      "Enter your email address so we can send you your confirmation emails., 1 of 3"
+    ],
+    "rawVoiceOverSourceIndexes": [
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244,
+      245,
+      246,
+      247,
+      248
+    ],
+    "sourceAxContract": {
+      "heading": {
+        "domNodeId": "2436",
+        "role": "heading",
+        "name": "Complete your purchase",
+        "level": 3
+      },
+      "list": {
+        "domNodeId": "2438",
+        "role": "list",
+        "childDomNodeIds": [
+          "2439",
+          "2440",
+          "2441"
+        ]
+      },
+      "listitems": [
+        {
+          "domNodeId": "2439",
+          "role": "listitem",
+          "level": 1,
+          "children": [
+            "ListMarker",
+            "StaticText Enter your email address so we can send you your confirmation emails."
+          ]
+        },
+        {
+          "domNodeId": "2440",
+          "role": "listitem",
+          "level": 1,
+          "children": [
+            "ListMarker",
+            "StaticText Confirm you are not sending any prohibited or restricted items."
+          ]
+        },
+        {
+          "domNodeId": "2441",
+          "role": "listitem",
+          "level": 1,
+          "children": [
+            "ListMarker",
+            "StaticText leading payment text",
+            "strong debit or credit card",
+            "StaticText or by",
+            "strong PayPal",
+            "StaticText or",
+            "strong mobile payment",
+            "StaticText period"
+          ]
+        }
+      ]
+    }
+  },
+  "scanWorkflow": {
+    "canaryCommand": "gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=18 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f viewport_width=1200 -f viewport_height=543 -f post_navigation_settle_seconds=0",
+    "fullCommand": "gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=36 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f viewport_width=1200 -f viewport_height=543 -f post_navigation_settle_seconds=0",
+    "pollingCadence": "Waited 5 minutes after each dispatch before first run/artifact check, then polled once per minute until completion.",
+    "retryCount": 0
+  },
+  "fixturePathDiagnostic": {
+    "decision": "passed",
+    "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "requestedRef": "codex/royal-mail-voiceover-refinement",
+    "runId": "30088974188",
+    "artifactId": "8595028228",
+    "artifactName": "voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary",
+    "downloadRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/c5-canary-30088974188",
+    "scanRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/c5-canary-30088974188/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary/scans/packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "renderedFixturePath": "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/c5-canary-30088974188/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary/scans/packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary/rendered-html.html",
+    "identityMarkerFound": true,
+    "dataSrScanRootFound": true,
+    "nonIgnoredAxNodeCount": 58,
+    "stepSnapshotCount": 18,
+    "canarySupportsFullScan": true
+  },
+  "artifactPath": {
+    "repoRelativeFixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "workflowRunId": "30089465702",
+    "artifactId": "8595214471",
+    "artifactName": "voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary",
+    "downloadRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/c5-full-30089465702",
+    "scanRoot": "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/c5-full-30089465702/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary/scans/packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+    "renderedFixturePath": "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/c5-full-30089465702/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary/scans/packages-sr-engine-tests-fixtures-voiceover-repros-send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary/rendered-html.html"
+  },
+  "miniScanEvidence": {
+    "debugEvidenceStatus": "complete",
+    "fullScanStopReason": "scan-end-marker",
+    "nonIgnoredAxNodeCount": 58,
+    "stepSnapshotCount": 22,
+    "voiceOverOutput": [
+      "heading level 3, Add to your basket",
+      "Once you've chosen a slot, click 'Add to basket'.",
+      "Note that your slot will be reserved for",
+      "15 minutes",
+      "while you checkout and pay.",
+      "heading level 3, Complete your purchase",
+      "Once you're happy with the items in your basket, you can complete your purchase:",
+      "list 3 items",
+      ". Enter your email address so we can send you your confirmation emails., 1 of 3",
+      ". Confirm you are not sending any prohibited or restricted items., 2 of 3",
+      ". Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a, 3 of 3",
+      "debit or credit card",
+      "orby",
+      "PayPal",
+      "mobile payment",
+      "end of list",
+      "After you've been through the payment process to complete your purchase, you'll get a payment confirmation and a collection confirmation email.",
+      "heading level 3, Viewing, amending and cancelling your collection"
+    ],
+    "voiceOverSourceNotes": [
+      "Source cursor text for the first two list items contains the native bullet marker while chosen caption text records a leading dot.",
+      "Source cursor text for the third list item contains the native bullet marker and stops before debit or credit card.",
+      "Sources include separate selectable-list-item stops for debit or credit card, or by, PayPal, or, mobile payment, and period; chosen output suppresses the standalone or and period help phrases."
+    ],
+    "renderedHtmlSummary": "Rendered HTML contains data-sr-scan-root and rm-send-help-inline-payment-list-boundary-c5, with the native ul and three li children preserved.",
+    "axSummary": "AX has h3 heading level 3, list role, three level-1 listitem roles with ListMarker children, and third-listitem strong descendants for debit or credit card, PayPal, and mobile payment.",
+    "engineOutput": [
+      "heading level 3, Add to your basket",
+      "Once you've chosen a slot, click 'Add to basket'.",
+      "Note that your slot will be reserved for 15 minutes while you checkout and pay.",
+      "heading level 3, Complete your purchase",
+      "Once you're happy with the items in your basket, you can complete your purchase:",
+      "list 3 items",
+      "Enter your email address so we can send you your confirmation emails., 1 of 3",
+      "Confirm you are not sending any prohibited or restricted items., 2 of 3",
+      "Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a debit or credit card or by PayPal or mobile payment., 3 of 3",
+      "end of list",
+      "After you've been through the payment process to complete your purchase, you'll get a payment confirmation and a collection confirmation email.",
+      "heading level 3, Viewing, amending and cancelling your collection"
+    ]
+  },
+  "controlsReached": {
+    "positiveControls": [
+      "Native simple ul list count and three listitem positions reached.",
+      "First and second plain list items reached with marker/cursor evidence.",
+      "Third list item reached with leading text boundary before debit or credit card.",
+      "Inline strong payment-method stops for debit or credit card, PayPal, and mobile payment reached."
+    ],
+    "negativeControls": [
+      "Prior non-list paragraph with inline strong 15 minutes reached and not treated as a list item.",
+      "No ordered-list or nested-list shapes included; verdict is scoped to the simple ul contract only."
+    ],
+    "tailGuardWindows": [
+      "end of list",
+      "following payment confirmation paragraph",
+      "heading level 3, Viewing, amending and cancelling your collection",
+      "scan end marker"
+    ],
+    "unreached": []
+  },
+  "decisions": [
+    "Canary passed fixture-path diagnostics and bound the artifact to pushed head 1654b13cd02272618daa32369d549ccc904f6e99.",
+    "Full mini scan reproduced the original VoiceOver simple-list marker plus inline payment-method split from source current-window-26.",
+    "Current engine traversal for the same mini HTML omits the marker prefix on simple li announcements and joins the third list item with all inline strong payment descendants.",
+    "This C.5 result supports the original site workflow only; the repro is not a Phase E promotion target or live-site corpus fixture."
+  ],
+  "verdict": "engine-gap-confirmed",
+  "terminalSplit": "engine-ready",
+  "debugEvidenceStatus": "complete",
+  "fixtureChanges": [
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+      "field": "repro-html",
+      "range": "full-file",
+      "before": null,
+      "after": "repo-local Phase C.5 minimal reproduction for source current-window-26",
+      "reason": "minimal-repro-confirmed",
+      "evidencePointers": [
+        "30088974188",
+        "30089465702"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": true,
+      "approvedByPhase": "C.5"
+    },
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.expected.json",
+      "field": "expected-placeholder",
+      "range": "full-file",
+      "before": null,
+      "after": "local C.5 contract placeholder",
+      "reason": "minimal-repro-confirmed",
+      "evidencePointers": [
+        "30089465702"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": true,
+      "approvedByPhase": "C.5"
+    },
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/manifest.json",
+      "field": "manifest",
+      "range": "full-file",
+      "before": null,
+      "after": "local C.5 manifest",
+      "reason": "minimal-repro-confirmed",
+      "evidencePointers": [
+        "30089465702"
+      ],
+      "confidence": "high",
+      "engineGapStillOpen": true,
+      "approvedByPhase": "C.5"
+    }
+  ],
+  "nextPhase": "D",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "engine-refiner",
+  "handoffReason": "Mini VoiceOver evidence confirms a reusable engine gap for native simple ul listitem marker prefixes plus guarded inline strong text-boundary decomposition inside a list item.",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Implement only the native simple ul/listitem marker-prefix and inline strong descendant boundary behavior confirmed by send-royalmail-com-help source current-window-26 C.5.",
+    "c5Needed": false,
+    "reason": "Full C.5 scan on repo-local fixture reproduced the original VoiceOver behavior with complete rendered HTML, AX, snapshots, and engine traversal evidence.",
+    "suggestedUnitCoverage": [
+      "Native ul with three level-1 li children should include VoiceOver-style marker prefix for listitem announcements when AX exposes a ListMarker child.",
+      "A native li whose leading StaticText is followed by inline strong descendants should split at strong payment-method boundaries instead of joining the entire listitem name.",
+      "Guard the rule to simple native listitem descendants and do not apply it to ordered-list/nested-list families already handled separately."
+    ],
+    "minimalDomAxContract": "h3 level 3, paragraph lead-in, native ul with three level-1 li children; each li has ListMarker plus StaticText; third li has leading StaticText, strong debit or credit card, StaticText or by, strong PayPal, StaticText or, strong mobile payment, and period."
+  }
+}
