@@ -4,24 +4,42 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-product-list-link-static-tail-2026-07-24T10:46:16Z",
-  "startedAt": "2026-07-24T10:46:16Z",
-  "adoptedBy": "top-level-codex-phase-d-product-list-link-static-tail-2026-07-24T11:06:34Z",
-  "adoptedAt": "2026-07-24T11:06:34Z",
-  "releasedAt": "2026-07-24T11:06:34Z",
-  "targetFamily": "product-list-link-static-tail",
-  "target": "www-royalmail-com-sending-stamps",
-  "candidateRef": "www-royalmail-com-sending-stamps:current-window-8",
+  "leaseOwner": "top-level-codex-article-end-terminal-link-before-breadcrumb-2026-07-24T11:20:40Z",
+  "startedAt": "2026-07-24T11:20:40Z",
+  "adoptedBy": null,
+  "adoptedAt": null,
+  "releasedAt": "2026-07-24T11:27:54Z",
+  "targetFamily": "article-end-terminal-link-before-breadcrumb",
+  "target": "_families/article-end-link-media-current",
+  "candidateRef": "www-royalmail-com-personal-receiving-mail-redirection:current-window-6,www-royalmail-com-sending-international:current-window-9",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
     "activeLeaseCountAtStart": 0,
-    "currentLeaseCount": 0,
+    "currentLeaseCount": 1,
     "activeLeaseCountAtFinish": 0,
-    "result": "no-overlap",
-    "evidence": "The already-active canonical lease for product-list-link-static-tail was adopted without incrementing activeEngineRefinerCount above 1 and released at 2026-07-24T11:06:34Z."
+    "result": "released-single-engine-refiner",
+    "evidence": "The previous canonical lease was released with activeEngineRefinerCount 0. This replacement Phase D acquired the canonical lease at 2026-07-24T11:20:40Z with activeEngineRefinerCount exactly 1 and released it at 2026-07-24T11:27:54Z."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-article-end-terminal-link-before-breadcrumb-2026-07-24T11:20:40Z",
+      "target": "_families/article-end-link-media-current",
+      "candidateRef": "www-royalmail-com-personal-receiving-mail-redirection:current-window-6,www-royalmail-com-sending-international:current-window-9",
+      "targetFamily": "article-end-terminal-link-before-breadcrumb",
+      "startedAt": "2026-07-24T11:20:40Z",
+      "releasedAt": "2026-07-24T11:27:54Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-article-end-terminal-link-before-breadcrumb-2026-07-24T11:11:00Z",
+      "target": "_families/article-end-link-media-current",
+      "candidateRef": "www-royalmail-com-personal-receiving-mail-redirection:current-window-6,www-royalmail-com-sending-international:current-window-9",
+      "targetFamily": "article-end-terminal-link-before-breadcrumb",
+      "startedAt": "2026-07-24T11:11:00Z",
+      "releasedAt": "2026-07-24T11:19:37Z",
+      "status": "abandoned-worker-released-without-engine-edits"
+    },
     {
       "leaseOwner": "top-level-codex-product-list-link-static-tail-2026-07-24T10:46:16Z",
       "adoptedBy": "top-level-codex-phase-d-product-list-link-static-tail-2026-07-24T11:06:34Z",

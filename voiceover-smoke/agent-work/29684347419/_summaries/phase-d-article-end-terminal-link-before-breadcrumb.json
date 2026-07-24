@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_families/article-end-link-media-current",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T11:20:40Z",
+  "finishedAt": "2026-07-24T11:27:54Z",
+  "leaseAcquiredAt": "2026-07-24T11:20:40Z",
+  "leaseReleasedAt": "2026-07-24T11:27:54Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "single-engine-refiner",
+    "evidence": "Canonical lease voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json was acquired with activeEngineRefinerCount 1 after the abandoned worker lease had been released with active count 0."
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "receiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-article-end-link-media-current.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-article-end-link-media-terminal-tails.json"
+    ],
+    "reproFixtureRead": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-article-end-link-media-current-c5/article-end-link-media-current.html",
+    "requestedReproPathMissing": "packages/sr-engine/tests/fixtures/voiceover/repros/royal-mail-article-end-link-media-current-c5/article-end-link-media-current.html",
+    "headShaBeforeChange": "1654b13cd02272618daa32369d549ccc904f6e99"
+  },
+  "decisions": {
+    "headAlreadySatisfiedNarrowedContract": false,
+    "implementedFamily": "unnamed article with terminal AX-focusable link followed by sibling Breadcrumb navigation",
+    "genericPredicate": [
+      "role is article",
+      "article is not inside another article and contains no nested article",
+      "article has no DOM accessible name and AX role=article name is empty",
+      "last semantic descendant stop is an AX-backed focusable link with a non-empty name",
+      "next semantic stop after the article subtree is role=navigation named Breadcrumb"
+    ],
+    "parkedFamiliesPreserved": [
+      "nested article plus terminal link before Breadcrumb",
+      "terminal link plus trailing media before Breadcrumb",
+      "popup button article tails"
+    ],
+    "fixtureChangesMade": false,
+    "phaseC5Requested": false
+  },
+  "codeChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Keeps the article end boundary for the C.5-confirmed unnamed terminal-link article before Breadcrumb navigation while preserving singleton article-end suppression for unsupported tails."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Adds focused coverage for the supported terminal-link/Breadcrumb contract plus negative coverage for non-Breadcrumb navigation, named articles, nested articles, trailing media, terminal buttons, and missing AX article evidence."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerates extension runtime with the updated scanner behavior."
+    }
+  ],
+  "evidence": {
+    "phaseC5SupportedRefs": [
+      "www-royalmail-com-personal-receiving-mail-redirection:current-window-6",
+      "www-royalmail-com-sending-international:current-window-9"
+    ],
+    "headBaselineCompare": {
+      "www-royalmail-com-personal-receiving-mail-redirection": {
+        "mismatchWindowCount": 7,
+        "articleEndWindow": 6,
+        "firstActual": "Breadcrumb, navigation",
+        "firstExpected": "end of, article"
+      },
+      "www-royalmail-com-sending-international": {
+        "mismatchWindowCount": 10,
+        "articleEndWindow": 9,
+        "firstActual": "Breadcrumb, navigation",
+        "firstExpected": "end of, article"
+      }
+    },
+    "patchedCompareDelta": {
+      "www-royalmail-com-personal-receiving-mail-redirection": {
+        "beforeMismatchWindowCount": 7,
+        "afterMismatchWindowCount": 6,
+        "beforeActualCount": 158,
+        "afterActualCount": 159,
+        "supportedArticleEndMismatchResolved": true
+      },
+      "www-royalmail-com-sending-international": {
+        "beforeMismatchWindowCount": 10,
+        "afterMismatchWindowCount": 9,
+        "beforeActualCount": 193,
+        "afterActualCount": 194,
+        "supportedArticleEndMismatchResolved": true
+      }
+    },
+    "affectedTailCompares": {
+      "www-royalmail-com-sending": {
+        "mismatchWindowCount": 8,
+        "parkedNestedArticleWindow": 7,
+        "firstActual": "Breadcrumb, navigation",
+        "firstExpected": "end of, article"
+      },
+      "www-royalmail-com-receiving-mail-redelivery": {
+        "mismatchWindowCount": 4,
+        "parkedTrailingMediaWindow": 3,
+        "firstActual": "Breadcrumb, navigation",
+        "firstExpected": "end of, article"
+      }
+    }
+  },
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "skipped",
+      "skipReason": "yarn is not on PATH in this shell; npm workspace equivalent was run with the explicit Node 24.15.0 binary."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH npm run build -w packages/sr-engine",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript engine build passed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused scanner test file passed: 347 passed, 0 failed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH npm run test:unit -w packages/sr-engine",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Workspace unit suite passed: 357 passed, 0 failed, 56 skipped."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-personal-receiving-mail-redirection node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-personal-receiving-mail-redirection 8",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Affected target compare improved from 7 to 6 mismatch windows; supported article-end window resolved."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-international node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-international 8",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Affected target compare improved from 10 to 9 mismatch windows; supported article-end window resolved."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending 8",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Bounded parked-tail compare remains 8 mismatch windows; nested/trailing-media article tail stays parked at latest window 7."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-receiving-mail-redelivery node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-receiving-mail-redelivery 8",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Bounded parked-tail compare remains 4 mismatch windows; trailing-media article tail stays parked at latest window 3."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_CANDIDATES=true SR_VOICEOVER_CORPUS_FIXTURE=www-royalmail-com-find-a-postcode npm run test:voiceover -w packages/sr-engine",
+      "required": false,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Bounded Royal Mail candidate corpus check failed at pre-existing search-label mismatch before the article-tail area: expected Search Search Royal Mail edit text, actual Search then Search Search Royal Mail edit text."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=www-w3-org-wai npm run test:voiceover -w packages/sr-engine",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Bounded refined article-heavy corpus check passed for www-w3-org-wai and www-w3-org-wai-standards-guidelines-wcag."
+    },
+    {
+      "command": "npm run build:extension-runtime",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Turbo wrapper could not locate a package-manager binary because yarn is unavailable on PATH."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH node packages/sr-extension/tooling/build-engine-runtime.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Direct bounded extension runtime generation succeeded."
+    }
+  ],
+  "remainingMismatches": [
+    {
+      "fixture": "www-royalmail-com-personal-receiving-mail-redirection",
+      "mismatchWindowCount": 6,
+      "summary": "Remaining windows are outside the supported article-end family in this Phase D pass."
+    },
+    {
+      "fixture": "www-royalmail-com-sending-international",
+      "mismatchWindowCount": 9,
+      "summary": "Remaining windows are outside the supported article-end family in this Phase D pass."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "nested-article-terminal-link-before-breadcrumb",
+      "currentWindowIndexes": [
+        {
+          "fixture": "www-royalmail-com-sending",
+          "windowIndex": 7
+        }
+      ],
+      "latestActual": [
+        "link, Find out more",
+        "Breadcrumb, navigation"
+      ],
+      "latestExpected": [
+        "link, Find out more",
+        "end of, article",
+        "Breadcrumb, navigation"
+      ],
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run a current-SHA source-pruned C.5 traversal that reaches the unnamed outer article with nested article/media descendants, terminal Find out more link, and sibling Breadcrumb navigation.",
+      "blocker": "Existing current-SHA C.5 retry stopped before this nested/link shape; complete C.5 coverage used a stale fixture SHA with changed named-article wording.",
+      "checksNeeded": [
+        "current-SHA C.5 fixture-path canary",
+        "focused VoiceOver scan that reaches the nested tail",
+        "target compare after any future engine-ready verdict"
+      ]
+    },
+    {
+      "family": "terminal-link-trailing-media-before-breadcrumb",
+      "currentWindowIndexes": [
+        {
+          "fixture": "www-royalmail-com-receiving-mail-redelivery",
+          "windowIndex": 3
+        }
+      ],
+      "latestActual": [
+        "link, Why Redirection is important to you",
+        "Redelivery, image",
+        "Breadcrumb, navigation"
+      ],
+      "latestExpected": [
+        "link, Why Redirection is important to you",
+        "Redelivery, image",
+        "end of, article",
+        "Breadcrumb, navigation"
+      ],
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run a current-SHA source-pruned C.5 traversal that reaches terminal link plus separate Redelivery image/media boundary before sibling Breadcrumb navigation.",
+      "blocker": "Existing current-SHA C.5 retry stopped before this trailing-media shape; complete C.5 coverage used a stale fixture SHA with changed named image-card article wording.",
+      "checksNeeded": [
+        "current-SHA C.5 fixture-path canary",
+        "focused VoiceOver scan that reaches the trailing-media tail",
+        "target compare after any future engine-ready verdict"
+      ]
+    },
+    {
+      "family": "popup-button-article-tails",
+      "currentWindowIndexes": [
+        {
+          "fixture": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm",
+          "windowIndex": 4
+        },
+        {
+          "fixture": "www-royalmail-com-sending-uk-tracked-24",
+          "windowIndex": 6
+        },
+        {
+          "fixture": "www-royalmail-com-sending-uk-tracked-48",
+          "windowIndex": 6
+        },
+        {
+          "fixture": "www-royalmail-com-sending-uk",
+          "windowIndex": 6
+        }
+      ],
+      "latestActual": [
+        "popup button/control tail before Breadcrumb; not part of current C.5-supported terminal-link contract"
+      ],
+      "latestExpected": [
+        "article end before Breadcrumb on popup-button tails, pending separate evidence"
+      ],
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep parked unless a separate C.5 verdict confirms a generic popup-button article-tail rule.",
+      "blocker": "Explicitly excluded from the current C.5 supported scope and from this Phase D implementation.",
+      "checksNeeded": [
+        "separate popup-tail C.5 evidence before any engine rule",
+        "bounded target compares for affected popup fixtures if re-opened"
+      ]
+    }
+  ],
+  "fixtureChanges": [],
+  "nextPhase": "stop",
+  "handoffFrom": "repro-scanner",
+  "handoffTo": "complete",
+  "handoffReason": "Narrow C.5-supported terminal-link article-end engine gap was fixed and verified with bounded affected checks; unresolved nested, trailing-media, and popup tails remain parked with concrete blockers.",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "No immediate follow-up from this bounded Phase D pass.",
+    "c5Needed": false,
+    "reason": "The only current-SHA C.5-supported engine rule was implemented; other tails require separate evidence before engine work."
+  }
+}

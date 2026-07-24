@@ -5354,6 +5354,227 @@ test("scanSubtree omits inferred article names when AX exposes an unnamed articl
   );
 });
 
+test("scanSubtree emits unnamed terminal-link article end before following navigation", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <div>
+            <article data-sr-dom-node-id="article">
+              <div>
+                <div>Service guide</div>
+                <p>Choose the right service.</p>
+                <a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a>
+              </div>
+            </article>
+          </div>
+          <nav aria-label="Breadcrumb" data-sr-dom-node-id="breadcrumb">
+            <a href="/">Home</a>
+          </nav>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+            },
+            {
+              nodeId: "terminal-link-ax",
+              role: "link",
+              name: "Our locations",
+              domNodeId: "terminal-link",
+              properties: {
+                focusable: true,
+                url: "https://example.com/locations",
+              },
+            },
+            {
+              nodeId: "breadcrumb-ax",
+              role: "navigation",
+              name: "Breadcrumb",
+              domNodeId: "breadcrumb",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "article",
+      "Service guide",
+      "Choose the right service.",
+      "link, Our locations",
+      "end of, article",
+      "Breadcrumb, navigation",
+      "link, Home",
+      "end of, Breadcrumb, navigation",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree keeps singleton article-end suppression before non-breadcrumb navigation", () => {
+  const announcements = scanHtml(
+    `
+      <main>
+        <div>
+          <article data-sr-dom-node-id="article">
+            <div>
+              <h1>Service guide</h1>
+              <a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a>
+            </div>
+          </article>
+        </div>
+        <nav aria-label="Related links" data-sr-dom-node-id="related-nav">
+          <a href="/">Home</a>
+        </nav>
+      </main>
+    `,
+    {
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "article-ax",
+            role: "article",
+            name: "",
+            domNodeId: "article",
+          },
+          {
+            nodeId: "terminal-link-ax",
+            role: "link",
+            name: "Our locations",
+            domNodeId: "terminal-link",
+            properties: {
+              focusable: true,
+              url: "https://example.com/locations",
+            },
+          },
+          {
+            nodeId: "related-nav-ax",
+            role: "navigation",
+            name: "Related links",
+            domNodeId: "related-nav",
+          },
+        ],
+      },
+    },
+  );
+
+  const navigationIndex = announcements.indexOf("Related links, navigation");
+  assert.notEqual(navigationIndex, -1);
+  assert.notEqual(announcements[navigationIndex - 1], "end of, article");
+});
+
+test("scanSubtree keeps singleton article-end suppression for unsupported terminal-tail shapes", () => {
+  const unsupportedCases = [
+    {
+      name: "named article",
+      articleAttributes: `aria-label="Help topic"`,
+      body: `<div><h1>Service guide</h1><a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a></div>`,
+      axArticleName: "Help topic",
+    },
+    {
+      name: "nested article",
+      body: `
+        <div>
+          <h1>Service guide</h1>
+          <article>
+            <h1>Nested card</h1>
+            <a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a>
+          </article>
+        </div>
+      `,
+      axArticleName: "",
+    },
+    {
+      name: "trailing media",
+      body: `
+        <div>
+          <h1>Service guide</h1>
+          <a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a>
+          <img alt="Location map">
+        </div>
+      `,
+      axArticleName: "",
+    },
+    {
+      name: "terminal button",
+      body: `<div><h1>Service guide</h1><button data-sr-dom-node-id="terminal-button">Continue</button></div>`,
+      axArticleName: "",
+      terminalRole: "button",
+      terminalName: "Continue",
+      terminalDomNodeId: "terminal-button",
+    },
+    {
+      name: "missing AX article",
+      body: `<div><h1>Service guide</h1><a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a></div>`,
+      omitAxArticle: true,
+    },
+  ];
+
+  for (const testCase of unsupportedCases) {
+    const terminalRole = testCase.terminalRole || "link";
+    const terminalName = testCase.terminalName || "Our locations";
+    const terminalDomNodeId = testCase.terminalDomNodeId || "terminal-link";
+    const articleNode = testCase.omitAxArticle
+      ? []
+      : [
+          {
+            nodeId: `article-ax-${testCase.name}`,
+            role: "article",
+            name: testCase.axArticleName,
+            domNodeId: "article",
+          },
+        ];
+
+    const announcements = scanHtml(
+      `
+        <main>
+          <div>
+            <article data-sr-dom-node-id="article" ${testCase.articleAttributes || ""}>
+              ${testCase.body}
+            </article>
+          </div>
+          <nav aria-label="Breadcrumb" data-sr-dom-node-id="breadcrumb">
+            <a href="/">Home</a>
+          </nav>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            ...articleNode,
+            {
+              nodeId: `terminal-ax-${testCase.name}`,
+              role: terminalRole,
+              name: terminalName,
+              domNodeId: terminalDomNodeId,
+              properties: {
+                focusable: true,
+                url: terminalRole === "link" ? "https://example.com/locations" : undefined,
+              },
+            },
+            {
+              nodeId: `breadcrumb-ax-${testCase.name}`,
+              role: "navigation",
+              name: "Breadcrumb",
+              domNodeId: "breadcrumb",
+            },
+          ],
+        },
+      },
+    );
+
+    const navigationIndex = announcements.indexOf("Breadcrumb, navigation");
+    assert.notEqual(navigationIndex, -1, testCase.name);
+    assert.notEqual(announcements[navigationIndex - 1], "end of, article", testCase.name);
+  }
+});
+
 test("scanSubtree announces titled iframes inside generic single-child wrappers as media groups", () => {
   assert.deepEqual(
     scanHtml(

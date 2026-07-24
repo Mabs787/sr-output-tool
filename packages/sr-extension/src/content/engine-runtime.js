@@ -5431,8 +5431,79 @@
           const text = readableText(el);
           return Boolean(text && text.length <= 240);
         }
+        function firstSemanticStopInSubtree(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          if (isStopElement(el))
+            return el;
+          for (const child of walkChildren(el)) {
+            const stop = firstSemanticStopInSubtree(child);
+            if (stop)
+              return stop;
+          }
+          return void 0;
+        }
+        function nextSemanticStopAfterSubtree(el) {
+          for (let current = el; current?.parentElement && current !== document.body; current = current.parentElement) {
+            for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+              const stop = firstSemanticStopInSubtree(sibling);
+              if (stop)
+                return stop;
+            }
+          }
+          return void 0;
+        }
+        function lastArticleDescendantStop(el) {
+          let lastStop;
+          const visit = (node) => {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node))
+              return;
+            for (const child of walkChildren(node)) {
+              if (child !== el && child.closest?.("article,[role='article']") !== el)
+                continue;
+              if (child !== el && isStopElement(child))
+                lastStop = child;
+              visit(child);
+            }
+          };
+          visit(el);
+          return lastStop;
+        }
+        function isAxBackedFocusableTerminalLink(el) {
+          if (implicitRole(el) !== "link")
+            return false;
+          if (!normalize(accessibleName(el, "link") || readableText(el)))
+            return false;
+          const axLink = axNodeForElementRole(el, "link");
+          if (accessibilityNodes.length && (!axLink || axLink.properties?.focusable !== true)) {
+            return false;
+          }
+          return true;
+        }
+        function shouldKeepUnnamedTerminalLinkArticleEndBeforeNavigation(el, role) {
+          if (role !== "article")
+            return false;
+          if (isSiblingArticleCollectionItem(el))
+            return false;
+          if (el.closest("article,[role='article']") !== el)
+            return false;
+          if (el.querySelector("article,[role='article']"))
+            return false;
+          if (accessibleName(el, role))
+            return false;
+          const axArticle = axNodeForElementRole(el, "article");
+          if (!axArticle || normalize(axArticle.name))
+            return false;
+          const terminalStop = lastArticleDescendantStop(el);
+          if (!terminalStop || !isAxBackedFocusableTerminalLink(terminalStop))
+            return false;
+          const nextStop = nextSemanticStopAfterSubtree(el);
+          return Boolean(nextStop && implicitRole(nextStop) === "navigation" && normalize(accessibleName(nextStop, "navigation")) === "Breadcrumb");
+        }
         function shouldSuppressSingletonDocumentArticleEnd(el, role) {
           if (role !== "article")
+            return false;
+          if (shouldKeepUnnamedTerminalLinkArticleEndBeforeNavigation(el, role))
             return false;
           if (isSiblingArticleCollectionItem(el))
             return false;
@@ -15916,9 +15987,9 @@
     }
   });
 
-  // ../sr-engine/dist/ax-tree.js
+  // packages/sr-engine/dist/ax-tree.js
   var require_ax_tree = __commonJS({
-    "../sr-engine/dist/ax-tree.js"(exports) {
+    "packages/sr-engine/dist/ax-tree.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.axNodeToDescriptor = axNodeToDescriptor;
@@ -16034,9 +16105,9 @@
     }
   });
 
-  // ../sr-engine/dist/index.js
+  // packages/sr-engine/dist/index.js
   var require_dist = __commonJS({
-    "../sr-engine/dist/index.js"(exports) {
+    "packages/sr-engine/dist/index.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.axNodeToDescriptor = exports.EventTracker = exports.createDomScanner = exports.getContextEndAnnouncement = exports.generateAnnouncement = void 0;
@@ -16063,7 +16134,7 @@
     }
   });
 
-  // src/content/engine-runtime-entry.js
+  // packages/sr-extension/src/content/engine-runtime-entry.js
   var import_engine = __toESM(require_dist());
   window.__srEngineGenerateAnnouncement = import_engine.generateAnnouncement;
   window.__srEngineGetContextEndAnnouncement = import_engine.getContextEndAnnouncement;

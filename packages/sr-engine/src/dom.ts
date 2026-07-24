@@ -5099,8 +5099,86 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Boolean(text && text.length <= 240);
   }
 
+  function firstSemanticStopInSubtree(el: any): any | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    if (isStopElement(el)) return el;
+    for (const child of walkChildren(el)) {
+      const stop = firstSemanticStopInSubtree(child);
+      if (stop) return stop;
+    }
+    return undefined;
+  }
+
+  function nextSemanticStopAfterSubtree(el: any): any | undefined {
+    for (
+      let current = el;
+      current?.parentElement && current !== document.body;
+      current = current.parentElement
+    ) {
+      for (
+        let sibling = current.nextElementSibling;
+        sibling;
+        sibling = sibling.nextElementSibling
+      ) {
+        const stop = firstSemanticStopInSubtree(sibling);
+        if (stop) return stop;
+      }
+    }
+    return undefined;
+  }
+
+  function lastArticleDescendantStop(el: any): any | undefined {
+    let lastStop: any | undefined;
+
+    const visit = (node: any) => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE || isHidden(node)) return;
+      for (const child of walkChildren(node)) {
+        if (child !== el && child.closest?.("article,[role='article']") !== el) continue;
+        if (child !== el && isStopElement(child)) lastStop = child;
+        visit(child);
+      }
+    };
+
+    visit(el);
+    return lastStop;
+  }
+
+  function isAxBackedFocusableTerminalLink(el: any): boolean {
+    if (implicitRole(el) !== "link") return false;
+    if (!normalize(accessibleName(el, "link") || readableText(el))) return false;
+
+    const axLink = axNodeForElementRole(el, "link");
+    if (accessibilityNodes.length && (!axLink || axLink.properties?.focusable !== true)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function shouldKeepUnnamedTerminalLinkArticleEndBeforeNavigation(el: any, role: string): boolean {
+    if (role !== "article") return false;
+    if (isSiblingArticleCollectionItem(el)) return false;
+    if (el.closest("article,[role='article']") !== el) return false;
+    if (el.querySelector("article,[role='article']")) return false;
+    if (accessibleName(el, role)) return false;
+
+    const axArticle = axNodeForElementRole(el, "article");
+    if (!axArticle || normalize(axArticle.name)) return false;
+
+    const terminalStop = lastArticleDescendantStop(el);
+    if (!terminalStop || !isAxBackedFocusableTerminalLink(terminalStop)) return false;
+
+    const nextStop = nextSemanticStopAfterSubtree(el);
+    return Boolean(
+      nextStop &&
+        implicitRole(nextStop) === "navigation" &&
+        normalize(accessibleName(nextStop, "navigation")) === "Breadcrumb",
+    );
+  }
+
   function shouldSuppressSingletonDocumentArticleEnd(el: any, role: string): boolean {
     if (role !== "article") return false;
+    if (shouldKeepUnnamedTerminalLinkArticleEndBeforeNavigation(el, role)) return false;
     if (isSiblingArticleCollectionItem(el)) return false;
     if (isCompactStandaloneArticleContext(el, role)) return false;
     if (el.querySelector("h1,[role='heading'][aria-level='1']")) return true;
