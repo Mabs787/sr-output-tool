@@ -16148,7 +16148,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const collapsedVisibleControlledRegionButton =
       controlsVisibleAxRegion(el, role);
     const retainGroupedCollapsedAriaRoleButtonWithListPosition =
-      isFooterListPositionedCollapsedAriaRoleButtonWithVisibleRegion(
+      isLandmarkListPositionedCollapsedAriaRoleButtonWithVisibleRegion(
         el,
         role,
         position,
@@ -16230,6 +16230,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             ? "footer"
           : role === "alert" && isEmptyAlertBeforeDialog(el)
             ? "group"
+          : role === "region" && isHeaderNavigationListControlledEmptyRegion(el)
+            ? "empty region"
           : role === "paragraph" &&
               el.getAttribute("tabindex") === "-1" &&
               hasStructuredListItemContent(el.closest("li,[role='listitem']"))
@@ -16383,6 +16385,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
               el.hasAttribute("aria-label")) ||
             (role === "button" &&
               collapsedVisibleControlledRegionButton) ||
+            (role === "button" &&
+              retainGroupedCollapsedAriaRoleButtonWithListPosition) ||
             (role === "button" &&
               el.hasAttribute("aria-expanded") &&
               !checkboxRoleButtonAccordionControl &&
@@ -17633,6 +17637,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
   function collapsedPopupController(container: any): any {
     if (!container?.id) return null;
     if (isVisibleAxControlledRegion(container)) return null;
+    if (isHeaderNavigationListControlledEmptyRegion(container)) return null;
     const controlledBy = Array.from(
       document.querySelectorAll(`[aria-controls="${cssEscape(container.id)}"]`),
     ).filter(
@@ -17673,6 +17678,25 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return normalize(buttonName) === regionName;
   }
 
+  function isCollapsedButtonControllerForNamedAxRegionByReference(
+    controller: any,
+    region: any,
+  ): boolean {
+    if (!controller || !region?.id) return false;
+    if (isHidden(controller) || isHidden(region)) return false;
+    if (implicitRole(controller) !== "button") return false;
+    if (parseBooleanAttribute(controller, "aria-expanded") !== false) return false;
+    if (!idRefsContain(controller.getAttribute("aria-controls"), region.id)) return false;
+
+    const buttonNode = axNodeForElementRole(controller, "button");
+    if (!buttonNode || buttonNode.properties?.expanded !== false) return false;
+
+    const regionNode = axNodeForElementRole(region, "region");
+    if (!regionNode || !normalize(regionNode.name)) return false;
+
+    return Boolean(normalize(region.getAttribute("aria-labelledby")));
+  }
+
   function isVisibleAxControlledRegion(container: any): boolean {
     if (!container?.id || isHidden(container)) return false;
     if (implicitRole(container) !== "region") return false;
@@ -17710,11 +17734,41 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       );
   }
 
+  function namedAxControlledRegionsForButtonByReference(el: any, role: string): any[] {
+    if (role !== "button") return [];
+    if (parseBooleanAttribute(el, "aria-expanded") !== false) return [];
+    const controls = normalize(el.getAttribute("aria-controls"));
+    if (!controls) return [];
+    return controls
+      .split(/\s+/)
+      .flatMap((id) => Array.from(document.querySelectorAll(`[id="${cssEscape(id)}"]`)))
+      .filter((region: any) =>
+        isCollapsedButtonControllerForNamedAxRegionByReference(el, region),
+      );
+  }
+
   function controlsVisibleAxRegion(el: any, role: string): boolean {
     return visibleAxControlledRegionsForButton(el, role).length > 0;
   }
 
-  function isFooterListPositionedCollapsedAriaRoleButtonWithVisibleRegion(
+  function isHeaderNavigationListContext(el: any): boolean {
+    const banner = el.closest?.("header, [role='banner']");
+    if (!banner || isHidden(banner)) return false;
+    const navigation = el.closest?.("nav, [role='navigation']");
+    return Boolean(navigation && !isHidden(navigation) && banner.contains(navigation));
+  }
+
+  function adjacentControlledRegions(
+    el: any,
+    regions: any[],
+  ): any[] {
+    return regions.filter((region: any) => {
+      if (region.parentElement !== el.parentElement) return false;
+      return el.nextElementSibling === region || el.previousElementSibling === region;
+    });
+  }
+
+  function isLandmarkListPositionedCollapsedAriaRoleButtonWithVisibleRegion(
     el: any,
     role: string,
     position?: number,
@@ -17729,20 +17783,42 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (tag === "button" || tag === "a") return false;
     if (!position || !size || size <= 1) return false;
 
-    const footer = el.closest?.("footer, [role='contentinfo']");
-    if (!footer || isHidden(footer)) return false;
-
     const { listItem, list } = semanticListContext(el);
     if (!listItem || !list || isHidden(listItem)) return false;
     if (listItem.tagName?.toLowerCase() !== "li") return false;
     if (!["ul", "ol"].includes(list.tagName?.toLowerCase())) return false;
 
-    const controlledRegions = visibleAxControlledRegionsForButton(el, role);
-    if (!controlledRegions.length) return false;
+    const footer = el.closest?.("footer, [role='contentinfo']");
+    if (footer && !isHidden(footer)) {
+      return adjacentControlledRegions(el, visibleAxControlledRegionsForButton(el, role)).length > 0;
+    }
 
-    return controlledRegions.some((region: any) => {
-      if (region.parentElement !== el.parentElement) return false;
-      return nextVisibleElementSibling(el) === region || previousVisibleElementSibling(el) === region;
+    if (!isHeaderNavigationListContext(el)) return false;
+    return adjacentControlledRegions(
+      el,
+      namedAxControlledRegionsForButtonByReference(el, role),
+    ).some((region: any) => isHeaderNavigationListControlledEmptyRegion(region));
+  }
+
+  function isHeaderNavigationListControlledEmptyRegion(el: any): boolean {
+    if (!isEmptyNamedRegionStop(el, "region")) return false;
+    const labelledBy = normalize(el.getAttribute("aria-labelledby"));
+    if (!labelledBy) return false;
+    const controllers = Array.from(
+      document.querySelectorAll(`[aria-controls="${cssEscape(el.id)}"]`),
+    ).filter((controller: any) => {
+      if (controller.parentElement !== el.parentElement) return false;
+      if (controller.nextElementSibling !== el) return false;
+      return isCollapsedButtonControllerForNamedAxRegionByReference(controller, el);
+    });
+    if (!controllers.length) return false;
+
+    return controllers.some((controller: any) => {
+      if (!isHeaderNavigationListContext(controller)) return false;
+      const { listItem, list } = semanticListContext(controller);
+      if (!listItem || !list || isHidden(listItem)) return false;
+      if (listItem.tagName?.toLowerCase() !== "li") return false;
+      return ["ul", "ol"].includes(list.tagName?.toLowerCase());
     });
   }
 

@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_summaries/stabilized-header-nav-empty-region-role-buttons",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "passed-with-residuals",
+  "startedAt": "2026-07-24T14:39:52Z",
+  "finishedAt": "2026-07-24T14:50:48Z",
+  "leaseOwner": "top-level-codex-stabilized-header-nav-empty-region-role-buttons-2026-07-24T14:39:52Z",
+  "leaseAcquiredAt": "2026-07-24T14:39:52Z",
+  "leaseReleasedAt": "2026-07-24T14:50:48Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "released-single-engine-refiner",
+    "evidence": "Canonical lease was released with activeEngineRefinerCount 0 before acquisition. This worker set exactly one active lease for the 12 C.5-confirmed header/nav refs before editing shared engine/runtime/test files and releases it at finish."
+  },
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "handoffFrom": "phase-c5-stabilized-header-nav-empty-region-role-buttons",
+  "handoffTo": "promoter",
+  "nextPhase": "promoter",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseC5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-stabilized-header-nav-empty-region-role-buttons.json",
+    "c5CanaryRun": "30099838823",
+    "c5FullRun": "30100468695",
+    "priorReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-footer-collapsed-region-decomposition.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-footer-collapsed-list-position-current.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-collapsed-button-group-suffix.json"
+    ],
+    "sourceRefs": [
+      "www-royalmail-com:current-window-1",
+      "www-royalmail-com-find-postcode:current-window-1",
+      "www-royalmail-com-personal-receiving-mail-redirection:current-window-1",
+      "www-royalmail-com-receiving-mail-redelivery:current-window-1",
+      "www-royalmail-com-sending:current-window-1",
+      "www-royalmail-com-sending-barcoded-stamps:current-window-1",
+      "www-royalmail-com-sending-international:current-window-1",
+      "www-royalmail-com-sending-stamps:current-window-1",
+      "www-royalmail-com-sending-uk:current-window-1",
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-1",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-1",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-1"
+    ]
+  },
+  "decisions": [
+    "Changed packages/sr-engine/src/dom.ts because the gap was traversal/descriptor data: AX-visible empty controlled regions were being suppressed as collapsed popup content, and list-positioned header role=button controls were losing groupContext.",
+    "Did not change packages/sr-engine/src/announcements.ts because the existing formatter already emits '<name>, empty region' when descriptor roleDescription is 'empty region'.",
+    "Kept the rule generic: no Royal Mail selectors, text, classes, or URLs. The predicate requires header/banner navigation, native ul/ol li list position, explicit non-native role=button, aria-expanded=false, aria-controls, an adjacent role=region with an AX-visible name, aria-labelledby, empty visible body, and AX collapsed button evidence.",
+    "Preserved duplicate-id behavior by resolving all matching controlled region IDs for the header by-reference predicate, then requiring the DOM-adjacent AX-visible controlled region.",
+    "Preserved negative guards: hidden controlled regions remain untraversed, expanded controlled regions continue normal traversal, and visible non-empty controlled regions keep the existing visible-region traversal path."
+  ],
+  "changedFiles": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Adds a header/banner navigation list-position controlled empty-region predicate, retains groupContext for matching collapsed non-native role buttons, emits empty-region roleDescription, and prevents collapsed popup suppression for the AX-visible empty region."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Adds focused C.5-shaped coverage for header nav role buttons, duplicate controlled IDs, AX-visible empty regions, and hidden/expanded/non-empty guards."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt extension runtime from the patched engine."
+    },
+    {
+      "file": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+      "summary": "Acquired and released the exactly-one engine-refiner lease."
+    },
+    {
+      "file": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-stabilized-header-nav-empty-region-role-buttons.json",
+      "summary": "Records this Phase D pass."
+    }
+  ],
+  "fixtureChanges": [],
+  "behaviorFixed": {
+    "family": "header-nav-empty-region-with-visible-empty-outer-regions-and-list-positioned-role-buttons",
+    "beforeShape": "Current engine emitted only the first matching named empty region and omitted the group suffix for the second and third header list-positioned role buttons.",
+    "afterShape": "All 12 affected compares no longer contain the header/nav controlled empty-region family; headerFamilyWindows is empty for every affected target.",
+    "genericPredicateImplemented": "header/banner nav > native ul/ol > li > explicit non-native role=button aria-expanded=false aria-controls adjacent AX-visible named empty role=region aria-labelledby, with duplicate controlled IDs resolved by all matching elements and narrowed by DOM adjacency."
+  },
+  "affectedCompareResults": [
+    { "target": "www-royalmail-com", "mismatchWindowCount": 4, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-find-postcode", "mismatchWindowCount": 1, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-personal-receiving-mail-redirection", "mismatchWindowCount": 5, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-receiving-mail-redelivery", "mismatchWindowCount": 3, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending", "mismatchWindowCount": 6, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-barcoded-stamps", "mismatchWindowCount": 4, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-international", "mismatchWindowCount": 9, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-stamps", "mismatchWindowCount": 11, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk", "mismatchWindowCount": 6, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm", "mismatchWindowCount": 4, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk-tracked-24", "mismatchWindowCount": 3, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk-tracked-48", "mismatchWindowCount": 3, "headerFamilyWindows": [] }
+  ],
+  "checks": [
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript engine build passed."
+    },
+    {
+      "command": "/Users/mrn41/.nvm/versions/node/v24.15.0/bin/node --test --test-name-pattern \"header navigation list role-button groups\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused positive and guard unit passed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit --test-name-pattern \"header navigation list role-button groups|collapsed ARIA role buttons|footer list-position group suffix guards|collapsed controlled regions|visible controlled regions|hidden controlled regions\"",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused related regression slice passed: 376 passed, 56 skipped, 0 failed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full engine unit suite passed: 376 passed, 56 skipped, 0 failed."
+    },
+    {
+      "command": "12 affected Royal Mail target compares with SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/<target>",
+      "required": true,
+      "status": "passed-with-residuals",
+      "exitCode": 0,
+      "summary": "All 12 compares completed; headerFamilyWindows is empty for every target."
+    },
+    {
+      "command": "Protected exact compares: design-system text-input, NHS pharmacy search, GOV.UK local council, British Airways home, Google accessibility, Sky home, WAI WCAG, GOV.UK error-summary, BBC weather",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "All nine protected exact fixtures stayed exact with mismatchWindowCount 0."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime build passed and regenerated engine-runtime.js."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": false,
+      "status": "skipped",
+      "skipReason": "User requested bounded verification only and explicitly said not to wait on unbounded corpus.",
+      "summary": "No unbounded corpus run was started."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "homepage-body-list-marker-tab-and-article-boundary",
+      "currentWindowIndexes": ["www-royalmail-com:windows-1-3"],
+      "latestActual": "Trusted to deliver..., Footprints image with list position; Send selected tab without expanded/group; main closes before expected article end.",
+      "latestExpected": "Bullet-prefixed list items, tab expanded/group wording, and end of Let's find the right service for you article.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split list-marker, tab state, and article-end boundaries into independent current refs before any further Phase D.",
+      "blocker": "Out of the C.5-confirmed header/nav controlled empty-region family.",
+      "checksNeeded": ["current homepage compare", "existing list-marker/tab/article C.5 receipts"]
+    },
+    {
+      "family": "footer-link-position-truncation",
+      "currentWindowIndexes": ["all 12 affected targets: final footer window"],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Use the existing footer list-position truncation route; do not conflate with header empty regions.",
+      "blocker": "Known separate footer truncation family.",
+      "checksNeeded": ["phase-c5-footer-list-position-truncation.json", "footer target compares"]
+    },
+    {
+      "family": "body-image-card-and-article-boundary-residuals",
+      "currentWindowIndexes": [
+        "www-royalmail-com-personal-receiving-mail-redirection:windows-3-6",
+        "www-royalmail-com-receiving-mail-redelivery:windows-3-4",
+        "www-royalmail-com-sending:windows-3-7",
+        "www-royalmail-com-sending-barcoded-stamps:windows-3-5",
+        "www-royalmail-com-sending-international:windows-3-10",
+        "www-royalmail-com-sending-stamps:windows-3-12",
+        "www-royalmail-com-sending-uk:windows-3-7",
+        "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:windows-3-5",
+        "www-royalmail-com-sending-uk-tracked-24:windows-3-4",
+        "www-royalmail-com-sending-uk-tracked-48:windows-3-4"
+      ],
+      "latestActual": "Missing expected image/group/article-end stops, plus unrelated rich list/text fragments on some pages.",
+      "latestExpected": "Image fallback stops, group stops, article end boundaries, and list-marker/text fragments.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split by image fallback, card/group, article-end, and list-marker/text-boundary families using current compare windows.",
+      "blocker": "Independent residual families outside the current header/nav C.5.",
+      "checksNeeded": ["current affected compares", "relevant image/card/list-marker C.5 receipts"]
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "promoter",
+    "scope": "Commit and push only the Phase D engine/test/runtime/lease/receipt files; do not promote or edit fixtures.",
+    "c5Needed": false,
+    "reason": "The C.5-confirmed header/nav engine gap is fixed and bounded verification passed."
+  },
+  "handoffReason": "C.5-confirmed reusable header/nav empty controlled-region and list-positioned role-button group suffix gap fixed for all 12 refs; residual families are recorded separately."
+}

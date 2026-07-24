@@ -7502,6 +7502,265 @@ test("scanSubtree preserves collapsed footer list-position group suffix guards",
   );
 });
 
+test("scanSubtree keeps header navigation list role-button groups and AX-empty controlled regions", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "personal-button-ax",
+        role: "button",
+        name: "Personal",
+        domNodeId: "personal-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "personal-region" },
+      },
+      {
+        nodeId: "personal-region-ax",
+        role: "region",
+        name: "Personal",
+        domNodeId: "personal-region",
+        tagName: "div",
+      },
+      {
+        nodeId: "business-button-ax",
+        role: "button",
+        name: "Business",
+        domNodeId: "business-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "business-region" },
+      },
+      {
+        nodeId: "business-region-ax",
+        role: "region",
+        name: "Receiving",
+        domNodeId: "business-region",
+        tagName: "div",
+      },
+      {
+        nodeId: "shop-button-ax",
+        role: "button",
+        name: "Stamps & supplies",
+        domNodeId: "shop-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "shop-region" },
+      },
+      {
+        nodeId: "shop-region-ax",
+        role: "region",
+        name: "Small business hub",
+        domNodeId: "shop-region",
+        tagName: "div",
+      },
+      {
+        nodeId: "expanded-button-ax",
+        role: "button",
+        name: "Expanded menu",
+        domNodeId: "expanded-button",
+        tagName: "div",
+        properties: { expanded: true, controls: "expanded-region" },
+      },
+      {
+        nodeId: "expanded-region-ax",
+        role: "region",
+        name: "Expanded menu",
+        domNodeId: "expanded-region",
+        tagName: "div",
+      },
+      {
+        nodeId: "hidden-button-ax",
+        role: "button",
+        name: "Hidden menu",
+        domNodeId: "hidden-button",
+        tagName: "button",
+        properties: { expanded: false, controls: "hidden-region" },
+      },
+      {
+        nodeId: "visible-button-ax",
+        role: "button",
+        name: "Visible menu",
+        domNodeId: "visible-button",
+        tagName: "div",
+        properties: { expanded: false, controls: "visible-region" },
+      },
+      {
+        nodeId: "visible-region-ax",
+        role: "region",
+        name: "Visible menu",
+        domNodeId: "visible-region",
+        tagName: "div",
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <header role="banner">
+          <nav role="navigation" aria-label="Header menu">
+            <ul>
+              <li>
+                <div
+                  id="primary-nav-1"
+                  role="button"
+                  aria-controls="personal-region"
+                  aria-expanded="false"
+                  data-sr-dom-node-id="personal-button"
+                ><a href="/personal">Personal</a></div>
+                <div
+                  id="personal-region"
+                  role="region"
+                  aria-labelledby="primary-nav-1"
+                  data-sr-dom-node-id="personal-region"
+                >
+                  <div data-sr-computed-hidden="display:none">
+                    <a href="/sending">Sending</a>
+                    <div id="primary-nav-2" role="button" aria-expanded="false">
+                      <a href="/receiving">Receiving</a>
+                    </div>
+                    <div id="primary-nav-3" role="button" aria-expanded="false">
+                      <a href="/hub">Small business hub</a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div
+                  id="primary-nav-2"
+                  role="button"
+                  aria-controls="business-region"
+                  aria-expanded="false"
+                  data-sr-dom-node-id="business-button"
+                ><a href="/business">Business</a></div>
+                <div
+                  id="business-region"
+                  role="region"
+                  aria-labelledby="primary-nav-2"
+                  data-sr-dom-node-id="business-region"
+                >
+                  <div data-sr-computed-hidden="display:none">
+                    <a href="/business/send">Business sending</a>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div
+                  id="primary-nav-3"
+                  role="button"
+                  aria-controls="shop-region"
+                  aria-expanded="false"
+                  data-sr-dom-node-id="shop-button"
+                ><a href="/shop">Stamps &amp; supplies</a></div>
+                <div
+                  id="shop-region"
+                  role="region"
+                  aria-labelledby="primary-nav-3"
+                  data-sr-dom-node-id="shop-region"
+                >
+                  <div data-sr-computed-hidden="display:none">
+                    <a href="/shop/stamps">Stamps</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <section aria-label="negative hidden region control">
+            <button
+              type="button"
+              aria-expanded="false"
+              aria-controls="hidden-region"
+              data-sr-dom-node-id="hidden-button"
+            >
+              Hidden menu
+            </button>
+            <div
+              id="hidden-region"
+              role="region"
+              aria-label="Hidden region"
+              hidden
+              data-sr-computed-hidden="display:none"
+            >
+              <a href="/hidden">Hidden link</a>
+            </div>
+          </section>
+          <section aria-label="negative expanded region control">
+            <div
+              id="expanded-control"
+              role="button"
+              aria-expanded="true"
+              aria-controls="expanded-region"
+              data-sr-dom-node-id="expanded-button"
+            >Expanded menu</div>
+            <div
+              id="expanded-region"
+              role="region"
+              aria-labelledby="expanded-control"
+              data-sr-dom-node-id="expanded-region"
+            >
+              <ul><li><a href="/expanded">Expanded alpha</a></li></ul>
+            </div>
+          </section>
+          <section aria-label="negative visible region control">
+            <div
+              id="visible-control"
+              role="button"
+              aria-expanded="false"
+              aria-controls="visible-region"
+              data-sr-dom-node-id="visible-button"
+            >
+              Visible menu
+            </div>
+            <div
+              id="visible-region"
+              role="region"
+              aria-labelledby="visible-control"
+              data-sr-dom-node-id="visible-region"
+            >
+              <ul><li><a href="/visible">Visible alpha</a></li></ul>
+            </div>
+          </section>
+        </main>
+      `,
+      { accessibilityTree },
+    ),
+    [
+      "banner",
+      "Header menu, navigation",
+      "list 3 items",
+      "Personal, collapsed, button, group, 1 of 3",
+      "Personal, empty region",
+      "Business, collapsed, button, group, 2 of 3",
+      "Receiving, empty region",
+      "Stamps & supplies, collapsed, button, group, 3 of 3",
+      "Small business hub, empty region",
+      "end of list",
+      "end of, Header menu, navigation",
+      "end of, banner",
+      "main",
+      "negative hidden region control, region",
+      "Hidden menu, collapsed, button, group",
+      "end of, negative hidden region control, region",
+      "negative expanded region control, region",
+      "Expanded menu, expanded, button, group",
+      "Expanded menu, region",
+      "list 1 item",
+      "link, Expanded alpha",
+      "end of list",
+      "end of, Expanded menu, region",
+      "end of, negative expanded region control, region",
+      "negative visible region control, region",
+      "Visible menu, collapsed, button, group",
+      "Visible menu, region",
+      "list 1 item",
+      "link, Visible alpha",
+      "end of list",
+      "end of, Visible menu, region",
+      "end of, negative visible region control, region",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree adds a group suffix to AX-confirmed trailing native buttons with empty generic text children", () => {
   const html = `
     <main>
