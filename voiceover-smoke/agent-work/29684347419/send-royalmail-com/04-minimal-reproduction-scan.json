@@ -3,8 +3,27 @@
   "phase": "C.5",
   "agent": "repro-scanner",
   "agentConfigPath": ".codex/agents/repro-scanner.toml",
-  "spawnedBy": "manual",
-  "sessionId": "",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "019f94a5-a954-7852-a8d2-810ea25d7a49",
+  "auditHistory": [
+    {
+      "normalizedAt": "2026-07-24T15:09:47Z",
+      "normalization": "phase-c5-diagnostic-and-provenance-normalization",
+      "previousProvenance": {
+        "spawnedBy": "manual",
+        "sessionId": ""
+      },
+      "preservedPriorEvidenceConclusions": true,
+      "summaryReceiptRef": "../_summaries/contract-v3-send-c5-diagnostic-normalization.json"
+    }
+  ],
+  "normalization": {
+    "type": "phase-c5-diagnostic-and-provenance-normalization",
+    "normalizedAt": "2026-07-24T15:09:47Z",
+    "summaryReceiptRef": "../_summaries/contract-v3-send-c5-diagnostic-normalization.json",
+    "priorManualProvenancePreservedInAuditHistory": true,
+    "verdictsChanged": false
+  },
   "target": "send-royalmail-com",
   "runId": "29684347419",
   "status": "passed",
@@ -162,6 +181,14 @@
   },
   "fixturePathDiagnostic": {
     "decision": "passed",
+    "passed": true,
+    "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "resolvedPath": "/Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "sha256": "3fe672772a4438e6ea1f31760c4778fa97044f697631c56c4afa819ba2105ed4",
+    "identityMarker": "send-nonsemantic-card-media-current",
+    "renderedPath": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
+    "axNodeCount": 178,
+    "stepSnapshotCount": 66,
     "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/send-royalmail-com/nonsemantic-card-media-current.html",
     "requestedRef": "codex/royal-mail-voiceover-refinement",
     "canaryWorkflowRunId": "30100709931",
