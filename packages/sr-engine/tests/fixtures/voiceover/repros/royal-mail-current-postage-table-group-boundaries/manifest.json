@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "target": "www-royalmail-com-current-postage-prices",
+  "family": "table/group-boundaries",
+  "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/royal-mail-current-postage-table-group-boundaries/table-group-boundaries.html",
+  "identityMarkers": [
+    "rm-current-postage-table-group-boundaries-c5",
+    "royal-mail-current-postage-table-group-boundaries",
+    "United Kingdom",
+    "International",
+    "All prices"
+  ],
+  "candidateRefs": [
+    "current-window-1",
+    "current-window-2",
+    "current-window-3",
+    "current-window-4",
+    "current-window-5",
+    "current-window-6",
+    "current-window-7"
+  ],
+  "sourceEvidence": {
+    "phaseCResidualAudit": "voiceover-smoke/agent-work/29684347419/www-royalmail-com-current-postage-prices/phase-c-current-postage-final-residual-audit.json",
+    "isolatedHtml": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices/www-royalmail-com-current-postage-prices.html",
+    "isolatedAx": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices/www-royalmail-com-current-postage-prices.ax.json",
+    "isolatedStepSnapshots": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-current-postage-prices/www-royalmail-com-current-postage-prices.step-snapshots.json",
+    "scanRoot": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-current-postage-prices/scans/www-royalmail-com-current-postage-prices"
+  },
+  "status": "pending-voiceover-canary"
+}

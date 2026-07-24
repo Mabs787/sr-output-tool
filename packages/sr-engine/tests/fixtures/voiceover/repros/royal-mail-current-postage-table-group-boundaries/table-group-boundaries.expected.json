@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "name": "royal-mail-current-postage-table-group-boundaries",
+  "status": "pending-voiceover-scan",
+  "note": "This Phase C.5 expected file is a local contract placeholder, not a corpus oracle. The mini VoiceOver scan artifact and receipt decide the final expected behavior.",
+  "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/royal-mail-current-postage-table-group-boundaries/table-group-boundaries.html",
+  "candidateRefs": [
+    "current-window-1",
+    "current-window-2",
+    "current-window-3",
+    "current-window-4",
+    "current-window-5",
+    "current-window-6",
+    "current-window-7"
+  ],
+  "expectedContracts": [
+    {
+      "candidateRef": "current-window-1",
+      "voiceOverSource": "source index 49",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "United Kingdom, table, 3 columns, 2 rows"
+    },
+    {
+      "candidateRef": "current-window-2",
+      "voiceOverSource": "source index 89",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "end of table"
+    },
+    {
+      "candidateRef": "current-window-3",
+      "voiceOverSource": "source window near index 95",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "International, table, 3 columns, 2 rows"
+    },
+    {
+      "candidateRef": "current-window-4",
+      "voiceOverSource": "source window near index 104",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "row 2 of 2 Parcels, column 1 of 3"
+    },
+    {
+      "candidateRef": "current-window-5",
+      "voiceOverSource": "source index 123",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "end of table"
+    },
+    {
+      "candidateRef": "current-window-6",
+      "voiceOverSource": "source indexes 126-127",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "post-table price-guide links"
+    },
+    {
+      "candidateRef": "current-window-7",
+      "voiceOverSource": "source index 150",
+      "disputedAnnouncement": "group",
+      "nextSourceAnnouncement": "heading level 3, All prices"
+    }
+  ]
+}
