@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>H3 Whitespace Text Tail Boundary C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+      }
+
+      section {
+        margin-block: 24px;
+      }
+
+      .context-shell {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="h3-whitespace-text-tail-boundary"
+      data-sr-repro-target="www-royalmail-com-services-near-you-postboxes"
+      aria-labelledby="repro-title"
+    >
+      <h1 id="repro-title">H3 whitespace text tail boundary</h1>
+
+      <section aria-labelledby="source-contract-title">
+        <h2 id="source-contract-title">Source contract</h2>
+        <div class="context-shell">
+          <p>
+            For proof of posting, all you need is the
+            <a href="#app">Royal Mail app</a>.
+            Then pop your item in the postbox.
+          </p>
+          <div>
+            <div>
+              <h3><span>What can you send at a</span><br><span><span>Royal Mail Postbox? </span></span></h3>
+              <p>There are two main types of Postboxes that can be used to drop off your parcels:</p>
+              <p><strong>Regular Postboxes </strong><br> These postboxes are for letters and small parcels.</p>
+              <p><a href="#parcel-postboxes"><strong>Parcel Postboxes</strong></a><br> If your parcel is too big, use a Parcel Postbox.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="tail-control-title">
+        <h2 id="tail-control-title">Folded tail controls</h2>
+        <div class="context-shell">
+          <p>
+            Before text with an
+            <a href="#control-app">inline link</a>.
+            Tail text stays before the heading.
+          </p>
+          <h3><span>What can you send at a</span><br><span><span>Royal Mail Postbox?</span></span></h3>
+          <p>Same DOM shape without the trailing final StaticText space.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="prior-rule-controls-title">
+        <h2 id="prior-rule-controls-title">Prior heading rule controls</h2>
+        <div class="context-shell">
+          <h3><span><span>Why use </span></span><span><span>Postboxes?</span></span><br>&nbsp;</h3>
+          <p>Separate trailing whitespace StaticText after a LineBreak.</p>
+          <h3><span><span>Why use </span></span><span><span>Postboxes?</span></span><br></h3>
+          <p>Same prior-rule DOM without the separate trailing whitespace child.</p>
+        </div>
+      </section>
+
+      <p id="fixture-identity">c5 postboxes h3 whitespace text tail boundary identity</p>
+    </main>
+  </body>
+</html>
