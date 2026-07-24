@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Header Controlled Region C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      body[data-sr-scan-root] {
+        min-height: 100vh;
+      }
+
+      .skip-link {
+        left: -999px;
+        position: absolute;
+        top: 0;
+      }
+
+      header[role="banner"] {
+        border-bottom: 1px solid #bbb;
+      }
+
+      .brand-row,
+      main,
+      footer {
+        padding: 16px 24px;
+      }
+
+      .brand-row {
+        align-items: center;
+        display: flex;
+        gap: 24px;
+      }
+
+      .brand-row img {
+        height: 1px;
+        width: 1px;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .primary-list {
+        display: flex;
+        gap: 20px;
+      }
+
+      [role="button"] {
+        cursor: default;
+        display: inline-block;
+      }
+
+      [role="button"] a {
+        color: #111;
+        text-decoration: none;
+      }
+
+      .not-rendered {
+        display: none;
+      }
+
+      .positive-region {
+        min-height: 1px;
+      }
+
+      .control-block {
+        margin-block: 18px;
+      }
+
+      .visible-region {
+        border-inline-start: 2px solid #bbb;
+        margin-block-start: 6px;
+        padding-inline-start: 10px;
+      }
+    </style>
+  </head>
+  <body
+    data-sr-scan-root
+    data-sr-repro-id="phase-c5-header-controlled-region-current-family"
+    data-sr-repro-family="header-nav-empty-region-with-visible-empty-outer-regions-and-list-positioned-role-buttons"
+    data-sr-source-run-id="29684347419"
+    data-sr-source-refs="www-royalmail-com:current-window-1 www-royalmail-com-find-postcode:current-window-1 www-royalmail-com-personal-receiving-mail-redirection:current-window-1 www-royalmail-com-receiving-mail-redelivery:current-window-1 www-royalmail-com-sending:current-window-1 www-royalmail-com-sending-barcoded-stamps:current-window-1 www-royalmail-com-sending-international:current-window-1 www-royalmail-com-sending-stamps:current-window-1 www-royalmail-com-sending-uk:current-window-1 www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-1 www-royalmail-com-sending-uk-tracked-24:current-window-1 www-royalmail-com-sending-uk-tracked-48:current-window-1"
+  >
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="page-shell" data-sr-preserved-context="wrapper-before-banner">
+      <header role="banner" data-sr-original-dom-node-id="17">
+        <div class="brand-row">
+          <a href="/" title="Home" data-sr-original-dom-node-id="23">
+            <img alt="Home" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">
+          </a>
+
+          <nav
+            role="navigation"
+            aria-labelledby="block-rmgheadermenu-menu"
+            data-sr-original-dom-node-id="27"
+          >
+            <h2 id="block-rmgheadermenu-menu" class="not-rendered">Header menu</h2>
+            <ul class="primary-list" data-sr-original-dom-node-id="42">
+              <li data-sr-original-dom-node-id="43">
+                <div
+                  role="button"
+                  id="primary-nav-1"
+                  aria-controls="primary-nav-1-links"
+                  aria-expanded="false"
+                  data-sr-original-dom-node-id="44"
+                >
+                  <a href="/personal">Personal</a><span class="not-rendered">chevron</span>
+                </div>
+                <div
+                  role="region"
+                  id="primary-nav-1-links"
+                  aria-labelledby="primary-nav-1"
+                  class="positive-region"
+                  data-sr-original-dom-node-id="49"
+                >
+                  <div class="not-rendered">
+                    <ul>
+                      <li>
+                        <div role="button" id="primary-nav-1" aria-controls="primary-nav-1-links" aria-expanded="false">
+                          <a href="/sending">Sending</a>
+                        </div>
+                      </li>
+                      <li>
+                        <div role="button" id="primary-nav-2" aria-controls="primary-nav-2-links" aria-expanded="false">
+                          <a href="/receiving">Receiving</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li data-sr-original-dom-node-id="132">
+                <div
+                  role="button"
+                  id="primary-nav-2"
+                  aria-controls="primary-nav-2-links"
+                  aria-expanded="false"
+                  data-sr-original-dom-node-id="133"
+                >
+                  <a href="/business">Business</a><span class="not-rendered">chevron</span>
+                </div>
+                <div
+                  role="region"
+                  id="primary-nav-2-links"
+                  aria-labelledby="primary-nav-2"
+                  class="positive-region"
+                  data-sr-original-dom-node-id="138"
+                >
+                  <div class="not-rendered">
+                    <ul>
+                      <li>
+                        <div role="button" id="primary-nav-1" aria-controls="primary-nav-1-links" aria-expanded="false">
+                          <a href="/shipping">Shipping</a>
+                        </div>
+                      </li>
+                      <li>
+                        <div role="button" id="primary-nav-2" aria-controls="primary-nav-2-links" aria-expanded="false">
+                          <a href="/manage">Receiving</a>
+                        </div>
+                      </li>
+                      <li>
+                        <div role="button" id="primary-nav-3" aria-controls="primary-nav-3-links" aria-expanded="false">
+                          <a href="/hub">Small business hub</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li data-sr-original-dom-node-id="257">
+                <div
+                  role="button"
+                  id="primary-nav-3"
+                  aria-controls="primary-nav-3-links"
+                  aria-expanded="false"
+                  data-sr-original-dom-node-id="258"
+                >
+                  <a href="/shop">Stamps &amp; supplies</a><span class="not-rendered">chevron</span>
+                </div>
+                <div
+                  role="region"
+                  id="primary-nav-3-links"
+                  aria-labelledby="primary-nav-3"
+                  class="positive-region"
+                  data-sr-original-dom-node-id="263"
+                >
+                  <div class="not-rendered">
+                    <ul>
+                      <li><a href="/shop/stamps">Stamps</a></li>
+                      <li><a href="/shop/supplies">Supplies</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <main role="main" id="main-content" tabindex="-1" data-sr-preserved-context="immediate-main-neighbor">
+        <p>Start content.</p>
+
+        <section class="control-block" aria-label="negative hidden region control">
+          <button type="button" aria-expanded="false" aria-controls="simple-hidden-region">Simple menu</button>
+          <div id="simple-hidden-region" role="region" aria-label="Simple hidden region" hidden>
+            <a href="/hidden">Hidden link</a>
+          </div>
+        </section>
+
+        <section class="control-block" aria-label="negative expanded region control">
+          <div role="button" id="expanded-control" aria-expanded="true" aria-controls="expanded-region">Expanded menu</div>
+          <div id="expanded-region" role="region" aria-labelledby="expanded-control" class="visible-region">
+            <ul>
+              <li><a href="/expanded-alpha">Expanded alpha</a></li>
+              <li><a href="/expanded-beta">Expanded beta</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="control-block" aria-label="negative visible region control">
+          <div role="button" id="visible-control" aria-expanded="false" aria-controls="visible-region">Visible menu</div>
+          <div id="visible-region" role="region" aria-labelledby="visible-control" class="visible-region">
+            <ul>
+              <li><a href="/visible-alpha">Alpha</a></li>
+              <li><a href="/visible-beta">Beta</a></li>
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer role="contentinfo" data-sr-preserved-context="negative-footer-list-position-control">
+        <nav role="navigation" aria-labelledby="negative-footer-heading">
+          <h2 id="negative-footer-heading">Footer control</h2>
+          <ul>
+            <li>
+              <div role="button" id="footer-menu-0" aria-controls="footer-menu-0-links" aria-expanded="false">
+                <h5>Footer personal</h5>
+              </div>
+              <div role="region" id="footer-menu-0-links" aria-labelledby="footer-menu-0">
+                <ul>
+                  <li><a href="/footer-send">Send</a></li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div role="button" id="footer-menu-1" aria-controls="footer-menu-1-links" aria-expanded="false">
+                <h5>Footer business</h5>
+              </div>
+              <div role="region" id="footer-menu-1-links" aria-labelledby="footer-menu-1">
+                <ul>
+                  <li><a href="/footer-business">Business send</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>
