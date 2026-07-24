@@ -5189,6 +5189,94 @@ test("scanSubtree includes AX-confirmed unnamed SVG media before card text", () 
   );
 });
 
+test("scanSubtree includes AX-confirmed unnamed footer media before text link banks", () => {
+  const announcements = scanHtml(
+    `
+      <footer>
+        <div>
+          <div><p>Brand name</p></div>
+          <div>
+            <div title="Payment A"><svg data-sr-dom-node-id="pay-a"><circle cx="5" cy="5" r="4"></circle></svg></div>
+            <div title="Payment B"><svg data-sr-dom-node-id="pay-b"><rect x="1" y="1" width="8" height="8"></rect></svg></div>
+            <div title="Payment C"><svg data-sr-dom-node-id="pay-c"><path d="M1 8h8L5 1z"></path></svg></div>
+          </div>
+        </div>
+        <div>
+          <p><a href="/terms">Terms of use</a></p>
+          <p><a href="/privacy">Privacy policy</a></p>
+        </div>
+      </footer>
+    `,
+    {
+      accessibilityTree: {
+        nodes: [
+          { role: "image", name: "", domNodeId: "pay-a" },
+          { role: "image", name: "", domNodeId: "pay-b" },
+          { role: "image", name: "", domNodeId: "pay-c" },
+        ],
+      },
+    },
+  );
+
+  assert.deepEqual(
+    announcements.slice(1, -1),
+    [
+      "Brand name",
+      "image",
+      "image",
+      "image",
+      "link, Terms of use",
+      "link, Privacy policy",
+    ],
+  );
+});
+
+test("scanSubtree limits unnamed footer media stops to supported footer link-bank shapes", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <div>
+            <p>Brand name</p>
+            <div>
+              <svg data-sr-dom-node-id="non-footer-a"><circle cx="5" cy="5" r="4"></circle></svg>
+              <svg data-sr-dom-node-id="non-footer-b"><circle cx="5" cy="5" r="4"></circle></svg>
+            </div>
+            <p><a href="/alpha">Alpha</a></p>
+            <p><a href="/beta">Beta</a></p>
+          </div>
+        </main>
+        <footer>
+          <p>Footer brand</p>
+          <div>
+            <svg aria-hidden="true" data-sr-dom-node-id="hidden-media"><circle cx="5" cy="5" r="4"></circle></svg>
+            <svg role="presentation" data-sr-dom-node-id="presentation-media"><circle cx="5" cy="5" r="4"></circle></svg>
+            <svg aria-label="Named payment" data-sr-dom-node-id="labelled-media"><circle cx="5" cy="5" r="4"></circle></svg>
+            <a href="/wrapped"><svg data-sr-dom-node-id="wrapped-media"><circle cx="5" cy="5" r="4"></circle></svg></a>
+          </div>
+          <div>
+            <p><a href="/terms">Terms</a></p>
+            <p><a href="/privacy">Privacy</a></p>
+          </div>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            { role: "image", name: "", domNodeId: "non-footer-a" },
+            { role: "image", name: "", domNodeId: "non-footer-b" },
+            { role: "image", name: "", domNodeId: "hidden-media" },
+            { role: "image", name: "", domNodeId: "presentation-media" },
+            { role: "image", name: "Named payment", domNodeId: "labelled-media" },
+            { role: "image", name: "", domNodeId: "wrapped-media" },
+          ],
+        },
+      },
+    ).filter((announcement) => announcement === "image"),
+    [],
+  );
+});
+
 test("scanSubtree does not expose decorative hidden SVG card media", () => {
   assert.deepEqual(
     scanHtml(`

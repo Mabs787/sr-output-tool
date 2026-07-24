@@ -6574,6 +6574,143 @@
           }
           return false;
         }
+        function hasNonEmptyMediaSurface(el) {
+          const tag = el?.tagName?.toLowerCase();
+          if (tag === "img") {
+            return Boolean(normalize(el.getAttribute("src")) || hasAxRole(el, "image"));
+          }
+          if (tag === "svg") {
+            const hasGraphicChild = Array.from(el.children || []).some((child) => child.nodeType === Node.ELEMENT_NODE && !isHidden(child));
+            return hasGraphicChild || hasAxRole(el, "image");
+          }
+          return hasAxRole(el, "image");
+        }
+        function isFocusableUnsupportedFooterMediaAncestor(el, boundary) {
+          for (let current = el?.parentElement; current && current !== boundary; current = current.parentElement) {
+            if (current.matches?.(interactiveSelector))
+              return true;
+            const tabIndex = Number.parseInt(current.getAttribute?.("tabindex") || "", 10);
+            if (Number.isFinite(tabIndex) && tabIndex >= 0)
+              return true;
+          }
+          return false;
+        }
+        function isUnlabeledFooterMediaImageElement(el, role = implicitRole(el), boundary) {
+          if (role !== "image")
+            return false;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (el.closest?.("a[href], button, [role='link'], [role='button']"))
+            return false;
+          if (accessibleName(el, "image"))
+            return false;
+          if (normalize(el.getAttribute("aria-label")) || normalize(el.getAttribute("title"))) {
+            return false;
+          }
+          if (el.tagName?.toLowerCase() === "img" && el.hasAttribute("alt"))
+            return false;
+          if (hasPresentationRole(el))
+            return false;
+          if (!hasNonEmptyMediaSurface(el))
+            return false;
+          const axNode = axNodeForElementRole(el, "image");
+          if (!axNode || normalize(axNode.name))
+            return false;
+          const footer = boundary || el.closest?.("footer");
+          if (!footer || footer.tagName?.toLowerCase() !== "footer")
+            return false;
+          return !isFocusableUnsupportedFooterMediaAncestor(el, footer);
+        }
+        function visibleElementsInTreeOrder(root) {
+          if (!root || root.nodeType !== Node.ELEMENT_NODE)
+            return [];
+          const elements = [];
+          const walker = document.createTreeWalker(root, root.ownerDocument.defaultView.NodeFilter.SHOW_ELEMENT);
+          let node;
+          while (node = walker.nextNode()) {
+            if (!isHidden(node))
+              elements.push(node);
+          }
+          return elements;
+        }
+        function hasPriorStaticFooterContent(footer, before) {
+          for (const candidate of visibleElementsInTreeOrder(footer)) {
+            if (candidate === before || before.contains?.(candidate))
+              break;
+            if (candidate.contains?.(before))
+              continue;
+            if (candidate.closest?.("a[href], button, [role='link'], [role='button']"))
+              continue;
+            if (candidate.querySelector?.("a[href], button, [role='link'], [role='button']"))
+              continue;
+            const role = implicitRole(candidate);
+            if (!["heading", "paragraph", "text"].includes(role))
+              continue;
+            if (normalize(readableText(candidate) || candidate.textContent))
+              return true;
+          }
+          return false;
+        }
+        function nextVisibleSiblingAcrossFooterAncestors(el, footer) {
+          for (let current = el; current && current !== footer; current = current.parentElement) {
+            for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+              if (!isHidden(sibling))
+                return sibling;
+            }
+          }
+          return void 0;
+        }
+        function isTextualFooterLinkOrButton(control) {
+          const role = implicitRole(control);
+          if (role !== "link" && role !== "button")
+            return false;
+          if (control.querySelector?.("img, svg, [role='img'], picture, canvas"))
+            return false;
+          return Boolean(normalize(accessibleName(control, role) || readableText(control)));
+        }
+        function hasFooterTextControlBank(el) {
+          const controls = Array.from(el?.querySelectorAll?.("a[href], button, [role='link'], [role='button']") || []).filter((control) => !isHidden(control) && isTextualFooterLinkOrButton(control));
+          if (controls.length < 2)
+            return false;
+          const firstSubstantive = visibleElementsInTreeOrder(el).find((candidate) => {
+            if (candidate === el)
+              return false;
+            if (normalize(readableText(candidate) || candidate.textContent))
+              return true;
+            if (candidate.querySelector?.("img, svg, [role='img'], picture, canvas"))
+              return true;
+            return candidate.matches?.("a[href], button, [role='link'], [role='button']");
+          });
+          if (!firstSubstantive)
+            return false;
+          if (firstSubstantive.matches?.("a[href], button, [role='link'], [role='button']")) {
+            return isTextualFooterLinkOrButton(firstSubstantive);
+          }
+          if (firstSubstantive.querySelector?.("img, svg, [role='img'], picture, canvas")) {
+            return false;
+          }
+          const firstControl = firstVisibleDescendantMatching(firstSubstantive, isTextualFooterLinkOrButton);
+          return Boolean(firstControl && controls.includes(firstControl));
+        }
+        function isFooterUnnamedMediaBeforeTextControlBankImage(el, role) {
+          if (!isUnlabeledFooterMediaImageElement(el, role))
+            return false;
+          const footer = el.closest?.("footer");
+          if (!footer || footer.tagName?.toLowerCase() !== "footer")
+            return false;
+          for (let bank = el.parentElement; bank && bank !== footer; bank = bank.parentElement) {
+            if (isFocusableUnsupportedFooterMediaAncestor(bank, footer))
+              return false;
+            const media = Array.from(bank.querySelectorAll?.("svg, img, [role='img']") || []).filter((candidate) => isUnlabeledFooterMediaImageElement(candidate, implicitRole(candidate), footer));
+            if (media.length < 2 || !media.includes(el))
+              continue;
+            const following = nextVisibleSiblingAcrossFooterAncestors(bank, footer);
+            if (!following || !hasFooterTextControlBank(following))
+              continue;
+            return hasPriorStaticFooterContent(footer, bank);
+          }
+          return false;
+        }
         function flattenedSlottedCarouselSetSize(list) {
           if (!isFlattenedSlottedCarouselList(list))
             return void 0;
@@ -14838,7 +14975,7 @@
           if (role === "image" && el.tagName?.toLowerCase() === "img" && el.hasAttribute("alt") && !normalize(el.getAttribute("alt"))) {
             return false;
           }
-          if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !isAxConfirmedRegionIntroImage(el) && !isAxConfirmedHeadingIntroImage(el) && !isAxConfirmedCardIntroImage(el) && !isLeadingUnnamedTabPanelImage(el, role) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
+          if (role === "image" && !accessibleName(el, role) && !isInformativeUnlabeledCmsImage(el) && !isAxConfirmedRegionIntroImage(el) && !isAxConfirmedHeadingIntroImage(el) && !isAxConfirmedCardIntroImage(el) && !isLeadingUnnamedTabPanelImage(el, role) && !isFooterUnnamedMediaBeforeTextControlBankImage(el, role) && !hasStructuredListItemContent(el.closest("li,[role='listitem']"))) {
             return false;
           }
           if (isTrailingInlineLinkPunctuationStop(el, role)) {

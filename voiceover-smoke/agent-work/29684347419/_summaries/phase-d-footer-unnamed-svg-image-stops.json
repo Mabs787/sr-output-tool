@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "target": "send-royalmail-com-help",
+  "queueId": "send-help-footer-unnamed-svg-image-stops",
+  "candidateRef": "send-royalmail-com-help:current-window-30",
+  "sourceOldRef": "send-royalmail-com-help:current-window-34",
+  "sourceQueue": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-card-media-post-list-engine-queue.json",
+  "c5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-card-media-article-current-family.json",
+  "status": "passed_with_residuals",
+  "startedAt": "2026-07-24T12:47:22Z",
+  "finishedAt": "2026-07-24T12:58:22Z",
+  "lease": {
+    "leaseOwner": "top-level-codex-send-help-footer-unnamed-svg-image-stops-2026-07-24T12:47:22Z",
+    "leaseAcquiredAt": "2026-07-24T12:47:22Z",
+    "leaseReleasedAt": "2026-07-24T12:58:22Z",
+    "activeLeaseCountAtStart": 0,
+    "activeLeaseCountAtFinish": 0,
+    "overlapCheck": "released-single-engine-refiner",
+    "separateWorktreeException": false
+  },
+  "implementation": {
+    "summary": "Allowed AX-confirmed unnamed media images as scanner stops only for the C.5-proven native-footer shape: prior static brand/content, a non-empty unnamed media bank, and a following textual link/button bank.",
+    "changedFiles": [
+      "packages/sr-engine/src/dom.ts",
+      "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "packages/sr-extension/src/content/engine-runtime.js",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-footer-unnamed-svg-image-stops.json"
+    ],
+    "fixtureChanges": [],
+    "reproChanges": [],
+    "docsChanges": [],
+    "engineFilesChanged": [
+      "packages/sr-engine/src/dom.ts"
+    ],
+    "announcementFilesChanged": [],
+    "runtimeGenerated": true
+  },
+  "contract": {
+    "implemented": "Native footer with earlier static brand/content, at least two AX-confirmed non-empty unnamed image descendants in a media bank, followed in DOM order by a textual legal/control-link bank; expose the unnamed image stops before the links.",
+    "notKeyedOn": [
+      "count five",
+      "Royal Mail text",
+      "legal text",
+      "URLs",
+      "classes",
+      "selectors",
+      "components",
+      "layout"
+    ],
+    "exclusions": [
+      "decorative or empty media",
+      "hidden or aria-hidden media",
+      "presentation media",
+      "labelled images",
+      "images with alt attributes",
+      "links or buttons wrapping media",
+      "non-footer variants",
+      "focusable or interactive media ancestors before the footer boundary",
+      "following control banks whose first substantive content is media"
+    ]
+  },
+  "evidence": {
+    "c5": {
+      "verdict": "engine-gap-confirmed",
+      "observedShape": [
+        "Brand name",
+        "image",
+        "image",
+        "image",
+        "image",
+        "image",
+        "link, Terms of use"
+      ],
+      "engineBeforeShape": [
+        "Brand name",
+        "link, Terms of use"
+      ],
+      "basis": "Saved rendered HTML, AX tree, and VoiceOver output showed a native footer with brand/static content, AX role=image/name='' SVG descendants, and textual legal links after the media bank."
+    },
+    "targetCompare": {
+      "before": {
+        "expectedCount": 362,
+        "actualCount": 345,
+        "mismatchWindowCount": 30,
+        "targetWindow": {
+          "currentRef": "send-royalmail-com-help:current-window-30",
+          "sourceOldRef": "send-royalmail-com-help:current-window-34",
+          "actual": [
+            "Brand name",
+            "link, Terms of use"
+          ],
+          "expected": [
+            "Brand name",
+            "image",
+            "image",
+            "image",
+            "image",
+            "image",
+            "link, Terms of use"
+          ]
+        }
+      },
+      "after": {
+        "expectedCount": 362,
+        "actualCount": 354,
+        "mismatchWindowCount": 19,
+        "grouped": {
+          "role/structure": 2,
+          "list/marker": 12,
+          "text": 5
+        },
+        "targetWindowResolved": true
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "yarn workspace @sr-output/engine build",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "name": "focused footer unit tests",
+      "command": "node --test packages/sr-engine/tests/dom-scanner.test.mjs --test-name-pattern \"footer media|supported footer link-bank\"",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "name": "full engine unit tests",
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "name": "send-help target compare",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help node packages/sr-engine/tests/compare-voiceover-fixture.mjs send-royalmail-com-help 1",
+      "status": "passed_with_residuals",
+      "exitCode": 0,
+      "summary": "expected 362, actual 354, mismatchWindowCount 19; footer unnamed SVG image stop family resolved."
+    },
+    {
+      "name": "protected W3 compare",
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-w3-org-wai 2 && node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-w3-org-wai-standards-guidelines-wcag 2",
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Both W3 fixtures remained exact: 207/207 and 320/320 with 0 mismatches."
+    },
+    {
+      "name": "protected GOV.UK compare",
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-gov-uk 2 && node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-gov-uk-find-local-council 2",
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Both GOV.UK fixtures remained exact: 150/150 and 80/80 with 0 mismatches."
+    },
+    {
+      "name": "postcode candidate compare",
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-find-a-postcode 2",
+      "status": "passed_with_existing_residuals",
+      "exitCode": 0,
+      "summary": "expected 99, actual 101, mismatchWindowCount 2; residual Search label/input and list marker windows unrelated to footer media."
+    },
+    {
+      "name": "extension runtime build",
+      "command": "yarn build:extension-runtime",
+      "status": "passed",
+      "exitCode": 0
+    },
+    {
+      "name": "bounded corpus Microsoft",
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-microsoft-com-en-us-accessibility 2",
+      "status": "passed_with_existing_residuals",
+      "exitCode": 0,
+      "summary": "expected 164, actual 165, mismatchWindowCount 1; extra Ask Microsoft Accessibility text before Disability Answer Desk, unrelated to footer media."
+    },
+    {
+      "name": "bounded corpus Sky separate",
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-sky-com*",
+      "status": "passed_with_existing_residuals",
+      "exitCode": 0,
+      "summary": "Six Sky fixtures remained exact; www-sky-com-watch-what-to-watch-this-week retained two existing text/role-structure inline-emphasis residual windows unrelated to footer media."
+    },
+    {
+      "name": "full refined corpus",
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "status": "failed_existing_residuals",
+      "exitCode": 1,
+      "summary": "Failures limited to the same Microsoft Accessibility extra text residual and Sky what-to-watch inline-emphasis residuals observed in direct bounded compares."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "header-unnamed-image-and-empty-link-shell",
+      "latestWindowIndexes": [
+        1,
+        2
+      ],
+      "actualShape": [
+        "link, Service update",
+        "end of, navigation",
+        "link, Help & support",
+        "link",
+        "end of, navigation"
+      ],
+      "expectedShape": [
+        "link, Service update",
+        "image",
+        "end of, navigation",
+        "link, Help & support",
+        "end of, navigation"
+      ],
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Inspect current header/nav rendered HTML, AX role/name, and traversal debug for the missing unnamed image and extra empty link shell; split into separate header media and empty-link sub-gaps before any Phase D rule.",
+      "blocker": "Not covered by the C.5 footer contract; header/nav image and empty link shell evidence is separate.",
+      "checksNeeded": [
+        "target compare after header-only candidate",
+        "protected W3/GOV.UK compares",
+        "bounded corpus header/nav fixtures"
+      ]
+    },
+    {
+      "family": "native-list-marker-position-tail",
+      "latestWindowIndexes": [
+        3,
+        4,
+        7,
+        10,
+        11,
+        12,
+        17
+      ],
+      "actualShape": [
+        "bullet/list text sometimes lacks expected marker prefix or includes trailing item position such as ', 1 of 1'",
+        "some list items are announced as full text plus item count rather than expected marker-prefixed split fragments"
+      ],
+      "expectedShape": [
+        "marker-prefixed list text without trailing singleton position in windows 3 and 4",
+        "marker-prefixed list fragments for later nested/list items"
+      ],
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split singleton-position tails from marker-prefix restoration, then confirm against rendered list semantics and AX listitem metadata before returning a narrow reusable sub-gap to Phase D.",
+      "blocker": "Mixed marker and text-boundary behavior remains outside the footer media C.5 proof.",
+      "checksNeeded": [
+        "Phase B text-boundary lookup for affected list items",
+        "AX/source snapshots for listitem setsize/posinset",
+        "target compare",
+        "bounded list corpus"
+      ]
+    },
+    {
+      "family": "long-listitem-text-boundary-fragmentation",
+      "latestWindowIndexes": [
+        5,
+        6,
+        8,
+        9,
+        13,
+        14,
+        15,
+        16,
+        18,
+        19
+      ],
+      "actualShape": [
+        "long list and paragraph text is emitted as fuller joined sentences",
+        "inline emphasis phrases such as Bring My Label and 15 minutes split differently from expected"
+      ],
+      "expectedShape": [
+        "VoiceOver expected shorter text stops around generic text-node or inline-element boundaries",
+        "some phrases are separate stops and some are joined depending on local paragraph/list structure"
+      ],
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Inspect Phase B text-boundary lookup, current rendered HTML, and AX text nodes for each split before proposing independent segmentation rules.",
+      "blocker": "Text split/join evidence is not part of the footer image-stop contract and needs family-specific boundary proof.",
+      "checksNeeded": [
+        "Phase B text-boundary lookup",
+        "isolated same-structure VoiceOver scan if boundary rule is surprising",
+        "focused dom-scanner segmentation tests",
+        "target and corpus compares"
+      ]
+    }
+  ],
+  "handoff": {
+    "nextPhase": "fixture-judge",
+    "reason": "The requested footer unnamed SVG image-stop engine gap is resolved; remaining target mismatches belong to separate header, list marker, and text-boundary families."
+  }
+}
