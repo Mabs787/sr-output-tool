@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_families/header-controlled-region",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "passed",
+  "startedAt": "2026-07-24T15:02:00Z",
+  "finishedAt": "2026-07-24T15:09:55Z",
+  "headVerified": "4e51f78c2c4c7506ea37607f723a9bfe0fd5a363",
+  "leaseOwner": "",
+  "leaseAcquiredAt": null,
+  "leaseReleasedAt": null,
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 1,
+  "overlapCheck": {
+    "result": "not-acquired-noop-existing-active-lease",
+    "evidence": "Canonical lease was already active for top-level-codex-postboxes-h3-linebreak-trailing-whitespace-statictext-tail-2026-07-24T14:59:54Z. This Phase D pass made no shared engine/runtime/test edits because the requested header controlled-region family was already resolved on current HEAD."
+  },
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "handoffFrom": "phase-c5-header-controlled-region-current-family",
+  "handoffTo": "complete",
+  "nextPhase": "complete",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseC5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-header-controlled-region-current-family.json",
+    "priorOverlappingPhaseDReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-stabilized-header-nav-empty-region-role-buttons.json",
+    "resolvedByPriorHeadCommit": "6e287eb",
+    "currentHeadAfter": [
+      "6e287eb",
+      "4e51f78"
+    ],
+    "verificationWorkspace": "/tmp/sr-phase-d-header-head",
+    "fixtureDataNote": "Most isolated fixture HTML/AX/expected payloads for run 29684347419 are workspace artifacts rather than tracked HEAD files. For www-royalmail-com-sending-uk-tracked-24 and -48, the verification used tracked HEAD expected JSON from the archive plus workspace HTML/AX copied to /tmp so concurrent expected JSON edits did not affect the compare."
+  },
+  "sourceRefs": [
+    "www-royalmail-com:current-window-1",
+    "www-royalmail-com-find-postcode:current-window-1",
+    "www-royalmail-com-personal-receiving-mail-redirection:current-window-1",
+    "www-royalmail-com-receiving-mail-redelivery:current-window-1",
+    "www-royalmail-com-sending:current-window-1",
+    "www-royalmail-com-sending-barcoded-stamps:current-window-1",
+    "www-royalmail-com-sending-international:current-window-1",
+    "www-royalmail-com-sending-stamps:current-window-1",
+    "www-royalmail-com-sending-uk:current-window-1",
+    "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-1",
+    "www-royalmail-com-sending-uk-tracked-24:current-window-1",
+    "www-royalmail-com-sending-uk-tracked-48:current-window-1"
+  ],
+  "decisions": [
+    "Reran and remapped all 12 affected compares before acquiring any lease.",
+    "Did not acquire the canonical engine-refiner lease because the current HEAD compare output no longer contains the C.5-proven header controlled-region family.",
+    "Did not change packages/sr-engine/src/dom.ts, packages/sr-engine/src/announcements.ts, tests, runtime, fixtures, or lease state.",
+    "Treated the active lease and dirty engine/fixture files as concurrent state and verified engine behavior from a temporary HEAD archive instead."
+  ],
+  "changedFiles": [
+    {
+      "file": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-header-controlled-region-current-family.json",
+      "summary": "Records the no-op terminal Phase D result for the requested header controlled-region family."
+    }
+  ],
+  "fixtureChanges": [],
+  "behaviorFixed": {
+    "family": "header-nav-empty-region-with-visible-empty-outer-regions-and-list-positioned-role-buttons",
+    "phaseDAction": "noop",
+    "resolution": "already-resolved-on-current-head",
+    "evidence": "All 12 current compares have headerFamilyWindows: [] for the C.5 positive shape: list-positioned collapsed non-native header role buttons with group suffix followed by AX-visible named empty controlled regions."
+  },
+  "affectedCompareResults": [
+    { "target": "www-royalmail-com", "mismatchWindowCount": 4, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-find-postcode", "mismatchWindowCount": 1, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-personal-receiving-mail-redirection", "mismatchWindowCount": 5, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-receiving-mail-redelivery", "mismatchWindowCount": 3, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending", "mismatchWindowCount": 6, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-barcoded-stamps", "mismatchWindowCount": 4, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-international", "mismatchWindowCount": 9, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-stamps", "mismatchWindowCount": 11, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk", "mismatchWindowCount": 6, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm", "mismatchWindowCount": 4, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk-tracked-24", "mismatchWindowCount": 11, "headerFamilyWindows": [] },
+    { "target": "www-royalmail-com-sending-uk-tracked-48", "mismatchWindowCount": 11, "headerFamilyWindows": [] }
+  ],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build in /tmp/sr-phase-d-header-head",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript engine build passed on archived HEAD."
+    },
+    {
+      "command": "node --test --test-name-pattern \"header navigation list role-button groups\" packages/sr-engine/tests/dom-scanner.test.mjs in /tmp/sr-phase-d-header-head",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused header controlled-region unit passed: 1 passed, 0 failed."
+    },
+    {
+      "command": "node --test packages/sr-engine/tests/*.test.mjs in /tmp/sr-phase-d-header-head",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full engine unit suite passed: 376 passed, 56 skipped, 0 failed."
+    },
+    {
+      "command": "12 affected compares using archived HEAD engine and run 29684347419 isolated fixtures",
+      "required": true,
+      "status": "passed-with-residuals",
+      "exitCode": 0,
+      "summary": "All 12 compares completed and remapped; headerFamilyWindows is empty for every affected ref."
+    },
+    {
+      "command": "Protected W3/GOV.UK compares: www-w3-org-wai, www-w3-org-wai-standards-guidelines-wcag, www-gov-uk-find-local-council, design-system-service-gov-uk-components-text-input",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "All four protected fixtures stayed exact with mismatchWindowCount 0."
+    },
+    {
+      "command": "node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-find-a-postcode",
+      "required": true,
+      "status": "passed-with-existing-residuals",
+      "exitCode": 0,
+      "summary": "Postcode candidate compare completed with known residuals: expectedCount 99, actualCount 101, mismatchWindowCount 2; both windows are the existing extra Search label before edit text."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin yarn build:extension-runtime in /tmp/sr-phase-d-header-head",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime build passed in the archived HEAD copy without modifying the workspace runtime file."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_PROGRESS=true node --test packages/sr-engine/tests/voiceover-corpus.test.mjs in /tmp/sr-phase-d-header-head",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Bounded corpus completed with 36 passed, 21 skipped, 2 failed. Failures were unrelated current-HEAD residuals: www-microsoft-com-en-us-accessibility adds 'Ask Microsoft Accessibility' before 'Disability Answer Desk'; www-sky-com-watch-what-to-watch-this-week splits inline show titles FROM and Best Medicine."
+    }
+  ],
+  "remainingMismatches": {
+    "requestedFamilyStillOpen": false,
+    "unresolvedFamilyCount": 8,
+    "summary": "No requested header controlled-region mismatch remains. Residual windows belong to independent footer, body image/group/article, list marker/text-boundary, form/select, and existing protected corpus families."
+  },
+  "revisitQueue": [
+    {
+      "family": "footer-link-position-truncation",
+      "currentWindowIndexes": [
+        "all 12 affected targets: final footer window"
+      ],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep on the existing footer list-position route; do not mix with header controlled-region stops.",
+      "blocker": "Separate footer list-position/truncation family explicitly excluded from this Phase D request.",
+      "checksNeeded": [
+        "current footer-focused compares",
+        "footer list-position C.5 or fixture-judge receipt"
+      ]
+    },
+    {
+      "family": "homepage-list-marker-tab-and-article-boundary",
+      "currentWindowIndexes": [
+        "www-royalmail-com:windows-1-3"
+      ],
+      "latestActual": "Plain list item text, Footprints image with position, unexpanded tab wording, and end of main before article end.",
+      "latestExpected": "Bullet-prefixed list item text, separate Footprints image, selected expanded/collapsed tab group wording, and end of Let's find the right service for you article.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split homepage list-marker, tab state wording, and article-end subfamilies before any further engine work.",
+      "blocker": "Outside the C.5-proven header controlled-region wrapper-stop family.",
+      "checksNeeded": [
+        "homepage compare",
+        "list marker/tab/article C.5 receipts if present"
+      ]
+    },
+    {
+      "family": "secondary-header-navigation-and-banner-group-residual",
+      "currentWindowIndexes": [
+        "www-royalmail-com-personal-receiving-mail-redirection:windows-1-2"
+      ],
+      "latestActual": "After Send an item navigation, engine goes directly to end of banner/main.",
+      "latestExpected": "A secondary navigation with Receiving/Tracking/Redelivery/etc., followed by group, banner before main.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify this as its own header/navigation structural family with a fresh focused-node contract; do not reuse the controlled empty-region rule.",
+      "blocker": "Not the C.5 positive shape: no list-positioned collapsed role buttons followed by named empty controlled regions in the current mismatch.",
+      "checksNeeded": [
+        "rendered HTML and AX for the redirection secondary navigation",
+        "current compare window remap"
+      ]
+    },
+    {
+      "family": "body-image-fallback-and-card-media-stops",
+      "currentWindowIndexes": [
+        "www-royalmail-com-personal-receiving-mail-redirection:windows-3-4",
+        "www-royalmail-com-receiving-mail-redelivery:window-1",
+        "www-royalmail-com-sending:windows-1-4",
+        "www-royalmail-com-sending-barcoded-stamps:windows-1-2",
+        "www-royalmail-com-sending-international:windows-1,6-8",
+        "www-royalmail-com-sending-stamps:windows-2,5-9",
+        "www-royalmail-com-sending-uk:windows-1-4"
+      ],
+      "latestActual": "Engine skips or compacts expected image/group/media stops before headings and cards.",
+      "latestExpected": "Named image, unlabeled image, or group stops before subsequent heading/card text.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split image fallback, SVG/media, and card group subshapes by current rendered HTML/AX evidence.",
+      "blocker": "Independent body/card/media families outside the header controlled-region C.5.",
+      "checksNeeded": [
+        "current body/card compares",
+        "image fallback and card media C.5 receipts"
+      ]
+    },
+    {
+      "family": "article-end-boundary",
+      "currentWindowIndexes": [
+        "www-royalmail-com-receiving-mail-redelivery:window-2",
+        "www-royalmail-com-sending:window-5",
+        "www-royalmail-com-sending-barcoded-stamps:window-3",
+        "www-royalmail-com-sending-stamps:window-10",
+        "www-royalmail-com-sending-uk:window-5",
+        "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:window-3",
+        "www-royalmail-com-sending-uk-tracked-24:window-10",
+        "www-royalmail-com-sending-uk-tracked-48:window-10"
+      ],
+      "latestActual": "Breadcrumb navigation begins without the expected article end stop.",
+      "latestExpected": "end of, article before Breadcrumb navigation.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Route through the existing article-end boundary family; confirm whether any current windows share an already C.5-proven contract.",
+      "blocker": "Separate article boundary behavior not part of header controlled regions.",
+      "checksNeeded": [
+        "article-end C.5 receipt",
+        "current affected compares"
+      ]
+    },
+    {
+      "family": "international-select-and-action-group-residual",
+      "currentWindowIndexes": [
+        "www-royalmail-com-sending-international:windows-1-5"
+      ],
+      "latestActual": "Heading then required invalid select/button, edit text blank, dimmed button without View guide name.",
+      "latestExpected": "Image, split Select a Country label/star, controlled group, View guide dimmed button, and restrictions image.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep as a form/select/action-group family and verify against current rendered HTML/AX before Phase D.",
+      "blocker": "Separate form/select and media family outside the requested header controlled-region refs.",
+      "checksNeeded": [
+        "international compare",
+        "form/select protected fixtures",
+        "rendered HTML/AX focused nodes"
+      ]
+    },
+    {
+      "family": "list-marker-footnote-and-inline-text-boundary",
+      "currentWindowIndexes": [
+        "www-royalmail-com-sending-stamps:windows-1,3-4",
+        "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:windows-1-2",
+        "www-royalmail-com-sending-uk-tracked-24:windows-1-9",
+        "www-royalmail-com-sending-uk-tracked-48:windows-1-9"
+      ],
+      "latestActual": "Plain list item text or dagger/double-dagger footnote symbols split from list item text, plus long paragraph text not truncated at expected boundary.",
+      "latestExpected": "Bullet-prefixed list items, plus/hash footnote normalization, and shorter VoiceOver text-boundary fragments.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Separate marker prefix, footnote glyph normalization, and long text-boundary tails; some tracked-24/48 differences depend on HEAD expected JSON versus concurrent fixture edits.",
+      "blocker": "Explicitly separate from header controlled-region behavior and partly affected by concurrent fixture work.",
+      "checksNeeded": [
+        "fresh compares after concurrent tracked-24/48 fixture edits settle",
+        "superscript/footnote and list-marker C.5 receipts"
+      ]
+    },
+    {
+      "family": "bounded-corpus-existing-residuals",
+      "currentWindowIndexes": [
+        "www-microsoft-com-en-us-accessibility:firstMismatchIndex-31",
+        "www-sky-com-watch-what-to-watch-this-week:firstMismatchIndex-55"
+      ],
+      "latestActual": "Microsoft adds Ask Microsoft Accessibility before Disability Answer Desk; Sky splits inline show-title links FROM and Best Medicine into separate stops.",
+      "latestExpected": "Microsoft proceeds directly to heading level 3 Disability Answer Desk; Sky keeps the paragraph as one combined text stop.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify current HEAD corpus residuals independently; they are not caused by this no-op header pass.",
+      "blocker": "Bounded corpus was already failing on current HEAD for unrelated fixtures.",
+      "checksNeeded": [
+        "individual compares for the two failing corpus fixtures",
+        "fixture-judge classification before any engine change"
+      ]
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "No further work for the 12 C.5-proven header controlled-region refs; requested family is terminal on current HEAD.",
+    "c5Needed": false,
+    "reason": "Current HEAD after 6e287eb and 4e51f78 already resolves the family, and no engine patch was required."
+  },
+  "handoffReason": "No-op terminal Phase D receipt: the requested header controlled-region family is resolved on current HEAD; unrelated residuals are recorded for separate owners."
+}
