@@ -10,7 +10,7 @@
   "family": "product-list-link-static-tail",
   "status": "passed",
   "startedAt": "2026-07-24T10:46:16Z",
-  "finishedAt": "2026-07-24T11:06:34Z",
+  "finishedAt": "2026-07-24T11:09:52Z",
   "branch": "codex/royal-mail-voiceover-refinement",
   "sharedPreflightRef": "./00-agent-preflight.json",
   "leaseAcquiredAt": "2026-07-24T10:46:16Z",
@@ -58,7 +58,8 @@
     "latestMismatchWindowCount": 14,
     "fixedWindowEvidence": "current-window-8 item 5 now appears in latest target compare as marker/link/static-tail before end of list; the original C.5 engine output collapsed it to one positioned tail and omitted the link stop.",
     "remainingGrouped": {
-      "list/marker": 7,
+      "list/marker": 6,
+      "punctuation/text-boundary": 1,
       "role/structure": 7
     }
   },
@@ -99,18 +100,46 @@
       "summary": "Protected exact compare stayed exact: mismatchWindowCount 0."
     },
     {
-      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-google-com-accessibility 3",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag",
       "required": true,
       "status": "passed",
       "exitCode": 0,
       "summary": "Protected exact compare stayed exact: mismatchWindowCount 0."
     },
     {
-      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-w3-org-wai 3",
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai",
       "required": true,
       "status": "passed",
       "exitCode": 0,
       "summary": "Protected exact compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-apply-blue-badge",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare design-system-service-gov-uk-components-text-input",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK Design System compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Existing Royal Mail postcode candidate remained at its known candidate shape: expected 99, actual 101, mismatchWindowCount 2."
     },
     {
       "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn build:extension-runtime",
@@ -120,11 +149,32 @@
       "summary": "Extension runtime build passed."
     },
     {
-      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:voiceover",
+      "command": "perl -e 'alarm shift; exec @ARGV' 360 yarn workspace @sr-output/engine test:voiceover",
       "required": true,
       "status": "failed",
-      "exitCode": 1,
-      "summary": "Full corpus gate completed with the two known baseline failures only: www-microsoft-com-en-us-accessibility inserts Ask Microsoft Accessibility; www-sky-com-watch-what-to-watch-this-week splits inline title boundaries. No product-list regression appeared."
+      "exitCode": 142,
+      "summary": "Bounded full corpus attempt timed out without terminal output."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_PROGRESS=true perl -e 'alarm shift; exec @ARGV' 360 yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 142,
+      "summary": "Progress-enabled bounded corpus timed out after starting www-sky-com-smart-home. It passed through GOV.UK, W3-unrelated earlier fixtures, Microsoft start, National Rail, NHS, Sky deals, and Sky protect before timeout."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "required": false,
+      "status": "failed",
+      "exitCode": 0,
+      "summary": "Known baseline reproduced separately: mismatchWindowCount 1, actual inserts Ask Microsoft Accessibility before Disability Answer Desk."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-sky-com-watch-what-to-watch-this-week",
+      "required": false,
+      "status": "failed",
+      "exitCode": 0,
+      "summary": "Known baseline reproduced separately: mismatchWindowCount 2, inline emphasis/title text split around FROM, Best Medicine, The Serpent, and Boiling Point."
     }
   ],
   "revisitQueue": [
