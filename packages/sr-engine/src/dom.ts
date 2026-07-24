@@ -3379,6 +3379,99 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return !el.closest("p,li,h1,h2,h3,h4,h5,h6,[role='heading']");
   }
 
+  function isProductOptionArticleCardNativeButtonGroup(el: any, role: string): boolean {
+    if (role !== "button") return false;
+    if (el?.tagName?.toLowerCase() !== "button") return false;
+    if (el.getAttribute("role") && el.getAttribute("role") !== "button") return false;
+    if (
+      el.disabled ||
+      el.hasAttribute?.("disabled") ||
+      el.getAttribute("aria-disabled") === "true" ||
+      el.getAttribute("aria-hidden") === "true" ||
+      el.closest?.("[hidden],[aria-hidden='true'],[inert]")
+    ) {
+      return false;
+    }
+    if (
+      normalizedPopup(el) ||
+      el.hasAttribute("aria-expanded") ||
+      el.hasAttribute("aria-controls") ||
+      el.hasAttribute("aria-pressed") ||
+      el.hasAttribute("aria-label") ||
+      el.hasAttribute("aria-labelledby")
+    ) {
+      return false;
+    }
+    if (closestCustomElement(el) || el.closest("footer,[role='contentinfo'],[role='alert'],[role='status']")) {
+      return false;
+    }
+
+    const visibleChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (visibleChildren.length < 1 || visibleChildren.length > 2) return false;
+
+    const paragraphLabel = visibleChildren.find(
+      (child: any) => child.tagName?.toLowerCase() === "p",
+    ) as any;
+    if (!paragraphLabel || paragraphLabel.querySelector(interactiveSelector)) return false;
+    if (!visibleChildren.every((child: any) => child === paragraphLabel || hasDecorativeMediaOnlyElement(child))) {
+      return false;
+    }
+
+    const label = normalize(readableText(paragraphLabel));
+    if (!label || normalize(readableText(el)) !== label) return false;
+    if (normalize(accessibleName(el, role)) !== label) return false;
+
+    const paragraph = el.closest("p");
+    if (!paragraph || paragraph === el || isHidden(paragraph)) return false;
+    if (paragraph.closest("article,[role='article'],footer,[role='contentinfo'],[role='alert'],[role='status']")) {
+      return false;
+    }
+    if (!normalize(directOwnText(paragraph))) return false;
+    if (Array.from(paragraph.querySelectorAll(interactiveSelector)).filter((control: any) => !isHidden(control)).length !== 1) {
+      return false;
+    }
+
+    const section = paragraph.closest("section,main,[role='main'],[role='region']");
+    if (!section) return false;
+
+    const optionGroup = previousVisibleElementSibling(paragraph);
+    if (!optionGroup || optionGroup.parentElement !== paragraph.parentElement) return false;
+    if (implicitRole(optionGroup) !== "group") return false;
+    if (!optionGroup.getAttribute("role") && !optionGroup.getAttribute("aria-label") && !optionGroup.getAttribute("aria-labelledby")) {
+      return false;
+    }
+    if (!normalize(accessibleName(optionGroup, "group"))) return false;
+    if (optionGroup.matches(interactiveSelector) || optionGroup.querySelector(interactiveSelector)) {
+      return false;
+    }
+
+    const visibleArticles = Array.from(optionGroup.children || []).filter(
+      (child: any) => !isHidden(child) && implicitRole(child) === "article",
+    );
+    if (visibleArticles.length < 2) return false;
+    if (visibleArticles.some((article: any) => article.getAttribute("role") && article.getAttribute("role") !== "article")) {
+      return false;
+    }
+    if (
+      visibleArticles.some((article: any) => {
+        if (!normalize(accessibleName(article, "article") || articleNameFromFirstHeading(article, "article"))) {
+          return true;
+        }
+        return !article.querySelector("img, svg[role='img'], [role='img']");
+      })
+    ) {
+      return false;
+    }
+
+    if (accessibilityNodes.length) {
+      const axNode = axNodeForElementRole(el, "button");
+      if (!axNode || axNode.properties?.focusable !== true) return false;
+      if (normalize(axNode.name) !== label) return false;
+    }
+
+    return true;
+  }
+
   function isNativeButtonDirectSpanGroupButton(el: any): boolean {
     if (!nativeButtonDirectSpanTextName(el)) return false;
     if (el.disabled || el.hasAttribute?.("disabled")) return false;
@@ -16143,6 +16236,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
             (role === "button" && isFilterRowGroupButton(el, role)) ||
             (role === "button" && isCodeExampleActionGroupButton(el, role)) ||
             (role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role)) ||
+            (role === "button" && isProductOptionArticleCardNativeButtonGroup(el, role)) ||
             (role === "button" && nativeSubmitTabPanelGroup) ||
             (role === "button" &&
               !suppressPositionedChoiceGroup &&

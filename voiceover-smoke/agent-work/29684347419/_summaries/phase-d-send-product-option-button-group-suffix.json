@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "send-royalmail-com",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "passed_with_residuals",
+  "startedAt": "2026-07-24T13:25:16Z",
+  "finishedAt": "2026-07-24T13:32:07Z",
+  "queueId": "send-product-option-button-group-suffix",
+  "candidateRef": "send-royalmail-com:current-window-10",
+  "family": "send-product-option-button-group-suffix",
+  "leaseOwner": "top-level-codex-send-product-option-button-group-suffix-2026-07-24T13:25:16Z",
+  "leaseAcquiredAt": "2026-07-24T13:25:16Z",
+  "leaseReleasedAt": "2026-07-24T13:32:07Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "sole-canonical-lease",
+    "evidence": "Canonical phase-d-engine-lease.json was released with activeEngineRefinerCount 0 before acquisition; this worker acquired the sole active lease for queueId send-product-option-button-group-suffix and released it after checks."
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCQueue": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-card-media-post-list-engine-queue.json",
+    "phaseC5Evidence": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-card-media-article-current-family.json",
+    "targetFixtureRoot": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com",
+    "c5RenderedHtml": "voiceover-smoke/agent-work/29684347419/c5-card-media-article-current-artifacts/29834147009/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-card-media-article-current-c5-card-media-article-current-family/rendered-html.html"
+  },
+  "decisions": [
+    "Implemented only the C.5-proven generic structure: a native button with direct paragraph label and decorative media after a labelled role=group option list containing at least two adjacent semantic article children.",
+    "Reused the existing descriptor groupContext path; announcements.ts did not need a wording change.",
+    "Did not add Royal Mail/product/promo copy, URLs, classes, selectors, component names, or layout-specific guards.",
+    "Excluded footer/contentinfo, alert/status, popup/disclosure/pressed/controlled controls, role=button anchors, custom-element controls, hidden/inert descendants, and non-semantic parked target shapes.",
+    "Kept the patch despite unchanged send target compare because the current saved target HTML does not satisfy the C.5 semantic group/article wrapper contract; broadening to that non-semantic shape would violate the requested scope."
+  ],
+  "evidence": {
+    "c5Verdict": "engine-gap-confirmed",
+    "c5Contract": [
+      "role=group option-list ancestor around adjacent native article cards",
+      "each article has image descendant and scalar text descendants",
+      "nearby native button contains nested paragraph text plus aria-hidden SVG"
+    ],
+    "c5BeforeShape": {
+      "voiceOver": "More, button, group",
+      "engine": "More, button"
+    },
+    "c5AfterSmoke": [
+      "Option list, group",
+      "Option A, article",
+      "end of, Option list, group",
+      "More, button, group"
+    ],
+    "targetBeforeCompare": {
+      "expectedCount": 155,
+      "actualCount": 133,
+      "mismatchWindowCount": 16
+    },
+    "targetAfterCompare": {
+      "expectedCount": 155,
+      "actualCount": 133,
+      "mismatchWindowCount": 16,
+      "reasonUnchanged": "The target's current saved button area is a non-semantic div/span/p/button shape without the C.5-proven role=group plus adjacent article wrapper contract."
+    }
+  },
+  "fixtureChanges": [],
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-send-product-option-button-group-suffix.json"
+  ],
+  "behaviorRuleImplemented": {
+    "file": "packages/sr-engine/src/dom.ts",
+    "predicate": "isProductOptionArticleCardNativeButtonGroup",
+    "summary": "Adds button groupContext only for a plain native button whose direct paragraph label matches its accessible name, sits in paragraph text immediately after a labelled group containing adjacent semantic article cards with image descendants, and is not in excluded footer/alert/custom/hidden/control-state shapes."
+  },
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"product option article-card\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused positive passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"product option button group suffix\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused exclusions passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "428 tests: 372 passed, 56 skipped."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com yarn workspace @sr-output/engine voiceover:compare send-royalmail-com 20",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 155, actual 133, mismatch windows 16; unchanged because the saved target lacks the C.5 semantic wrapper contract."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 207, actual 207, mismatch windows 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 150, actual 150, mismatch windows 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Known candidate baseline remained at expected 99, actual 101, mismatch windows 2."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Known baseline remained at expected 164, actual 165, mismatch windows 1."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-sky-com 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Expected 93, actual 93, mismatch windows 0."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-sky-com-watch-what-to-watch-this-week 5",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Known separate Sky text-boundary baseline remained at expected 171, actual 179, mismatch windows 2."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Bounded corpus ran; Microsoft known baseline failed with 1 existing window and Sky watch-this-week known baseline failed with 2 existing text-boundary windows. Other refined fixtures passed; candidate fixtures skipped."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine and extension runtime build passed."
+    },
+    {
+      "command": "node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "C.5 repro fixture guard passed."
+    },
+    {
+      "command": "direct scanner smoke on C.5 rendered HTML",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine emitted Option list group/article boundaries and More, button, group."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "send-product-option-nonsemantic-target-wrapper-boundaries",
+      "currentWindowIndexes": [7, 12, 13],
+      "latestActual": "button; Find out more, button",
+      "latestExpected": "group; group; button; Save by buying postage online.* Now you can drop off smaller parcels at a postbox.t; Find out more, button, group",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split the target's non-semantic div/span/p/button shape from the C.5 semantic group/article-card proof. If VoiceOver evidence is still trusted for the non-semantic shape, request a fresh C.5 with that exact generic DOM/AX contract before any engine broadening.",
+      "blocker": "The saved target HTML/AX around DOM 2534-2541 has ignored div/span wrappers and no semantic group/article option-list contract; broadening this Phase D rule would exceed the requested C.5-proven scope.",
+      "checksNeeded": [
+        "Re-read target rendered HTML/AX around DOM node ids 2534-2541",
+        "Compare against phase-c5-card-media-article-current-family splitVerdicts/send-royalmail-com:current-window-10",
+        "Run isolated C.5 if supporting the non-semantic target shape is desired"
+      ]
+    },
+    {
+      "family": "send-downstream-alert-footer-media-tail",
+      "currentWindowIndexes": [16],
+      "latestActual": "alert, *Available drop off locations...; footer; Royal Mail; image...",
+      "latestExpected": "*Available drop off locations...; end of, main; footer; Royal Mail; image...",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep downstream alert/footer/media tail outside this queueId and route through its existing Phase C/C.5 family.",
+      "blocker": "Explicitly excluded by the user from send-product-option-button-group-suffix Phase D.",
+      "checksNeeded": [
+        "Use downstream alert/footer/media family receipt",
+        "Run target compare after that owner changes behavior"
+      ]
+    },
+    {
+      "family": "send-upstream-form-tabs-image-listbox-gaps",
+      "currentWindowIndexes": [1, 2, 3, 4, 5, 6],
+      "latestActual": "header/nav/product form sequence lacks image/tab group/listbox/body split stops present in expected",
+      "latestExpected": "image; tab, group; Where is your item going?; expanded combo/list box; product option image stops",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Handle only under the relevant upstream families; do not fold into the product-option button suffix rule.",
+      "blocker": "Outside exactly requested queueId.",
+      "checksNeeded": [
+        "Current target compare",
+        "Relevant Phase C family receipts for tabs, form, image stops, and listbox state"
+      ]
+    }
+  ],
+  "nextPhase": "fixture-judge",
+  "handoffReason": "C.5 semantic product-option article-card button suffix is implemented; selected target residual requires separate classification because its current saved shape is non-semantic and outside the proven predicate.",
+  "handoffFrom": "C.5",
+  "handoffTo": "fixture-judge",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "send-royalmail-com current product-option non-semantic wrapper residual only",
+    "c5Needed": true,
+    "reason": "A new C.5 is needed before broadening beyond semantic group/article-card wrappers."
+  }
+}

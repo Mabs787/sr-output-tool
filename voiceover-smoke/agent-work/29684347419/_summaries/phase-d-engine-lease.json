@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-homepage-article-iframe-boundary-recovery-2026-07-24T13:16:50Z",
-  "startedAt": "2026-07-24T13:16:50Z",
+  "leaseOwner": "top-level-codex-send-product-option-button-group-suffix-2026-07-24T13:25:16Z",
+  "startedAt": "2026-07-24T13:25:16Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T13:21:18Z",
-  "targetFamily": "homepage-article-iframe-boundary",
-  "target": "www-royalmail-com",
-  "candidateRef": "www-royalmail-com:current-window-4",
+  "releasedAt": "2026-07-24T13:32:07Z",
+  "targetFamily": "send-product-option-button-group-suffix",
+  "target": "send-royalmail-com",
+  "candidateRef": "send-royalmail-com:current-window-10",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,18 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "released-no-active-engine-refiner",
-    "evidence": "Recovery acquisition after user confirmed the prior homepage worker was explicitly shut down, the concurrent postboxes worker committed cc832ca and released the canonical lease, and no other engine-refiner from this task was active. Canonical lease was released before acquisition, held solely for homepage article iframe boundary recovery, and released after checks."
+    "evidence": "Canonical lease was released with active count 0 before acquisition. This worker owned only queueId send-product-option-button-group-suffix for send-royalmail-com:current-window-10 and released after checks."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-send-product-option-button-group-suffix-2026-07-24T13:25:16Z",
+      "target": "send-royalmail-com",
+      "candidateRef": "send-royalmail-com:current-window-10",
+      "targetFamily": "send-product-option-button-group-suffix",
+      "startedAt": "2026-07-24T13:25:16Z",
+      "releasedAt": "2026-07-24T13:32:07Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "top-level-codex-homepage-article-iframe-boundary-recovery-2026-07-24T13:16:50Z",
       "target": "www-royalmail-com",

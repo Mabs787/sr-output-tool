@@ -6501,6 +6501,84 @@ test("scanSubtree adds group suffix for filter and code example action buttons",
   );
 });
 
+test("scanSubtree adds group suffix for product option article-card paragraph buttons", () => {
+  const announcements = scanHtml(`
+    <main>
+      <section aria-labelledby="option-heading">
+        <h2 id="option-heading">Choose an option</h2>
+        <div role="group" aria-label="Option list">
+          <article aria-labelledby="option-a-title">
+            <svg role="img" aria-label="Option icon"></svg>
+            <div id="option-a-title">Option A</div>
+            <p>from <span>two credits</span></p>
+          </article>
+          <article aria-labelledby="option-b-title">
+            <svg role="img" aria-label="Option icon"></svg>
+            <div id="option-b-title">Option B</div>
+            <p>from <span>four credits</span></p>
+          </article>
+        </div>
+        <p>Short note.<button type="button"><p>More</p><svg aria-hidden="true"></svg></button></p>
+      </section>
+    </main>
+  `);
+
+  assert.ok(announcements.includes("More, button, group"));
+  assert.equal(announcements.includes("More, button"), false);
+  assert.ok(announcements.includes("Option list, group"));
+  assert.ok(announcements.includes("Option A, article"));
+  assert.ok(announcements.includes("Option B, article"));
+});
+
+test("scanSubtree keeps product option button group suffix exclusions narrow", () => {
+  assert.equal(
+    scanHtml(`
+      <main>
+        <footer>
+          <div role="group" aria-label="Option list">
+            <article aria-labelledby="footer-a"><svg role="img" aria-label="Icon"></svg><span id="footer-a">Footer A</span></article>
+            <article aria-labelledby="footer-b"><svg role="img" aria-label="Icon"></svg><span id="footer-b">Footer B</span></article>
+          </div>
+          <p>Footer note.<button type="button"><p>More</p><svg aria-hidden="true"></svg></button></p>
+        </footer>
+      </main>
+    `).includes("More, button, group"),
+    false,
+  );
+
+  assert.equal(
+    scanHtml(`
+      <main>
+        <section aria-labelledby="option-heading">
+          <h2 id="option-heading">Choose an option</h2>
+          <div role="group" aria-label="Option list">
+            <article aria-labelledby="option-a"><svg role="img" aria-label="Icon"></svg><span id="option-a">Option A</span></article>
+            <article aria-labelledby="option-b"><svg role="img" aria-label="Icon"></svg><span id="option-b">Option B</span></article>
+          </div>
+          <p>Short note.<a role="button"><p>More</p><svg aria-hidden="true"></svg></a></p>
+        </section>
+      </main>
+    `).includes("More, button, group"),
+    false,
+  );
+
+  assert.equal(
+    scanHtml(`
+      <main>
+        <section aria-labelledby="option-heading">
+          <h2 id="option-heading">Choose an option</h2>
+          <div role="group" aria-label="Option list" hidden>
+            <article aria-labelledby="option-a"><svg role="img" aria-label="Icon"></svg><span id="option-a">Option A</span></article>
+            <article aria-labelledby="option-b"><svg role="img" aria-label="Icon"></svg><span id="option-b">Option B</span></article>
+          </div>
+          <p>Short note.<button type="button"><p>More</p><svg aria-hidden="true"></svg></button></p>
+        </section>
+      </main>
+    `).includes("More, button, group"),
+    false,
+  );
+});
+
 test("scanSubtree exposes standalone code badge text", () => {
   assert.deepEqual(
     scanHtml(`

@@ -3988,6 +3988,86 @@
             return false;
           return !el.closest("p,li,h1,h2,h3,h4,h5,h6,[role='heading']");
         }
+        function isProductOptionArticleCardNativeButtonGroup(el, role) {
+          if (role !== "button")
+            return false;
+          if (el?.tagName?.toLowerCase() !== "button")
+            return false;
+          if (el.getAttribute("role") && el.getAttribute("role") !== "button")
+            return false;
+          if (el.disabled || el.hasAttribute?.("disabled") || el.getAttribute("aria-disabled") === "true" || el.getAttribute("aria-hidden") === "true" || el.closest?.("[hidden],[aria-hidden='true'],[inert]")) {
+            return false;
+          }
+          if (normalizedPopup(el) || el.hasAttribute("aria-expanded") || el.hasAttribute("aria-controls") || el.hasAttribute("aria-pressed") || el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby")) {
+            return false;
+          }
+          if (closestCustomElement(el) || el.closest("footer,[role='contentinfo'],[role='alert'],[role='status']")) {
+            return false;
+          }
+          const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (visibleChildren.length < 1 || visibleChildren.length > 2)
+            return false;
+          const paragraphLabel = visibleChildren.find((child) => child.tagName?.toLowerCase() === "p");
+          if (!paragraphLabel || paragraphLabel.querySelector(interactiveSelector))
+            return false;
+          if (!visibleChildren.every((child) => child === paragraphLabel || hasDecorativeMediaOnlyElement(child))) {
+            return false;
+          }
+          const label = normalize(readableText(paragraphLabel));
+          if (!label || normalize(readableText(el)) !== label)
+            return false;
+          if (normalize(accessibleName(el, role)) !== label)
+            return false;
+          const paragraph = el.closest("p");
+          if (!paragraph || paragraph === el || isHidden(paragraph))
+            return false;
+          if (paragraph.closest("article,[role='article'],footer,[role='contentinfo'],[role='alert'],[role='status']")) {
+            return false;
+          }
+          if (!normalize(directOwnText(paragraph)))
+            return false;
+          if (Array.from(paragraph.querySelectorAll(interactiveSelector)).filter((control) => !isHidden(control)).length !== 1) {
+            return false;
+          }
+          const section = paragraph.closest("section,main,[role='main'],[role='region']");
+          if (!section)
+            return false;
+          const optionGroup = previousVisibleElementSibling(paragraph);
+          if (!optionGroup || optionGroup.parentElement !== paragraph.parentElement)
+            return false;
+          if (implicitRole(optionGroup) !== "group")
+            return false;
+          if (!optionGroup.getAttribute("role") && !optionGroup.getAttribute("aria-label") && !optionGroup.getAttribute("aria-labelledby")) {
+            return false;
+          }
+          if (!normalize(accessibleName(optionGroup, "group")))
+            return false;
+          if (optionGroup.matches(interactiveSelector) || optionGroup.querySelector(interactiveSelector)) {
+            return false;
+          }
+          const visibleArticles = Array.from(optionGroup.children || []).filter((child) => !isHidden(child) && implicitRole(child) === "article");
+          if (visibleArticles.length < 2)
+            return false;
+          if (visibleArticles.some((article) => article.getAttribute("role") && article.getAttribute("role") !== "article")) {
+            return false;
+          }
+          if (visibleArticles.some((article) => {
+            if (!normalize(accessibleName(article, "article") || articleNameFromFirstHeading(article, "article"))) {
+              return true;
+            }
+            return !article.querySelector("img, svg[role='img'], [role='img']");
+          })) {
+            return false;
+          }
+          if (accessibilityNodes.length) {
+            const axNode = axNodeForElementRole(el, "button");
+            if (!axNode || axNode.properties?.focusable !== true)
+              return false;
+            if (normalize(axNode.name) !== label)
+              return false;
+          }
+          return true;
+        }
         function isNativeButtonDirectSpanGroupButton(el) {
           if (!nativeButtonDirectSpanTextName(el))
             return false;
@@ -14457,7 +14537,7 @@
             fieldsetRadioGroup: isFieldsetRadioGroup(el, role) || void 0,
             radioTrailingLabelText: role === "radio" ? radioTrailingLabelText(el, role, announcementName) : void 0,
             compositeText: role === "button" && Boolean(nestedImageLabel(el) && rawText) || void 0,
-            groupContext: !leadingGenericGroupStops && !suppressNativeCardActionGroup && !suppressPaginationButtonGroup && !suppressFooterLegalActionButtonGroup && !suppressNamedGroupCollapsedControlGroup && !suppressGroupedCollapsedAriaRoleButtonGroup && !suppressCollapsedAnchorButtonGroup && !(role === "button" && el.hasAttribute("aria-pressed")) && (Boolean(headingButton) || role === "tab" && isControlledTablistTab(el, role) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && !isCollapsedDialogPopupImageTextButton(el) && !el.hasAttribute("aria-pressed") && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !anonymousStructuralCustomElementHost && !hasSameNameCustomGroupAncestor(el, name) && !normalizedPopup(el) && !hasAssociatedExplicitTooltip(el, name) && !isAriaLabelOnlyDecorativeIconButton(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && collapsedVisibleControlledRegionButton || role === "button" && el.hasAttribute("aria-expanded") && !checkboxRoleButtonAccordionControl && !nativeButtonLabelStopText && !anonymousStructuralCustomElementHost && !normalizedPopup(el) && !isAxConfirmedEmptyCollapsedOffscreenButton(el, role, name) && !nativeHiddenControlledCollapsedButton && !isPresentationCollapsedAccordionButton(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isAxConfirmedToolbarIconButton(el, role) || role === "button" && !nativeHiddenControlledCollapsedButton && isMenuDisclosureGroupButton(el) || role === "button" && Boolean(nativeDetailsSummary) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && isGeneratedPseudoPopupButton(el) || role === "button" && isShadowHostWrappedNativeButton(el) || role === "button" && isNativeButtonDirectSpanGroupButton(el) || role === "button" && emptyGenericTextNativeButtonGroup || role === "button" && isFilterRowGroupButton(el, role) || role === "button" && isCodeExampleActionGroupButton(el, role) || role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role) || role === "button" && nativeSubmitTabPanelGroup || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "button" && isExpandedNavigationListItemButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el)) || void 0,
+            groupContext: !leadingGenericGroupStops && !suppressNativeCardActionGroup && !suppressPaginationButtonGroup && !suppressFooterLegalActionButtonGroup && !suppressNamedGroupCollapsedControlGroup && !suppressGroupedCollapsedAriaRoleButtonGroup && !suppressCollapsedAnchorButtonGroup && !(role === "button" && el.hasAttribute("aria-pressed")) && (Boolean(headingButton) || role === "tab" && isControlledTablistTab(el, role) || role === "button" && !suppressPositionedChoiceGroup && !isPositionedImageChoiceButton(el) && !isCollapsedDialogPopupImageTextButton(el) && !el.hasAttribute("aria-pressed") && Boolean(nestedImageLabel(el)) || role === "button" && Boolean(closestCustomElement(el)) && !anonymousStructuralCustomElementHost && !hasSameNameCustomGroupAncestor(el, name) && !normalizedPopup(el) && !hasAssociatedExplicitTooltip(el, name) && !isAriaLabelOnlyDecorativeIconButton(el) && !isPlainUtilityDisclosureButton(el) && !suppressPositionedChoiceGroup && el.hasAttribute("aria-label") || role === "button" && collapsedVisibleControlledRegionButton || role === "button" && el.hasAttribute("aria-expanded") && !checkboxRoleButtonAccordionControl && !nativeButtonLabelStopText && !anonymousStructuralCustomElementHost && !normalizedPopup(el) && !isAxConfirmedEmptyCollapsedOffscreenButton(el, role, name) && !nativeHiddenControlledCollapsedButton && !isPresentationCollapsedAccordionButton(el) && !position && !buttonSharesListItemWithLink(el) && !isPlainUtilityDisclosureButton(el) && normalize(name) !== "Open navigation menu" || role === "button" && isLabeledIconActionButton(el) || role === "button" && isAxConfirmedToolbarIconButton(el, role) || role === "button" && !nativeHiddenControlledCollapsedButton && isMenuDisclosureGroupButton(el) || role === "button" && Boolean(nativeDetailsSummary) || role === "button" && isSlideshowNavigationButton(el) || role === "button" && isInteractiveCardListButton(el) || role === "button" && isTrailingDisclaimerButton(el) || role === "button" && isTextWithTrailingIconButton(el) || role === "button" && isGeneratedPseudoPopupButton(el) || role === "button" && isShadowHostWrappedNativeButton(el) || role === "button" && isNativeButtonDirectSpanGroupButton(el) || role === "button" && emptyGenericTextNativeButtonGroup || role === "button" && isFilterRowGroupButton(el, role) || role === "button" && isCodeExampleActionGroupButton(el, role) || role === "button" && isStructuredArticleCardStandaloneButtonAction(el, role) || role === "button" && isProductOptionArticleCardNativeButtonGroup(el, role) || role === "button" && nativeSubmitTabPanelGroup || role === "button" && !suppressPositionedChoiceGroup && isIconFirstTextButton(el) || role === "button" && isExpandedNavigationListItemButton(el) || role === "text" && isFocusableCustomTooltipTrigger(el)) || void 0,
             richTextGroup: role === "group" && Boolean(richTextGroupText) || void 0,
             groupedCollectionPosition: role === "button" && collapsedVisibleControlledRegionButton || role === "button" && Boolean(nativeDetailsSummary) || role === "button" && hasOnlyInteractiveListItemContent(semanticListContext(el).listItem) || role === "group" && isFocusableStructuredListItemGroup(el) || void 0,
             parenthesizedCollectionPosition: role === "term" && (isWrappedDefinitionListItem(el) || isSimpleDirectDefinitionListItem(el) || isDirectListBackedDefinitionItem(el) || Boolean(definitionListDisclosureButton(el))) || role === "group" && (isFocusableStructuredListItemGroup(el) || isFocusableImageListItem(el)) || void 0,
