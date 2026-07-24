@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "www-royalmail-com-sending-international",
+  "runId": "29684347419",
+  "status": "passed-with-unresolved-exclusions",
+  "startedAt": "2026-07-24T12:35:09Z",
+  "finishedAt": "2026-07-24T12:42:55Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "leaseOwner": "top-level-codex-international-required-invalid-blank-textbox-2026-07-24T12:35:09Z",
+  "leaseAcquiredAt": "2026-07-24T12:35:09Z",
+  "leaseReleasedAt": "2026-07-24T12:44:34Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "released-single-engine-refiner",
+    "evidence": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json showed status=released and activeEngineRefinerCount=0 before acquisition; this worker set exactly one active lease before editing shared engine/runtime/test files and released it at 2026-07-24T12:44:34Z."
+  },
+  "inputs": {
+    "phaseCQueue": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-shared-shell-post-article-engine-queue.json",
+    "phaseC5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-shared-shell-small-structural.json",
+    "candidateRef": "www-royalmail-com-sending-international:select-country-required-invalid-combobox:current-window-4:99126fe2a08fec29",
+    "targetCompareCommand": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-international yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-sending-international",
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ]
+  },
+  "decisions": {
+    "implemented": true,
+    "scope": "Only the reusable VoiceOver/AX-backed required-invalid native select state and adjacent unnamed empty textbox blank wording.",
+    "excluded": [
+      "custom wrapper group stop",
+      "parked article/end shapes",
+      "Royal Mail/country text",
+      "URLs/classes/selectors/component/layout assumptions",
+      "named textbox variants",
+      "filled textbox variants",
+      "valid select variants",
+      "disabled/read-only/hidden textbox variants",
+      "disabled submit name wording"
+    ],
+    "safeDiscriminator": "AX combobox invalid=true plus focusable native required select with selected empty placeholder option; adjacent unnamed empty native text input in the same form only receives blank wording when the preceding required-invalid select is AX-confirmed."
+  },
+  "evidence": {
+    "c5Verdict": "engine-gap-confirmed",
+    "c5MiniVoiceOverCore": [
+      "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button",
+      "Select a Country",
+      "edit text, blank"
+    ],
+    "c5MiniEngineBeforeCore": [
+      "Select a Country, Select a Country *, menu pop up collapsed, button",
+      "Select a Country",
+      "edit text"
+    ],
+    "c5AxContract": [
+      "select AX role=combobox name Select a Country * value Select a Country invalid=true focusable=true hasPopup=menu expanded=false",
+      "textbox AX role=textbox name empty value empty focusable=true editable=plaintext invalid=false",
+      "selected native option has empty value and placeholder text"
+    ],
+    "targetBefore": {
+      "expectedCount": 202,
+      "actualCount": 194,
+      "mismatchWindowCount": 9,
+      "coreActual": [
+        "Select a Country, Select a Country *, menu pop up collapsed, button",
+        "Select a Country",
+        "edit text"
+      ],
+      "coreExpected": [
+        "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button",
+        "Select a Country",
+        "edit text, blank"
+      ]
+    },
+    "targetAfter": {
+      "expectedCount": 202,
+      "actualCount": 194,
+      "mismatchWindowCount": 10,
+      "coreActual": [
+        "Select a Country, Select a Country *, required invalid data menu pop up collapsed, button",
+        "Select a Country",
+        "edit text, blank"
+      ],
+      "remainingReason": "Window count increased by alignment split after the core fix; remaining actual/expected differences are the explicitly excluded wrapper group, disabled submit name, images, header region, and footer list-position truncation families."
+    }
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-international-required-invalid-blank-textbox.json"
+  ],
+  "behaviorFixed": [
+    "AX-confirmed required invalid native select with empty selected placeholder now announces required invalid data before menu pop up collapsed, button.",
+    "AX-confirmed unnamed empty native text input following that required-invalid native select now announces edit text, blank.",
+    "Valid, named, and filled controls are covered by focused exclusions."
+  ],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "tsc passed before focused tests and again through extension runtime build."
+    },
+    {
+      "command": "node --test --test-name-pattern \"required invalid native select|limits AX-confirmed select invalid\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "2 focused tests passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "420 tests: 364 passed, 56 skipped, 0 failed."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-international yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-sending-international",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Core fixed; compare now 202 expected, 194 actual, 10 windows after excluded-family realignment."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected W3 compare exact: 207 expected, 207 actual, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK council compare exact: 80 expected, 80 actual, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK root compare exact: 150 expected, 150 actual, 0 windows."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-find-postcode yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-postcode",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Postcode candidate unchanged shape: 126 expected, 124 actual, 2 known list/marker windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "required": true,
+      "status": "failed",
+      "exitCode": 0,
+      "summary": "Command exited 0 but compare reports the existing 1 text mismatch: extra Ask Microsoft Accessibility stop."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-sky-com",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Sky root compare exact: 93 expected, 93 actual, 0 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-sky-com-watch-what-to-watch-this-week",
+      "required": true,
+      "status": "failed",
+      "exitCode": 0,
+      "summary": "Command exited 0 but compare reports 2 existing text-boundary windows, unrelated to select/textbox state."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Corpus ran 59 fixtures: 36 passed, 21 skipped, 2 failed on Microsoft extra text and Sky Watch text split/join."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Turbo built @sr-output/engine and regenerated @sr-output/extension runtime successfully."
+    }
+  ],
+  "fixtureChanges": [],
+  "remainingMismatches": {
+    "target": "www-royalmail-com-sending-international",
+    "latestMismatchWindowCount": 10,
+    "coreResolved": true
+  },
+  "revisitQueue": [
+    {
+      "family": "header empty-region controlled nav",
+      "currentWindowIndexes": [1],
+      "latestActual": "Personal, region; Business/Stamps buttons lack expected group/empty-region siblings",
+      "latestExpected": "Personal, empty region; Business collapsed button group; Receiving empty region; Stamps group; Small business hub empty region",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Use or extend shell-form-table C.5 only if a generic controlled-region empty landmark contract is isolated.",
+      "blocker": "Explicitly excluded from this Phase D; prior queue says existing C.5 terminal was insufficient for this scope.",
+      "checksNeeded": ["focused header controlled-region compare", "W3/GOV.UK protected compares"]
+    },
+    {
+      "family": "pre-select card/image and label alignment",
+      "currentWindowIndexes": [2, 3],
+      "latestActual": "Heading moves directly to required marker and combined label before the select button.",
+      "latestExpected": "Image stop, heading, standalone Select a Country label, required marker, then select button.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split image/card traversal from standalone label-stop ordering and decide whether either has current C.5 support.",
+      "blocker": "Images, Royal Mail/country text, and broader label-order behavior were outside the requested engine core.",
+      "checksNeeded": ["target compare", "same-structure C.5 if label ordering is proposed as reusable"]
+    },
+    {
+      "family": "custom wrapper group after selected placeholder",
+      "currentWindowIndexes": [4, 5],
+      "latestActual": "Select a Country; edit text, blank",
+      "latestExpected": "Select a Country; group; edit text, blank",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep parked unless new evidence identifies a generic wrapper condition not present in the accepted C.5 scan.",
+      "blocker": "Accepted C.5 explicitly did not reproduce this standalone group sub-stop, and the user excluded custom wrapper group logic.",
+      "checksNeeded": ["new C.5 with exact wrapper/AX geometry before any engine rule"]
+    },
+    {
+      "family": "disabled submit name and following card image",
+      "currentWindowIndexes": [6],
+      "latestActual": "dimmed, button; heading level 4, What can I send?",
+      "latestExpected": "View guide, dimmed, button; restrictions, image; heading level 4, What can I send?",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Separate disabled native submit naming from card image traversal and route each through C.5 if still current.",
+      "blocker": "Disabled variants and image/card traversal were explicitly out of scope for this Phase D.",
+      "checksNeeded": ["focused disabled-submit compare", "image/card protected corpus compares"]
+    },
+    {
+      "family": "international card image traversal",
+      "currentWindowIndexes": [7, 8, 9],
+      "latestActual": "Card headings follow previous links without image stops.",
+      "latestExpected": "mail-services/international/unlabeled image stops before card headings.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Build or reuse a neutral card-image C.5 for current International card shape before engine work.",
+      "blocker": "Image/card windows were explicitly excluded and not supported by shared-shell-small-structural C.5.",
+      "checksNeeded": ["target compare", "card-image C.5", "W3/GOV.UK/Sky protected compares"]
+    },
+    {
+      "family": "footer list-position truncation",
+      "currentWindowIndexes": [10],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Keep with footer list-position truncation family and only revisit if a truncation-specific rule is approved.",
+      "blocker": "Known downstream footer/list truncation window, out of the requested select/textbox core.",
+      "checksNeeded": ["footer-position protected compares", "target compare"]
+    }
+  ],
+  "nextPhase": "complete-for-requested-core",
+  "handoffFrom": "C.5",
+  "handoffTo": "complete",
+  "handoffReason": "The requested reusable required-invalid blank select/textbox core was implemented and verified. Remaining target windows are explicit exclusions with concrete revisit owners.",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "Requested Phase D core complete; unresolved families are queued separately.",
+    "c5Needed": false,
+    "reason": "No further safe select/textbox core work remains in this scope."
+  }
+}

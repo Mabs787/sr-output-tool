@@ -15214,6 +15214,61 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function axBooleanProperty(value: unknown): boolean | undefined {
+    if (typeof value === "boolean") return value;
+    if (value === "true") return true;
+    if (value === "false") return false;
+    return undefined;
+  }
+
+  function axConfirmedRequiredInvalidNativeSelect(el: any, role: string): boolean {
+    if (role !== "combobox" || el?.tagName?.toLowerCase() !== "select") return false;
+    if (!el.required && !el.hasAttribute("required") && el.getAttribute("aria-required") !== "true") {
+      return false;
+    }
+
+    const selectedOption = el.selectedOptions?.[0] || el.options?.[el.selectedIndex];
+    if (!selectedOption || normalize(selectedOption.getAttribute("value"))) return false;
+    if (normalize(selectedOption.textContent) !== nativeSelectValue(el)) return false;
+
+    const axNode = axNodeForElementRole(el, "combobox");
+    if (!axNode || axNode.properties?.focusable !== true) return false;
+    if (normalize(axNode.value) !== nativeSelectValue(el)) return false;
+    return axBooleanProperty(axNode.properties?.invalid) === true;
+  }
+
+  function isAxConfirmedBlankTextboxAfterRequiredInvalidNativeSelect(
+    el: any,
+    role: string,
+    name?: string,
+    value?: string,
+  ): boolean {
+    if (role !== "textbox" || el?.tagName?.toLowerCase() !== "input") return false;
+    if ((el.getAttribute("type") || "text").toLowerCase() !== "text") return false;
+    if (el.disabled || el.hasAttribute("disabled") || el.readOnly || el.getAttribute("aria-readonly") === "true") {
+      return false;
+    }
+    if (name || value || normalize(el.getAttribute("placeholder"))) return false;
+    if (hasAssociatedLabelText(el) || hasExplicitAriaName(el)) return false;
+
+    const form = el.closest?.("form");
+    if (!form) return false;
+    const precedingRequiredInvalidSelect = Array.from(form.querySelectorAll("select")).find(
+      (select: any) =>
+        !isHidden(select) &&
+        select.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING &&
+        axConfirmedRequiredInvalidNativeSelect(select, implicitRole(select)),
+    );
+    if (!precedingRequiredInvalidSelect) return false;
+
+    const axNode = axNodeForElementRole(el, "textbox");
+    if (!axNode || axNode.properties?.focusable !== true) return false;
+    if (normalize(axNode.name) || normalize(axNode.value)) return false;
+    if (axBooleanProperty(axNode.properties?.invalid) === true) return false;
+    if (axBooleanProperty(axNode.properties?.readonly) === true) return false;
+    return axNode.properties?.editable === "plaintext" || axNode.properties?.settable === true;
+  }
+
   function descendantLinkCardHeadingLevel(el: any): number | undefined {
     const heading = descendantLinkCardHeading(el);
     if (!heading) return undefined;
@@ -15582,6 +15637,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const leadingGenericGroupStops = leadingGenericGroupStopCountBeforeDisabledControl(el, role);
     const checkboxRoleButtonAccordionControl =
       isCheckboxRoleButtonAccordionControl(el, role);
+    const axRequiredInvalidNativeSelect =
+      axConfirmedRequiredInvalidNativeSelect(el, role);
+    const axBlankTextboxAfterRequiredInvalidNativeSelect =
+      isAxConfirmedBlankTextboxAfterRequiredInvalidNativeSelect(el, role, name, value);
 
     const nativeSearchFormInputContract = nativeSearchFormTextInputContract(el, role);
 
@@ -15658,7 +15717,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       required:
         stateEl.required || stateEl.getAttribute("aria-required") === "true" || undefined,
       invalid:
-        stateEl.getAttribute("aria-invalid") &&
+        axRequiredInvalidNativeSelect
+          ? true
+        : stateEl.getAttribute("aria-invalid") &&
         stateEl.getAttribute("aria-invalid") !== "false"
           ? stateEl.getAttribute("aria-invalid") === "true"
             ? true
@@ -15978,6 +16039,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         undefined,
       placeholderOnlyTextboxName:
         isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) ||
+        axBlankTextboxAfterRequiredInvalidNativeSelect ||
         isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) ||
         undefined,
       footerCountrySelector:
@@ -17294,6 +17356,23 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
 
     const announcement = generateAnnouncement(descriptor);
+    if (descriptor.nativeSelect && descriptor.required && descriptor.invalid && descriptor.value) {
+      const value = normalize(descriptor.value);
+      const selectLabel = normalize(descriptor.name || descriptor.text);
+      const statePrefix = [
+        descriptor.required ? "required" : undefined,
+        descriptor.invalid
+          ? `invalid ${descriptor.invalid === true ? "data" : descriptor.invalid}`
+          : undefined,
+        `menu pop up ${descriptor.expanded ? "expanded" : "collapsed"}`,
+      ].filter(Boolean).join(" ");
+      const requiredInvalidAnnouncement = normalize(
+        `${[value, selectLabel].filter(Boolean).join(", ")}, ${statePrefix}, button`,
+      );
+      return [label, requiredInvalidAnnouncement].filter(
+        (entry): entry is string => Boolean(entry),
+      );
+    }
     if (descriptor.nativeSelect && label && descriptor.value) {
       const value = normalize(descriptor.value);
       const labelPrefix = label.endsWith(value || "")

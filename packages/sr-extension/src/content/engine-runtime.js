@@ -13894,6 +13894,62 @@
           const selectedIndex = typeof el.selectedIndex === "number" && el.selectedIndex >= 0 ? el.selectedIndex : void 0;
           return normalize(el.selectedOptions?.[0]?.textContent) || (selectedIndex !== void 0 ? normalize(el.options?.[selectedIndex]?.textContent) : void 0) || ("value" in el && el.value ? normalize(el.value) : void 0);
         }
+        function axBooleanProperty(value) {
+          if (typeof value === "boolean")
+            return value;
+          if (value === "true")
+            return true;
+          if (value === "false")
+            return false;
+          return void 0;
+        }
+        function axConfirmedRequiredInvalidNativeSelect(el, role) {
+          if (role !== "combobox" || el?.tagName?.toLowerCase() !== "select")
+            return false;
+          if (!el.required && !el.hasAttribute("required") && el.getAttribute("aria-required") !== "true") {
+            return false;
+          }
+          const selectedOption = el.selectedOptions?.[0] || el.options?.[el.selectedIndex];
+          if (!selectedOption || normalize(selectedOption.getAttribute("value")))
+            return false;
+          if (normalize(selectedOption.textContent) !== nativeSelectValue(el))
+            return false;
+          const axNode = axNodeForElementRole(el, "combobox");
+          if (!axNode || axNode.properties?.focusable !== true)
+            return false;
+          if (normalize(axNode.value) !== nativeSelectValue(el))
+            return false;
+          return axBooleanProperty(axNode.properties?.invalid) === true;
+        }
+        function isAxConfirmedBlankTextboxAfterRequiredInvalidNativeSelect(el, role, name, value) {
+          if (role !== "textbox" || el?.tagName?.toLowerCase() !== "input")
+            return false;
+          if ((el.getAttribute("type") || "text").toLowerCase() !== "text")
+            return false;
+          if (el.disabled || el.hasAttribute("disabled") || el.readOnly || el.getAttribute("aria-readonly") === "true") {
+            return false;
+          }
+          if (name || value || normalize(el.getAttribute("placeholder")))
+            return false;
+          if (hasAssociatedLabelText(el) || hasExplicitAriaName(el))
+            return false;
+          const form = el.closest?.("form");
+          if (!form)
+            return false;
+          const precedingRequiredInvalidSelect = Array.from(form.querySelectorAll("select")).find((select) => !isHidden(select) && select.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && axConfirmedRequiredInvalidNativeSelect(select, implicitRole(select)));
+          if (!precedingRequiredInvalidSelect)
+            return false;
+          const axNode = axNodeForElementRole(el, "textbox");
+          if (!axNode || axNode.properties?.focusable !== true)
+            return false;
+          if (normalize(axNode.name) || normalize(axNode.value))
+            return false;
+          if (axBooleanProperty(axNode.properties?.invalid) === true)
+            return false;
+          if (axBooleanProperty(axNode.properties?.readonly) === true)
+            return false;
+          return axNode.properties?.editable === "plaintext" || axNode.properties?.settable === true;
+        }
         function descendantLinkCardHeadingLevel(el) {
           const heading = descendantLinkCardHeading(el);
           if (!heading)
@@ -14105,6 +14161,8 @@
           const selectedListboxSize = selectedListboxOption ? setSize(selectedListboxOption, "option") : void 0;
           const leadingGenericGroupStops = leadingGenericGroupStopCountBeforeDisabledControl(el, role);
           const checkboxRoleButtonAccordionControl = isCheckboxRoleButtonAccordionControl(el, role);
+          const axRequiredInvalidNativeSelect = axConfirmedRequiredInvalidNativeSelect(el, role);
+          const axBlankTextboxAfterRequiredInvalidNativeSelect = isAxConfirmedBlankTextboxAfterRequiredInvalidNativeSelect(el, role, name, value);
           const nativeSearchFormInputContract = nativeSearchFormTextInputContract(el, role);
           const descriptor = {
             role,
@@ -14127,7 +14185,7 @@
             emptyObject: role === "object" && (tag === "object" && !el.hasAttribute("data") || tag === "embed" && !el.hasAttribute("src")) ? true : void 0,
             placeholder: normalize(stateEl.getAttribute("placeholder")),
             required: stateEl.required || stateEl.getAttribute("aria-required") === "true" || void 0,
-            invalid: stateEl.getAttribute("aria-invalid") && stateEl.getAttribute("aria-invalid") !== "false" ? stateEl.getAttribute("aria-invalid") === "true" ? true : stateEl.getAttribute("aria-invalid") : void 0,
+            invalid: axRequiredInvalidNativeSelect ? true : stateEl.getAttribute("aria-invalid") && stateEl.getAttribute("aria-invalid") !== "false" ? stateEl.getAttribute("aria-invalid") === "true" ? true : stateEl.getAttribute("aria-invalid") : void 0,
             checked: role === "checkbox" || role === "radio" || checkboxRoleButtonAccordionControl ? el.getAttribute("aria-checked") === "mixed" ? "mixed" : el.getAttribute("aria-checked") ? el.getAttribute("aria-checked") === "true" : inferredSldsRadioChecked(el) ?? Boolean(el.checked) : void 0,
             expanded: parseBooleanAttribute(stateEl, "aria-expanded") ?? (headingButton ? parseBooleanAttribute(headingButton, "aria-expanded") : void 0) ?? (nativeDetailsSummary ? nativeDetailsSummary.hasAttribute("open") : void 0),
             selected: parseBooleanAttribute(el, "aria-selected") ?? (isControlledTablistTab(el, role) ? true : void 0),
@@ -14193,7 +14251,7 @@
             emailTextField: role === "textbox" && tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "email" ? true : void 0,
             secureTextField: role === "textbox" && tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "password" ? true : void 0,
             textboxPlaceholderBeforeRole: textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) || isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) || void 0,
-            placeholderOnlyTextboxName: isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) || void 0,
+            placeholderOnlyTextboxName: isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || axBlankTextboxAfterRequiredInvalidNativeSelect || isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) || void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
             fieldsetPromptText: role === "group" ? fieldsetPromptText(el) : void 0,
             fieldsetLegendText: role === "group" ? radioImageFieldsetLegendText(el) || visuallyHiddenFieldsetLegendText(el) : void 0,
@@ -15148,6 +15206,17 @@
             return [label, announcement2].filter((entry) => Boolean(entry));
           }
           const announcement = generateAnnouncement2(descriptor);
+          if (descriptor.nativeSelect && descriptor.required && descriptor.invalid && descriptor.value) {
+            const value = normalize(descriptor.value);
+            const selectLabel = normalize(descriptor.name || descriptor.text);
+            const statePrefix = [
+              descriptor.required ? "required" : void 0,
+              descriptor.invalid ? `invalid ${descriptor.invalid === true ? "data" : descriptor.invalid}` : void 0,
+              `menu pop up ${descriptor.expanded ? "expanded" : "collapsed"}`
+            ].filter(Boolean).join(" ");
+            const requiredInvalidAnnouncement = normalize(`${[value, selectLabel].filter(Boolean).join(", ")}, ${statePrefix}, button`);
+            return [label, requiredInvalidAnnouncement].filter((entry) => Boolean(entry));
+          }
           if (descriptor.nativeSelect && label && descriptor.value) {
             const value = normalize(descriptor.value);
             const labelPrefix = label.endsWith(value || "") ? normalize(label.slice(0, label.length - (value || "").length)) : void 0;

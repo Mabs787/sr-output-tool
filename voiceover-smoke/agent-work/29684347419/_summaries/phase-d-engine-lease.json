@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-receiving-mail-offscreen-search-textbox-2026-07-24T12:26:47Z",
-  "startedAt": "2026-07-24T12:26:47Z",
+  "leaseOwner": "top-level-codex-international-required-invalid-blank-textbox-2026-07-24T12:35:09Z",
+  "startedAt": "2026-07-24T12:35:09Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T12:31:50Z",
-  "targetFamily": "receiving-mail-offscreen-unlabeled-search-textbox-boundary",
-  "target": "www-royalmail-com-receiving-mail",
-  "candidateRef": "www-royalmail-com-receiving-mail:current-window-2:5d75a3556c886abd",
+  "releasedAt": "2026-07-24T12:44:34Z",
+  "targetFamily": "international-select-country-required-invalid-blank-core",
+  "target": "www-royalmail-com-sending-international",
+  "candidateRef": "www-royalmail-com-sending-international:current-window-4:99126fe2a08fec29",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,18 @@
     "currentLeaseCount": 1,
     "activeLeaseCountAtFinish": 0,
     "result": "released-single-engine-refiner",
-    "evidence": "The previous canonical lease was released with activeEngineRefinerCount 0. This Phase D acquired the canonical lease at 2026-07-24T12:26:47Z with activeEngineRefinerCount exactly 1 for the receiving-mail offscreen unlabeled search textbox boundary, then released it at 2026-07-24T12:31:50Z."
+    "evidence": "The previous canonical lease was released with activeEngineRefinerCount 0. This Phase D acquired the canonical lease at 2026-07-24T12:35:09Z with activeEngineRefinerCount exactly 1 for the international select-country required/invalid/blank core, then released it at 2026-07-24T12:44:34Z."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-international-required-invalid-blank-textbox-2026-07-24T12:35:09Z",
+      "target": "www-royalmail-com-sending-international",
+      "candidateRef": "www-royalmail-com-sending-international:current-window-4:99126fe2a08fec29",
+      "targetFamily": "international-select-country-required-invalid-blank-core",
+      "startedAt": "2026-07-24T12:35:09Z",
+      "releasedAt": "2026-07-24T12:44:34Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "top-level-codex-receiving-mail-offscreen-search-textbox-2026-07-24T12:26:47Z",
       "target": "www-royalmail-com-receiving-mail",

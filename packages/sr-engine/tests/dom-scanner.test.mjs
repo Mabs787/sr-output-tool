@@ -11351,6 +11351,157 @@ test("scanSubtree does not emit separate native select label stops for hidden la
   );
 });
 
+test("scanSubtree announces AX-confirmed required invalid native select state and adjacent blank textbox", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "select-ax",
+        role: "combobox",
+        name: "Select destination *",
+        value: "Choose destination",
+        domNodeId: "select",
+        properties: {
+          invalid: "true",
+          focusable: true,
+          hasPopup: "menu",
+          expanded: false,
+        },
+      },
+      {
+        nodeId: "textbox-ax",
+        role: "textbox",
+        name: "",
+        value: "",
+        domNodeId: "textbox",
+        properties: {
+          invalid: "false",
+          focusable: true,
+          editable: "plaintext",
+          settable: true,
+          readonly: false,
+        },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <label for="destination">Select destination *</label>
+        <select id="destination" required aria-required="true" tabindex="-1" data-sr-dom-node-id="select">
+          <option value="" selected>Choose destination</option>
+          <option value="alpha">Alpha</option>
+        </select>
+        <div>
+          <a><span>Choose destination</span></a>
+          <div><input type="text" data-sr-dom-node-id="textbox"></div>
+        </div>
+      </form>
+    `, { accessibilityTree }),
+    [
+      "Select destination *",
+      "Choose destination, Select destination *, required invalid data menu pop up collapsed, button",
+      "Choose destination",
+      "edit text, blank",
+    ],
+  );
+});
+
+test("scanSubtree limits AX-confirmed select invalid and textbox blank wording to the supported core", () => {
+  const accessibilityTree = {
+    nodes: [
+      {
+        nodeId: "valid-select-ax",
+        role: "combobox",
+        name: "Valid select *",
+        value: "Choose one",
+        domNodeId: "valid-select",
+        properties: { invalid: "false", focusable: true, hasPopup: "menu", expanded: false },
+      },
+      {
+        nodeId: "valid-textbox-ax",
+        role: "textbox",
+        name: "",
+        value: "",
+        domNodeId: "valid-textbox",
+        properties: { invalid: "false", focusable: true, editable: "plaintext", settable: true },
+      },
+      {
+        nodeId: "filled-select-ax",
+        role: "combobox",
+        name: "Invalid select *",
+        value: "Choose one",
+        domNodeId: "filled-select",
+        properties: { invalid: "true", focusable: true, hasPopup: "menu", expanded: false },
+      },
+      {
+        nodeId: "filled-textbox-ax",
+        role: "textbox",
+        name: "",
+        value: "Typed value",
+        domNodeId: "filled-textbox",
+        properties: { invalid: "false", focusable: true, editable: "plaintext", settable: true },
+      },
+      {
+        nodeId: "named-select-ax",
+        role: "combobox",
+        name: "Named select *",
+        value: "Choose one",
+        domNodeId: "named-select",
+        properties: { invalid: "true", focusable: true, hasPopup: "menu", expanded: false },
+      },
+      {
+        nodeId: "named-textbox-ax",
+        role: "textbox",
+        name: "Named field",
+        value: "",
+        domNodeId: "named-textbox",
+        properties: { invalid: "false", focusable: true, editable: "plaintext", settable: true },
+      },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <form>
+        <label for="valid-select">Valid select *</label>
+        <select id="valid-select" required aria-required="true" data-sr-dom-node-id="valid-select">
+          <option value="" selected>Choose one</option>
+          <option value="alpha">Alpha</option>
+        </select>
+        <div><input type="text" data-sr-dom-node-id="valid-textbox"></div>
+      </form>
+      <form>
+        <label for="filled-select">Invalid select *</label>
+        <select id="filled-select" required aria-required="true" data-sr-dom-node-id="filled-select">
+          <option value="" selected>Choose one</option>
+          <option value="alpha">Alpha</option>
+        </select>
+        <div><input type="text" value="Typed value" data-sr-dom-node-id="filled-textbox"></div>
+      </form>
+      <form>
+        <label for="named-select">Named select *</label>
+        <select id="named-select" required aria-required="true" data-sr-dom-node-id="named-select">
+          <option value="" selected>Choose one</option>
+          <option value="alpha">Alpha</option>
+        </select>
+        <div><input type="text" aria-label="Named field" data-sr-dom-node-id="named-textbox"></div>
+      </form>
+    `, { accessibilityTree }),
+    [
+      "Valid select *",
+      "Choose one, Valid select *, menu pop up collapsed, button",
+      "edit text",
+      "Invalid select *",
+      "Choose one, Invalid select *, required invalid data menu pop up collapsed, button",
+      "edit text, Typed value",
+      "Named select *",
+      "Choose one, Named select *, required invalid data menu pop up collapsed, button",
+      "Named field, edit text",
+    ],
+  );
+});
+
 test("scanSubtree uses describedby text instead of placeholder for split email controls", () => {
   assert.deepEqual(
     scanHtml(`
