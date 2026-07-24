@@ -4993,7 +4993,7 @@
             return false;
           return Array.from(parent.children || []).filter((child) => !isHidden(child)).includes(el);
         }
-        function singleTitledIframeChild(el) {
+        function eligibleSingleTitledIframeChild(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
           if (el.tagName?.toLowerCase() !== "div")
@@ -5017,8 +5017,6 @@
           const name = frameName(iframe);
           if (!name)
             return void 0;
-          if (!hasSingleTitledIframeRegionContext(el))
-            return void 0;
           const wrapperNode = axNodeForElement(el);
           const frameNode = axNodeForElementRole(iframe, "frame");
           if (accessibilityNodes.length) {
@@ -5031,6 +5029,111 @@
             if (wrapperNode.childIds?.length === 1 && wrapperNode.childIds[0] !== frameNode.nodeId) {
               return void 0;
             }
+          }
+          return iframe;
+        }
+        function visibleSingleChildChainRoot(el) {
+          let current = el;
+          while (current?.parentElement && current.parentElement !== document.body) {
+            const siblings = directVisibleElementChildren(current.parentElement);
+            if (siblings.length !== 1 || siblings[0] !== current)
+              break;
+            current = current.parentElement;
+          }
+          return current;
+        }
+        function hasPreviousVisibleContentBeforeSubtree(el) {
+          for (let current = visibleSingleChildChainRoot(el); current?.parentElement && current !== document.body; current = current.parentElement) {
+            for (let sibling = current.previousElementSibling; sibling; sibling = sibling.previousElementSibling) {
+              if (isHidden(sibling))
+                continue;
+              return Boolean(readableText(sibling) || hasVisibleInteractiveDescendant(sibling) || isStopElement(sibling));
+            }
+          }
+          return false;
+        }
+        function firstMeaningfulFollowingContentInSubtree(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          const role = implicitRole(el);
+          if (role === "heading")
+            return el;
+          for (const child of walkChildren(el)) {
+            const match = firstMeaningfulFollowingContentInSubtree(child);
+            if (match)
+              return match;
+          }
+          if (el.matches?.(interactiveSelector) || readableText(el) || hasVisibleInteractiveDescendant(el)) {
+            return el;
+          }
+          return void 0;
+        }
+        function firstMeaningfulFollowingContentAfterSingleChildChain(el) {
+          for (let current = visibleSingleChildChainRoot(el); current?.parentElement && current !== document.body; current = current.parentElement) {
+            for (let sibling = current.nextElementSibling; sibling; sibling = sibling.nextElementSibling) {
+              const match = firstMeaningfulFollowingContentInSubtree(sibling);
+              if (match)
+                return match;
+            }
+          }
+          return void 0;
+        }
+        function isSiblingArticleTitledIframeBoundaryArticle(el, role = implicitRole(el)) {
+          if (role !== "article")
+            return false;
+          if (el?.tagName?.toLowerCase() !== "article")
+            return false;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("title")) {
+            return false;
+          }
+          if (accessibleName(el, role))
+            return false;
+          if (el.closest("article,[role='article']") !== el)
+            return false;
+          if (el.querySelector("article,[role='article']"))
+            return false;
+          const children = directVisibleElementChildren(el);
+          if (children.length !== 1)
+            return false;
+          const wrapper = children[0];
+          const iframe = eligibleSingleTitledIframeChild(wrapper);
+          if (!iframe)
+            return false;
+          const articleNode = axNodeForElementRole(el, "article");
+          const wrapperNode = axNodeForElement(wrapper);
+          const frameNode = axNodeForElementRole(iframe, "frame");
+          const name = frameName(iframe);
+          if (accessibilityNodes.length) {
+            if (!articleNode || normalize(articleNode.name))
+              return false;
+            if (articleNode.childIds?.length === 1 && articleNode.childIds[0] !== wrapperNode?.nodeId) {
+              return false;
+            }
+            if (!wrapperNode || normalizedAxRole(wrapperNode.role) !== "generic")
+              return false;
+            if (normalize(wrapperNode.name))
+              return false;
+            if (!frameNode || normalize(frameNode.name) !== name)
+              return false;
+            if (wrapperNode.childIds?.length === 1 && wrapperNode.childIds[0] !== frameNode.nodeId) {
+              return false;
+            }
+          }
+          if (!hasPreviousVisibleContentBeforeSubtree(el))
+            return false;
+          const nextContent = firstMeaningfulFollowingContentAfterSingleChildChain(el);
+          return Boolean(nextContent && implicitRole(nextContent) === "heading");
+        }
+        function hasSingleTitledIframeArticleContext(el) {
+          const parent = el?.parentElement;
+          return Boolean(parent && isSiblingArticleTitledIframeBoundaryArticle(parent));
+        }
+        function singleTitledIframeChild(el) {
+          const iframe = eligibleSingleTitledIframeChild(el);
+          if (!iframe)
+            return void 0;
+          if (!hasSingleTitledIframeRegionContext(el) && !hasSingleTitledIframeArticleContext(el)) {
+            return void 0;
           }
           return iframe;
         }
@@ -14396,6 +14499,7 @@
             fieldsetLegendText: role === "group" ? radioImageFieldsetLegendText(el) || visuallyHiddenFieldsetLegendText(el) : void 0,
             labelledNavigationHeaderText: role === "navigation" ? labelledNavigationHeaderStopText(el, role, name) : void 0,
             examplePreviewFrameAnnouncements: role === "link" ? previewFrameAnnouncementsForLink(el, role) : void 0,
+            articleIframeBoundaryFrame: role === "frame" && singleTitledIframeChild(el.parentElement) === el && hasSingleTitledIframeArticleContext(el.parentElement) || void 0,
             tabExpandedState: role === "tab" && (isPreviewFrameTab(el, role) || isCodePanelTab(el, role)) ? true : void 0,
             axInlineTwoLinkListItemAnnouncements: role === "listitem" ? axInlineTwoLinkListItemAnnouncements(el) : void 0,
             axOrderedParentNestedListItemAnnouncements: role === "listitem" ? axOrderedParentNestedListItemAnnouncements(el) : void 0,
@@ -14926,7 +15030,7 @@
           if (role === "listitem" && hasSingleSemanticListItemChild(el)) {
             return false;
           }
-          if (isContextRole(el, role) && !isUnnamedCarouselRegion(el) && !isEmptyContextStop(el, role) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !(role === "dialog" && el.getAttribute("aria-modal") === "true") && !(role === "list" && announcedListChildren(el).length)) {
+          if (isContextRole(el, role) && !isUnnamedCarouselRegion(el) && !isEmptyContextStop(el, role) && !accessibleName(el, role) && !readableText(el) && !hasVisibleInteractiveDescendant(el) && !decorativeRoleGroupBeforeNativeLinks && !decorativeGenericGroupBeforeNativeLinks && !isSiblingArticleTitledIframeBoundaryArticle(el, role) && !(role === "dialog" && el.getAttribute("aria-modal") === "true") && !(role === "list" && announcedListChildren(el).length)) {
             return false;
           }
           if (role === "dialog" && el.getAttribute("aria-modal") === "true" && !hasExplicitDialogName(el) && hasVisibleInteractiveDescendant(el)) {
@@ -15495,6 +15599,12 @@
             ...descriptor.examplePreviewFrameAnnouncements
           ].filter((entry) => Boolean(entry));
         }
+        function splitArticleIframeBoundaryFrameAnnouncements(descriptor) {
+          if (descriptor.role !== "frame" || !descriptor.articleIframeBoundaryFrame) {
+            return void 0;
+          }
+          return ["frame 0"];
+        }
         function splitWrappedDefinitionListTermAnnouncements(descriptor) {
           if (descriptor.role !== "term" || !descriptor.wrappedDefinitionListTermChildAnnouncements?.length) {
             return void 0;
@@ -15997,6 +16107,10 @@
               {
                 source: "split-example-preview-frame",
                 announcements: splitExamplePreviewFrameAnnouncements(descriptor)
+              },
+              {
+                source: "split-article-iframe-boundary-frame",
+                announcements: splitArticleIframeBoundaryFrameAnnouncements(descriptor)
               },
               {
                 source: "split-wrapped-definition-list-term",

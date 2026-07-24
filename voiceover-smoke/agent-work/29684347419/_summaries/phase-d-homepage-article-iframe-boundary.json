@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "www-royalmail-com",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T13:16:50Z",
+  "finishedAt": "2026-07-24T13:21:18Z",
+  "leaseAcquiredAt": "2026-07-24T13:16:50Z",
+  "leaseReleasedAt": "2026-07-24T13:21:18Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "recovered-sole-canonical-lease",
+    "evidence": "Canonical lease was released by the postboxes worker after commit cc832ca. User confirmed the interrupted homepage worker was shut down and no other engine-refiner from this task was active. This worker acquired a fresh active lease before further source edits and released it after checks."
+  },
+  "handoffFrom": "Phase C.5",
+  "handoffTo": "fixture-judge",
+  "nextPhase": "fixture-judge",
+  "handoffReason": "The C.5-proven homepage native article plus titled iframe boundary is implemented. Remaining homepage mismatches are independent families outside this Phase D scope.",
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "evidenceReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-card-media-post-list-engine-queue.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-card-media-article-current-family.json"
+    ],
+    "candidateRef": "www-royalmail-com:current-window-4",
+    "headIntegrated": "cc832ca"
+  },
+  "mismatchFamilySelected": "homepage-article-iframe-boundary",
+  "behaviorImplemented": {
+    "genericPredicate": "A visible unnamed native article with no nested article, exactly one visible generic unnamed div child, that child containing exactly one visible titled iframe; AX evidence must expose an unnamed article, unnamed generic wrapper, and frame name matching the iframe title/name. The article must appear after prior visible content and before a following heading across a single-child wrapper chain.",
+    "announcementRule": "Keep the article traversal boundary, announce the titled iframe wrapper as a named group, split the frame descriptor to `frame 0`, and close the named group and article.",
+    "excludedSubfamilies": [
+      "named articles",
+      "nested articles",
+      "hidden or untitled iframes",
+      "sandboxed or interactive iframes",
+      "button/media card tails",
+      "unsupported footer/media tails"
+    ],
+    "siteSpecificLogic": false
+  },
+  "filesChanged": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-homepage-article-iframe-boundary.json"
+  ],
+  "fixtureChanges": [],
+  "compareDelta": {
+    "before": {
+      "source": "phase-c-card-media-post-list-engine-queue.json currentCompares.www-royalmail-com",
+      "expectedCount": 188,
+      "actualCount": 179,
+      "mismatchWindowCount": 6,
+      "grouped": {
+        "list/marker": 5,
+        "role/structure": 1
+      },
+      "selectedWindow": {
+        "windowId": "current-window-4",
+        "firstExpected": "article",
+        "firstActual": "heading level 2, Lets find the right service for you"
+      }
+    },
+    "after": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com yarn workspace @sr-output/engine voiceover:compare www-royalmail-com 6",
+      "expectedCount": 188,
+      "actualCount": 184,
+      "mismatchWindowCount": 5,
+      "grouped": {
+        "list/marker": 5
+      },
+      "resolvedWindow": "current-window-4 homepage article/iframe boundary"
+    }
+  },
+  "checks": [
+    {
+      "command": "node --test packages/sr-engine/tests/dom-scanner.test.mjs --test-name-pattern \"sibling native article titled iframe boundaries|limits sibling article iframe boundaries\"",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Scanner file passed, including focused article iframe boundary and guard cases."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full unit suite passed: 370 passed, 56 skipped."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime rebuilt from engine source."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com yarn workspace @sr-output/engine voiceover:compare www-royalmail-com 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Homepage compare improved from 6 to 5 windows; selected role/structure window resolved."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-services-near-you-postboxes 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Postboxes compare remained at 13 windows, protecting cc832ca."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-find-postcode yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-postcode 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Postcode candidate compare remained at 2 list/marker windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected W3 compare stayed exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected W3 WCAG compare stayed exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK compare stayed exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council 6",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK local council compare stayed exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Bounded refined corpus had two failures: www-microsoft-com-en-us-accessibility and www-sky-com-watch-what-to-watch-this-week. Both reproduce unchanged at clean cc832ca, so they are pre-existing corpus blockers, not regressions from this patch."
+    }
+  ],
+  "remainingMismatchFamilies": [
+    {
+      "family": "header-collapsed-navigation-empty-region-and-button-group-suffix",
+      "currentWindowIndexes": [1],
+      "latestActual": "Personal, region / Business, collapsed, button, 2 of 3 / Stamps & supplies, collapsed, button, 3 of 3",
+      "latestExpected": "Personal, empty region / Business, collapsed, button, group, 2 of 3 / Receiving, empty region / Stamps & supplies, collapsed, button, group, 3 of 3 / Small business hub, empty region",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reconcile current header shell C.5/Phase D coverage against latest compare and decide whether this is reusable collapsed-navigation region wording or fixture state.",
+      "blocker": "Outside homepage article iframe boundary scope.",
+      "checksNeeded": ["homepage compare", "protected W3/GOV compares"]
+    },
+    {
+      "family": "hero-native-list-marker-and-tab-state-wording",
+      "currentWindowIndexes": [2, 3],
+      "latestActual": "Trusted to deliver your mail for 500 years, 1 of 3 / Send, selected, tab, 1 of 2 / Track, tab, 2 of 2",
+      "latestExpected": "bullet-prefixed list items and selected expanded/collapsed tab group wording",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Resume the existing list/marker and tab-state family with its own evidence packet; do not conflate it with iframe article traversal.",
+      "blocker": "Independent family not C.5-proven by the homepage iframe receipt.",
+      "checksNeeded": ["focused list marker/tab unit coverage", "homepage compare", "bounded corpus"]
+    },
+    {
+      "family": "terminal-named-article-end-before-main-close",
+      "currentWindowIndexes": [4],
+      "latestActual": "link, Find out more / end of, main",
+      "latestExpected": "link, Find out more / end of, Let's find the right service for you, article / end of, main",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Re-check whether the expected named article end belongs to an ancestor article distinct from the now-resolved iframe article boundary.",
+      "blocker": "Phase C queue explicitly marked this as downstream article-end tail, not part of iframe root.",
+      "checksNeeded": ["homepage compare", "article-end terminal link protected compares"]
+    },
+    {
+      "family": "footer-link-position-truncation",
+      "currentWindowIndexes": [5],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Verify source/caption and truncation evidence for the footer link position suffix before any engine work.",
+      "blocker": "Looks like raw/refined truncation drift; not a traversal gap proven for Phase D.",
+      "checksNeeded": ["Phase B source/caption lookup", "homepage compare"]
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Classify homepage remaining windows 1-5 after the article iframe boundary fix, starting with terminal named article end before main close.",
+    "c5Needed": false,
+    "reason": "The selected C.5-proven reusable engine gap is resolved; remaining families are separate and need independent ownership."
+  }
+}

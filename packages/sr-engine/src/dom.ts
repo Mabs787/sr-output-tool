@@ -4536,7 +4536,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return Array.from(parent.children || []).filter((child: any) => !isHidden(child)).includes(el);
   }
 
-  function singleTitledIframeChild(el: any): any | undefined {
+  function eligibleSingleTitledIframeChild(el: any): any | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     if (el.tagName?.toLowerCase() !== "div") return undefined;
     if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
@@ -4561,7 +4561,6 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     }
     const name = frameName(iframe);
     if (!name) return undefined;
-    if (!hasSingleTitledIframeRegionContext(el)) return undefined;
 
     const wrapperNode = axNodeForElement(el);
     const frameNode = axNodeForElementRole(iframe, "frame");
@@ -4574,6 +4573,130 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       }
     }
 
+    return iframe;
+  }
+
+  function visibleSingleChildChainRoot(el: any): any {
+    let current = el;
+    while (current?.parentElement && current.parentElement !== document.body) {
+      const siblings = directVisibleElementChildren(current.parentElement);
+      if (siblings.length !== 1 || siblings[0] !== current) break;
+      current = current.parentElement;
+    }
+    return current;
+  }
+
+  function hasPreviousVisibleContentBeforeSubtree(el: any): boolean {
+    for (
+      let current = visibleSingleChildChainRoot(el);
+      current?.parentElement && current !== document.body;
+      current = current.parentElement
+    ) {
+      for (
+        let sibling = current.previousElementSibling;
+        sibling;
+        sibling = sibling.previousElementSibling
+      ) {
+        if (isHidden(sibling)) continue;
+        return Boolean(
+          readableText(sibling) ||
+            hasVisibleInteractiveDescendant(sibling) ||
+            isStopElement(sibling),
+        );
+      }
+    }
+    return false;
+  }
+
+  function firstMeaningfulFollowingContentInSubtree(el: any): any | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+
+    const role = implicitRole(el);
+    if (role === "heading") return el;
+
+    for (const child of walkChildren(el)) {
+      const match = firstMeaningfulFollowingContentInSubtree(child);
+      if (match) return match;
+    }
+
+    if (
+      el.matches?.(interactiveSelector) ||
+      readableText(el) ||
+      hasVisibleInteractiveDescendant(el)
+    ) {
+      return el;
+    }
+
+    return undefined;
+  }
+
+  function firstMeaningfulFollowingContentAfterSingleChildChain(el: any): any | undefined {
+    for (
+      let current = visibleSingleChildChainRoot(el);
+      current?.parentElement && current !== document.body;
+      current = current.parentElement
+    ) {
+      for (
+        let sibling = current.nextElementSibling;
+        sibling;
+        sibling = sibling.nextElementSibling
+      ) {
+        const match = firstMeaningfulFollowingContentInSubtree(sibling);
+        if (match) return match;
+      }
+    }
+    return undefined;
+  }
+
+  function isSiblingArticleTitledIframeBoundaryArticle(el: any, role = implicitRole(el)): boolean {
+    if (role !== "article") return false;
+    if (el?.tagName?.toLowerCase() !== "article") return false;
+    if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("title")) {
+      return false;
+    }
+    if (accessibleName(el, role)) return false;
+    if (el.closest("article,[role='article']") !== el) return false;
+    if (el.querySelector("article,[role='article']")) return false;
+
+    const children = directVisibleElementChildren(el);
+    if (children.length !== 1) return false;
+    const wrapper = children[0];
+    const iframe = eligibleSingleTitledIframeChild(wrapper);
+    if (!iframe) return false;
+
+    const articleNode = axNodeForElementRole(el, "article");
+    const wrapperNode = axNodeForElement(wrapper);
+    const frameNode = axNodeForElementRole(iframe, "frame");
+    const name = frameName(iframe);
+    if (accessibilityNodes.length) {
+      if (!articleNode || normalize(articleNode.name)) return false;
+      if (articleNode.childIds?.length === 1 && articleNode.childIds[0] !== wrapperNode?.nodeId) {
+        return false;
+      }
+      if (!wrapperNode || normalizedAxRole(wrapperNode.role) !== "generic") return false;
+      if (normalize(wrapperNode.name)) return false;
+      if (!frameNode || normalize(frameNode.name) !== name) return false;
+      if (wrapperNode.childIds?.length === 1 && wrapperNode.childIds[0] !== frameNode.nodeId) {
+        return false;
+      }
+    }
+
+    if (!hasPreviousVisibleContentBeforeSubtree(el)) return false;
+    const nextContent = firstMeaningfulFollowingContentAfterSingleChildChain(el);
+    return Boolean(nextContent && implicitRole(nextContent) === "heading");
+  }
+
+  function hasSingleTitledIframeArticleContext(el: any): boolean {
+    const parent = el?.parentElement;
+    return Boolean(parent && isSiblingArticleTitledIframeBoundaryArticle(parent));
+  }
+
+  function singleTitledIframeChild(el: any): any | undefined {
+    const iframe = eligibleSingleTitledIframeChild(el);
+    if (!iframe) return undefined;
+    if (!hasSingleTitledIframeRegionContext(el) && !hasSingleTitledIframeArticleContext(el)) {
+      return undefined;
+    }
     return iframe;
   }
 
@@ -16208,6 +16331,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       examplePreviewFrameAnnouncements:
         role === "link" ? previewFrameAnnouncementsForLink(el, role) : undefined,
+      articleIframeBoundaryFrame:
+        (role === "frame" &&
+          singleTitledIframeChild(el.parentElement) === el &&
+          hasSingleTitledIframeArticleContext(el.parentElement)) ||
+        undefined,
       tabExpandedState:
         role === "tab" && (isPreviewFrameTab(el, role) || isCodePanelTab(el, role))
           ? true
@@ -16905,6 +17033,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       !hasVisibleInteractiveDescendant(el) &&
       !decorativeRoleGroupBeforeNativeLinks &&
       !decorativeGenericGroupBeforeNativeLinks &&
+      !isSiblingArticleTitledIframeBoundaryArticle(el, role) &&
       !(role === "dialog" && el.getAttribute("aria-modal") === "true") &&
       !(role === "list" && announcedListChildren(el).length)
     ) {
@@ -17725,6 +17854,15 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     ].filter((entry): entry is string => Boolean(entry));
   }
 
+  function splitArticleIframeBoundaryFrameAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (descriptor.role !== "frame" || !descriptor.articleIframeBoundaryFrame) {
+      return undefined;
+    }
+    return ["frame 0"];
+  }
+
   function splitWrappedDefinitionListTermAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -18507,6 +18645,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-example-preview-frame",
           announcements: splitExamplePreviewFrameAnnouncements(descriptor),
+        },
+        {
+          source: "split-article-iframe-boundary-frame",
+          announcements: splitArticleIframeBoundaryFrameAnnouncements(descriptor),
         },
         {
           source: "split-wrapped-definition-list-term",

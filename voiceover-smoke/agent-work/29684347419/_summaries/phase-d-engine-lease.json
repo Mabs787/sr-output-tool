@@ -4,24 +4,42 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-postboxes-paragraph-inline-link-order-2026-07-24T13:03:14Z",
-  "startedAt": "2026-07-24T13:03:14Z",
+  "leaseOwner": "top-level-codex-homepage-article-iframe-boundary-recovery-2026-07-24T13:16:50Z",
+  "startedAt": "2026-07-24T13:16:50Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T13:08:31Z",
-  "targetFamily": "paragraph-inline-link-text-order",
-  "target": "www-royalmail-com-services-near-you-postboxes",
-  "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1:e47:a47,www-royalmail-com-services-near-you-postboxes:current-window-2:e49:a49",
+  "releasedAt": "2026-07-24T13:21:18Z",
+  "targetFamily": "homepage-article-iframe-boundary",
+  "target": "www-royalmail-com",
+  "candidateRef": "www-royalmail-com:current-window-4",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
-    "activeLeaseCountAtStart": 1,
+    "activeLeaseCountAtStart": 0,
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "released-no-active-engine-refiner",
-    "evidence": "Before acquisition, the canonical lease file already contained one active lease for homepage-article-iframe-boundary. The user declared this turn the sole engine-refiner and instructed a canonical lease count of exactly 1, so this entry replaced the active owner while preserving that prior lease in history; no temp-worktree lease state was copied. The postboxes lease was released after checks and the active count is now 0."
+    "evidence": "Recovery acquisition after user confirmed the prior homepage worker was explicitly shut down, the concurrent postboxes worker committed cc832ca and released the canonical lease, and no other engine-refiner from this task was active. Canonical lease was released before acquisition, held solely for homepage article iframe boundary recovery, and released after checks."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-homepage-article-iframe-boundary-recovery-2026-07-24T13:16:50Z",
+      "target": "www-royalmail-com",
+      "candidateRef": "www-royalmail-com:current-window-4",
+      "targetFamily": "homepage-article-iframe-boundary",
+      "startedAt": "2026-07-24T13:16:50Z",
+      "releasedAt": "2026-07-24T13:21:18Z",
+      "status": "released",
+      "recovery": {
+        "reason": "Interrupted homepage Phase D worker lease was superseded by the postboxes worker and then released after commit cc832ca.",
+        "preserveUncommittedFiles": [
+          "packages/sr-engine/src/dom.ts",
+          "packages/sr-engine/tests/dom-scanner.test.mjs",
+          "packages/sr-extension/src/content/engine-runtime.js"
+        ],
+        "integrateWithCommit": "cc832ca"
+      }
+    },
     {
       "leaseOwner": "top-level-codex-postboxes-paragraph-inline-link-order-2026-07-24T13:03:14Z",
       "target": "www-royalmail-com-services-near-you-postboxes",

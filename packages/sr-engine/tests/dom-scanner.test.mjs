@@ -5997,6 +5997,188 @@ test("scanSubtree announces titled iframes inside generic single-child wrappers 
   );
 });
 
+test("scanSubtree announces sibling native article titled iframe boundaries before the next heading", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <section>
+            <p>Introductory feature copy.</p>
+            <a href="/act">Act now</a>
+            <div>
+              <div>
+                <article data-sr-dom-node-id="article">
+                  <div data-sr-dom-node-id="frame-wrapper">
+                    <iframe data-sr-dom-node-id="feature-frame" title="Feature media"></iframe>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h2>Next section</h2>
+          </section>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: "",
+              domNodeId: "article",
+              childIds: ["wrapper-ax"],
+            },
+            {
+              nodeId: "wrapper-ax",
+              role: "generic",
+              name: "",
+              domNodeId: "frame-wrapper",
+              childIds: ["frame-ax"],
+            },
+            {
+              nodeId: "frame-ax",
+              role: "Iframe",
+              name: "Feature media",
+              domNodeId: "feature-frame",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Introductory feature copy.",
+      "link, Act now",
+      "article",
+      "Feature media, group",
+      "frame 0",
+      "end of, Feature media, group",
+      "end of, article",
+      "heading level 2, Next section",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree limits sibling article iframe boundaries to the proven contract", () => {
+  const cases = [
+    {
+      name: "untitled frame",
+      article: `<article data-sr-dom-node-id="article"><div data-sr-dom-node-id="frame-wrapper"><iframe data-sr-dom-node-id="feature-frame"></iframe></div></article>`,
+      axFrameName: "",
+    },
+    {
+      name: "aria-hidden frame",
+      article: `<article data-sr-dom-node-id="article"><div data-sr-dom-node-id="frame-wrapper"><iframe data-sr-dom-node-id="feature-frame" title="Feature media" aria-hidden="true"></iframe></div></article>`,
+      axFrameName: "Feature media",
+    },
+    {
+      name: "sandboxed frame",
+      article: `<article data-sr-dom-node-id="article"><div data-sr-dom-node-id="frame-wrapper"><iframe data-sr-dom-node-id="feature-frame" title="Feature media" sandbox=""></iframe></div></article>`,
+      axFrameName: "Feature media",
+    },
+    {
+      name: "named article",
+      article: `<article aria-label="Named feature" data-sr-dom-node-id="article"><div data-sr-dom-node-id="frame-wrapper"><iframe data-sr-dom-node-id="feature-frame" title="Feature media"></iframe></div></article>`,
+      axFrameName: "Feature media",
+    },
+    {
+      name: "nested article",
+      article: `<article data-sr-dom-node-id="article"><article><div data-sr-dom-node-id="frame-wrapper"><iframe data-sr-dom-node-id="feature-frame" title="Feature media"></iframe></div></article></article>`,
+      axFrameName: "Feature media",
+    },
+    {
+      name: "unsupported button variant",
+      article: `<article data-sr-dom-node-id="article"><button>Play</button><div data-sr-dom-node-id="frame-wrapper"><iframe data-sr-dom-node-id="feature-frame" title="Feature media"></iframe></div></article>`,
+      axFrameName: "Feature media",
+    },
+  ];
+
+  for (const testCase of cases) {
+    const announcements = scanHtml(
+      `
+        <main>
+          <p>Introductory feature copy.</p>
+          <a href="/act">Act now</a>
+          <div>${testCase.article}</div>
+          <h2>Next section</h2>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "article-ax",
+              role: "article",
+              name: testCase.name === "named article" ? "Named feature" : "",
+              domNodeId: "article",
+              childIds: ["wrapper-ax"],
+            },
+            {
+              nodeId: "wrapper-ax",
+              role: "generic",
+              name: "",
+              domNodeId: "frame-wrapper",
+              childIds: ["frame-ax"],
+            },
+            {
+              nodeId: "frame-ax",
+              role: "Iframe",
+              name: testCase.axFrameName,
+              domNodeId: "feature-frame",
+            },
+          ],
+        },
+      },
+    );
+
+    assert.equal(announcements.includes("Feature media, group"), false, testCase.name);
+    assert.equal(announcements.includes("frame 0"), false, testCase.name);
+    assert.equal(
+      announcements.includes("end of, Feature media, group"),
+      false,
+      testCase.name,
+    );
+  }
+
+  assert.equal(
+    scanHtml(`
+      <main>
+        <div>
+          <article data-sr-dom-node-id="article">
+            <div data-sr-dom-node-id="frame-wrapper">
+              <iframe data-sr-dom-node-id="feature-frame" title="Feature media"></iframe>
+            </div>
+          </article>
+        </div>
+        <h2>Next section</h2>
+      </main>
+    `).includes("frame 0"),
+    false,
+    "no prior content",
+  );
+
+  assert.equal(
+    scanHtml(`
+      <main>
+        <p>Introductory feature copy.</p>
+        <div>
+          <article data-sr-dom-node-id="article">
+            <div data-sr-dom-node-id="frame-wrapper">
+              <iframe data-sr-dom-node-id="feature-frame" title="Feature media"></iframe>
+            </div>
+          </article>
+        </div>
+        <button>Next action</button>
+      </main>
+    `).includes("frame 0"),
+    false,
+    "no following semantic heading",
+  );
+});
+
 test("scanSubtree includes a leading focusable titled iframe as one empty group stop", () => {
   assert.deepEqual(
     scanHtml(`
