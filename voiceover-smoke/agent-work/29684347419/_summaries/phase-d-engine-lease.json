@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-ordered-long-list-block-children-2026-07-23T22:55:58Z",
-  "startedAt": "2026-07-23T22:55:58Z",
-  "adoptedBy": "",
-  "adoptedAt": "",
-  "releasedAt": "2026-07-24T10:42:40Z",
-  "targetFamily": "send-help-ordered-long-list-block-child-marker-contract",
-  "target": "send-royalmail-com-help",
-  "candidateRef": "send-royalmail-com-help:current-window-5:e67:a67,send-royalmail-com-help:current-window-7:e73:a72,send-royalmail-com-help:current-window-9:e79:a77,send-royalmail-com-help:current-window-10:e86:a82,send-royalmail-com-help:current-window-15:e111:a106,send-royalmail-com-help:current-window-16:e114:a109,send-royalmail-com-help:current-window-18:e132:a127,send-royalmail-com-help:current-window-19:e141:a133,send-royalmail-com-help:current-window-20:e145:a137,send-royalmail-com-help:current-window-24:e185:a173,send-royalmail-com-help:current-window-25:e188:a175",
+  "leaseOwner": "top-level-codex-product-list-link-static-tail-2026-07-24T10:46:16Z",
+  "startedAt": "2026-07-24T10:46:16Z",
+  "adoptedBy": "top-level-codex-phase-d-product-list-link-static-tail-2026-07-24T11:06:34Z",
+  "adoptedAt": "2026-07-24T11:06:34Z",
+  "releasedAt": "2026-07-24T11:06:34Z",
+  "targetFamily": "product-list-link-static-tail",
+  "target": "www-royalmail-com-sending-stamps",
+  "candidateRef": "www-royalmail-com-sending-stamps:current-window-8",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,20 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "no-overlap",
-    "evidence": "Before acquisition, the canonical lease file status was released with activeEngineRefinerCount 0; this Phase D run held the only engine-refiner lease and released it at finish."
+    "evidence": "The already-active canonical lease for product-list-link-static-tail was adopted without incrementing activeEngineRefinerCount above 1 and released at 2026-07-24T11:06:34Z."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-product-list-link-static-tail-2026-07-24T10:46:16Z",
+      "adoptedBy": "top-level-codex-phase-d-product-list-link-static-tail-2026-07-24T11:06:34Z",
+      "target": "www-royalmail-com-sending-stamps",
+      "candidateRef": "www-royalmail-com-sending-stamps:current-window-8",
+      "targetFamily": "product-list-link-static-tail",
+      "startedAt": "2026-07-24T10:46:16Z",
+      "adoptedAt": "2026-07-24T11:06:34Z",
+      "releasedAt": "2026-07-24T11:06:34Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "codex-phase-d-paragraph-inline-link-br-order-2026-07-21T06:09:44Z",
       "targetFamily": "paragraph-inline-link-br-order",

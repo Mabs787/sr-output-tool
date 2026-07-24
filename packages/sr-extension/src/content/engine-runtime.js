@@ -8398,7 +8398,7 @@
           const [markerNode, ...contentNodes] = axChildren;
           if (!nativeAxListMarkerText(markerNode))
             return void 0;
-          const linkTrailingTextAnnouncement = axMarkerLinkTrailingTextListItemAnnouncement(el);
+          const linkTrailingTextAnnouncement = axMarkerPrefixedLinkTrailingTextListItemAnnouncement(el);
           const axLinks = contentNodes.filter((node) => normalizedAxRole(node.role) === "link");
           const axStrong = contentNodes.filter((node) => normalizedAxRole(node.role) === "strong");
           if (axLinks.length && axStrong.length)
@@ -8444,7 +8444,82 @@
           const axText = normalize(axChildNodes(contentNodes[0]).map((node) => node.name || "").join(" "));
           return axText || normalize(readableText(strong) || readableText(el));
         }
-        function axMarkerLinkTrailingTextListItemAnnouncement(el) {
+        function axMarkerLinkTrailingTextListItemAnnouncements(el) {
+          if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
+            return void 0;
+          if (el.getAttribute("data-sr-marker-content") !== "normal")
+            return void 0;
+          if (el.getAttribute("data-sr-marker-display") !== "inline-block")
+            return void 0;
+          if (normalize(el.getAttribute("data-sr-marker-list-style-type")) !== "disc") {
+            return void 0;
+          }
+          const list = listForItem(el);
+          if (!list || !["ul", "ol"].includes(list.tagName?.toLowerCase()))
+            return void 0;
+          if (isMarkerSeparatedLinkList(list))
+            return void 0;
+          if (axInlineTwoLinkListItemAnnouncements(el))
+            return void 0;
+          if (el.querySelector("ul, ol, dl, [role='list']"))
+            return void 0;
+          if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
+            return void 0;
+          const children = directSemanticChildren(el);
+          if (children.length !== 1 || children[0].tagName?.toLowerCase() !== "a" || !children[0].hasAttribute("href")) {
+            return void 0;
+          }
+          const trailingText = normalize(directOwnText(el));
+          if (!trailingText)
+            return void 0;
+          const axListItem = axNodeForElementRole(el, "listitem");
+          if (normalize(axListItem?.name))
+            return void 0;
+          const axChildren = axChildNodes(axListItem);
+          if (axChildren.length !== 3)
+            return void 0;
+          const [markerNode, linkNode, textNode] = axChildren;
+          if (normalizedAxRole(markerNode.role) !== "listmarker")
+            return void 0;
+          if (normalizedAxRole(linkNode.role) !== "link")
+            return void 0;
+          if (normalizedAxRole(textNode.role) !== "statictext")
+            return void 0;
+          if (nativeAxListMarkerText(markerNode) !== "\u2022")
+            return void 0;
+          if (linkNode.properties?.focusable !== true)
+            return void 0;
+          if (normalize(linkNode.domNodeId) !== normalize(children[0].getAttribute("data-sr-dom-node-id"))) {
+            return void 0;
+          }
+          const linkChildren = Array.from(children[0].children || []).filter((child) => !isHidden(child));
+          if (linkChildren.length !== 1)
+            return void 0;
+          if (!["strong", "b", "em", "i"].includes(linkChildren[0].tagName?.toLowerCase())) {
+            return void 0;
+          }
+          const axLinkChildren = axChildNodes(linkNode);
+          if (axLinkChildren.length !== 1 || !["strong", "emphasis"].includes(normalizedAxRole(axLinkChildren[0].role) || "")) {
+            return void 0;
+          }
+          if (normalize(axLinkChildren[0].domNodeId) !== normalize(linkChildren[0].getAttribute("data-sr-dom-node-id"))) {
+            return void 0;
+          }
+          const axTrailingText = normalize(textNode.name);
+          if (!axTrailingText || axTrailingText !== trailingText)
+            return void 0;
+          const position = positionInSet(el, "listitem");
+          const size = setSize(el, "listitem");
+          if (!position || !size)
+            return void 0;
+          const linkName = normalize(linkNode.name) || accessibleName(children[0], "link");
+          if (!linkName)
+            return void 0;
+          return [`\u2022, ${position} of ${size}`, `link, ${linkName}`, axTrailingText];
+        }
+        function axMarkerPrefixedLinkTrailingTextListItemAnnouncement(el) {
+          if (axMarkerLinkTrailingTextListItemAnnouncements(el)?.length)
+            return void 0;
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
             return void 0;
           if (el.getAttribute("data-sr-marker-content") !== "normal")
@@ -13836,7 +13911,8 @@
             axPlainTextMarkerListItemAnnouncement: role === "listitem" ? axPlainTextMarkerListItemAnnouncement(el) : void 0,
             axMarkerOnlyListItemStopAnnouncement: role === "listitem" ? axMarkerOnlyListItemStopAnnouncement(el) : void 0,
             axMarkerOnlyListItemInlineTextAnnouncement: role === "listitem" ? axMarkerOnlyListItemInlineTextAnnouncement(el) : void 0,
-            axMarkerLinkTrailingTextListItemAnnouncement: role === "listitem" ? axMarkerLinkTrailingTextListItemAnnouncement(el) : void 0,
+            axMarkerLinkTrailingTextListItemAnnouncements: role === "listitem" ? axMarkerLinkTrailingTextListItemAnnouncements(el) : void 0,
+            axMarkerPrefixedLinkTrailingTextListItemAnnouncement: role === "listitem" ? axMarkerPrefixedLinkTrailingTextListItemAnnouncement(el) : void 0,
             savedRenderedPlainTextMarkerListItemAnnouncement: role === "listitem" ? savedRenderedPlainTextMarkerListItemAnnouncement(el) : void 0,
             contributionListItemAnnouncements: role === "listitem" ? contributionListItemAnnouncements(el) : void 0,
             wrappedDefinitionListTermChildAnnouncements: role === "term" ? wrappedDefinitionListTermChildAnnouncements(el) : void 0,
@@ -14299,6 +14375,9 @@
           if (role === "listitem" && axNativeMarkerListItemFragmentAnnouncements(el)) {
             return true;
           }
+          if (role === "listitem" && axMarkerLinkTrailingTextListItemAnnouncements(el)) {
+            return true;
+          }
           if (role === "listitem" && axOrderedParentNestedListItemAnnouncements(el)) {
             return true;
           }
@@ -14522,6 +14601,8 @@
               return axOrderedDirectTextListItemShouldDescend(el);
             }
             if (axNativeMarkerListItemFragmentAnnouncements(el))
+              return false;
+            if (axMarkerLinkTrailingTextListItemAnnouncements(el))
               return false;
             if (namedNavigationListItemGroupedLinkAnnouncements(el))
               return false;
@@ -14938,6 +15019,12 @@
             return void 0;
           }
           return descriptor.axNativeMarkerListItemFragmentAnnouncements;
+        }
+        function splitAxMarkerLinkTrailingTextListItemAnnouncements(descriptor) {
+          if (descriptor.role !== "listitem" || !descriptor.axMarkerLinkTrailingTextListItemAnnouncements?.length) {
+            return void 0;
+          }
+          return descriptor.axMarkerLinkTrailingTextListItemAnnouncements;
         }
         function splitAxOrderedParentNestedListItemAnnouncements(descriptor) {
           if (descriptor.role !== "listitem" || !descriptor.axOrderedParentNestedListItemAnnouncements?.length) {
@@ -15409,6 +15496,10 @@
                 announcements: splitAxNativeMarkerListItemFragmentAnnouncements(descriptor)
               },
               {
+                source: "split-ax-marker-link-trailing-text-listitem",
+                announcements: splitAxMarkerLinkTrailingTextListItemAnnouncements(descriptor)
+              },
+              {
                 source: "split-ax-ordered-parent-nested-listitem",
                 announcements: splitAxOrderedParentNestedListItemAnnouncements(descriptor)
               },
@@ -15732,13 +15823,13 @@
                   walk(child);
               }
               if (descriptor) {
-                if (descriptor.axMarkerLinkTrailingTextListItemAnnouncement && !descriptor.axNativeMarkerListItemFragmentAnnouncements?.length) {
+                if (descriptor.axMarkerPrefixedLinkTrailingTextListItemAnnouncement && !descriptor.axNativeMarkerListItemFragmentAnnouncements?.length) {
                   emitTraversalStop(id, {
                     kind: "split",
-                    source: "ax-marker-link-trailing-text-list-item",
+                    source: "ax-marker-prefixed-link-trailing-text-list-item",
                     el,
                     descriptor,
-                    announcement: descriptor.axMarkerLinkTrailingTextListItemAnnouncement
+                    announcement: descriptor.axMarkerPrefixedLinkTrailingTextListItemAnnouncement
                   });
                 }
                 const modalSummary = modalDialogSummaryAnnouncement(descriptor);

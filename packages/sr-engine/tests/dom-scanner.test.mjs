@@ -13715,6 +13715,105 @@ test("scanSubtree splits AX-confirmed publication list marker link text boundari
   );
 });
 
+test("scanSubtree splits AX-confirmed strong link product-list tails after native markers", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><a href="/strong-plan" data-sr-dom-node-id="12"><strong data-sr-dom-node-id="13">Strong Plan</strong></a> - strong label tail.</li>
+          <li
+            data-sr-dom-node-id="14"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="disc"
+          ><a href="/plain-plan" data-sr-dom-node-id="15">Plain Plan</a> - plain direct tail.</li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ul",
+              childIds: ["21", "26"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23", "25"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "23",
+              ignored: false,
+              role: "link",
+              name: "Strong Plan",
+              domNodeId: "12",
+              tagName: "a",
+              childIds: ["24"],
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "strong",
+              name: "",
+              domNodeId: "13",
+              tagName: "strong",
+              childIds: ["40"],
+            },
+            { nodeId: "40", ignored: false, role: "StaticText", name: "Strong Plan" },
+            { nodeId: "25", ignored: false, role: "StaticText", name: " - strong label tail." },
+            {
+              nodeId: "26",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "14",
+              tagName: "li",
+              childIds: ["27", "28", "29"],
+            },
+            { nodeId: "27", ignored: false, role: "ListMarker", name: "• " },
+            {
+              nodeId: "28",
+              ignored: false,
+              role: "link",
+              name: "Plain Plan",
+              domNodeId: "15",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "29", ignored: false, role: "StaticText", name: " - plain direct tail." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 2 items",
+      "•, 1 of 2",
+      "link, Strong Plan",
+      "- strong label tail.",
+      "•, 2 of 2",
+      "link, Plain Plan",
+      "• - plain direct tail.",
+      "end of list",
+    ],
+  );
+});
+
 test("scanSubtree splits AX-confirmed contribution list items", () => {
   assert.deepEqual(
     scanHtml(

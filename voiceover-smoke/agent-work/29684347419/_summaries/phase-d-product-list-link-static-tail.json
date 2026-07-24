@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "target": "www-royalmail-com-sending-stamps",
+  "family": "product-list-link-static-tail",
+  "status": "passed",
+  "startedAt": "2026-07-24T10:46:16Z",
+  "finishedAt": "2026-07-24T11:06:34Z",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "sharedPreflightRef": "./00-agent-preflight.json",
+  "leaseAcquiredAt": "2026-07-24T10:46:16Z",
+  "leaseReleasedAt": "2026-07-24T11:06:34Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "no-overlap",
+    "evidence": "Adopted the already-active canonical product-list-link-static-tail lease with activeEngineRefinerCount 1 and released it at finish without incrementing above 1."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/phase-d-engine-refinement.md",
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md"
+    ],
+    "c5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-product-list-link-static-tail.json",
+    "canonicalLease": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "reproFixture": "packages/sr-engine/tests/fixtures/voiceover-repros/www-royalmail-com-sending-stamps/product-list-link-static-tail.html"
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-product-list-link-static-tail.json"
+  ],
+  "fixtureChanges": [],
+  "behaviorFixed": {
+    "summary": "Native li nodes with normal disc marker metadata, unnamed AX listitem, direct focusable a[href] child, single strong/b/em/i child inside that link confirmed by AX, and direct following StaticText now split into marker, link, and static-tail stops.",
+    "guard": "No site selector, URL, class, copy, component, or layout predicate. The rule requires native list semantics, marker metadata, AX list marker/link/StaticText child order, matching DOM/AX ids, focusable link, direct static text equality, and list position metadata.",
+    "previousC5EngineShape": [
+      "- paired with a short tail., 5 of 5"
+    ],
+    "latestTargetShape": [
+      "•, 5 of 5",
+      "link, Collectors Sheets",
+      "- stamps paired with thematic labels, set against a complementary backdrop."
+    ]
+  },
+  "compareDelta": {
+    "targetCompare": "www-royalmail-com-sending-stamps",
+    "latestExpectedCount": 270,
+    "latestActualCount": 258,
+    "latestMismatchWindowCount": 14,
+    "fixedWindowEvidence": "current-window-8 item 5 now appears in latest target compare as marker/link/static-tail before end of list; the original C.5 engine output collapsed it to one positioned tail and omitted the link stop.",
+    "remainingGrouped": {
+      "list/marker": 7,
+      "role/structure": 7
+    }
+  },
+  "checks": [
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine TypeScript build passed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node --test --test-name-pattern \"scanSubtree splits AX-confirmed strong link product-list tails after native markers\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused C.5 unit passed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full engine unit suite passed: 410 tests, 354 pass, 56 skipped."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-stamps /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-stamps 4",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Affected Royal Mail target compare ran: expected 270, actual 258, mismatch windows 14; product-list item 5 direct-link/static-tail shape fixed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-gov-uk 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-google-com-accessibility 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-w3-org-wai 3",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected exact compare stayed exact: mismatchWindowCount 0."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime build passed."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:$PATH /opt/homebrew/bin/yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Full corpus gate completed with the two known baseline failures only: www-microsoft-com-en-us-accessibility inserts Ask Microsoft Accessibility; www-sky-com-watch-what-to-watch-this-week splits inline title boundaries. No product-list regression appeared."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "header-nav-empty-region-and-button-group-suffix",
+      "currentWindowIndexes": [1],
+      "latestActual": "Personal, region; Business, collapsed, button, 2 of 3; Stamps & supplies, collapsed, button, 3 of 3",
+      "latestExpected": "Personal, empty region; Business, collapsed, button, group, 2 of 3; Receiving, empty region; Stamps & supplies, collapsed, button, group, 3 of 3; Small business hub, empty region",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Build or reuse a narrow C.5 for collapsed nav buttons paired with AX-visible empty controlled regions.",
+      "blocker": "Outside product-list-link-static-tail scope.",
+      "checksNeeded": ["target compare", "protected exact nav compares", "test:unit"]
+    },
+    {
+      "family": "paragraph-inline-link-tail-boundary",
+      "currentWindowIndexes": [2],
+      "latestActual": "Combined paragraph text plus subsequent split text/link/tail duplicate.",
+      "latestExpected": "Text stop, link stop, trailing punctuation/text stop only.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify whether this is an existing reusable paragraph boundary family or stale refined oracle.",
+      "blocker": "Not part of the C.5 product-list contract.",
+      "checksNeeded": ["target compare", "focused paragraph boundary compare"]
+    },
+    {
+      "family": "product-list-strong-static-tail-and-multi-link-boundaries",
+      "currentWindowIndexes": [4, 5],
+      "latestActual": "Prestige Stamp Books, 3 of 5; Limited-Edition Ingots, - including Penny Black gold editions., 4 of 5",
+      "latestExpected": "Marker then static strong text then tail for item 3; marker then text/link/link/tail boundaries for item 4.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Split into strong/static-tail and comma/two-link sub-gaps; use the C.5 controls or request a separate C.5 for the multi-link item before patching.",
+      "blocker": "Current Phase D was restricted to direct-link/following-StaticText behavior.",
+      "checksNeeded": ["focused unit", "target compare", "protected marker compares", "test:voiceover"]
+    },
+    {
+      "family": "card-media-transition-images-and-text-join",
+      "currentWindowIndexes": [3, 6, 7, 8, 9, 10, 11],
+      "latestActual": "Card section omits group/image stops and splits card label/body text.",
+      "latestExpected": "Group before card section, product images, and selected title/body joins.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify image-stop, group-stop, and card text-join subfamilies independently.",
+      "blocker": "Separate structural/card-media family.",
+      "checksNeeded": ["target compare", "card-media C.5 if generic rule is proposed", "protected card compares"]
+    },
+    {
+      "family": "faq-glyph-and-article-end-boundary",
+      "currentWindowIndexes": [12, 13],
+      "latestActual": "Can I use Special Stamps...; Breadcrumb follows without end of article.",
+      "latestExpected": "Can luse Special Stamps...; end of, article before Breadcrumb.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Separate OCR/glyph question from article end-boundary behavior, then route the article boundary through Phase C if trusted.",
+      "blocker": "Mixed evidence and structural subfamilies outside current C.5 receipt.",
+      "checksNeeded": ["target compare", "Phase B glyph evidence", "article boundary C.5 if needed"]
+    },
+    {
+      "family": "footer-link-list-position-truncation",
+      "currentWindowIndexes": [14],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Confirm whether expected truncation is trusted initial-DOM VoiceOver output or should be normalized.",
+      "blocker": "Likely truncation/oracle issue, not related to native product-list child boundaries.",
+      "checksNeeded": ["target compare", "source/caption evidence review"]
+    }
+  ],
+  "decisions": {
+    "engineLogicModified": true,
+    "siteSpecificLogicAdded": false,
+    "refinedAnnouncementsEdited": false,
+    "rawExpectedAnnouncementsEdited": false,
+    "fixtureHtmlEdited": false,
+    "fixturesPromoted": false,
+    "phaseC5NeededBeforeThisPatch": false,
+    "phaseC5Basis": "phase-c5-product-list-link-static-tail verdict engine-gap-confirmed"
+  },
+  "nextPhase": "complete",
+  "handoffFrom": "C.5",
+  "handoffTo": "complete",
+  "handoffReason": "C.5-confirmed direct-link/static-tail listitem engine gap fixed and verified; remaining target mismatches are separate routed families.",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Resume with product-list-strong-static-tail-and-multi-link-boundaries only after accepting the revisit route.",
+    "c5Needed": true,
+    "reason": "The direct-link/static-tail sub-gap is fixed; adjacent product-list item 3 and item 4 are distinct child-boundary shapes."
+  }
+}
