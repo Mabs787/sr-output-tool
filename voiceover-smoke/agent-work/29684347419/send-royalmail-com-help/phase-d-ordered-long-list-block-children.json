@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "runId": "29684347419",
+  "target": "send-royalmail-com-help",
+  "family": "ordered-long-list-block-child-and-direct-text-contract",
+  "status": "passed_with_residuals",
+  "startedAt": "2026-07-23T22:55:58Z",
+  "finishedAt": "2026-07-24T10:42:40Z",
+  "lease": {
+    "file": "../_summaries/phase-d-engine-lease.json",
+    "leaseOwner": "top-level-codex-ordered-long-list-block-children-2026-07-23T22:55:58Z",
+    "acquiredAt": "2026-07-23T22:55:58Z",
+    "releasedAt": "2026-07-24T10:42:40Z",
+    "activeLeaseCountAtStart": 0,
+    "activeLeaseCountAtFinish": 0,
+    "result": "no-overlap"
+  },
+  "inputs": [
+    "docs/workflows/voiceover-refinement.md",
+    "docs/workflows/agent-receipts.md",
+    "docs/workflows/phase-d-engine-refinement.md",
+    "../_summaries/phase-c5-list-marker-rich-text-current-family.json",
+    "phase-d-list-marker-rich-text-current-family.json",
+    "phase-c-ordered-long-list-engine-revisit.json",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-send-help-list-marker-rich-text-c5/current-family.html"
+  ],
+  "scope": {
+    "includedEngineReadyRefs": [
+      "send-royalmail-com-help:current-window-5:e67:a67",
+      "send-royalmail-com-help:current-window-7:e73:a72",
+      "send-royalmail-com-help:current-window-9:e79:a77",
+      "send-royalmail-com-help:current-window-10:e86:a82",
+      "send-royalmail-com-help:current-window-15:e111:a106",
+      "send-royalmail-com-help:current-window-16:e114:a109",
+      "send-royalmail-com-help:current-window-18:e132:a127",
+      "send-royalmail-com-help:current-window-19:e141:a133",
+      "send-royalmail-com-help:current-window-20:e145:a137",
+      "send-royalmail-com-help:current-window-24:e185:a173",
+      "send-royalmail-com-help:current-window-25:e188:a175"
+    ],
+    "excludedNonListTails": [
+      "send-royalmail-com-help:current-window-23:e181:a169",
+      "send-royalmail-com-help:current-window-27:e212:a186",
+      "send-royalmail-com-help:current-window-33:e277:a243"
+    ]
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added an AX-backed native ordered listitem contract for decimal ol > li items whose direct block children are paragraphs and optional lists. These listitems now emit a standalone decimal marker stop, descend into body content, and suppress inherited list position on direct paragraph children and nested list summaries.",
+      "guards": [
+        "native li inside native ol only",
+        "AX listitem is unnamed and not focusable",
+        "first AX child is a decimal ListMarker",
+        "saved marker metadata is normal decimal inline/inline-block",
+        "no nav ancestor, marker-separated link list, aria name, role override, controls, hidden/disabled/live, focusable listitem, or named/focusable listitem",
+        "direct visible children are p and/or list, with at least one p",
+        "AX content children after the marker are paragraph and/or list, with at least one paragraph"
+      ]
+    },
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Added an AX-backed native ordered direct-text contract that keeps decimal markers stitched to StaticText listitem text, including direct inline links, and a direct-text plus nested-list variant that keeps the parent item stitched while allowing traversal into the nested list.",
+      "guards": [
+        "native li inside native ol only",
+        "AX listitem is unnamed and not focusable",
+        "first AX child is a decimal ListMarker followed by StaticText matching direct leading text",
+        "direct semantic children are either direct links or direct nested lists, never both",
+        "direct links must match AX link DOM ids and focusability",
+        "direct nested list variant appends parent position metadata and descends only into the nested list"
+      ]
+    }
+  ],
+  "fixtureChanges": [],
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/send-royalmail-com-help/phase-d-ordered-long-list-block-children.json"
+  ],
+  "compareEvidence": {
+    "targetBefore": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help yarn workspace @sr-output/engine voiceover:compare send-royalmail-com-help 5",
+      "expectedCount": 362,
+      "actualCount": 335,
+      "mismatchWindowCount": 29,
+      "grouped": {
+        "role/structure": 5,
+        "list/marker": 22,
+        "punctuation/text-boundary": 2
+      }
+    },
+    "targetAfter": {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help yarn workspace @sr-output/engine voiceover:compare send-royalmail-com-help 5",
+      "expectedCount": 362,
+      "actualCount": 345,
+      "mismatchWindowCount": 30,
+      "grouped": {
+        "role/structure": 6,
+        "list/marker": 21,
+        "punctuation/text-boundary": 3
+      },
+      "scopedDelta": "Actual count moved +10 toward expected; ordered block-child marker stops and direct stitched decimal markers now appear for the scoped refs. Window count rises by one because remaining non-scoped truncation/punctuation/nested bullet residuals align into separate windows."
+    },
+    "protectedExact": [
+      {
+        "fixture": "www-w3-org-wai-standards-guidelines-wcag",
+        "expectedCount": 320,
+        "actualCount": 320,
+        "mismatchWindowCount": 0
+      },
+      {
+        "fixture": "design-system-service-gov-uk-components-text-input",
+        "expectedCount": 394,
+        "actualCount": 394,
+        "mismatchWindowCount": 0
+      }
+    ],
+    "protectedCandidates": [
+      {
+        "fixture": "www-royalmail-com-sending-stamps",
+        "expectedCount": 270,
+        "actualCount": 258,
+        "mismatchWindowCount": 16
+      },
+      {
+        "fixture": "www-royalmail-com-sending-barcoded-stamps",
+        "expectedCount": 200,
+        "actualCount": 195,
+        "mismatchWindowCount": 5
+      },
+      {
+        "fixture": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm",
+        "expectedCount": 186,
+        "actualCount": 175,
+        "mismatchWindowCount": 5
+      },
+      {
+        "fixture": "www-royalmail-com-sending-uk-tracked-24",
+        "expectedCount": 186,
+        "actualCount": 178,
+        "mismatchWindowCount": 6
+      },
+      {
+        "fixture": "www-royalmail-com-sending-uk-tracked-48",
+        "expectedCount": 186,
+        "actualCount": 178,
+        "mismatchWindowCount": 6
+      }
+    ]
+  },
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "status": "passed",
+      "required": true
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit --test-name-pattern \"ordered block child|ordered direct text|ordered parent text|ordered plain text marker|ordered markers before link\"",
+      "status": "passed",
+      "required": true,
+      "summary": "409 tests, 353 passed, 56 skipped"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "required": true,
+      "summary": "409 tests, 353 passed, 56 skipped"
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "status": "passed",
+      "required": true
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "status": "failed_known_non_list",
+      "required": true,
+      "summary": "59 tests, 36 passed, 21 skipped, 2 failed. Failures are unchanged non-list refined corpus mismatches: www-microsoft-com-en-us-accessibility adds Ask Microsoft Accessibility; www-sky-com-watch-what-to-watch-this-week splits inline title text."
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed",
+      "required": true
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "send-help-header-shell-image-and-empty-link-region",
+      "latestWindowIndexes": [1, 2],
+      "latestActualShape": "Header/nav omits a standalone image stop and includes an empty link before main.",
+      "latestExpectedShape": "Image stop before banner/nav end and no empty link before main.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify header fixture noise versus reusable image/empty-link traversal evidence outside this ordered-list Phase D scope.",
+      "blocker": "Not part of the 11 ordered list engine-ready refs.",
+      "checksNeeded": ["target compare", "header-focused evidence audit"]
+    },
+    {
+      "family": "send-help-long-text-caption-truncation",
+      "latestWindowIndexes": [3, 5, 6, 7, 8, 11, 12, 15, 16, 17, 18],
+      "latestActualShape": "Ordered paragraph/direct-text stops contain full saved DOM/AX text after the corrected marker shape.",
+      "latestExpectedShape": "Refined expected text is clipped to caption-window length.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Return truncation-only lines to Phase B/C evidence cleanup; do not model caption clipping in reusable engine logic without an isolated VoiceOver rule.",
+      "blocker": "Phase C classified non-list caption truncation as noisy/parked, and saved DOM/AX contain full text.",
+      "checksNeeded": ["Phase B text-boundary lookup", "target compare after expected cleanup"]
+    },
+    {
+      "family": "send-help-nested-singleton-bullet-position-suffix",
+      "latestWindowIndexes": [3, 4, 5, 6, 7],
+      "latestActualShape": "Nested one-item unordered lists announce bullet text with ', 1 of 1'.",
+      "latestExpectedShape": "Nested one-item unordered list bullets omit the singleton position suffix.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Create an isolated same-structure VoiceOver scan for singleton nested unordered list position metadata before any engine change.",
+      "blocker": "User scope excludes unordered marker changes; prior accepted rich-bullet rule does not cover singleton position suppression.",
+      "checksNeeded": ["isolated singleton nested ul scan", "focused unordered marker unit", "protected product-list compares"]
+    },
+    {
+      "family": "send-help-nested-plain-bullet-marker-prefix",
+      "latestWindowIndexes": [9, 13, 14, 18, 19, 20],
+      "latestActualShape": "Plain nested unordered listitems without rich inline AX content sometimes omit the leading bullet marker or keep the whole phrase stitched.",
+      "latestExpectedShape": "Expected output includes bullet-prefixed plain fragments and finer emphasis/code boundaries.",
+      "nextOwner": "Phase C.5",
+      "nextAction": "Split plain nested bullet marker-prefix behavior from rich bullet behavior and prove a narrow non-site-shaped rule in isolation.",
+      "blocker": "This Phase D scope excludes unordered markers, and the safe prior rich-bullet rule intentionally required rich inline AX content.",
+      "checksNeeded": ["C.5 same-structure nested plain bullet scan", "focused unit", "target compare", "protected stamps/product-list compares"]
+    },
+    {
+      "family": "send-help-punctuation-and-quote-normalization",
+      "latestWindowIndexes": [12, 13, 15, 16, 17],
+      "latestActualShape": "Actual keeps smart quotes/apostrophes and a space after '17.' where refined expected has straight punctuation and '17.Once'.",
+      "latestExpectedShape": "Expected uses straight punctuation/truncated wording and one no-space decimal marker phrase.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Audit refinedAnnouncements punctuation against raw expected/VO cursor text before any announcement wording change.",
+      "blocker": "Descriptor data and AX names are otherwise correct; this is not the ordered-list traversal gap fixed here.",
+      "checksNeeded": ["raw expected versus refined diff", "target compare after evidence cleanup"]
+    },
+    {
+      "family": "send-help-collection-nested-rich-list-decomposition",
+      "latestWindowIndexes": [18, 19, 20],
+      "latestActualShape": "Ordered parent marker stops are present, but nested two-item rich tracking-number list remains stitched differently from expected.",
+      "latestExpectedShape": "Nested list begins with bullet-prefixed fragments split around tracking number/postage item ID emphasis.",
+      "nextOwner": "Phase C.5",
+      "nextAction": "Build an isolated proof for nested rich inline unordered list decomposition in the collection subsection.",
+      "blocker": "The ordered parent marker contract is fixed; remaining mismatch belongs to unordered nested rich segmentation.",
+      "checksNeeded": ["isolated nested rich unordered list scan", "focused segmentation unit", "target compare", "corpus"]
+    }
+  ]
+}

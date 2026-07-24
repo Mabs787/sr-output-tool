@@ -12339,6 +12339,346 @@ test("scanSubtree emits AX-confirmed marker and trailing text for mixed link lis
 	  );
 	});
 
+test("scanSubtree emits AX-confirmed ordered block child markers before paragraphs", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ol data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >
+            <p data-sr-dom-node-id="12">First block child text.</p>
+            <ul data-sr-dom-node-id="13">
+              <li
+                data-sr-dom-node-id="14"
+                data-sr-marker-content="normal"
+                data-sr-marker-display="inline-block"
+                data-sr-marker-list-style-type="disc"
+              >Nested detail.</li>
+            </ul>
+          </li>
+          <li
+            data-sr-dom-node-id="15"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >
+            <p data-sr-dom-node-id="16">Second block child text.</p>
+          </li>
+        </ol>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ol",
+              childIds: ["21", "28"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23", "24"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "4. " },
+            {
+              nodeId: "23",
+              ignored: false,
+              role: "paragraph",
+              name: "",
+              domNodeId: "12",
+              tagName: "p",
+              childIds: ["25"],
+            },
+            { nodeId: "25", ignored: false, role: "StaticText", name: "First block child text." },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "13",
+              tagName: "ul",
+              childIds: ["26"],
+            },
+            {
+              nodeId: "26",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "14",
+              tagName: "li",
+              childIds: ["27", "34"],
+            },
+            { nodeId: "27", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "34", ignored: false, role: "StaticText", name: "Nested detail." },
+            {
+              nodeId: "28",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "15",
+              tagName: "li",
+              childIds: ["29", "30"],
+            },
+            { nodeId: "29", ignored: false, role: "ListMarker", name: "5. " },
+            {
+              nodeId: "30",
+              ignored: false,
+              role: "paragraph",
+              name: "",
+              domNodeId: "16",
+              tagName: "p",
+              childIds: ["31"],
+            },
+            { nodeId: "31", ignored: false, role: "StaticText", name: "Second block child text." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 2 items",
+      "4.",
+      "First block child text.",
+      "list 1 item, level 2",
+      "• Nested detail., 1 of 1",
+      "end of list",
+      "5.",
+      "Second block child text.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree stitches ordered direct text markers in mixed lists with inline links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ol data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >First direct text item.</li>
+          <li
+            data-sr-dom-node-id="12"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >Second direct text with <a href="/alpha" data-sr-dom-node-id="13">Alpha</a> and <a href="/beta" data-sr-dom-node-id="14">Beta</a> links.</li>
+          <li
+            data-sr-dom-node-id="15"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >
+            <p data-sr-dom-node-id="16">Third block child.</p>
+          </li>
+        </ol>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ol",
+              childIds: ["21", "24", "32"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "8. " },
+            { nodeId: "23", ignored: false, role: "StaticText", name: "First direct text item." },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "12",
+              tagName: "li",
+              childIds: ["25", "26", "27", "28", "29", "30"],
+            },
+            { nodeId: "25", ignored: false, role: "ListMarker", name: "9. " },
+            { nodeId: "26", ignored: false, role: "StaticText", name: "Second direct text with " },
+            {
+              nodeId: "27",
+              ignored: false,
+              role: "link",
+              name: "Alpha",
+              domNodeId: "13",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "28", ignored: false, role: "StaticText", name: " and " },
+            {
+              nodeId: "29",
+              ignored: false,
+              role: "link",
+              name: "Beta",
+              domNodeId: "14",
+              tagName: "a",
+              properties: { focusable: true },
+            },
+            { nodeId: "30", ignored: false, role: "StaticText", name: " links." },
+            {
+              nodeId: "32",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "15",
+              tagName: "li",
+              childIds: ["33", "34"],
+            },
+            { nodeId: "33", ignored: false, role: "ListMarker", name: "10. " },
+            {
+              nodeId: "34",
+              ignored: false,
+              role: "paragraph",
+              name: "",
+              domNodeId: "16",
+              tagName: "p",
+              childIds: ["35"],
+            },
+            { nodeId: "35", ignored: false, role: "StaticText", name: "Third block child." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 3 items",
+      "8. First direct text item.",
+      "9. Second direct text with",
+      "link, Alpha",
+      "and",
+      "link, Beta",
+      "links.",
+      "10.",
+      "Third block child.",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree stitches ordered direct text markers before nested lists", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ol data-sr-dom-node-id="10">
+          <li
+            data-sr-dom-node-id="11"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >First sibling item.</li>
+          <li
+            data-sr-dom-node-id="12"
+            data-sr-marker-content="normal"
+            data-sr-marker-display="inline-block"
+            data-sr-marker-list-style-type="decimal"
+          >From the basket page:
+            <span data-sr-dom-node-id="13"></span>
+            <ul data-sr-dom-node-id="14">
+              <li
+                data-sr-dom-node-id="15"
+                data-sr-marker-content="normal"
+                data-sr-marker-display="inline-block"
+                data-sr-marker-list-style-type="disc"
+              >Enter your email address.</li>
+            </ul>
+          </li>
+        </ol>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "20",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "10",
+              tagName: "ol",
+              childIds: ["21", "24"],
+            },
+            {
+              nodeId: "21",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "11",
+              tagName: "li",
+              childIds: ["22", "23"],
+            },
+            { nodeId: "22", ignored: false, role: "ListMarker", name: "14. " },
+            { nodeId: "23", ignored: false, role: "StaticText", name: "First sibling item." },
+            {
+              nodeId: "24",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "12",
+              tagName: "li",
+              childIds: ["25", "26", "27"],
+            },
+            { nodeId: "25", ignored: false, role: "ListMarker", name: "15. " },
+            { nodeId: "26", ignored: false, role: "StaticText", name: "From the basket page:" },
+            {
+              nodeId: "27",
+              ignored: false,
+              role: "list",
+              name: "",
+              domNodeId: "14",
+              tagName: "ul",
+              childIds: ["28"],
+            },
+            {
+              nodeId: "28",
+              ignored: false,
+              role: "listitem",
+              name: "",
+              domNodeId: "15",
+              tagName: "li",
+              childIds: ["29", "30"],
+            },
+            { nodeId: "29", ignored: false, role: "ListMarker", name: "• " },
+            { nodeId: "30", ignored: false, role: "StaticText", name: "Enter your email address." },
+          ],
+        },
+      },
+    ),
+    [
+      "list 2 items",
+      "14. First sibling item.",
+      "15. From the basket page:, 2 of 2",
+      "list 1 item, level 2",
+      "• Enter your email address., 1 of 1",
+      "end of list",
+      "end of list",
+    ],
+  );
+});
+
 	test("scanSubtree prefixes AX-confirmed ordered parent text before a nested marker list", () => {
 	  assert.deepEqual(
 	    scanHtml(

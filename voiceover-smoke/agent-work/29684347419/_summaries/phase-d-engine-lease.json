@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-footer-collapsed-list-position-2026-07-21T13:59:21Z",
-  "startedAt": "2026-07-21T13:59:21Z",
+  "leaseOwner": "top-level-codex-ordered-long-list-block-children-2026-07-23T22:55:58Z",
+  "startedAt": "2026-07-23T22:55:58Z",
   "adoptedBy": "",
   "adoptedAt": "",
-  "releasedAt": "2026-07-22T03:50:00Z",
-  "targetFamily": "footer-collapsed-role-button-group-suffix-with-list-position",
-  "target": "_summaries/footer-collapsed-list-position-current",
-  "candidateRef": "www-royalmail-com-find-postcode:current-window-2,www-royalmail-com-personal-receiving-mail-redirection:current-window-10,www-royalmail-com-receiving-mail-redelivery:current-window-7,www-royalmail-com-sending-barcoded-stamps:current-window-12,www-royalmail-com-sending-international:current-window-10,www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-7,www-royalmail-com-sending-uk-tracked-24:current-window-9,www-royalmail-com-sending-uk-tracked-48:current-window-9,www-royalmail-com-sending-uk:current-window-9,www-royalmail-com-sending:current-window-9",
+  "releasedAt": "2026-07-24T10:42:40Z",
+  "targetFamily": "send-help-ordered-long-list-block-child-marker-contract",
+  "target": "send-royalmail-com-help",
+  "candidateRef": "send-royalmail-com-help:current-window-5:e67:a67,send-royalmail-com-help:current-window-7:e73:a72,send-royalmail-com-help:current-window-9:e79:a77,send-royalmail-com-help:current-window-10:e86:a82,send-royalmail-com-help:current-window-15:e111:a106,send-royalmail-com-help:current-window-16:e114:a109,send-royalmail-com-help:current-window-18:e132:a127,send-royalmail-com-help:current-window-19:e141:a133,send-royalmail-com-help:current-window-20:e145:a137,send-royalmail-com-help:current-window-24:e185:a173,send-royalmail-com-help:current-window-25:e188:a175",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,7 +19,7 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "no-overlap",
-    "evidence": "Before acquisition, the canonical lease file status was released with activeEngineRefinerCount 0; this active lease is the only engine-refiner for run 29684347419."
+    "evidence": "Before acquisition, the canonical lease file status was released with activeEngineRefinerCount 0; this Phase D run held the only engine-refiner lease and released it at finish."
   },
   "leaseHistory": [
     {
@@ -99,6 +99,15 @@
       "targetFamily": "footer-collapsed-role-button-group-suffix-with-list-position",
       "startedAt": "2026-07-21T13:59:21Z",
       "releasedAt": "2026-07-22T03:50:00Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-ordered-long-list-block-children-2026-07-23T22:55:58Z",
+      "target": "send-royalmail-com-help",
+      "candidateRef": "send-royalmail-com-help:current-window-5:e67:a67,send-royalmail-com-help:current-window-7:e73:a72,send-royalmail-com-help:current-window-9:e79:a77,send-royalmail-com-help:current-window-10:e86:a82,send-royalmail-com-help:current-window-15:e111:a106,send-royalmail-com-help:current-window-16:e114:a109,send-royalmail-com-help:current-window-18:e132:a127,send-royalmail-com-help:current-window-19:e141:a133,send-royalmail-com-help:current-window-20:e145:a137,send-royalmail-com-help:current-window-24:e185:a173,send-royalmail-com-help:current-window-25:e188:a175",
+      "targetFamily": "send-help-ordered-long-list-block-child-marker-contract",
+      "startedAt": "2026-07-23T22:55:58Z",
+      "releasedAt": "2026-07-24T10:42:40Z",
       "status": "released"
     }
   ]

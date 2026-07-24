@@ -6720,7 +6720,9 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     if (
       nativeMarkerListItemAnnouncements(parentItem) ||
-      axOrderedParentNestedListItemAnnouncements(parentItem)
+      axOrderedParentNestedListItemAnnouncements(parentItem) ||
+      axOrderedDirectTextListItemShouldDescend(parentItem) ||
+      axOrderedBlockChildListItemMarkerAnnouncement(parentItem)
     ) {
       return {};
     }
@@ -7024,6 +7026,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
 
     if (
       role === "paragraph" &&
+      isDirectAxOrderedBlockChildListItemParagraph(el, role)
+    ) {
+      return undefined;
+    }
+
+    if (
+      role === "paragraph" &&
       isFirstInteractiveListBodyText(el) &&
       !suppressGroupedListItemCardDescendantPosition(el, role)
     ) {
@@ -7174,6 +7183,13 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const { list, siblings } = semanticListContext(el);
       return adjustedListSetSize(siblings, list, el, role);
     }
+    if (
+      role === "paragraph" &&
+      isDirectAxOrderedBlockChildListItemParagraph(el, role)
+    ) {
+      return undefined;
+    }
+
     if (
       role === "paragraph" &&
       isFirstInteractiveListBodyText(el) &&
@@ -7880,6 +7896,198 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!marker) return undefined;
     if (/^\d+[.)]$/u.test(marker)) return marker;
     return position && size ? `${marker}, ${position} of ${size}` : marker;
+  }
+
+  function isAxBackedNativeOrderedListItem(el: any): boolean {
+    if (!isListItem(el) || el.tagName?.toLowerCase() !== "li") return false;
+    if (el.getAttribute("role")) return false;
+    if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return false;
+    if (el.getAttribute("data-sr-marker-content") !== "normal") return false;
+    const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
+    if (markerDisplay !== "inline" && markerDisplay !== "inline-block") return false;
+    if (normalize(el.getAttribute("data-sr-marker-list-style-type")) !== "decimal") {
+      return false;
+    }
+    if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]")) return false;
+    if (el.matches?.(interactiveSelector) || el.hasAttribute?.("tabindex") || el.tabIndex >= 0) {
+      return false;
+    }
+    if (el.querySelector("button, [role='button'], input, select, textarea")) {
+      return false;
+    }
+
+    const list = listForItem(el);
+    if (!list || list.tagName?.toLowerCase() !== "ol") return false;
+    if (list.getAttribute("role") && list.getAttribute("role") !== "list") return false;
+    if (list.closest("nav,[role='navigation']")) return false;
+    if (isMarkerSeparatedLinkList(list)) return false;
+
+    const axListItem = axNodeForElementRole(el, "listitem");
+    if (!axListItem || normalize(axListItem.name) || axListItem.properties?.focusable === true) {
+      return false;
+    }
+
+    const marker = nativeAxListMarkerText(axChildNodes(axListItem)[0]);
+    return Boolean(marker && /^\d+[.)]$/u.test(marker));
+  }
+
+  function axOrderedBlockChildListItemMarkerAnnouncement(el: any): string | undefined {
+    if (!isAxBackedNativeOrderedListItem(el)) return undefined;
+    if (normalize(directOwnText(el))) return undefined;
+
+    const directChildren = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (!directChildren.length) return undefined;
+    if (
+      directChildren.some((child: any) => {
+        const tag = child.tagName?.toLowerCase();
+        return tag !== "p" && implicitRole(child) !== "list";
+      })
+    ) {
+      return undefined;
+    }
+    if (!directChildren.some((child: any) => child.tagName?.toLowerCase() === "p")) {
+      return undefined;
+    }
+
+    const axListItem = axNodeForElementRole(el, "listitem");
+    const axChildren = axChildNodes(axListItem);
+    if (axChildren.length < 2) return undefined;
+
+    const [markerNode, ...contentNodes] = axChildren;
+    if (
+      contentNodes.some((node) => {
+        const role = normalizedAxRole(node.role);
+        return role !== "paragraph" && role !== "list";
+      })
+    ) {
+      return undefined;
+    }
+    if (!contentNodes.some((node) => normalizedAxRole(node.role) === "paragraph")) {
+      return undefined;
+    }
+
+    return nativeAxMarkerAnnouncement(
+      markerNode,
+      positionInSet(el, "listitem"),
+      setSize(el, "listitem"),
+    );
+  }
+
+  function isDirectAxOrderedBlockChildListItemParagraph(
+    el: any,
+    role = implicitRole(el),
+  ): boolean {
+    if (role !== "paragraph" || el.tagName?.toLowerCase() !== "p") return false;
+    const parentItem = el.parentElement;
+    return Boolean(
+      parentItem &&
+        isListItem(parentItem) &&
+        axOrderedBlockChildListItemMarkerAnnouncement(parentItem),
+    );
+  }
+
+  function axOrderedDirectTextListItemAnnouncements(el: any): string[] | undefined {
+    if (!isAxBackedNativeOrderedListItem(el)) return undefined;
+    if (axPlainTextMarkerListItemAnnouncement(el)) return undefined;
+    if (axOrderedParentNestedListItemAnnouncements(el)) return undefined;
+    if (el.querySelector("p")) return undefined;
+
+    const directText = normalize(directLeadingText(el) || directOwnText(el));
+    if (!directText) return undefined;
+
+    const directNestedLists = directOrderedTextListItemNestedLists(el);
+    const directLinks = Array.from(el.children || []).filter(
+      (child: any) =>
+        !isHidden(child) &&
+        child.tagName?.toLowerCase() === "a" &&
+        child.hasAttribute("href"),
+    );
+    if (directLinks.length && directNestedLists.length) return undefined;
+    if (
+      directSemanticChildren(el).some(
+        (child: any) => !directLinks.includes(child) && !directNestedLists.includes(child),
+      )
+    ) {
+      return undefined;
+    }
+
+    const axListItem = axNodeForElementRole(el, "listitem");
+    const axChildren = axChildNodes(axListItem);
+    if (axChildren.length < 2) return undefined;
+
+    const [markerNode, firstNode, ...followingNodes] = axChildren;
+    const marker = nativeAxListMarkerText(markerNode);
+    if (!marker || !/^\d+[.)]$/u.test(marker)) return undefined;
+    if (normalizedAxRole(firstNode.role) !== "statictext") return undefined;
+
+    const leadingText = normalize(firstNode.name);
+    if (!leadingText || leadingText !== directText) return undefined;
+
+    const position = positionInSet(el, "listitem");
+    const size = setSize(el, "listitem");
+    const nestedListSuffix =
+      directNestedLists.length && position && size ? `, ${position} of ${size}` : "";
+    const fragments = [`${marker} ${leadingText}${nestedListSuffix}`];
+    let linkIndex = 0;
+    let nestedListIndex = 0;
+    let sawNestedList = false;
+
+    for (const node of followingNodes) {
+      const role = normalizedAxRole(node.role);
+      if (role === "list") {
+        const nestedList = directNestedLists[nestedListIndex];
+        if (
+          !nestedList ||
+          sawNestedList ||
+          normalize(node.domNodeId) !==
+            normalize(nestedList.getAttribute("data-sr-dom-node-id"))
+        ) {
+          return undefined;
+        }
+        sawNestedList = true;
+        nestedListIndex += 1;
+        continue;
+      }
+      if (sawNestedList) return undefined;
+      if (role === "link") {
+        const link = directLinks[linkIndex];
+        const linkName = normalizeAnnouncementLabel(node.name) || accessibleName(link, "link");
+        if (
+          !link ||
+          !linkName ||
+          node.properties?.focusable !== true ||
+          normalize(node.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))
+        ) {
+          return undefined;
+        }
+        fragments.push(`link, ${linkName}`);
+        linkIndex += 1;
+        continue;
+      }
+      if (role === "statictext") {
+        const text = normalize(node.name);
+        if (text && /[\p{L}\p{N}]/u.test(text)) fragments.push(text);
+        continue;
+      }
+      return undefined;
+    }
+
+    if (linkIndex !== directLinks.length) return undefined;
+    if (nestedListIndex !== directNestedLists.length) return undefined;
+    return fragments;
+  }
+
+  function directOrderedTextListItemNestedLists(el: any): any[] {
+    return Array.from(el.children || []).filter(
+      (child: any) => !isHidden(child) && implicitRole(child) === "list",
+    );
+  }
+
+  function axOrderedDirectTextListItemShouldDescend(el: any): boolean {
+    return Boolean(
+      axOrderedDirectTextListItemAnnouncements(el)?.length &&
+        directOrderedTextListItemNestedLists(el).length,
+    );
   }
 
   function axNativeInlineChildBoundaryListItemAnnouncements(el: any): string[] | undefined {
@@ -15364,6 +15572,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         role === "listitem" ? axOrderedParentNestedListItemAnnouncements(el) : undefined,
       axOrderedNestedListItemMarkerAnnouncement:
         role === "listitem" ? axOrderedNestedListItemMarkerAnnouncement(el) : undefined,
+      axOrderedBlockChildListItemMarkerAnnouncement:
+        role === "listitem" ? axOrderedBlockChildListItemMarkerAnnouncement(el) : undefined,
+      axOrderedDirectTextListItemAnnouncements:
+        role === "listitem" ? axOrderedDirectTextListItemAnnouncements(el) : undefined,
       axNativeMarkerListItemFragmentAnnouncements:
         role === "listitem" ? axNativeMarkerListItemFragmentAnnouncements(el) : undefined,
       namedNavigationListItemGroupedLinkAnnouncements:
@@ -15976,6 +16188,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return true;
     }
 
+    if (role === "listitem" && axOrderedBlockChildListItemMarkerAnnouncement(el)) {
+      return true;
+    }
+
+    if (role === "listitem" && axOrderedDirectTextListItemAnnouncements(el)) {
+      return true;
+    }
+
     if (role === "listitem" && axPlainTextMarkerListItemAnnouncement(el)) {
       return true;
     }
@@ -16289,6 +16509,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (role === "listitem") {
       if (axOrderedParentNestedListItemAnnouncements(el)) return true;
       if (axOrderedNestedListItemMarkerAnnouncement(el)) return false;
+      if (axOrderedBlockChildListItemMarkerAnnouncement(el)) return true;
+      if (axOrderedDirectTextListItemAnnouncements(el)) {
+        return axOrderedDirectTextListItemShouldDescend(el);
+      }
       if (axNativeMarkerListItemFragmentAnnouncements(el)) return false;
       if (namedNavigationListItemGroupedLinkAnnouncements(el)) return false;
       if (savedRenderedPlainTextMarkerListItemAnnouncement(el)) return false;
@@ -16921,6 +17145,30 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       return undefined;
     }
     return [descriptor.axOrderedNestedListItemMarkerAnnouncement];
+  }
+
+  function splitAxOrderedBlockChildListItemMarkerAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "listitem" ||
+      !descriptor.axOrderedBlockChildListItemMarkerAnnouncement
+    ) {
+      return undefined;
+    }
+    return [descriptor.axOrderedBlockChildListItemMarkerAnnouncement];
+  }
+
+  function splitAxOrderedDirectTextListItemAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    if (
+      descriptor.role !== "listitem" ||
+      !descriptor.axOrderedDirectTextListItemAnnouncements?.length
+    ) {
+      return undefined;
+    }
+    return descriptor.axOrderedDirectTextListItemAnnouncements;
   }
 
   function splitNamedNavigationListItemGroupedLinkAnnouncements(
@@ -17590,6 +17838,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-ax-ordered-nested-listitem-marker",
           announcements: splitAxOrderedNestedListItemMarkerAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-ordered-block-child-listitem-marker",
+          announcements: splitAxOrderedBlockChildListItemMarkerAnnouncements(descriptor),
+        },
+        {
+          source: "split-ax-ordered-direct-text-listitem",
+          announcements: splitAxOrderedDirectTextListItemAnnouncements(descriptor),
         },
         {
           source: "split-named-navigation-listitem-grouped-link",

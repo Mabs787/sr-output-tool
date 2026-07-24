@@ -6841,7 +6841,7 @@
           if (isNestedNavigationList(el, parentItem)) {
             return {};
           }
-          if (nativeMarkerListItemAnnouncements(parentItem) || axOrderedParentNestedListItemAnnouncements(parentItem)) {
+          if (nativeMarkerListItemAnnouncements(parentItem) || axOrderedParentNestedListItemAnnouncements(parentItem) || axOrderedDirectTextListItemShouldDescend(parentItem) || axOrderedBlockChildListItemMarkerAnnouncement(parentItem)) {
             return {};
           }
           if (hasPrecedingSectionHeadingInListItem(el, parentItem)) {
@@ -7042,6 +7042,9 @@
           if (role === "button" && hasRichProductCardListItemContent(el.closest("li,[role='listitem']"))) {
             return void 0;
           }
+          if (role === "paragraph" && isDirectAxOrderedBlockChildListItemParagraph(el, role)) {
+            return void 0;
+          }
           if (role === "paragraph" && isFirstInteractiveListBodyText(el) && !suppressGroupedListItemCardDescendantPosition(el, role)) {
             const { listItem, siblings } = semanticListContext(el);
             const index = siblings.indexOf(listItem);
@@ -7139,6 +7142,9 @@
           if (listPositionedRoles.has(role)) {
             const { list, siblings } = semanticListContext(el);
             return adjustedListSetSize(siblings, list, el, role);
+          }
+          if (role === "paragraph" && isDirectAxOrderedBlockChildListItemParagraph(el, role)) {
+            return void 0;
           }
           if (role === "paragraph" && isFirstInteractiveListBodyText(el) && !suppressGroupedListItemCardDescendantPosition(el, role)) {
             const { siblings } = semanticListContext(el);
@@ -7743,6 +7749,166 @@
           if (/^\d+[.)]$/u.test(marker))
             return marker;
           return position && size ? `${marker}, ${position} of ${size}` : marker;
+        }
+        function isAxBackedNativeOrderedListItem(el) {
+          if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
+            return false;
+          if (el.getAttribute("role"))
+            return false;
+          if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby"))
+            return false;
+          if (el.getAttribute("data-sr-marker-content") !== "normal")
+            return false;
+          const markerDisplay = normalize(el.getAttribute("data-sr-marker-display"));
+          if (markerDisplay !== "inline" && markerDisplay !== "inline-block")
+            return false;
+          if (normalize(el.getAttribute("data-sr-marker-list-style-type")) !== "decimal") {
+            return false;
+          }
+          if (el.matches?.("[aria-live], [aria-disabled='true'], [hidden]"))
+            return false;
+          if (el.matches?.(interactiveSelector) || el.hasAttribute?.("tabindex") || el.tabIndex >= 0) {
+            return false;
+          }
+          if (el.querySelector("button, [role='button'], input, select, textarea")) {
+            return false;
+          }
+          const list = listForItem(el);
+          if (!list || list.tagName?.toLowerCase() !== "ol")
+            return false;
+          if (list.getAttribute("role") && list.getAttribute("role") !== "list")
+            return false;
+          if (list.closest("nav,[role='navigation']"))
+            return false;
+          if (isMarkerSeparatedLinkList(list))
+            return false;
+          const axListItem = axNodeForElementRole(el, "listitem");
+          if (!axListItem || normalize(axListItem.name) || axListItem.properties?.focusable === true) {
+            return false;
+          }
+          const marker = nativeAxListMarkerText(axChildNodes(axListItem)[0]);
+          return Boolean(marker && /^\d+[.)]$/u.test(marker));
+        }
+        function axOrderedBlockChildListItemMarkerAnnouncement(el) {
+          if (!isAxBackedNativeOrderedListItem(el))
+            return void 0;
+          if (normalize(directOwnText(el)))
+            return void 0;
+          const directChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (!directChildren.length)
+            return void 0;
+          if (directChildren.some((child) => {
+            const tag = child.tagName?.toLowerCase();
+            return tag !== "p" && implicitRole(child) !== "list";
+          })) {
+            return void 0;
+          }
+          if (!directChildren.some((child) => child.tagName?.toLowerCase() === "p")) {
+            return void 0;
+          }
+          const axListItem = axNodeForElementRole(el, "listitem");
+          const axChildren = axChildNodes(axListItem);
+          if (axChildren.length < 2)
+            return void 0;
+          const [markerNode, ...contentNodes] = axChildren;
+          if (contentNodes.some((node) => {
+            const role = normalizedAxRole(node.role);
+            return role !== "paragraph" && role !== "list";
+          })) {
+            return void 0;
+          }
+          if (!contentNodes.some((node) => normalizedAxRole(node.role) === "paragraph")) {
+            return void 0;
+          }
+          return nativeAxMarkerAnnouncement(markerNode, positionInSet(el, "listitem"), setSize(el, "listitem"));
+        }
+        function isDirectAxOrderedBlockChildListItemParagraph(el, role = implicitRole(el)) {
+          if (role !== "paragraph" || el.tagName?.toLowerCase() !== "p")
+            return false;
+          const parentItem = el.parentElement;
+          return Boolean(parentItem && isListItem(parentItem) && axOrderedBlockChildListItemMarkerAnnouncement(parentItem));
+        }
+        function axOrderedDirectTextListItemAnnouncements(el) {
+          if (!isAxBackedNativeOrderedListItem(el))
+            return void 0;
+          if (axPlainTextMarkerListItemAnnouncement(el))
+            return void 0;
+          if (axOrderedParentNestedListItemAnnouncements(el))
+            return void 0;
+          if (el.querySelector("p"))
+            return void 0;
+          const directText = normalize(directLeadingText(el) || directOwnText(el));
+          if (!directText)
+            return void 0;
+          const directNestedLists = directOrderedTextListItemNestedLists(el);
+          const directLinks = Array.from(el.children || []).filter((child) => !isHidden(child) && child.tagName?.toLowerCase() === "a" && child.hasAttribute("href"));
+          if (directLinks.length && directNestedLists.length)
+            return void 0;
+          if (directSemanticChildren(el).some((child) => !directLinks.includes(child) && !directNestedLists.includes(child))) {
+            return void 0;
+          }
+          const axListItem = axNodeForElementRole(el, "listitem");
+          const axChildren = axChildNodes(axListItem);
+          if (axChildren.length < 2)
+            return void 0;
+          const [markerNode, firstNode, ...followingNodes] = axChildren;
+          const marker = nativeAxListMarkerText(markerNode);
+          if (!marker || !/^\d+[.)]$/u.test(marker))
+            return void 0;
+          if (normalizedAxRole(firstNode.role) !== "statictext")
+            return void 0;
+          const leadingText = normalize(firstNode.name);
+          if (!leadingText || leadingText !== directText)
+            return void 0;
+          const position = positionInSet(el, "listitem");
+          const size = setSize(el, "listitem");
+          const nestedListSuffix = directNestedLists.length && position && size ? `, ${position} of ${size}` : "";
+          const fragments = [`${marker} ${leadingText}${nestedListSuffix}`];
+          let linkIndex = 0;
+          let nestedListIndex = 0;
+          let sawNestedList = false;
+          for (const node of followingNodes) {
+            const role = normalizedAxRole(node.role);
+            if (role === "list") {
+              const nestedList = directNestedLists[nestedListIndex];
+              if (!nestedList || sawNestedList || normalize(node.domNodeId) !== normalize(nestedList.getAttribute("data-sr-dom-node-id"))) {
+                return void 0;
+              }
+              sawNestedList = true;
+              nestedListIndex += 1;
+              continue;
+            }
+            if (sawNestedList)
+              return void 0;
+            if (role === "link") {
+              const link = directLinks[linkIndex];
+              const linkName = normalizeAnnouncementLabel(node.name) || accessibleName(link, "link");
+              if (!link || !linkName || node.properties?.focusable !== true || normalize(node.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))) {
+                return void 0;
+              }
+              fragments.push(`link, ${linkName}`);
+              linkIndex += 1;
+              continue;
+            }
+            if (role === "statictext") {
+              const text = normalize(node.name);
+              if (text && /[\p{L}\p{N}]/u.test(text))
+                fragments.push(text);
+              continue;
+            }
+            return void 0;
+          }
+          if (linkIndex !== directLinks.length)
+            return void 0;
+          if (nestedListIndex !== directNestedLists.length)
+            return void 0;
+          return fragments;
+        }
+        function directOrderedTextListItemNestedLists(el) {
+          return Array.from(el.children || []).filter((child) => !isHidden(child) && implicitRole(child) === "list");
+        }
+        function axOrderedDirectTextListItemShouldDescend(el) {
+          return Boolean(axOrderedDirectTextListItemAnnouncements(el)?.length && directOrderedTextListItemNestedLists(el).length);
         }
         function axNativeInlineChildBoundaryListItemAnnouncements(el) {
           if (!isListItem(el) || el.tagName?.toLowerCase() !== "li")
@@ -13659,6 +13825,8 @@
             axInlineTwoLinkListItemAnnouncements: role === "listitem" ? axInlineTwoLinkListItemAnnouncements(el) : void 0,
             axOrderedParentNestedListItemAnnouncements: role === "listitem" ? axOrderedParentNestedListItemAnnouncements(el) : void 0,
             axOrderedNestedListItemMarkerAnnouncement: role === "listitem" ? axOrderedNestedListItemMarkerAnnouncement(el) : void 0,
+            axOrderedBlockChildListItemMarkerAnnouncement: role === "listitem" ? axOrderedBlockChildListItemMarkerAnnouncement(el) : void 0,
+            axOrderedDirectTextListItemAnnouncements: role === "listitem" ? axOrderedDirectTextListItemAnnouncements(el) : void 0,
             axNativeMarkerListItemFragmentAnnouncements: role === "listitem" ? axNativeMarkerListItemFragmentAnnouncements(el) : void 0,
             namedNavigationListItemGroupedLinkAnnouncements: role === "listitem" ? namedNavigationListItemGroupedLinkAnnouncements(el) : void 0,
             axPublicationListItemBoundaryAnnouncements: role === "listitem" ? axPublicationListItemBoundaryAnnouncements(el) : void 0,
@@ -14137,6 +14305,12 @@
           if (role === "listitem" && axOrderedNestedListItemMarkerAnnouncement(el)) {
             return true;
           }
+          if (role === "listitem" && axOrderedBlockChildListItemMarkerAnnouncement(el)) {
+            return true;
+          }
+          if (role === "listitem" && axOrderedDirectTextListItemAnnouncements(el)) {
+            return true;
+          }
           if (role === "listitem" && axPlainTextMarkerListItemAnnouncement(el)) {
             return true;
           }
@@ -14342,6 +14516,11 @@
               return true;
             if (axOrderedNestedListItemMarkerAnnouncement(el))
               return false;
+            if (axOrderedBlockChildListItemMarkerAnnouncement(el))
+              return true;
+            if (axOrderedDirectTextListItemAnnouncements(el)) {
+              return axOrderedDirectTextListItemShouldDescend(el);
+            }
             if (axNativeMarkerListItemFragmentAnnouncements(el))
               return false;
             if (namedNavigationListItemGroupedLinkAnnouncements(el))
@@ -14771,6 +14950,18 @@
             return void 0;
           }
           return [descriptor.axOrderedNestedListItemMarkerAnnouncement];
+        }
+        function splitAxOrderedBlockChildListItemMarkerAnnouncements(descriptor) {
+          if (descriptor.role !== "listitem" || !descriptor.axOrderedBlockChildListItemMarkerAnnouncement) {
+            return void 0;
+          }
+          return [descriptor.axOrderedBlockChildListItemMarkerAnnouncement];
+        }
+        function splitAxOrderedDirectTextListItemAnnouncements(descriptor) {
+          if (descriptor.role !== "listitem" || !descriptor.axOrderedDirectTextListItemAnnouncements?.length) {
+            return void 0;
+          }
+          return descriptor.axOrderedDirectTextListItemAnnouncements;
         }
         function splitNamedNavigationListItemGroupedLinkAnnouncements(descriptor) {
           if (descriptor.role !== "listitem" || !descriptor.namedNavigationListItemGroupedLinkAnnouncements?.length) {
@@ -15224,6 +15415,14 @@
               {
                 source: "split-ax-ordered-nested-listitem-marker",
                 announcements: splitAxOrderedNestedListItemMarkerAnnouncements(descriptor)
+              },
+              {
+                source: "split-ax-ordered-block-child-listitem-marker",
+                announcements: splitAxOrderedBlockChildListItemMarkerAnnouncements(descriptor)
+              },
+              {
+                source: "split-ax-ordered-direct-text-listitem",
+                announcements: splitAxOrderedDirectTextListItemAnnouncements(descriptor)
               },
               {
                 source: "split-named-navigation-listitem-grouped-link",
