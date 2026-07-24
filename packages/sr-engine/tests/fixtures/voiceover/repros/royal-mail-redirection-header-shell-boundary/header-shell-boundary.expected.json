@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "name": "royal-mail-redirection-header-shell-boundary",
+  "status": "pending-voiceover-scan",
+  "note": "Phase C.5 local contract placeholder only; the mini VoiceOver scan artifact and receipt decide the terminal behavior.",
+  "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/royal-mail-redirection-header-shell-boundary/header-shell-boundary.html",
+  "html": "header-shell-boundary.html",
+  "candidateRefs": [
+    "www-royalmail-com-personal-receiving-mail-redirection:current-window-3"
+  ],
+  "expectedContracts": [
+    {
+      "candidateRef": "www-royalmail-com-personal-receiving-mail-redirection:current-window-3",
+      "voiceOverSourceIndexes": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "disputedBoundary": [
+        "end of, Send an item, navigation",
+        "navigation",
+        "link, Receiving",
+        "link, Tracking",
+        "link, Redelivery",
+        "link, Paying fees",
+        "link, Redirection",
+        "link, Holding mail with KeepSafe",
+        "link, PO Box",
+        "link, Delivering NHS prescriptions",
+        "end of, navigation",
+        "end of, banner",
+        "group, banner",
+        "main"
+      ]
+    }
+  ]
+}

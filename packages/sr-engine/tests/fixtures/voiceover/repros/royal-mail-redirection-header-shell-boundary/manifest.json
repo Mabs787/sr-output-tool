@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "target": "www-royalmail-com-personal-receiving-mail-redirection",
+  "family": "redirection-header-shell-boundary",
+  "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/royal-mail-redirection-header-shell-boundary/header-shell-boundary.html",
+  "identityMarkers": [
+    "rm-redirection-header-shell-boundary-c5",
+    "redirection-header-shell-boundary",
+    "Receiving",
+    "Delivering NHS prescriptions",
+    "Search"
+  ],
+  "candidateRefs": [
+    "www-royalmail-com-personal-receiving-mail-redirection:current-window-3"
+  ],
+  "sourceEvidence": {
+    "phaseCResidualAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-b-shifted-card-shell-current-family-audit.json",
+    "fixtureJudgeReceipt": "voiceover-smoke/agent-work/29684347419/www-royalmail-com-personal-receiving-mail-redirection/04-fixture-judge.json",
+    "isolatedHtml": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-personal-receiving-mail-redirection/www-royalmail-com-personal-receiving-mail-redirection.html",
+    "isolatedAx": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-personal-receiving-mail-redirection/www-royalmail-com-personal-receiving-mail-redirection.ax.json",
+    "isolatedStepSnapshots": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-personal-receiving-mail-redirection/www-royalmail-com-personal-receiving-mail-redirection.step-snapshots.json",
+    "scanRoot": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-personal-receiving-mail-redirection/scans/www-royalmail-com-personal-receiving-mail-redirection"
+  },
+  "status": "pending-voiceover-canary"
+}

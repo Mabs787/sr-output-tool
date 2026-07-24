@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Header shell boundary C.5</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      [data-sr-scan-root] {
+        min-height: 240px;
+      }
+
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      header[role="banner"] {
+        background: #f4f4f4;
+        min-height: 134px;
+      }
+
+      .top-row {
+        align-items: center;
+        display: flex;
+        gap: 24px;
+        height: 64px;
+        padding-inline: 38px;
+      }
+
+      .primary-menu,
+      .send-menu {
+        display: block;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .send-menu ul {
+        display: block;
+      }
+
+      .send-menu a {
+        display: inline;
+      }
+
+      .secondary-shell {
+        padding-inline: 38px;
+      }
+
+      .secondary-current {
+        display: flex;
+        height: 56px;
+      }
+
+      .secondary-links {
+        display: -webkit-box;
+      }
+
+      .secondary-current a,
+      .secondary-links a {
+        align-items: center;
+        color: #111;
+        display: flex;
+        min-height: 30px;
+        padding-inline: 10px;
+        text-decoration: underline;
+      }
+
+      .secondary-current > a {
+        display: block;
+        padding-block: 8px;
+      }
+
+      .secondary-links a[aria-current="page"] {
+        display: table;
+      }
+
+      .icon-holder {
+        display: none;
+      }
+
+      main[role="main"] {
+        padding: 24px 38px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-draft"
+      data-sr-repro-family="redirection-header-shell-boundary"
+      data-sr-repro-id="rm-redirection-header-shell-boundary-c5"
+    >
+      <a href="#main-content" class="visually-hidden">Skip to main content</a>
+      <div class="layout-container">
+        <header role="banner" data-sr-original-dom-node-id="18">
+          <div class="top-row">
+            <a href="/" title="Home"><img alt="Home" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></a>
+            <nav role="navigation" class="primary-menu" data-sr-original-dom-node-id="28">
+              <ul>
+                <li>
+                  <div
+                    role="button"
+                    id="primary-nav-1"
+                    aria-controls="primary-nav-1-links"
+                    aria-expanded="false"
+                  >
+                    <a href="/personal">Personal</a>
+                    <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  </div>
+                  <div role="region" id="primary-nav-1-links" aria-labelledby="primary-nav-1">
+                    <ul>
+                      <li><a href="/sending">Sending</a></li>
+                      <li><a href="/receiving">Receiving</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+            <nav role="navigation" aria-labelledby="block-sendanitem-menu" class="send-menu" data-sr-original-dom-node-id="399">
+              <h2 id="block-sendanitem-menu">Send an item</h2>
+              <ul>
+                <li>
+                  <a
+                    href="https://send.example.test/"
+                    title="Menu Button for send an item"
+                    data-sr-candidate-ref="www-royalmail-com-personal-receiving-mail-redirection:current-window-3"
+                    data-sr-original-dom-node-id="403"
+                  >Send an item</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="secondary-shell">
+            <nav role="navigation" data-sr-original-dom-node-id="413">
+              <div class="secondary-current" data-sr-original-dom-node-id="415">
+                <a href="/receiving" data-sr-original-dom-node-id="416">Receiving</a>
+                <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+              </div>
+              <div data-sr-original-dom-node-id="420">
+                <div class="secondary-links" data-sr-original-dom-node-id="421">
+                  <a href="/track-your-item" data-sr-original-dom-node-id="422">Tracking</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  <a href="/receiving-mail/redelivery" data-sr-original-dom-node-id="426">Redelivery</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  <a href="/receiving-mail/pay-a-fee" data-sr-original-dom-node-id="430">Paying fees</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  <a href="/personal/receiving-mail/redirection" aria-current="page" data-sr-original-dom-node-id="434">Redirection</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  <a href="/receiving/keepsafe" data-sr-original-dom-node-id="438">Holding mail with KeepSafe</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  <a href="/receiving/po-box" data-sr-original-dom-node-id="442">PO Box</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                  <a href="/health" data-sr-original-dom-node-id="446">Delivering NHS prescriptions</a>
+                  <span class="icon-holder"><svg role="img" focusable="false"></svg></span>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </header>
+        <main role="main" id="main-content" tabindex="-1" data-sr-original-dom-node-id="450">
+          <form role="search" aria-label="Search">
+            <label for="site-search">Search</label>
+            <input id="site-search" type="search" value="">
+          </form>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
