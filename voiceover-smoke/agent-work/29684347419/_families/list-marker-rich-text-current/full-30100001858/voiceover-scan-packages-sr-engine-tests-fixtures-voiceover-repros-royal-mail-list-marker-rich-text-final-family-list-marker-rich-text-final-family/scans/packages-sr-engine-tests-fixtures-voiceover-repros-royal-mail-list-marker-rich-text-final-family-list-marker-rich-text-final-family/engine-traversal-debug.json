@@ -1,0 +1,1839 @@
+{
+  "schemaVersion": 1,
+  "source": "sr-engine-dom-scanner",
+  "input": {
+    "renderedHtmlPath": "rendered-html.html"
+  },
+  "ok": true,
+  "announcementCount": 154,
+  "debugEntryCount": 154,
+  "sourceCounts": {
+    "descriptor-announcement": 110,
+    "context-end-announcement": 28,
+    "split-inline-emphasis-listitem": 16
+  },
+  "kindCounts": {
+    "split": 126,
+    "context-end": 28
+  },
+  "entries": [
+    {
+      "index": 0,
+      "announcement": "Help & support, article",
+      "role": "article",
+      "name": "Help & support",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "article",
+        "descriptorName": "Help & support"
+      }
+    },
+    {
+      "index": 1,
+      "announcement": "heading level 2, Help & support",
+      "role": "heading",
+      "name": "Help & support",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Help & support"
+      }
+    },
+    {
+      "index": 2,
+      "announcement": "Service, region",
+      "role": "region",
+      "name": "Service",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Service"
+      }
+    },
+    {
+      "index": 3,
+      "announcement": "heading level 3, Service",
+      "role": "heading",
+      "name": "Service",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Service"
+      }
+    },
+    {
+      "index": 4,
+      "announcement": "list 4 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 5,
+      "announcement": "On this page, the services available for your package will be displayed. Some services have additional options, tracking, or requiring a signature. Some tracked services also allow SMS and email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or email address provided to let you know when your item is on its way. You will only see the services which are available for the item you’re sending.",
+      "role": "paragraph",
+      "name": "On this page, the services available for your package will be displayed. Some services have additional options, tracking, or requiring a signature. Some tracked services also allow SMS and email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or email address provided to let you know when your item is on its way. You will only see the services which are available for the item you’re sending.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "On this page, the services available for your package will be displayed. Some services have additional options, tracking, or requiring a signature. Some tracked services also allow SMS and email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or email address provided to let you know when your item is on its way. You will only see the services which are available for the item you’re sending."
+      }
+    },
+    {
+      "index": 6,
+      "announcement": "list 1 item, level 2",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 7,
+      "announcement": "Some Parcelforce services have extended delivery times for certain zones/postcodes.",
+      "role": "listitem",
+      "name": "Some Parcelforce services have extended delivery times for certain zones/postcodes.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Some Parcelforce services have extended delivery times for certain zones/postcodes."
+      }
+    },
+    {
+      "index": 8,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 9,
+      "announcement": "Delivery aims shown for each service are based on the majority of UK addresses. However, delivery times may vary depending on the destination postcode. For services where delivery is stated as an aim rather than a guarantee, no delivery target time is provided for items sent to the following postcode areas:, 2 of 4",
+      "role": "paragraph",
+      "name": "Delivery aims shown for each service are based on the majority of UK addresses. However, delivery times may vary depending on the destination postcode. For services where delivery is stated as an aim rather than a guarantee, no delivery target time is provided for items sent to the following postcode areas:",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "Delivery aims shown for each service are based on the majority of UK addresses. However, delivery times may vary depending on the destination postcode. For services where delivery is stated as an aim rather than a guarantee, no delivery target time is provided for items sent to the following postcode areas:"
+      }
+    },
+    {
+      "index": 10,
+      "announcement": "list 1 item, level 2",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 11,
+      "announcement": "AB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–25, GY, IM, JE, ZE.",
+      "role": "listitem",
+      "name": "AB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–25, GY, IM, JE, ZE.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "AB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–25, GY, IM, JE, ZE."
+      }
+    },
+    {
+      "index": 12,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 13,
+      "announcement": "In these cases, delivery may take longer and no estimated delivery timeframe is guaranteed.",
+      "role": "paragraph",
+      "name": "In these cases, delivery may take longer and no estimated delivery timeframe is guaranteed.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "In these cases, delivery may take longer and no estimated delivery timeframe is guaranteed."
+      }
+    },
+    {
+      "index": 14,
+      "announcement": "Depending on the services selected, item cover may also be offered to provide compensation for damage or part loss. Select the cover amount closest to the value of your items., 3 of 4",
+      "role": "listitem",
+      "name": "Depending on the services selected, item cover may also be offered to provide compensation for damage or part loss. Select the cover amount closest to the value of your items.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Depending on the services selected, item cover may also be offered to provide compensation for damage or part loss. Select the cover amount closest to the value of your items."
+      }
+    },
+    {
+      "index": 15,
+      "announcement": "Click the ‘Continue’ button., 4 of 4",
+      "role": "listitem",
+      "name": "Click the ‘Continue’ button.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Click the ‘Continue’ button."
+      }
+    },
+    {
+      "index": 16,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 17,
+      "announcement": "end of, Service, region",
+      "role": "region",
+      "name": "Service",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Service"
+      }
+    },
+    {
+      "index": 18,
+      "announcement": "Destination, region",
+      "role": "region",
+      "name": "Destination",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Destination"
+      }
+    },
+    {
+      "index": 19,
+      "announcement": "heading level 3, Destination",
+      "role": "heading",
+      "name": "Destination",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Destination"
+      }
+    },
+    {
+      "index": 20,
+      "announcement": "list 2 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 21,
+      "announcement": "On this page, please enter the address where you want to send your item. If you're sending within the United Kingdom, you can begin typing part of the address or postcode into the Postcode search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a minimum, you must include a name or company name, the first line of the address, and a town/city. For items within the United Kingdom, a postcode is also required., 1 of 2",
+      "role": "listitem",
+      "name": "On this page, please enter the address where you want to send your item. If you're sending within the United Kingdom, you can begin typing part of the address or postcode into the Postcode search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a minimum, you must include a name or company name, the first line of the address, and a town/city. For items within the United Kingdom, a postcode is also required.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "On this page, please enter the address where you want to send your item. If you're sending within the United Kingdom, you can begin typing part of the address or postcode into the Postcode search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a minimum, you must include a name or company name, the first line of the address, and a town/city. For items within the United Kingdom, a postcode is also required."
+      }
+    },
+    {
+      "index": 22,
+      "announcement": "If you’re sending items outside of the United Kingdom, you’ll be asked to include further details about what your package contains in this section. Depending on the country you have selected, these extra details may be mandatory for customs., 2 of 2",
+      "role": "listitem",
+      "name": "If you’re sending items outside of the United Kingdom, you’ll be asked to include further details about what your package contains in this section. Depending on the country you have selected, these extra details may be mandatory for customs.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "If you’re sending items outside of the United Kingdom, you’ll be asked to include further details about what your package contains in this section. Depending on the country you have selected, these extra details may be mandatory for customs."
+      }
+    },
+    {
+      "index": 23,
+      "announcement": "list 7 items, level 2 2 of 2",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 24,
+      "announcement": "The, 1 of 7",
+      "role": "listitem",
+      "name": "The customs declaration category is required to describe the basis on which the goods are being sent.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The customs declaration category is required to describe the basis on which the goods are being sent."
+      }
+    },
+    {
+      "index": 25,
+      "announcement": "customs declaration category",
+      "role": "listitem",
+      "name": "The customs declaration category is required to describe the basis on which the goods are being sent.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The customs declaration category is required to describe the basis on which the goods are being sent."
+      }
+    },
+    {
+      "index": 26,
+      "announcement": "is required to describe the basis on which the goods are being sent.",
+      "role": "listitem",
+      "name": "The customs declaration category is required to describe the basis on which the goods are being sent.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The customs declaration category is required to describe the basis on which the goods are being sent."
+      }
+    },
+    {
+      "index": 27,
+      "announcement": "The, 2 of 7",
+      "role": "listitem",
+      "name": "The item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'."
+      }
+    },
+    {
+      "index": 28,
+      "announcement": "item description",
+      "role": "listitem",
+      "name": "The item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'."
+      }
+    },
+    {
+      "index": 29,
+      "announcement": "should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.",
+      "role": "listitem",
+      "name": "The item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'."
+      }
+    },
+    {
+      "index": 30,
+      "announcement": "The, 3 of 7",
+      "role": "listitem",
+      "name": "The quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here."
+      }
+    },
+    {
+      "index": 31,
+      "announcement": "quantity",
+      "role": "listitem",
+      "name": "The quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here."
+      }
+    },
+    {
+      "index": 32,
+      "announcement": "refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.",
+      "role": "listitem",
+      "name": "The quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here."
+      }
+    },
+    {
+      "index": 33,
+      "announcement": "The, 4 of 7",
+      "role": "listitem",
+      "name": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields."
+      }
+    },
+    {
+      "index": 34,
+      "announcement": "item weight",
+      "role": "listitem",
+      "name": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields."
+      }
+    },
+    {
+      "index": 35,
+      "announcement": "and",
+      "role": "listitem",
+      "name": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields."
+      }
+    },
+    {
+      "index": 36,
+      "announcement": "item value",
+      "role": "listitem",
+      "name": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields."
+      }
+    },
+    {
+      "index": 37,
+      "announcement": "should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "role": "listitem",
+      "name": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "The item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields."
+      }
+    },
+    {
+      "index": 38,
+      "announcement": "If you're sending more than one type of item in a single package, use the 'Add another item' button further down the page to describe the other items that you're sending., 5 of 7",
+      "role": "listitem",
+      "name": "If you're sending more than one type of item in a single package, use the 'Add another item' button further down the page to describe the other items that you're sending.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "If you're sending more than one type of item in a single package, use the 'Add another item' button further down the page to describe the other items that you're sending."
+      }
+    },
+    {
+      "index": 39,
+      "announcement": "If your destination country is the USA, a customs fee (including all duties and taxes) and a handling fee will be calculated after you have entered your package contents. This is mandatory when sending items to the USA and is based on the contents you declare. This will also show in your basket with the postage, and on your purchase confirmation, and will be charged in addition to postage., 6 of 7",
+      "role": "listitem",
+      "name": "If your destination country is the USA, a customs fee (including all duties and taxes) and a handling fee will be calculated after you have entered your package contents. This is mandatory when sending items to the USA and is based on the contents you declare. This will also show in your basket with the postage, and on your purchase confirmation, and will be charged in addition to postage.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "If your destination country is the USA, a customs fee (including all duties and taxes) and a handling fee will be calculated after you have entered your package contents. This is mandatory when sending items to the USA and is based on the contents you declare. This will also show in your basket with the postage, and on your purchase confirmation, and will be charged in addition to postage."
+      }
+    },
+    {
+      "index": 40,
+      "announcement": "If your destination country is France, any applicable customs charges (including duties and taxes) and a handling fee will be calculated after you enter your package contents. These charges will be shown in your basket and on your purchase confirmation and are payable in addition to postage. You can choose to pay these charges at the time of purchase, or allow the recipient to pay them on delivery., 7 of 7",
+      "role": "listitem",
+      "name": "If your destination country is France, any applicable customs charges (including duties and taxes) and a handling fee will be calculated after you enter your package contents. These charges will be shown in your basket and on your purchase confirmation and are payable in addition to postage. You can choose to pay these charges at the time of purchase, or allow the recipient to pay them on delivery.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "If your destination country is France, any applicable customs charges (including duties and taxes) and a handling fee will be calculated after you enter your package contents. These charges will be shown in your basket and on your purchase confirmation and are payable in addition to postage. You can choose to pay these charges at the time of purchase, or allow the recipient to pay them on delivery."
+      }
+    },
+    {
+      "index": 41,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 42,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 43,
+      "announcement": "end of, Destination, region",
+      "role": "region",
+      "name": "Destination",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Destination"
+      }
+    },
+    {
+      "index": 44,
+      "announcement": "Homepage bullet control, region",
+      "role": "region",
+      "name": "Homepage bullet control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Homepage bullet control"
+      }
+    },
+    {
+      "index": 45,
+      "announcement": "heading level 3, Homepage bullet control",
+      "role": "heading",
+      "name": "Homepage bullet control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Homepage bullet control"
+      }
+    },
+    {
+      "index": 46,
+      "announcement": "list 3 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 47,
+      "announcement": "Trusted to deliver your mail for 500 years, 1 of 3",
+      "role": "listitem",
+      "name": "Trusted to deliver your mail for 500 years",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Trusted to deliver your mail for 500 years"
+      }
+    },
+    {
+      "index": 48,
+      "announcement": "Over 130,000 Service Points nationwide, 2 of 3",
+      "role": "listitem",
+      "name": "Over 130,000 Service Points nationwide",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Over 130,000 Service Points nationwide"
+      }
+    },
+    {
+      "index": 49,
+      "announcement": "Lowest reported carbon footprint per parcel delivery in the UK, 3 of 3",
+      "role": "listitem",
+      "name": "Lowest reported carbon footprint per parcel delivery in the UK",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Lowest reported carbon footprint per parcel delivery in the UK"
+      }
+    },
+    {
+      "index": 50,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 51,
+      "announcement": "end of, Homepage bullet control, region",
+      "role": "region",
+      "name": "Homepage bullet control",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Homepage bullet control"
+      }
+    },
+    {
+      "index": 52,
+      "announcement": "Responsive list count control, region",
+      "role": "region",
+      "name": "Responsive list count control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Responsive list count control"
+      }
+    },
+    {
+      "index": 53,
+      "announcement": "heading level 3, Responsive list count control",
+      "role": "heading",
+      "name": "Responsive list count control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Responsive list count control"
+      }
+    },
+    {
+      "index": 54,
+      "announcement": "Account links, navigation",
+      "role": "navigation",
+      "name": "Account links",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "navigation",
+        "descriptorName": "Account links"
+      }
+    },
+    {
+      "index": 55,
+      "announcement": "Log in / Register",
+      "role": "paragraph",
+      "name": "Log in / Register",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "Log in / Register"
+      }
+    },
+    {
+      "index": 56,
+      "announcement": "list 2 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 57,
+      "announcement": "link, Help, 1 of 2",
+      "role": "link",
+      "name": "Help",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Help"
+      }
+    },
+    {
+      "index": 58,
+      "announcement": "link, Our locations, 2 of 2",
+      "role": "link",
+      "name": "Our locations",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Our locations"
+      }
+    },
+    {
+      "index": 59,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 60,
+      "announcement": "end of, Account links, navigation",
+      "role": "navigation",
+      "name": "Account links",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "navigation",
+        "descriptorName": "Account links"
+      }
+    },
+    {
+      "index": 61,
+      "announcement": "end of, Responsive list count control, region",
+      "role": "region",
+      "name": "Responsive list count control",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Responsive list count control"
+      }
+    },
+    {
+      "index": 62,
+      "announcement": "Required country control, region",
+      "role": "region",
+      "name": "Required country control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Required country control"
+      }
+    },
+    {
+      "index": 63,
+      "announcement": "heading level 3, Required country control",
+      "role": "heading",
+      "name": "Required country control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Required country control"
+      }
+    },
+    {
+      "index": 64,
+      "announcement": "heading level 2, Check prices and services available by country",
+      "role": "heading",
+      "name": "Check prices and services available by country",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Check prices and services available by country"
+      }
+    },
+    {
+      "index": 65,
+      "announcement": "*",
+      "role": "text",
+      "name": "*",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "text",
+        "descriptorName": "*"
+      }
+    },
+    {
+      "index": 66,
+      "announcement": "Select a Country *, list box pop up collapsed, button, invalid",
+      "role": "button",
+      "name": "Select a Country *",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "button",
+        "descriptorName": "Select a Country *"
+      }
+    },
+    {
+      "index": 67,
+      "announcement": "Select a Country, edit text",
+      "role": "textbox",
+      "name": "Select a Country",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "textbox",
+        "descriptorName": "Select a Country"
+      }
+    },
+    {
+      "index": 68,
+      "announcement": "View guide, dimmed, button",
+      "role": "button",
+      "name": "View guide",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "button",
+        "descriptorName": "View guide"
+      }
+    },
+    {
+      "index": 69,
+      "announcement": "end of, Required country control, region",
+      "role": "region",
+      "name": "Required country control",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Required country control"
+      }
+    },
+    {
+      "index": 70,
+      "announcement": "Product list control, region",
+      "role": "region",
+      "name": "Product list control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Product list control"
+      }
+    },
+    {
+      "index": 71,
+      "announcement": "heading level 3, Product list control",
+      "role": "heading",
+      "name": "Product list control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Product list control"
+      }
+    },
+    {
+      "index": 72,
+      "announcement": "Popular gift ideas:",
+      "role": "paragraph",
+      "name": "Popular gift ideas:",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "Popular gift ideas:"
+      }
+    },
+    {
+      "index": 73,
+      "announcement": "list 5 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 74,
+      "announcement": "- mounted artwork from our latest issues., 1 of 5",
+      "role": "listitem",
+      "name": "- mounted artwork from our latest issues.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "- mounted artwork from our latest issues."
+      }
+    },
+    {
+      "index": 75,
+      "announcement": "- a distinctive alternative to the main Stamp Set., 2 of 5",
+      "role": "listitem",
+      "name": "- a distinctive alternative to the main Stamp Set.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "- a distinctive alternative to the main Stamp Set."
+      }
+    },
+    {
+      "index": 76,
+      "announcement": "Prestige Stamp Books, 3 of 5",
+      "role": "listitem",
+      "name": "Prestige Stamp Books - premium keepsakes combining design and narrative.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "Prestige Stamp Books - premium keepsakes combining design and narrative."
+      }
+    },
+    {
+      "index": 77,
+      "announcement": "- premium keepsakes combining design and narrative.",
+      "role": "listitem",
+      "name": "Prestige Stamp Books - premium keepsakes combining design and narrative.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "split-inline-emphasis-listitem",
+        "descriptorRole": "listitem",
+        "descriptorName": "Prestige Stamp Books - premium keepsakes combining design and narrative."
+      }
+    },
+    {
+      "index": 78,
+      "announcement": "Limited-Edition Ingots, - including Penny Black gold editions., 4 of 5",
+      "role": "listitem",
+      "name": "Limited-Edition Ingots, - including Penny Black gold editions.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Limited-Edition Ingots, - including Penny Black gold editions."
+      }
+    },
+    {
+      "index": 79,
+      "announcement": "- stamps paired with thematic labels, set against a complementary backdrop., 5 of 5",
+      "role": "listitem",
+      "name": "- stamps paired with thematic labels, set against a complementary backdrop.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "- stamps paired with thematic labels, set against a complementary backdrop."
+      }
+    },
+    {
+      "index": 80,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 81,
+      "announcement": "end of, Product list control, region",
+      "role": "region",
+      "name": "Product list control",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Product list control"
+      }
+    },
+    {
+      "index": 82,
+      "announcement": "Special delivery list and footnote control, region",
+      "role": "region",
+      "name": "Special delivery list and footnote control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Special delivery list and footnote control"
+      }
+    },
+    {
+      "index": 83,
+      "announcement": "heading level 3, Special delivery list and footnote control",
+      "role": "heading",
+      "name": "Special delivery list and footnote control",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Special delivery list and footnote control"
+      }
+    },
+    {
+      "index": 84,
+      "announcement": "list 4 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 85,
+      "announcement": "Purchase Special Delivery Guaranteed by 1pm, online or at a Post Office., 1 of 4",
+      "role": "listitem",
+      "name": "Purchase Special Delivery Guaranteed by 1pm, online or at a Post Office.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Purchase Special Delivery Guaranteed by 1pm, online or at a Post Office."
+      }
+    },
+    {
+      "index": 86,
+      "announcement": "Choose to print your label at home, or take your parcel and QR code to any Post Office they can print your label† when you drop it off., 2 of 4",
+      "role": "listitem",
+      "name": "Choose to print your label at home, or take your parcel and QR code to any Post Office they can print your label† when you drop it off.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Choose to print your label at home, or take your parcel and QR code to any Post Office they can print your label† when you drop it off."
+      }
+    },
+    {
+      "index": 87,
+      "announcement": "Drop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*., 3 of 4",
+      "role": "listitem",
+      "name": "Drop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Drop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*."
+      }
+    },
+    {
+      "index": 88,
+      "announcement": "Prefer Parcel Collect? If you book collection from your door with Parcel Collect, we add an extra working day to this delivery guarantee., 4 of 4",
+      "role": "listitem",
+      "name": "Prefer Parcel Collect? If you book collection from your door with Parcel Collect, we add an extra working day to this delivery guarantee.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Prefer Parcel Collect? If you book collection from your door with Parcel Collect, we add an extra working day to this delivery guarantee."
+      }
+    },
+    {
+      "index": 89,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 90,
+      "announcement": "† Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with signature) but parcel only format.",
+      "role": "paragraph",
+      "name": "† Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with signature) but parcel only format.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "† Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with signature) but parcel only format."
+      }
+    },
+    {
+      "index": 91,
+      "announcement": "end of, Special delivery list and footnote control, region",
+      "role": "region",
+      "name": "Special delivery list and footnote control",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Special delivery list and footnote control"
+      }
+    },
+    {
+      "index": 92,
+      "announcement": "Tracked services symbol boundaries, region",
+      "role": "region",
+      "name": "Tracked services symbol boundaries",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Tracked services symbol boundaries"
+      }
+    },
+    {
+      "index": 93,
+      "announcement": "heading level 3, Tracked services symbol boundaries",
+      "role": "heading",
+      "name": "Tracked services symbol boundaries",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Tracked services symbol boundaries"
+      }
+    },
+    {
+      "index": 94,
+      "announcement": "heading level 4, Tracked 24",
+      "role": "heading",
+      "name": "Tracked 24",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Tracked 24"
+      }
+    },
+    {
+      "index": 95,
+      "announcement": "list 7 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 96,
+      "announcement": "Get parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and Tracked 48 postage, 1 of 7",
+      "role": "listitem",
+      "name": "Get parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and Tracked 48 postage",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Get parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and Tracked 48 postage"
+      }
+    },
+    {
+      "index": 97,
+      "announcement": "Tracking to delivery point, 2 of 7",
+      "role": "listitem",
+      "name": "Tracking to delivery point",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Tracking to delivery point"
+      }
+    },
+    {
+      "index": 98,
+      "announcement": "Photo on delivery, 3 of 7",
+      "role": "listitem",
+      "name": "Photo on delivery",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Photo on delivery"
+      }
+    },
+    {
+      "index": 99,
+      "announcement": "SMS or email notifications to recipients†, 4 of 7",
+      "role": "listitem",
+      "name": "SMS or email notifications to recipients†",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "SMS or email notifications to recipients†"
+      }
+    },
+    {
+      "index": 100,
+      "announcement": "Next working day delivery aim‡, 5 of 7",
+      "role": "listitem",
+      "name": "Next working day delivery aim‡",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Next working day delivery aim‡"
+      }
+    },
+    {
+      "index": 101,
+      "announcement": "Compensation cover up to £75, 6 of 7",
+      "role": "listitem",
+      "name": "Compensation cover up to £75",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Compensation cover up to £75"
+      }
+    },
+    {
+      "index": 102,
+      "announcement": "Change your delivery options before delivery is attempted, 7 of 7",
+      "role": "listitem",
+      "name": "Change your delivery options before delivery is attempted",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Change your delivery options before delivery is attempted"
+      }
+    },
+    {
+      "index": 103,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 104,
+      "announcement": "†Only available for products purchased online ‡Delivery aims may not apply to some",
+      "role": "paragraph",
+      "name": "†Only available for products purchased online ‡Delivery aims may not apply to some",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "†Only available for products purchased online ‡Delivery aims may not apply to some"
+      }
+    },
+    {
+      "index": 105,
+      "announcement": "link, postcodes",
+      "role": "link",
+      "name": "postcodes",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "postcodes"
+      }
+    },
+    {
+      "index": 106,
+      "announcement": "heading level 4, Tracked 48",
+      "role": "heading",
+      "name": "Tracked 48",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Tracked 48"
+      }
+    },
+    {
+      "index": 107,
+      "announcement": "list 7 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 108,
+      "announcement": "Get parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and Tracked 48 postage, 1 of 7",
+      "role": "listitem",
+      "name": "Get parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and Tracked 48 postage",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Get parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and Tracked 48 postage"
+      }
+    },
+    {
+      "index": 109,
+      "announcement": "Tracked to delivery point, 2 of 7",
+      "role": "listitem",
+      "name": "Tracked to delivery point",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Tracked to delivery point"
+      }
+    },
+    {
+      "index": 110,
+      "announcement": "Photo on delivery, 3 of 7",
+      "role": "listitem",
+      "name": "Photo on delivery",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Photo on delivery"
+      }
+    },
+    {
+      "index": 111,
+      "announcement": "SMS or email notifications to recipients†, 4 of 7",
+      "role": "listitem",
+      "name": "SMS or email notifications to recipients†",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "SMS or email notifications to recipients†"
+      }
+    },
+    {
+      "index": 112,
+      "announcement": "Aims to deliver in two to three working days‡, 5 of 7",
+      "role": "listitem",
+      "name": "Aims to deliver in two to three working days‡",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Aims to deliver in two to three working days‡"
+      }
+    },
+    {
+      "index": 113,
+      "announcement": "Compensation cover up to £75, 6 of 7",
+      "role": "listitem",
+      "name": "Compensation cover up to £75",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Compensation cover up to £75"
+      }
+    },
+    {
+      "index": 114,
+      "announcement": "Change your delivery options before delivery is attempted, 7 of 7",
+      "role": "listitem",
+      "name": "Change your delivery options before delivery is attempted",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Change your delivery options before delivery is attempted"
+      }
+    },
+    {
+      "index": 115,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 116,
+      "announcement": "†Only available for products purchased online ‡Delivery aims may not apply to some",
+      "role": "paragraph",
+      "name": "†Only available for products purchased online ‡Delivery aims may not apply to some",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "†Only available for products purchased online ‡Delivery aims may not apply to some"
+      }
+    },
+    {
+      "index": 117,
+      "announcement": "link, postcodes",
+      "role": "link",
+      "name": "postcodes",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "postcodes"
+      }
+    },
+    {
+      "index": 118,
+      "announcement": "end of, Tracked services symbol boundaries, region",
+      "role": "region",
+      "name": "Tracked services symbol boundaries",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Tracked services symbol boundaries"
+      }
+    },
+    {
+      "index": 119,
+      "announcement": "Postbox marker and link controls, region",
+      "role": "region",
+      "name": "Postbox marker and link controls",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Postbox marker and link controls"
+      }
+    },
+    {
+      "index": 120,
+      "announcement": "heading level 3, Postbox marker and link controls",
+      "role": "heading",
+      "name": "Postbox marker and link controls",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Postbox marker and link controls"
+      }
+    },
+    {
+      "index": 121,
+      "announcement": "Over 110,000 in the UK, article",
+      "role": "article",
+      "name": "Over 110,000 in the UK",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "article",
+        "descriptorName": "Over 110,000 in the UK"
+      }
+    },
+    {
+      "index": 122,
+      "announcement": "heading level 4, Over 110,000 in the UK",
+      "role": "heading",
+      "name": "Over 110,000 in the UK",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Over 110,000 in the UK"
+      }
+    },
+    {
+      "index": 123,
+      "announcement": "* Access over 110,000 Royal Mail postboxes nationwide",
+      "role": "paragraph",
+      "name": "* Access over 110,000 Royal Mail postboxes nationwide",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "* Access over 110,000 Royal Mail postboxes nationwide"
+      }
+    },
+    {
+      "index": 124,
+      "announcement": "end of, article",
+      "role": "article",
+      "name": "Over 110,000 in the UK",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "article",
+        "descriptorName": "Over 110,000 in the UK"
+      }
+    },
+    {
+      "index": 125,
+      "announcement": "heading level 4, Sending parcels with a Postbox",
+      "role": "heading",
+      "name": "Sending parcels with a Postbox",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Sending parcels with a Postbox"
+      }
+    },
+    {
+      "index": 126,
+      "announcement": "If you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your items at a postbox.",
+      "role": "paragraph",
+      "name": "If you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your items at a postbox.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "paragraph",
+        "descriptorName": "If you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your items at a postbox."
+      }
+    },
+    {
+      "index": 127,
+      "announcement": "list 4 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 128,
+      "announcement": "(you can do this online or using our app) or purchase a stamp for your letter, 1 of 4",
+      "role": "listitem",
+      "name": "(you can do this online or using our app) or purchase a stamp for your letter",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "(you can do this online or using our app) or purchase a stamp for your letter"
+      }
+    },
+    {
+      "index": 129,
+      "announcement": "Print your label and pop it on or affix your stamp and write out your address, 2 of 4",
+      "role": "listitem",
+      "name": "Print your label and pop it on or affix your stamp and write out your address",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Print your label and pop it on or affix your stamp and write out your address"
+      }
+    },
+    {
+      "index": 130,
+      "announcement": "to scan your label for proof of posting, 3 of 4",
+      "role": "listitem",
+      "name": "to scan your label for proof of posting",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "to scan your label for proof of posting"
+      }
+    },
+    {
+      "index": 131,
+      "announcement": ", post your item and leave the rest to us, 4 of 4",
+      "role": "listitem",
+      "name": ", post your item and leave the rest to us",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": ", post your item and leave the rest to us"
+      }
+    },
+    {
+      "index": 132,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 133,
+      "announcement": "end of, Postbox marker and link controls, region",
+      "role": "region",
+      "name": "Postbox marker and link controls",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Postbox marker and link controls"
+      }
+    },
+    {
+      "index": 134,
+      "announcement": "Matched negative controls, region",
+      "role": "region",
+      "name": "Matched negative controls",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Matched negative controls"
+      }
+    },
+    {
+      "index": 135,
+      "announcement": "heading level 3, Matched negative controls",
+      "role": "heading",
+      "name": "Matched negative controls",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "heading",
+        "descriptorName": "Matched negative controls"
+      }
+    },
+    {
+      "index": 136,
+      "announcement": "list 3 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 137,
+      "announcement": "Plain ordered item one., 1 of 3",
+      "role": "listitem",
+      "name": "Plain ordered item one.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Plain ordered item one."
+      }
+    },
+    {
+      "index": 138,
+      "announcement": "Plain ordered item two., 2 of 3",
+      "role": "listitem",
+      "name": "Plain ordered item two.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Plain ordered item two."
+      }
+    },
+    {
+      "index": 139,
+      "announcement": "Plain ordered item three., 3 of 3",
+      "role": "listitem",
+      "name": "Plain ordered item three.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Plain ordered item three."
+      }
+    },
+    {
+      "index": 140,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 141,
+      "announcement": "list 3 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 142,
+      "announcement": "Plain unordered item one., 1 of 3",
+      "role": "listitem",
+      "name": "Plain unordered item one.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Plain unordered item one."
+      }
+    },
+    {
+      "index": 143,
+      "announcement": "Plain unordered item two., 2 of 3",
+      "role": "listitem",
+      "name": "Plain unordered item two.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Plain unordered item two."
+      }
+    },
+    {
+      "index": 144,
+      "announcement": "Plain unordered item three., 3 of 3",
+      "role": "listitem",
+      "name": "Plain unordered item three.",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "listitem",
+        "descriptorName": "Plain unordered item three."
+      }
+    },
+    {
+      "index": 145,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 146,
+      "announcement": "list 4 items",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 147,
+      "announcement": "link, Contact us, 1 of 4",
+      "role": "link",
+      "name": "Contact us",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Contact us"
+      }
+    },
+    {
+      "index": 148,
+      "announcement": "link, Jobs and careers, 2 of 4",
+      "role": "link",
+      "name": "Jobs and careers",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Jobs and careers"
+      }
+    },
+    {
+      "index": 149,
+      "announcement": "link, Parcelforce Worldwide Opens in a new window, 3 of 4",
+      "role": "link",
+      "name": "Parcelforce Worldwide Opens in a new window",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Parcelforce Worldwide Opens in a new window"
+      }
+    },
+    {
+      "index": 150,
+      "announcement": "link, Accessibility, 4 of 4",
+      "role": "link",
+      "name": "Accessibility",
+      "traversalDebug": {
+        "stopKind": "split",
+        "stopSource": "descriptor-announcement",
+        "descriptorRole": "link",
+        "descriptorName": "Accessibility"
+      }
+    },
+    {
+      "index": 151,
+      "announcement": "end of list",
+      "role": "list",
+      "name": "",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "list"
+      }
+    },
+    {
+      "index": 152,
+      "announcement": "end of, Matched negative controls, region",
+      "role": "region",
+      "name": "Matched negative controls",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "region",
+        "descriptorName": "Matched negative controls"
+      }
+    },
+    {
+      "index": 153,
+      "announcement": "end of, Help & support, article",
+      "role": "article",
+      "name": "Help & support",
+      "traversalDebug": {
+        "stopKind": "context-end",
+        "stopSource": "context-end-announcement",
+        "descriptorRole": "article",
+        "descriptorName": "Help & support"
+      }
+    }
+  ]
+}

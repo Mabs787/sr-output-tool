@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_summaries",
+  "runId": "29684347419",
+  "family": "royal-mail-current-list-marker-rich-text-survivors",
+  "status": "returned",
+  "startedAt": "2026-07-24T13:40:00Z",
+  "finishedAt": "2026-07-24T14:53:28Z",
+  "verdict": "engine-gap-confirmed",
+  "debugEvidenceStatus": "complete",
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "sourceAuditReceipt": "voiceover-smoke/agent-work/29684347419/_summaries/final-family-audit-list-marker-rich-text.json",
+    "sourceRunId": "29684347419",
+    "sourceBranch": "codex/royal-mail-voiceover-refinement",
+    "dispatchedHeadSha": "d38b59e3e1a1fa40faff381c76e1b2ce94a61046",
+    "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+    "familyReproSha256": "49e566c1f8d6304e1fba11bc633697c6cbddead4184c2ef85318ca8da69ea937",
+    "headObjectReproSha256": "49e566c1f8d6304e1fba11bc633697c6cbddead4184c2ef85318ca8da69ea937",
+    "preDispatchCommit": "d38b59e3e1a1fa40faff381c76e1b2ce94a61046",
+    "preDispatchCommitMessage": "Add Royal Mail list marker final C5 repro",
+    "canaryWorkflowRunId": "30099030017",
+    "canaryWorkflowRunUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/30099030017",
+    "canaryCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=45 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0",
+    "fullWorkflowRunId": "30100001858",
+    "fullWorkflowRunUrl": "https://github.com/Mabs787/sr-output-tool/actions/runs/30100001858",
+    "fullCommand": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=220 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0"
+  },
+  "decisions": {
+    "builtOneCompactNeutralRepro": true,
+    "repoLocalFixtureScanUsed": true,
+    "publicHostingUsed": false,
+    "fixturePathCanaryPassed": true,
+    "fullScanReachedEndMarker": true,
+    "rawVoiceOverUsedAsSourceOfTruth": true,
+    "currentEngineOutputUsedAsSourceOfTruth": false,
+    "modifiedReusableEngineLogic": false,
+    "modifiedCapturedFixtures": false,
+    "promotedReproFixture": false,
+    "retryAttempted": false,
+    "retryNotAttemptedReason": "The compact repro produced complete evidence for 23 of 25 requested survivor refs and concrete insufficient-repro blockers for the two contracts that did not reproduce. A later concurrent branch commit changed engine-owned files after dispatch, so a retry on branch head would no longer bind to the same Phase C.5 engine baseline.",
+    "terminalSplitCounts": {
+      "engine-gap-confirmed": 23,
+      "fixture-noise-confirmed": 0,
+      "conditional-state-confirmed": 0,
+      "insufficient-repro": 2,
+      "debug-evidence-missing": 0
+    }
+  },
+  "reproduction": {
+    "path": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+    "scanRoot": "[data-sr-scan-root]",
+    "identityText": "phase-c5-list-marker-rich-text-final-family",
+    "candidateRefCount": 25,
+    "candidateRefsEncodedInDom": true,
+    "preservedContracts": [
+      "native ordered and unordered list structure, including nested lists",
+      "AX ListMarker/StaticText/link/strong text-node boundaries",
+      "list item position and size metadata where produced by native lists",
+      "required star and footnote symbol neighbors",
+      "label/control relationship for the country combobox button and input",
+      "nearby article/region/navigation/footer ancestors and sibling guard windows",
+      "hidden responsive list item condition used by the receiving-mail count candidate"
+    ],
+    "majorOmissionsAndWhySafe": [
+      {
+        "omission": "Royal Mail global navigation, unrelated legal copy, analytics, scripts, images, and decorative page chrome",
+        "whySafe": "They are not ancestors, siblings, labels, focusable controls, hidden-state sources, list structures, or text-boundary participants for the 25 requested survivor refs."
+      },
+      {
+        "omission": "The 4 fixture-ready refs",
+        "whySafe": "The controlling audit routed them to evidence-refiner for caption/OCR or paragraph-tail correction, not to this C.5 engine-gap scan."
+      },
+      {
+        "omission": "The 9 parked refs",
+        "whySafe": "The controlling audit classified them as downstream footer/media/title-tail evidence; they are represented only by footer guard controls and are not terminal C.5 candidates."
+      }
+    ]
+  },
+  "excludedRefs": {
+    "fixtureReady": [
+      "send-royalmail-com:current-window-11@628bd67482e3",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-4@5b0542d72b5d",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-4@68e49d39d849",
+      "www-royalmail-com-services-near-you-postboxes:current-window-1@5fa0d9c6d140"
+    ],
+    "parked": [
+      "www-royalmail-com-help:current-window-4@28d716805cea",
+      "www-royalmail-com-help:current-window-5@e17ae2d7d893",
+      "www-royalmail-com-receiving-mail-redelivery:current-window-4@daffd1b5eefc",
+      "www-royalmail-com-sending:current-window-7@daffd1b5eefc",
+      "www-royalmail-com-sending-barcoded-stamps:current-window-5@daffd1b5eefc",
+      "www-royalmail-com-sending-uk:current-window-7@daffd1b5eefc",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-6@daffd1b5eefc",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-6@daffd1b5eefc",
+      "www-royalmail-com-services-near-you:current-window-5@0aad08373b2c"
+    ]
+  },
+  "evidence": {
+    "canary": {
+      "runId": "30099030017",
+      "artifactRoot": "voiceover-smoke/agent-work/29684347419/_families/list-marker-rich-text-current/canary-30099030017",
+      "scanRootPath": "voiceover-smoke/agent-work/29684347419/_families/list-marker-rich-text-current/canary-30099030017/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family",
+      "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+      "renderedPageUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+      "stopReason": "max-steps:45",
+      "partial": false,
+      "capturedSteps": 45,
+      "renderedHtmlBytes": 29201,
+      "identityTextFound": true,
+      "axNodeCount": 567,
+      "voiceOverAnnouncementCount": 43,
+      "stepSnapshotCount": 45,
+      "engineEntryCount": 154,
+      "polling": "Waited 5 minutes before first check, then polled once per minute until terminal success."
+    },
+    "fullScan": {
+      "runId": "30100001858",
+      "artifactRoot": "voiceover-smoke/agent-work/29684347419/_families/list-marker-rich-text-current/full-30100001858",
+      "scanRootPath": "voiceover-smoke/agent-work/29684347419/_families/list-marker-rich-text-current/full-30100001858/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family/scans/packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family",
+      "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+      "renderedPageUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+      "stopReason": "scan-end-marker",
+      "partial": false,
+      "capturedSteps": 197,
+      "maxSteps": 220,
+      "renderedHtmlBytes": 29201,
+      "identityTextFound": true,
+      "axNodeCount": 567,
+      "voiceOverAnnouncementCount": 194,
+      "stepSnapshotCount": 197,
+      "engineEntryCount": 154,
+      "polling": "Waited 5 minutes before first check, then polled once per minute until terminal success on poll 26."
+    },
+    "matchedControls": [
+      {
+        "name": "plain ordered and unordered native lists",
+        "voiceOverEvidence": "full voiceover-output announcements 170-179 reached marker-plus-position controls.",
+        "engineEvidence": "full engine-traversal-debug announcements 136-140 reached plain ordered control without marker stops.",
+        "use": "Guard only. Existing Phase D rejected a broad plain-list rule, so this C.5 result must stay scoped to the requested rich/list-marker contracts."
+      },
+      {
+        "name": "footer list-position clipping guard",
+        "voiceOverEvidence": "full voiceover-output announcements 180-191 reached a 4-item footer list with separate marker and link stops.",
+        "engineEvidence": "footer guard confirms parked footer/downstream refs are a separate tail family and are excluded from this C.5 terminal split.",
+        "use": "Negative control for the 9 parked refs."
+      }
+    ],
+    "groupEvidence": {
+      "helpServiceDestinationLists": {
+        "voiceOverEvidence": "announcements 4-48 include list markers as separate stops for ordered list items 4-7 and nested bullet markers, plus long text truncation boundaries and link/strong/static splits in the nested customs list.",
+        "engineEvidence": "announcements 4-44 collapse list-marker prefixes and several rich inline boundaries into paragraph/listitem names.",
+        "minimalDomAxContract": "article > region > native ol/li with nested ul/li, long paragraph text nodes, anchor text, strong inline terms, and native list item set position/size."
+      },
+      "homepageBulletList": {
+        "voiceOverEvidence": "announcements 52-55 preserve three native bullet marker prefixes with list positions.",
+        "engineEvidence": "announcements 46-49 omit the marker prefixes while preserving list positions.",
+        "minimalDomAxContract": "native ul/li StaticText list, including marker-generated prefix and list item position metadata."
+      },
+      "responsiveHiddenCount": {
+        "voiceOverEvidence": "announcements 62-66 produced list 2 items and link stops with 1 of 2 / 2 of 2.",
+        "engineEvidence": "announcements 56-58 also produced list 2 and 1 of 2 / 2 of 2.",
+        "minimalDomAxContract": "navigation list with one hidden responsive item and two visible links; this compact condition did not reproduce the source count mismatch."
+      },
+      "requiredCountryControl": {
+        "voiceOverEvidence": "announcements 73-78 split label, required star, invalid collapsed listbox button, editable text, and disabled View guide button.",
+        "engineEvidence": "announcements 64-68 fold the star into the button name and omit the separate label stop before the star.",
+        "minimalDomAxContract": "heading, label text, required symbol StaticText, aria-invalid combobox/listbox button, associated edit field, and disabled button."
+      },
+      "productList": {
+        "voiceOverEvidence": "announcements 82-100 preserve native list markers, link stops, strong/static text, and static tails across five product list items.",
+        "engineEvidence": "announcements 72-79 collapse or omit marker/link boundaries, including the multi-link item.",
+        "minimalDomAxContract": "native ul/li product list with anchor, strong, comma/static text, and text-tail nodes."
+      },
+      "specialDeliveryFootnotes": {
+        "voiceOverEvidence": "announcements 105-118 preserve ordered markers, symbol stops, Parcel Collect static/link/strong boundaries, and footnote text split.",
+        "engineEvidence": "announcements 84-90 collapse markers, inline strong/link boundaries, and the dagger footnote into list item text.",
+        "minimalDomAxContract": "native ol/li with text nodes, strong text, repeated link text, dagger/star/caret footnote symbols, and following footnote paragraph."
+      },
+      "trackedServicesSymbols": {
+        "voiceOverEvidence": "announcements 123-145 preserve bullet markers, symbol-adjacent SMS/delivery-aim list items, and separate postcodes link after footnote text.",
+        "engineEvidence": "announcements 95-117 omit marker prefixes and collapse dagger/double-dagger adjacent text into item/footnote names.",
+        "minimalDomAxContract": "native ul/li service features, symbol text nodes adjacent to static text, and following footnote paragraph with link."
+      },
+      "postboxGeneratedStar": {
+        "voiceOverEvidence": "announcement 151 was '* Access over 110,000 Royal Mail postboxes nationwide'.",
+        "engineEvidence": "announcement 123 matched the same literal star text.",
+        "minimalDomAxContract": "article heading plus star-prefixed static text; compact repro used literal StaticText and therefore did not recreate the suspected source generated-prefix contract."
+      },
+      "postboxStepList": {
+        "voiceOverEvidence": "announcements 155-165 preserve ordered marker-only stops, link stops, and static tails for Buy postage online, Use our app, and Find your nearest postbox.",
+        "engineEvidence": "announcements 127-131 collapse link text away and emit only static tails with list positions.",
+        "minimalDomAxContract": "native ol/li step list with anchor-leading text, static parenthetical/tail text nodes, and list item position metadata."
+      }
+    }
+  },
+  "candidateVerdicts": [
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-3@f32183e26e0d",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "On this page, the services available for your package will be displayed...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-4@3993daa6a2d4",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "Some Parcelforce services have extended delivery times for certain zones/postcodes. Find out more here",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-5@7857254d099d",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "Delivery aims shown for each service are based on the majority of UK addresses...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-6@31f9b58443d8",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "AB30-38, AB41-45, AB51-56, AB99, BT...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-7@71c103c74b53",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "Depending on the services selected, item cover may also be offered...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-8@597dc910fbb3",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "Click the 'Continue' button.",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-9@fa4bc0c6e4a7",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "On this page, please enter the address where you want to send your item...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-10@4ac357ec4cf5",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "If you're sending items outside of the United Kingdom...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-11@15c7c7fb8def",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "The customs declaration category is required... The item description should be...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-12@76be222bcb35",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "quantity... item weight and item value...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-13@8181facf115e",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "If you're sending more than one type of item... USA... Find out more about customs and handling fees.",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-14@8a1102424984",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "If your destination country is France, any applicable customs charges...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "send-royalmail-com-help:current-window-15@c659a992bc8c",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "helpServiceDestinationLists",
+      "sourceTextPreserved": "Destination list end boundary after nested list.",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com:current-window-2@5557a0561253",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "homepageBulletList",
+      "sourceTextPreserved": "Trusted to deliver your mail for 500 years; Over 130,000 Service Points nationwide; Lowest reported carbon footprint...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-receiving-mail:current-window-1@1eb2ce09b067",
+      "verdict": "insufficient-repro",
+      "evidenceGroup": "responsiveHiddenCount",
+      "sourceTextPreserved": "Log in / Register; Help; Our locations",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "fixture-judge",
+      "blocker": "The compact repro preserved a hidden responsive item plus two visible account links, but VoiceOver and engine both produced list 2 / positions 1 of 2 and 2 of 2. It did not recreate the source responsive-hidden count mismatch where engine retained 3-item metadata."
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-international:current-window-3@bd2795bcb0a0",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "requiredCountryControl",
+      "sourceTextPreserved": "Select a Country; *; invalid collapsed listbox button; edit text; View guide disabled button",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-stamps:current-window-5@c3c2133be111",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "productList",
+      "sourceTextPreserved": "Framed Stamps and Prints; Miniature Sheets; Prestige Stamp Books; Limited-Edition Ingots, Coin Covers and Medals; Collectors Sheets",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-2@654fc4543fb0",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "specialDeliveryFootnotes",
+      "sourceTextPreserved": "Choose to print your label at home... † when you drop it off.",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-3@e2ae495a1308",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "specialDeliveryFootnotes",
+      "sourceTextPreserved": "Prefer Parcel Collect? ... Find out more; † Label printing...",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-24:current-window-2@4f1e604918d6",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "trackedServicesSymbols",
+      "sourceTextPreserved": "SMS or email notifications to recipients†; Next working day delivery aim‡",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-24:current-window-3@7e120ed58b43",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "trackedServicesSymbols",
+      "sourceTextPreserved": "†Only available for products purchased online; ‡Delivery aims may not apply to some postcodes",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-48:current-window-2@084e72b8861a",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "trackedServicesSymbols",
+      "sourceTextPreserved": "SMS or email notifications to recipients†; Aims to deliver in two to three working days‡",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-48:current-window-3@7e120ed58b43",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "trackedServicesSymbols",
+      "sourceTextPreserved": "†Only available for products purchased online; ‡Delivery aims may not apply to some postcodes",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    },
+    {
+      "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-8@aa52f5ab330c",
+      "verdict": "insufficient-repro",
+      "evidenceGroup": "postboxGeneratedStar",
+      "sourceTextPreserved": "Access over 110,000 Royal Mail postboxes nationwide",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "fixture-judge",
+      "blocker": "The compact repro spoke and rendered a literal star StaticText that the engine also emitted. It did not recreate the source suspected generated marker/star prefix contract, so this ref cannot be sent to engine-refiner from this mini scan."
+    },
+    {
+      "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-11@545ab7f1d1ff",
+      "verdict": "engine-gap-confirmed",
+      "evidenceGroup": "postboxStepList",
+      "sourceTextPreserved": "Buy postage online; Print your label; Use our app; Find your nearest postbox",
+      "matchedControls": ["plain ordered/unordered guard", "footer list-position guard"],
+      "route": "engine-refiner"
+    }
+  ],
+  "phaseRoutes": {
+    "engineRefiner": {
+      "refs": [
+        "send-royalmail-com-help:current-window-3@f32183e26e0d",
+        "send-royalmail-com-help:current-window-4@3993daa6a2d4",
+        "send-royalmail-com-help:current-window-5@7857254d099d",
+        "send-royalmail-com-help:current-window-6@31f9b58443d8",
+        "send-royalmail-com-help:current-window-7@71c103c74b53",
+        "send-royalmail-com-help:current-window-8@597dc910fbb3",
+        "send-royalmail-com-help:current-window-9@fa4bc0c6e4a7",
+        "send-royalmail-com-help:current-window-10@4ac357ec4cf5",
+        "send-royalmail-com-help:current-window-11@15c7c7fb8def",
+        "send-royalmail-com-help:current-window-12@76be222bcb35",
+        "send-royalmail-com-help:current-window-13@8181facf115e",
+        "send-royalmail-com-help:current-window-14@8a1102424984",
+        "send-royalmail-com-help:current-window-15@c659a992bc8c",
+        "www-royalmail-com:current-window-2@5557a0561253",
+        "www-royalmail-com-sending-international:current-window-3@bd2795bcb0a0",
+        "www-royalmail-com-sending-stamps:current-window-5@c3c2133be111",
+        "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-2@654fc4543fb0",
+        "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-3@e2ae495a1308",
+        "www-royalmail-com-sending-uk-tracked-24:current-window-2@4f1e604918d6",
+        "www-royalmail-com-sending-uk-tracked-24:current-window-3@7e120ed58b43",
+        "www-royalmail-com-sending-uk-tracked-48:current-window-2@084e72b8861a",
+        "www-royalmail-com-sending-uk-tracked-48:current-window-3@7e120ed58b43",
+        "www-royalmail-com-services-near-you-postboxes:current-window-11@545ab7f1d1ff"
+      ],
+      "minimalDomAxContract": "For the listed refs only: native ol/ul/li boundaries with AX List/ListItem/ListMarker/StaticText nodes, inline strong/link/static text-node boundaries, symbol-adjacent text nodes, list set position/size, and associated label/control state. Do not generalize from the plain-list guard or footer guard.",
+      "suggestedFocusedUnitCoverage": [
+        "native list item marker prefix should remain observable when VoiceOver separates marker text from list item text",
+        "list item with anchor-leading text and following static tail should emit link and static-tail boundaries in VoiceOver order",
+        "list item with strong/static/link mixed inline children should preserve child stops when AX exposes separate StaticText/link/strong names",
+        "required or footnote symbol adjacent to labels/buttons/list text should not be folded into the nearest control name when VoiceOver speaks it as a separate stop"
+      ]
+    },
+    "fixtureJudge": {
+      "refs": [
+        "www-royalmail-com-receiving-mail:current-window-1@1eb2ce09b067",
+        "www-royalmail-com-services-near-you-postboxes:current-window-8@aa52f5ab330c"
+      ],
+      "reason": "The mini page did not reproduce the original responsive-hidden list-count metadata or suspected generated star-prefix contract. Fixture-judge should decide whether the original mismatch family has a missing DOM condition, needs a narrower C.5 reproduction against source shell evidence, or should remain parked."
+    },
+    "evidenceRefiner": {
+      "refs": [],
+      "reason": "No fixture-noise-confirmed or conditional-state-confirmed refs in this C.5 split."
+    }
+  },
+  "fixtureChanges": [],
+  "nextPhase": "split",
+  "handoffFrom": "final-family-audit-list-marker-rich-text",
+  "handoffTo": "engine-refiner,fixture-judge",
+  "handoffReason": "23 refs are engine-gap-confirmed by a complete repo-local Phase C.5 scan; 2 refs are returned as insufficient repro with concrete missing source contracts. Repro scans remain supporting evidence for run 29684347419 and must not become Phase E promotion targets.",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Implement focused coverage only for the 23 engine-gap-confirmed native list marker/rich inline/symbol boundary refs; exclude the responsive-hidden count and generated-star insufficient refs.",
+    "c5Needed": false,
+    "reason": "Phase C.5 canary and full scan have complete local-fixture debug evidence."
+  }
+}

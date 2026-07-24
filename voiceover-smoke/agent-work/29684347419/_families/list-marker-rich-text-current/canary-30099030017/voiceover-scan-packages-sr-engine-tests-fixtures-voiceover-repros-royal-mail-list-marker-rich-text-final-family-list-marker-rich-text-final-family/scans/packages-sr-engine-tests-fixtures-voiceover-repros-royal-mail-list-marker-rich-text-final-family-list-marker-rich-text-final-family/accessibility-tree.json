@@ -1,0 +1,6147 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 567,
+  "ignoredNodeCount": 59,
+  "axMappedNodeCount": 151,
+  "domSnapshotMappedNodeCount": 162,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "194",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Phase C.5 Royal Mail list marker rich text final family",
+      "backendDOMNodeId": 194,
+      "childIds": [
+        "195"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html"
+      }
+    },
+    {
+      "nodeId": "195",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 195,
+      "childIds": [
+        "201"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "201",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 201,
+      "childIds": [
+        "202"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "202",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 202,
+      "domNodeId": "1",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
+      "tagName": "main",
+      "childIds": [
+        "204"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "204",
+      "ignored": false,
+      "role": "article",
+      "name": "Help & support",
+      "backendDOMNodeId": 204,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "article",
+      "childIds": [
+        "205",
+        "206",
+        "223",
+        "242",
+        "248",
+        "259",
+        "269",
+        "286",
+        "299",
+        "331",
+        "346"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "205",
+      "ignored": false,
+      "role": "heading",
+      "name": "Help & support",
+      "backendDOMNodeId": 205,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "h2",
+      "childIds": [
+        "3"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "206",
+      "ignored": false,
+      "role": "region",
+      "name": "Service",
+      "backendDOMNodeId": 206,
+      "domNodeId": "4",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
+      "tagName": "section",
+      "childIds": [
+        "207",
+        "208"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "223",
+      "ignored": false,
+      "role": "region",
+      "name": "Destination",
+      "backendDOMNodeId": 223,
+      "domNodeId": "21",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"21\"]",
+      "tagName": "section",
+      "childIds": [
+        "224",
+        "225"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "242",
+      "ignored": false,
+      "role": "region",
+      "name": "Homepage bullet control",
+      "backendDOMNodeId": 242,
+      "domNodeId": "40",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"40\"]",
+      "tagName": "section",
+      "childIds": [
+        "243",
+        "244"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "248",
+      "ignored": false,
+      "role": "region",
+      "name": "Responsive list count control",
+      "backendDOMNodeId": 248,
+      "domNodeId": "46",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"46\"]",
+      "tagName": "section",
+      "childIds": [
+        "249",
+        "250"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "259",
+      "ignored": false,
+      "role": "region",
+      "name": "Required country control",
+      "backendDOMNodeId": 259,
+      "domNodeId": "57",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"57\"]",
+      "tagName": "section",
+      "childIds": [
+        "260",
+        "261",
+        "262",
+        "68",
+        "263",
+        "264",
+        "265",
+        "266",
+        "268"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "269",
+      "ignored": false,
+      "role": "region",
+      "name": "Product list control",
+      "backendDOMNodeId": 269,
+      "domNodeId": "66",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"66\"]",
+      "tagName": "section",
+      "childIds": [
+        "270",
+        "271",
+        "272"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "286",
+      "ignored": false,
+      "role": "region",
+      "name": "Special delivery list and footnote control",
+      "backendDOMNodeId": 286,
+      "domNodeId": "83",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"83\"]",
+      "tagName": "section",
+      "childIds": [
+        "287",
+        "288",
+        "297"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "299",
+      "ignored": false,
+      "role": "region",
+      "name": "Tracked services symbol boundaries",
+      "backendDOMNodeId": 299,
+      "domNodeId": "96",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"96\"]",
+      "tagName": "section",
+      "childIds": [
+        "300",
+        "301",
+        "302",
+        "312",
+        "316",
+        "317",
+        "327"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "331",
+      "ignored": false,
+      "role": "region",
+      "name": "Postbox marker and link controls",
+      "backendDOMNodeId": 331,
+      "domNodeId": "128",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"128\"]",
+      "tagName": "section",
+      "childIds": [
+        "332",
+        "333",
+        "336",
+        "337",
+        "338"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "346",
+      "ignored": false,
+      "role": "region",
+      "name": "Matched negative controls",
+      "backendDOMNodeId": 346,
+      "domNodeId": "143",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"143\"]",
+      "tagName": "section",
+      "childIds": [
+        "347",
+        "348",
+        "352",
+        "356"
+      ],
+      "properties": {}
+    },
+    {
+      "nodeId": "3",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help & support",
+      "backendDOMNodeId": 3,
+      "childIds": [
+        "-1000000231"
+      ]
+    },
+    {
+      "nodeId": "207",
+      "ignored": false,
+      "role": "heading",
+      "name": "Service",
+      "backendDOMNodeId": 207,
+      "domNodeId": "5",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
+      "tagName": "h3",
+      "childIds": [
+        "4"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "208",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 208,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "ol",
+      "childIds": [
+        "209",
+        "214",
+        "219",
+        "221"
+      ]
+    },
+    {
+      "nodeId": "224",
+      "ignored": false,
+      "role": "heading",
+      "name": "Destination",
+      "backendDOMNodeId": 224,
+      "domNodeId": "22",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"22\"]",
+      "tagName": "h3",
+      "childIds": [
+        "20"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "225",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 225,
+      "domNodeId": "23",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"23\"]",
+      "tagName": "ol",
+      "childIds": [
+        "226",
+        "227"
+      ]
+    },
+    {
+      "nodeId": "243",
+      "ignored": false,
+      "role": "heading",
+      "name": "Homepage bullet control",
+      "backendDOMNodeId": 243,
+      "domNodeId": "41",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"41\"]",
+      "tagName": "h3",
+      "childIds": [
+        "50"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "244",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 244,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "ul",
+      "childIds": [
+        "245",
+        "246",
+        "247"
+      ]
+    },
+    {
+      "nodeId": "249",
+      "ignored": false,
+      "role": "heading",
+      "name": "Responsive list count control",
+      "backendDOMNodeId": 249,
+      "domNodeId": "47",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"47\"]",
+      "tagName": "h3",
+      "childIds": [
+        "57"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "250",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Account links",
+      "backendDOMNodeId": 250,
+      "domNodeId": "48",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"48\"]",
+      "tagName": "nav",
+      "childIds": [
+        "251",
+        "252"
+      ]
+    },
+    {
+      "nodeId": "260",
+      "ignored": false,
+      "role": "heading",
+      "name": "Required country control",
+      "backendDOMNodeId": 260,
+      "domNodeId": "58",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"58\"]",
+      "tagName": "h3",
+      "childIds": [
+        "63"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "261",
+      "ignored": false,
+      "role": "heading",
+      "name": "Check prices and services available by country",
+      "backendDOMNodeId": 261,
+      "domNodeId": "59",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"59\"]",
+      "tagName": "h2",
+      "childIds": [
+        "64"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "262",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 262,
+      "domNodeId": "60",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"60\"]",
+      "tagName": "label",
+      "childIds": [
+        "67"
+      ]
+    },
+    {
+      "nodeId": "68",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " ",
+      "backendDOMNodeId": 68,
+      "childIds": [
+        "-1000000307"
+      ]
+    },
+    {
+      "nodeId": "263",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 263,
+      "domNodeId": "61",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"61\"]",
+      "tagName": "span",
+      "childIds": [
+        "69"
+      ]
+    },
+    {
+      "nodeId": "264",
+      "ignored": false,
+      "role": "button",
+      "name": "Select a Country",
+      "backendDOMNodeId": 264,
+      "domNodeId": "62",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"62\"]",
+      "tagName": "button",
+      "childIds": [
+        "65"
+      ],
+      "properties": {
+        "invalid": "true",
+        "focusable": true,
+        "hasPopup": "listbox",
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "265",
+      "ignored": false,
+      "role": "LabelText",
+      "name": "",
+      "backendDOMNodeId": 265,
+      "domNodeId": "63",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"63\"]",
+      "tagName": "label",
+      "childIds": [
+        "72"
+      ]
+    },
+    {
+      "nodeId": "266",
+      "ignored": false,
+      "role": "textbox",
+      "name": "Select a Country",
+      "backendDOMNodeId": 266,
+      "domNodeId": "64",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"64\"]",
+      "tagName": "input",
+      "childIds": [
+        "267"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": false
+      }
+    },
+    {
+      "nodeId": "268",
+      "ignored": false,
+      "role": "button",
+      "name": "View guide",
+      "backendDOMNodeId": 268,
+      "domNodeId": "65",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"65\"]",
+      "tagName": "button",
+      "childIds": [
+        "66"
+      ],
+      "properties": {
+        "disabled": true,
+        "invalid": "false"
+      }
+    },
+    {
+      "nodeId": "270",
+      "ignored": false,
+      "role": "heading",
+      "name": "Product list control",
+      "backendDOMNodeId": 270,
+      "domNodeId": "67",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"67\"]",
+      "tagName": "h3",
+      "childIds": [
+        "75"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "271",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 271,
+      "domNodeId": "68",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"68\"]",
+      "tagName": "p",
+      "childIds": [
+        "76"
+      ]
+    },
+    {
+      "nodeId": "272",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 272,
+      "domNodeId": "69",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"69\"]",
+      "tagName": "ul",
+      "childIds": [
+        "273",
+        "275",
+        "277",
+        "279",
+        "284"
+      ]
+    },
+    {
+      "nodeId": "287",
+      "ignored": false,
+      "role": "heading",
+      "name": "Special delivery list and footnote control",
+      "backendDOMNodeId": 287,
+      "domNodeId": "84",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"84\"]",
+      "tagName": "h3",
+      "childIds": [
+        "94"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "288",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 288,
+      "domNodeId": "85",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"85\"]",
+      "tagName": "ol",
+      "childIds": [
+        "289",
+        "290",
+        "292",
+        "293"
+      ]
+    },
+    {
+      "nodeId": "297",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 297,
+      "domNodeId": "94",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"94\"]",
+      "tagName": "p",
+      "childIds": [
+        "110",
+        "111"
+      ]
+    },
+    {
+      "nodeId": "300",
+      "ignored": false,
+      "role": "heading",
+      "name": "Tracked services symbol boundaries",
+      "backendDOMNodeId": 300,
+      "domNodeId": "97",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"97\"]",
+      "tagName": "h3",
+      "childIds": [
+        "112"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "301",
+      "ignored": false,
+      "role": "heading",
+      "name": "Tracked 24",
+      "backendDOMNodeId": 301,
+      "domNodeId": "98",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"98\"]",
+      "tagName": "h4",
+      "childIds": [
+        "113"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "302",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 302,
+      "domNodeId": "99",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"99\"]",
+      "tagName": "ul",
+      "childIds": [
+        "303",
+        "304",
+        "305",
+        "306",
+        "308",
+        "310",
+        "311"
+      ]
+    },
+    {
+      "nodeId": "312",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 312,
+      "domNodeId": "109",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"109\"]",
+      "tagName": "p",
+      "childIds": [
+        "130",
+        "131",
+        "132",
+        "133",
+        "315"
+      ]
+    },
+    {
+      "nodeId": "316",
+      "ignored": false,
+      "role": "heading",
+      "name": "Tracked 48",
+      "backendDOMNodeId": 316,
+      "domNodeId": "113",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"113\"]",
+      "tagName": "h4",
+      "childIds": [
+        "135"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "317",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 317,
+      "domNodeId": "114",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"114\"]",
+      "tagName": "ul",
+      "childIds": [
+        "318",
+        "319",
+        "320",
+        "321",
+        "323",
+        "325",
+        "326"
+      ]
+    },
+    {
+      "nodeId": "327",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 327,
+      "domNodeId": "124",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"124\"]",
+      "tagName": "p",
+      "childIds": [
+        "152",
+        "153",
+        "154",
+        "155",
+        "330"
+      ]
+    },
+    {
+      "nodeId": "332",
+      "ignored": false,
+      "role": "heading",
+      "name": "Postbox marker and link controls",
+      "backendDOMNodeId": 332,
+      "domNodeId": "129",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"129\"]",
+      "tagName": "h3",
+      "childIds": [
+        "157"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "333",
+      "ignored": false,
+      "role": "article",
+      "name": "",
+      "backendDOMNodeId": 333,
+      "domNodeId": "130",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"130\"]",
+      "tagName": "article",
+      "childIds": [
+        "334",
+        "335"
+      ]
+    },
+    {
+      "nodeId": "336",
+      "ignored": false,
+      "role": "heading",
+      "name": "Sending parcels with a Postbox",
+      "backendDOMNodeId": 336,
+      "domNodeId": "133",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"133\"]",
+      "tagName": "h4",
+      "childIds": [
+        "160"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "337",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 337,
+      "domNodeId": "134",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"134\"]",
+      "tagName": "p",
+      "childIds": [
+        "161"
+      ]
+    },
+    {
+      "nodeId": "338",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 338,
+      "domNodeId": "135",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"135\"]",
+      "tagName": "ol",
+      "childIds": [
+        "339",
+        "341",
+        "342",
+        "344"
+      ]
+    },
+    {
+      "nodeId": "347",
+      "ignored": false,
+      "role": "heading",
+      "name": "Matched negative controls",
+      "backendDOMNodeId": 347,
+      "domNodeId": "144",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"144\"]",
+      "tagName": "h3",
+      "childIds": [
+        "173"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "348",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 348,
+      "domNodeId": "145",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"145\"]",
+      "tagName": "ol",
+      "childIds": [
+        "349",
+        "350",
+        "351"
+      ]
+    },
+    {
+      "nodeId": "352",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 352,
+      "domNodeId": "149",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"149\"]",
+      "tagName": "ul",
+      "childIds": [
+        "353",
+        "354",
+        "355"
+      ]
+    },
+    {
+      "nodeId": "356",
+      "ignored": false,
+      "role": "sectionfooter",
+      "name": "Footer list-position guard",
+      "backendDOMNodeId": 356,
+      "domNodeId": "153",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"153\"]",
+      "tagName": "footer",
+      "childIds": [
+        "357"
+      ]
+    },
+    {
+      "nodeId": "-1000000231",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help & support"
+    },
+    {
+      "nodeId": "4",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Service",
+      "backendDOMNodeId": 4,
+      "childIds": [
+        "-1000000232"
+      ]
+    },
+    {
+      "nodeId": "209",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 209,
+      "domNodeId": "7",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"7\"]",
+      "tagName": "li",
+      "childIds": [
+        "5",
+        "210",
+        "211"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "214",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 214,
+      "domNodeId": "12",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"12\"]",
+      "tagName": "li",
+      "childIds": [
+        "11",
+        "215",
+        "216",
+        "218"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "219",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 219,
+      "domNodeId": "17",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"17\"]",
+      "tagName": "li",
+      "childIds": [
+        "16",
+        "220"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "221",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 221,
+      "domNodeId": "19",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"19\"]",
+      "tagName": "li",
+      "childIds": [
+        "18",
+        "222"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "20",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Destination",
+      "backendDOMNodeId": 20,
+      "childIds": [
+        "-1000000253"
+      ]
+    },
+    {
+      "nodeId": "226",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 226,
+      "domNodeId": "24",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"24\"]",
+      "tagName": "li",
+      "childIds": [
+        "21",
+        "22"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "227",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 227,
+      "domNodeId": "25",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"25\"]",
+      "tagName": "li",
+      "childIds": [
+        "23",
+        "24",
+        "228"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "50",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Homepage bullet control",
+      "backendDOMNodeId": 50,
+      "childIds": [
+        "-1000000294"
+      ]
+    },
+    {
+      "nodeId": "245",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 245,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "li",
+      "childIds": [
+        "51",
+        "52"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "246",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 246,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "li",
+      "childIds": [
+        "53",
+        "54"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "247",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 247,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "li",
+      "childIds": [
+        "55",
+        "56"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "57",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Responsive list count control",
+      "backendDOMNodeId": 57,
+      "childIds": [
+        "-1000000298"
+      ]
+    },
+    {
+      "nodeId": "251",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 251,
+      "domNodeId": "49",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"49\"]",
+      "tagName": "p",
+      "childIds": [
+        "58"
+      ]
+    },
+    {
+      "nodeId": "252",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 252,
+      "domNodeId": "50",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"50\"]",
+      "tagName": "ul",
+      "childIds": [
+        "253",
+        "255"
+      ]
+    },
+    {
+      "nodeId": "63",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Required country control",
+      "backendDOMNodeId": 63,
+      "childIds": [
+        "-1000000302"
+      ]
+    },
+    {
+      "nodeId": "64",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Check prices and services available by country",
+      "backendDOMNodeId": 64,
+      "childIds": [
+        "-1000000303"
+      ]
+    },
+    {
+      "nodeId": "67",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Select a Country",
+      "backendDOMNodeId": 67,
+      "childIds": [
+        "-1000000306"
+      ]
+    },
+    {
+      "nodeId": "-1000000307",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " "
+    },
+    {
+      "nodeId": "69",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "*",
+      "backendDOMNodeId": 69,
+      "childIds": [
+        "-1000000308"
+      ]
+    },
+    {
+      "nodeId": "65",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Select a Country *",
+      "backendDOMNodeId": 65,
+      "childIds": [
+        "-1000000304"
+      ]
+    },
+    {
+      "nodeId": "72",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Select a Country",
+      "backendDOMNodeId": 72,
+      "childIds": [
+        "-1000000309"
+      ]
+    },
+    {
+      "nodeId": "267",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 267,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "66",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "View guide",
+      "backendDOMNodeId": 66,
+      "childIds": [
+        "-1000000305"
+      ]
+    },
+    {
+      "nodeId": "75",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Product list control",
+      "backendDOMNodeId": 75,
+      "childIds": [
+        "-1000000310"
+      ]
+    },
+    {
+      "nodeId": "76",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Popular gift ideas:",
+      "backendDOMNodeId": 76,
+      "childIds": [
+        "-1000000311"
+      ]
+    },
+    {
+      "nodeId": "273",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 273,
+      "domNodeId": "70",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"70\"]",
+      "tagName": "li",
+      "childIds": [
+        "77",
+        "274",
+        "79"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "275",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 275,
+      "domNodeId": "72",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"72\"]",
+      "tagName": "li",
+      "childIds": [
+        "80",
+        "276",
+        "82"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "277",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 277,
+      "domNodeId": "74",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"74\"]",
+      "tagName": "li",
+      "childIds": [
+        "83",
+        "278",
+        "85"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "279",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 279,
+      "domNodeId": "76",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"76\"]",
+      "tagName": "li",
+      "childIds": [
+        "86",
+        "280",
+        "282",
+        "90"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "284",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 284,
+      "domNodeId": "81",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"81\"]",
+      "tagName": "li",
+      "childIds": [
+        "91",
+        "285",
+        "93"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "94",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Special delivery list and footnote control",
+      "backendDOMNodeId": 94,
+      "childIds": [
+        "-1000000324"
+      ]
+    },
+    {
+      "nodeId": "289",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 289,
+      "domNodeId": "86",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"86\"]",
+      "tagName": "li",
+      "childIds": [
+        "95",
+        "96"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "290",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 290,
+      "domNodeId": "87",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"87\"]",
+      "tagName": "li",
+      "childIds": [
+        "97",
+        "98",
+        "291",
+        "100"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "292",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 292,
+      "domNodeId": "89",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"89\"]",
+      "tagName": "li",
+      "childIds": [
+        "101",
+        "102"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "293",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 293,
+      "domNodeId": "90",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"90\"]",
+      "tagName": "li",
+      "childIds": [
+        "103",
+        "104",
+        "294",
+        "106",
+        "295",
+        "108",
+        "296"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "110",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "†",
+      "backendDOMNodeId": 110,
+      "childIds": [
+        "-1000000338"
+      ]
+    },
+    {
+      "nodeId": "111",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with signature) but parcel only format.",
+      "backendDOMNodeId": 111,
+      "childIds": [
+        "-1000000339",
+        "-1000000340",
+        "-1000000341"
+      ]
+    },
+    {
+      "nodeId": "112",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tracked services symbol boundaries",
+      "backendDOMNodeId": 112,
+      "childIds": [
+        "-1000000342"
+      ]
+    },
+    {
+      "nodeId": "113",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tracked 24",
+      "backendDOMNodeId": 113,
+      "childIds": [
+        "-1000000343"
+      ]
+    },
+    {
+      "nodeId": "303",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 303,
+      "domNodeId": "100",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"100\"]",
+      "tagName": "li",
+      "childIds": [
+        "114",
+        "115"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "304",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 304,
+      "domNodeId": "101",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"101\"]",
+      "tagName": "li",
+      "childIds": [
+        "116",
+        "117"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "305",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 305,
+      "domNodeId": "102",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"102\"]",
+      "tagName": "li",
+      "childIds": [
+        "118",
+        "119"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "306",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 306,
+      "domNodeId": "103",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"103\"]",
+      "tagName": "li",
+      "childIds": [
+        "120",
+        "121",
+        "122"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "308",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 308,
+      "domNodeId": "105",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"105\"]",
+      "tagName": "li",
+      "childIds": [
+        "123",
+        "124",
+        "125"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "310",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 310,
+      "domNodeId": "107",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"107\"]",
+      "tagName": "li",
+      "childIds": [
+        "126",
+        "127"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "311",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 311,
+      "domNodeId": "108",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"108\"]",
+      "tagName": "li",
+      "childIds": [
+        "128",
+        "129"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "130",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "†",
+      "backendDOMNodeId": 130,
+      "childIds": [
+        "-1000000354"
+      ]
+    },
+    {
+      "nodeId": "131",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Only available for products purchased online ",
+      "backendDOMNodeId": 131,
+      "childIds": [
+        "-1000000355"
+      ]
+    },
+    {
+      "nodeId": "132",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "‡",
+      "backendDOMNodeId": 132,
+      "childIds": [
+        "-1000000356"
+      ]
+    },
+    {
+      "nodeId": "133",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery aims may not apply to some ",
+      "backendDOMNodeId": 133,
+      "childIds": [
+        "-1000000357"
+      ]
+    },
+    {
+      "nodeId": "315",
+      "ignored": false,
+      "role": "link",
+      "name": "postcodes",
+      "backendDOMNodeId": 315,
+      "domNodeId": "112",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"112\"]",
+      "tagName": "a",
+      "childIds": [
+        "134"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/postcodes-24"
+      }
+    },
+    {
+      "nodeId": "135",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tracked 48",
+      "backendDOMNodeId": 135,
+      "childIds": [
+        "-1000000359"
+      ]
+    },
+    {
+      "nodeId": "318",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 318,
+      "domNodeId": "115",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"115\"]",
+      "tagName": "li",
+      "childIds": [
+        "136",
+        "137"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "319",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 319,
+      "domNodeId": "116",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"116\"]",
+      "tagName": "li",
+      "childIds": [
+        "138",
+        "139"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "320",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 320,
+      "domNodeId": "117",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"117\"]",
+      "tagName": "li",
+      "childIds": [
+        "140",
+        "141"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "321",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 321,
+      "domNodeId": "118",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"118\"]",
+      "tagName": "li",
+      "childIds": [
+        "142",
+        "143",
+        "144"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "323",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 323,
+      "domNodeId": "120",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"120\"]",
+      "tagName": "li",
+      "childIds": [
+        "145",
+        "146",
+        "147"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "325",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 325,
+      "domNodeId": "122",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"122\"]",
+      "tagName": "li",
+      "childIds": [
+        "148",
+        "149"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "326",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 326,
+      "domNodeId": "123",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"123\"]",
+      "tagName": "li",
+      "childIds": [
+        "150",
+        "151"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "152",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "†",
+      "backendDOMNodeId": 152,
+      "childIds": [
+        "-1000000370"
+      ]
+    },
+    {
+      "nodeId": "153",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Only available for products purchased online ",
+      "backendDOMNodeId": 153,
+      "childIds": [
+        "-1000000371"
+      ]
+    },
+    {
+      "nodeId": "154",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "‡",
+      "backendDOMNodeId": 154,
+      "childIds": [
+        "-1000000372"
+      ]
+    },
+    {
+      "nodeId": "155",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery aims may not apply to some ",
+      "backendDOMNodeId": 155,
+      "childIds": [
+        "-1000000373"
+      ]
+    },
+    {
+      "nodeId": "330",
+      "ignored": false,
+      "role": "link",
+      "name": "postcodes",
+      "backendDOMNodeId": 330,
+      "domNodeId": "127",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"127\"]",
+      "tagName": "a",
+      "childIds": [
+        "156"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/postcodes-48"
+      }
+    },
+    {
+      "nodeId": "157",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Postbox marker and link controls",
+      "backendDOMNodeId": 157,
+      "childIds": [
+        "-1000000375"
+      ]
+    },
+    {
+      "nodeId": "334",
+      "ignored": false,
+      "role": "heading",
+      "name": "Over 110,000 in the UK",
+      "backendDOMNodeId": 334,
+      "domNodeId": "131",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"131\"]",
+      "tagName": "h4",
+      "childIds": [
+        "158"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "335",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 335,
+      "domNodeId": "132",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"132\"]",
+      "tagName": "p",
+      "childIds": [
+        "159"
+      ]
+    },
+    {
+      "nodeId": "160",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sending parcels with a Postbox",
+      "backendDOMNodeId": 160,
+      "childIds": [
+        "-1000000378"
+      ]
+    },
+    {
+      "nodeId": "161",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "If you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your items at a postbox.",
+      "backendDOMNodeId": 161,
+      "childIds": [
+        "-1000000379",
+        "-1000000380"
+      ]
+    },
+    {
+      "nodeId": "339",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 339,
+      "domNodeId": "136",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"136\"]",
+      "tagName": "li",
+      "childIds": [
+        "162",
+        "340",
+        "164"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "341",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 341,
+      "domNodeId": "138",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"138\"]",
+      "tagName": "li",
+      "childIds": [
+        "165",
+        "166"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "342",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 342,
+      "domNodeId": "139",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"139\"]",
+      "tagName": "li",
+      "childIds": [
+        "167",
+        "343",
+        "169"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "344",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 344,
+      "domNodeId": "141",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"141\"]",
+      "tagName": "li",
+      "childIds": [
+        "170",
+        "345",
+        "172"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "173",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Matched negative controls",
+      "backendDOMNodeId": 173,
+      "childIds": [
+        "-1000000388"
+      ]
+    },
+    {
+      "nodeId": "349",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 349,
+      "domNodeId": "146",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"146\"]",
+      "tagName": "li",
+      "childIds": [
+        "174",
+        "175"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "350",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 350,
+      "domNodeId": "147",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"147\"]",
+      "tagName": "li",
+      "childIds": [
+        "176",
+        "177"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "351",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 351,
+      "domNodeId": "148",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"148\"]",
+      "tagName": "li",
+      "childIds": [
+        "178",
+        "179"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "353",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 353,
+      "domNodeId": "150",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"150\"]",
+      "tagName": "li",
+      "childIds": [
+        "180",
+        "181"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "354",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 354,
+      "domNodeId": "151",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"151\"]",
+      "tagName": "li",
+      "childIds": [
+        "182",
+        "183"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "355",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 355,
+      "domNodeId": "152",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"152\"]",
+      "tagName": "li",
+      "childIds": [
+        "184",
+        "185"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "357",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 357,
+      "domNodeId": "154",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"154\"]",
+      "tagName": "ul",
+      "childIds": [
+        "358",
+        "360",
+        "362",
+        "364"
+      ]
+    },
+    {
+      "nodeId": "-1000000232",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Service"
+    },
+    {
+      "nodeId": "5",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "4. ",
+      "backendDOMNodeId": 5,
+      "childIds": [
+        "-1000000005"
+      ]
+    },
+    {
+      "nodeId": "210",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 210,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "p",
+      "childIds": [
+        "6"
+      ]
+    },
+    {
+      "nodeId": "211",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 211,
+      "domNodeId": "9",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"9\"]",
+      "tagName": "ul",
+      "childIds": [
+        "212"
+      ]
+    },
+    {
+      "nodeId": "11",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "5. ",
+      "backendDOMNodeId": 11,
+      "childIds": [
+        "-1000000016"
+      ]
+    },
+    {
+      "nodeId": "215",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 215,
+      "domNodeId": "13",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"13\"]",
+      "tagName": "p",
+      "childIds": [
+        "12"
+      ]
+    },
+    {
+      "nodeId": "216",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 216,
+      "domNodeId": "14",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"14\"]",
+      "tagName": "ul",
+      "childIds": [
+        "217"
+      ]
+    },
+    {
+      "nodeId": "218",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 218,
+      "domNodeId": "16",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"16\"]",
+      "tagName": "p",
+      "childIds": [
+        "15"
+      ]
+    },
+    {
+      "nodeId": "16",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "6. ",
+      "backendDOMNodeId": 16,
+      "childIds": [
+        "-1000000026"
+      ]
+    },
+    {
+      "nodeId": "220",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 220,
+      "domNodeId": "18",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"18\"]",
+      "tagName": "p",
+      "childIds": [
+        "17"
+      ]
+    },
+    {
+      "nodeId": "18",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "7. ",
+      "backendDOMNodeId": 18,
+      "childIds": [
+        "-1000000029"
+      ]
+    },
+    {
+      "nodeId": "222",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 222,
+      "domNodeId": "20",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"20\"]",
+      "tagName": "p",
+      "childIds": [
+        "19"
+      ]
+    },
+    {
+      "nodeId": "-1000000253",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Destination"
+    },
+    {
+      "nodeId": "21",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "8. ",
+      "backendDOMNodeId": 21,
+      "childIds": [
+        "-1000000032"
+      ]
+    },
+    {
+      "nodeId": "22",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "On this page, please enter the address where you want to send your item. If you're sending within the United Kingdom, you can begin typing part of the address or postcode into the Postcode search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a minimum, you must include a name or company name, the first line of the address, and a town/city. For items within the United Kingdom, a postcode is also required.",
+      "backendDOMNodeId": 22,
+      "childIds": [
+        "-1000000254",
+        "-1000000255",
+        "-1000000256",
+        "-1000000257",
+        "-1000000258"
+      ]
+    },
+    {
+      "nodeId": "23",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "9. ",
+      "backendDOMNodeId": 23,
+      "childIds": [
+        "-1000000038"
+      ]
+    },
+    {
+      "nodeId": "24",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "If you’re sending items outside of the United Kingdom, you’ll be asked to include further details about what your package contains in this section. Depending on the country you have selected, these extra details may be mandatory for customs.",
+      "backendDOMNodeId": 24,
+      "childIds": [
+        "-1000000259",
+        "-1000000260",
+        "-1000000261"
+      ]
+    },
+    {
+      "nodeId": "228",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 228,
+      "domNodeId": "26",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"26\"]",
+      "tagName": "ul",
+      "childIds": [
+        "229",
+        "231",
+        "233",
+        "235",
+        "238",
+        "239",
+        "241"
+      ]
+    },
+    {
+      "nodeId": "-1000000294",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Homepage bullet control"
+    },
+    {
+      "nodeId": "51",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 51,
+      "childIds": [
+        "-1000000082"
+      ]
+    },
+    {
+      "nodeId": "52",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Trusted to deliver your mail for 500 years",
+      "backendDOMNodeId": 52,
+      "childIds": [
+        "-1000000295"
+      ]
+    },
+    {
+      "nodeId": "53",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 53,
+      "childIds": [
+        "-1000000084"
+      ]
+    },
+    {
+      "nodeId": "54",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Over 130,000 Service Points nationwide",
+      "backendDOMNodeId": 54,
+      "childIds": [
+        "-1000000296"
+      ]
+    },
+    {
+      "nodeId": "55",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 55,
+      "childIds": [
+        "-1000000086"
+      ]
+    },
+    {
+      "nodeId": "56",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Lowest reported carbon footprint per parcel delivery in the UK",
+      "backendDOMNodeId": 56,
+      "childIds": [
+        "-1000000297"
+      ]
+    },
+    {
+      "nodeId": "-1000000298",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Responsive list count control"
+    },
+    {
+      "nodeId": "58",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Log in / Register",
+      "backendDOMNodeId": 58,
+      "childIds": [
+        "-1000000299"
+      ]
+    },
+    {
+      "nodeId": "253",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 253,
+      "domNodeId": "51",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"51\"]",
+      "tagName": "li",
+      "childIds": [
+        "59",
+        "254"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "255",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 255,
+      "domNodeId": "53",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"53\"]",
+      "tagName": "li",
+      "childIds": [
+        "61",
+        "256"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "-1000000302",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Required country control"
+    },
+    {
+      "nodeId": "-1000000303",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Check prices and services available by country"
+    },
+    {
+      "nodeId": "-1000000306",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Select a Country"
+    },
+    {
+      "nodeId": "-1000000308",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "*"
+    },
+    {
+      "nodeId": "-1000000304",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Select a Country *"
+    },
+    {
+      "nodeId": "-1000000309",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Select a Country"
+    },
+    {
+      "nodeId": "-1000000305",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "View guide"
+    },
+    {
+      "nodeId": "-1000000310",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Product list control"
+    },
+    {
+      "nodeId": "-1000000311",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Popular gift ideas:"
+    },
+    {
+      "nodeId": "77",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 77,
+      "childIds": [
+        "-1000000104"
+      ]
+    },
+    {
+      "nodeId": "274",
+      "ignored": false,
+      "role": "link",
+      "name": "Framed Stamps and Prints",
+      "backendDOMNodeId": 274,
+      "domNodeId": "71",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"71\"]",
+      "tagName": "a",
+      "childIds": [
+        "78"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/framed-stamps"
+      }
+    },
+    {
+      "nodeId": "79",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " - mounted artwork from our latest issues.",
+      "backendDOMNodeId": 79,
+      "childIds": [
+        "-1000000313"
+      ]
+    },
+    {
+      "nodeId": "80",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 80,
+      "childIds": [
+        "-1000000107"
+      ]
+    },
+    {
+      "nodeId": "276",
+      "ignored": false,
+      "role": "link",
+      "name": "Miniature Sheets",
+      "backendDOMNodeId": 276,
+      "domNodeId": "73",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"73\"]",
+      "tagName": "a",
+      "childIds": [
+        "81"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/miniature-sheets"
+      }
+    },
+    {
+      "nodeId": "82",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " - a distinctive alternative to the main Stamp Set.",
+      "backendDOMNodeId": 82,
+      "childIds": [
+        "-1000000315"
+      ]
+    },
+    {
+      "nodeId": "83",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 83,
+      "childIds": [
+        "-1000000110"
+      ]
+    },
+    {
+      "nodeId": "278",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 278,
+      "domNodeId": "75",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"75\"]",
+      "tagName": "strong",
+      "childIds": [
+        "84"
+      ]
+    },
+    {
+      "nodeId": "85",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " - premium keepsakes combining design and narrative.",
+      "backendDOMNodeId": 85,
+      "childIds": [
+        "-1000000317"
+      ]
+    },
+    {
+      "nodeId": "86",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 86,
+      "childIds": [
+        "-1000000113"
+      ]
+    },
+    {
+      "nodeId": "280",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 280,
+      "domNodeId": "77",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"77\"]",
+      "tagName": "strong",
+      "childIds": [
+        "87",
+        "281"
+      ]
+    },
+    {
+      "nodeId": "282",
+      "ignored": false,
+      "role": "link",
+      "name": "and Medals",
+      "backendDOMNodeId": 282,
+      "domNodeId": "79",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"79\"]",
+      "tagName": "a",
+      "childIds": [
+        "283"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/medals"
+      }
+    },
+    {
+      "nodeId": "90",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " - including Penny Black gold editions.",
+      "backendDOMNodeId": 90,
+      "childIds": [
+        "-1000000321"
+      ]
+    },
+    {
+      "nodeId": "91",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 91,
+      "childIds": [
+        "-1000000118"
+      ]
+    },
+    {
+      "nodeId": "285",
+      "ignored": false,
+      "role": "link",
+      "name": "Collectors Sheets",
+      "backendDOMNodeId": 285,
+      "domNodeId": "82",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"82\"]",
+      "tagName": "a",
+      "childIds": [
+        "92"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/collectors-sheets"
+      }
+    },
+    {
+      "nodeId": "93",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " - stamps paired with thematic labels, set against a complementary backdrop.",
+      "backendDOMNodeId": 93,
+      "childIds": [
+        "-1000000323"
+      ]
+    },
+    {
+      "nodeId": "-1000000324",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Special delivery list and footnote control"
+    },
+    {
+      "nodeId": "95",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "1. ",
+      "backendDOMNodeId": 95,
+      "childIds": [
+        "-1000000122"
+      ]
+    },
+    {
+      "nodeId": "96",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Purchase Special Delivery Guaranteed by 1pm, online or at a Post Office.",
+      "backendDOMNodeId": 96,
+      "childIds": [
+        "-1000000325"
+      ]
+    },
+    {
+      "nodeId": "97",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "2. ",
+      "backendDOMNodeId": 97,
+      "childIds": [
+        "-1000000124"
+      ]
+    },
+    {
+      "nodeId": "98",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Choose to print your label at home, or take your parcel and QR code to any Post Office they can print your label",
+      "backendDOMNodeId": 98,
+      "childIds": [
+        "-1000000326",
+        "-1000000327"
+      ]
+    },
+    {
+      "nodeId": "291",
+      "ignored": false,
+      "role": "superscript",
+      "name": "",
+      "backendDOMNodeId": 291,
+      "domNodeId": "88",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"88\"]",
+      "tagName": "sup",
+      "childIds": [
+        "99"
+      ]
+    },
+    {
+      "nodeId": "100",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " when you drop it off.",
+      "backendDOMNodeId": 100,
+      "childIds": [
+        "-1000000329"
+      ]
+    },
+    {
+      "nodeId": "101",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "3. ",
+      "backendDOMNodeId": 101,
+      "childIds": [
+        "-1000000129"
+      ]
+    },
+    {
+      "nodeId": "102",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Drop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*.",
+      "backendDOMNodeId": 102,
+      "childIds": [
+        "-1000000330"
+      ]
+    },
+    {
+      "nodeId": "103",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "4. ",
+      "backendDOMNodeId": 103,
+      "childIds": [
+        "-1000000131"
+      ]
+    },
+    {
+      "nodeId": "104",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Prefer ",
+      "backendDOMNodeId": 104,
+      "childIds": [
+        "-1000000331"
+      ]
+    },
+    {
+      "nodeId": "294",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 294,
+      "domNodeId": "91",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"91\"]",
+      "tagName": "strong",
+      "childIds": [
+        "105"
+      ]
+    },
+    {
+      "nodeId": "106",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "? If you book collection from your door with ",
+      "backendDOMNodeId": 106,
+      "childIds": [
+        "-1000000333"
+      ]
+    },
+    {
+      "nodeId": "295",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 295,
+      "domNodeId": "92",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"92\"]",
+      "tagName": "strong",
+      "childIds": [
+        "107"
+      ]
+    },
+    {
+      "nodeId": "108",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", we add an extra working day to this delivery guarantee. ",
+      "backendDOMNodeId": 108,
+      "childIds": [
+        "-1000000335",
+        "-1000000336"
+      ]
+    },
+    {
+      "nodeId": "296",
+      "ignored": false,
+      "role": "link",
+      "name": "Find out more",
+      "backendDOMNodeId": 296,
+      "domNodeId": "93",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"93\"]",
+      "tagName": "a",
+      "childIds": [
+        "109"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/parcel-collect"
+      }
+    },
+    {
+      "nodeId": "-1000000338",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "†"
+    },
+    {
+      "nodeId": "-1000000339",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including "
+    },
+    {
+      "nodeId": "-1000000340",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with "
+    },
+    {
+      "nodeId": "-1000000341",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "signature) but parcel only format."
+    },
+    {
+      "nodeId": "-1000000342",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracked services symbol boundaries"
+    },
+    {
+      "nodeId": "-1000000343",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracked 24"
+    },
+    {
+      "nodeId": "114",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 114,
+      "childIds": [
+        "-1000000145"
+      ]
+    },
+    {
+      "nodeId": "115",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and Tracked 48 postage",
+      "backendDOMNodeId": 115,
+      "childIds": [
+        "-1000000344",
+        "-1000000345"
+      ]
+    },
+    {
+      "nodeId": "116",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 116,
+      "childIds": [
+        "-1000000148"
+      ]
+    },
+    {
+      "nodeId": "117",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tracking to delivery point",
+      "backendDOMNodeId": 117,
+      "childIds": [
+        "-1000000346"
+      ]
+    },
+    {
+      "nodeId": "118",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 118,
+      "childIds": [
+        "-1000000150"
+      ]
+    },
+    {
+      "nodeId": "119",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Photo on delivery",
+      "backendDOMNodeId": 119,
+      "childIds": [
+        "-1000000347"
+      ]
+    },
+    {
+      "nodeId": "120",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 120,
+      "childIds": [
+        "-1000000152"
+      ]
+    },
+    {
+      "nodeId": "121",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "SMS or email notifications to recipients",
+      "backendDOMNodeId": 121,
+      "childIds": [
+        "-1000000348"
+      ]
+    },
+    {
+      "nodeId": "122",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "†",
+      "backendDOMNodeId": 122,
+      "childIds": [
+        "-1000000349"
+      ]
+    },
+    {
+      "nodeId": "123",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 123,
+      "childIds": [
+        "-1000000155"
+      ]
+    },
+    {
+      "nodeId": "124",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Next working day delivery aim",
+      "backendDOMNodeId": 124,
+      "childIds": [
+        "-1000000350"
+      ]
+    },
+    {
+      "nodeId": "125",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "‡",
+      "backendDOMNodeId": 125,
+      "childIds": [
+        "-1000000351"
+      ]
+    },
+    {
+      "nodeId": "126",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 126,
+      "childIds": [
+        "-1000000158"
+      ]
+    },
+    {
+      "nodeId": "127",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Compensation cover up to £75",
+      "backendDOMNodeId": 127,
+      "childIds": [
+        "-1000000352"
+      ]
+    },
+    {
+      "nodeId": "128",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 128,
+      "childIds": [
+        "-1000000160"
+      ]
+    },
+    {
+      "nodeId": "129",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Change your delivery options before delivery is attempted",
+      "backendDOMNodeId": 129,
+      "childIds": [
+        "-1000000353"
+      ]
+    },
+    {
+      "nodeId": "-1000000354",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "†"
+    },
+    {
+      "nodeId": "-1000000355",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Only available for products purchased online "
+    },
+    {
+      "nodeId": "-1000000356",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "‡"
+    },
+    {
+      "nodeId": "-1000000357",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery aims may not apply to some "
+    },
+    {
+      "nodeId": "134",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "postcodes",
+      "backendDOMNodeId": 134,
+      "childIds": [
+        "-1000000358"
+      ]
+    },
+    {
+      "nodeId": "-1000000359",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracked 48"
+    },
+    {
+      "nodeId": "136",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 136,
+      "childIds": [
+        "-1000000168"
+      ]
+    },
+    {
+      "nodeId": "137",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and Tracked 48 postage",
+      "backendDOMNodeId": 137,
+      "childIds": [
+        "-1000000360",
+        "-1000000361"
+      ]
+    },
+    {
+      "nodeId": "138",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 138,
+      "childIds": [
+        "-1000000171"
+      ]
+    },
+    {
+      "nodeId": "139",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tracked to delivery point",
+      "backendDOMNodeId": 139,
+      "childIds": [
+        "-1000000362"
+      ]
+    },
+    {
+      "nodeId": "140",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 140,
+      "childIds": [
+        "-1000000173"
+      ]
+    },
+    {
+      "nodeId": "141",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Photo on delivery",
+      "backendDOMNodeId": 141,
+      "childIds": [
+        "-1000000363"
+      ]
+    },
+    {
+      "nodeId": "142",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 142,
+      "childIds": [
+        "-1000000175"
+      ]
+    },
+    {
+      "nodeId": "143",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "SMS or email notifications to recipients",
+      "backendDOMNodeId": 143,
+      "childIds": [
+        "-1000000364"
+      ]
+    },
+    {
+      "nodeId": "144",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "†",
+      "backendDOMNodeId": 144,
+      "childIds": [
+        "-1000000365"
+      ]
+    },
+    {
+      "nodeId": "145",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 145,
+      "childIds": [
+        "-1000000178"
+      ]
+    },
+    {
+      "nodeId": "146",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Aims to deliver in two to three working days",
+      "backendDOMNodeId": 146,
+      "childIds": [
+        "-1000000366"
+      ]
+    },
+    {
+      "nodeId": "147",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "‡",
+      "backendDOMNodeId": 147,
+      "childIds": [
+        "-1000000367"
+      ]
+    },
+    {
+      "nodeId": "148",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 148,
+      "childIds": [
+        "-1000000181"
+      ]
+    },
+    {
+      "nodeId": "149",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Compensation cover up to £75",
+      "backendDOMNodeId": 149,
+      "childIds": [
+        "-1000000368"
+      ]
+    },
+    {
+      "nodeId": "150",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 150,
+      "childIds": [
+        "-1000000183"
+      ]
+    },
+    {
+      "nodeId": "151",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Change your delivery options before delivery is attempted",
+      "backendDOMNodeId": 151,
+      "childIds": [
+        "-1000000369"
+      ]
+    },
+    {
+      "nodeId": "-1000000370",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "†"
+    },
+    {
+      "nodeId": "-1000000371",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Only available for products purchased online "
+    },
+    {
+      "nodeId": "-1000000372",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "‡"
+    },
+    {
+      "nodeId": "-1000000373",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery aims may not apply to some "
+    },
+    {
+      "nodeId": "156",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "postcodes",
+      "backendDOMNodeId": 156,
+      "childIds": [
+        "-1000000374"
+      ]
+    },
+    {
+      "nodeId": "-1000000375",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Postbox marker and link controls"
+    },
+    {
+      "nodeId": "158",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Over 110,000 in the UK",
+      "backendDOMNodeId": 158,
+      "childIds": [
+        "-1000000376"
+      ]
+    },
+    {
+      "nodeId": "159",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "* Access over 110,000 Royal Mail postboxes nationwide",
+      "backendDOMNodeId": 159,
+      "childIds": [
+        "-1000000377"
+      ]
+    },
+    {
+      "nodeId": "-1000000378",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sending parcels with a Postbox"
+    },
+    {
+      "nodeId": "-1000000379",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "If you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your "
+    },
+    {
+      "nodeId": "-1000000380",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "items at a postbox."
+    },
+    {
+      "nodeId": "162",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "1. ",
+      "backendDOMNodeId": 162,
+      "childIds": [
+        "-1000000196"
+      ]
+    },
+    {
+      "nodeId": "340",
+      "ignored": false,
+      "role": "link",
+      "name": "Buy postage online",
+      "backendDOMNodeId": 340,
+      "domNodeId": "137",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"137\"]",
+      "tagName": "a",
+      "childIds": [
+        "163"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/buy-postage"
+      }
+    },
+    {
+      "nodeId": "164",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " (you can do this online or using our app) or purchase a stamp for your letter",
+      "backendDOMNodeId": 164,
+      "childIds": [
+        "-1000000382"
+      ]
+    },
+    {
+      "nodeId": "165",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "2. ",
+      "backendDOMNodeId": 165,
+      "childIds": [
+        "-1000000199"
+      ]
+    },
+    {
+      "nodeId": "166",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Print your label and pop it on or affix your stamp and write out your address",
+      "backendDOMNodeId": 166,
+      "childIds": [
+        "-1000000383"
+      ]
+    },
+    {
+      "nodeId": "167",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "3. ",
+      "backendDOMNodeId": 167,
+      "childIds": [
+        "-1000000201"
+      ]
+    },
+    {
+      "nodeId": "343",
+      "ignored": false,
+      "role": "link",
+      "name": "Use our app",
+      "backendDOMNodeId": 343,
+      "domNodeId": "140",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"140\"]",
+      "tagName": "a",
+      "childIds": [
+        "168"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/use-app"
+      }
+    },
+    {
+      "nodeId": "169",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " to scan your label for proof of posting",
+      "backendDOMNodeId": 169,
+      "childIds": [
+        "-1000000385"
+      ]
+    },
+    {
+      "nodeId": "170",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "4. ",
+      "backendDOMNodeId": 170,
+      "childIds": [
+        "-1000000204"
+      ]
+    },
+    {
+      "nodeId": "345",
+      "ignored": false,
+      "role": "link",
+      "name": "Find your nearest postbox",
+      "backendDOMNodeId": 345,
+      "domNodeId": "142",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"142\"]",
+      "tagName": "a",
+      "childIds": [
+        "171"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/find-postbox"
+      }
+    },
+    {
+      "nodeId": "172",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ", post your item and leave the rest to us",
+      "backendDOMNodeId": 172,
+      "childIds": [
+        "-1000000387"
+      ]
+    },
+    {
+      "nodeId": "-1000000388",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Matched negative controls"
+    },
+    {
+      "nodeId": "174",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "1. ",
+      "backendDOMNodeId": 174,
+      "childIds": [
+        "-1000000208"
+      ]
+    },
+    {
+      "nodeId": "175",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Plain ordered item one.",
+      "backendDOMNodeId": 175,
+      "childIds": [
+        "-1000000389"
+      ]
+    },
+    {
+      "nodeId": "176",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "2. ",
+      "backendDOMNodeId": 176,
+      "childIds": [
+        "-1000000210"
+      ]
+    },
+    {
+      "nodeId": "177",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Plain ordered item two.",
+      "backendDOMNodeId": 177,
+      "childIds": [
+        "-1000000390"
+      ]
+    },
+    {
+      "nodeId": "178",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "3. ",
+      "backendDOMNodeId": 178,
+      "childIds": [
+        "-1000000212"
+      ]
+    },
+    {
+      "nodeId": "179",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Plain ordered item three.",
+      "backendDOMNodeId": 179,
+      "childIds": [
+        "-1000000391"
+      ]
+    },
+    {
+      "nodeId": "180",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 180,
+      "childIds": [
+        "-1000000214"
+      ]
+    },
+    {
+      "nodeId": "181",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Plain unordered item one.",
+      "backendDOMNodeId": 181,
+      "childIds": [
+        "-1000000392"
+      ]
+    },
+    {
+      "nodeId": "182",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 182,
+      "childIds": [
+        "-1000000216"
+      ]
+    },
+    {
+      "nodeId": "183",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Plain unordered item two.",
+      "backendDOMNodeId": 183,
+      "childIds": [
+        "-1000000393"
+      ]
+    },
+    {
+      "nodeId": "184",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 184,
+      "childIds": [
+        "-1000000218"
+      ]
+    },
+    {
+      "nodeId": "185",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Plain unordered item three.",
+      "backendDOMNodeId": 185,
+      "childIds": [
+        "-1000000394"
+      ]
+    },
+    {
+      "nodeId": "358",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 358,
+      "domNodeId": "155",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"155\"]",
+      "tagName": "li",
+      "childIds": [
+        "186",
+        "359"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "360",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 360,
+      "domNodeId": "157",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"157\"]",
+      "tagName": "li",
+      "childIds": [
+        "188",
+        "361"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "362",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 362,
+      "domNodeId": "159",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"159\"]",
+      "tagName": "li",
+      "childIds": [
+        "190",
+        "363"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "364",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 364,
+      "domNodeId": "161",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"161\"]",
+      "tagName": "li",
+      "childIds": [
+        "192",
+        "365"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "-1000000005",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "6",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "On this page, the services available for your package will be displayed. Some services have additional options, tracking, or requiring a signature. Some tracked services also allow SMS and email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or email address provided to let you know when your item is on its way. You will only see the services which are available for the item you’re sending.",
+      "backendDOMNodeId": 6,
+      "childIds": [
+        "-1000000233",
+        "-1000000234",
+        "-1000000235",
+        "-1000000236",
+        "-1000000237"
+      ]
+    },
+    {
+      "nodeId": "212",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 212,
+      "domNodeId": "10",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
+      "tagName": "li",
+      "childIds": [
+        "7",
+        "8",
+        "213",
+        "10"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "-1000000016",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "12",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery aims shown for each service are based on the majority of UK addresses. However, delivery times may vary depending on the destination postcode. For services where delivery is stated as an aim rather than a guarantee, no delivery target time is provided for items sent to the following postcode areas:",
+      "backendDOMNodeId": 12,
+      "childIds": [
+        "-1000000242",
+        "-1000000243",
+        "-1000000244",
+        "-1000000245"
+      ]
+    },
+    {
+      "nodeId": "217",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 217,
+      "domNodeId": "15",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"15\"]",
+      "tagName": "li",
+      "childIds": [
+        "13",
+        "14"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "15",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "In these cases, delivery may take longer and no estimated delivery timeframe is guaranteed.",
+      "backendDOMNodeId": 15,
+      "childIds": [
+        "-1000000249"
+      ]
+    },
+    {
+      "nodeId": "-1000000026",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "17",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Depending on the services selected, item cover may also be offered to provide compensation for damage or part loss. Select the cover amount closest to the value of your items.",
+      "backendDOMNodeId": 17,
+      "childIds": [
+        "-1000000250",
+        "-1000000251"
+      ]
+    },
+    {
+      "nodeId": "-1000000029",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "19",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Click the ‘Continue’ button.",
+      "backendDOMNodeId": 19,
+      "childIds": [
+        "-1000000252"
+      ]
+    },
+    {
+      "nodeId": "-1000000032",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000254",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "On this page, please enter the address where you want to send your item. If you're sending within "
+    },
+    {
+      "nodeId": "-1000000255",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "the United Kingdom, you can begin typing part of the address or postcode into the Postcode "
+    },
+    {
+      "nodeId": "-1000000256",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a "
+    },
+    {
+      "nodeId": "-1000000257",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "minimum, you must include a name or company name, the first line of the address, and a town/city. "
+    },
+    {
+      "nodeId": "-1000000258",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "For items within the United Kingdom, a postcode is also required."
+    },
+    {
+      "nodeId": "-1000000038",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000259",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "If you’re sending items outside of the United Kingdom, you’ll be asked to include further details "
+    },
+    {
+      "nodeId": "-1000000260",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "about what your package contains in this section. Depending on the country you have selected, "
+    },
+    {
+      "nodeId": "-1000000261",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "these extra details may be mandatory for customs."
+    },
+    {
+      "nodeId": "229",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 229,
+      "domNodeId": "27",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"27\"]",
+      "tagName": "li",
+      "childIds": [
+        "25",
+        "26",
+        "230",
+        "28"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "231",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 231,
+      "domNodeId": "29",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"29\"]",
+      "tagName": "li",
+      "childIds": [
+        "29",
+        "30",
+        "232",
+        "32"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "233",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 233,
+      "domNodeId": "31",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"31\"]",
+      "tagName": "li",
+      "childIds": [
+        "33",
+        "34",
+        "234",
+        "36"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "235",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 235,
+      "domNodeId": "33",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"33\"]",
+      "tagName": "li",
+      "childIds": [
+        "37",
+        "38",
+        "236",
+        "40",
+        "237",
+        "42"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "238",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 238,
+      "domNodeId": "36",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"36\"]",
+      "tagName": "li",
+      "childIds": [
+        "43",
+        "44"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "239",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 239,
+      "domNodeId": "37",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"37\"]",
+      "tagName": "li",
+      "childIds": [
+        "45",
+        "46",
+        "240"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "241",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 241,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "li",
+      "childIds": [
+        "48",
+        "49"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "-1000000082",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000295",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Trusted to deliver your mail for 500 years"
+    },
+    {
+      "nodeId": "-1000000084",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000296",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Over 130,000 Service Points nationwide"
+    },
+    {
+      "nodeId": "-1000000086",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000297",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Lowest reported carbon footprint per parcel delivery in the UK"
+    },
+    {
+      "nodeId": "-1000000299",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Log in / Register"
+    },
+    {
+      "nodeId": "59",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 59,
+      "childIds": [
+        "-1000000090"
+      ]
+    },
+    {
+      "nodeId": "254",
+      "ignored": false,
+      "role": "link",
+      "name": "Help",
+      "backendDOMNodeId": 254,
+      "domNodeId": "52",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"52\"]",
+      "tagName": "a",
+      "childIds": [
+        "60"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/help"
+      }
+    },
+    {
+      "nodeId": "61",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 61,
+      "childIds": [
+        "-1000000092"
+      ]
+    },
+    {
+      "nodeId": "256",
+      "ignored": false,
+      "role": "link",
+      "name": "Our locations",
+      "backendDOMNodeId": 256,
+      "domNodeId": "54",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"54\"]",
+      "tagName": "a",
+      "childIds": [
+        "62"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/locations"
+      }
+    },
+    {
+      "nodeId": "-1000000104",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "78",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Framed Stamps and Prints",
+      "backendDOMNodeId": 78,
+      "childIds": [
+        "-1000000312"
+      ]
+    },
+    {
+      "nodeId": "-1000000313",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " - mounted artwork from our latest issues."
+    },
+    {
+      "nodeId": "-1000000107",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "81",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Miniature Sheets",
+      "backendDOMNodeId": 81,
+      "childIds": [
+        "-1000000314"
+      ]
+    },
+    {
+      "nodeId": "-1000000315",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " - a distinctive alternative to the main Stamp Set."
+    },
+    {
+      "nodeId": "-1000000110",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "84",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Prestige Stamp Books",
+      "backendDOMNodeId": 84,
+      "childIds": [
+        "-1000000316"
+      ]
+    },
+    {
+      "nodeId": "-1000000317",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " - premium keepsakes combining design and narrative."
+    },
+    {
+      "nodeId": "-1000000113",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "87",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Limited-Edition Ingots, ",
+      "backendDOMNodeId": 87,
+      "childIds": [
+        "-1000000318"
+      ]
+    },
+    {
+      "nodeId": "281",
+      "ignored": false,
+      "role": "link",
+      "name": "Coin Covers",
+      "backendDOMNodeId": 281,
+      "domNodeId": "78",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"78\"]",
+      "tagName": "a",
+      "childIds": [
+        "88"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/coin-covers"
+      }
+    },
+    {
+      "nodeId": "283",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 283,
+      "domNodeId": "80",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"80\"]",
+      "tagName": "strong",
+      "childIds": [
+        "89"
+      ]
+    },
+    {
+      "nodeId": "-1000000321",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " - including Penny Black gold editions."
+    },
+    {
+      "nodeId": "-1000000118",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "92",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Collectors Sheets",
+      "backendDOMNodeId": 92,
+      "childIds": [
+        "-1000000322"
+      ]
+    },
+    {
+      "nodeId": "-1000000323",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " - stamps paired with thematic labels, set against a complementary backdrop."
+    },
+    {
+      "nodeId": "-1000000122",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000325",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Purchase Special Delivery Guaranteed by 1pm, online or at a Post Office."
+    },
+    {
+      "nodeId": "-1000000124",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000326",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Choose to print your label at home, or take your parcel and QR code to any Post Office they can "
+    },
+    {
+      "nodeId": "-1000000327",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "print your label"
+    },
+    {
+      "nodeId": "99",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "†",
+      "backendDOMNodeId": 99,
+      "childIds": [
+        "-1000000328"
+      ]
+    },
+    {
+      "nodeId": "-1000000329",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " when you drop it off."
+    },
+    {
+      "nodeId": "-1000000129",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000330",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Drop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*."
+    },
+    {
+      "nodeId": "-1000000131",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000331",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Prefer "
+    },
+    {
+      "nodeId": "105",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Parcel Collect",
+      "backendDOMNodeId": 105,
+      "childIds": [
+        "-1000000332"
+      ]
+    },
+    {
+      "nodeId": "-1000000333",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "? If you book collection from your door with "
+    },
+    {
+      "nodeId": "107",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Parcel Collect",
+      "backendDOMNodeId": 107,
+      "childIds": [
+        "-1000000334"
+      ]
+    },
+    {
+      "nodeId": "-1000000335",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", we add an extra "
+    },
+    {
+      "nodeId": "-1000000336",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "working day to this delivery guarantee. "
+    },
+    {
+      "nodeId": "109",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Find out more",
+      "backendDOMNodeId": 109,
+      "childIds": [
+        "-1000000337"
+      ]
+    },
+    {
+      "nodeId": "-1000000145",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000344",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and "
+    },
+    {
+      "nodeId": "-1000000345",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracked 48 postage"
+    },
+    {
+      "nodeId": "-1000000148",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000346",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracking to delivery point"
+    },
+    {
+      "nodeId": "-1000000150",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000347",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Photo on delivery"
+    },
+    {
+      "nodeId": "-1000000152",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000348",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "SMS or email notifications to recipients"
+    },
+    {
+      "nodeId": "-1000000349",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "†"
+    },
+    {
+      "nodeId": "-1000000155",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000350",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Next working day delivery aim"
+    },
+    {
+      "nodeId": "-1000000351",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "‡"
+    },
+    {
+      "nodeId": "-1000000158",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000352",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Compensation cover up to £75"
+    },
+    {
+      "nodeId": "-1000000160",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000353",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Change your delivery options before delivery is attempted"
+    },
+    {
+      "nodeId": "-1000000358",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "postcodes"
+    },
+    {
+      "nodeId": "-1000000168",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000360",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and "
+    },
+    {
+      "nodeId": "-1000000361",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracked 48 postage"
+    },
+    {
+      "nodeId": "-1000000171",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000362",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tracked to delivery point"
+    },
+    {
+      "nodeId": "-1000000173",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000363",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Photo on delivery"
+    },
+    {
+      "nodeId": "-1000000175",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000364",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "SMS or email notifications to recipients"
+    },
+    {
+      "nodeId": "-1000000365",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "†"
+    },
+    {
+      "nodeId": "-1000000178",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000366",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Aims to deliver in two to three working days"
+    },
+    {
+      "nodeId": "-1000000367",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "‡"
+    },
+    {
+      "nodeId": "-1000000181",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000368",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Compensation cover up to £75"
+    },
+    {
+      "nodeId": "-1000000183",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000369",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Change your delivery options before delivery is attempted"
+    },
+    {
+      "nodeId": "-1000000374",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "postcodes"
+    },
+    {
+      "nodeId": "-1000000376",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Over 110,000 in the UK"
+    },
+    {
+      "nodeId": "-1000000377",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "* Access over 110,000 Royal Mail postboxes nationwide"
+    },
+    {
+      "nodeId": "-1000000196",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "163",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Buy postage online",
+      "backendDOMNodeId": 163,
+      "childIds": [
+        "-1000000381"
+      ]
+    },
+    {
+      "nodeId": "-1000000382",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " (you can do this online or using our app) or purchase a stamp for your letter"
+    },
+    {
+      "nodeId": "-1000000199",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000383",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Print your label and pop it on or affix your stamp and write out your address"
+    },
+    {
+      "nodeId": "-1000000201",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "168",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Use our app",
+      "backendDOMNodeId": 168,
+      "childIds": [
+        "-1000000384"
+      ]
+    },
+    {
+      "nodeId": "-1000000385",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " to scan your label for proof of posting"
+    },
+    {
+      "nodeId": "-1000000204",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "171",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Find your nearest postbox",
+      "backendDOMNodeId": 171,
+      "childIds": [
+        "-1000000386"
+      ]
+    },
+    {
+      "nodeId": "-1000000387",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": ", post your item and leave the rest to us"
+    },
+    {
+      "nodeId": "-1000000208",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000389",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Plain ordered item one."
+    },
+    {
+      "nodeId": "-1000000210",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000390",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Plain ordered item two."
+    },
+    {
+      "nodeId": "-1000000212",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000391",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Plain ordered item three."
+    },
+    {
+      "nodeId": "-1000000214",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000392",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Plain unordered item one."
+    },
+    {
+      "nodeId": "-1000000216",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000393",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Plain unordered item two."
+    },
+    {
+      "nodeId": "-1000000218",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000394",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Plain unordered item three."
+    },
+    {
+      "nodeId": "186",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 186,
+      "childIds": [
+        "-1000000220"
+      ]
+    },
+    {
+      "nodeId": "359",
+      "ignored": false,
+      "role": "link",
+      "name": "Contact us",
+      "backendDOMNodeId": 359,
+      "domNodeId": "156",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"156\"]",
+      "tagName": "a",
+      "childIds": [
+        "187"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/contact"
+      }
+    },
+    {
+      "nodeId": "188",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 188,
+      "childIds": [
+        "-1000000222"
+      ]
+    },
+    {
+      "nodeId": "361",
+      "ignored": false,
+      "role": "link",
+      "name": "Jobs and careers",
+      "backendDOMNodeId": 361,
+      "domNodeId": "158",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"158\"]",
+      "tagName": "a",
+      "childIds": [
+        "189"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/jobs"
+      }
+    },
+    {
+      "nodeId": "190",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 190,
+      "childIds": [
+        "-1000000224"
+      ]
+    },
+    {
+      "nodeId": "363",
+      "ignored": false,
+      "role": "link",
+      "name": "Parcelforce Worldwide Opens in a new window",
+      "backendDOMNodeId": 363,
+      "domNodeId": "160",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"160\"]",
+      "tagName": "a",
+      "childIds": [
+        "191"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/parcelforce"
+      }
+    },
+    {
+      "nodeId": "192",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "• ",
+      "backendDOMNodeId": 192,
+      "childIds": [
+        "-1000000226"
+      ]
+    },
+    {
+      "nodeId": "365",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility",
+      "backendDOMNodeId": 365,
+      "domNodeId": "162",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"162\"]",
+      "tagName": "a",
+      "childIds": [
+        "193"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/accessibility"
+      }
+    },
+    {
+      "nodeId": "-1000000233",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "On this page, the services available for your package will be displayed. Some services have "
+    },
+    {
+      "nodeId": "-1000000234",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "additional options, tracking, or requiring a signature. Some tracked services also allow SMS and "
+    },
+    {
+      "nodeId": "-1000000235",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or "
+    },
+    {
+      "nodeId": "-1000000236",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "email address provided to let you know when your item is on its way. You will only see the services "
+    },
+    {
+      "nodeId": "-1000000237",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "which are available for the item you’re sending."
+    },
+    {
+      "nodeId": "7",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 7,
+      "childIds": [
+        "-1000000011"
+      ]
+    },
+    {
+      "nodeId": "8",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Some Parcelforce services have extended delivery times for certain zones/postcodes. ",
+      "backendDOMNodeId": 8,
+      "childIds": [
+        "-1000000403"
+      ]
+    },
+    {
+      "nodeId": "213",
+      "ignored": false,
+      "role": "link",
+      "name": "Find out more here",
+      "backendDOMNodeId": 213,
+      "domNodeId": "11",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
+      "tagName": "a",
+      "childIds": [
+        "9"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://example.test/parcelforce-zones"
+      }
+    },
+    {
+      "nodeId": "10",
+      "ignored": false,
+      "role": "StaticText",
+      "name": ".",
+      "backendDOMNodeId": 10,
+      "childIds": [
+        "-1000000406"
+      ]
+    },
+    {
+      "nodeId": "-1000000242",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery aims shown for each service are based on the majority of UK addresses. However, delivery "
+    },
+    {
+      "nodeId": "-1000000243",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "times may vary depending on the destination postcode. For services where delivery is stated as an "
+    },
+    {
+      "nodeId": "-1000000244",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "aim rather than a guarantee, no delivery target time is provided for items sent to the following "
+    },
+    {
+      "nodeId": "-1000000245",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "postcode areas:"
+    },
+    {
+      "nodeId": "13",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 13,
+      "childIds": [
+        "-1000000021"
+      ]
+    },
+    {
+      "nodeId": "14",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "AB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–25, GY, IM, JE, ZE.",
+      "backendDOMNodeId": 14,
+      "childIds": [
+        "-1000000246",
+        "-1000000247",
+        "-1000000248"
+      ]
+    },
+    {
+      "nodeId": "-1000000249",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "In these cases, delivery may take longer and no estimated delivery timeframe is guaranteed."
+    },
+    {
+      "nodeId": "-1000000250",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Depending on the services selected, item cover may also be offered to provide compensation for "
+    },
+    {
+      "nodeId": "-1000000251",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "damage or part loss. Select the cover amount closest to the value of your items."
+    },
+    {
+      "nodeId": "-1000000252",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Click the ‘Continue’ button."
+    },
+    {
+      "nodeId": "25",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 25,
+      "childIds": [
+        "-1000000042"
+      ]
+    },
+    {
+      "nodeId": "26",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The ",
+      "backendDOMNodeId": 26,
+      "childIds": [
+        "-1000000262"
+      ]
+    },
+    {
+      "nodeId": "230",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 230,
+      "domNodeId": "28",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"28\"]",
+      "tagName": "strong",
+      "childIds": [
+        "27"
+      ]
+    },
+    {
+      "nodeId": "28",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " is required to describe the basis on which the goods are being sent.",
+      "backendDOMNodeId": 28,
+      "childIds": [
+        "-1000000264",
+        "-1000000265"
+      ]
+    },
+    {
+      "nodeId": "29",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 29,
+      "childIds": [
+        "-1000000047"
+      ]
+    },
+    {
+      "nodeId": "30",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The ",
+      "backendDOMNodeId": 30,
+      "childIds": [
+        "-1000000266"
+      ]
+    },
+    {
+      "nodeId": "232",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 232,
+      "domNodeId": "30",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"30\"]",
+      "tagName": "strong",
+      "childIds": [
+        "31"
+      ]
+    },
+    {
+      "nodeId": "32",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.",
+      "backendDOMNodeId": 32,
+      "childIds": [
+        "-1000000268",
+        "-1000000269"
+      ]
+    },
+    {
+      "nodeId": "33",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 33,
+      "childIds": [
+        "-1000000052"
+      ]
+    },
+    {
+      "nodeId": "34",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The ",
+      "backendDOMNodeId": 34,
+      "childIds": [
+        "-1000000270"
+      ]
+    },
+    {
+      "nodeId": "234",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 234,
+      "domNodeId": "32",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"32\"]",
+      "tagName": "strong",
+      "childIds": [
+        "35"
+      ]
+    },
+    {
+      "nodeId": "36",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.",
+      "backendDOMNodeId": 36,
+      "childIds": [
+        "-1000000272",
+        "-1000000273"
+      ]
+    },
+    {
+      "nodeId": "37",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 37,
+      "childIds": [
+        "-1000000057"
+      ]
+    },
+    {
+      "nodeId": "38",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "The ",
+      "backendDOMNodeId": 38,
+      "childIds": [
+        "-1000000274"
+      ]
+    },
+    {
+      "nodeId": "236",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 236,
+      "domNodeId": "34",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"34\"]",
+      "tagName": "strong",
+      "childIds": [
+        "39"
+      ]
+    },
+    {
+      "nodeId": "40",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " and ",
+      "backendDOMNodeId": 40,
+      "childIds": [
+        "-1000000276"
+      ]
+    },
+    {
+      "nodeId": "237",
+      "ignored": false,
+      "role": "strong",
+      "name": "",
+      "backendDOMNodeId": 237,
+      "domNodeId": "35",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"35\"]",
+      "tagName": "strong",
+      "childIds": [
+        "41"
+      ]
+    },
+    {
+      "nodeId": "42",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.",
+      "backendDOMNodeId": 42,
+      "childIds": [
+        "-1000000278",
+        "-1000000279",
+        "-1000000280"
+      ]
+    },
+    {
+      "nodeId": "43",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 43,
+      "childIds": [
+        "-1000000065"
+      ]
+    },
+    {
+      "nodeId": "44",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "If you're sending more than one type of item in a single package, use the 'Add another item' button further down the page to describe the other items that you're sending.",
+      "backendDOMNodeId": 44,
+      "childIds": [
+        "-1000000281",
+        "-1000000282"
+      ]
+    },
+    {
+      "nodeId": "45",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 45,
+      "childIds": [
+        "-1000000068"
+      ]
+    },
+    {
+      "nodeId": "46",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "If your destination country is the USA, a customs fee (including all duties and taxes) and a handling fee will be calculated after you have entered your package contents. This is mandatory when sending items to the USA and is based on the contents you declare. This will also show in your basket with the postage, and on your purchase confirmation, and will be charged in addition to postage. ",
+      "backendDOMNodeId": 46,
+      "childIds": [
+        "-1000000283",
+        "-1000000284",
+        "-1000000285",
+        "-1000000286",
+        "-1000000287"
+      ]
+    },
+    {
+      "nodeId": "240",
+      "ignored": false,
+      "role": "link",
+      "name": "Find out more about customs and handling fees.",
+      "backendDOMNodeId": 240,
+      "domNodeId": "38",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"38\"]",
+      "tagName": "a",
+      "childIds": [
+        "47"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://example.test/customs-fees"
+      }
+    },
+    {
+      "nodeId": "48",
+      "ignored": false,
+      "role": "ListMarker",
+      "name": "◦ ",
+      "backendDOMNodeId": 48,
+      "childIds": [
+        "-1000000075"
+      ]
+    },
+    {
+      "nodeId": "49",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "If your destination country is France, any applicable customs charges (including duties and taxes) and a handling fee will be calculated after you enter your package contents. These charges will be shown in your basket and on your purchase confirmation and are payable in addition to postage. You can choose to pay these charges at the time of purchase, or allow the recipient to pay them on delivery.",
+      "backendDOMNodeId": 49,
+      "childIds": [
+        "-1000000289",
+        "-1000000290",
+        "-1000000291",
+        "-1000000292",
+        "-1000000293"
+      ]
+    },
+    {
+      "nodeId": "-1000000090",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "60",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help",
+      "backendDOMNodeId": 60,
+      "childIds": [
+        "-1000000300"
+      ]
+    },
+    {
+      "nodeId": "-1000000092",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "62",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Our locations",
+      "backendDOMNodeId": 62,
+      "childIds": [
+        "-1000000301"
+      ]
+    },
+    {
+      "nodeId": "-1000000312",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Framed Stamps and Prints"
+    },
+    {
+      "nodeId": "-1000000314",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Miniature Sheets"
+    },
+    {
+      "nodeId": "-1000000316",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Prestige Stamp Books"
+    },
+    {
+      "nodeId": "-1000000318",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Limited-Edition Ingots, "
+    },
+    {
+      "nodeId": "88",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Coin Covers",
+      "backendDOMNodeId": 88,
+      "childIds": [
+        "-1000000319"
+      ]
+    },
+    {
+      "nodeId": "89",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "and Medals",
+      "backendDOMNodeId": 89,
+      "childIds": [
+        "-1000000320"
+      ]
+    },
+    {
+      "nodeId": "-1000000322",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Collectors Sheets"
+    },
+    {
+      "nodeId": "-1000000328",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "†"
+    },
+    {
+      "nodeId": "-1000000332",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Parcel Collect"
+    },
+    {
+      "nodeId": "-1000000334",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Parcel Collect"
+    },
+    {
+      "nodeId": "-1000000337",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Find out more"
+    },
+    {
+      "nodeId": "-1000000381",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Buy postage online"
+    },
+    {
+      "nodeId": "-1000000384",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Use our app"
+    },
+    {
+      "nodeId": "-1000000386",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Find your nearest postbox"
+    },
+    {
+      "nodeId": "-1000000220",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "187",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact us",
+      "backendDOMNodeId": 187,
+      "childIds": [
+        "-1000000395"
+      ]
+    },
+    {
+      "nodeId": "-1000000222",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "189",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Jobs and careers",
+      "backendDOMNodeId": 189,
+      "childIds": [
+        "-1000000396"
+      ]
+    },
+    {
+      "nodeId": "-1000000224",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "191",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Parcelforce Worldwide Opens in a new window",
+      "backendDOMNodeId": 191,
+      "childIds": [
+        "-1000000397"
+      ]
+    },
+    {
+      "nodeId": "-1000000226",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "193",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility",
+      "backendDOMNodeId": 193,
+      "childIds": [
+        "-1000000398"
+      ]
+    },
+    {
+      "nodeId": "-1000000011",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000403",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Some Parcelforce services have extended delivery times for certain zones/postcodes. "
+    },
+    {
+      "nodeId": "9",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Find out more here",
+      "backendDOMNodeId": 9,
+      "childIds": [
+        "-1000000404",
+        "-1000000405"
+      ]
+    },
+    {
+      "nodeId": "-1000000406",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "."
+    },
+    {
+      "nodeId": "-1000000021",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000246",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "AB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, "
+    },
+    {
+      "nodeId": "-1000000247",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–"
+    },
+    {
+      "nodeId": "-1000000248",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "25, GY, IM, JE, ZE."
+    },
+    {
+      "nodeId": "-1000000042",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000262",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The "
+    },
+    {
+      "nodeId": "27",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "customs declaration category",
+      "backendDOMNodeId": 27,
+      "childIds": [
+        "-1000000263"
+      ]
+    },
+    {
+      "nodeId": "-1000000264",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " is required to describe the basis on which the goods are "
+    },
+    {
+      "nodeId": "-1000000265",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "being sent."
+    },
+    {
+      "nodeId": "-1000000047",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000266",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The "
+    },
+    {
+      "nodeId": "31",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "item description",
+      "backendDOMNodeId": 31,
+      "childIds": [
+        "-1000000267"
+      ]
+    },
+    {
+      "nodeId": "-1000000268",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " should be a short description of the item you're sending. For example, "
+    },
+    {
+      "nodeId": "-1000000269",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "'books', 'photographs', 'clothes' or 'chocolate'."
+    },
+    {
+      "nodeId": "-1000000052",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000270",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The "
+    },
+    {
+      "nodeId": "35",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "quantity",
+      "backendDOMNodeId": 35,
+      "childIds": [
+        "-1000000271"
+      ]
+    },
+    {
+      "nodeId": "-1000000272",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " refers to the number of this type of item that you're sending. For example, if "
+    },
+    {
+      "nodeId": "-1000000273",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "you're sending 2 books, enter '2' here."
+    },
+    {
+      "nodeId": "-1000000057",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000274",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "The "
+    },
+    {
+      "nodeId": "39",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "item weight",
+      "backendDOMNodeId": 39,
+      "childIds": [
+        "-1000000275"
+      ]
+    },
+    {
+      "nodeId": "-1000000276",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " and "
+    },
+    {
+      "nodeId": "41",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "item value",
+      "backendDOMNodeId": 41,
+      "childIds": [
+        "-1000000277"
+      ]
+    },
+    {
+      "nodeId": "-1000000278",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " should be the weight (in grams or kilograms) and value (in "
+    },
+    {
+      "nodeId": "-1000000279",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "pounds) of a single one of these items. We multiply these values by the quantity to get the "
+    },
+    {
+      "nodeId": "-1000000280",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "total weight, which is displayed underneath each of these fields."
+    },
+    {
+      "nodeId": "-1000000065",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000281",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "If you're sending more than one type of item in a single package, use the 'Add another item' "
+    },
+    {
+      "nodeId": "-1000000282",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "button further down the page to describe the other items that you're sending."
+    },
+    {
+      "nodeId": "-1000000068",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000283",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "If your destination country is the USA, a customs fee (including all duties and taxes) and a "
+    },
+    {
+      "nodeId": "-1000000284",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "handling fee will be calculated after you have entered your package contents. This is "
+    },
+    {
+      "nodeId": "-1000000285",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "mandatory when sending items to the USA and is based on the contents you declare. This will "
+    },
+    {
+      "nodeId": "-1000000286",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "also show in your basket with the postage, and on your purchase confirmation, and will be "
+    },
+    {
+      "nodeId": "-1000000287",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "charged in addition to postage. "
+    },
+    {
+      "nodeId": "47",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Find out more about customs and handling fees.",
+      "backendDOMNodeId": 47,
+      "childIds": [
+        "-1000000288"
+      ]
+    },
+    {
+      "nodeId": "-1000000075",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "ignoredReasons": [
+        {
+          "name": "presentationalRole",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000289",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "If your destination country is France, any applicable customs charges (including duties and "
+    },
+    {
+      "nodeId": "-1000000290",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "taxes) and a handling fee will be calculated after you enter your package contents. These "
+    },
+    {
+      "nodeId": "-1000000291",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "charges will be shown in your basket and on your purchase confirmation and are payable in "
+    },
+    {
+      "nodeId": "-1000000292",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "addition to postage. You can choose to pay these charges at the time of purchase, or allow "
+    },
+    {
+      "nodeId": "-1000000293",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "the recipient to pay them on delivery."
+    },
+    {
+      "nodeId": "-1000000300",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help"
+    },
+    {
+      "nodeId": "-1000000301",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Our locations"
+    },
+    {
+      "nodeId": "-1000000319",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Coin Covers"
+    },
+    {
+      "nodeId": "-1000000320",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "and Medals"
+    },
+    {
+      "nodeId": "-1000000395",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact us"
+    },
+    {
+      "nodeId": "-1000000396",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Jobs and careers"
+    },
+    {
+      "nodeId": "-1000000397",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Parcelforce Worldwide Opens in a new window"
+    },
+    {
+      "nodeId": "-1000000398",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility"
+    },
+    {
+      "nodeId": "-1000000404",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Find "
+    },
+    {
+      "nodeId": "-1000000405",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "out more here"
+    },
+    {
+      "nodeId": "-1000000263",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "customs declaration category"
+    },
+    {
+      "nodeId": "-1000000267",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "item description"
+    },
+    {
+      "nodeId": "-1000000271",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "quantity"
+    },
+    {
+      "nodeId": "-1000000275",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "item weight"
+    },
+    {
+      "nodeId": "-1000000277",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "item value"
+    },
+    {
+      "nodeId": "-1000000288",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Find out more about customs and handling fees."
+    }
+  ]
+}

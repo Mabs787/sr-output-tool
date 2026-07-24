@@ -1,0 +1,11 @@
+[
+  {
+    "name": "packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family",
+    "mode": "page",
+    "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "refinement": {
+      "minVoiceOverAnnouncements": 1
+    }
+  }
+]

@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "name": "packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family",
+    "mode": "page",
+    "url": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+    "scanRootSelector": "[data-sr-scan-root]"
+  },
+  "scan": {
+    "stopReason": "scan-end-marker",
+    "partial": false,
+    "failureReason": "",
+    "capturedSteps": 197,
+    "maxSteps": 220,
+    "maxStepSeconds": 10,
+    "navigationMode": "voiceover-right-arrow",
+    "systemDialogSweepInterval": 50,
+    "startedAt": "2026-07-24T14:13:24.657Z",
+    "finishedAt": "2026-07-24T14:45:43.917Z"
+  },
+  "output": {
+    "voiceOverAnnouncementCount": 194,
+    "firstVoiceOverAnnouncement": "Help & support, article",
+    "lastVoiceOverAnnouncement": "end of, Help & support, article",
+    "voiceOverSourcesPath": "voiceover-sources.json",
+    "reducedHtmlStats": {
+      "originalLength": 32305,
+      "reducedLength": 29200,
+      "reductionPercent": 10
+    },
+    "htmlSource": "chrome-rendered-dom",
+    "htmlPath": "rendered-html.html",
+    "htmlReduced": true,
+    "accessibilityTreeSource": "chrome-accessibility-tree",
+    "accessibilityTreePath": "accessibility-tree.json",
+    "engineTraversalDebugPath": "engine-traversal-debug.json",
+    "stepSnapshotsPath": "step-snapshots.json",
+    "accessibilityTreeStats": {
+      "nodeCount": 567,
+      "ignoredNodeCount": 59,
+      "axMappedNodeCount": 151,
+      "domSnapshotMappedNodeCount": 162
+    },
+    "engineTraversalDebugStats": {
+      "ok": true,
+      "announcementCount": 154,
+      "debugEntryCount": 154,
+      "sourceCounts": {
+        "descriptor-announcement": 110,
+        "context-end-announcement": 28,
+        "split-inline-emphasis-listitem": 16
+      },
+      "kindCounts": {
+        "split": 126,
+        "context-end": 28
+      },
+      "error": ""
+    }
+  },
+  "environment": {
+    "runnerEnvironmentPath": "runner-environment.json",
+    "runnerEnvironment": {
+      "schemaVersion": 1,
+      "capturedAt": "2026-07-24T14:45:44.175Z",
+      "github": {
+        "actions": "true",
+        "runnerName": "GitHub Actions 1000002051",
+        "runnerOs": "macOS",
+        "runnerArch": "ARM64",
+        "runId": "30100001858",
+        "runAttempt": "1",
+        "repository": "Mabs787/sr-output-tool",
+        "ref": "refs/heads/codex/royal-mail-voiceover-refinement",
+        "sha": "d38b59e3e1a1fa40faff381c76e1b2ce94a61046"
+      },
+      "host": {
+        "hostname": "sjc22-bm211-75897d2b-955e-4a46-a5f8-cb809c13476b-DEA5761C8A8E.local",
+        "platform": "darwin",
+        "release": "25.4.0",
+        "arch": "arm64",
+        "node": "v24.18.0",
+        "locale": "en-US",
+        "timeZone": "UTC",
+        "timezoneOffsetMinutes": 0
+      },
+      "publicNetwork": {
+        "ok": true,
+        "provider": "ipapi.co",
+        "ip": "13.105.117.91",
+        "city": "San Jose",
+        "region": "California",
+        "countryCode": "US",
+        "countryName": "United States",
+        "timezone": "America/Los_Angeles",
+        "org": "Microsoft Corporation"
+      },
+      "browser": {
+        "ok": true,
+        "capture": {
+          "ok": true,
+          "status": 0,
+          "signal": null,
+          "stdout": "{\"href\":\"file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36\",\"language\":\"en-US\",\"languages\":[\"en-US\",\"en\"],\"platform\":\"MacIntel\",\"timeZone\":\"UTC\",\"locale\":\"en-US\",\"viewport\":{\"width\":1200,\"height\":543,\"devicePixelRatio\":1},\"screen\":{\"width\":1024,\"height\":768,\"availWidth\":1024,\"availHeight\":677}}",
+          "stderr": "",
+          "error": "",
+          "source": "chrome-devtools"
+        },
+        "value": {
+          "href": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "language": "en-US",
+          "languages": [
+            "en-US",
+            "en"
+          ],
+          "platform": "MacIntel",
+          "timeZone": "UTC",
+          "locale": "en-US",
+          "viewport": {
+            "width": 1200,
+            "height": 543,
+            "devicePixelRatio": 1
+          },
+          "screen": {
+            "width": 1024,
+            "height": 768,
+            "availWidth": 1024,
+            "availHeight": 677
+          }
+        }
+      }
+    }
+  },
+  "setup": {
+    "launchChrome": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "error": "",
+      "chromeDebuggingPort": 9222,
+      "chromeUserDataDir": "/var/folders/8j/sfr9qqcj73j4p6nhwcfpr0th0000gn/T/sr-vo-chrome-profile-VDk7rM",
+      "requestedViewport": {
+        "width": 1200,
+        "height": 543
+      },
+      "stopChrome": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      },
+      "firstLaunchDialog": null,
+      "retryOpen": null,
+      "activateChrome": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      },
+      "windowBounds": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      }
+    },
+    "launchVoiceOver": {
+      "open": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      },
+      "processCheck": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "5530 VoiceOver",
+        "stderr": "",
+        "error": ""
+      },
+      "stopQuickBefore": {
+        "ok": false,
+        "status": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      },
+      "stopVoiceOverBefore": {
+        "ok": false,
+        "status": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      },
+      "stopQuickAfter": {
+        "ok": false,
+        "status": 1,
+        "signal": null,
+        "stdout": "",
+        "stderr": "",
+        "error": ""
+      }
+    },
+    "postNavigationSettleBeforeVoiceOver": {
+      "skipped": true,
+      "reason": "post-navigation settle delay is only applied to live URL scans",
+      "configuredSeconds": 0,
+      "waitedSeconds": 0
+    },
+    "dismissBrowserBlockingOverlaysAfterSettle": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        },
+        {
+          "attempt": 2,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        },
+        {
+          "attempt": 3,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        },
+        {
+          "attempt": 4,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        }
+      ],
+      "domConsent": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "skipped: consent handling is only applied to live URL scans",
+        "stderr": "",
+        "error": ""
+      },
+      "visualConsent": {
+        "skipped": true,
+        "reason": "visual consent handling is only applied to live URL scans"
+      }
+    },
+    "prepareScanRootBeforeVoiceOver": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "{\"title\":\"Phase C.5 Royal Mail list marker rich text final family\",\"readyState\":\"complete\",\"url\":\"file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html\",\"activeTagName\":\"MAIN\",\"activeText\":\"SR Output Tool VoiceOver scan start marker\\n\\nHelp & support\\nService\\n\\nOn this page, the services available for your package will be displayed. Some services have additional options, tracking, or requiring a signature. Some tracked services also allow SMS and email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or email address provided to let you know when your item is on its way. You will only see the services which are available for the item you’re sending.\\n\\nSome Parcelforce services have extended delivery times for certain zones/postcodes. Find out more here.\\n\\nDelivery aims shown for each service are based on the majority of UK addresses. However, delivery times may vary depending on the destination postcode. For services where delivery is stated as an aim rather than a guarantee, no delivery target time is provided for items sent to the following postcode areas:\\n\\nAB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–25, GY, IM, JE, ZE.\\n\\nIn these cases, delivery may take longer and no estimated delivery timeframe is guaranteed.\\n\\nDepending on the services selected, item cover may also be offered to provide compensation for damage or part loss. Select the cover amount closest to the value of your items.\\n\\nClick the ‘Continue’ button.\\n\\nDestination\\nOn this page, please enter the address where you want to send your item. If you're sending within the United Kingdom, you can begin typing part of the address or postcode into the Postcode search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a minimum, you must include a name or company name, the first line of the address, and a town/city. For items within the United Kingdom, a postcode is also required.\\nIf you’re sending items outside of the United Kingdom, you’ll be asked to include further details about what your package contains in this section. Depending on the country you have selected, these extra details may be mandatory for customs.\\nThe customs declaration category is required to describe the basis on which the goods are being sent.\\nThe item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.\\nThe quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.\\nThe item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.\\nIf you're sending more than one type of item in a single package, use the 'Add another item' button further down the page to describe the other items that you're sending.\\nIf your destination country is the USA, a customs fee (including all duties and taxes) and a handling fee will be calculated after you have entered your package contents. This is mandatory when sending items to the USA and is based on the contents you declare. This will also show in your basket with the postage, and on your purchase confirmation, and will be charged in addition to postage. Find out more about customs and handling fees.\\nIf your destination country is France, any applicable customs charges (including duties and taxes) and a handling fee will be calculated after you enter your package contents. These charges will be shown in your basket and on your purchase confirmation and are payable in addition to postage. You can choose to pay these charges at the time of purchase, or allow the recipient to pay them on delivery.\\nHomepage bullet control\\nTrusted to deliver your mail for 500 years\\nOver 130,000 Service Points nationwide\\nLowest reported carbon footprint per parcel delivery in the UK\\nResponsive list count control\\n\\nLog in / Register\\n\\nHelp\\nOur locations\\nRequired country control\\nCheck prices and services available by country\\nSelect a Country * Select a Country * Select a Country  View guide\\nProduct list control\\n\\nPopular gift ideas:\\n\\nFramed Stamps and Prints - mounted artwork from our latest issues.\\nMiniature Sheets - a distinctive alternative to the main Stamp Set.\\nPrestige Stamp Books - premium keepsakes combining design and narrative.\\nLimited-Edition Ingots, Coin Coversand Medals - including Penny Black gold editions.\\nCollectors Sheets - stamps paired with thematic labels, set against a complementary backdrop.\\nSpecial delivery list and footnote control\\nPurchase Special Delivery Guaranteed by 1pm, online or at a Post Office.\\nChoose to print your label at home, or take your parcel and QR code to any Post Office they can print your label† when you drop it off.\\nDrop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*.\\nPrefer Parcel Collect? If you book collection from your door with Parcel Collect, we add an extra working day to this delivery guarantee. Find out more\\n\\n† Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with signature) but parcel only format.\\n\\nTracked services symbol boundaries\\nTracked 24\\nGet parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and Tracked 48 postage\\nTracking to delivery point\\nPhoto on delivery\\nSMS or email notifications to recipients†\\nNext working day delivery aim‡\\nCompensation cover up to £75\\nChange your delivery options before delivery is attempted\\n\\n†Only available for products purchased online ‡Delivery aims may not apply to some postcodes\\n\\nTracked 48\\nGet parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and Tracked 48 postage\\nTracked to delivery point\\nPhoto on delivery\\nSMS or email notifications to recipients†\\nAims to deliver in two to three working days‡\\nCompensation cover up to £75\\nChange your delivery options before delivery is attempted\\n\\n†Only available for products purchased online ‡Delivery aims may not apply to some postcodes\\n\\nPostbox marker and link controls\\nOver 110,000 in the UK\\n\\n* Access over 110,000 Royal Mail postboxes nationwide\\n\\nSending parcels with a Postbox\\n\\nIf you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your items at a postbox.\\n\\nBuy postage online (you can do this online or using our app) or purchase a stamp for your letter\\nPrint your label and pop it on or affix your stamp and write out your address\\nUse our app to scan your label for proof of posting\\nFind your nearest postbox, post your item and leave the rest to us\\nMatched negative controls\\nPlain ordered item one.\\nPlain ordered item two.\\nPlain ordered item three.\\nPlain unordered item one.\\nPlain unordered item two.\\nPlain unordered item three.\\nContact us\\nJobs and careers\\nParcelforce Worldwide Opens in a new window\\nAccessibility\\n\\nSR Output Tool VoiceOver scan end marker\"}",
+      "stderr": "",
+      "error": "",
+      "source": "chrome-devtools"
+    },
+    "injectScanBoundaryMarkersBeforeVoiceOver": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "{\"action\":\"inserted\",\"rootSelector\":\"[data-sr-scan-root]\",\"rootTagName\":\"MAIN\",\"startText\":\"SR Output Tool VoiceOver scan start marker\",\"endText\":\"SR Output Tool VoiceOver scan end marker\"}",
+      "stderr": "",
+      "error": "",
+      "source": "chrome-devtools"
+    },
+    "prepareScanRootAfterVoiceOver": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "{\"title\":\"Phase C.5 Royal Mail list marker rich text final family\",\"readyState\":\"complete\",\"url\":\"file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html\",\"activeTagName\":\"MAIN\",\"activeText\":\"SR Output Tool VoiceOver scan start marker\\n\\nHelp & support\\nService\\n\\nOn this page, the services available for your package will be displayed. Some services have additional options, tracking, or requiring a signature. Some tracked services also allow SMS and email notifications. These will be sent by Royal Mail or Parcelforce to the phone number and/or email address provided to let you know when your item is on its way. You will only see the services which are available for the item you’re sending.\\n\\nSome Parcelforce services have extended delivery times for certain zones/postcodes. Find out more here.\\n\\nDelivery aims shown for each service are based on the majority of UK addresses. However, delivery times may vary depending on the destination postcode. For services where delivery is stated as an aim rather than a guarantee, no delivery target time is provided for items sent to the following postcode areas:\\n\\nAB30–38, AB41-45, AB51–56, AB99, BT, DD8-10, DG7-9, FK8, FK15–21, HS, IV, KA27–28, KW1–17, PA20–38, PA41–80, PH10-11, PH13-14, PH 17-18, PH19–44, PH49–50, TD15, TR21–25, GY, IM, JE, ZE.\\n\\nIn these cases, delivery may take longer and no estimated delivery timeframe is guaranteed.\\n\\nDepending on the services selected, item cover may also be offered to provide compensation for damage or part loss. Select the cover amount closest to the value of your items.\\n\\nClick the ‘Continue’ button.\\n\\nDestination\\nOn this page, please enter the address where you want to send your item. If you're sending within the United Kingdom, you can begin typing part of the address or postcode into the Postcode search field, or alternatively, click the ‘Enter address manually’ link to show all available fields. As a minimum, you must include a name or company name, the first line of the address, and a town/city. For items within the United Kingdom, a postcode is also required.\\nIf you’re sending items outside of the United Kingdom, you’ll be asked to include further details about what your package contains in this section. Depending on the country you have selected, these extra details may be mandatory for customs.\\nThe customs declaration category is required to describe the basis on which the goods are being sent.\\nThe item description should be a short description of the item you're sending. For example, 'books', 'photographs', 'clothes' or 'chocolate'.\\nThe quantity refers to the number of this type of item that you're sending. For example, if you're sending 2 books, enter '2' here.\\nThe item weight and item value should be the weight (in grams or kilograms) and value (in pounds) of a single one of these items. We multiply these values by the quantity to get the total weight, which is displayed underneath each of these fields.\\nIf you're sending more than one type of item in a single package, use the 'Add another item' button further down the page to describe the other items that you're sending.\\nIf your destination country is the USA, a customs fee (including all duties and taxes) and a handling fee will be calculated after you have entered your package contents. This is mandatory when sending items to the USA and is based on the contents you declare. This will also show in your basket with the postage, and on your purchase confirmation, and will be charged in addition to postage. Find out more about customs and handling fees.\\nIf your destination country is France, any applicable customs charges (including duties and taxes) and a handling fee will be calculated after you enter your package contents. These charges will be shown in your basket and on your purchase confirmation and are payable in addition to postage. You can choose to pay these charges at the time of purchase, or allow the recipient to pay them on delivery.\\nHomepage bullet control\\nTrusted to deliver your mail for 500 years\\nOver 130,000 Service Points nationwide\\nLowest reported carbon footprint per parcel delivery in the UK\\nResponsive list count control\\n\\nLog in / Register\\n\\nHelp\\nOur locations\\nRequired country control\\nCheck prices and services available by country\\nSelect a Country * Select a Country * Select a Country  View guide\\nProduct list control\\n\\nPopular gift ideas:\\n\\nFramed Stamps and Prints - mounted artwork from our latest issues.\\nMiniature Sheets - a distinctive alternative to the main Stamp Set.\\nPrestige Stamp Books - premium keepsakes combining design and narrative.\\nLimited-Edition Ingots, Coin Coversand Medals - including Penny Black gold editions.\\nCollectors Sheets - stamps paired with thematic labels, set against a complementary backdrop.\\nSpecial delivery list and footnote control\\nPurchase Special Delivery Guaranteed by 1pm, online or at a Post Office.\\nChoose to print your label at home, or take your parcel and QR code to any Post Office they can print your label† when you drop it off.\\nDrop at your local Post Office by the cut off time^ and we’ll deliver by 1pm the next day*.\\nPrefer Parcel Collect? If you book collection from your door with Parcel Collect, we add an extra working day to this delivery guarantee. Find out more\\n\\n† Label printing at a Post Office is available for 1st Class (including Signed For), 2nd Class (including Signed For), Special Delivery Guaranteed by 1pm. It is also available for Tracked (including with signature) but parcel only format.\\n\\nTracked services symbol boundaries\\nTracked 24\\nGet parcel collection for a small fee (just 30p per item) when you buy your online Tracked 24 and Tracked 48 postage\\nTracking to delivery point\\nPhoto on delivery\\nSMS or email notifications to recipients†\\nNext working day delivery aim‡\\nCompensation cover up to £75\\nChange your delivery options before delivery is attempted\\n\\n†Only available for products purchased online ‡Delivery aims may not apply to some postcodes\\n\\nTracked 48\\nGet parcel collection for a small fee – just 30p per item when you buy your online Tracked 24 and Tracked 48 postage\\nTracked to delivery point\\nPhoto on delivery\\nSMS or email notifications to recipients†\\nAims to deliver in two to three working days‡\\nCompensation cover up to £75\\nChange your delivery options before delivery is attempted\\n\\n†Only available for products purchased online ‡Delivery aims may not apply to some postcodes\\n\\nPostbox marker and link controls\\nOver 110,000 in the UK\\n\\n* Access over 110,000 Royal Mail postboxes nationwide\\n\\nSending parcels with a Postbox\\n\\nIf you’re sending a letter or small parcel with us, simply follow the steps below to find and drop off your items at a postbox.\\n\\nBuy postage online (you can do this online or using our app) or purchase a stamp for your letter\\nPrint your label and pop it on or affix your stamp and write out your address\\nUse our app to scan your label for proof of posting\\nFind your nearest postbox, post your item and leave the rest to us\\nMatched negative controls\\nPlain ordered item one.\\nPlain ordered item two.\\nPlain ordered item three.\\nPlain unordered item one.\\nPlain unordered item two.\\nPlain unordered item three.\\nContact us\\nJobs and careers\\nParcelforce Worldwide Opens in a new window\\nAccessibility\\n\\nSR Output Tool VoiceOver scan end marker\"}",
+      "stderr": "",
+      "error": "",
+      "source": "chrome-devtools"
+    },
+    "resetVoiceOverAfterLoad": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "{\"action\":\"focused\",\"activeTagName\":\"P\",\"activeText\":\"SR Output Tool VoiceOver scan start marker\",\"markerText\":\"SR Output Tool VoiceOver scan start marker\"}",
+      "stderr": "",
+      "error": "",
+      "source": "chrome-devtools"
+    },
+    "interactWithWebContentBeforeScan": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "error": ""
+    },
+    "sourceHtmlCapture": {
+      "source": "chrome-rendered-dom",
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stderr": "",
+      "error": "",
+      "length": 32305
+    }
+  },
+  "recording": {
+    "enabled": false
+  },
+  "stepSnapshots": {
+    "enabled": true,
+    "capturedSteps": 197
+  },
+  "consent": {
+    "browserBlockingOverlaysBeforeVoiceOver": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        },
+        {
+          "attempt": 2,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        },
+        {
+          "attempt": 3,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        },
+        {
+          "attempt": 4,
+          "chromeDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "attempt=1 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=2 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=3 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=4 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action\nattempt=5 windowCount=1\n  window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n    button=missing value\n    button=missing value\n    button=missing value\nno dialog action",
+            "stderr": "",
+            "error": ""
+          },
+          "systemDialogs": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "process=Google Chrome window=Phase C.5 Royal Mail list marker rich text final family - Google Chrome\n  button=missing value\n  button=missing value\n  button=missing value",
+            "stderr": "",
+            "error": ""
+          },
+          "domConsent": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "skipped: consent handling is only applied to live URL scans",
+            "stderr": "",
+            "error": ""
+          },
+          "visualConsent": {
+            "skipped": true,
+            "reason": "visual consent handling is only applied to live URL scans"
+          }
+        }
+      ],
+      "domConsent": {
+        "ok": true,
+        "status": 0,
+        "signal": null,
+        "stdout": "skipped: consent handling is only applied to live URL scans",
+        "stderr": "",
+        "error": ""
+      },
+      "visualConsent": {
+        "skipped": true,
+        "reason": "visual consent handling is only applied to live URL scans"
+      }
+    },
+    "pageConsentBeforeVoiceOver": {
+      "ok": true,
+      "status": 0,
+      "signal": null,
+      "stdout": "skipped: consent handling is only applied to live URL scans",
+      "stderr": "",
+      "error": ""
+    },
+    "pageConsentVisuallyBeforeVoiceOver": {
+      "skipped": true,
+      "reason": "visual consent handling is only applied to live URL scans"
+    }
+  }
+}

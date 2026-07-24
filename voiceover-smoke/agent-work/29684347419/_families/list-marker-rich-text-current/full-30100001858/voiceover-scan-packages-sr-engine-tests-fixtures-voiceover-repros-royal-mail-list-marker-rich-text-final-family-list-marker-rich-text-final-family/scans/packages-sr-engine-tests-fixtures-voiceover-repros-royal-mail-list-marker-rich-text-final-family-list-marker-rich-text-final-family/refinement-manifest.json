@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "target": {
+    "name": "packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-list-marker-rich-text-final-family-list-marker-rich-text-final-family",
+    "mode": "page",
+    "url": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+    "scanRootSelector": "[data-sr-scan-root]"
+  },
+  "scan": {
+    "stopReason": "scan-end-marker",
+    "partial": false,
+    "failureReason": "",
+    "capturedSteps": 197,
+    "startedAt": "2026-07-24T14:13:24.657Z",
+    "finishedAt": "2026-07-24T14:45:43.917Z"
+  },
+  "files": {
+    "voiceOverOutput": "voiceover-output.json",
+    "voiceOverSources": "voiceover-sources.json",
+    "renderedHtml": "rendered-html.html",
+    "accessibilityTree": "accessibility-tree.json",
+    "engineTraversalDebug": "engine-traversal-debug.json",
+    "scanDebug": "scan-debug.json",
+    "runnerEnvironment": "runner-environment.json",
+    "stepSnapshots": "step-snapshots.json"
+  },
+  "environment": {
+    "browser": {
+      "href": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/royal-mail-list-marker-rich-text-final-family/list-marker-rich-text-final-family.html",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "language": "en-US",
+      "languages": [
+        "en-US",
+        "en"
+      ],
+      "platform": "MacIntel",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "viewport": {
+        "width": 1200,
+        "height": 543,
+        "devicePixelRatio": 1
+      },
+      "screen": {
+        "width": 1024,
+        "height": 768,
+        "availWidth": 1024,
+        "availHeight": 677
+      }
+    },
+    "publicNetwork": {
+      "ok": true,
+      "provider": "ipapi.co",
+      "ip": "13.105.117.91",
+      "city": "San Jose",
+      "region": "California",
+      "countryCode": "US",
+      "countryName": "United States",
+      "timezone": "America/Los_Angeles",
+      "org": "Microsoft Corporation"
+    },
+    "runnerEnvironment": "runner-environment.json",
+    "note": "Use runner-environment.json when comparing scans with local pages; geography, locale, timezone, user agent, and viewport can change rendered content and VoiceOver output."
+  },
+  "refinementNotes": [
+    "Before creating regression tests, inspect VoiceOver announcements for capture artifacts.",
+    "The start of a caption can occasionally include incorrect OCR punctuation or marker characters.",
+    "Refine expected output only when the leading character is not supported by VoiceOver context, renderedHtml, or accessibility-tree.json.",
+    "When rendered-html.html conflicts with VoiceOver output, inspect step-snapshots.json. If htmlAfterStep shows content appeared only after VoiceOver navigation, treat it as conditional scan state for static engine fixtures unless the semantic content also exists in initial rendered-html.html.",
+    "Use engine-traversal-debug.json to classify why the scanner emitted each announcement; it explains generic engine traversal behavior and does not override VoiceOver evidence."
+  ],
+  "stats": {
+    "voiceOverAnnouncementCount": 194,
+    "reducedHtml": {
+      "originalLength": 32305,
+      "reducedLength": 29200,
+      "reductionPercent": 10
+    },
+    "accessibilityTree": {
+      "nodeCount": 567,
+      "ignoredNodeCount": 59,
+      "axMappedNodeCount": 151,
+      "domSnapshotMappedNodeCount": 162
+    },
+    "engineTraversalDebug": {
+      "ok": true,
+      "announcementCount": 154,
+      "debugEntryCount": 154,
+      "sourceCounts": {
+        "descriptor-announcement": 110,
+        "context-end-announcement": 28,
+        "split-inline-emphasis-listitem": 16
+      },
+      "kindCounts": {
+        "split": 126,
+        "context-end": 28
+      },
+      "error": ""
+    }
+  }
+}
