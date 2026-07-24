@@ -5417,14 +5417,14 @@ test("scanSubtree emits unnamed terminal-link article end before following navig
   );
 });
 
-test("scanSubtree keeps singleton article-end suppression before non-breadcrumb navigation", () => {
+test("scanSubtree emits terminal-link article end before non-breadcrumb navigation", () => {
   const announcements = scanHtml(
     `
       <main>
         <div>
           <article data-sr-dom-node-id="article">
             <div>
-              <h1>Service guide</h1>
+              <div>Service guide</div>
               <a href="/locations" data-sr-dom-node-id="terminal-link">Our locations</a>
             </div>
           </article>
@@ -5466,7 +5466,7 @@ test("scanSubtree keeps singleton article-end suppression before non-breadcrumb 
 
   const navigationIndex = announcements.indexOf("Related links, navigation");
   assert.notEqual(navigationIndex, -1);
-  assert.notEqual(announcements[navigationIndex - 1], "end of, article");
+  assert.equal(announcements[navigationIndex - 1], "end of, article");
 });
 
 test("scanSubtree keeps singleton article-end suppression for unsupported terminal-tail shapes", () => {
