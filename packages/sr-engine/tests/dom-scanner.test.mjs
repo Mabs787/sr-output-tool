@@ -2818,6 +2818,143 @@ test("scanSubtree splits paragraph text around inline semantic and link boundari
   );
 });
 
+test("scanSubtree splits AX-confirmed direct superscript symbols in native list items", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <ul>
+            <li data-sr-dom-node-id="feature-one">SMS notifications<sup data-sr-dom-node-id="dagger">†</sup></li>
+            <li data-sr-dom-node-id="feature-two">Next day delivery<sup data-sr-dom-node-id="double-dagger">‡</sup></li>
+          </ul>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "feature-one-ax",
+              role: "listitem",
+              name: "",
+              domNodeId: "feature-one",
+              childIds: ["feature-one-text", "dagger-ax"],
+            },
+            { nodeId: "feature-one-text", role: "StaticText", name: "SMS notifications" },
+            {
+              nodeId: "dagger-ax",
+              role: "superscript",
+              name: "",
+              domNodeId: "dagger",
+              childIds: ["dagger-text"],
+            },
+            { nodeId: "dagger-text", role: "StaticText", name: "†" },
+            {
+              nodeId: "feature-two-ax",
+              role: "listitem",
+              name: "",
+              domNodeId: "feature-two",
+              childIds: ["feature-two-text", "double-dagger-ax"],
+            },
+            { nodeId: "feature-two-text", role: "StaticText", name: "Next day delivery" },
+            {
+              nodeId: "double-dagger-ax",
+              role: "superscript",
+              name: "",
+              domNodeId: "double-dagger",
+              childIds: ["double-dagger-text"],
+            },
+            { nodeId: "double-dagger-text", role: "StaticText", name: "‡" },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "list 2 items",
+      "SMS notifications, 1 of 2",
+      "†",
+      "Next day delivery, 2 of 2",
+      "‡",
+      "end of list",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree splits AX-confirmed direct superscript footnote paragraph boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p data-sr-dom-node-id="footnotes">
+            <br data-sr-dom-node-id="first-break">
+            <sup data-sr-dom-node-id="dagger">†</sup>Only available online
+            <br data-sr-dom-node-id="second-break">
+            <sup data-sr-dom-node-id="double-dagger">‡</sup>Delivery aims may not apply to some <a href="/postcodes" data-sr-dom-node-id="postcodes">postcodes</a>
+          </p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "footnotes-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "footnotes",
+              childIds: [
+                "first-break-ax",
+                "dagger-ax",
+                "first-text",
+                "second-break-ax",
+                "double-dagger-ax",
+                "second-text",
+                "postcodes-ax",
+              ],
+            },
+            { nodeId: "first-break-ax", role: "LineBreak", name: "\n", domNodeId: "first-break" },
+            {
+              nodeId: "dagger-ax",
+              role: "superscript",
+              name: "",
+              domNodeId: "dagger",
+              childIds: ["dagger-text"],
+            },
+            { nodeId: "dagger-text", role: "StaticText", name: "†" },
+            { nodeId: "first-text", role: "StaticText", name: "Only available online" },
+            { nodeId: "second-break-ax", role: "LineBreak", name: "\n", domNodeId: "second-break" },
+            {
+              nodeId: "double-dagger-ax",
+              role: "superscript",
+              name: "",
+              domNodeId: "double-dagger",
+              childIds: ["double-dagger-text"],
+            },
+            { nodeId: "double-dagger-text", role: "StaticText", name: "‡" },
+            { nodeId: "second-text", role: "StaticText", name: "Delivery aims may not apply to some " },
+            {
+              nodeId: "postcodes-ax",
+              role: "link",
+              name: "postcodes",
+              domNodeId: "postcodes",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "†",
+      "Only available online",
+      "‡",
+      "Delivery aims may not apply to some",
+      "link, postcodes",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree places links before adjacent generated metadata siblings", () => {
   assert.deepEqual(
     scanHtml(`

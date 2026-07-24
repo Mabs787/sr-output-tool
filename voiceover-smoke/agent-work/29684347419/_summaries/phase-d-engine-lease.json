@@ -4,14 +4,14 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-stabilized-text-boundary-inline-media-2026-07-24T14:07:03Z",
-  "startedAt": "2026-07-24T14:07:03Z",
+  "leaseOwner": "top-level-codex-stabilized-superscript-footnote-symbol-boundary-2026-07-24T14:23:14Z",
+  "startedAt": "2026-07-24T14:23:14Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T14:19:11Z",
-  "targetFamily": "text-boundary-truncation-and-inline-media",
-  "target": "_summaries/stabilized-text-boundary-inline-media",
-  "candidateRef": "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-12:abd89b85f197,send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-14:916ffe504946,www-royalmail-com-services-near-you:text-boundary-truncation-and-inline-media:current-window-4:48832f331f47",
+  "releasedAt": "2026-07-24T14:36:50Z",
+  "targetFamily": "inline footnote/superscript symbol boundary",
+  "target": "_summaries/stabilized-superscript-footnote-symbol-boundary",
+  "candidateRef": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-3@e2ae495a1308,www-royalmail-com-sending-uk-tracked-24:current-window-2@4f1e604918d6,www-royalmail-com-sending-uk-tracked-24:current-window-3@7e120ed58b43,www-royalmail-com-sending-uk-tracked-48:current-window-2@084e72b8861a,www-royalmail-com-sending-uk-tracked-48:current-window-3@7e120ed58b43",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
@@ -19,9 +19,18 @@
     "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
     "result": "released-no-active-engine-refiner",
-    "evidence": "Canonical lease was released with active count 0 immediately before acquisition. This worker owned only the three Phase C engine-ready text-boundary-truncation-and-inline-media refs requested for Phase D and released after checks."
+    "evidence": "Canonical lease was released with active count 0 immediately before acquisition. This worker owned only the five Phase C.5 engine-confirmed inline footnote/superscript symbol boundary refs requested for Phase D and released the lease after writing the Phase D receipt."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-stabilized-superscript-footnote-symbol-boundary-2026-07-24T14:23:14Z",
+      "target": "_summaries/stabilized-superscript-footnote-symbol-boundary",
+      "candidateRef": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-3@e2ae495a1308,www-royalmail-com-sending-uk-tracked-24:current-window-2@4f1e604918d6,www-royalmail-com-sending-uk-tracked-24:current-window-3@7e120ed58b43,www-royalmail-com-sending-uk-tracked-48:current-window-2@084e72b8861a,www-royalmail-com-sending-uk-tracked-48:current-window-3@7e120ed58b43",
+      "targetFamily": "inline footnote/superscript symbol boundary",
+      "startedAt": "2026-07-24T14:23:14Z",
+      "releasedAt": "2026-07-24T14:36:50Z",
+      "status": "released"
+    },
     {
       "leaseOwner": "top-level-codex-stabilized-text-boundary-inline-media-2026-07-24T14:07:03Z",
       "target": "_summaries/stabilized-text-boundary-inline-media",

@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_summaries/stabilized-superscript-footnote-symbol-boundary",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "status": "passed-with-revisit-queue",
+  "startedAt": "2026-07-24T14:23:14Z",
+  "finishedAt": "2026-07-24T14:36:50Z",
+  "leaseAcquiredAt": "2026-07-24T14:23:14Z",
+  "leaseReleasedAt": "2026-07-24T14:36:50Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": "single-active-engine-refiner-no-overlap",
+  "inputs": {
+    "workflowDocs": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseC5Receipt": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-stabilized-list-marker-rich-text-survivors.json",
+    "priorTextBoundaryReceipts": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-text-boundary-inline-media.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-inline-static-text-boundary.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-stabilized-text-boundary-inline-media.json"
+    ],
+    "evidenceRead": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm/www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm/www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm/scans/www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm/voiceover-sources.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-24/www-royalmail-com-sending-uk-tracked-24.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-24/www-royalmail-com-sending-uk-tracked-24.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-uk-tracked-24/scans/www-royalmail-com-sending-uk-tracked-24/voiceover-sources.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-48/www-royalmail-com-sending-uk-tracked-48.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-48/www-royalmail-com-sending-uk-tracked-48.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-www-royalmail-com-sending-uk-tracked-48/scans/www-royalmail-com-sending-uk-tracked-48/voiceover-sources.json"
+    ],
+    "candidateRefs": [
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-3@e2ae495a1308",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-2@4f1e604918d6",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-3@7e120ed58b43",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-2@084e72b8861a",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-3@7e120ed58b43"
+    ]
+  },
+  "decisions": {
+    "implemented": true,
+    "implementedRule": "Generic AX-confirmed direct DOM sup symbol child boundaries for dagger and double-dagger only. The helper applies to paragraph/text/listitem descriptors when direct sup children have AX superscript nodes with StaticText child names of exactly † or ‡, direct br nodes are AX linebreak-backed when present, and only direct text/br/sup/direct links are allowed.",
+    "noSiteSpecificLogic": true,
+    "ocrPlusDecision": "No engine inference from OCR '+'. Source voCursorText and AX superscript StaticText prove the Special Delivery and tracked symbols are dagger/double-dagger; the engine emits †/‡ only.",
+    "fixedSubGaps": [
+      "native listitem direct sup symbol split for tracked feature list items",
+      "paragraph direct sup symbol split across br-separated footnotes with following StaticText and direct link traversal",
+      "Special Delivery direct sup symbol split before following StaticText in a listitem and in the following footnote paragraph"
+    ],
+    "notImplementedSubGaps": [
+      {
+        "name": "Special Delivery OCR plus fixture line",
+        "reason": "Current refined expected still contains '+', but saved source voCursorText is † and AX has superscript StaticText †. Phase D cannot edit refinedAnnouncements."
+      },
+      {
+        "name": "tracked Age Verification joined dagger line",
+        "reason": "The same generic direct-sup rule exposes a separate † stop, while current refined expected still joins the symbol into the listitem text. Source cursor evidence also records a separate † stop, so this is queued for evidence refinement rather than a narrower site-shaped engine exception."
+      }
+    ]
+  },
+  "changes": [
+    {
+      "path": "packages/sr-engine/src/dom.ts",
+      "summary": "Added AX-confirmed direct sup dagger/double-dagger symbol boundary fragments for paragraph/text/listitem traversal and split announcements that preserve listitem position metadata on the first fragment."
+    },
+    {
+      "path": "packages/sr-engine/src/types.ts",
+      "summary": "Added directSupSymbolBoundaryFragments to ElementDescriptor."
+    },
+    {
+      "path": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added focused unit coverage for direct superscript symbols in native listitems and br-separated footnote paragraphs."
+    },
+    {
+      "path": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerated extension runtime from the updated engine."
+    },
+    {
+      "path": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+      "summary": "Recorded acquisition and release of the canonical main-workspace engine-refiner lease."
+    }
+  ],
+  "fixtureChanges": [],
+  "targetCompares": [
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-3@e2ae495a1308",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-special-window3.json",
+      "expectedCount": 186,
+      "actualCount": 178,
+      "mismatchWindowCount": 5,
+      "fixedShape": "Listitem now emits text / † / following text; following footnote paragraph now emits † / label-printing text."
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-24:current-window-2@4f1e604918d6",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-24 node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-uk-tracked-24",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-tracked24-window2.json",
+      "expectedCount": 186,
+      "actualCount": 184,
+      "mismatchWindowCount": 4,
+      "fixedShape": "Feature list now emits SMS text / † and delivery aim text / ‡ as separate stops."
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-24:current-window-3@7e120ed58b43",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-24 node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-uk-tracked-24",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-tracked24-window3.json",
+      "expectedCount": 186,
+      "actualCount": 184,
+      "mismatchWindowCount": 4,
+      "fixedShape": "Footnote paragraph now emits † / Only available... / ‡ / Delivery aims... / link, postcodes."
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-48:current-window-2@084e72b8861a",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-48 node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-uk-tracked-48",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-tracked48-window2.json",
+      "expectedCount": 186,
+      "actualCount": 184,
+      "mismatchWindowCount": 4,
+      "fixedShape": "Feature list now emits SMS text / † and delivery aim text / ‡ as separate stops."
+    },
+    {
+      "candidateRef": "www-royalmail-com-sending-uk-tracked-48:current-window-3@7e120ed58b43",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-sending-uk-tracked-48 node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-sending-uk-tracked-48",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-tracked48-window3.json",
+      "expectedCount": 186,
+      "actualCount": 184,
+      "mismatchWindowCount": 4,
+      "fixedShape": "Footnote paragraph now emits † / Only available... / ‡ / Delivery aims... / link, postcodes."
+    }
+  ],
+  "protectedExactCompares": [
+    {
+      "fixture": "design-system-service-gov-uk-components-text-input",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-protected-design-system-text-input.json",
+      "expectedCount": 394,
+      "actualCount": 394,
+      "mismatchWindowCount": 0
+    },
+    {
+      "fixture": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-protected-nhs-pharmacy.json",
+      "expectedCount": 66,
+      "actualCount": 66,
+      "mismatchWindowCount": 0
+    },
+    {
+      "fixture": "www-gov-uk-find-local-council",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-protected-gov-local-council.json",
+      "expectedCount": 80,
+      "actualCount": 80,
+      "mismatchWindowCount": 0
+    },
+    {
+      "fixture": "www-britishairways-com-travel-home-public-en-gb",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-protected-ba-home.json",
+      "expectedCount": 208,
+      "actualCount": 208,
+      "mismatchWindowCount": 0
+    },
+    {
+      "fixture": "www-google-com-accessibility",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-protected-google-accessibility.json",
+      "expectedCount": 76,
+      "actualCount": 76,
+      "mismatchWindowCount": 0
+    }
+  ],
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "tsc passed."
+    },
+    {
+      "name": "focused unit",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin node --test --test-name-pattern 'direct superscript' packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "2 passed, 0 failed.",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-focused-unit.out"
+    },
+    {
+      "name": "full unit",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "431 tests, 375 passed, 56 skipped."
+    },
+    {
+      "name": "five affected compares",
+      "required": true,
+      "status": "passed-with-revisit-queue",
+      "exitCode": 0,
+      "summary": "All five compare invocations completed. Requested feature-list and footnote symbol joins are fixed; remaining windows are separately queued."
+    },
+    {
+      "name": "protected exact compares",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Five protected fixtures stayed exact with mismatchWindowCount 0."
+    },
+    {
+      "name": "extension runtime",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Turbo built @sr-output/engine and regenerated @sr-output/extension runtime."
+    },
+    {
+      "name": "bounded royalmail corpus",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=royalmail node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "4 tests, 3 passed, 1 skipped candidate fixture.",
+      "evidencePath": "/tmp/sr-vo-phase-d-sup-bounded-corpus-royalmail.out"
+    },
+    {
+      "name": "full voiceover corpus",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "59 tests, 36 passed, 21 skipped, 2 failed. Failures were www-microsoft-com-en-us-accessibility extra 'Ask Microsoft Accessibility' stop and www-sky-com-watch-what-to-watch-this-week inline emphasis title splitting. Neither fixture contains <sup>, †, or ‡ in the saved HTML."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "header navigation empty-region/group suffix",
+      "currentWindowIndexes": [
+        "special:1",
+        "tracked-24:1",
+        "tracked-48:1"
+      ],
+      "latestActual": "Personal, region / Business, collapsed, button, 2 of 3 / Stamps & supplies, collapsed, button, 3 of 3",
+      "latestExpected": "Personal, empty region / Business, collapsed, button, group, 2 of 3 / Receiving, empty region / Stamps & supplies, collapsed, button, group, 3 of 3 / Small business hub, empty region",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Handle under the existing shell-control family, not this superscript rule.",
+      "blocker": "Outside requested Phase D subshape.",
+      "checksNeeded": "Target compares plus protected shell/navigation fixtures."
+    },
+    {
+      "family": "Special Delivery list marker and rich listitem decomposition",
+      "currentWindowIndexes": [
+        "special:2",
+        "special:3"
+      ],
+      "latestActual": "Unprefixed listitems; direct sup emits †; Parcel Collect sentence remains joined.",
+      "latestExpected": "Bullet-prefixed listitems; current refined still expects + for the sup stop; Parcel Collect split into independent fragments and link.",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Reconcile the '+' refined line against source voCursorText †, then split remaining marker/rich-list decomposition for fixture-judge or engine-refiner.",
+      "blocker": "Phase D cannot edit refinedAnnouncements, and the plus-vs-dagger expectation is an evidence fixture conflict.",
+      "checksNeeded": "Special Delivery compare after fixture evidence reconciliation."
+    },
+    {
+      "family": "tracked Age Verification direct-sup fixture conflict",
+      "currentWindowIndexes": [
+        "tracked-24:2",
+        "tracked-48:2"
+      ],
+      "latestActual": "Use Age Verification ... hands, 3 of 4 / † / We can even bring your labels too, 4 of 4",
+      "latestExpected": "Use Age Verification ... hands†, 3 of 4 / We can even bring your labels too, 4 of 4",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Review source cursor step with voCursorText † and decide whether refinedAnnouncements should split this direct-sup listitem like the feature-list refs.",
+      "blocker": "Generic engine rule is evidence-backed; current refined expected is inconsistent with same saved source/AX subshape.",
+      "checksNeeded": "Tracked 24 and Tracked 48 compares after evidence refinement."
+    },
+    {
+      "family": "article terminal end before breadcrumb",
+      "currentWindowIndexes": [
+        "special:4",
+        "tracked-24:3",
+        "tracked-48:3"
+      ],
+      "latestActual": "Send an item now, menu pop up collapsed, button / Breadcrumb, navigation",
+      "latestExpected": "Send an item now, menu pop up collapsed, button / end of, article / Breadcrumb, navigation",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Use the existing article-terminal boundary family, not this superscript rule.",
+      "blocker": "Outside requested Phase D subshape.",
+      "checksNeeded": "Target compares plus article-terminal protected fixtures."
+    },
+    {
+      "family": "footer Parcelforce list-position wording",
+      "currentWindowIndexes": [
+        "special:5",
+        "tracked-24:4",
+        "tracked-48:4"
+      ],
+      "latestActual": "link, Parcelforce Worldwide Opens in a new window, 4 of 4",
+      "latestExpected": "link, Parcelforce Worldwide Opens in a new window, 4 of",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reclassify whether the current expected truncation is trusted or fixture noise before any engine change.",
+      "blocker": "Outside requested Phase D subshape and may be truncation/evidence-specific.",
+      "checksNeeded": "Footer source/cursor review and protected footer compares."
+    }
+  ],
+  "nextPhase": "evidence-refiner",
+  "handoffReason": "Requested reusable superscript symbol engine gap is implemented and verified. Remaining direct-sup conflicts need fixture evidence reconciliation before additional engine work.",
+  "handoffFrom": "repro-scanner",
+  "handoffTo": "evidence-refiner",
+  "nextRecommendedWorker": {
+    "type": "evidence-refiner",
+    "scope": "Review only Special Delivery '+' vs dagger and tracked Age Verification joined dagger refined lines exposed by the new generic direct-sup rule.",
+    "c5Needed": false,
+    "reason": "Saved source cursor and AX already contain the relevant glyph and superscript evidence."
+  }
+}

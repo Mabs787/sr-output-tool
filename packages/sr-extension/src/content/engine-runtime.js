@@ -12103,6 +12103,119 @@
           }
           return fragments;
         }
+        function directSupSymbolBoundaryFragments(el, role) {
+          if (!["paragraph", "text", "listitem"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          const tag = el.tagName?.toLowerCase();
+          if (role === "listitem") {
+            if (!isListItem(el))
+              return void 0;
+          } else if (tag !== "p" && tag !== "small") {
+            return void 0;
+          }
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || expandedControlledRegionFor(el) || !accessibilityNodes.length) {
+            return void 0;
+          }
+          const directElements = Array.from(el.children || []).filter((child) => !isHidden(child));
+          const directSuperscripts = directElements.filter((child) => child.tagName?.toLowerCase() === "sup");
+          if (!directSuperscripts.length)
+            return void 0;
+          if (directSuperscripts.some((sup) => !/^[†‡]$/u.test(normalize(readableText(sup)) || ""))) {
+            return void 0;
+          }
+          const hasDirectLineBreak = directElements.some((child) => child.tagName?.toLowerCase() === "br");
+          const firstVisibleElement = directElements[0];
+          if (role !== "listitem" && !hasDirectLineBreak && firstVisibleElement?.tagName?.toLowerCase() !== "sup") {
+            return void 0;
+          }
+          const directLinks = directElements.filter((child) => implicitRole(child) === "link" && child.tagName?.toLowerCase() === "a");
+          if (directElements.some((child) => {
+            const childTag = child.tagName?.toLowerCase();
+            if (childTag === "sup" || childTag === "br")
+              return false;
+            if (directLinks.includes(child))
+              return false;
+            return true;
+          })) {
+            return void 0;
+          }
+          const axRole = role === "listitem" ? "listitem" : role === "text" ? "statictext" : "paragraph";
+          const axParent = axNodeForElementRole(el, axRole);
+          const axChildren = axChildNodes(axParent);
+          if (!axParent || !axChildren.length)
+            return void 0;
+          function axSupSymbol(sup) {
+            const supAx = axNodeForElementRole(sup, "superscript");
+            if (!supAx || !axChildren.includes(supAx))
+              return void 0;
+            const staticChildren = axChildNodes(supAx).filter((child) => normalizedAxRole(child.role) === "statictext");
+            if (staticChildren.length !== 1)
+              return void 0;
+            const symbol = normalize(staticChildren[0].name);
+            return symbol && /^[†‡]$/u.test(symbol) ? symbol : void 0;
+          }
+          if (directSuperscripts.some((sup) => !axSupSymbol(sup)))
+            return void 0;
+          if (directLinks.some((link) => {
+            const linkAx = axNodeForElementRole(link, "link");
+            return !linkAx || !axChildren.includes(linkAx) || !normalizeAnnouncementLabel(linkAx.name);
+          })) {
+            return void 0;
+          }
+          if (hasDirectLineBreak && !axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")) {
+            return void 0;
+          }
+          const fragments = [];
+          let plainText = "";
+          let sawSup = false;
+          let sawText = false;
+          let disallowed = false;
+          function pushText(value) {
+            const text = normalize(value);
+            if (text && /[\p{L}\p{N}]/u.test(text)) {
+              fragments.push(text);
+              sawText = true;
+            }
+          }
+          function flushPlainText() {
+            pushText(plainText);
+            plainText = "";
+          }
+          for (const child of Array.from(el.childNodes || [])) {
+            if (child.nodeType === Node.TEXT_NODE) {
+              plainText = `${plainText}${child.textContent || ""}`;
+              continue;
+            }
+            if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child))
+              continue;
+            const childTag = child.tagName?.toLowerCase();
+            if (childTag === "br") {
+              flushPlainText();
+              continue;
+            }
+            if (childTag === "sup") {
+              flushPlainText();
+              const symbol = axSupSymbol(child);
+              if (!symbol) {
+                disallowed = true;
+                break;
+              }
+              fragments.push(symbol);
+              sawSup = true;
+              continue;
+            }
+            if (directLinks.includes(child)) {
+              flushPlainText();
+              continue;
+            }
+            disallowed = true;
+            break;
+          }
+          flushPlainText();
+          return !disallowed && sawSup && sawText && fragments.length >= 2 ? fragments : void 0;
+        }
         function rubyBaseText(el) {
           const parts = [];
           for (const child of Array.from(el.childNodes || [])) {
@@ -14656,6 +14769,7 @@
             axLineBreakTextFragments: axLineBreakTextFragments(el, role),
             inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || directLinkGeneratedMetadataFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
+            directSupSymbolBoundaryFragments: directSupSymbolBoundaryFragments(el, role),
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
@@ -16043,6 +16157,21 @@
           }
           return fragments;
         }
+        function splitDirectSupSymbolBoundaryAnnouncements(descriptor) {
+          const fragments = descriptor.directSupSymbolBoundaryFragments;
+          if (!["paragraph", "text", "listitem"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          if (descriptor.role !== "listitem")
+            return fragments;
+          const [firstFragment, ...remainingFragments] = fragments;
+          const firstAnnouncement = generateAnnouncement2({
+            ...descriptor,
+            name: firstFragment,
+            text: firstFragment
+          });
+          return [firstAnnouncement, ...remainingFragments].filter((announcement) => Boolean(announcement));
+        }
         function splitExpandedRegionInlineLinkAnnouncements(descriptor) {
           const fragments = descriptor.expandedRegionInlineLinkFragments;
           if (descriptor.role !== "paragraph" || !fragments?.length) {
@@ -16399,6 +16528,10 @@
               {
                 source: "split-inline-phrasing-boundary",
                 announcements: splitInlinePhrasingBoundaryAnnouncements(descriptor)
+              },
+              {
+                source: "split-direct-sup-symbol-boundary",
+                announcements: splitDirectSupSymbolBoundaryAnnouncements(descriptor)
               },
               {
                 source: "split-inline-text-link",

@@ -13011,6 +13011,147 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function directSupSymbolBoundaryFragments(el: any, role: string): string[] | undefined {
+    if (!["paragraph", "text", "listitem"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    const tag = el.tagName?.toLowerCase();
+    if (role === "listitem") {
+      if (!isListItem(el)) return undefined;
+    } else if (tag !== "p" && tag !== "small") {
+      return undefined;
+    }
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      expandedControlledRegionFor(el) ||
+      !accessibilityNodes.length
+    ) {
+      return undefined;
+    }
+
+    const directElements = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    const directSuperscripts = directElements.filter(
+      (child: any) => child.tagName?.toLowerCase() === "sup",
+    );
+    if (!directSuperscripts.length) return undefined;
+    if (directSuperscripts.some((sup: any) => !/^[†‡]$/u.test(normalize(readableText(sup)) || ""))) {
+      return undefined;
+    }
+
+    const hasDirectLineBreak = directElements.some(
+      (child: any) => child.tagName?.toLowerCase() === "br",
+    );
+    const firstVisibleElement = directElements[0] as any | undefined;
+    if (
+      role !== "listitem" &&
+      !hasDirectLineBreak &&
+      firstVisibleElement?.tagName?.toLowerCase() !== "sup"
+    ) {
+      return undefined;
+    }
+
+    const directLinks = directElements.filter(
+      (child: any) => implicitRole(child) === "link" && child.tagName?.toLowerCase() === "a",
+    );
+    if (
+      directElements.some((child: any) => {
+        const childTag = child.tagName?.toLowerCase();
+        if (childTag === "sup" || childTag === "br") return false;
+        if (directLinks.includes(child)) return false;
+        return true;
+      })
+    ) {
+      return undefined;
+    }
+
+    const axRole = role === "listitem" ? "listitem" : role === "text" ? "statictext" : "paragraph";
+    const axParent = axNodeForElementRole(el, axRole);
+    const axChildren = axChildNodes(axParent);
+    if (!axParent || !axChildren.length) return undefined;
+
+    function axSupSymbol(sup: any): string | undefined {
+      const supAx = axNodeForElementRole(sup, "superscript");
+      if (!supAx || !axChildren.includes(supAx)) return undefined;
+      const staticChildren = axChildNodes(supAx).filter(
+        (child) => normalizedAxRole(child.role) === "statictext",
+      );
+      if (staticChildren.length !== 1) return undefined;
+      const symbol = normalize(staticChildren[0].name);
+      return symbol && /^[†‡]$/u.test(symbol) ? symbol : undefined;
+    }
+
+    if (directSuperscripts.some((sup: any) => !axSupSymbol(sup))) return undefined;
+    if (
+      directLinks.some((link: any) => {
+        const linkAx = axNodeForElementRole(link, "link");
+        return !linkAx || !axChildren.includes(linkAx) || !normalizeAnnouncementLabel(linkAx.name);
+      })
+    ) {
+      return undefined;
+    }
+    if (
+      hasDirectLineBreak &&
+      !axChildren.some((child) => normalizedAxRole(child.role) === "linebreak")
+    ) {
+      return undefined;
+    }
+
+    const fragments: string[] = [];
+    let plainText = "";
+    let sawSup = false;
+    let sawText = false;
+    let disallowed = false;
+
+    function pushText(value?: string): void {
+      const text = normalize(value);
+      if (text && /[\p{L}\p{N}]/u.test(text)) {
+        fragments.push(text);
+        sawText = true;
+      }
+    }
+
+    function flushPlainText(): void {
+      pushText(plainText);
+      plainText = "";
+    }
+
+    for (const child of Array.from(el.childNodes || [])) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        plainText = `${plainText}${child.textContent || ""}`;
+        continue;
+      }
+      if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) continue;
+      const childTag = child.tagName?.toLowerCase();
+      if (childTag === "br") {
+        flushPlainText();
+        continue;
+      }
+      if (childTag === "sup") {
+        flushPlainText();
+        const symbol = axSupSymbol(child);
+        if (!symbol) {
+          disallowed = true;
+          break;
+        }
+        fragments.push(symbol);
+        sawSup = true;
+        continue;
+      }
+      if (directLinks.includes(child)) {
+        flushPlainText();
+        continue;
+      }
+      disallowed = true;
+      break;
+    }
+    flushPlainText();
+
+    return !disallowed && sawSup && sawText && fragments.length >= 2
+      ? fragments
+      : undefined;
+  }
+
   function rubyBaseText(el: any): string | undefined {
     const parts: string[] = [];
     for (const child of Array.from(el.childNodes || [])) {
@@ -16562,6 +16703,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           : undefined,
       inlinePhrasingBoundaryFragments:
         role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : undefined,
+      directSupSymbolBoundaryFragments: directSupSymbolBoundaryFragments(el, role),
       expandedRegionInlineLinkFragments:
         role === "paragraph" ? expandedRegionInlineLinkFragments(el) : undefined,
       priceDisclosureFragments: priceDisclosureFragments(el, role),
@@ -18549,6 +18691,26 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitDirectSupSymbolBoundaryAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.directSupSymbolBoundaryFragments;
+    if (!["paragraph", "text", "listitem"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    if (descriptor.role !== "listitem") return fragments;
+
+    const [firstFragment, ...remainingFragments] = fragments;
+    const firstAnnouncement = generateAnnouncement({
+      ...descriptor,
+      name: firstFragment,
+      text: firstFragment,
+    });
+    return [firstAnnouncement, ...remainingFragments].filter(
+      (announcement): announcement is string => Boolean(announcement),
+    );
+  }
+
   function splitExpandedRegionInlineLinkAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -18955,6 +19117,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-inline-phrasing-boundary",
           announcements: splitInlinePhrasingBoundaryAnnouncements(descriptor),
+        },
+        {
+          source: "split-direct-sup-symbol-boundary",
+          announcements: splitDirectSupSymbolBoundaryAnnouncements(descriptor),
         },
         {
           source: "split-inline-text-link",

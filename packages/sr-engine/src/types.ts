@@ -144,6 +144,7 @@ export interface ElementDescriptor {
   axLineBreakTextFragments?: string[];
   inlineTextLinkFragments?: string[];
   inlinePhrasingBoundaryFragments?: string[];
+  directSupSymbolBoundaryFragments?: string[];
   expandedRegionInlineLinkFragments?: string[];
   priceDisclosureFragments?: string[];
   richProductCardFeatureRowFragments?: string[];
