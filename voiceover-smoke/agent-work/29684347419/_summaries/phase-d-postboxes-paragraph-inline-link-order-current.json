@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "target": "www-royalmail-com-services-near-you-postboxes",
+  "family": "paragraph-inline-link-text-order",
+  "status": "passed",
+  "startedAt": "2026-07-24T13:03:14Z",
+  "finishedAt": "2026-07-24T13:08:31Z",
+  "leaseAcquiredAt": "2026-07-24T13:03:14Z",
+  "leaseReleasedAt": "2026-07-24T13:08:31Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "branch": "codex/royal-mail-voiceover-refinement",
+    "runId": "29684347419",
+    "result": "single-active-lease-after-user-directed-takeover",
+    "evidence": "Canonical lease had one active homepage-article-iframe-boundary owner before acquisition. User declared this turn the sole engine-refiner and required canonical lease count exactly 1, so the active lease was replaced with this postboxes family and the prior owner was preserved in leaseHistory. The postboxes lease was released at finish with activeEngineRefinerCount 0."
+  },
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-current-text-family-closure.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-paragraph-inline-link-br-final.json"
+    ],
+    "priorPhaseDReceiptsRead": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-paragraph-inline-link-br-order.json"
+    ],
+    "implementationReferenceOnly": {
+      "commit": "264f640e0f36a696389295fcc1c2972ba5fcd9aa",
+      "worktree": "/tmp/sr-vo-postboxes-inline-link-order",
+      "usedFor": "Narrow source/test reference only; no rebase continued and no stale lease state copied."
+    },
+    "sourceFixturesRead": [
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.html",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.ax.json",
+      "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes/www-royalmail-com-services-near-you-postboxes.expected.json"
+    ],
+    "focusedEvidence": [
+      {
+        "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1:e47:a47",
+        "domNodeId": "308",
+        "axNodeId": "5211",
+        "htmlShape": "p with direct StaticText, direct a, conjunction text node, direct a, tail text",
+        "axChildRoles": ["StaticText", "link", "StaticText", "link", "StaticText"],
+        "expectedShape": "StaticText prefix, link, conjunction StaticText, link, tail StaticText"
+      },
+      {
+        "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-2:e49:a49",
+        "domNodeId": "308",
+        "axNodeId": "5211",
+        "htmlShape": "same p continuation after second direct link",
+        "axChildRoles": ["StaticText", "link", "StaticText", "link", "StaticText"],
+        "expectedShape": "Second direct link is followed by the direct static tail instead of having the tail hoisted before links."
+      }
+    ]
+  },
+  "decisions": {
+    "refinedAnnouncementsTrusted": true,
+    "comparedAgainstInitialRenderedHtml": true,
+    "c5RequiredBeforeImplementation": false,
+    "enginePatchKept": true,
+    "announcementWordingChangeNeeded": false,
+    "whyGeneric": "The saved HTML and AX tree expose an ordinary paragraph with direct anchor children and AX StaticText/link/StaticText/link/StaticText child order. The rule uses generic DOM role/tag and AX focus/name evidence only.",
+    "whyNarrow": "The extension only applies to p elements with two direct anchors as the only direct element children, five direct AX children in static/link/static/link/static order, a middle conjunction text of and/or/&, no role or aria name on the paragraph, no interactive/list/table/expanded-region ancestor, and no aside/footer/nav ancestor."
+  },
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Extended the existing AX-backed direct paragraph inline-link splitter to preserve two-link conjunction StaticText/link/StaticText/link/StaticText order."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added positive coverage for a direct two-link conjunction paragraph and negative guards for article/footer/non-conjunction shapes."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Rebuilt the extension runtime from the updated engine."
+    }
+  ],
+  "fixtureChanges": [],
+  "targetCompareDelta": {
+    "target": "www-royalmail-com-services-near-you-postboxes",
+    "before": {
+      "expectedCount": 172,
+      "actualCount": 165,
+      "mismatchWindowCount": 16,
+      "relevantWindows": [
+        {
+          "currentWindowIndex": 1,
+          "actualIndex": 47,
+          "expectedIndex": 47,
+          "firstActual": "So why not buy your postage online via or, print your label, drop it in to your nearest postbox and get proof of posting.",
+          "firstExpected": "So why not buy your postage online via"
+        },
+        {
+          "currentWindowIndex": 2,
+          "actualIndex": 49,
+          "expectedIndex": 49,
+          "firstActual": "link, website",
+          "firstExpected": "or"
+        }
+      ]
+    },
+    "after": {
+      "expectedCount": 172,
+      "actualCount": 167,
+      "mismatchWindowCount": 13,
+      "relevantWindowsRemaining": [],
+      "firstRemainingWindow": {
+        "currentWindowIndex": 1,
+        "actualIndex": 54,
+        "expectedIndex": 54,
+        "firstActual": ". Select “Get proof of posting”, click “Post item now” and your camera will open so you can scan the QR code on your postage label. Then, simply pop your item in the postbox.",
+        "firstExpected": ".Select \"Get proof of posting\", click \"Post item now\" and your camera will open so you can scan the QR code on your postage label. Then, simply pop your item in the"
+      }
+    },
+    "result": "scoped-family-fixed"
+  },
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "tsc passed."
+    },
+    {
+      "name": "focused dom scanner before build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": false,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "The test file imports packages/sr-engine/dist/index.js; before rebuilding, the new source rule was not present in dist and the new focused test failed."
+    },
+    {
+      "name": "focused dom scanner",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "358 passed."
+    },
+    {
+      "name": "full unit",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "424 tests: 368 passed, 56 skipped."
+    },
+    {
+      "name": "affected compare postboxes baseline",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-services-near-you-postboxes",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Before the patch: expected 172, actual 165, mismatchWindowCount 16."
+    },
+    {
+      "name": "affected compare postboxes final",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you-postboxes /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-services-near-you-postboxes",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "After the patch: expected 172, actual 167, mismatchWindowCount 13; current windows 1-2 are resolved."
+    },
+    {
+      "name": "protected exact compare govuk text input",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare design-system-service-gov-uk-components-text-input",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 394, actual 394, mismatchWindowCount 0."
+    },
+    {
+      "name": "protected exact compare nhs pharmacy",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Exact: expected 66, actual 66, mismatchWindowCount 0."
+    },
+    {
+      "name": "candidate guard compare typo",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-postcode",
+      "required": false,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Fixture name typo; no fixture was loaded and no scanner comparison ran."
+    },
+    {
+      "name": "candidate guard compare royal mail postcode",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "required": false,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Candidate guard remains at expected 99, actual 101, mismatchWindowCount 2."
+    },
+    {
+      "name": "extension runtime build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin /opt/homebrew/bin/yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Turbo build:runtime completed for @sr-output/extension and rebuilt packages/sr-extension/src/content/engine-runtime.js."
+    },
+    {
+      "name": "bounded voiceover corpus",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/bin:/bin SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_PROGRESS=true SR_VOICEOVER_CORPUS_FIXTURE=www-nhs-uk-service-search-pharmacy-find-a-pharmacy /opt/homebrew/bin/yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Bounded filtered corpus passed: 4 tests passed, 0 skipped."
+    },
+    {
+      "name": "diff check",
+      "command": "git diff --check",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "No whitespace errors."
+    }
+  ],
+  "remainingMismatches": {
+    "www-royalmail-com-services-near-you-postboxes": {
+      "expectedCount": 172,
+      "actualCount": 167,
+      "mismatchWindowCount": 13,
+      "grouped": {
+        "punctuation/text-boundary": 3,
+        "role/structure": 8,
+        "list/marker": 2
+      }
+    }
+  },
+  "revisitQueue": [
+    {
+      "family": "paragraph-inline-link-text-order",
+      "currentWindowIndexes": [],
+      "latestActual": "No remaining compare window maps to current-window-1:e47:a47 or current-window-2:e49:a49.",
+      "latestExpected": "Direct paragraph StaticText/link/StaticText/link/StaticText order is now preserved for the scoped refs.",
+      "nextOwner": "promoter",
+      "nextAction": "No further Phase D work for this scoped family.",
+      "blocker": "",
+      "checksNeeded": []
+    },
+    {
+      "family": "postboxes-proof-paragraph-punctuation-and-neighbor-boundary",
+      "currentWindowIndexes": [1],
+      "latestActual": ". Select “Get proof of posting”, click “Post item now” ... postbox.; then heading follows without the expected intermediate group.",
+      "latestExpected": ".Select \"Get proof of posting\", click \"Post item now\" ... pop your item in the; group; heading level 3 What can you send ...",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Split punctuation/quote normalization from the following group/heading boundary before any further Phase D work.",
+      "blocker": "Separate mixed punctuation and structure family outside the requested inline-link order refs.",
+      "checksNeeded": ["target compare", "source/AX punctuation packet", "structural group boundary packet"]
+    },
+    {
+      "family": "postboxes-media-card-image-and-group-boundaries",
+      "currentWindowIndexes": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      "latestActual": "Actual emits article/group/link image variants around Single Upload and icon cards, with several group stops shifted or extra.",
+      "latestExpected": "Expected contains grouped article/card boundaries and image-description or image-role wording around the same card media regions.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reconcile against existing card/media C.5 packets or create a current structural packet for the latest window indexes.",
+      "blocker": "Separate role/structure media-card family; not part of the trusted paragraph inline-link order contract.",
+      "checksNeeded": ["structural evidence packet", "target compare", "protected media/card exact compare"]
+    },
+    {
+      "family": "postboxes-rich-list-marker-link-steps",
+      "currentWindowIndexes": [12],
+      "latestActual": "Actual joins list item text and omits marker-only/link-only stops: '(you can do this online or using our app) ... 1 of 4', 'to scan your label ... 3 of 4', ', post your item ... 4 of 4'.",
+      "latestExpected": "Expected has marker stops plus separate links: '•, 1 of 4', 'link, Buy postage online', '•,3 of 4', 'link, Use our app', '•, 4 of 4', 'link, Find your nearest postbox'.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify current rich list marker/link contract separately, then route to C.5 or Phase D if engine-ready.",
+      "blocker": "Separate list/marker family outside this Phase D scope.",
+      "checksNeeded": ["focused list-marker evidence packet", "target compare", "protected list compares"]
+    },
+    {
+      "family": "postboxes-article-end-before-breadcrumb",
+      "currentWindowIndexes": [13],
+      "latestActual": "FAQ collapsed button groups are followed directly by Breadcrumb, navigation.",
+      "latestExpected": "FAQ collapsed button groups are followed by end of, article before Breadcrumb, navigation.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reconcile latest article boundary evidence against existing terminal article-end receipts before any engine patch.",
+      "blocker": "Separate structure family outside requested paragraph inline-link order scope.",
+      "checksNeeded": ["target compare", "article-boundary protected compare"]
+    }
+  ],
+  "nextPhase": "promoter",
+  "handoffReason": "The requested postboxes paragraph-inline-link-text-order family is fixed and verified. Remaining target mismatches are split into concrete revisit families.",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "promoter",
+  "nextRecommendedWorker": {
+    "type": "promoter",
+    "scope": "Review this scoped Phase D receipt after preserving separate unresolved postboxes families.",
+    "c5Needed": false,
+    "reason": "The two engine-ready paragraph inline-link current refs no longer appear in the final compare."
+  }
+}

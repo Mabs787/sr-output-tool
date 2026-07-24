@@ -4,24 +4,42 @@
   "runId": "29684347419",
   "branch": "codex/royal-mail-voiceover-refinement",
   "status": "released",
-  "leaseOwner": "top-level-codex-send-help-footer-unnamed-svg-image-stops-2026-07-24T12:47:22Z",
-  "startedAt": "2026-07-24T12:47:22Z",
+  "leaseOwner": "top-level-codex-postboxes-paragraph-inline-link-order-2026-07-24T13:03:14Z",
+  "startedAt": "2026-07-24T13:03:14Z",
   "adoptedBy": null,
   "adoptedAt": null,
-  "releasedAt": "2026-07-24T12:58:22Z",
-  "targetFamily": "footer-unnamed-image-link-stop-sequence",
-  "target": "send-royalmail-com-help",
-  "candidateRef": "send-help-footer-unnamed-svg-image-stops",
+  "releasedAt": "2026-07-24T13:08:31Z",
+  "targetFamily": "paragraph-inline-link-text-order",
+  "target": "www-royalmail-com-services-near-you-postboxes",
+  "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1:e47:a47,www-royalmail-com-services-near-you-postboxes:current-window-2:e49:a49",
   "separateWorktreeException": false,
   "activeEngineRefinerCount": 0,
   "overlapCheck": {
-    "activeLeaseCountAtStart": 0,
-    "currentLeaseCount": 1,
+    "activeLeaseCountAtStart": 1,
+    "currentLeaseCount": 0,
     "activeLeaseCountAtFinish": 0,
-    "result": "released-single-engine-refiner",
-    "evidence": "The previous canonical lease was released with activeEngineRefinerCount 0. This Phase D acquired the canonical lease at 2026-07-24T12:47:22Z with activeEngineRefinerCount exactly 1 for send-help-footer-unnamed-svg-image-stops, then released it at 2026-07-24T12:58:22Z after writing the receipt."
+    "result": "released-no-active-engine-refiner",
+    "evidence": "Before acquisition, the canonical lease file already contained one active lease for homepage-article-iframe-boundary. The user declared this turn the sole engine-refiner and instructed a canonical lease count of exactly 1, so this entry replaced the active owner while preserving that prior lease in history; no temp-worktree lease state was copied. The postboxes lease was released after checks and the active count is now 0."
   },
   "leaseHistory": [
+    {
+      "leaseOwner": "top-level-codex-postboxes-paragraph-inline-link-order-2026-07-24T13:03:14Z",
+      "target": "www-royalmail-com-services-near-you-postboxes",
+      "candidateRef": "www-royalmail-com-services-near-you-postboxes:current-window-1:e47:a47,www-royalmail-com-services-near-you-postboxes:current-window-2:e49:a49",
+      "targetFamily": "paragraph-inline-link-text-order",
+      "startedAt": "2026-07-24T13:03:14Z",
+      "releasedAt": "2026-07-24T13:08:31Z",
+      "status": "released"
+    },
+    {
+      "leaseOwner": "top-level-codex-homepage-article-iframe-boundary-2026-07-24T13:02:28Z",
+      "target": "www-royalmail-com",
+      "candidateRef": "www-royalmail-com:current-window-4",
+      "targetFamily": "homepage-article-iframe-boundary",
+      "startedAt": "2026-07-24T13:02:28Z",
+      "releasedAt": "2026-07-24T13:03:14Z",
+      "status": "superseded-by-user-directed-single-engine-refiner-lease"
+    },
     {
       "leaseOwner": "top-level-codex-send-help-footer-unnamed-svg-image-stops-2026-07-24T12:47:22Z",
       "target": "send-royalmail-com-help",

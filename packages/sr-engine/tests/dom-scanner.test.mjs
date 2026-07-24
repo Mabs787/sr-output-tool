@@ -1696,6 +1696,90 @@ test("scanSubtree preserves AX paragraph order for direct static text link stati
   );
 });
 
+test("scanSubtree preserves AX paragraph order for direct two-link conjunction text", () => {
+  const entries = scanEntries(
+    `
+      <section>
+        <p data-sr-dom-node-id="delivery-p">
+          Buy labels online through <a href="/app" data-sr-dom-node-id="app-link">the app</a> or <a href="/site" data-sr-dom-node-id="site-link">website</a>, then print and post your parcel.
+        </p>
+      </section>
+    `,
+    {
+      includeTraversalDebug: true,
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "delivery-p",
+            role: "paragraph",
+            name: "",
+            domNodeId: "delivery-p",
+            childIds: ["delivery-prefix", "app-link", "delivery-or", "site-link", "delivery-tail"],
+          },
+          {
+            nodeId: "delivery-prefix",
+            role: "StaticText",
+            name: "Buy labels online through ",
+          },
+          {
+            nodeId: "app-link",
+            role: "link",
+            name: "the app",
+            domNodeId: "app-link",
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "delivery-or",
+            role: "StaticText",
+            name: " or ",
+          },
+          {
+            nodeId: "site-link",
+            role: "link",
+            name: "website",
+            domNodeId: "site-link",
+            properties: { focusable: true },
+          },
+          {
+            nodeId: "delivery-tail",
+            role: "StaticText",
+            name: ", then print and post your parcel.",
+          },
+        ],
+      },
+    },
+  );
+
+  assert.deepEqual(
+    entries.map((entry) => ({
+      announcement: entry.announcement,
+      source: entry.traversalDebug?.stopSource,
+    })),
+    [
+      {
+        announcement: "Buy labels online through",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "link, the app",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "or",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: "link, website",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+      {
+        announcement: ", then print and post your parcel.",
+        source: "split-direct-ax-inline-link-break-paragraph",
+      },
+    ],
+  );
+});
+
 test("scanSubtree keeps direct link and br paragraph order guard-scoped", () => {
   const guardedParagraphAx = {
     nodes: [
@@ -1723,6 +1807,57 @@ test("scanSubtree keeps direct link and br paragraph order guard-scoped", () => 
     `<table><tbody><tr><td><p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br">Guard tail text.</p></td></tr></tbody></table>`,
     `<button><p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br">Guard tail text.</p></button>`,
     `<p data-sr-dom-node-id="guard-p"><a href="/guard" data-sr-dom-node-id="guard-link">Guard link</a><br data-sr-dom-node-id="guard-br"><span data-sr-pseudo-before="(" data-sr-pseudo-after=")">pdf, 2 KB</span></p>`,
+  ]) {
+    const entries = scanEntries(html, {
+      includeTraversalDebug: true,
+      accessibilityTree: guardedParagraphAx,
+    });
+
+    assert.equal(
+      entries.some(
+        (entry) =>
+          entry.traversalDebug?.stopSource ===
+          "split-direct-ax-inline-link-break-paragraph",
+      ),
+      false,
+    );
+  }
+});
+
+test("scanSubtree keeps direct two-link paragraph order guard-scoped", () => {
+  const guardedParagraphAx = {
+    nodes: [
+      {
+        nodeId: "guard-p",
+        role: "paragraph",
+        name: "",
+        domNodeId: "guard-p",
+        childIds: ["guard-prefix", "first-link", "guard-middle", "second-link", "guard-tail"],
+      },
+      { nodeId: "guard-prefix", role: "StaticText", name: "Use " },
+      {
+        nodeId: "first-link",
+        role: "link",
+        name: "first option",
+        domNodeId: "first-link",
+        properties: { focusable: true },
+      },
+      { nodeId: "guard-middle", role: "StaticText", name: " with " },
+      {
+        nodeId: "second-link",
+        role: "link",
+        name: "second option",
+        domNodeId: "second-link",
+        properties: { focusable: true },
+      },
+      { nodeId: "guard-tail", role: "StaticText", name: ", then continue." },
+    ],
+  };
+
+  for (const html of [
+    `<article><p data-sr-dom-node-id="guard-p">Use <a href="/first" data-sr-dom-node-id="first-link">first option</a> or <a href="/second" data-sr-dom-node-id="second-link">second option</a>, then continue.</p></article>`,
+    `<footer><p data-sr-dom-node-id="guard-p">Use <a href="/first" data-sr-dom-node-id="first-link">first option</a> or <a href="/second" data-sr-dom-node-id="second-link">second option</a>, then continue.</p></footer>`,
+    `<p data-sr-dom-node-id="guard-p">Use <a href="/first" data-sr-dom-node-id="first-link">first option</a> with <a href="/second" data-sr-dom-node-id="second-link">second option</a>, then continue.</p>`,
   ]) {
     const entries = scanEntries(html, {
       includeTraversalDebug: true,

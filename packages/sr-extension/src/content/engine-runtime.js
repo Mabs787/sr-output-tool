@@ -11732,13 +11732,15 @@
             return void 0;
           const hasAxLineBreak = axChildren.some((child) => normalizedAxRole(child.role) === "linebreak");
           const hasDirectStaticTextLinkStaticTextShape = directLinks.length === 1 && directElements.length === 1 && axChildren.length === 3 && normalizedAxRole(axChildren[0]?.role) === "statictext" && normalizedAxRole(axChildren[1]?.role) === "link" && normalizedAxRole(axChildren[2]?.role) === "statictext";
+          const hasDirectStaticTextTwoLinkStaticTextShape = directLinks.length === 2 && directElements.length === 2 && directElements.every((element, index) => element === directLinks[index]) && axChildren.length === 5 && normalizedAxRole(axChildren[0]?.role) === "statictext" && normalizedAxRole(axChildren[1]?.role) === "link" && normalizedAxRole(axChildren[2]?.role) === "statictext" && normalizedAxRole(axChildren[3]?.role) === "link" && normalizedAxRole(axChildren[4]?.role) === "statictext" && Boolean(normalize(axChildren[0]?.name)?.match(/[\p{L}\p{N}]/u)) && Boolean(normalize(axChildren[2]?.name)?.match(/^(?:and|or|&)$/iu)) && Boolean(normalize(axChildren[4]?.name)?.match(/[\p{L}\p{N}]/u));
           const noBreakLeadingText = normalize(axChildren[0]?.name);
           const noBreakLinkName = normalize(axChildren[1]?.name);
           const noBreakTrailingText = normalize(axChildren[2]?.name);
           const isShortServiceActionNoBreakShape = hasDirectStaticTextLinkStaticTextShape && noBreakLeadingText && noBreakLeadingText.length < 12 && Boolean(noBreakLinkName?.match(/^[a-z]/u)) && Boolean(noBreakLinkName?.match(/\band\b/u)) && Boolean(noBreakTrailingText?.match(/^[\p{L}\p{N}]/u)) && !noBreakTrailingText?.endsWith(":");
           const isDashWrappedArticleProseLink = hasDirectStaticTextLinkStaticTextShape && Boolean(el.closest("article,[role='article']")) && Boolean(noBreakTrailingText?.match(/^[–-]\s*/u));
           const canUseNoBreakStaticTextLinkStaticTextShape = hasDirectStaticTextLinkStaticTextShape && !el.closest("aside,footer,nav") && !isShortServiceActionNoBreakShape && !isDashWrappedArticleProseLink;
-          if (!hasAxLineBreak && !canUseNoBreakStaticTextLinkStaticTextShape) {
+          const canUseNoBreakStaticTextTwoLinkStaticTextShape = hasDirectStaticTextTwoLinkStaticTextShape && !el.closest("aside,footer,nav");
+          if (!hasAxLineBreak && !canUseNoBreakStaticTextLinkStaticTextShape && !canUseNoBreakStaticTextTwoLinkStaticTextShape) {
             return void 0;
           }
           const axLinks = axChildren.filter((child) => normalizedAxRole(child.role) === "link");
