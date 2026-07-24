@@ -11225,7 +11225,7 @@
           if (links.length === 1) {
             if (!isDirectAxOneLinkParagraphShape())
               return void 0;
-          } else if (axLinkCount !== links.length) {
+          } else if (axLinkCount !== links.length && flattenedAxLinkCount !== links.length) {
             return void 0;
           }
           if (axLinkCount === 2 && axChildren.some((node, index) => {
@@ -11285,6 +11285,30 @@
               return false;
             return normalizedAxRole(axChildren[index - 1]?.role) === "link" && normalizedAxRole(axChildren[index + 1]?.role) === "link";
           }
+          function axNodeContainsFocusableLink(node) {
+            if (!node)
+              return false;
+            if (normalizedAxRole(node.role) === "link") {
+              return node.properties?.focusable === true && Boolean(normalizeAnnouncementLabel(node.name));
+            }
+            return axChildNodes(node).some((child) => axNodeContainsFocusableLink(child));
+          }
+          function shouldCompactMedialInlineLinkConjunction(index, text, rawName) {
+            if (links.length < 2 || directElements.length !== links.length)
+              return false;
+            if (!directElements.every((element) => ["strong", "b", "em", "i"].includes(element.tagName?.toLowerCase()))) {
+              return false;
+            }
+            if (!/^\s+(?:and|or)\s+[\p{L}\p{N}]/iu.test(rawName || ""))
+              return false;
+            if (!/^(?:and|or)\s+[\p{L}\p{N}]/iu.test(text))
+              return false;
+            if (!axNodeContainsFocusableLink(axChildren[index - 1]))
+              return false;
+            if (!axNodeContainsFocusableLink(axChildren[index + 1]))
+              return false;
+            return true;
+          }
           const fragments = [];
           let disallowedAxChild = false;
           const shortLeadingText = normalize(axChildren[0]?.name);
@@ -11321,7 +11345,15 @@
             const text = normalize(child.name);
             if (!text || !/[\p{L}\p{N}]/u.test(text))
               return;
-            fragments.push(shouldCompactLeadParagraphConjunction(index, text) ? ",and" : text);
+            if (shouldCompactLeadParagraphConjunction(index, text)) {
+              fragments.push(",and");
+              return;
+            }
+            if (shouldCompactMedialInlineLinkConjunction(index, text, child.name)) {
+              fragments.push(text.replace(/^(and|or)\s+/iu, "$1"));
+              return;
+            }
+            fragments.push(text);
           }
           for (const [index, child] of axChildren.entries()) {
             pushAxChild(child, index);

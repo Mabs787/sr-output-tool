@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "runId": "29684347419",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "target": "_summaries/stabilized-text-boundary-inline-media",
+  "targetFamily": "text-boundary-truncation-and-inline-media",
+  "status": "passed-with-revisit-queue",
+  "startedAt": "2026-07-24T14:07:03Z",
+  "finishedAt": "2026-07-24T14:19:11Z",
+  "lease": {
+    "path": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "leaseOwner": "top-level-codex-stabilized-text-boundary-inline-media-2026-07-24T14:07:03Z",
+    "leaseAcquiredAt": "2026-07-24T14:07:03Z",
+    "leaseReleasedAt": "2026-07-24T14:19:11Z",
+    "activeLeaseCountAtStart": 0,
+    "activeLeaseCountAtFinish": 0,
+    "canonicalLeaseCount": 1,
+    "overlapCheckResult": "released-no-active-engine-refiner"
+  },
+  "scope": {
+    "candidateRefs": [
+      "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-12:abd89b85f197",
+      "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-14:916ffe504946",
+      "www-royalmail-com-services-near-you:text-boundary-truncation-and-inline-media:current-window-4:48832f331f47"
+    ],
+    "phaseDOnly": true,
+    "fixtureChangesAllowed": false,
+    "engineRuleShape": "Generic direct paragraph AX child fragmentation for inline text/link boundaries. The refinement accepts link descendants wrapped by inline emphasis elements and compacts a medial conjunction only when the saved AX tree has focusable link-containing siblings on both sides."
+  },
+  "inputs": {
+    "workflowDocs": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCReceipts": [
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-stabilized-other-residual-closure.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-text-boundary-inline-media.json",
+      "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-inline-static-text-boundary.json"
+    ],
+    "currentCompareEvidence": [
+      "/tmp/sr-vo-royal-current3.adImuV/send-royalmail-com.json",
+      "/tmp/sr-vo-royal-current3.adImuV/www-royalmail-com-services-near-you.json"
+    ],
+    "c5ArtifactEvidence": [
+      "voiceover-smoke/agent-work/29684347419/c5-residual-artifacts/29791250745/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-royal-mail-inline-media-c5-text-boundary-inline-media"
+    ]
+  },
+  "decision": {
+    "implemented": true,
+    "implementedSubGaps": [
+      {
+        "name": "strong-wrapped inline link boundary traversal",
+        "reason": "C.5 saved AX evidence exposes direct paragraph children split across StaticText, inline emphasis wrappers, and focusable descendant links. The previous engine required direct AX link children for multi-link paragraphs, so it skipped this reusable shape."
+      },
+      {
+        "name": "C.5 medial conjunction no-space behavior",
+        "reason": "C.5 VoiceOver output said 'oruse our' between two inline links. The rule is restricted to direct paragraphs whose direct DOM element children are all inline emphasis wrappers, with focusable link-containing AX siblings on both sides of the conjunction StaticText."
+      }
+    ],
+    "notImplementedSubGaps": [
+      {
+        "name": "neighbor/card/article media tails",
+        "reason": "The current windows still include downstream image/group/card/article tail differences. Those are outside the C.5-supported initial-DOM inline text/link boundary contract and were intentionally not broadened into this engine rule."
+      },
+      {
+        "name": "current fixture spacing conflict",
+        "reason": "The run fixture refinedAnnouncements still expect 'or use our' while C.5 VoiceOver evidence confirms 'oruse our'. Phase D cannot edit refinedAnnouncements, so this is queued for fixture/evidence reconciliation rather than masked in engine logic."
+      }
+    ]
+  },
+  "changes": [
+    {
+      "path": "packages/sr-engine/src/dom.ts",
+      "summary": "Allowed direct paragraph AX splitting to use flattened descendant link counts when inline emphasis wrappers contain focusable links, and added a narrow C.5-backed conjunction compaction predicate between wrapped inline links."
+    },
+    {
+      "path": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added focused coverage for the C.5 inline link no-space boundary while preserving adjacent direct paragraph text/link controls."
+    },
+    {
+      "path": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerated extension runtime from the updated engine."
+    },
+    {
+      "path": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+      "summary": "Recorded canonical lease acquisition and release with active count exactly 1 during work and 0 after release."
+    }
+  ],
+  "fixtureChanges": [],
+  "targetCompares": [
+    {
+      "candidateRef": "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-12:abd89b85f197",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com node packages/sr-engine/tests/compare-voiceover-fixture.mjs send-royalmail-com",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/send-window-12.json",
+      "expectedCount": 155,
+      "actualCount": 133,
+      "mismatchWindowCount": 17,
+      "currentWindow": {
+        "index": 12,
+        "actualShape": "card / PayPal / mobile payment / No printer? No problem. / label-printing text / Choose from",
+        "expectedShape": "card / PayPal / mobile payment / image x5 / No printer? No problem. / label-printing text / Choose from",
+        "firstActual": "No printer? No problem.",
+        "firstExpected": "image"
+      }
+    },
+    {
+      "candidateRef": "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-14:916ffe504946",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com node packages/sr-engine/tests/compare-voiceover-fixture.mjs send-royalmail-com",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/send-window-14.json",
+      "expectedCount": 155,
+      "actualCount": 133,
+      "mismatchWindowCount": 17,
+      "currentWindow": {
+        "index": 14,
+        "actualShape": "oruse our / link, Parcel Collect / service / Regularly selling... / FREE",
+        "expectedShape": "or use our / link, Parcel Collect / service / image x6 / Regularly selling... / FREE",
+        "firstActual": "Regularly selling through online stores?",
+        "firstExpected": "image"
+      },
+      "relatedSpacingConflictWindow": {
+        "index": 13,
+        "actualShape": "Choose from / link, thousands of drop off points / oruse our / link, Parcel Collect / service",
+        "expectedShape": "Choose from / link, thousands of drop off points / or use our / link, Parcel Collect / service",
+        "blocker": "Current run refinedAnnouncements conflict with C.5 VoiceOver no-space evidence."
+      }
+    },
+    {
+      "candidateRef": "www-royalmail-com-services-near-you:text-boundary-truncation-and-inline-media:current-window-4:48832f331f47",
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-services-near-you node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-royalmail-com-services-near-you",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/services-window-4.json",
+      "expectedCount": 139,
+      "actualCount": 142,
+      "mismatchWindowCount": 8,
+      "currentWindow": {
+        "index": 4,
+        "actualShape": "article / group / Single Upload / link, icon quick delivery sny 81 80 / end of, article",
+        "expectedShape": "article / Single Upload / Unlabeled image...icon_quick_delivery_sny_81_80.svg / end of, article",
+        "firstActual": "group",
+        "firstExpected": "Single Upload"
+      }
+    }
+  ],
+  "c5DirectCheck": {
+    "command": "node --input-type=module -e '<scan saved C.5 rendered-html.html plus accessibility-tree.json with current dist engine>'",
+    "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/c5-direct-check.json",
+    "actualCount": 130,
+    "passed": true,
+    "checks": [
+      {
+        "name": "pay split",
+        "foundAt": 4
+      },
+      {
+        "name": "inline link no-space split",
+        "foundAt": 16
+      },
+      {
+        "name": "services strong split",
+        "foundAt": 29
+      }
+    ]
+  },
+  "protectedExactCompares": [
+    {
+      "fixture": "design-system-service-gov-uk-components-text-input",
+      "expectedCount": 394,
+      "actualCount": 394,
+      "mismatchWindowCount": 0,
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/protected-design-system-text-input.json"
+    },
+    {
+      "fixture": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "expectedCount": 66,
+      "actualCount": 66,
+      "mismatchWindowCount": 0,
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/protected-nhs-pharmacy.json"
+    },
+    {
+      "fixture": "www-gov-uk-find-local-council",
+      "expectedCount": 80,
+      "actualCount": 80,
+      "mismatchWindowCount": 0,
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/protected-gov-local-council.json"
+    },
+    {
+      "fixture": "www-britishairways-com-travel-home-public-en-gb",
+      "expectedCount": 208,
+      "actualCount": 208,
+      "mismatchWindowCount": 0,
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/protected-ba-home.json"
+    },
+    {
+      "fixture": "www-google-com-accessibility",
+      "expectedCount": 76,
+      "actualCount": 76,
+      "mismatchWindowCount": 0,
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/protected-google-accessibility.json"
+    }
+  ],
+  "checks": [
+    {
+      "name": "engine build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn workspace @sr-output/engine build",
+      "status": "passed",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/engine-build.out"
+    },
+    {
+      "name": "focused scanner tests",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node --test --test-name-pattern 'medial inline link conjunction|AX-confirmed direct paragraph text/link|AX-confirmed two-link paragraph|C5-confirmed one-link direct paragraph' packages/sr-engine/tests/dom-scanner.test.mjs",
+      "status": "passed",
+      "summary": "5 passed, 0 failed",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/focused-inline-link.out"
+    },
+    {
+      "name": "full engine unit suite",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "summary": "429 tests, 373 passed, 56 skipped",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/full-unit.out"
+    },
+    {
+      "name": "extension runtime build",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin /opt/homebrew/bin/yarn build:extension-runtime",
+      "status": "passed",
+      "summary": "Turbo ran @sr-output/engine build and @sr-output/extension build:runtime successfully."
+    },
+    {
+      "name": "three affected compares",
+      "status": "passed-with-revisit-queue",
+      "summary": "All three requested compare invocations completed. Remaining target windows are image/group/tail or fixture-spacing conflicts outside the safe C.5 inline-boundary engine contract."
+    },
+    {
+      "name": "protected exact compares",
+      "status": "passed",
+      "summary": "Five protected fixtures remained exact with mismatchWindowCount 0."
+    },
+    {
+      "name": "bounded corpus",
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=royalmail /Users/mrn41/.nvm/versions/node/v24.15.0/bin/node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "status": "passed",
+      "summary": "4 tests, 3 passed, 1 skipped candidate fixture",
+      "evidencePath": "/tmp/sr-vo-phase-d-stabilized-inline-media/bounded-corpus-royalmail.out"
+    }
+  ],
+  "revisitQueue": [
+    {
+      "id": "send-royalmail-com-current-window-12-downstream-images",
+      "candidateRef": "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-12:abd89b85f197",
+      "latestWindowIndex": 12,
+      "actualShape": "No printer? No problem. after payment fragments",
+      "expectedShape": "five image stops before No printer? No problem.",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reclassify or reconcile downstream image/media strip expectations after the fixed initial payment text boundary.",
+      "blocker": "The remaining shape is image-tail traversal/evidence, not the C.5 inline text/link boundary rule.",
+      "checksNeeded": [
+        "Inspect saved AX/source for the media strip after payment fragments.",
+        "Confirm whether image stops belong in refinedAnnouncements or should be routed to a media-tail engine family."
+      ]
+    },
+    {
+      "id": "send-royalmail-com-current-window-14-spacing-and-downstream-images",
+      "candidateRef": "send-royalmail-com:text-boundary-truncation-and-inline-media:current-window-14:916ffe504946",
+      "latestWindowIndexes": [
+        13,
+        14
+      ],
+      "actualShape": "Choose from / link / oruse our / link / service, then page section text",
+      "expectedShape": "Choose from / link / or use our / link / service, then image stops before page section text",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Resolve the current refinedAnnouncements spacing conflict against C.5 VoiceOver evidence, then separately classify downstream image stops.",
+      "blocker": "C.5 confirms 'oruse our' but the current run fixture expects 'or use our'; Phase D cannot edit fixtures. The following image stops are also a media-tail family outside this patch.",
+      "checksNeeded": [
+        "Compare current refinedAnnouncements against C.5 voiceover-output.json for the inline link segment.",
+        "Inspect saved AX/source for the image strip after Parcel Collect service."
+      ]
+    },
+    {
+      "id": "services-near-you-current-window-4-downstream-group-image",
+      "candidateRef": "www-royalmail-com-services-near-you:text-boundary-truncation-and-inline-media:current-window-4:48832f331f47",
+      "latestWindowIndex": 4,
+      "actualShape": "article / group / Single Upload / link, icon quick delivery sny 81 80 / end article",
+      "expectedShape": "article / Single Upload / Unlabeled image path / end article",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Reclassify or reconcile the article/group/image tail after the fixed inline strong paragraph split.",
+      "blocker": "The remaining mismatch is group/image structure, not initial DOM inline text/media boundary traversal.",
+      "checksNeeded": [
+        "Inspect saved AX/source for the article image/card structure.",
+        "Decide whether image naming belongs in refinedAnnouncements or a separate media/group engine family."
+      ]
+    }
+  ],
+  "nextPhase": "fixture-judge",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Resolve the current refinedAnnouncements conflict for 'oruse our' versus 'or use our' and the downstream image/group tails left in the three scoped windows."
+  }
+}

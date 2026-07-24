@@ -3609,6 +3609,77 @@ test("scanSubtree splits C5-confirmed one-link direct paragraph text boundaries"
   );
 });
 
+test("scanSubtree preserves C5-confirmed medial inline link conjunction spacing", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="delivery-options">
+          Choose from
+          <strong data-sr-dom-node-id="nearby-wrapper">
+            <a href="/nearby" data-sr-dom-node-id="nearby-link">nearby points</a>
+          </strong>
+          or use our
+          <strong data-sr-dom-node-id="collection-wrapper">
+            <a href="/collection" data-sr-dom-node-id="collection-link">collection service</a>
+          </strong>
+          option
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "paragraph",
+              role: "paragraph",
+              name: "",
+              domNodeId: "delivery-options",
+              childIds: ["before", "nearby-strong", "middle", "collection-strong", "after"],
+            },
+            { nodeId: "before", role: "StaticText", name: "Choose from " },
+            {
+              nodeId: "nearby-strong",
+              role: "strong",
+              name: "",
+              domNodeId: "nearby-wrapper",
+              childIds: ["nearby-link"],
+            },
+            {
+              nodeId: "nearby-link",
+              role: "link",
+              name: "nearby points",
+              domNodeId: "nearby-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "middle", role: "StaticText", name: " or use our " },
+            {
+              nodeId: "collection-strong",
+              role: "strong",
+              name: "",
+              domNodeId: "collection-wrapper",
+              childIds: ["collection-link"],
+            },
+            {
+              nodeId: "collection-link",
+              role: "link",
+              name: "collection service",
+              domNodeId: "collection-link",
+              properties: { focusable: true },
+            },
+            { nodeId: "after", role: "StaticText", name: " option" },
+          ],
+        },
+      },
+    ),
+    [
+      "Choose from",
+      "link, nearby points",
+      "oruse our",
+      "link, collection service",
+      "option",
+    ],
+  );
+});
+
 test("scanSubtree keeps one-link article prose as paragraph text plus link stop", () => {
   assert.deepEqual(
     scanHtml(
