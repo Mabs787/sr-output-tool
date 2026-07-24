@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_families/header-controlled-region",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T13:46:40Z",
+  "finishedAt": "2026-07-24T14:12:56Z",
+  "branch": "codex/royal-mail-voiceover-refinement",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "sourceFamilyAudit": "voiceover-smoke/agent-work/29684347419/_summaries/final-family-audit-header-footer-controlled-region.json",
+    "representativeSourceTarget": "www-royalmail-com",
+    "originalRenderedHtml": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com/www-royalmail-com.html",
+    "originalAccessibilityTree": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com/www-royalmail-com.ax.json",
+    "originalStepSnapshots": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com/www-royalmail-com.step-snapshots.json",
+    "originalExpected": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com/www-royalmail-com.expected.json",
+    "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html",
+    "artifactDownloadRoot": "voiceover-smoke/agent-work/29684347419/_families/header-controlled-region/"
+  },
+  "sourceFamily": {
+    "name": "header-nav-empty-controlled-region-and-button-group-boundary",
+    "requestId": "header-nav-empty-region-with-visible-empty-outer-regions-and-list-positioned-role-buttons",
+    "sourceRefs": [
+      "www-royalmail-com:current-window-1",
+      "www-royalmail-com-find-postcode:current-window-1",
+      "www-royalmail-com-personal-receiving-mail-redirection:current-window-1",
+      "www-royalmail-com-receiving-mail-redelivery:current-window-1",
+      "www-royalmail-com-sending:current-window-1",
+      "www-royalmail-com-sending-barcoded-stamps:current-window-1",
+      "www-royalmail-com-sending-international:current-window-1",
+      "www-royalmail-com-sending-stamps:current-window-1",
+      "www-royalmail-com-sending-uk:current-window-1",
+      "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-1",
+      "www-royalmail-com-sending-uk-tracked-24:current-window-1",
+      "www-royalmail-com-sending-uk-tracked-48:current-window-1"
+    ],
+    "originalVoiceOverSnippets": [
+      "Personal, collapsed, button, group, 1 of 3",
+      "Personal, empty region",
+      "Business, collapsed, button, group, 2 of 3",
+      "Receiving, empty region",
+      "Stamps & supplies, collapsed, button, group, 3 of 3",
+      "Small business hub, empty region"
+    ],
+    "reasonPhaseC5Required": "Existing C.5 covered simpler hidden controlled-region and footer/list-position shapes, but not this shared header shape with a native list, non-native collapsed role buttons, duplicate IDREF naming, AX-visible empty regions, and immediate banner/navigation/main context."
+  },
+  "minimalDomAxContract": {
+    "preserved": [
+      "body data-sr-scan-root identity wrapper",
+      "skip link before banner",
+      "banner landmark containing home image link",
+      "navigation landmark with a ul of exactly three top-level li items",
+      "each li contains an adjacent div role=button and div role=region",
+      "button names Personal, Business, Stamps & supplies",
+      "aria-expanded=false on the three non-native buttons",
+      "aria-controls from each button to its adjacent region id",
+      "aria-labelledby from each region to the corresponding primary-nav-* id",
+      "duplicate primary-nav-* ids inside hidden descendants to reproduce region names Personal, Receiving, and Small business hub",
+      "hidden descendant lists under the positive regions so the outer regions are AX-visible but VoiceOver announces empty region",
+      "main landmark immediately after banner"
+    ],
+    "originalAxContract": [
+      "button Personal expanded=false controls primary-nav-1-links",
+      "region Personal with ignored notRendered descendants",
+      "button Business expanded=false controls primary-nav-2-links",
+      "region Receiving with ignored notRendered descendants",
+      "button Stamps & supplies expanded=false controls primary-nav-3-links",
+      "region Small business hub with ignored/empty descendants",
+      "list position 1 of 3 through 3 of 3 synthesized by the enclosing native ul/li"
+    ],
+    "contentShortening": "Long Royal Mail menu, product, search, article, footer, analytics, iframes, and consent content was replaced with short neutral labels. This is safe because the disputed behavior depends on role/name/state/list position/IDREF/hidden descendant contracts, not long text, wrapping, punctuation, or OCR.",
+    "omittedContext": [
+      {
+        "omission": "Login/Register, search, send-an-item, hero, cards, article body, consent, iframes, analytics, and decorative SVGs",
+        "whySafe": "They are after the disputed header packet or hidden/decorative and do not contribute to the button names, region names, expanded state, control relationships, list position, or empty-region status."
+      },
+      {
+        "omission": "Full Royal Mail footer",
+        "whySafe": "A short footer negative control was retained only to prove this C.5 is not a footer/list-position promotion target."
+      }
+    ]
+  },
+  "commits": {
+    "reproCommit": "990dc8fbc8f7e7f02d1b9f819bca50e0cfe5fc5b",
+    "reproCommitPushedBeforeDispatch": true,
+    "canaryDispatchedHead": "990dc8fbc8f7e7f02d1b9f819bca50e0cfe5fc5b",
+    "fullScanDispatchedHead": "d38b59e3e1a1fa40faff381c76e1b2ce94a61046",
+    "note": "Concurrent commits advanced the branch after the repro commit. The repro file SHA remained identical for canary and full scan."
+  },
+  "fixturePathDiagnostic": {
+    "decision": "passed",
+    "requestedFixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html",
+    "resolvedRunnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html",
+    "localResolvedPath": "/Users/mrn41/Documents/Personal/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html",
+    "fileSha256AtCanaryHead": "ea340f6b3ce055f03c4282c8172e42614d5814cc226a60a1c8240531856446ef",
+    "fileSha256AtFullScanHead": "ea340f6b3ce055f03c4282c8172e42614d5814cc226a60a1c8240531856446ef",
+    "scanRootSelector": "[data-sr-scan-root]",
+    "scanRootIdentity": "phase-c5-header-controlled-region-current-family",
+    "renderedHtmlBytes": 8295,
+    "scanRootCount": 1,
+    "axNodeCount": 108,
+    "stepSnapshotCount": 18,
+    "nonEmptyAx": true,
+    "nonEmptyStepSnapshots": true,
+    "artifactId": 8598803635,
+    "workflowRunId": 30098610957,
+    "downloadRoot": "voiceover-smoke/agent-work/29684347419/_families/header-controlled-region/canary-30098610957",
+    "scanRoot": "voiceover-smoke/agent-work/29684347419/_families/header-controlled-region/canary-30098610957/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-families-header-controlled-region-header-controlled-region/scans/packages-sr-engine-tests-fixtures-voiceover-repros-families-header-controlled-region-header-controlled-region"
+  },
+  "scanRuns": {
+    "canary": {
+      "workflowName": "VoiceOver scan",
+      "command": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=18 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0",
+      "runId": 30098610957,
+      "headSha": "990dc8fbc8f7e7f02d1b9f819bca50e0cfe5fc5b",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-07-24T13:51:58Z",
+      "updatedAt": "2026-07-24T13:58:24Z",
+      "waitPollTimeline": [
+        "Waited 5 minutes after dispatch before first check.",
+        "First check: in_progress.",
+        "Polled once after 1 minute: completed success."
+      ],
+      "capturedSteps": 18,
+      "stopReason": "max-steps:18",
+      "positiveHeaderControlsReached": true,
+      "negativeControlsFullyReached": false
+    },
+    "full": {
+      "workflowName": "VoiceOver scan",
+      "command": "/opt/homebrew/bin/gh workflow run \"VoiceOver scan\" --ref codex/royal-mail-voiceover-refinement -f urls=packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html -f capture_step_snapshots=true -f capture_step_screenshots=true -f capture_screen_recording=false -f max_steps=60 -f max_step_seconds=10 -f navigation_mode=voiceover-right-arrow -f post_navigation_settle_seconds=0",
+      "runId": 30099131475,
+      "headSha": "d38b59e3e1a1fa40faff381c76e1b2ce94a61046",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-07-24T13:59:34Z",
+      "updatedAt": "2026-07-24T14:11:24Z",
+      "waitPollTimeline": [
+        "Waited 5 minutes after dispatch before first check.",
+        "First check: in_progress.",
+        "Polled once per minute until completed success."
+      ],
+      "artifactId": 8599160047,
+      "downloadRoot": "voiceover-smoke/agent-work/29684347419/_families/header-controlled-region/full-30099131475",
+      "scanRoot": "voiceover-smoke/agent-work/29684347419/_families/header-controlled-region/full-30099131475/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-families-header-controlled-region-header-controlled-region/scans/packages-sr-engine-tests-fixtures-voiceover-repros-families-header-controlled-region-header-controlled-region",
+      "capturedSteps": 52,
+      "stopReason": "scan-end-marker",
+      "partial": false,
+      "voiceOverAnnouncementCount": 50,
+      "axNodeCount": 108,
+      "stepSnapshotCount": 52,
+      "screenshotCount": 107,
+      "engineAnnouncementCount": 29
+    }
+  },
+  "miniScanEvidence": {
+    "rawVoiceOverPositive": [
+      "Personal, collapsed, button, group, 1 of 3",
+      "Personal, empty region",
+      "Business, collapsed, button, group, 2 of 3",
+      "Receiving, empty region",
+      "Stamps & supplies, collapsed, button, group, 3 of 3",
+      "Small business hub, empty region"
+    ],
+    "enginePositive": [
+      "Personal, collapsed, button, 1 of 3",
+      "Business, collapsed, button, 2 of 3",
+      "Stamps & supplies, collapsed, button, 3 of 3"
+    ],
+    "renderedHtmlSummary": "Rendered file URL exactly matched the requested repo-local fixture path and contained one data-sr-scan-root with identity phase-c5-header-controlled-region-current-family.",
+    "axEvidenceSummary": "AX exposed banner, Header menu navigation, native list/listitem positions, three div role=button nodes with expanded=false and controls, and three AX-visible named region nodes Personal, Receiving, and Small business hub. Positive region descendants were hidden/not rendered, matching empty-region VoiceOver output.",
+    "engineOutputSummary": "Engine omitted the three AX-visible empty region stops and omitted VoiceOver's group suffix for the three header role buttons.",
+    "debugEvidenceStatus": "complete"
+  },
+  "controlsReached": {
+    "positiveControls": {
+      "reached": true,
+      "matchedOriginalBehavior": true,
+      "lines": [
+        "Personal, collapsed, button, group, 1 of 3",
+        "Personal, empty region",
+        "Business, collapsed, button, group, 2 of 3",
+        "Receiving, empty region",
+        "Stamps & supplies, collapsed, button, group, 3 of 3",
+        "Small business hub, empty region"
+      ]
+    },
+    "negativeControls": [
+      {
+        "name": "simple native hidden controlled region",
+        "reached": true,
+        "voiceOver": [
+          "negative hidden region control, region",
+          "Simple menu, collapsed, button"
+        ],
+        "result": "No adjacent empty controlled-region stop was produced for a genuinely hidden native-button control."
+      },
+      {
+        "name": "visible non-empty controlled region",
+        "reached": true,
+        "voiceOver": [
+          "Visible menu, collapsed, button",
+          "Visible menu, region",
+          "list 2 items",
+          "link, Alpha",
+          "link, Beta"
+        ],
+        "result": "Visible non-empty region decomposed into its region/list/link contents, so it is not part of the header empty-region predicate."
+      },
+      {
+        "name": "footer positional role-button controlled regions",
+        "reached": true,
+        "voiceOver": [
+          "Footer personal, collapsed, button, group, 1 of 2",
+          "Footer personal, region",
+          "Footer business, collapsed, button, group, 2 of 2",
+          "Footer business, region"
+        ],
+        "result": "Reached as a guard only; this C.5 does not promote footer/list-position behavior."
+      }
+    ],
+    "tailWindow": {
+      "reached": true,
+      "voiceOver": "end of, content information"
+    }
+  },
+  "verdict": "engine-gap-confirmed",
+  "debugEvidenceStatus": "complete",
+  "terminalSplit": {
+    "counts": {
+      "engine-ready": 12,
+      "fixture-ready": 0,
+      "conditional": 0,
+      "recapture": 0,
+      "parked": 0
+    },
+    "refs": [
+      {
+        "ref": "www-royalmail-com:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-find-postcode:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-personal-receiving-mail-redirection:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-receiving-mail-redelivery:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-barcoded-stamps:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-international:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-stamps:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-uk:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-uk-special-delivery-guaranteed-1pm:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-uk-tracked-24:current-window-1",
+        "terminalClass": "engine-ready"
+      },
+      {
+        "ref": "www-royalmail-com-sending-uk-tracked-48:current-window-1",
+        "terminalClass": "engine-ready"
+      }
+    ]
+  },
+  "loopBack": {
+    "handoffTo": "engine-refiner",
+    "handoffReason": "Remote VoiceOver C.5 confirms the shared initial-DOM header contract and the engine omits the confirmed empty region stops/group suffixes.",
+    "notPhaseEPromotionTarget": true,
+    "notLiveSiteCorpusFixture": true,
+    "minimalUnitCoverageSuggestion": [
+      "Header nav ul/li with non-native div role=button, expanded=false, controls adjacent AX-visible empty region.",
+      "Duplicate IDREF naming guard where region aria-labelledby resolves to earlier hidden duplicate labels Receiving and Small business hub.",
+      "Assert VoiceOver-compatible output includes group suffix and list position for the three header buttons.",
+      "Assert AX-visible empty controlled regions are emitted as '<name>, empty region'.",
+      "Negative guards: native button with hidden controlled region does not synthesize an empty region; visible non-empty controlled region continues to decompose; footer/list-position behavior remains covered by its own C.5."
+    ]
+  },
+  "fixtureChanges": [
+    {
+      "file": "packages/sr-engine/tests/fixtures/voiceover/repros/_families/header-controlled-region/header-controlled-region.html",
+      "field": "minimal-repro-html",
+      "range": "new file",
+      "before": "",
+      "after": "neutral header controlled-region reproduction",
+      "reason": "minimal-repro-confirmed"
+    }
+  ],
+  "nextPhase": "engine-refiner",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "engine-refiner",
+  "handoffReason": "engine-gap-confirmed for all 12 current refs; use repro scan as supporting evidence for the original Royal Mail targets only.",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Implement focused reusable support for the C.5-confirmed header empty controlled-region contract only.",
+    "c5Needed": false,
+    "reason": "VoiceOver full scan 30099131475 reproduces the trusted original header announcements and differs from engine output with complete debug evidence."
+  }
+}
