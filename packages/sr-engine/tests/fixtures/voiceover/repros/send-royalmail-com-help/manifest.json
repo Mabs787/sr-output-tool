@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "target": "send-royalmail-com-help",
+  "family": "simple-list-marker-plus-inline-payment-text-boundary",
+  "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+  "identityMarkers": [
+    "rm-send-help-inline-payment-list-boundary-c5",
+    "simple-list-marker-plus-inline-payment-text-boundary",
+    "Complete your purchase",
+    "debit or credit card",
+    "mobile payment"
+  ],
+  "candidateRefs": [
+    "send-royalmail-com-help:shifted-card-shell-current-family:current-window-26:efb9bdd4521d"
+  ],
+  "sourceEvidence": {
+    "phaseCResidualAudit": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-send-help-list-text-post-ordered-engine-audit.json",
+    "isolatedHtml": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help/send-royalmail-com-help.html",
+    "isolatedAx": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help/send-royalmail-com-help.ax.json",
+    "isolatedStepSnapshots": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/send-royalmail-com-help/send-royalmail-com-help.step-snapshots.json",
+    "scanRoot": "voiceover-smoke/autonomous-runs/29684347419/artifacts/voiceover-scan-send-royalmail-com-help/scans/send-royalmail-com-help"
+  },
+  "sourceDomContract": {
+    "ancestor": "ignored content wrapper around DOM node 2276",
+    "beforeContext": [
+      "h3 Add to your basket",
+      "paragraph with inline strong 15 minutes"
+    ],
+    "focusShape": [
+      "h3 Complete your purchase",
+      "paragraph lead-in",
+      "native ul with three li children",
+      "third li has text, strong debit or credit card, text, strong PayPal, text, strong mobile payment, period",
+      "following paragraph and next h3 guard"
+    ],
+    "omittedAsSafe": [
+      "Earlier nested Checkout ordered-list shape is excluded because this candidate was remapped to the later simple ul at DOM 2438.",
+      "Unrelated long paragraphs, footer, header, and hidden cookie/mobile menu structures are excluded because the disputed AX contract is local to the simple list and inline strong descendants.",
+      "Links from the earlier ordered Checkout shape are excluded because the original AX contract for DOM 2438-2444 has no link descendants."
+    ]
+  },
+  "sourceAxContract": {
+    "heading": {
+      "domNodeId": "2436",
+      "role": "heading",
+      "name": "Complete your purchase",
+      "level": 3
+    },
+    "list": {
+      "domNodeId": "2438",
+      "role": "list",
+      "childDomNodeIds": [
+        "2439",
+        "2440",
+        "2441"
+      ]
+    },
+    "listitems": [
+      {
+        "domNodeId": "2439",
+        "role": "listitem",
+        "level": 1,
+        "children": [
+          "ListMarker",
+          "StaticText Enter your email address so we can send you your confirmation emails."
+        ]
+      },
+      {
+        "domNodeId": "2440",
+        "role": "listitem",
+        "level": 1,
+        "children": [
+          "ListMarker",
+          "StaticText Confirm you are not sending any prohibited or restricted items."
+        ]
+      },
+      {
+        "domNodeId": "2441",
+        "role": "listitem",
+        "level": 1,
+        "children": [
+          "ListMarker",
+          "StaticText Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a",
+          "strong debit or credit card",
+          "StaticText or by",
+          "strong PayPal",
+          "StaticText or",
+          "strong mobile payment",
+          "StaticText ."
+        ]
+      }
+    ]
+  },
+  "status": "pending-voiceover-canary"
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "name": "send-royalmail-com-help-simple-list-marker-plus-inline-payment-text-boundary",
+  "status": "pending-voiceover-canary",
+  "note": "Phase C.5 local contract placeholder only; the mini VoiceOver scan artifact and receipt decide the terminal behavior.",
+  "fixturePath": "packages/sr-engine/tests/fixtures/voiceover/repros/send-royalmail-com-help/simple-list-marker-plus-inline-payment-text-boundary.html",
+  "html": "simple-list-marker-plus-inline-payment-text-boundary.html",
+  "candidateRefs": [
+    "send-royalmail-com-help:shifted-card-shell-current-family:current-window-26:efb9bdd4521d"
+  ],
+  "expectedContracts": [
+    {
+      "candidateRef": "send-royalmail-com-help:shifted-card-shell-current-family:current-window-26:efb9bdd4521d",
+      "sourceRef": "send-royalmail-com-help:current-window-26",
+      "currentWindowId": "current-window-25",
+      "voiceOverSourceIndexes": [
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248
+      ],
+      "disputedAnnouncements": [
+        "list 3 items",
+        ". Enter your email address so we can send you your confirmation emails., 1 of 3",
+        ". Confirm you are not sending any prohibited or restricted items., 2 of 3",
+        ". Confirm you have understood our terms and conditions. Once you've completed the steps above, choose whether to pay with a, 3 of 3",
+        "debit or credit card",
+        "orby",
+        "PayPal",
+        "mobile payment",
+        "end of list"
+      ]
+    }
+  ]
+}
