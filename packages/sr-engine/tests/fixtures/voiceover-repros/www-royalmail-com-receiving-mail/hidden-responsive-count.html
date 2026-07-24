@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hidden responsive count repro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .l-narrow.mobile-only,
+    .my-account,
+    .wide-secondary,
+    .mobile-main-nav {
+      display: none;
+    }
+
+    .l-wide {
+      display: block;
+    }
+
+    .l-header__first-row-container {
+      display: block;
+    }
+
+    .rml-account-block-title {
+      display: inline;
+    }
+
+    .global-nav-first ul,
+    .audience-nav ul,
+    .useful-links-nav ul {
+      margin: 0;
+      padding-left: 24px;
+      list-style-type: square;
+    }
+
+    .global-nav-first li,
+    .audience-nav li,
+    .useful-links-nav li {
+      display: list-item;
+    }
+
+    .global-nav-first a,
+    .audience-nav a,
+    .useful-links-nav a {
+      display: inline;
+    }
+
+    .l-wide .global-nav__account-link {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <main data-sr-scan-root data-c5-family="hidden-responsive-count">
+    <div class="l-narrow hamburger-nav__overlay mobile-only" aria-label="mobile responsive shell">
+      <div class="hamburger-nav__second-nav">
+        <div class="block block-rml_resp_account_block">
+          <div class="overlay-menu">
+            <span class="overlay-menu__overlay-toggle rml-account-block-title hidden" aria-expanded="false">Log in / Register</span>
+            <div class="my-account login-overlay-box" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="block-menu-global-left global-nav-first">
+          <ul class="menu">
+            <li class="leaf first"><a href="https://personal.help.royalmail.com/">Help</a></li>
+            <li class="leaf"><a href="/delivery-and-collection-office-finder">Our locations</a></li>
+            <li class="leaf last"><a href="https://m.royalmail.com/h5/user?id=login" class="global-nav__account-link">Log In / Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="l-wide hamburger-nav__wide">
+      <header class="l-header">
+        <div class="l-header__first-row">
+          <div class="l-header__first-row-container">
+            <div class="l-header__first-row-first-nav">
+              <div class="block block-rml_resp_account_block">
+                <div class="overlay-menu">
+                  <span class="overlay-menu__overlay-toggle rml-account-block-title hidden" aria-expanded="false">Log in / Register</span>
+                  <div class="my-account login-overlay-box" aria-hidden="true">
+                    <h2>Log in securely</h2>
+                    <form action="/user/login" method="post">
+                      <label for="edit-name-1">Email address <span>*</span></label>
+                      <input type="text" name="name" id="edit-name-1" value="">
+                      <label for="edit-pass-1">Password <span>*</span></label>
+                      <input type="password" name="pass" id="edit-pass-1">
+                      <input type="submit" name="op" value="Log in">
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="block-menu-global-left global-nav-first">
+                <ul class="menu">
+                  <li class="leaf first"><a href="https://personal.help.royalmail.com/">Help</a></li>
+                  <li class="leaf"><a href="/delivery-and-collection-office-finder">Our locations</a></li>
+                  <li class="leaf last"><a href="https://m.royalmail.com/h5/user?id=login" class="global-nav__account-link">Log In / Register</a></li>
+                </ul>
+              </div>
+              <div class="block block-menu wide-secondary">
+                <ul class="menu">
+                  <li class="leaf first"><a href="https://www.example.test/business/">Business services</a></li>
+                  <li class="leaf last"><a href="https://www.example.test/desktop">Visit desktop site</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="audience-nav">
+              <ul class="menu">
+                <li class="leaf first"><a href="/">Personal</a></li>
+                <li class="leaf"><a href="/business">Business</a></li>
+                <li class="leaf last"><a href="/corporate">Corporate</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <nav class="mobile-main-nav">
+          <a href="https://m.royalmail.com/h5/user?id=login"><span>Account</span></a>
+        </nav>
+      </header>
+    </div>
+  </main>
+</body>
+</html>
