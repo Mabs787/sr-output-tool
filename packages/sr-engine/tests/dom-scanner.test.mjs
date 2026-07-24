@@ -1923,6 +1923,104 @@ test("scanSubtree preserves AX-confirmed native search textbox wording variants"
   );
 });
 
+test("scanSubtree places offscreen hidden-label search textbox placeholders before edit text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <form role="search" data-sr-dom-node-id="search-form">
+          <label for="hidden-search" style="visibility:hidden">Hidden search label</label>
+          <input id="hidden-search" type="text" placeholder="Search" value="" data-sr-dom-node-id="hidden-input" data-sr-rendered-position="offscreen">
+          <button type="submit">Go</button>
+        </form>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "search-form",
+              role: "search",
+              name: "",
+              domNodeId: "search-form",
+            },
+            {
+              nodeId: "hidden-input",
+              role: "textbox",
+              name: "",
+              domNodeId: "hidden-input",
+              properties: { focusable: true, editable: "plaintext" },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "search",
+      "Search edit text, blank",
+      "Go, button",
+      "end of, search",
+    ],
+  );
+});
+
+test("scanSubtree limits offscreen hidden-label search textbox placeholder wording", () => {
+  const excludedCases = [
+    `
+      <form role="search">
+        <label for="visible-search">Visible search label</label>
+        <input id="visible-search" type="text" placeholder="Search" value="" data-sr-dom-node-id="input" data-sr-rendered-position="offscreen">
+        <button type="submit">Go</button>
+      </form>
+    `,
+    `
+      <form role="search">
+        <label for="named-search" style="visibility:hidden">Hidden search label</label>
+        <input id="named-search" type="text" aria-label="Named search" placeholder="Search" value="" data-sr-dom-node-id="input" data-sr-rendered-position="offscreen">
+        <button type="submit">Go</button>
+      </form>
+    `,
+    `
+      <form role="search">
+        <label for="visible-position-search" style="visibility:hidden">Hidden search label</label>
+        <input id="visible-position-search" type="text" placeholder="Search" value="" data-sr-dom-node-id="input">
+        <button type="submit">Go</button>
+      </form>
+    `,
+    `
+      <form>
+        <label for="plain-form-search" style="visibility:hidden">Hidden search label</label>
+        <input id="plain-form-search" type="text" placeholder="Search" value="" data-sr-dom-node-id="input" data-sr-rendered-position="offscreen">
+        <button type="submit">Go</button>
+      </form>
+    `,
+    `
+      <form role="search">
+        <label for="inert-search" style="visibility:hidden">Hidden search label</label>
+        <input id="inert-search" type="text" placeholder="Search" value="" data-sr-dom-node-id="input" data-sr-rendered-position="offscreen" inert>
+        <button type="submit">Go</button>
+      </form>
+    `,
+  ];
+
+  for (const html of excludedCases) {
+    assert.equal(
+      scanHtml(html, {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "input",
+              role: "textbox",
+              name: "",
+              domNodeId: "input",
+              properties: { focusable: true, editable: "plaintext" },
+            },
+          ],
+        },
+      }).includes("Search edit text, blank"),
+      false,
+    );
+  }
+});
+
 test("scanSubtree ignores native search-form shortcut when no label exists", () => {
   assert.deepEqual(
     scanHtml(`

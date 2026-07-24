@@ -1832,6 +1832,95 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function hiddenVisibilityLabelForControl(el: any): any | undefined {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return undefined;
+
+    const labels = "labels" in el && el.labels?.length
+      ? Array.from(el.labels)
+      : (() => {
+          const id = el.getAttribute("id");
+          if (!id) return [];
+          const selector = `label[for="${cssEscape(id)}"]`;
+          const root = typeof el.getRootNode === "function" ? el.getRootNode() : null;
+          return [
+            ...Array.from(root?.querySelectorAll?.(selector) || []),
+            ...Array.from(document.querySelectorAll(selector)),
+          ];
+        })();
+
+    return labels.find((label: any) => {
+      if (!label || label.nodeType !== Node.ELEMENT_NODE) return false;
+      const marker = normalize(renderedHiddenValue(label));
+      const visibilityHidden =
+        marker === "visibility:hidden" ||
+        safeComputedStyle(label)?.visibility === "hidden";
+      return Boolean(visibilityHidden && normalize(label.textContent));
+    });
+  }
+
+  function isOffscreenRendered(el: any): boolean {
+    return Boolean(
+      el?.getAttribute?.("data-sr-rendered-position") === "offscreen" ||
+        el?.closest?.("[data-sr-rendered-position='offscreen']"),
+    );
+  }
+
+  function isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(
+    el: any,
+    stateEl: any,
+    role: string,
+    name?: string,
+    value?: string,
+  ): boolean {
+    if (role !== "textbox") return false;
+    if (el?.tagName?.toLowerCase() !== "input") return false;
+    const type = (el.getAttribute("type") || "text").toLowerCase();
+    if (type !== "text" && type !== "search") return false;
+    if (value || name) return false;
+    if (el.disabled || el.hasAttribute("disabled") || el.closest("[inert]")) return false;
+    if (!isOffscreenRendered(el)) return false;
+    if (!normalize(stateEl?.getAttribute?.("placeholder"))) return false;
+    if (hasExplicitAriaName(el) || normalize(el.getAttribute("title"))) return false;
+    if (associatedLabelForControl(el) || !hiddenVisibilityLabelForControl(el)) return false;
+
+    const searchForm = el.closest?.("form[role='search']");
+    if (!searchForm || isHidden(searchForm)) return false;
+
+    const textControls = Array.from(
+      searchForm.querySelectorAll(
+        "input:not([type='hidden']), textarea, [role='textbox'], [role='searchbox']",
+      ),
+    ).filter((control: any) => {
+      if (isHidden(control) || control.closest("[inert]")) return false;
+      const controlTag = control.tagName?.toLowerCase();
+      if (controlTag === "textarea") return true;
+      if (
+        control.getAttribute?.("role") === "textbox" ||
+        control.getAttribute?.("role") === "searchbox"
+      ) {
+        return true;
+      }
+      if (controlTag !== "input") return false;
+      const controlType = (control.getAttribute("type") || "text").toLowerCase();
+      return controlType === "text" || controlType === "search";
+    });
+    if (textControls.length !== 1 || textControls[0] !== el) return false;
+
+    const submitControls = Array.from(
+      searchForm.querySelectorAll(
+        "input[type='submit'], input[type='button'], input[type='reset'], button:not([type]), button[type='submit'], button[type='button'], button[type='reset'], [role='button']",
+      ),
+    ).filter((control: any) => !isHidden(control) && !control.closest("[inert]"));
+    if (submitControls.length !== 1) return false;
+
+    const axNode = axNodeForElementRole(el, "textbox");
+    return Boolean(
+      axNode &&
+        axNode.properties?.focusable === true &&
+        normalize(axNode.name) === undefined,
+    );
+  }
+
   function nativeSearchFormTextInputContract(
     el: any,
     role: string,
@@ -15885,9 +15974,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       textboxPlaceholderBeforeRole:
         textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) ||
         isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) ||
+        isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) ||
         undefined,
       placeholderOnlyTextboxName:
         isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) ||
+        isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) ||
         undefined,
       footerCountrySelector:
         role === "combobox" && isFooterCountrySelector(el) ? true : undefined,

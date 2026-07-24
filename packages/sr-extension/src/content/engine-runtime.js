@@ -2636,6 +2636,76 @@
           const axNode = axNodeForElementRole(el, "textbox");
           return Boolean(axNode && axNode.properties?.focusable === true && normalize(axNode.name) === placeholder);
         }
+        function hiddenVisibilityLabelForControl(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return void 0;
+          const labels = "labels" in el && el.labels?.length ? Array.from(el.labels) : (() => {
+            const id = el.getAttribute("id");
+            if (!id)
+              return [];
+            const selector = `label[for="${cssEscape(id)}"]`;
+            const root = typeof el.getRootNode === "function" ? el.getRootNode() : null;
+            return [
+              ...Array.from(root?.querySelectorAll?.(selector) || []),
+              ...Array.from(document.querySelectorAll(selector))
+            ];
+          })();
+          return labels.find((label) => {
+            if (!label || label.nodeType !== Node.ELEMENT_NODE)
+              return false;
+            const marker = normalize(renderedHiddenValue(label));
+            const visibilityHidden = marker === "visibility:hidden" || safeComputedStyle(label)?.visibility === "hidden";
+            return Boolean(visibilityHidden && normalize(label.textContent));
+          });
+        }
+        function isOffscreenRendered(el) {
+          return Boolean(el?.getAttribute?.("data-sr-rendered-position") === "offscreen" || el?.closest?.("[data-sr-rendered-position='offscreen']"));
+        }
+        function isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) {
+          if (role !== "textbox")
+            return false;
+          if (el?.tagName?.toLowerCase() !== "input")
+            return false;
+          const type = (el.getAttribute("type") || "text").toLowerCase();
+          if (type !== "text" && type !== "search")
+            return false;
+          if (value || name)
+            return false;
+          if (el.disabled || el.hasAttribute("disabled") || el.closest("[inert]"))
+            return false;
+          if (!isOffscreenRendered(el))
+            return false;
+          if (!normalize(stateEl?.getAttribute?.("placeholder")))
+            return false;
+          if (hasExplicitAriaName(el) || normalize(el.getAttribute("title")))
+            return false;
+          if (associatedLabelForControl(el) || !hiddenVisibilityLabelForControl(el))
+            return false;
+          const searchForm = el.closest?.("form[role='search']");
+          if (!searchForm || isHidden(searchForm))
+            return false;
+          const textControls = Array.from(searchForm.querySelectorAll("input:not([type='hidden']), textarea, [role='textbox'], [role='searchbox']")).filter((control) => {
+            if (isHidden(control) || control.closest("[inert]"))
+              return false;
+            const controlTag = control.tagName?.toLowerCase();
+            if (controlTag === "textarea")
+              return true;
+            if (control.getAttribute?.("role") === "textbox" || control.getAttribute?.("role") === "searchbox") {
+              return true;
+            }
+            if (controlTag !== "input")
+              return false;
+            const controlType = (control.getAttribute("type") || "text").toLowerCase();
+            return controlType === "text" || controlType === "search";
+          });
+          if (textControls.length !== 1 || textControls[0] !== el)
+            return false;
+          const submitControls = Array.from(searchForm.querySelectorAll("input[type='submit'], input[type='button'], input[type='reset'], button:not([type]), button[type='submit'], button[type='button'], button[type='reset'], [role='button']")).filter((control) => !isHidden(control) && !control.closest("[inert]"));
+          if (submitControls.length !== 1)
+            return false;
+          const axNode = axNodeForElementRole(el, "textbox");
+          return Boolean(axNode && axNode.properties?.focusable === true && normalize(axNode.name) === void 0);
+        }
         function nativeSearchFormTextInputContract(el, role) {
           if (role !== "textbox" && role !== "searchbox")
             return false;
@@ -14122,8 +14192,8 @@
             textEntryArea: role === "textbox" && tag === "textarea" ? true : void 0,
             emailTextField: role === "textbox" && tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "email" ? true : void 0,
             secureTextField: role === "textbox" && tag === "input" && (el.getAttribute("type") || "text").toLowerCase() === "password" ? true : void 0,
-            textboxPlaceholderBeforeRole: textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) || isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || void 0,
-            placeholderOnlyTextboxName: isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || void 0,
+            textboxPlaceholderBeforeRole: textboxShouldPlacePlaceholderBeforeRole(el, stateEl, role, name, value) || isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) || void 0,
+            placeholderOnlyTextboxName: isAxConfirmedPlaceholderOnlyTextboxName(el, stateEl, role, name, value) || isAxConfirmedOffscreenHiddenLabelSearchTextboxPlaceholder(el, stateEl, role, name, value) || void 0,
             footerCountrySelector: role === "combobox" && isFooterCountrySelector(el) ? true : void 0,
             fieldsetPromptText: role === "group" ? fieldsetPromptText(el) : void 0,
             fieldsetLegendText: role === "group" ? radioImageFieldsetLegendText(el) || visuallyHiddenFieldsetLegendText(el) : void 0,

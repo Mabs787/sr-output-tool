@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "www-royalmail-com-receiving-mail",
+  "runId": "29684347419",
+  "status": "passed",
+  "startedAt": "2026-07-24T12:26:47Z",
+  "finishedAt": "2026-07-24T12:31:50Z",
+  "sharedPreflightRef": "00-agent-preflight.json",
+  "leaseOwner": "top-level-codex-receiving-mail-offscreen-search-textbox-2026-07-24T12:26:47Z",
+  "leaseAcquiredAt": "2026-07-24T12:26:47Z",
+  "leaseReleasedAt": "2026-07-24T12:31:50Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "released-single-engine-refiner",
+    "canonicalLeasePath": "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "evidence": "Canonical lease had activeEngineRefinerCount 0 before acquisition, exactly 1 while this scoped Phase D was active, and 0 after release."
+  },
+  "inputs": {
+    "docsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "phaseCQueue": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c-shared-shell-post-article-engine-queue.json",
+    "phaseC5Evidence": "voiceover-smoke/agent-work/29684347419/_summaries/phase-c5-shared-shell-small-structural.json",
+    "candidateRef": "www-royalmail-com-receiving-mail:current-window-2:5d75a3556c886abd",
+    "fixtureRoot": "voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-receiving-mail"
+  },
+  "decisions": [
+    {
+      "family": "receiving-mail-offscreen-unlabeled-search-textbox-boundary",
+      "decision": "implemented",
+      "genericPredicate": [
+        "native input role textbox, type text or search",
+        "inside form[role=search]",
+        "empty value with placeholder",
+        "no explicit aria-label, aria-labelledby, title, or visible associated label",
+        "associated label exists but is visibility-hidden",
+        "input is rendered offscreen and not disabled, hidden, or inert",
+        "AX node for the input is role textbox, focusable, and unnamed",
+        "search form has exactly one non-hidden text/search textbox and one non-hidden submit/action control"
+      ],
+      "excludedVariants": [
+        "visible labels",
+        "explicitly named or labelled textboxes",
+        "visible-position textboxes",
+        "plain non-search forms",
+        "hidden, disabled, or inert controls",
+        "custom wrapper group stops",
+        "barcoded and international parked shapes"
+      ],
+      "implementation": "Reuses placeholderOnlyTextboxName announcement behavior so VoiceOver-style wording becomes 'Search edit text, blank' for the AX-confirmed offscreen hidden-label search textbox."
+    }
+  ],
+  "evidence": {
+    "phaseC5MiniVoiceOver": [
+      "search",
+      "Search edit text, blank",
+      "Go, button"
+    ],
+    "phaseC5MiniEngineBefore": [
+      "search",
+      "edit text, Search",
+      "Go, button"
+    ],
+    "phaseC5AxContract": "AX search form is unnamed; disputed input is role textbox, focusable, editable plaintext, unnamed; associated label is AX-ignored/notVisible; placeholder is present.",
+    "beforeCompare": {
+      "expectedCount": 101,
+      "actualCount": 101,
+      "mismatchWindowCount": 3,
+      "window": {
+        "currentWindowIndex": 2,
+        "actualIndex": 20,
+        "expectedIndex": 20,
+        "actual": "edit text, Search",
+        "expected": "Search edit text, blank"
+      }
+    },
+    "afterCompare": {
+      "expectedCount": 101,
+      "actualCount": 101,
+      "mismatchWindowCount": 2,
+      "resolvedWindow": "current-window-2",
+      "remainingGrouped": {
+        "list/marker": 2
+      }
+    }
+  },
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-engine-lease.json",
+    "voiceover-smoke/agent-work/29684347419/_summaries/phase-d-receiving-mail-offscreen-search-textbox.json"
+  ],
+  "fixtureChanges": [],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"offscreen hidden-label search textbox|native search textbox wording variants|AX-confirmed native search\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused native search textbox positive and exclusion tests passed."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full engine unit suite passed: 362 pass, 56 skipped."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/Users/mrn41/Documents/Personal/sr-output-tool/voiceover-smoke/autonomous-runs/29684347419/isolated-fixtures/www-royalmail-com-receiving-mail yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-receiving-mail",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Target compare improved from 3 to 2 mismatch windows; offscreen textbox window resolved."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected W3 compare remains exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-w3-org-wai-standards-guidelines-wcag",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected W3 WCAG compare remains exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK compare remains exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-gov-uk-find-local-council",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected GOV.UK local-council compare remains exact."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-royalmail-com-find-a-postcode",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Postcode candidate remains at its known 2 list/marker mismatch windows."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime rebuilt successfully."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Full gated corpus had two unrelated refined-fixture failures: Microsoft extra 'Ask Microsoft Accessibility' text stop and Sky article inline text split around FROM/Best Medicine. All other gated fixtures in the run passed."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=www-microsoft-com-en-us-accessibility node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Microsoft bounded corpus failure reproduced independently at index 31; shape is not an offscreen hidden-label search textbox."
+    },
+    {
+      "command": "SR_VOICEOVER_CORPUS_TESTS=true SR_VOICEOVER_CORPUS_FIXTURE=www-sky-com-watch-what-to-watch-this-week node --test packages/sr-engine/tests/voiceover-corpus.test.mjs",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Sky bounded corpus failure reproduced independently at index 55; shape is inline text segmentation, not an offscreen hidden-label search textbox."
+    }
+  ],
+  "remainingMismatches": [
+    {
+      "family": "receiving-mail-header-list-count",
+      "currentWindowIndexes": [
+        1
+      ],
+      "latestActual": [
+        "list 3 items",
+        "link, Help, 1 of 3",
+        "link, Our locations, 2 of 3"
+      ],
+      "latestExpected": [
+        "list 2 items",
+        "link, Help, 1 of 3",
+        "link, Our locations, 2 of 3"
+      ],
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify the remaining header list-count mismatch against current rendered HTML and AX; request C.5 only if a reusable marker/list-count rule is proposed.",
+      "blocker": "Out of the exact C.5-supported offscreen search textbox scope requested for this Phase D.",
+      "checksNeeded": [
+        "receiving-mail current compare",
+        "rendered HTML list child count",
+        "AX list/listitem count evidence"
+      ]
+    },
+    {
+      "family": "receiving-mail-footer-list-count",
+      "currentWindowIndexes": [
+        2
+      ],
+      "latestActual": [
+        "heading level 2, Help and info",
+        "list 9 items",
+        "link, Corporate responsibility, 1 of 9"
+      ],
+      "latestExpected": [
+        "heading level 2, Help and info",
+        "list 8 items",
+        "link, Corporate responsibility, 1 of 9"
+      ],
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify the remaining footer list-count mismatch against current rendered HTML and AX; keep separate from footer list-position truncation families.",
+      "blocker": "Out of the exact C.5-supported offscreen search textbox scope requested for this Phase D.",
+      "checksNeeded": [
+        "receiving-mail current compare",
+        "footer rendered HTML list child count",
+        "AX footer list/listitem count evidence"
+      ]
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "receiving-mail-header-list-count",
+      "currentWindowIndexes": [
+        1
+      ],
+      "latestActual": "list 3 items",
+      "latestExpected": "list 2 items",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify header list-count mismatch from saved HTML/AX.",
+      "blocker": "Excluded by Phase D scope.",
+      "checksNeeded": "HTML/AX list-count evidence and target compare."
+    },
+    {
+      "family": "receiving-mail-footer-list-count",
+      "currentWindowIndexes": [
+        2
+      ],
+      "latestActual": "list 9 items",
+      "latestExpected": "list 8 items",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Classify footer list-count mismatch from saved HTML/AX.",
+      "blocker": "Excluded by Phase D scope.",
+      "checksNeeded": "HTML/AX list-count evidence and target compare."
+    }
+  ],
+  "nextPhase": "complete-for-scope",
+  "handoffFrom": "C.5",
+  "handoffTo": "complete",
+  "handoffReason": "The exact engine-ready offscreen unlabeled search textbox boundary was implemented and verified. Remaining receiving-mail mismatches are separate list-count families outside this requested Phase D scope.",
+  "nextRecommendedWorker": {
+    "type": "fixture-judge",
+    "scope": "Only if continuing receiving-mail beyond this scoped Phase D: classify the two remaining list-count windows.",
+    "c5Needed": false,
+    "reason": "The requested offscreen search textbox engine gap is resolved; remaining windows are excluded list/marker count families."
+  }
+}
