@@ -559,7 +559,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
           const placeholderLabel = placeholderText ?? label;
           pushIfPresent(parts, placeholderLabel ? `${placeholderLabel} edit text` : "edit text");
           parts.push("blank");
-          pushAutocomplete(parts, el.autocomplete);
+          if (!el.suppressAutocomplete) {
+            pushAutocomplete(parts, el.autocomplete);
+          }
           pushSupplementalText(parts, el);
           break;
         }
@@ -587,7 +589,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
         if (!el.invalid && !el.textboxPlaceholderBeforeRole) {
           pushIfPresent(parts, value ?? placeholderText);
         }
-        pushAutocomplete(parts, el.autocomplete);
+        if (!el.suppressAutocomplete) {
+          pushAutocomplete(parts, el.autocomplete);
+        }
         if (el.required && !el.secureTextField) {
           parts.push("required");
         }

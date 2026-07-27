@@ -227,6 +227,223 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree preserves AX-exposed anonymous SVG stops in plain list items", () => {
+  const html = `
+    <main>
+      <ul data-sr-dom-node-id="list">
+        <li data-sr-dom-node-id="item-1"><span><svg data-sr-dom-node-id="image-1"></svg></span><span>Packages</span></li>
+        <li data-sr-dom-node-id="item-2"><span><svg data-sr-dom-node-id="image-2"></svg></span><span>Flights</span></li>
+      </ul>
+    </main>
+  `;
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "list", role: "list", name: "", domNodeId: "list", childIds: ["item-1", "item-2"] },
+      { nodeId: "item-1", role: "listitem", name: "", domNodeId: "item-1", childIds: ["image-1"] },
+      { nodeId: "image-1", role: "image", name: "", domNodeId: "image-1" },
+      { nodeId: "item-2", role: "listitem", name: "", domNodeId: "item-2", childIds: ["image-2"] },
+      { nodeId: "image-2", role: "image", name: "", domNodeId: "image-2" },
+    ],
+  };
+
+  assert.deepEqual(scanHtml(html, { accessibilityTree }), [
+    "main",
+    "list 2 items",
+    "image, 1 of 2",
+    "Packages",
+    "image, 2 of 2",
+    "Flights",
+    "end of list",
+    "end of, main",
+  ]);
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul data-sr-dom-node-id="list">
+          <li data-sr-dom-node-id="item-1"><span><svg data-sr-dom-node-id="image-1"></svg></span><span>Packages</span></li>
+          <li data-sr-dom-node-id="item-2"><span>Flights</span></li>
+        </ul>
+      </main>
+    `),
+    [
+      "main",
+      "list 2 items",
+      "Packages, 1 of 2",
+      "Flights, 2 of 2",
+      "end of list",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree emits AX-backed form icon and empty named generic wrapper stops", () => {
+  const html = `
+    <main>
+      <div aria-label="input text container" data-sr-dom-node-id="group">
+        <input aria-label="City" data-sr-dom-node-id="input">
+        <span><svg data-sr-dom-node-id="image"></svg></span>
+        <span aria-label="input" data-sr-dom-node-id="empty"></span>
+      </div>
+    </main>
+  `;
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "group", role: "generic", name: "input text container", domNodeId: "group", childIds: ["input", "image", "empty"] },
+      { nodeId: "input", role: "textbox", name: "City", domNodeId: "input", properties: { focusable: true } },
+      { nodeId: "image", role: "image", name: "", domNodeId: "image" },
+      { nodeId: "empty", role: "generic", name: "input", domNodeId: "empty" },
+    ],
+  };
+
+  assert.deepEqual(scanHtml(html, { accessibilityTree }), [
+    "main",
+    "input text container, group",
+    "City, edit text",
+    "image",
+    "input, empty group",
+    "end of, input text container, group",
+    "end of, main",
+  ]);
+
+  assert.deepEqual(
+    scanHtml(`<main><div><label aria-label="Enter your postcode">Enter your postcode</label><input aria-label="Enter your postcode"><span aria-label="input" data-sr-dom-node-id="empty"></span></div></main>`, {
+      accessibilityTree: {
+        nodes: [
+          { nodeId: "empty", role: "generic", name: "input", domNodeId: "empty" },
+        ],
+      },
+    }),
+    ["main", "Enter your postcode, edit text", "end of, main"],
+  );
+});
+
+test("scanSubtree treats AX standalone LabelText nodes as grouped labels", () => {
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "label", role: "LabelText", name: "input label", domNodeId: "label", childIds: ["label-text"] },
+      { nodeId: "label-text", role: "StaticText", name: "Departure Airport" },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`<main><label aria-label="input label" for="" data-sr-dom-node-id="label">Departure Airport</label></main>`, {
+      accessibilityTree,
+    }),
+    [
+      "main",
+      "input label, group",
+      "Departure Airport",
+      "end of, input label, group",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree yields AX combobox wrappers to their focusable textbox child", () => {
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "combo", role: "combobox", name: "", domNodeId: "combo", childIds: ["input"], properties: { hasPopup: "listbox", expanded: false } },
+      { nodeId: "input", role: "textbox", name: "Anywhere", domNodeId: "input", properties: { focusable: true } },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="combobox" aria-haspopup="listbox" aria-expanded="false" data-sr-dom-node-id="combo">
+          <input aria-autocomplete="list" placeholder="Anywhere" data-sr-dom-node-id="input">
+        </div>
+      </main>
+    `, { accessibilityTree }),
+    ["main", "Anywhere edit text, blank", "end of, main"],
+  );
+});
+
+test("scanSubtree suppresses unnamed polite live-region boundaries with AX evidence", () => {
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "count", role: "generic", name: "", domNodeId: "count", childIds: ["count-text"], properties: { live: "polite" } },
+      { nodeId: "count-text", role: "StaticText", name: "There are now 30 destinations." },
+      { nodeId: "results", role: "generic", name: "", domNodeId: "results", childIds: ["link"], properties: { live: "polite" } },
+      { nodeId: "link", role: "link", name: "Result one", domNodeId: "link", properties: { focusable: true } },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="region" aria-live="polite" data-sr-dom-node-id="count">There are now 30 destinations.</div>
+        <div role="region" aria-live="polite" data-sr-dom-node-id="results"><a href="#" data-sr-dom-node-id="link">Result one</a></div>
+      </main>
+    `, { accessibilityTree }),
+    ["main", "There are now 30 destinations.", "link, Result one", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`<main><section role="region" aria-label="Updates" aria-live="polite"><a href="#">Result one</a></section></main>`),
+    ["main", "Updates, region", "link, Result one", "end of, Updates, region", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`<main><span aria-live="polite" data-sr-dom-node-id="slide">Slide 1 of 2. Accessibility at Microsoft</span></main>`, {
+      accessibilityTree: {
+        nodes: [
+          { nodeId: "slide", role: "generic", name: "", domNodeId: "slide", childIds: ["slide-text"], properties: { live: "polite" } },
+          { nodeId: "slide-text", role: "StaticText", name: "Slide 1 of 2. Accessibility at Microsoft" },
+        ],
+      },
+    }),
+    ["main", "Slide 1 of 2. Accessibility at Microsoft", "end of, main"],
+  );
+});
+
+test("scanSubtree suppresses list positions for AX-backed pagination controls only", () => {
+  const accessibilityTree = {
+    nodes: [
+      { nodeId: "previous", role: "button", name: "Previous page", domNodeId: "previous", properties: { disabled: true, focusable: true } },
+      { nodeId: "page", role: "link", name: "Page 1", domNodeId: "page", properties: { focusable: true } },
+    ],
+  };
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul role="navigation" aria-label="Pagination">
+          <li><a role="button" aria-disabled="true" aria-label="Previous page" data-sr-dom-node-id="previous">Prev</a></li>
+          <li><a href="#" aria-label="Page 1" data-sr-dom-node-id="page">1</a></li>
+        </ul>
+      </main>
+    `, { accessibilityTree }),
+    ["main", "Pagination, navigation", "Previous page, dimmed, button", "link, Page 1", "end of, Pagination, navigation", "end of, main"],
+  );
+
+  assert.deepEqual(
+    scanHtml(`<main><ul><li><button>Previous page</button></li><li><button>Next page</button></li></ul></main>`),
+    ["main", "list 2 items", "Previous page, button, 1 of 2", "Next page, button, 2 of 2", "end of list", "end of, main"],
+  );
+});
+
+test("scanSubtree uses AX whitespace for inline span button names and avoids single-button group suffix", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <button data-sr-dom-node-id="warm"><span>Warm</span><span>16 - 22C</span></button>
+        <div aria-label="search button" data-sr-dom-node-id="group"><button data-sr-dom-node-id="button">button</button></div>
+      </main>
+    `, {
+      accessibilityTree: {
+        nodes: [
+          { nodeId: "warm", role: "button", name: "Warm 16 - 22C", domNodeId: "warm", properties: { focusable: true } },
+          { nodeId: "group", role: "generic", name: "search button", domNodeId: "group", childIds: ["button"] },
+          { nodeId: "button", role: "button", name: "button", domNodeId: "button", properties: { focusable: true } },
+        ],
+      },
+    }),
+    ["main", "Warm 16 - 22C, button, group", "search button, group", "button, button", "end of, search button, group", "end of, main"],
+  );
+});
+
 function offscreenPreMainWrapperHtml(wrapperAttributes = "", placement = "before-main") {
   const wrapper = `
     <div ${wrapperAttributes} data-sr-dom-node-id="wrapper">
