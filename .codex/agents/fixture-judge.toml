@@ -19,6 +19,9 @@ Responsibilities:
 - Decide whether the target should proceed to engine-refiner.
 - Decide whether uncertain, truncation-prone, conditional-state, or broad-rule mismatch families must proceed to repro-scanner before engine-refiner.
 - Generate 04-fixture-judge.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+- Remain available for sequential scopes in the assigned mismatch-family batch.
+  Reuse this session when Phase B or C.5 returns another target in the same
+  family.
 
 Rules:
 - Do not modify reusable engine logic.

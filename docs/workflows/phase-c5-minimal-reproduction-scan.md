@@ -115,6 +115,22 @@ pages, avoiding public hosting, CDN interstitials, and third-party page chrome.
 Use public `http`/`https` URLs only when the reproduction genuinely needs live
 network behavior.
 
+For a mismatch family that affects multiple targets, create one family matrix
+before dispatch:
+
+- all affected target and `candidateRef` pairs
+- representative positive DOM/AX shapes
+- negative controls that must remain unchanged
+- tail or guard windows that bound the supported verdict
+- one shared repro path and family owner
+
+Use one diagnostic canary and one full VoiceOver scan for the matrix. Do not
+dispatch a separate canary or full scan per target. The same `repro-scanner`
+session must inspect both artifacts and write the split verdict. If the full
+scan is insufficient, refine and rerun the reproduction once; a second
+insufficient result returns the unsupported scope to Phase C for parking,
+scanner repair, or recapture.
+
 Record the exact command or workflow invocation in the receipt. A typical
 workflow invocation should include:
 
@@ -212,6 +228,10 @@ windows were reached. If a required negative control or tail window was not
 reached, the verdict applies only to the reached positive contracts. Return the
 unreached shapes to Phase C with a concrete retry, blocker, or parked-evidence
 entry; do not extrapolate the C.5 result across the whole family.
+
+The family receipt must include `matrixTargets`, `positiveControls`,
+`negativeControls`, `tailGuards`, `canaryRunId`, `fullRunId`, `retryRunId` when
+used, and a split verdict mapping each supported scope back to B, C, or D.
 
 Before Phase C.5 evidence can justify Phase D, keep a family repro path and a
 canary:

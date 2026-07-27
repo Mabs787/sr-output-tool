@@ -23,6 +23,9 @@ Responsibilities:
 - For every refinedAnnouncements edit, write a fixtureChanges receipt entry with the exact range, before/after text, reason enum, evidence pointers, confidence, and whether an engine gap still remains.
 - Preserve surprising VoiceOver output when evidence backs it.
 - Generate 03-evidence-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+- Remain available for sequential scopes in the assigned mismatch-family batch.
+  Accept compact follow-up packets in the same session instead of requiring one
+  agent per target.
 
 Rules:
 - Never approve a refinedAnnouncements line just because it is already present.

@@ -162,6 +162,21 @@ first unresolved family.
 
 ## Checks
 
+Use a verification ladder so repeated engine work does not rerun the full corpus
+after every small patch:
+
+1. After each focused patch, run the focused unit test, affected target
+   compares, and the small protected sentinel set named in the run baseline.
+2. After the mismatch family is complete, run the full engine unit suite, all
+   affected site compares, protected compares, and the extension runtime build.
+3. At final run verification, run full `test:voiceover`, the engine build and
+   unit suite, all valid run compares, protected compares, and the extension
+   runtime build.
+
+If a focused patch changes a broad shared traversal surface or fails a sentinel,
+escalate immediately to the family-batch checks. Do not defer a known regression
+until final verification.
+
 ```bash
 yarn workspace @sr-output/engine test:unit
 yarn workspace @sr-output/engine voiceover:compare <fixture-name>
@@ -178,10 +193,11 @@ Record every check in `05-engine-refinement.json` with:
 - `summary`
 - `skipReason` when omitted
 
-`test:unit` and the target `voiceover:compare` are required for any engine
-logic change. `test:voiceover` and `build:extension-runtime` are required
-unless the receipt records a concrete blocker or why the touched files cannot
-affect that surface. If focused unit coverage is omitted, record why it was not
+The focused unit test, affected target compares, and protected sentinels are
+required for every engine logic patch. Full `test:unit` and
+`build:extension-runtime` are required at the family-batch gate. Full
+`test:voiceover` is required at final verification and need not be repeated for
+each patch. If focused unit coverage is omitted, record why it was not
 practical.
 
 ## Output

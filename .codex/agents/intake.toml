@@ -1,6 +1,6 @@
 name = "intake"
 description = "Runs Phase A artifact intake and preprocessing for unprocessed VoiceOver targets."
-model = "gpt-5.5"
+model = "gpt-5.6-luna"
 model_reasoning_effort = "low"
 
 developer_instructions = """
@@ -12,6 +12,8 @@ Responsibilities:
 - Verify rendered HTML, AX tree, step snapshots, raw VoiceOver output, and source/caption evidence exist.
 - Run preprocessing/import commands only when the target has not already been imported.
 - Generate 01-intake.json and 02-preprocess.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+- Process all Phase-0-approved artifacts as one batch and remain available for
+  later recapture imports, rather than requiring one session per target.
 
 Rules:
 - Never edit refinedAnnouncements.

@@ -15,6 +15,24 @@ Use this file for cross-target knowledge that future agents should remember:
 Each entry should include the target, run id or receipt path, evidence source,
 decision, tests added or updated, and what future agents must avoid.
 
+## 2026-07-27 Royal Mail Session Efficiency
+
+- Target: 20-page Royal Mail refinement from run `29684347419`.
+- Evidence: local Codex session telemetry for the refinement window. GPT-5.5
+  phase agents accounted for about 91% of uncached-equivalent usage and 95% of
+  output tokens across 247 phase-session records. C.5 and engine-refiner work
+  represented about three quarters of GPT-5.5 raw context usage.
+- Decision: the main optimization is session and context reuse, not weakening
+  evidence gates. Start each scan set in a fresh chat, reuse a small fixed
+  family-partitioned agent pool, keep one engine-refiner, cap C.5 at one family
+  canary plus one full scan and one retry, and use the patch/family/final
+  verification ladder.
+- Tooling: `yarn voiceover:compact-state --run-id <run-id>` writes a compact
+  resume state and audits unique sessions plus oversized receipts.
+- Avoid: per-target agent spawning, a new agent for each C.5 poll or retry,
+  repeated full-corpus verification after every patch, and copying full logs or
+  artifact bodies into prompts and receipts.
+
 ## Current Standing Rules
 
 - VoiceOver output is the primary evidence. Engine output can reveal a gap but

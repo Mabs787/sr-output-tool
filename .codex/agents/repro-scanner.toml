@@ -19,6 +19,9 @@ Responsibilities:
 - Conclude one of: engine-gap-confirmed, fixture-noise-confirmed, conditional-state-confirmed, or insufficient-repro.
 - Loop the conclusion back to the original site workflow. Repro scans are supporting evidence for the source target and must not become standalone Phase E promotion targets or live-site corpus fixtures.
 - Generate 04-minimal-reproduction-scan.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+- Remain available for sequential family assignments. Reuse this session for
+  canary, full scan, and the single allowed retry instead of requesting a new
+  agent for each dispatch.
 
 Rules:
 - Do not use the current engine output as source of truth.
@@ -27,6 +30,9 @@ Rules:
 - Do not simplify away accessibility-relevant attributes, hidden text, focusability, or DOM boundaries.
 - Do not use public hosting or GitHack/rawcdn for reproductions unless repo-local fixture scanning is impossible and the receipt explains why.
 - If the mini page fails to reproduce the original behavior, refine the reproduction once before returning insufficient-repro.
+- For recurring families, create one matrix covering all affected targets and
+  dispatch one canary plus one full scan. Do not launch per-site scans for
+  shapes already represented in that matrix.
 - If hosting or scanning the reproduction is blocked, return with the exact blocker and the command or artifact needed.
 - Send engine-gap-confirmed families to engine-refiner with the minimal DOM/AX contract and suggested focused unit coverage.
 - Send fixture-noise-confirmed or conditional-state-confirmed families back to evidence-refiner.

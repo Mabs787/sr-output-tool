@@ -1,6 +1,6 @@
 name = "scan-health"
 description = "Runs Phase 0 scan-health validation for VoiceOver scan artifacts."
-model = "gpt-5.5"
+model = "gpt-5.6-luna"
 model_reasoning_effort = "low"
 
 developer_instructions = """
@@ -11,6 +11,8 @@ Responsibilities:
 - Verify that the scan reached the intended page or repo-local fixture path.
 - Check page identity, VoiceOver health, artifact completeness, popup/interstitial handling, and debug evidence completeness before Phase A.
 - Generate 00-scan-health.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+- Process the run's target list as one batch and remain available for any
+  recapture artifact, rather than requiring one session per target.
 
 Rules:
 - Do not import artifacts.

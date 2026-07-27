@@ -18,6 +18,13 @@ This prompt requires a real multi-agent run. The repository scripts cannot
 spawn Codex subagents. The top-level Codex session must spawn phase-specific
 agents with the multi-agent tool and report their agent ids or nicknames.
 
+Use this prompt from a fresh chat for each scan set. Keep the top-level session
+as the sole orchestrator. Reuse a small fixed phase-agent pool, use one
+long-lived engine-refiner, and generate compact resume state with
+`yarn voiceover:compact-state --run-id <run-id>` after each family disposition.
+For a 20-target run, treat 40 distinct phase-agent sessions as a soft ceiling
+and record a reason for every replacement that exceeds it.
+
 Before any phase work for a target, create
 `voiceover-smoke/agent-work/<run-id>/<target>/00-agent-preflight.json`. Record
 required roles, available roles before/after tool discovery, missing roles,
@@ -25,9 +32,9 @@ decision, and spawned agent ids. If a required role is missing after discovery,
 stop with `decision: "blocked"` unless the user explicitly asks for a degraded
 run. Do not use `default` for a named phase in a normal multi-agent run.
 
-Optional: spawn `orchestrator` only to produce the routing plan. Do not let the
-orchestrator do all phase work by itself. A single orchestrator doing all work
-is a multi-phase run, not a multi-agent run.
+Do not spawn `orchestrator` for a normal full-set run. The top-level session
+owns routing and reads compact summaries. Use the optional orchestrator role
+only for an unusual handoff that needs a separate routing audit.
 
 For each target, run every required phase:
 

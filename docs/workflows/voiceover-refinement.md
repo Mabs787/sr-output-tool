@@ -154,7 +154,55 @@ Project-scoped subagents live in `.codex/agents/`.
 - `engine-refiner`: Phase D reusable engine/scanner changes.
 - `promoter`: Phase E manifest, docs, status, and final receipts.
 
-Keep model choices in `.codex/agents/*.toml`. Keep behavior and handoffs in these workflow docs.
+Keep model choices in `.codex/agents/*.toml`. The deterministic Phase 0,
+Phase A, and Phase 0.5 roles use GPT-5.6 Luna at low reasoning effort.
+Evidence, judging, C.5, engine refinement, and promotion remain on GPT-5.5.
+The user's selected GPT-5.6 Sol session is the sole top-level orchestrator; that
+task-level choice is not a repository-wide default. Keep behavior and handoffs
+in these workflow docs.
+
+## Token-Efficient Execution
+
+Start each multi-site refinement set in a fresh Codex chat. Keep the top-level
+session as the sole orchestrator and do not spawn the optional `orchestrator`
+role for a normal full-set run. The top-level session should read compact
+run-level summaries and receipts; open full artifacts only for integration
+conflicts or decisions that cannot be resolved from the evidence packet.
+
+Reuse phase agents instead of spawning one agent per target or loop iteration:
+
+- Use one `scan-health`, one `intake`, and one `compare-summarizer` for the run.
+- Keep a small fixed pool of `evidence-refiner` and `fixture-judge` agents,
+  partitioned by mismatch family. Send each next compact family packet to the
+  same session after it completes its current scope.
+- Keep at most two `repro-scanner` sessions. Each owns disjoint family queues
+  and handles the canary, full C.5 scan, and allowed retry for its family.
+- Use exactly one long-lived `engine-refiner` session for the run. Feed
+  engine-ready families to it sequentially while the run-level lease remains
+  assigned to that session.
+- Use one `promoter` after the family queue stabilizes.
+
+For a 20-target run, plan for no more than 40 distinct phase-agent sessions and
+prefer roughly 8-25 when family batching permits. This is a soft ceiling, not a
+minimum. Exceed it only when isolation, context size, agent failure, or
+conflicting write ownership requires a replacement, and record the reason.
+
+Do not send raw logs, complete artifacts, or repeated phase documentation in
+agent prompts. Give each agent explicit paths, relevant candidate and family
+ids, allowed files, the prior compact receipt, and the requested output path.
+When continuing the same role and ownership scope, reuse the existing session.
+
+Regenerate compact run state after each family disposition and before handoff:
+
+```sh
+yarn voiceover:compact-state --run-id <run-id>
+```
+
+The generated
+`voiceover-smoke/agent-work/<run-id>/_summaries/orchestrator-state.json` is the
+top-level session's default resume input. It reports phase coverage, unique
+agent sessions, receipt sizes, and each target's next worker without loading
+all receipts into context.
 
 ## Multi-Agent Execution Contract
 
@@ -182,7 +230,9 @@ Target receipts that rely on the shared preflight must include
 The preflight must record the required roles, roles exposed by the current
 multi-agent tool registry, whether tool discovery was attempted, roles still
 missing after discovery, the final decision, and the spawned agent ids for the
-phase agents. Use `decision: "ready"` only when every required role is exposed
+phase agents. It must also record the planned agent pool by role, the soft
+session ceiling, and any replacement-session reasons. Use `decision: "ready"`
+only when every required role is exposed
 and can be spawned. Use `decision: "blocked"` when a required role is missing
 after discovery. Use `decision: "degraded"` only when the user explicitly asks
 to continue without a named role.
@@ -217,8 +267,9 @@ A run is `multi-agent` only when at least two phase-specific agents are
 spawned, or when the top-level session records why only one phase was required.
 An orchestrator-only run is not multi-agent.
 
-The top-level session may spawn `orchestrator` to create a routing plan, but it
-must still spawn phase-specific agents for the actual phase work:
+The top-level session may spawn `orchestrator` for an unusual routing audit, but
+should not do so during a normal full-set run. It must still spawn
+phase-specific agents for the actual phase work:
 
 - `scan-health` for Phase 0 when a new scan artifact needs health validation
 - `compare-summarizer` for Phase 0.5 when a run needs target/family triage

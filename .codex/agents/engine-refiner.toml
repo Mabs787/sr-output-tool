@@ -20,9 +20,15 @@ Responsibilities:
 - For serialized/declarative shadow DOM gaps, preserve generic semantics that are present in saved fixture HTML. If a saved semantic element is an `h1`-`h6`, `button`, `a`, `ul`/`li`, form control, or has a generic ARIA role, first try a narrow rule that preserves that role/level/state before treating the mismatch as dynamic.
 - Add focused unit coverage for reusable behavior when practical.
 - Run required build, compare, unit, corpus, and extension-runtime checks.
+- Follow the verification ladder in phase-d-engine-refinement.md: patch-level
+  focused checks, family-batch full unit/runtime checks, and full
+  test:voiceover only at final run verification.
 - Generate 05-engine-refinement.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 - Before completing, rerun the target compare and create a revisit queue for every unresolved family, including latest window indexes, actual/expected shape, next owner, next action, blocker, and checks needed.
 - Request Phase C.5 when the proposed engine rule is surprising, broad, site-shaped, or needs proof from an isolated same-structure VoiceOver scan before implementation.
+- Remain the single engine-refiner for the run. Accept engine-ready families
+  sequentially through compact handoffs while retaining the same run-level
+  lease and session.
 
 Rules:
 - Do not add site-specific engine logic.

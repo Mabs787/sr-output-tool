@@ -39,6 +39,12 @@ prove which spawned-agent registry applied to that target.
 - `degradedReason`: empty unless `decision` is `degraded`
 - `spawnedAgents`: array of `{ phase, agentType, sessionId, nickname,
   agentConfigPath }`
+- `agentPoolPlan`: object keyed by role with planned session count and family or
+  target ownership
+- `softSessionCeiling`: maximum planned distinct phase-agent sessions; use `40`
+  for a normal 20-target run
+- `replacementSessions`: replacement session ids and concrete reasons why the
+  original session could not be reused
 - `blockedReason`: empty unless `decision` is `blocked`
 - `startedAt` and `finishedAt`: ISO timestamps when available
 
@@ -132,6 +138,19 @@ Receipts must be valid JSON and must include these common fields:
 Use `type: "none"` when the target is complete or intentionally parked. Keep
 `scope` narrow enough that the next worker can start without inferring ownership
 from narrative text.
+
+Keep phase receipts concise enough to route the next action without reopening
+the underlying artifact. Target 4 KiB for ordinary receipts.
+Validator-required structural and C.5 fields may exceed that target, but verbose
+excerpts, command logs, screenshots, and repeated source data belong in sidecar
+evidence packets. Reference sidecars by repository-relative path and SHA-256.
+Receipts must retain all validator-required fields and summarize the decision;
+do not copy the same evidence body into multiple target receipts.
+
+For recurring families, write one run-level sidecar such as
+`_summaries/families/<family>.json`, then reference it from every affected
+target. The top-level session reads the family sidecar once and otherwise uses
+the target's compact receipt.
 
 Do not use `uncertain` as a terminal status. If uncertainty remains, use
 `returned` with the exact missing evidence or required prior phase. Use
@@ -339,6 +358,9 @@ a named scan artifact or the run must stop before push.
   `packages/sr-engine/tests/fixtures/voiceover-repros/_families/<family>.html`
 - canary scan or compare evidence showing the reproduction fixture still
   exercises the intended family before it is used to justify Phase D
+- family matrix fields for recurring families: `matrixTargets`,
+  `positiveControls`, `negativeControls`, `tailGuards`, `canaryRunId`,
+  `fullRunId`, `retryRunId` when used, and a per-scope split verdict
 - loop-back target phase and handoff reason for the original site workflow
 
 `05-engine-refinement.json` must include:

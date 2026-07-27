@@ -56,7 +56,9 @@ voiceover-smoke/autonomous-runs/<batch-id>/
 
 `queue.json` records the target order and scan settings. `state.json` records
 the current target status and latest phase receipts. `learnings.jsonl` records
-cross-target decisions that future refinement should reuse.
+cross-target decisions that future refinement should reuse. The compact
+run-level agent state is written separately to
+`voiceover-smoke/agent-work/<batch-id>/_summaries/orchestrator-state.json`.
 
 Recommended target states:
 
@@ -88,6 +90,15 @@ The command summarizes active workers/scans, corpus status counts, and
 promotion gaps where an isolated fixture set has reached zero mismatches but has
 not yet been copied into the canonical VoiceOver corpus.
 
+For agent-work receipts, generate the smaller orchestration resume packet:
+
+```sh
+yarn voiceover:compact-state --run-id <run-id>
+```
+
+Read `_summaries/orchestrator-state.json` before individual target receipts.
+Regenerate it after a family disposition, agent replacement, or phase batch.
+
 ## Handoff Modes
 
 Use the lightest continuation mechanism that matches the thing being waited on:
@@ -113,6 +124,12 @@ for genuinely asynchronous external systems.
 The top-level session or orchestrator agent must:
 
 - Maintain the queue and one `state.json` per target.
+- Keep the phase-agent pool stable. Reuse sessions for sequential scopes through
+  compact input handoffs instead of spawning a new agent for each target, retry,
+  compare, or verification pass.
+- Keep one long-lived engine-refiner session and lease for the whole run.
+- Keep no more than two C.5 repro-scanner sessions, partitioned by mismatch
+  family, unless a recorded infrastructure blocker requires replacement.
 - Trigger scans with debug evidence enabled for new or uncertain sites:
   step snapshots on, screenshots and screen recording on when diagnosing page
   access, popup, focus, or VoiceOver startup problems.
@@ -166,6 +183,13 @@ The requester must record:
 - exact uncertainty
 - DOM/AX contract to preserve
 - expected loop-back phase
+
+For a recurring family, build one family matrix containing every affected
+target, representative positive shapes, negative controls, and tail/guard
+windows. Dispatch one diagnostic canary and one full scan for that matrix. A
+single same-structure retry is allowed when the first full scan is insufficient;
+do not start independent per-site C.5 scans for a family already covered by the
+matrix.
 
 The Phase C.5 result routes back to the original site workflow:
 
