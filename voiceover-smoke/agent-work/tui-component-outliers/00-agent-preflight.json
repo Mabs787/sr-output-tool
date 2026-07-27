@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "phase": "preflight",
+  "target": "tui-component-outliers",
+  "runId": "tui-component-outliers-c5-20260727",
+  "requiredRoles": [
+    "repro-scanner",
+    "fixture-judge",
+    "engine-refiner-conditional"
+  ],
+  "availableRolesBeforeDiscovery": [],
+  "discoveryAttempted": true,
+  "availableRolesAfterDiscovery": [
+    "repro-scanner",
+    "fixture-judge",
+    "engine-refiner"
+  ],
+  "missingRolesAfterDiscovery": [],
+  "decision": "ready",
+  "degradedReason": "",
+  "spawnedAgents": [
+    {
+      "phase": "C.5-preparation",
+      "agentType": "repro-scanner",
+      "sessionId": "019fa3e0-0b17-7080-8d3f-3ec371c992c1",
+      "nickname": "Archimedes",
+      "agentConfigPath": ".codex/agents/repro-scanner.toml"
+    }
+  ],
+  "agentPoolPlan": {
+    "repro-scanner": {
+      "plannedSessions": 1,
+      "ownership": "both TUI fixtures and scan evidence"
+    },
+    "fixture-judge": {
+      "plannedSessions": 1,
+      "ownership": "both TUI fixture verdicts"
+    },
+    "engine-refiner": {
+      "plannedSessions": 1,
+      "ownership": "only VoiceOver-confirmed reusable gaps"
+    }
+  },
+  "softSessionCeiling": 3,
+  "replacementSessions": [],
+  "blockedReason": "",
+  "startedAt": "2026-07-27T14:00:00Z",
+  "finishedAt": "2026-07-27T14:02:00Z"
+}

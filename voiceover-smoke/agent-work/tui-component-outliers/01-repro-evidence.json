@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "repro-scanner",
+  "agentConfigPath": ".codex/agents/repro-scanner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "019fa3e0-0b17-7080-8d3f-3ec371c992c1",
+  "target": "tui-component-outliers",
+  "runId": "tui-component-outliers",
+  "status": "passed",
+  "startedAt": "2026-07-27T14:01:12Z",
+  "finishedAt": "2026-07-27T14:01:12Z",
+  "branch": "codex/tui-voiceover-outlier-repros",
+  "headShaAtInspection": "8f392f80c3ae6d0d5da0dc4855e686dd5ae383c7",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c5-minimal-reproduction-scan.md"
+    ],
+    "sourceCaptures": [
+      {
+        "id": "holiday-search-panel",
+        "path": "/Users/mrn41/.codex/attachments/8a2f64ac-2733-452e-8048-38de86368615/pasted-text.txt",
+        "sha256": "5d8b92d2aca500127786816ee897393a62ec446278769835dcdc84b1fd3c7c13",
+        "bytes": 19324,
+        "lines": 42,
+        "contentType": "rendered HTML fragment"
+      },
+      {
+        "id": "weather-results",
+        "path": "/Users/mrn41/.codex/attachments/31f2cda6-d29c-4577-9db5-00f51b7380f7/pasted-text.txt",
+        "sha256": "d473b072a0efc77d3f8aa6775e9520bd7c121e131077276a8e2bd5d0d4b6adb4",
+        "bytes": 13223,
+        "lines": 0,
+        "contentType": "single-line rendered HTML fragment"
+      }
+    ],
+    "fixtureConventionsInspected": [
+      "packages/sr-engine/tests/fixtures/voiceover-repros/README.md",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/README.md",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-homepage-main-search-panel-package-form.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-search-form-controls-c5.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/behavior-lab/controls-and-contexts/tui-shadow-search-panel-accessibility.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-homepage-main-weather-designed-weather-tool.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-weather-controls-live-region-c5.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-weather-button-group-suffixes-c5.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-weather-pagination-region-boundary-c5.html"
+    ]
+  },
+  "evidenceStatus": {
+    "originalRenderedHtml": "provided as two fragments and inspected completely",
+    "originalAxEvidence": "not present in the provided attachments",
+    "voiceOverExpectedOutput": "not inferred from HTML alone",
+    "currentEngineOutput": "not used as source of truth"
+  },
+  "recommendedMatrix": {
+    "family": "tui-component-outliers",
+    "suggestedSingleReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/tui-co-uk/tui-component-outliers-c5.html",
+    "sourceTargets": [
+      "holiday-search-panel",
+      "weather-results"
+    ],
+    "reason": "Both captures are TUI MFE component outliers with custom wrappers, weak/generic labels, grouped controls, live regions, duplicate responsive content, and card/pagination boundaries; scan them as one matrix rather than per-site scans."
+  },
+  "domContractsToPreserve": [
+    {
+      "id": "holiday-tabs",
+      "source": "holiday-search-panel",
+      "contract": "custom tui-choice-search-panel ancestor; nav > scroller divs > ul.SwipeOrScroll__hsWrapper > li > div.UI__choiceSearchTab children; active tab indicated only by class; inline svg icon sibling before span.UI__label text; no tab roles, aria-selected, or focusability in the source fragment.",
+      "likelyMismatchFamiliesToBaseline": [
+        "native-list-versus-custom-tab-label traversal",
+        "inline-svg-icon stop or ignored-boundary behavior",
+        "active-class-only state not represented as selected/current"
+      ]
+    },
+    {
+      "id": "holiday-form-controls",
+      "source": "holiday-search-panel",
+      "contract": "aria-label='search panel container' wrapper; labeled field wrappers with labels using empty for attributes and generic aria-label values; readonly text inputs with empty id, aria-label='text input' or field-specific aria-labels, placeholder/value text, nonstandard shadow attributes, adjacent icon spans/svg, and aria-label='input' error spans.",
+      "likelyMismatchFamiliesToBaseline": [
+        "label/control association absent or generic-name fallback",
+        "readonly input versus popup-button-like field wording",
+        "decorative icon and empty error span extra stops",
+        "group suffixes from input text container wrappers"
+      ]
+    },
+    {
+      "id": "holiday-duration-select-and-search",
+      "source": "holiday-search-panel",
+      "contract": "visible 'Duration' label, adjacent visual selected text '7 nights', native select aria-label='Select' with option aria-label values and disabled Day Trip option; final search wrapper aria-label='search button' containing button role='button' aria-label='button' and visible text Search.",
+      "likelyMismatchFamiliesToBaseline": [
+        "select accessible name/value versus adjacent visual selected text",
+        "disabled option metadata",
+        "generic aria-label overriding visible button text"
+      ]
+    },
+    {
+      "id": "weather-filters",
+      "source": "weather-results",
+      "contract": "header title/subtitle divs; visually-hidden auto-update notice; visible group title divs 'When', 'Where', and 'Weather'; native month select without explicit label; collapsed combobox div with aria-haspopup=listbox, aria-owns, aria-expanded=false, input aria-autocomplete=list and aria-controls; weather buttons with nested title and subtitle spans and active class only.",
+      "likelyMismatchFamiliesToBaseline": [
+        "visible group title used or skipped as control context",
+        "collapsed combobox wrapper plus inner textbox decomposition",
+        "button name joining title/subtitle temperature text",
+        "active class not equivalent to pressed/selected state"
+      ]
+    },
+    {
+      "id": "weather-live-result-cards",
+      "source": "weather-results",
+      "contract": "visually-hidden aria-live polite role=region count; visible aria-live polite role=region result wrapper; div.list-component containing anchor.card-component items, each with desktop .top and .top-mobile duplicate content, background-image style on card image div, img icons with no alt attributes, temperature/location/chance/rain text-node boundaries, and trailing action img.",
+      "likelyMismatchFamiliesToBaseline": [
+        "live region boundary start/end around result cards",
+        "non-native card list positional or group suffix behavior",
+        "duplicate responsive desktop/mobile content inclusion or suppression",
+        "no-alt img icon/action stops versus ignored decorative images",
+        "temperature degree-symbol and spacing text-boundary handling"
+      ]
+    },
+    {
+      "id": "weather-pagination",
+      "source": "weather-results",
+      "contract": "paginate-component with ul role='navigation' aria-label='Pagination'; li wrappers; previous link role=button aria-disabled=true tabindex=-1; current page link aria-current=page tabindex=-1; normal page links tabindex=0; ellipsis link role=button aria-label='Jump forward' with text '...'; next link role=button aria-disabled=false.",
+      "likelyMismatchFamiliesToBaseline": [
+        "navigation role on ul versus native list traversal",
+        "disabled/current/focusable metadata ordering",
+        "ellipsis button name versus punctuation text"
+      ]
+    }
+  ],
+  "omissionSafety": [
+    {
+      "omit": "remote scripts such as choice-search-panel index.js",
+      "whySafe": "The receipt is based on already-rendered DOM fragments; dynamic script behavior must be represented only by preserved initial DOM state unless original step snapshots prove conditional state."
+    },
+    {
+      "omit": "long inline svg path data",
+      "whySafe": "Path geometry is not accessibility-relevant; keep the svg element placement, size attributes, and lack of aria-hidden/title instead."
+    },
+    {
+      "omit": "remote background image bytes and network image fetching",
+      "whySafe": "Use repo-local or inert image sources while preserving img elements, missing alt attributes, style/background-image presence, and sibling order; do not rely on public hosting."
+    },
+    {
+      "omit": "additional weather cards beyond enough first, middle, and pagination context",
+      "whySafe": "Card labels can be shortened if the disputed behavior is card/link/group/region traversal rather than long text, wrapping, or truncation."
+    }
+  ],
+  "suggestedNegativeControls": [
+    "A proper label/for/id text input beside the holiday empty-for generic-label pattern.",
+    "The same holiday icon wrappers with aria-hidden=true to distinguish SVG/image stops from structural grouping.",
+    "Weather buttons with explicit aria-pressed or aria-label values beside the source active-class-only buttons.",
+    "A single card with .top-mobile display:none and one with both desktop/mobile visible to bind duplicate responsive behavior to AX visibility.",
+    "An img icon with alt='' beside the source no-alt img icons.",
+    "A normal nav > ul pagination control beside ul role='navigation' pagination.",
+    "A hidden aria-live count region beside a visible role=region result wrapper to separate live-region announcement from traversal."
+  ],
+  "identityMarkers": {
+    "scanRoot": "Use one data-sr-scan-root wrapper around the matrix surface.",
+    "fixtureIdentityText": [
+      "tui-c5-component-outliers",
+      "source-hash-holiday-5d8b92d2",
+      "source-hash-weather-d473b072"
+    ],
+    "recommendedTitles": [
+      "TUI C5 component outliers",
+      "Holiday search panel contract",
+      "Weather results contract"
+    ]
+  },
+  "scanSizingAndStepRisks": {
+    "recommendedCanary": {
+      "max_steps": 35,
+      "capture_step_snapshots": true,
+      "capture_step_screenshots": true,
+      "capture_screen_recording": false,
+      "purpose": "Prove repo-local fixture path, scan root identity, non-empty rendered HTML, AX nodes, and step snapshots."
+    },
+    "recommendedFullScan": {
+      "max_steps": 110,
+      "max_step_seconds": 10,
+      "navigation_mode": "voiceover-right-arrow",
+      "capture_step_snapshots": true,
+      "capture_step_screenshots": true,
+      "capture_screen_recording": true,
+      "purpose": "Reach search controls, weather cards, and pagination while preserving debug evidence for live-region and focus/order questions."
+    },
+    "risks": [
+      "Duplicate desktop/mobile weather card content may double traversal unless CSS hidden state matches the original AX evidence.",
+      "aria-live regions may create startup or update announcements that must be separated from initial DOM traversal.",
+      "No-alt remote img icons may add image stops or filename-derived names if not preserved carefully with local equivalents.",
+      "Large inline SVGs bloat HTML but should not drive step count once path data is shortened.",
+      "Pagination tabindex=-1 controls may be skipped or reached depending on VoiceOver navigation mode; step snapshots are required."
+    ]
+  },
+  "decisions": [
+    "Do not assert expected VoiceOver lines from the two HTML fragments alone.",
+    "Treat missing original AX evidence as a blocker for any engine-ready verdict until the next C.5 worker binds the reproduction to original AX contracts or records the absence explicitly.",
+    "Use existing TUI repro conventions: repo-local voiceover-repros path, data-sr-scan-root, short text where text length is not disputed, and no promotion to live-site corpus fixtures.",
+    "No fixture, engine, expected announcement, manifest, or reusable logic file was modified."
+  ],
+  "fixtureChanges": [],
+  "nextPhase": "repro-scanner",
+  "handoffReason": "Build and scan one focused repo-local TUI component-outlier matrix if the original site workflow needs VoiceOver evidence for these families.",
+  "handoffFrom": "manual",
+  "handoffTo": "repro-scanner",
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Create one TUI component-outlier matrix repro from the two source fragments, bind it to original AX evidence if available, run canary plus full scan, and return verdicts only to the source target workflow.",
+    "c5Needed": true,
+    "reason": "Saved source fragments show multiple accessibility-relevant outlier contracts, but no VoiceOver or AX verdict can be trusted from HTML alone."
+  }
+}

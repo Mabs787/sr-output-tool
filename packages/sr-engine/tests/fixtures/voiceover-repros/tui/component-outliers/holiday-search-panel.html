@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI holiday search panel C.5 repro</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 860px;
+        padding: 24px;
+      }
+
+      nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        list-style: none;
+        padding: 0;
+      }
+
+      .UI__choiceSearchTab,
+      .inputs__textInputWithIcon,
+      .inputs__select {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .Package__searchPanelWrapper {
+        display: grid;
+        gap: 16px;
+      }
+
+      .UI__icon svg,
+      .inputs__children svg,
+      .inputs__arrowIcon svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .negative-controls {
+        border-top: 1px solid #777;
+        margin-top: 24px;
+        padding-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="tui-holiday-search-panel-component-outliers"
+      aria-label="TUI holiday search panel C5 fixture">
+      <p data-sr-fixture-identity>TUI C5 holiday search panel fixture</p>
+
+      <div class="search-panel-wrapper mt-md mb-md">
+        <tui-choice-search-panel
+          activetabnumber="1"
+          isrivercruise="false"
+          id="searchPanel__component">
+          <div id="choiceSearch__component">
+            <div class="UI__choiceSearchWrapper">
+              <div class="content-width">
+                <div class="UI__choiceSearchPanel">
+                  <div class="UI__choiceSearchTabsWrapper">
+                    <div class="UI__choiceSearchTabsContainer">
+                      <div>
+                        <nav>
+                          <div class="scrollers__scroll">
+                            <div>
+                              <ul class="SwipeOrScroll__hsWrapper UI__choiceSearchScrollerClass">
+                                <li>
+                                  <div class="UI__choiceSearchTab UI__choiceSearchActiveTab">
+                                    <span class="UI__icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path d="M2 12h12M4 10a4 4 0 0 1 8 0"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="UI__label">Package Holidays</span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="UI__choiceSearchTab">
+                                    <span class="UI__icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path d="M2 8h12l-2 4H4z"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="UI__label">Cruises</span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="UI__choiceSearchTab">
+                                    <span class="UI__icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path d="M1 8l14-4-5 6-1 4-2-3z"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="UI__label">Flights</span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="UI__choiceSearchTab">
+                                    <span class="UI__icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path d="M3 2h10v12H3zM6 5v2M10 5v2"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="UI__label">Hotels</span>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div id="ski-tab" class="UI__choiceSearchTab">
+                                    <span class="UI__icon">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path d="M8 1v14M2 5l12 6M14 5L2 11"></path>
+                                      </svg>
+                                    </span>
+                                    <span class="UI__label">Ski</span>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="content-width" aria-label="search panel container">
+                  <div class="Package__searchPanelContainer uk Package__">
+                    <div class="contentWidth">
+                      <div class="Package__searchPanelWrapper">
+                        <div class="Package__airports Package__field">
+                          <div class="SelectAirports__airportInputWrapper">
+                            <div class="SelectAirports__airportLabelWrapper">
+                              <label aria-label="input label" for="">Departure Airport</label>
+                            </div>
+                            <div aria-label="input text container" class="inputs__textInputWithIcon">
+                              <div>
+                                <input
+                                  name="Departure Airport"
+                                  readonly
+                                  id=""
+                                  aria-label="text input"
+                                  placeholder="Choose airports"
+                                  shadow=""
+                                  value="">
+                                <span class="inputs__children">
+                                  <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                      <path d="M1 12h14M3 9l10-4"></path>
+                                    </svg>
+                                  </span>
+                                </span>
+                                <span aria-label="input" class="inputs__errorMessage"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="Package__destinations Package__field">
+                          <div aria-label="input text container" class="inputs__textInputWithIcon">
+                            <label aria-label="select destinations" for="">Destination or Hotel</label>
+                            <div>
+                              <input
+                                name="Destination or Hotel"
+                                id=""
+                                aria-label="select destinations"
+                                placeholder="Any"
+                                shadow="undefined"
+                                data-values="[]"
+                                value="">
+                              <span class="inputs__children">
+                                <span>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M8 15s5-5 5-9a5 5 0 0 0-10 0c0 4 5 9 5 9z"></path>
+                                  </svg>
+                                  <span class="Package__list">List</span>
+                                </span>
+                              </span>
+                              <span aria-label="input" class="inputs__errorMessage"></span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="Package__date Package__field">
+                          <div aria-label="Departure Date">
+                            <div aria-label="input text container" class="inputs__textInputWithIcon">
+                              <label aria-label="select date" for="">Departure Date</label>
+                              <div>
+                                <input
+                                  name="Departure Date"
+                                  readonly
+                                  id=""
+                                  aria-label="select date"
+                                  placeholder="Select a date"
+                                  shadow="undefined"
+                                  value="Select a date">
+                                <span class="inputs__children">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M2 3h12v11H2zM2 6h12"></path>
+                                  </svg>
+                                </span>
+                                <span aria-label="input" class="inputs__errorMessage"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="Package__duration Package__field" aria-label="select duration">
+                          <div arialabel="" class="inputs__selectList">
+                            <label>Duration</label>
+                            <div class="inputs__select Package__iconClass">
+                              <span class="inputs__selectText">7 nights</span>
+                              <span class="inputs__arrowIcon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                  <path d="M3 6l5 5 5-5"></path>
+                                </svg>
+                              </span>
+                              <select aria-label="Select">
+                                <option aria-label="option" value="1002">2 nights</option>
+                                <option aria-label="option" value="3115">3 nights</option>
+                                <option aria-label="option" value="4115">4 nights</option>
+                                <option aria-label="option" value="5115">5 nights</option>
+                                <option aria-label="option" value="6115">6 nights</option>
+                                <option aria-label="option" value="7115">7 nights</option>
+                                <option aria-label="option" value="8115">8 nights</option>
+                                <option aria-label="option" value="9115">9 nights</option>
+                                <option aria-label="option" value="1015">10 nights</option>
+                                <option aria-label="option" value="1115">11 nights</option>
+                                <option aria-label="option" value="1215">12 nights</option>
+                                <option aria-label="option" value="1315">13 nights</option>
+                                <option aria-label="option" value="1415">14 nights</option>
+                                <option aria-label="option" value="2115">More than 14 nights</option>
+                                <option aria-label="option" value="1245" disabled>Day Trip</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="Package__passengers Package__field">
+                          <div aria-label="rooms and guest">
+                            <div aria-label="input text container" class="inputs__textInputWithIcon">
+                              <label aria-label="rooms and guests" for="">Rooms &amp; Guests</label>
+                              <div>
+                                <input
+                                  name="Rooms &amp; Guests"
+                                  readonly
+                                  id=""
+                                  aria-label="rooms and guests"
+                                  placeholder="2 Adult 0 Children"
+                                  shadow=""
+                                  value="2 Adults 0 Children">
+                                <span class="inputs__children">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 15a6 6 0 0 1 12 0"></path>
+                                  </svg>
+                                </span>
+                                <span aria-label="input" class="inputs__errorMessage"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="Package__searchButton" aria-label="search button">
+                          <button type="" role="button" aria-label="button">Search</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tui-choice-search-panel>
+      </div>
+
+      <section class="negative-controls" aria-labelledby="holiday-negative-title">
+        <h2 id="holiday-negative-title">Associated control guard</h2>
+        <label for="holiday-negative-destination">Destination guard</label>
+        <input id="holiday-negative-destination" value="Anywhere">
+        <button type="button">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+            <path d="M2 8h12"></path>
+          </svg>
+          Search guard
+        </button>
+      </section>
+    </main>
+  </body>
+</html>

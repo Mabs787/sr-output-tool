@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TUI weather results cards C.5 repro</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 960px;
+        padding: 24px;
+      }
+
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      .select-group,
+      .button-group .row,
+      .bottom,
+      .paginate-component ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .list-component {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin: 24px 0;
+      }
+
+      .card-component {
+        border: 1px solid #777;
+        color: inherit;
+        padding: 12px;
+      }
+
+      .top-mobile {
+        display: none;
+      }
+
+      .paginate-component ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .negative-controls {
+        border-top: 1px solid #777;
+        margin-top: 24px;
+        padding-top: 16px;
+      }
+
+      @media (max-width: 600px) {
+        .list-component {
+          grid-template-columns: 1fr;
+        }
+
+        .top {
+          display: none;
+        }
+
+        .top-mobile {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="tui-weather-results-component-outliers"
+      aria-label="TUI weather results cards C5 fixture">
+      <p data-sr-fixture-identity>TUI C5 weather results cards fixture</p>
+
+      <div class="container-component">
+        <div class="container">
+          <div id="tui-weather-header" class="header">
+            <div data-testid="title" class="title">Where’s hot when?</div>
+            <div data-testid="subtitle" class="header">
+              Let our handy tool help you decide where to head for your next sunshine fix.
+            </div>
+          </div>
+
+          <div data-testcontainer="container-filter" class="filter-component">
+            <div class="visually-hidden">
+              Changing any of the fields will automatically update the context.
+            </div>
+            <div class="select-group">
+              <div class="group-component">
+                <div class="title">When</div>
+                <div class="row">
+                  <select data-testid="input-when" class="select-component">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="group-component">
+                <div class="title">Where</div>
+                <div class="row">
+                  <div
+                    role="combobox"
+                    aria-haspopup="listbox"
+                    aria-owns="weather-suggestions"
+                    aria-expanded="false"
+                    class="react-autosuggest__container">
+                    <input
+                      type="text"
+                      autocomplete="off"
+                      aria-autocomplete="list"
+                      aria-controls="weather-suggestions"
+                      data-testid="input-where"
+                      class="react-autosuggest__input"
+                      placeholder="Anywhere">
+                    <div
+                      id="weather-suggestions"
+                      role="listbox"
+                      class="react-autosuggest__suggestions-container"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="button-group">
+              <div class="group-component">
+                <div class="title">Weather</div>
+                <div class="row">
+                  <button type="button" data-testid="button-any" class="button-component any">
+                    <span class="title">Any</span>
+                  </button>
+                  <button type="button" data-testid="button-warm" class="button-component warm">
+                    <span class="title">Warm</span>
+                    <span class="subtitle">16 - 22ºC</span>
+                  </button>
+                  <button type="button" data-testid="button-hot" class="button-component hot active">
+                    <span class="title">Hot</span>
+                    <span class="subtitle">23 - 28ºC</span>
+                  </button>
+                  <button type="button" data-testid="button-very-hot" class="button-component very-hot">
+                    <span class="title">Very Hot</span>
+                    <span class="subtitle">29 - 40ºC</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div aria-live="polite" role="region" class="visually-hidden">
+            There are now 30 destinations.
+          </div>
+
+          <div
+            aria-live="polite"
+            role="region"
+            data-testcontainer="container-result"
+            class="result">
+            <div>
+              <div class="list-component">
+                <a data-testarea="card" data-testloading="false" class="card-component" href="#koh-samui">
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="temp.svg"></span>
+                        <span class="temp" data-testid="card-temp">28 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name"><span data-testid="card-location-name">Koh Samui, Thailand</span></div>
+                  </div>
+                  <div class="top-mobile">
+                    <div class="name"><span data-testid="card-location-name">Koh Samui, Thailand</span></div>
+                    <div class="avg-temp">
+                      <span><img src="temp.svg"></span>
+                      <span class="temp" data-testid="card-temp-mobile">28ºC</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="sun.svg"></span>
+                        <span class="value" data-testid="card-chance-of-sun">2%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="cloud-rain.svg"></span>
+                        <span class="value" data-testid="card-precipitation">110mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div><span><img src="active.svg" data-testid="card-button-action" class="action-button"></span></div>
+                  </div>
+                </a>
+
+                <a data-testarea="card" data-testloading="false" class="card-component" href="#la-romana">
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="temp.svg"></span>
+                        <span class="temp" data-testid="card-temp">27 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name"><span data-testid="card-location-name">La Romana, Dominican Republic</span></div>
+                  </div>
+                  <div class="top-mobile">
+                    <div class="name"><span data-testid="card-location-name">La Romana, Dominican Republic</span></div>
+                    <div class="avg-temp">
+                      <span><img src="temp.svg"></span>
+                      <span class="temp" data-testid="card-temp-mobile">27ºC</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="sun.svg"></span>
+                        <span class="value" data-testid="card-chance-of-sun">3%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="cloud-rain.svg"></span>
+                        <span class="value" data-testid="card-precipitation">83mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div><span><img src="active.svg" data-testid="card-button-action" class="action-button"></span></div>
+                  </div>
+                </a>
+
+                <a data-testarea="card" data-testloading="false" class="card-component" href="#marrakech">
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="temp.svg"></span>
+                        <span class="temp" data-testid="card-temp">27 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name"><span data-testid="card-location-name">Marrakech, Morocco</span></div>
+                  </div>
+                  <div class="top-mobile">
+                    <div class="name"><span data-testid="card-location-name">Marrakech, Morocco</span></div>
+                    <div class="avg-temp">
+                      <span><img src="temp.svg"></span>
+                      <span class="temp" data-testid="card-temp-mobile">27ºC</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="sun.svg"></span>
+                        <span class="value" data-testid="card-chance-of-sun">68%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="cloud-rain.svg"></span>
+                        <span class="value" data-testid="card-precipitation">28mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div><span><img src="active.svg" data-testid="card-button-action" class="action-button"></span></div>
+                  </div>
+                </a>
+
+                <a data-testarea="card" data-testloading="false" class="card-component" href="#tobago">
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="temp.svg"></span>
+                        <span class="temp" data-testid="card-temp">26 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name"><span data-testid="card-location-name">Tobago, Trinidad and Tobago</span></div>
+                  </div>
+                  <div class="top-mobile">
+                    <div class="name"><span data-testid="card-location-name">Tobago, Trinidad and Tobago</span></div>
+                    <div class="avg-temp">
+                      <span><img src="temp.svg"></span>
+                      <span class="temp" data-testid="card-temp-mobile">26ºC</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="sun.svg"></span>
+                        <span class="value" data-testid="card-chance-of-sun">12%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="cloud-rain.svg"></span>
+                        <span class="value" data-testid="card-precipitation">12mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div><span><img src="active.svg" data-testid="card-button-action" class="action-button"></span></div>
+                  </div>
+                </a>
+
+                <a data-testarea="card" data-testloading="false" class="card-component" href="#seville">
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="temp.svg"></span>
+                        <span class="temp" data-testid="card-temp">26 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name"><span data-testid="card-location-name">Seville, Spain</span></div>
+                  </div>
+                  <div class="top-mobile">
+                    <div class="name"><span data-testid="card-location-name">Seville, Spain</span></div>
+                    <div class="avg-temp">
+                      <span><img src="temp.svg"></span>
+                      <span class="temp" data-testid="card-temp-mobile">26ºC</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="sun.svg"></span>
+                        <span class="value" data-testid="card-chance-of-sun">67%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="cloud-rain.svg"></span>
+                        <span class="value" data-testid="card-precipitation">14mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div><span><img src="active.svg" data-testid="card-button-action" class="action-button"></span></div>
+                  </div>
+                </a>
+
+                <a data-testarea="card" data-testloading="false" class="card-component" href="#zanzibar">
+                  <div class="top">
+                    <div data-testid="card-image" class="image">
+                      <div class="avg-temp">
+                        <span><img src="temp.svg"></span>
+                        <span class="temp" data-testid="card-temp">26 ºC</span>
+                      </div>
+                    </div>
+                    <div class="name"><span data-testid="card-location-name">Zanzibar, Tanzania</span></div>
+                  </div>
+                  <div class="top-mobile">
+                    <div class="name"><span data-testid="card-location-name">Zanzibar, Tanzania</span></div>
+                    <div class="avg-temp">
+                      <span><img src="temp.svg"></span>
+                      <span class="temp" data-testid="card-temp-mobile">26ºC</span>
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div>
+                      <div class="days">
+                        <span class="icon"><img src="sun.svg"></span>
+                        <span class="value" data-testid="card-chance-of-sun">0%</span>
+                      </div>
+                      <div><span class="rpm">chance of sun</span></div>
+                    </div>
+                    <div>
+                      <div class="mm">
+                        <span class="icon"><img src="cloud-rain.svg"></span>
+                        <span class="value" data-testid="card-precipitation">300mm</span>
+                      </div>
+                      <div><span class="rpm">rain per month</span></div>
+                    </div>
+                    <div><span><img src="active.svg" data-testid="card-button-action" class="action-button"></span></div>
+                  </div>
+                </a>
+              </div>
+
+              <div data-testarea="area-paginate" class="paginate-component">
+                <ul role="navigation" aria-label="Pagination">
+                  <li class="previous disabled">
+                    <a
+                      href="#"
+                      tabindex="-1"
+                      role="button"
+                      aria-disabled="true"
+                      aria-label="Previous page"
+                      rel="noindex, follow">Prev </a>
+                  </li>
+                  <li class="selected">
+                    <a
+                      rel="noindex, follow"
+                      href="#page-1"
+                      tabindex="-1"
+                      aria-label="Page 1 is your current page"
+                      aria-current="page">1</a>
+                  </li>
+                  <li>
+                    <a rel="noindex, follow" href="#page-2" tabindex="0" aria-label="Page 2">2</a>
+                  </li>
+                  <li class="break">
+                    <a role="button" tabindex="0" aria-label="Jump forward">...</a>
+                  </li>
+                  <li>
+                    <a href="#page-5" tabindex="0" aria-label="Page 5">5</a>
+                  </li>
+                  <li class="next">
+                    <a
+                      href="#page-2"
+                      tabindex="0"
+                      role="button"
+                      aria-disabled="false"
+                      aria-label="Next page"
+                      rel="noindex, follow">Next</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="negative-controls" aria-labelledby="weather-negative-title">
+        <h2 id="weather-negative-title">Explicit state guard</h2>
+        <button type="button" aria-pressed="true">Selected weather guard</button>
+        <a href="#named-card-guard">
+          <img src="active.svg" alt="Open named card">
+          Named card guard
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
