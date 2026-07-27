@@ -1403,7 +1403,7 @@
             return void 0;
           const strongBoundaryCount = boundaryFragments.filter((fragment) => ["strong", "emphasis"].includes(fragment.role)).length;
           const hasScalarBoundary = boundaryFragments.some((fragment) => isScalarInlineBoundaryText(fragment.text));
-          const hasRepeatedEmphasisBoundary = strongBoundaryCount >= 2;
+          const hasRepeatedEmphasisBoundary = strongBoundaryCount >= 3;
           if (!hasScalarBoundary && !hasRepeatedEmphasisBoundary)
             return void 0;
           return fragments;

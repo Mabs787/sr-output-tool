@@ -466,7 +466,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const hasScalarBoundary = boundaryFragments.some((fragment) =>
       isScalarInlineBoundaryText(fragment.text),
     );
-    const hasRepeatedEmphasisBoundary = strongBoundaryCount >= 2;
+    const hasRepeatedEmphasisBoundary = strongBoundaryCount >= 3;
 
     if (!hasScalarBoundary && !hasRepeatedEmphasisBoundary) return undefined;
 

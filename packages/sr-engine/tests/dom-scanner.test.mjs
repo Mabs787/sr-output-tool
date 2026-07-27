@@ -12135,6 +12135,52 @@ test("scanSubtree splits AX-confirmed inline strong static text boundaries", () 
   );
 });
 
+test("scanSubtree keeps two emphasized titles inside ordinary prose", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="prose">
+          Watch <strong data-sr-dom-node-id="first">First Show</strong> before
+          <strong data-sr-dom-node-id="second">Second Show</strong> returns.
+        </p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "prose-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "prose",
+              childIds: ["lead", "first-ax", "middle", "second-ax", "tail"],
+            },
+            { nodeId: "lead", role: "StaticText", name: "Watch " },
+            {
+              nodeId: "first-ax",
+              role: "strong",
+              name: "",
+              domNodeId: "first",
+              childIds: ["first-text"],
+            },
+            { nodeId: "first-text", role: "StaticText", name: "First Show" },
+            { nodeId: "middle", role: "StaticText", name: " before " },
+            {
+              nodeId: "second-ax",
+              role: "strong",
+              name: "",
+              domNodeId: "second",
+              childIds: ["second-text"],
+            },
+            { nodeId: "second-text", role: "StaticText", name: "Second Show" },
+            { nodeId: "tail", role: "StaticText", name: " returns." },
+          ],
+        },
+      },
+    ),
+    ["Watch First Show before Second Show returns."],
+  );
+});
+
 test("scanSubtree splits AX-confirmed scalar span boundaries without splitting unrelated spans", () => {
   assert.deepEqual(
     scanHtml(
