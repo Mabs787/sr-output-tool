@@ -25,6 +25,20 @@
       "sessionId": "019fa3e0-0b17-7080-8d3f-3ec371c992c1",
       "nickname": "Archimedes",
       "agentConfigPath": ".codex/agents/repro-scanner.toml"
+    },
+    {
+      "phase": "C.5-judgement",
+      "agentType": "fixture-judge",
+      "sessionId": "019fa405-fe2e-7e83-9274-126caa3e58aa",
+      "nickname": "Lovelace",
+      "agentConfigPath": ".codex/agents/fixture-judge.toml"
+    },
+    {
+      "phase": "D",
+      "agentType": "engine-refiner",
+      "sessionId": "019fa40c-4a50-77a3-b227-b5bf35935092",
+      "nickname": "Meitner",
+      "agentConfigPath": ".codex/agents/engine-refiner.toml"
     }
   ],
   "agentPoolPlan": {

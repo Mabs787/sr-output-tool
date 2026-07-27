@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "fixture-judge",
+  "agentConfigPath": ".codex/agents/fixture-judge.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "",
+  "target": "tui-component-outliers",
+  "runId": "30274749663",
+  "status": "passed",
+  "startedAt": "2026-07-27T14:44:54Z",
+  "finishedAt": "2026-07-27T14:44:54Z",
+  "inputs": {
+    "workflowDocsRead": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-c-fixture-judge.md"
+    ],
+    "receiptsRead": [
+      "voiceover-smoke/agent-work/tui-component-outliers/01-repro-evidence.json",
+      "voiceover-smoke/agent-work/tui-component-outliers/02-engine-baseline.json",
+      "voiceover-smoke/agent-work/tui-component-outliers/03-scan-evidence.json"
+    ],
+    "acceptedFullScanRoots": {
+      "holiday-search-panel": "/tmp/sr-vo-tui-full-30274749663/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-holiday-search-panel/scans/packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-holiday-search-panel",
+      "weather-results-cards": "/tmp/sr-vo-tui-full-30274749663/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-weather-results-cards/scans/packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-weather-results-cards"
+    }
+  },
+  "beforeCounts": {
+    "holiday-search-panel": {
+      "engineCount": 43,
+      "voiceOverCount": 68,
+      "mismatchWindowCount": 13
+    },
+    "weather-results-cards": {
+      "engineCount": 38,
+      "voiceOverCount": 33,
+      "mismatchWindowCount": 7
+    }
+  },
+  "debugEvidenceStatus": {
+    "holiday-search-panel": "complete: full scan reached scan-end-marker with rendered HTML, AX tree, step snapshots, screenshots, VoiceOver sources, and recording",
+    "weather-results-cards": "complete: full scan reached scan-end-marker with rendered HTML, AX tree, step snapshots, screenshots, VoiceOver sources, and recording"
+  },
+  "families": [
+    {
+      "id": "runner-scan-root-main-boundary",
+      "fixtures": [
+        "holiday-search-panel",
+        "weather-results-cards"
+      ],
+      "windowIndexes": {
+        "holiday-search-panel": ["engine:0", "engine:42", "voiceover:absent"],
+        "weather-results-cards": ["engine:0", "engine:37", "voiceover:absent"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html main[data-sr-scan-root][aria-label]",
+        "holiday-search-panel/engine-traversal-debug.json entries[0,42]",
+        "holiday-search-panel/voiceover-output.json announcements[0,67]",
+        "weather-results-cards/rendered-html.html main[data-sr-scan-root][aria-label]",
+        "weather-results-cards/engine-traversal-debug.json entries[0,37]",
+        "weather-results-cards/voiceover-output.json announcements[0,32]"
+      ],
+      "decision": "VoiceOver starts at fixture identity and does not announce the synthetic main end boundary; this is runner wrapper behavior, not a TUI component predicate.",
+      "engineRefinerHandoff": false,
+      "parkedBehavior": true
+    },
+    {
+      "id": "caption-glyph-normalization-apostrophe-degree",
+      "fixtures": ["weather-results-cards"],
+      "windowIndexes": {
+        "weather-results-cards": ["voiceover:1", "voiceover:10-20", "engine:2", "engine:11-22"]
+      },
+      "verdict": "fixture-noise-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "weather-results-cards/rendered-html.html nodes 6,39-47,52-255",
+        "weather-results-cards/accessibility-tree.json AX names use Where’s and ºC",
+        "weather-results-cards/voiceover-sources.json steps[2,11:20] OCR normalizes apostrophe and degree glyphs"
+      ],
+      "decision": "The straight apostrophe and °C forms are caption/OCR normalization over DOM and AX text that use Where’s/ºC; do not send this glyph-only delta to engine-refiner.",
+      "engineRefinerHandoff": false,
+      "parkedBehavior": false
+    },
+    {
+      "id": "bare-svg-list-item-decomposition",
+      "fixtures": ["holiday-search-panel"],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:3-12", "engine:3-9"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html nav ul li span svg plus text nodes 15-45",
+        "holiday-search-panel/accessibility-tree.json domNodeId 15,16,19,21 roles list/listitem/image/text",
+        "holiday-search-panel/voiceover-sources.json steps[3:13]",
+        "holiday-search-panel/engine-traversal-debug.json entries[3:9]"
+      ],
+      "decision": "VoiceOver traverses each bare SVG image stop separately before text while the engine collapses each list item into one positioned text announcement.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "unassociated-labeltext-group-traversal",
+      "fixtures": ["holiday-search-panel"],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:15-19", "voiceover:24-28", "voiceover:34-38", "voiceover:50-52", "engine:12-21", "engine:29-30"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html label aria-label with empty for attributes at nodes 53,64,76,110",
+        "holiday-search-panel/accessibility-tree.json LabelText nodes 97,110,135 and textbox nodes 100,112,210",
+        "holiday-search-panel/voiceover-sources.json steps[17:29], steps[34:39]",
+        "holiday-search-panel/engine-traversal-debug.json entries[12:21], entries[29:30]"
+      ],
+      "decision": "Initial DOM and AX expose standalone LabelText/group objects; VoiceOver announces their group boundaries and visible text, while the engine skips or folds them into controls.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "readonly-input-clickable-text-wording",
+      "fixtures": ["holiday-search-panel"],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:21", "voiceover:39", "voiceover:53", "engine:13", "engine:21", "engine:30"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html readonly inputs at nodes 56,78,112",
+        "holiday-search-panel/accessibility-tree.json textbox nodes 100 and peers with readonly true",
+        "holiday-search-panel/voiceover-sources.json steps[21], steps[39], step[53]",
+        "holiday-search-panel/engine-traversal-debug.json entries[13,21,30]"
+      ],
+      "decision": "VoiceOver announces readonly text-field-like controls as clickable text with value/name ordering; the engine announces edit text/read only wording.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "bare-svg-form-icon-and-empty-input-wrapper-stops",
+      "fixtures": ["holiday-search-panel"],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:22-23", "voiceover:30-32", "voiceover:40-41", "voiceover:54-57", "engine:omitted"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html svg nodes 59,69,80,89,114 and aria-label=input spans 61,72,82,116",
+        "holiday-search-panel/accessibility-tree.json image nodes 105,117,139 and generic input nodes 107,120",
+        "holiday-search-panel/voiceover-sources.json steps[22:24], steps[30:33], steps[40:42], steps[54:58]"
+      ],
+      "decision": "Bare SVGs and empty named generic wrappers are present in initial DOM/AX and are announced by VoiceOver; the engine omits these stops.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "duration-select-label-visible-value-and-option-name",
+      "fixtures": ["holiday-search-panel"],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:42-47", "engine:24-27"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html select duration nodes 83-106",
+        "holiday-search-panel/accessibility-tree.json combobox domNodeId 91 name Select value option",
+        "holiday-search-panel/voiceover-sources.json steps[44:47]",
+        "holiday-search-panel/engine-traversal-debug.json entries[24:27]"
+      ],
+      "decision": "VoiceOver speaks the visible Duration label, visible selected text, image stop, and generic option/select wording; the engine uses the first option text and misses the visible label/image pattern.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "generic-button-nested-group-suffix",
+      "fixtures": ["holiday-search-panel"],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:60-62", "engine:33-35"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html search button nodes 117-118",
+        "holiday-search-panel/accessibility-tree.json generic group node 205 and button node 206",
+        "holiday-search-panel/voiceover-sources.json steps[60:62]",
+        "holiday-search-panel/engine-traversal-debug.json entries[33:35]"
+      ],
+      "decision": "VoiceOver announces the nested generic button as 'button, button' without the engine's extra trailing group suffix on the button stop.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "combobox-wrapper-versus-inner-textbox",
+      "fixtures": ["weather-results-cards"],
+      "windowIndexes": {
+        "weather-results-cards": ["voiceover:7", "engine:8"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "weather-results-cards/rendered-html.html role=combobox node 30 with input node 31",
+        "weather-results-cards/accessibility-tree.json combobox node 188 and textbox node 189",
+        "weather-results-cards/voiceover-sources.json step[7]",
+        "weather-results-cards/engine-traversal-debug.json entry[8]"
+      ],
+      "decision": "VoiceOver lands on the inner textbox and announces placeholder/edit-text state; the engine announces the wrapper combobox popup contract.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "inline-button-text-node-spacing",
+      "fixtures": ["weather-results-cards"],
+      "windowIndexes": {
+        "weather-results-cards": ["voiceover:10-12", "engine:11-13"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "weather-results-cards/rendered-html.html weather button span pairs nodes 39-47",
+        "weather-results-cards/accessibility-tree.json button names Warm 16 - 22ºC, Hot 23 - 28ºC, Very Hot 29 - 40ºC",
+        "weather-results-cards/voiceover-sources.json steps[11:13]",
+        "weather-results-cards/engine-traversal-debug.json entries[11:13]"
+      ],
+      "decision": "The generic inline span boundary supplies a spoken space in AX/VoiceOver; the engine joins title and subtitle text without a space.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "initial-polite-region-text-versus-region-boundaries",
+      "fixtures": ["weather-results-cards"],
+      "windowIndexes": {
+        "weather-results-cards": ["voiceover:13-14", "engine:14-16", "engine:31"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "weather-results-cards/rendered-html.html aria-live role=region nodes 48-49",
+        "weather-results-cards/accessibility-tree.json live generic nodes 208-209 and StaticText node 91",
+        "weather-results-cards/step-snapshots.json snapshot[14] matches initial text",
+        "weather-results-cards/voiceover-sources.json step[14]",
+        "weather-results-cards/engine-traversal-debug.json entries[14:16], entry[31]"
+      ],
+      "decision": "The count text is in the initial DOM/AX and VoiceOver announces it; this is not conditional state. The engine emits empty region boundaries instead.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "pagination-position-suffix-suppression",
+      "fixtures": ["weather-results-cards"],
+      "windowIndexes": {
+        "weather-results-cards": ["voiceover:20-27", "engine:23-30"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "weather-results-cards/rendered-html.html ul role=navigation aria-label=Pagination nodes 257-269",
+        "weather-results-cards/accessibility-tree.json navigation node 393 and controls 395,397,399,401,403,405",
+        "weather-results-cards/voiceover-sources.json steps[21:27]",
+        "weather-results-cards/engine-traversal-debug.json entries[23:30]"
+      ],
+      "decision": "VoiceOver announces pagination control names/states without list-position suffixes; the engine adds 1-of-6 through 6-of-6.",
+      "engineRefinerHandoff": true,
+      "parkedBehavior": false
+    },
+    {
+      "id": "hidden-responsive-duplicates",
+      "fixtures": ["weather-results-cards"],
+      "windowIndexes": {
+        "weather-results-cards": ["voiceover:14-19", "engine:17-22"]
+      },
+      "verdict": "fixture-noise-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "weather-results-cards/rendered-html.html mobile duplicate card blocks nodes 61,95,129,163,197,231 with data-sr-computed-hidden=display:none",
+        "weather-results-cards/accessibility-tree.json link nodes 212,242,272,302,332,362 contain one visible name each",
+        "weather-results-cards/voiceover-output.json announcements[14:19]",
+        "weather-results-cards/engine-traversal-debug.json entries[17:22]"
+      ],
+      "decision": "Hidden responsive duplicates are absent from AX traversal and from both VoiceOver and engine card announcements; any expected duplicate card text would be fixture noise.",
+      "engineRefinerHandoff": false,
+      "parkedBehavior": false
+    },
+    {
+      "id": "negative-control-guards",
+      "fixtures": [
+        "holiday-search-panel",
+        "weather-results-cards"
+      ],
+      "windowIndexes": {
+        "holiday-search-panel": ["voiceover:64-67", "engine:37-41"],
+        "weather-results-cards": ["voiceover:28-32", "engine:32-36"]
+      },
+      "verdict": "engine-gap-confirmed",
+      "debugEvidenceStatus": "complete",
+      "evidencePointers": [
+        "holiday-search-panel/rendered-html.html Associated control guard section nodes 119-123",
+        "holiday-search-panel/accessibility-tree.json textbox node 210 name Destination guard value Anywhere",
+        "holiday-search-panel/voiceover-sources.json steps[64:67]",
+        "weather-results-cards/rendered-html.html Explicit state guard section nodes 270-274",
+        "weather-results-cards/accessibility-tree.json pressed button node 408 and named image/link nodes 121,409",
+        "weather-results-cards/voiceover-output.json announcements[28:32]"
+      ],
+      "decision": "Weather explicit-state and named-image guards pass and should not drive new work. Holiday editable associated-control wording is VoiceOver-backed but broad cursor/insertion behavior, so it is parked out of the component-outlier engine batch.",
+      "engineRefinerHandoff": false,
+      "parkedBehavior": true
+    }
+  ],
+  "decisions": [
+    "Trusted replayable component families are safe for exactly one engine-refiner because the full C.5 scan binds VoiceOver captions, rendered HTML, AX roles/names/states, and step snapshots.",
+    "No family is conditional-state-confirmed, insufficient-repro, or debug-evidence-missing.",
+    "Do not edit or promote the repro fixtures from this judge pass."
+  ],
+  "engineRefinerHandoff": {
+    "proceed": true,
+    "exactlyOneEngineRefiner": true,
+    "safeFamilies": [
+      "bare-svg-list-item-decomposition",
+      "unassociated-labeltext-group-traversal",
+      "readonly-input-clickable-text-wording",
+      "bare-svg-form-icon-and-empty-input-wrapper-stops",
+      "duration-select-label-visible-value-and-option-name",
+      "generic-button-nested-group-suffix",
+      "combobox-wrapper-versus-inner-textbox",
+      "inline-button-text-node-spacing",
+      "initial-polite-region-text-versus-region-boundaries",
+      "pagination-position-suffix-suppression"
+    ],
+    "parkedFamilies": [
+      "runner-scan-root-main-boundary",
+      "caption-glyph-normalization-apostrophe-degree",
+      "hidden-responsive-duplicates",
+      "negative-control-guards"
+    ],
+    "handoffScope": "One generic engine-refiner batch for replayable TUI component-outlier behaviors only; exclude runner wrapper boundaries, glyph normalization, hidden duplicates, and broad editable insertion/cursor wording."
+  },
+  "parkedBehavior": [
+    {
+      "family": "runner-scan-root-main-boundary",
+      "reason": "Synthetic scan root/main wrapper behavior should be handled separately from TUI component traversal."
+    },
+    {
+      "family": "caption-glyph-normalization-apostrophe-degree",
+      "reason": "OCR/caption glyph normalization is fixture/oracle policy, not an engine traversal gap."
+    },
+    {
+      "family": "hidden-responsive-duplicates",
+      "reason": "The guard confirmed hidden duplicates are not replayed by AX, VoiceOver, or engine."
+    },
+    {
+      "family": "negative-control-guards",
+      "reason": "Weather guards pass; holiday associated editable insertion wording is broad and should not share the component-outlier engine lease."
+    }
+  ],
+  "fixtureDraftMarkerRecommendations": [
+    {
+      "fixture": "packages/sr-engine/tests/fixtures/voiceover-repros/tui/component-outliers/holiday-search-panel.html",
+      "recommendation": "keep data-sr-fixture-status=\"draft\" until engine-refiner consumes the safe families and reruns compare"
+    },
+    {
+      "fixture": "packages/sr-engine/tests/fixtures/voiceover-repros/tui/component-outliers/weather-results-cards.html",
+      "recommendation": "keep data-sr-fixture-status=\"draft\"; do not encode caption-normalized apostrophe/degree glyphs or hidden duplicate card text as expected output"
+    }
+  ],
+  "evidence": {
+    "consulted": [
+      "03-scan-evidence summary counts and scan roots",
+      "accepted full rendered-html.html files",
+      "accepted full accessibility-tree.json files",
+      "accepted full voiceover-output.json files",
+      "accepted full voiceover-sources.json focused steps",
+      "accepted full step-snapshots.json focused snapshots",
+      "accepted full engine-traversal-debug.json focused entries"
+    ],
+    "rawMediaRead": false,
+    "rawMediaReason": "Text, AX, rendered HTML, and step evidence agreed for all judged families."
+  },
+  "fixtureChanges": [],
+  "nextPhase": "engine-refiner",
+  "handoffReason": "C.5 confirms multiple narrow replayable generic engine gaps and parks non-component or fixture-noise guard behavior.",
+  "handoffFrom": "repro-scanner",
+  "handoffTo": "engine-refiner",
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Implement only the safeFamilies listed in engineRefinerHandoff as one generic batch; do not handle parkedFamilies in this lease.",
+    "c5Needed": false,
+    "reason": "Full C.5 evidence is complete and VoiceOver-backed for the selected reusable families."
+  }
+}

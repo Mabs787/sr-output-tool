@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "tui-component-outliers",
+  "runId": "30274749663",
+  "status": "completed_with_unresolved_revisit_queue",
+  "leaseOwner": "top-level-codex-tui-component-outliers-phase-d-2026-07-27T14:50:03Z",
+  "leaseAcquiredAt": "2026-07-27T14:50:03Z",
+  "leaseReleasedAt": "2026-07-27T15:22:00Z",
+  "activeLeaseCountAtStart": 0,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheck": {
+    "result": "passed",
+    "evidence": "No existing 05-engine-refinement.json or target-level engine receipt was present before this lease was recorded; no other Phase D receipt appeared before release."
+  },
+  "inputs": {
+    "handoff": "voiceover-smoke/agent-work/tui-component-outliers/04-fixture-judge.json",
+    "acceptedArtifactRoots": {
+      "holiday": "/tmp/sr-vo-tui-full-30274749663/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-holiday-search-panel/scans/packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-holiday-search-panel",
+      "weather": "/tmp/sr-vo-tui-full-30274749663/voiceover-scan-packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-weather-results-cards/scans/packages-sr-engine-tests-fixtures-voiceover-repros-tui-component-outliers-weather-results-cards"
+    }
+  },
+  "filesChanged": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/src/announcements.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js",
+    "voiceover-smoke/agent-work/tui-component-outliers/05-engine-refinement.json"
+  ],
+  "unrelatedWorktreeChangesObserved": [
+    {
+      "path": "voiceover-smoke/agent-work/tui-component-outliers/00-agent-preflight.json",
+      "action": "left_untouched",
+      "note": "Pre-existing/shared agent-pool metadata diff; receipts 00-04 were not edited by this Phase D batch."
+    }
+  ],
+  "fixtureChanges": [],
+  "implementedFamilies": [
+    {
+      "family": "bare-svg-list-item-decomposition",
+      "genericPredicate": "AX-exposed unnamed svg image inside noninteractive semantic listitem with list position and one visible text leaf; scanner descends into image/text instead of collapsing the listitem.",
+      "targetObservation": "Holiday navigation now emits image stops for package list items; residual Ski text is a fixture/evidence discrepancy because accepted voiceover-output omits it while C.5 evidence recorded it."
+    },
+    {
+      "family": "unassociated-labeltext-group-traversal",
+      "genericPredicate": "label with explicit aria name, empty/no for attribute, AX LabelText role/name, and matching visible StaticText child emits group plus text.",
+      "targetObservation": "Holiday unassociated label groups now split into group, visible label text, and group end."
+    },
+    {
+      "family": "bare-svg-form-icon-and-empty-input-wrapper-stops",
+      "genericPredicate": "AX-exposed unnamed svg image in a form-like field with one visible native control is preserved; empty named generic span/div is preserved only when sibling-scoped to one visible control and one AX-exposed svg.",
+      "targetObservation": "Holiday form fields now emit image and input empty group stops."
+    },
+    {
+      "family": "generic-button-nested-group-suffix",
+      "genericPredicate": "Native button that is the only visible child of a named AX generic parent with a single AX button child suppresses the child button group suffix.",
+      "targetObservation": "Weather guard button no longer carries the nested generic group suffix."
+    },
+    {
+      "family": "combobox-wrapper-versus-inner-textbox",
+      "genericPredicate": "Unlabelled role=combobox wrapper with one visible text/search input, unfocusable AX combobox wrapper, and focusable AX textbox descendant yields traversal to the textbox; formatter suppresses autocomplete for that yielded textbox.",
+      "targetObservation": "Weather combobox wrapper now announces the inner textbox shape."
+    },
+    {
+      "family": "inline-button-text-node-spacing",
+      "genericPredicate": "Native button without explicit aria name may use AX whitespace only when AX and DOM names differ solely by whitespace across direct visible phrasing children.",
+      "targetObservation": "Weather temperature range buttons now include VoiceOver spacing between inline spans."
+    },
+    {
+      "family": "pagination-position-suffix-suppression",
+      "genericPredicate": "Button/link controls inside a generically named pagination navigation suppress list position metadata while retaining state.",
+      "targetObservation": "Weather pagination controls no longer emit item-position suffixes."
+    }
+  ],
+  "parkedFamilies": [
+    {
+      "family": "readonly-input-clickable-text-wording",
+      "reason": "Native readonly textbox wording would require a broader formatter rule overlapping the parked editable insertion/cursor family."
+    },
+    {
+      "family": "duration-select-label-visible-value-and-option-name",
+      "reason": "Accepted evidence mixes visible label stop, selected value, svg icon, and option-name wording; only the generic svg icon portion was safely covered. Select option wording remains unproven against select corpus fixtures."
+    },
+    {
+      "family": "initial-polite-region-text-versus-region-boundaries",
+      "reason": "The attempted generic AX/live-region text predicate did not replay against the accepted weather artifact; kept boundary suppression only and parked text synthesis for C.5 isolation."
+    },
+    {
+      "family": "runner-scan-root-main-boundary",
+      "reason": "Preserved exactly from 04 parked families."
+    },
+    {
+      "family": "apostrophe-degree-glyph-normalization",
+      "reason": "Preserved exactly from 04 parked families."
+    },
+    {
+      "family": "hidden-responsive-duplicates",
+      "reason": "Preserved exactly from 04 parked families."
+    },
+    {
+      "family": "broad-editable-insertion-cursor-wording",
+      "reason": "Preserved exactly from 04 parked families."
+    }
+  ],
+  "targetCompare": {
+    "before": {
+      "holiday": { "engineCount": 43, "voiceOverCount": 68, "mismatchWindowCount": 13 },
+      "weather": { "engineCount": 38, "voiceOverCount": 33, "mismatchWindowCount": 7 }
+    },
+    "after": {
+      "holiday": { "actualCount": 70, "expectedCount": 68, "mismatchWindowCount": 10 },
+      "weather": { "actualCount": 34, "expectedCount": 33, "mismatchWindowCount": 4 }
+    }
+  },
+  "tests": [
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH yarn workspace @sr-output/engine build",
+      "result": "passed"
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "result": "passed",
+      "summary": "379 passed, 0 failed"
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH yarn workspace @sr-output/engine test:unit",
+      "result": "passed",
+      "summary": "389 passed, 56 skipped, 0 failed"
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH yarn build:extension-runtime",
+      "result": "passed",
+      "summary": "2 turbo tasks successful"
+    },
+    {
+      "command": "PATH=/Users/mrn41/.nvm/versions/node/v24.15.0/bin:$PATH yarn workspace @sr-output/engine test:voiceover",
+      "result": "failed",
+      "summary": "37 passed, 21 skipped, 1 failed: www-microsoft-com-en-us-accessibility now emits extra 'Ask Microsoft Accessibility' before 'heading level 3, Disability Answer Desk'. Sky Protect regression from the label rule was eliminated by narrowing to empty/no-for labels."
+    },
+    {
+      "command": "custom Node target compare against accepted holiday/weather artifact roots",
+      "result": "passed_with_expected_unresolved_windows"
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "runner-scan-root-main-boundary",
+      "latestWindowIndexes": { "holiday": [1, 10], "weather": [1, 4] },
+      "actualShape": "Named main boundary emitted at start/end.",
+      "expectedShape": "Fixture title text only, no enclosing main boundary.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Separate runner scan-root boundary batch.",
+      "blocker": "Parked in 04 and excluded from this batch.",
+      "checksNeeded": ["target compare", "voiceover corpus"]
+    },
+    {
+      "family": "bare-svg-list-item-decomposition-residual",
+      "latestWindowIndexes": { "holiday": [2] },
+      "actualShape": "image, 5 of 5; Ski; end of list",
+      "expectedShape": "image, 5 of 5; end of list",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Reconcile 03 scan evidence, accepted voiceover-output, captions, and source snapshot for the fifth list item text.",
+      "blocker": "Accepted artifact output conflicts with C.5 receipt evidence for Ski.",
+      "checksNeeded": ["artifact voiceover-output inspection", "caption/source snapshot check"]
+    },
+    {
+      "family": "readonly-input-clickable-text-wording",
+      "latestWindowIndexes": { "holiday": [3, 5, 8] },
+      "actualShape": "native textbox edit text/read only wording",
+      "expectedShape": "clickable text wording with value/name order",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Isolate readonly clickable text shape away from editable insertion/cursor wording.",
+      "blocker": "Narrow formatter rule not proven without risking broad textbox regressions.",
+      "checksNeeded": ["isolated same-structure VoiceOver scan", "textbox corpus"]
+    },
+    {
+      "family": "native-textbox-name-value-order",
+      "latestWindowIndexes": { "holiday": [4] },
+      "actualShape": "select destinations, edit text, Any",
+      "expectedShape": "select destinations Any, edit text",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Isolate native input name/value order independent of readonly clickable wording.",
+      "blocker": "Mixed with readonly/control association wording in current evidence.",
+      "checksNeeded": ["focused repro", "textbox formatter tests"]
+    },
+    {
+      "family": "duration-select-label-visible-value-and-option-name",
+      "latestWindowIndexes": { "holiday": [6, 7] },
+      "actualShape": "missing visible Duration stop; selected option announced as 2 nights",
+      "expectedShape": "Duration; 7 nights; option, Select, menu pop up collapsed, button",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Isolate native select visible label and option naming from decorative icon behavior.",
+      "blocker": "A safe generic native select wording rule was not proven.",
+      "checksNeeded": ["isolated select scan", "select corpus"]
+    },
+    {
+      "family": "initial-polite-region-text-versus-region-boundaries",
+      "latestWindowIndexes": { "weather": [3] },
+      "actualShape": "Result links begin after temperature buttons; count text missing.",
+      "expectedShape": "There are now 30 destinations. before result links.",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Capture isolated explicit role=region aria-live=polite text-only block with AX node contract.",
+      "blocker": "Current AX predicate did not replay on accepted artifact.",
+      "checksNeeded": ["isolated live-region scan", "AX/source comparison"]
+    },
+    {
+      "family": "apostrophe-degree-glyph-normalization",
+      "latestWindowIndexes": { "weather": [2, 3] },
+      "actualShape": "Where\\u2019s and \\u00baC glyphs",
+      "expectedShape": "Where's and \\u00b0C glyphs",
+      "nextOwner": "evidence-refiner",
+      "nextAction": "Resolve glyph policy outside Phase D.",
+      "blocker": "Parked in 04 and excluded from this batch.",
+      "checksNeeded": ["caption/source text policy"]
+    },
+    {
+      "family": "broad-editable-insertion-cursor-wording",
+      "latestWindowIndexes": { "holiday": [9] },
+      "actualShape": "Destination guard Anywhere, edit text",
+      "expectedShape": "Anywhere, Insertion at beginning of text., Destination guard, edit text",
+      "nextOwner": "phase-c5-repro-scanner",
+      "nextAction": "Handle editable insertion/cursor wording as its own evidence family.",
+      "blocker": "Parked in 04 and excluded from this batch.",
+      "checksNeeded": ["isolated editable scan", "textbox corpus"]
+    },
+    {
+      "family": "corpus-inline-strong-regression",
+      "latestWindowIndexes": { "corpus": ["www-microsoft-com-en-us-accessibility index 31"] },
+      "actualShape": "Extra Ask Microsoft Accessibility text stop before next heading.",
+      "expectedShape": "No inline strong text stop in that card body.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Audit existing AX/static-text inline strong boundary guard against this refined corpus fixture.",
+      "blocker": "Observed during required full corpus verification; not resolved in this single TUI batch without broadening scope.",
+      "checksNeeded": ["focused Microsoft fixture repro", "full voiceover corpus"]
+    }
+  ],
+  "genericPredicateRationale": "All implemented rules are based on generic DOM/AX contracts: semantic list/listitem position, AX image/generic/button/textbox roles, explicit ARIA names, role=combobox wrappers, label for-attribute shape, native button children, aria-live/role, and named pagination navigation. No TUI selectors, classes, URLs, fixture filenames, copied site text, or site-specific predicates were added.",
+  "noSiteSelectorAssertion": true,
+  "nextRecommendedWorker": {
+    "phase": "D-followup",
+    "reason": "Unresolved families are separately queued; corpus inline strong failure needs focused audit before promotion."
+  }
+}
