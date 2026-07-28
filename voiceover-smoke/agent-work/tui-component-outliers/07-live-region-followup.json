@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "phase": "D-followup",
+  "agent": "top-level-orchestrator",
+  "target": "tui-component-outliers",
+  "runId": "30274749663",
+  "status": "passed_with_documented_baseline_failure",
+  "family": "initial-polite-region-text-versus-region-boundaries",
+  "sourceArtifact": {
+    "artifactId": 8656632938,
+    "downloadRoot": "/tmp/sr-vo-tui-live-region-artifact",
+    "renderedDomNodeId": "48",
+    "voiceOverAnnouncement": "There are now 30 destinations."
+  },
+  "rootCause": {
+    "axChain": [
+      {
+        "nodeId": "208",
+        "role": "generic",
+        "properties": {
+          "live": "polite",
+          "atomic": false,
+          "relevant": "additions text"
+        }
+      },
+      {
+        "nodeId": "91",
+        "role": "StaticText",
+        "name": "There are now 30 destinations."
+      },
+      {
+        "nodeId": "-1000000163",
+        "role": "InlineTextBox",
+        "name": "There are now 30 destinations."
+      }
+    ],
+    "failure": "axPoliteRegionText rejected the normal InlineTextBox leaf, then unnamed live-region boundary suppression made the direct DOM text unreachable.",
+    "fixtureStructureMatchedSource": true
+  },
+  "engineChange": {
+    "predicate": "Permit InlineTextBox descendants in an otherwise generic/static-text-only polite region, while deriving the emitted announcement exclusively from matching StaticText.",
+    "siteSpecificSelectorsAdded": false,
+    "files": [
+      "packages/sr-engine/src/dom.ts",
+      "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "packages/sr-extension/src/content/engine-runtime.js"
+    ]
+  },
+  "targetReplay": {
+    "before": "Count text missing between temperature controls and result links.",
+    "after": "There are now 30 destinations. appears once between temperature controls and result links.",
+    "expectedCount": 33,
+    "actualCount": 35,
+    "mismatchWindowCount": 5,
+    "windowCountNote": "Restoring the text separates already-parked degree-glyph differences into additional windows; the live-region family itself is exact.",
+    "remainingWeatherFamilies": [
+      "runner-scan-root-main-boundary",
+      "caption-glyph-normalization-apostrophe-degree"
+    ]
+  },
+  "negativeControls": [
+    "Interactive result live regions remain transparent and traverse their links.",
+    "Named live regions retain their region boundaries.",
+    "Non-region polite spans retain ordinary text traversal.",
+    "Only matching StaticText contributes announcement text; InlineTextBox is accepted as an AX leaf, not emitted separately."
+  ],
+  "verification": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "result": "passed"
+    },
+    {
+      "command": "node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "result": "passed",
+      "summary": "379 passed, 0 failed"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "result": "passed",
+      "summary": "389 passed, 56 skipped, 0 failed"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-bbc-co-uk-weather 2",
+      "result": "passed",
+      "summary": "181 expected, 181 actual, 0 mismatch windows"
+    },
+    {
+      "command": "node --test packages/sr-engine/tests/voiceover-repros.test.mjs",
+      "result": "passed",
+      "summary": "1 passed, 0 failed"
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "result": "passed",
+      "summary": "2 turbo tasks successful"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "result": "failed_with_confirmed_baseline_failure",
+      "summary": "37 passed, 21 skipped, 1 failed: unchanged www-microsoft-com-en-us-accessibility mismatch at index 31"
+    }
+  ],
+  "siteRuntimeRecommendation": "Keep the status container in the DOM before results load, then update its text after the result count changes so browsers receive a live-region mutation.",
+  "fixtureDraftMarkerRemoved": false,
+  "fixtureDraftReason": "Runner-boundary and caption glyph-policy differences remain parked."
+}

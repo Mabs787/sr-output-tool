@@ -364,7 +364,8 @@ test("scanSubtree suppresses unnamed polite live-region boundaries with AX evide
   const accessibilityTree = {
     nodes: [
       { nodeId: "count", role: "generic", name: "", domNodeId: "count", childIds: ["count-text"], properties: { live: "polite" } },
-      { nodeId: "count-text", role: "StaticText", name: "There are now 30 destinations." },
+      { nodeId: "count-text", role: "StaticText", name: "There are now 30 destinations.", childIds: ["count-inline"] },
+      { nodeId: "count-inline", role: "InlineTextBox", name: "There are now 30 destinations." },
       { nodeId: "results", role: "generic", name: "", domNodeId: "results", childIds: ["link"], properties: { live: "polite" } },
       { nodeId: "link", role: "link", name: "Result one", domNodeId: "link", properties: { focusable: true } },
     ],

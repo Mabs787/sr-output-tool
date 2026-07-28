@@ -17533,7 +17533,11 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (
       descendants.some((node) => {
         const nodeRole = normalizedAxRole(node.role);
-        return nodeRole !== "generic" && nodeRole !== "statictext";
+        return (
+          nodeRole !== "generic" &&
+          nodeRole !== "statictext" &&
+          nodeRole !== "inlinetextbox"
+        );
       })
     ) {
       return undefined;

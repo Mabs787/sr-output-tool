@@ -15420,7 +15420,7 @@
             return void 0;
           if (descendants.some((node) => {
             const nodeRole = normalizedAxRole(node.role);
-            return nodeRole !== "generic" && nodeRole !== "statictext";
+            return nodeRole !== "generic" && nodeRole !== "statictext" && nodeRole !== "inlinetextbox";
           })) {
             return void 0;
           }
