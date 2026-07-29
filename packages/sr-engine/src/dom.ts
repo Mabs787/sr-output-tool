@@ -17526,6 +17526,14 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     const text = normalize(readableText(el) || el.textContent);
     if (!text) return undefined;
 
+    if (!accessibilityNodes.length) {
+      const directText = normalize(directOwnText(el));
+      const visibleChildren = Array.from(el.children || []).filter(
+        (child: any) => !isHidden(child),
+      );
+      return visibleChildren.length === 0 && directText === text ? text : undefined;
+    }
+
     const axNode = axNodeForElementRole(el, "generic");
     if (!axNode || normalize(axNode.name)) return undefined;
     const descendants = axDescendants(axNode).filter((node) => !node.ignored);

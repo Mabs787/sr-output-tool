@@ -399,6 +399,25 @@ test("scanSubtree suppresses unnamed polite live-region boundaries with AX evide
   );
 });
 
+test("scanSubtree preserves direct text-only polite regions without AX evidence", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <div role="region" aria-live="polite">There are now 30 destinations.</div>
+        <div role="region" aria-live="polite"><a href="#">Result one</a></div>
+      </main>
+    `),
+    [
+      "main",
+      "There are now 30 destinations.",
+      "region",
+      "link, Result one",
+      "end of region",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree suppresses list positions for AX-backed pagination controls only", () => {
   const accessibilityTree = {
     nodes: [

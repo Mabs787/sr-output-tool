@@ -15412,6 +15412,11 @@
           const text = normalize(readableText(el) || el.textContent);
           if (!text)
             return void 0;
+          if (!accessibilityNodes.length) {
+            const directText = normalize(directOwnText(el));
+            const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+            return visibleChildren.length === 0 && directText === text ? text : void 0;
+          }
           const axNode = axNodeForElementRole(el, "generic");
           if (!axNode || normalize(axNode.name))
             return void 0;

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "phase": "D-followup",
+  "agent": "top-level-orchestrator",
+  "target": "tui-component-outliers",
+  "status": "passed_with_documented_baseline_failure",
+  "family": "dom-only-text-live-region",
+  "reportedElement": "<div aria-live=\"polite\" role=\"region\" class=\"visually-hidden\">There are now 30 destinations.</div>",
+  "rootCause": {
+    "extensionPath": "packages/sr-extension/src/content/content.js creates createDomScanner without an accessibilityTree option.",
+    "failure": "The earlier polite-region refinement required AX evidence, so it could not activate in the browser extension's DOM-only scan.",
+    "observedSignals": [
+      "The count text was missing.",
+      "The result live region retained unnamed region boundaries.",
+      "Other AX-backed weather refinements were absent."
+    ]
+  },
+  "engineChange": {
+    "predicate": "When no accessibility tree is available, preserve direct text from an explicit, unnamed, visible, noninteractive, text-only polite region.",
+    "guards": [
+      "role must be an explicit region",
+      "aria-live must be polite",
+      "element must be an unnamed div or section",
+      "element must have no visible interactive descendants",
+      "element must have no visible element children",
+      "normalized direct text must equal normalized readable text"
+    ],
+    "siteSpecificSelectorsAdded": false,
+    "files": [
+      "packages/sr-engine/src/dom.ts",
+      "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "packages/sr-extension/src/content/engine-runtime.js"
+    ]
+  },
+  "targetReplay": {
+    "mode": "DOM-only, matching the extension scanner options",
+    "fixture": "packages/sr-engine/tests/fixtures/voiceover-repros/tui/component-outliers/weather-results-cards.html",
+    "countIndex": 14,
+    "before": [
+      "Warm 16 - 22ºC, button",
+      "Hot 23 - 28ºC, button",
+      "Very Hot 29 - 40ºC, button"
+    ],
+    "announcement": "There are now 30 destinations.",
+    "after": [
+      "region",
+      "link, 28 ºC Koh Samui, Thailand 2% chance of sun 110mm rain per month"
+    ]
+  },
+  "negativeControls": [
+    "Interactive result live regions keep their region boundaries and child links.",
+    "Named live regions keep their region boundaries.",
+    "Structured live regions with visible element children do not collapse to text.",
+    "AX-backed scans continue to use the stricter accessibility-tree contract."
+  ],
+  "verification": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "result": "passed"
+    },
+    {
+      "command": "node --test packages/sr-engine/tests/dom-scanner.test.mjs",
+      "result": "passed",
+      "summary": "380 passed, 0 failed"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "result": "passed",
+      "summary": "390 passed, 56 skipped, 0 failed"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-bbc-co-uk-weather 2",
+      "result": "passed",
+      "summary": "181 expected, 181 actual, 0 mismatch windows"
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "result": "passed",
+      "summary": "2 turbo tasks successful"
+    },
+    {
+      "command": "yarn workspace @sr-output/extension test:unit",
+      "result": "passed",
+      "summary": "10 passed, 0 failed"
+    },
+    {
+      "command": "yarn workspace @sr-output/extension build",
+      "result": "passed"
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "result": "failed_with_confirmed_baseline_failure",
+      "summary": "37 passed, 21 skipped, 1 failed: unchanged www-microsoft-com-en-us-accessibility mismatch at index 31"
+    }
+  ],
+  "siteRuntimeRecommendation": "Keep the live region mounted before loading or filtering results, then update its text after the count changes so VoiceOver receives a live-region mutation.",
+  "fixtureDraftMarkerRemoved": false,
+  "fixtureDraftReason": "Runner-boundary and caption glyph-policy differences remain parked."
+}
