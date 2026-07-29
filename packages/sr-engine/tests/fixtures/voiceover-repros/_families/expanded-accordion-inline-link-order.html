@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expanded accordion inline link order C.5 repro</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+      }
+
+      section {
+        margin-block: 24px;
+      }
+
+      .accordion-item-content[aria-hidden="true"] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="draft"
+      data-sr-repro-family="expanded-accordion-inline-link-order">
+      <h1>Expanded accordion inline link order C.5 repro</h1>
+
+      <section aria-labelledby="current-shape-label">
+        <h2 id="current-shape-label">Current TUI panel shape</h2>
+        <div class="accordion-item js-accordion-item is-open">
+          <div class="accordion-item__title js-accordion-item__title">
+            <button
+              class="accordion-item__control"
+              type="button"
+              aria-controls="current-panel"
+              aria-expanded="true">
+              <h3>Can I check in online?</h3>
+            </button>
+          </div>
+          <div
+            class="accordion-item-content js-accordion-item-content"
+            id="current-panel"
+            aria-hidden="false"
+            style="display: block">
+            <div class="accordion-item-content__inner text-box">
+              <div class="text-box__description">
+                <div>
+                  <div>
+                    <div>
+                      <p>
+                        Log in to
+                        <a href="#current-booking">Manage My Booking</a>
+                        with your booking reference.
+                      </p>
+                      <p>
+                        See our
+                        <a href="#current-partners">partner airlines</a>
+                        FAQs for what to do.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="region-shape-label">
+        <h2 id="region-shape-label">Explicit labelled region shape</h2>
+        <div class="accordion-item is-open">
+          <h3>
+            <button
+              id="region-heading"
+              type="button"
+              aria-controls="region-panel"
+              aria-expanded="true">
+              Can I check in online with a labelled region?
+            </button>
+          </h3>
+          <div
+            id="region-panel"
+            role="region"
+            aria-labelledby="region-heading"
+            aria-hidden="false">
+            <p>
+              Log in to
+              <a href="#region-booking">Manage My Booking</a>
+              with your booking reference.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="plain-shape-label">
+        <h2 id="plain-shape-label">Plain paragraph guard</h2>
+        <p>
+          Log in to
+          <a href="#plain-booking">Manage My Booking</a>
+          with your booking reference.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
