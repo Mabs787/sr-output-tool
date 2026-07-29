@@ -11418,16 +11418,51 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return region;
   }
 
+  function expandedControlledPanelFor(el: any): any | undefined {
+    for (
+      let panel = el?.parentElement;
+      panel && panel !== document.body && panel !== document.documentElement;
+      panel = panel.parentElement
+    ) {
+      const id = normalize(panel.id);
+      if (!id || isHidden(panel) || panel.getAttribute("aria-hidden") === "true") continue;
+      const controller = document.querySelector(
+        `[aria-controls="${cssEscape(id)}"][aria-expanded="true"]`,
+      );
+      if (controller && !isHidden(controller)) return panel;
+    }
+    return undefined;
+  }
+
   function expandedRegionInlineLinkFragments(el: any): string[] | undefined {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
     if (!["div", "p"].includes(el.tagName.toLowerCase())) return undefined;
-    if (!expandedControlledRegionFor(el)) return undefined;
+    const expandedRegion = expandedControlledRegionFor(el);
+    const expandedPanel = expandedControlledPanelFor(el);
+    if (!expandedRegion && accessibilityNodes.length && !expandedPanel) return undefined;
 
     const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter(
       (link: any) => !isHidden(link),
     );
     if (links.length !== 1) return undefined;
     const link = links[0] as any;
+
+    if (!expandedRegion) {
+      if (link.parentElement !== el) return undefined;
+      const visibleChildren = Array.from(el.children || []).filter(
+        (child: any) => !isHidden(child),
+      );
+      if (visibleChildren.length !== 1 || visibleChildren[0] !== link) return undefined;
+      if (
+        Array.from(el.childNodes || []).some(
+          (child: any) =>
+            child !== link &&
+            child.nodeType !== Node.TEXT_NODE,
+        )
+      ) {
+        return undefined;
+      }
+    }
 
     const before: string[] = [];
     const after: string[] = [];

@@ -9789,6 +9789,77 @@ test("scanSubtree splits text-link-text runs inside expanded accordion regions",
   );
 });
 
+test("scanSubtree preserves C5-confirmed inline link order in controlled panels and DOM scans", () => {
+  const html = `
+    <main>
+      <div>
+        <button aria-controls="panel" aria-expanded="true">
+          <h3>Can I check in online?</h3>
+        </button>
+        <div id="panel" aria-hidden="false">
+          <div><div><p data-sr-dom-node-id="copy">Log in to <a href="/booking" data-sr-dom-node-id="link">Manage My Booking</a> with your booking reference.</p></div></div>
+        </div>
+      </div>
+    </main>
+  `;
+
+  assert.deepEqual(
+    scanHtml(html),
+    [
+      "main",
+      "Can I check in online?, expanded, button, group",
+      "Log in to",
+      "link, Manage My Booking",
+      "with your booking reference.",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(html, {
+      accessibilityTree: {
+        nodes: [
+          {
+            nodeId: "paragraph",
+            role: "paragraph",
+            name: "",
+            domNodeId: "copy",
+            childIds: ["before", "link-node", "after"],
+          },
+          { nodeId: "before", role: "StaticText", name: "Log in to " },
+          {
+            nodeId: "link-node",
+            role: "link",
+            name: "Manage My Booking",
+            domNodeId: "link",
+            properties: { focusable: true },
+          },
+          { nodeId: "after", role: "StaticText", name: " with your booking reference." },
+        ],
+      },
+    }),
+    [
+      "main",
+      "Can I check in online?, expanded, button, group",
+      "Log in to",
+      "link, Manage My Booking",
+      "with your booking reference.",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`<main><p>Log in to <a href="/booking">Manage My Booking</a> with your booking reference.</p></main>`),
+    [
+      "main",
+      "Log in to",
+      "link, Manage My Booking",
+      "with your booking reference.",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree splits emphasized rich text inside expanded accordion regions", () => {
   assert.deepEqual(
     scanHtml(`

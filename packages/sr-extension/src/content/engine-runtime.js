@@ -10835,17 +10835,40 @@
           }
           return region;
         }
+        function expandedControlledPanelFor(el) {
+          for (let panel = el?.parentElement; panel && panel !== document.body && panel !== document.documentElement; panel = panel.parentElement) {
+            const id = normalize(panel.id);
+            if (!id || isHidden(panel) || panel.getAttribute("aria-hidden") === "true")
+              continue;
+            const controller = document.querySelector(`[aria-controls="${cssEscape(id)}"][aria-expanded="true"]`);
+            if (controller && !isHidden(controller))
+              return panel;
+          }
+          return void 0;
+        }
         function expandedRegionInlineLinkFragments(el) {
           if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
             return void 0;
           if (!["div", "p"].includes(el.tagName.toLowerCase()))
             return void 0;
-          if (!expandedControlledRegionFor(el))
+          const expandedRegion = expandedControlledRegionFor(el);
+          const expandedPanel = expandedControlledPanelFor(el);
+          if (!expandedRegion && accessibilityNodes.length && !expandedPanel)
             return void 0;
           const links = Array.from(el.querySelectorAll("a[href], [role='link']")).filter((link2) => !isHidden(link2));
           if (links.length !== 1)
             return void 0;
           const link = links[0];
+          if (!expandedRegion) {
+            if (link.parentElement !== el)
+              return void 0;
+            const visibleChildren = Array.from(el.children || []).filter((child) => !isHidden(child));
+            if (visibleChildren.length !== 1 || visibleChildren[0] !== link)
+              return void 0;
+            if (Array.from(el.childNodes || []).some((child) => child !== link && child.nodeType !== Node.TEXT_NODE)) {
+              return void 0;
+            }
+          }
           const before = [];
           const after = [];
           let sawLink = false;

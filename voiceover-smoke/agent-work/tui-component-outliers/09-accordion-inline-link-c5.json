@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5",
+  "agent": "top-level-orchestrator",
+  "target": "tui-component-outliers",
+  "family": "expanded-accordion-inline-link-order",
+  "status": "engine-gap-confirmed",
+  "requestingPhase": "D-followup",
+  "reason": "The extension emitted all non-link paragraph text before visiting the inline link, while the real VoiceOver stop order was uncertain.",
+  "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/expanded-accordion-inline-link-order.html",
+  "matrixTargets": [
+    "Current TUI expanded aria-controls panel without a region role",
+    "Expanded panel exposed as an explicitly labelled region",
+    "Neutral direct one-link paragraph"
+  ],
+  "initialEngineOutput": {
+    "currentPanel": [
+      "Log in to with your booking reference.",
+      "link, Manage My Booking"
+    ],
+    "plainGuard": [
+      "Log in to with your booking reference.",
+      "link, Manage My Booking"
+    ]
+  },
+  "insufficientFirstMatrix": {
+    "canaryRunId": 30443302957,
+    "fullRunId": 30444448530,
+    "reason": "The three cases were accidentally wrapped in section elements with aria-labelledby, adding named region ancestors absent from the reported TUI scan.",
+    "disposition": "Fixture ancestor context corrected once; conclusions from these runs were not extrapolated to the source shape."
+  },
+  "fixturePathDiagnostic": {
+    "decision": "passed",
+    "requestedRef": "codex/tui-voiceover-outlier-repros",
+    "headSha": "23218523a9bf9c6e8c825b1cd071088ced555688",
+    "fixtureSha256": "c165749bce9205cb7d23414e198ea328b6354c91913d5f53a55d0222c4ea03ce",
+    "repoRelativeFixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/expanded-accordion-inline-link-order.html",
+    "runnerRenderedUrl": "file:///Users/runner/work/sr-output-tool/sr-output-tool/packages/sr-engine/tests/fixtures/voiceover-repros/_families/expanded-accordion-inline-link-order.html",
+    "identityMarker": "Expanded accordion inline link order C.5 repro",
+    "canaryRunId": 30445314607,
+    "canaryArtifactId": 8721321662,
+    "canaryAxNodeCount": 69,
+    "canaryStepSnapshotCount": 12,
+    "canaryVoiceOverOutputSha256": "5bd060b9432bde27fc1b8fb104922fb56ec3a287badcb7d06b58cbb14d73f447"
+  },
+  "artifactPath": {
+    "workflowRunId": 30445793782,
+    "artifactId": 8721566279,
+    "downloadRoot": "/tmp/sr-vo-accordion-c5-retry-full-30445793782",
+    "scanRoot": "/tmp/sr-vo-accordion-c5-retry-full-30445793782/scans/packages-sr-engine-tests-fixtures-voiceover-repros-families-expanded-accordion-inline-link-order",
+    "voiceOverOutputSha256": "9d103592348f2e4c931089bf310eb9d61cc7fcc83034312c8298ec882b4e9afd"
+  },
+  "scan": {
+    "navigationMode": "voiceover-right-arrow",
+    "stopReason": "scan-end-marker",
+    "capturedSteps": 22,
+    "maxSteps": 24,
+    "maxStepSeconds": 10,
+    "voiceOverAnnouncementCount": 20,
+    "axNodeCount": 69,
+    "stepSnapshotCount": 22,
+    "screenshotsCaptured": true,
+    "screenRecordingCaptured": true
+  },
+  "miniRawVoiceOverOutput": {
+    "currentPanelFirstParagraph": [
+      "Log in to",
+      "link, Manage My Booking",
+      "with your booking reference."
+    ],
+    "currentPanelSecondParagraph": [
+      "See our",
+      "link, partner airlines",
+      "FAQs for what to do."
+    ],
+    "labelledRegion": [
+      "Log in to",
+      "link, Manage My Booking",
+      "with your booking reference."
+    ],
+    "plainGuard": [
+      "Log in to",
+      "link, Manage My Booking",
+      "with your booking reference."
+    ]
+  },
+  "verdict": "engine-gap-confirmed",
+  "debugEvidenceStatus": "complete",
+  "positiveControls": [
+    "Exact TUI nested expanded panel shape reached and split in DOM order.",
+    "Second TUI paragraph with a different link reached and split in DOM order."
+  ],
+  "negativeControls": [
+    "Explicit labelled region reached and retained region boundaries.",
+    "Neutral direct one-link paragraph reached and used the same text-link-text order.",
+    "Existing AX-backed paragraphs outside expanded panels remain guarded by prior contracts."
+  ],
+  "engineChange": {
+    "predicate": "Split a direct text-link-text paragraph when scanning without AX evidence, or when AX is present and the paragraph is inside a visible panel referenced by an expanded controller.",
+    "siteSpecificSelectorsAdded": false,
+    "acceptedFamilyAlignment": "20 VoiceOver and 20 engine stops; all six inline-link boundaries exact.",
+    "nonFamilyDifferences": [
+      "Existing single-button group suffix policy",
+      "OCR rendered the letter I as the numeral 1 in one region name"
+    ]
+  },
+  "verification": [
+    "DOM scanner: 381 passed, 0 failed",
+    "Engine unit: 391 passed, 56 skipped, 0 failed",
+    "BBC weather protected compare: 181 expected, 181 actual, 0 mismatch windows",
+    "Extension unit: 10 passed, 0 failed",
+    "Extension production build: passed",
+    "Full VoiceOver corpus: 37 passed, 21 skipped, 1 unchanged Microsoft baseline failure at index 31"
+  ],
+  "loopBackPhase": "D",
+  "handoffReason": "C.5 confirms a reusable inline-link ordering gap and provides a bounded DOM/AX predicate with reached controls."
+}
