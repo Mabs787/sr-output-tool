@@ -222,5 +222,41 @@
     "scope": "Next safe Labels-only engine-ready family, excluding C5-gated legal/local-nav and excluding any Homepage footer shop broad rule until C.5.",
     "c5Needed": false,
     "reason": "One independent buystrip image-stop cause was fixed; two Labels engine-ready families remain but require separate evidence review."
-  }
+  },
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "fixtureChanges": [],
+    "resolvedFamilies": [],
+    "revisitQueue": [
+      {
+        "family": "footnote-listitem-inline-link-grouping",
+        "targets": [
+          "www-apple-com-accessibility",
+          "www-apple-com-accessibility-labels",
+          "www-apple-com",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "latestWindowIndexes": [
+          "c5:3-10"
+        ],
+        "actualShape": "focusable ordered listitems omit group suffix and inline link accessible names inside item text",
+        "expectedShape": "VoiceOver speaks item text with inline link names plus group, parenthesized list position",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Separate group suffix/position from inline-link text stitching and marker handling",
+        "blocker": "Negative notes also expose marker/link splitting; mixed sub-gaps require independent guards",
+        "checksNeeded": [
+          "ordered focusable listitem unit positives",
+          "unordered note negatives",
+          "all affected target compares",
+          "list marker corpus sentinels"
+        ]
+      }
+    ],
+    "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  },
+  "completedAt": "2026-07-31T19:10:51Z"
 }

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "www-apple-com-apple-tv-plus",
+  "status": "patched-and-parked",
+  "startedAt": "2026-07-31T18:53:25Z",
+  "completedAt": "2026-07-31T19:10:51Z",
+  "fixtureChanges": [],
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "fixtureChanges": [],
+    "resolvedFamilies": [
+      {
+        "family": "footer-inline-shop-text-boundaries",
+        "targets": [
+          "www-apple-com",
+          "www-apple-com-accessibility",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-apple-tv-plus",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "result": "patched",
+        "rule": "AX-confirmed footer/contentinfo inline text-link decomposition, including DOM-backed inline span/small wrapper boundaries and no block-wrapper flattening",
+        "latestCompareResults": {
+          "www-apple-com": "266/256/10",
+          "www-apple-com-accessibility": "379/351/11",
+          "www-apple-com-apple-vision-pro": "384/500/41",
+          "www-apple-com-apple-tv-plus": "338/327/29",
+          "www-apple-com-education": "258/292/18",
+          "www-apple-com-apple-watch": "417/433/75",
+          "www-apple-com-apple-music": "403/378/54"
+        }
+      }
+    ],
+    "revisitQueue": [
+      {
+        "family": "carousel-tabpanel-list-position",
+        "targets": [
+          "www-apple-com-apple-tv-plus"
+        ],
+        "latestWindowIndexes": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "actualShape": "current selected tab panel/card region is decomposed differently from the C.5 one-item native-list tabpanel contract",
+        "expectedShape": "VoiceOver expects separate panel/card text, button group suffixes, and related carousel control grouping",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Split into independent carousel panel decomposition and button group suffix sub-gaps before another patch",
+        "blocker": "Patched native li role=tabpanel list-position rule did not apply to this target shape; broad tabpanel/card traversal change would be unsafe",
+        "checksNeeded": [
+          "focused C.5 artifact for Apple TV Plus panel shape",
+          "unit positives and negative controls",
+          "target compare",
+          "protected sentinel",
+          "full unit/runtime"
+        ]
+      }
+    ],
+    "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  }
+}

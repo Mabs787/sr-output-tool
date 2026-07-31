@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "www-apple-com-apple-watch",
+  "status": "patched-and-parked",
+  "startedAt": "2026-07-31T18:53:25Z",
+  "completedAt": "2026-07-31T19:10:51Z",
+  "fixtureChanges": [],
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "fixtureChanges": [],
+    "resolvedFamilies": [
+      {
+        "family": "footer-inline-shop-text-boundaries",
+        "targets": [
+          "www-apple-com",
+          "www-apple-com-accessibility",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-apple-tv-plus",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "result": "patched",
+        "rule": "AX-confirmed footer/contentinfo inline text-link decomposition, including DOM-backed inline span/small wrapper boundaries and no block-wrapper flattening",
+        "latestCompareResults": {
+          "www-apple-com": "266/256/10",
+          "www-apple-com-accessibility": "379/351/11",
+          "www-apple-com-apple-vision-pro": "384/500/41",
+          "www-apple-com-apple-tv-plus": "338/327/29",
+          "www-apple-com-education": "258/292/18",
+          "www-apple-com-apple-watch": "417/433/75",
+          "www-apple-com-apple-music": "403/378/54"
+        }
+      }
+    ],
+    "revisitQueue": [
+      {
+        "family": "footnote-listitem-inline-link-grouping",
+        "targets": [
+          "www-apple-com-accessibility",
+          "www-apple-com-accessibility-labels",
+          "www-apple-com",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "latestWindowIndexes": [
+          "c5:3-10"
+        ],
+        "actualShape": "focusable ordered listitems omit group suffix and inline link accessible names inside item text",
+        "expectedShape": "VoiceOver speaks item text with inline link names plus group, parenthesized list position",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Separate group suffix/position from inline-link text stitching and marker handling",
+        "blocker": "Negative notes also expose marker/link splitting; mixed sub-gaps require independent guards",
+        "checksNeeded": [
+          "ordered focusable listitem unit positives",
+          "unordered note negatives",
+          "all affected target compares",
+          "list marker corpus sentinels"
+        ]
+      },
+      {
+        "family": "carousel-gallery-descendant-traversal",
+        "targets": [
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-education",
+          "www-apple-com-environment",
+          "www-apple-com-apple-watch"
+        ],
+        "latestWindowIndexes": [
+          "c5:5",
+          "c5:7"
+        ],
+        "actualShape": "figcaption/listitem descendant text lacks current item and empty group suffix",
+        "expectedShape": "VoiceOver appends current item, empty group for selected/current gallery caption and empty group for sibling caption",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Create a figcaption/listitem current-state suffix sub-gap, shared with media-gallery-control-context",
+        "blocker": "Needs current-state source/AX guard to avoid suffixing ordinary figcaptions",
+        "checksNeeded": [
+          "figcaption current item unit",
+          "plain list negative",
+          "affected compares",
+          "figure/card corpus"
+        ]
+      },
+      {
+        "family": "main-region-wrapper-group",
+        "targets": [
+          "www-apple-com-apple-watch"
+        ],
+        "latestWindowIndexes": [
+          "c5:0-9"
+        ],
+        "actualShape": "engine announces outer named main start/end around content",
+        "expectedShape": "VoiceOver skips that outer main wrapper while preserving nested named region/group",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Inspect main landmark focused-node contract and try a narrow unnamed/root main suppression only if target/source evidence matches",
+        "blocker": "Main landmark suppression is high-blast-radius and needs a dedicated negative preserving named main landmarks",
+        "checksNeeded": [
+          "main wrapper unit",
+          "named main negative",
+          "Watch compare",
+          "landmark corpus"
+        ]
+      },
+      {
+        "family": "native-control-context",
+        "targets": [
+          "www-apple-com-apple-watch",
+          "www-apple-com-iphone",
+          "www-apple-com-business"
+        ],
+        "latestWindowIndexes": [
+          "c5:5-14"
+        ],
+        "actualShape": "native controls collapse fieldset legend/select label context into controls",
+        "expectedShape": "VoiceOver emits separate fieldset legend and select label context stops before controls",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Split fieldset legend stop and native select label stop rules with ARIA custom-control negatives",
+        "blocker": "Control context changes are broad and require separate native-control sentinels",
+        "checksNeeded": [
+          "fieldset/select label unit positives",
+          "custom ARIA negatives",
+          "watch/iphone/business compares",
+          "form-control corpus"
+        ]
+      }
+    ],
+    "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  }
+}

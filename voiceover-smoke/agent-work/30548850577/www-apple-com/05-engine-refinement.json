@@ -286,5 +286,76 @@
     "scope": "Next safe engine-ready sub-gap after this named numeric superscript patch, excluding C5-gated carousel/footer legal/footer shop families and excluding any direct labelled span rule until focused structural proof is available.",
     "c5Needed": false,
     "reason": "One independent reusable superscript sub-gap was fixed; remaining Homepage families are either C5-gated, mixed and unattempted, or need a narrower structural proof."
-  }
+  },
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "fixtureChanges": [],
+    "resolvedFamilies": [
+      {
+        "family": "footer-inline-shop-text-boundaries",
+        "targets": [
+          "www-apple-com",
+          "www-apple-com-accessibility",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-apple-tv-plus",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "result": "patched",
+        "rule": "AX-confirmed footer/contentinfo inline text-link decomposition, including DOM-backed inline span/small wrapper boundaries and no block-wrapper flattening",
+        "latestCompareResults": {
+          "www-apple-com": "266/256/10",
+          "www-apple-com-accessibility": "379/351/11",
+          "www-apple-com-apple-vision-pro": "384/500/41",
+          "www-apple-com-apple-tv-plus": "338/327/29",
+          "www-apple-com-education": "258/292/18",
+          "www-apple-com-apple-watch": "417/433/75",
+          "www-apple-com-apple-music": "403/378/54"
+        }
+      },
+      {
+        "family": "carousel-tabpanel-list-position",
+        "targets": [
+          "www-apple-com"
+        ],
+        "result": "patched-for-native-li-tabpanel-subgap",
+        "rule": "native li role=tabpanel participates in parent list summary and tabpanel announcements include parenthesized set position",
+        "latestCompareResults": {
+          "www-apple-com": "266/256/10; list now says list 1 item and tab panel says (1 of 1); residual is carousel play button group suffix"
+        }
+      }
+    ],
+    "revisitQueue": [
+      {
+        "family": "footnote-listitem-inline-link-grouping",
+        "targets": [
+          "www-apple-com-accessibility",
+          "www-apple-com-accessibility-labels",
+          "www-apple-com",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "latestWindowIndexes": [
+          "c5:3-10"
+        ],
+        "actualShape": "focusable ordered listitems omit group suffix and inline link accessible names inside item text",
+        "expectedShape": "VoiceOver speaks item text with inline link names plus group, parenthesized list position",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Separate group suffix/position from inline-link text stitching and marker handling",
+        "blocker": "Negative notes also expose marker/link splitting; mixed sub-gaps require independent guards",
+        "checksNeeded": [
+          "ordered focusable listitem unit positives",
+          "unordered note negatives",
+          "all affected target compares",
+          "list marker corpus sentinels"
+        ]
+      }
+    ],
+    "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  },
+  "completedAt": "2026-07-31T19:10:51Z"
 }

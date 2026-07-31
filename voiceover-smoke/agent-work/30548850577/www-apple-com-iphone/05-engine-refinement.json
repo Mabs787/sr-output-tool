@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "www-apple-com-iphone",
+  "status": "patched-and-parked",
+  "startedAt": "2026-07-31T18:53:25Z",
+  "completedAt": "2026-07-31T19:10:51Z",
+  "fixtureChanges": [],
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "fixtureChanges": [],
+    "resolvedFamilies": [],
+    "revisitQueue": [
+      {
+        "family": "native-control-context",
+        "targets": [
+          "www-apple-com-apple-watch",
+          "www-apple-com-iphone",
+          "www-apple-com-business"
+        ],
+        "latestWindowIndexes": [
+          "c5:5-14"
+        ],
+        "actualShape": "native controls collapse fieldset legend/select label context into controls",
+        "expectedShape": "VoiceOver emits separate fieldset legend and select label context stops before controls",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Split fieldset legend stop and native select label stop rules with ARIA custom-control negatives",
+        "blocker": "Control context changes are broad and require separate native-control sentinels",
+        "checksNeeded": [
+          "fieldset/select label unit positives",
+          "custom ARIA negatives",
+          "watch/iphone/business compares",
+          "form-control corpus"
+        ]
+      }
+    ],
+    "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  }
+}

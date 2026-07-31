@@ -920,6 +920,9 @@ export function generateAnnouncement(el: ElementDescriptor): string {
     case "tabpanel": {
       pushIfPresent(parts, label);
       parts.push("tab panel");
+      if (el.positionInSet && el.setSize) {
+        parts.push(`(${el.positionInSet} of ${el.setSize})`);
+      }
       pushSupplementalText(parts, el);
       break;
     }
@@ -1343,9 +1346,13 @@ export function getContextEndAnnouncement(
   }
 
   if (role === "tabpanel") {
+    const position =
+      descriptor?.positionInSet && descriptor.setSize
+        ? `, (${descriptor.positionInSet} of ${descriptor.setSize})`
+        : "";
     return descriptor?.name
-      ? `end of, ${descriptor.name}, tab panel`
-      : "end of, tab panel";
+      ? `end of, ${descriptor.name}, tab panel${position}`
+      : `end of, tab panel${position}`;
   }
 
   if (role === "table") {

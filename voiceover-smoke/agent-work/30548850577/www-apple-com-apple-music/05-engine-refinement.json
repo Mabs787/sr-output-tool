@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "www-apple-com-apple-music",
+  "status": "patched-and-parked",
+  "startedAt": "2026-07-31T18:53:25Z",
+  "completedAt": "2026-07-31T19:10:51Z",
+  "fixtureChanges": [],
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "fixtureChanges": [],
+    "resolvedFamilies": [
+      {
+        "family": "footer-inline-shop-text-boundaries",
+        "targets": [
+          "www-apple-com",
+          "www-apple-com-accessibility",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-apple-tv-plus",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "result": "patched",
+        "rule": "AX-confirmed footer/contentinfo inline text-link decomposition, including DOM-backed inline span/small wrapper boundaries and no block-wrapper flattening",
+        "latestCompareResults": {
+          "www-apple-com": "266/256/10",
+          "www-apple-com-accessibility": "379/351/11",
+          "www-apple-com-apple-vision-pro": "384/500/41",
+          "www-apple-com-apple-tv-plus": "338/327/29",
+          "www-apple-com-education": "258/292/18",
+          "www-apple-com-apple-watch": "417/433/75",
+          "www-apple-com-apple-music": "403/378/54"
+        }
+      }
+    ],
+    "revisitQueue": [
+      {
+        "family": "footnote-listitem-inline-link-grouping",
+        "targets": [
+          "www-apple-com-accessibility",
+          "www-apple-com-accessibility-labels",
+          "www-apple-com",
+          "www-apple-com-apple-vision-pro",
+          "www-apple-com-education",
+          "www-apple-com-apple-watch",
+          "www-apple-com-apple-music"
+        ],
+        "latestWindowIndexes": [
+          "c5:3-10"
+        ],
+        "actualShape": "focusable ordered listitems omit group suffix and inline link accessible names inside item text",
+        "expectedShape": "VoiceOver speaks item text with inline link names plus group, parenthesized list position",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Separate group suffix/position from inline-link text stitching and marker handling",
+        "blocker": "Negative notes also expose marker/link splitting; mixed sub-gaps require independent guards",
+        "checksNeeded": [
+          "ordered focusable listitem unit positives",
+          "unordered note negatives",
+          "all affected target compares",
+          "list marker corpus sentinels"
+        ]
+      },
+      {
+        "family": "media-gallery-control-context",
+        "targets": [
+          "www-apple-com-apple-music"
+        ],
+        "latestWindowIndexes": [
+          "c5:6"
+        ],
+        "actualShape": "media slide caption lacks current item empty-group suffix",
+        "expectedShape": "VoiceOver announces current item, empty group on the slide caption",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Unify only the caption suffix sub-gap with carousel-gallery-descendant-traversal; do not encode playback/name state",
+        "blocker": "Secondary image accessible-name difference is conditional-state-confirmed from AX Unable to play media and must stay out of engine rule",
+        "checksNeeded": [
+          "shared caption suffix unit",
+          "negative standalone media control",
+          "Apple Music compare",
+          "media/gallery sentinels"
+        ]
+      },
+      {
+        "family": "inline-footnote-boundaries",
+        "targets": [
+          "www-apple-com-apple-music",
+          "www-apple-com-business"
+        ],
+        "latestWindowIndexes": [
+          "c5:3-13"
+        ],
+        "actualShape": "paragraph text is joined around sup footnote links and complementary end marker is emitted",
+        "expectedShape": "VoiceOver splits surrounding text nodes, star-prefixed footnote link stops, and omits the complementary end marker",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Split inline sup/link text-boundary handling from complementary landmark end suppression",
+        "blocker": "Mixed text-boundary plus landmark-end behavior; broad inline split would regress ordinary inline links",
+        "checksNeeded": [
+          "sup footnote boundary unit",
+          "complementary end negative",
+          "music/business compares",
+          "inline-link corpus"
+        ]
+      },
+      {
+        "family": "card-composition-list-position-boundaries",
+        "targets": [
+          "www-apple-com-apple-music"
+        ],
+        "latestWindowIndexes": [
+          "c5:4-15"
+        ],
+        "actualShape": "article cards use simple 1/2/3 list positions and joined price text",
+        "expectedShape": "VoiceOver composes article names with descendant text, shifted positions, and separate price text stops",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Split article-name composition, position shift, and price text boundaries",
+        "blocker": "Multiple independent card semantics in one family; no narrow single predicate was safe in this pass",
+        "checksNeeded": [
+          "article card composition unit",
+          "price boundary unit",
+          "Apple Music compare",
+          "article/list corpus"
+        ]
+      }
+    ],
+    "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  }
+}

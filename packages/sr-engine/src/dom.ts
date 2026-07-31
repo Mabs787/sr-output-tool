@@ -119,6 +119,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     "navigation",
     "region",
     "article",
+    "tabpanel",
   ]);
 
   function normalize(value?: string | null): string | undefined {
@@ -6463,7 +6464,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
     const tag = el.tagName.toLowerCase();
     const role = el.getAttribute("role") || "";
-    return role === "listitem" || (tag === "li" && (!role || role === "listitem"));
+    return (
+      role === "listitem" ||
+      (tag === "li" && (!role || role === "listitem" || role === "tabpanel"))
+    );
   }
 
   function isSeparatorListItem(el: any): boolean {
@@ -12506,17 +12510,87 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     if (!links.length) return undefined;
     if (links.some((link: any) => !axNodeForElementRole(link, "link"))) return undefined;
 
-    const axLinkCount = axChildren.filter(
+    function elementForAxNode(node: AccessibilityTreeNode): any | undefined {
+      const domNodeId = normalize(node.domNodeId);
+      if (!domNodeId) return undefined;
+      return el.ownerDocument?.querySelector?.(
+        `[data-sr-dom-node-id="${cssEscape(domNodeId)}"]`,
+      );
+    }
+
+    function flattenedInlineAxChildren(
+      children: AccessibilityTreeNode[],
+    ): AccessibilityTreeNode[] | undefined {
+      const flattened: AccessibilityTreeNode[] = [];
+      for (const child of children) {
+        const role = normalizedAxRole(child.role);
+        if (role === "statictext" || role === "link") {
+          flattened.push(child);
+          continue;
+        }
+        if (role !== "generic") return undefined;
+
+        const childEl = elementForAxNode(child);
+        const tagName = childEl?.tagName?.toLowerCase();
+        if (!childEl || !el.contains(childEl) || !["span", "small"].includes(tagName)) {
+          return undefined;
+        }
+
+        const nestedChildren = flattenedInlineAxChildren(axChildNodes(child));
+        if (!nestedChildren?.length) return undefined;
+        if (flattened.length) flattened.push({ role: "LineBreak", name: "" });
+        flattened.push(...nestedChildren);
+      }
+      return flattened;
+    }
+
+    const inlineAxChildren = flattenedInlineAxChildren(axChildren);
+    if (!inlineAxChildren?.length) return undefined;
+
+    const axLinkCount = inlineAxChildren.filter(
       (node) => normalizedAxRole(node.role) === "link",
     ).length;
     if (axLinkCount !== links.length) return undefined;
-    if (
-      axChildren.some((node) => {
-        const role = normalizedAxRole(node.role);
-        return role !== "statictext" && role !== "link";
-      })
-    ) {
-      return undefined;
+
+    if (links.length >= 2) {
+      const fragments: string[] = [];
+      let pendingText = "";
+
+      function flushText(): void {
+        const text = normalize(pendingText);
+        if (text && /[\p{L}\p{N}]/u.test(text)) fragments.push(text);
+        pendingText = "";
+      }
+
+      for (const [index, child] of inlineAxChildren.entries()) {
+        const role = normalizedAxRole(child.role);
+        if (role === "linebreak") {
+          flushText();
+          continue;
+        }
+        if (role === "link") {
+          flushText();
+          const linkName = normalizeAnnouncementLabel(child.name);
+          if (!linkName) return undefined;
+          fragments.push(`link, ${linkName}`);
+          continue;
+        }
+
+        const text = normalize(child.name);
+        if (!text || !/[\p{L}\p{N}]/u.test(text)) continue;
+        const previousRole = normalizedAxRole(inlineAxChildren[index - 1]?.role);
+        const nextRole = normalizedAxRole(inlineAxChildren[index + 1]?.role);
+        if (/^(?:and|or)$/iu.test(text) && previousRole === "link" && nextRole === "link") {
+          continue;
+        }
+        pendingText = pendingText ? `${pendingText} ${text}` : text;
+      }
+
+      flushText();
+      return fragments.length > links.length &&
+        fragments.some((fragment) => !fragment.startsWith("link, "))
+        ? fragments
+        : undefined;
     }
 
     const fragments: string[] = [];

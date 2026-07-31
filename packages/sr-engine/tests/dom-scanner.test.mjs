@@ -5314,6 +5314,214 @@ test("scanSubtree preserves footer static text around direct inline links", () =
   );
 });
 
+test("scanSubtree preserves AX-confirmed footer contact text around multiple inline links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer role="contentinfo" data-sr-dom-node-id="footer">
+          <section aria-label="Footer contact" data-sr-dom-node-id="contact-region">
+            <div data-sr-dom-node-id="contact">
+              More options:
+              <a href="#store" data-sr-dom-node-id="store">Store</a>
+              or
+              <a href="#partner" data-sr-dom-node-id="partner">local partner</a>
+              near you.
+              <span>Call <a href="tel:5550100" data-sr-dom-node-id="phone">555-0100</a> (555-0100).</span>
+            </div>
+          </section>
+        </footer>
+        <section aria-label="Negative single link sentence">
+          <div data-sr-dom-node-id="single">One sentence before <a href="#single" data-sr-dom-node-id="single-link">one link</a> and one tail.</div>
+        </section>
+        <section aria-label="Negative linked phrase">
+          <div data-sr-dom-node-id="linked"><a href="#linked" data-sr-dom-node-id="linked-link">All linked sentence text</a></div>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "contact",
+              role: "generic",
+              name: "",
+              domNodeId: "contact",
+              childIds: [
+                "before",
+                "store",
+                "or",
+                "partner",
+                "near",
+                "call",
+                "phone",
+                "after",
+              ],
+            },
+            { nodeId: "before", role: "StaticText", name: "More options: " },
+            {
+              nodeId: "store",
+              role: "link",
+              name: "Store",
+              domNodeId: "store",
+              properties: { focusable: true, url: "https://example.test/#store" },
+            },
+            { nodeId: "or", role: "StaticText", name: " or " },
+            {
+              nodeId: "partner",
+              role: "link",
+              name: "local partner",
+              domNodeId: "partner",
+              properties: { focusable: true, url: "https://example.test/#partner" },
+            },
+            { nodeId: "near", role: "StaticText", name: " near you. " },
+            { nodeId: "call", role: "StaticText", name: "Call " },
+            {
+              nodeId: "phone",
+              role: "link",
+              name: "555-0100",
+              domNodeId: "phone",
+              properties: { focusable: true, url: "tel:5550100" },
+            },
+            { nodeId: "after", role: "StaticText", name: " (555-0100)." },
+          ],
+        },
+      },
+    ),
+    [
+      "content information",
+      "Footer contact, region",
+      "More options:",
+      "link, Store",
+      "link, local partner",
+      "near you. Call",
+      "link, 555-0100",
+      "(555-0100).",
+      "end of, Footer contact, region",
+      "end of, content information",
+      "Negative single link sentence, region",
+      "One sentence before",
+      "link, one link",
+      "and one tail.",
+      "end of, Negative single link sentence, region",
+      "Negative linked phrase, region",
+      "link, All linked sentence text",
+      "end of, Negative linked phrase, region",
+    ],
+  );
+});
+
+test("scanSubtree preserves footer contact text across AX inline wrappers", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer role="contentinfo" data-sr-dom-node-id="footer">
+          <section aria-label="Footer contact" data-sr-dom-node-id="contact-region">
+            <div data-sr-dom-node-id="contact">
+              More choices:
+              <a href="#first" data-sr-dom-node-id="first">first option</a>
+              or
+              <a href="#second" data-sr-dom-node-id="second">second option</a>
+              nearby.
+              <span data-sr-dom-node-id="callout">Call <a href="tel:5550100" data-sr-dom-node-id="phone">555-0100</a> (555-0100).</span>
+            </div>
+          </section>
+        </footer>
+        <footer role="contentinfo" data-sr-dom-node-id="negative-footer">
+          <div data-sr-dom-node-id="negative">
+            Footer lead
+            <div data-sr-dom-node-id="nested-block">Nested block text <a href="#nested" data-sr-dom-node-id="nested-link">nested link</a></div>
+          </div>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "contact",
+              role: "generic",
+              name: "",
+              domNodeId: "contact",
+              childIds: ["before", "first", "or", "second", "near", "callout"],
+            },
+            { nodeId: "before", role: "StaticText", name: "More choices: " },
+            {
+              nodeId: "first",
+              role: "link",
+              name: "first option",
+              domNodeId: "first",
+              properties: { focusable: true, url: "https://example.test/#first" },
+            },
+            { nodeId: "or", role: "StaticText", name: " or " },
+            {
+              nodeId: "second",
+              role: "link",
+              name: "second option",
+              domNodeId: "second",
+              properties: { focusable: true, url: "https://example.test/#second" },
+            },
+            { nodeId: "near", role: "StaticText", name: " nearby. " },
+            {
+              nodeId: "callout",
+              role: "generic",
+              name: "",
+              domNodeId: "callout",
+              childIds: ["call", "phone", "after"],
+            },
+            { nodeId: "call", role: "StaticText", name: "Call " },
+            {
+              nodeId: "phone",
+              role: "link",
+              name: "555-0100",
+              domNodeId: "phone",
+              properties: { focusable: true, url: "tel:5550100" },
+            },
+            { nodeId: "after", role: "StaticText", name: " (555-0100)." },
+            {
+              nodeId: "negative",
+              role: "generic",
+              name: "",
+              domNodeId: "negative",
+              childIds: ["negative-before", "negative-block"],
+            },
+            { nodeId: "negative-before", role: "StaticText", name: "Footer lead " },
+            {
+              nodeId: "negative-block",
+              role: "generic",
+              name: "",
+              domNodeId: "nested-block",
+              childIds: ["negative-block-text", "negative-link"],
+            },
+            { nodeId: "negative-block-text", role: "StaticText", name: "Nested block text " },
+            {
+              nodeId: "negative-link",
+              role: "link",
+              name: "nested link",
+              domNodeId: "nested-link",
+              properties: { focusable: true, url: "https://example.test/#nested" },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "content information",
+      "Footer contact, region",
+      "More choices:",
+      "link, first option",
+      "link, second option",
+      "nearby.",
+      "Call",
+      "link, 555-0100",
+      "(555-0100).",
+      "end of, Footer contact, region",
+      "end of, content information",
+      "content information",
+      "Footer lead",
+      "link, nested link",
+      "end of, content information",
+    ],
+  );
+});
+
 test("scanSubtree keeps list positions on direct article card stops", () => {
   assert.deepEqual(
     scanHtml(`
@@ -10519,6 +10727,55 @@ test("scanSubtree includes leading unnamed tab panel images", () => {
       "heading level 3, Deploy with one command",
       "end of, Compute, tab panel",
       "end of, Product tabs, region",
+    ],
+  );
+});
+
+test("scanSubtree applies list position to native list item tab panels", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-label="Media gallery">
+        <div role="tablist" aria-label="Media gallery items">
+          <button id="tab-a" role="tab" aria-selected="true" aria-controls="panel-a">Item 1</button>
+          <button id="tab-b" role="tab" aria-selected="false" aria-controls="panel-b">Item 2</button>
+        </div>
+        <div role="group" aria-label="Visible media">
+          <ul role="list">
+            <li id="panel-a" role="tabpanel" aria-labelledby="tab-a">
+              <a href="#stream">Stream now</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section aria-label="Plain tabs">
+        <div role="tablist" aria-label="Plain tab controls">
+          <button id="plain-tab" role="tab" aria-selected="true" aria-controls="plain-panel">Plain</button>
+        </div>
+        <div id="plain-panel" role="tabpanel" aria-labelledby="plain-tab">
+          <a href="#plain">Plain panel link</a>
+        </div>
+      </section>
+    `),
+    [
+      "Media gallery, region",
+      "Media gallery items, tab group",
+      "Item 1, selected, tab, 1 of 2",
+      "Item 2, tab, 2 of 2",
+      "end of, Media gallery items, tab group",
+      "Visible media, group",
+      "list 1 item",
+      "Item 1, tab panel, (1 of 1)",
+      "link, Stream now",
+      "end of, Item 1, tab panel, (1 of 1)",
+      "end of list",
+      "end of, Visible media, group",
+      "end of, Media gallery, region",
+      "Plain tabs, region",
+      "Plain, selected, tab",
+      "Plain, tab panel",
+      "link, Plain panel link",
+      "end of, Plain, tab panel",
+      "end of, Plain tabs, region",
     ],
   );
 });

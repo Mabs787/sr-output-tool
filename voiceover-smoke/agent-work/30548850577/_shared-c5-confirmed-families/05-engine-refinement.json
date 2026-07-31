@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "_shared-c5-confirmed-families",
+  "family": "terminal-c5-engine-gap-confirmed-shared-families",
+  "status": "patched-and-parked",
+  "startedAt": "2026-07-31T18:53:25Z",
+  "completedAt": "2026-07-31T19:10:51Z",
+  "fixtureChanges": [],
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Adds AX-confirmed footer/contentinfo inline text-link fragment preservation across direct and DOM-backed inline generic wrappers, guards block wrappers, and treats native li role=tabpanel as list-participating for list summaries/set positions."
+    },
+    {
+      "file": "packages/sr-engine/src/announcements.ts",
+      "summary": "Adds parenthesized set-position wording to tabpanel start/end announcements only when descriptor list context exists."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Adds focused positive and negative coverage for footer inline prose boundaries and native list-item tabpanel positions."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerated extension runtime bundle."
+    }
+  ],
+  "implementedRules": [
+    {
+      "family": "footer-inline-shop-text-boundaries",
+      "guards": [
+        "footer/contentinfo ancestor",
+        "AX node for container exists",
+        "all visible descendant links have unique AX link nodes",
+        "AX children flatten only static text, links, and DOM-backed span/small generic wrappers",
+        "nested block generic wrappers abort",
+        "standalone and/or between adjacent links is skipped"
+      ]
+    },
+    {
+      "family": "carousel-tabpanel-list-position",
+      "guards": [
+        "role is tabpanel",
+        "element is a native li in a list/list role",
+        "plain div tabpanels remain unpositioned",
+        "tabpanel position wording requires descriptor positionInSet and setSize"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "status": "passed",
+      "summary": "TypeScript build completed after both patches."
+    },
+    {
+      "command": "node --test --test-name-pattern \"footer contact text\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "status": "passed",
+      "summary": "2 focused footer inline text/link tests passed, including nested inline-wrapper negative control."
+    },
+    {
+      "command": "node --test --test-name-pattern \"native list item tab panels|footer contact text\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "status": "passed",
+      "summary": "3 focused tests passed for footer inline boundaries and native li role=tabpanel list position."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 266, actual 256, mismatch windows 10; footer text-boundary resolved and carousel tabpanel list-position reduced to remaining button/group residual."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 379, actual 351, mismatch windows 11; footer text-boundary resolved; residuals are list/marker families."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-vision-pro",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 384, actual 500, mismatch windows 41; footer text-boundary resolved; residuals remain list/marker, role/structure, text, and other punctuation boundaries."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-tv-plus",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 338, actual 327, mismatch windows 29; footer text-boundary resolved; current carousel residual has a different selected-panel/card decomposition shape than the patched native-li tabpanel list-position contract."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-education",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 258, actual 292, mismatch windows 18; footer text-boundary resolved; residuals are list/marker and role/structure families."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-watch",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 417, actual 433, mismatch windows 75; footer text-boundary resolved; residuals are list/marker and role/structure families."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-music",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expected 403, actual 378, mismatch windows 54; footer text-boundary resolved; residuals are list/marker and role/structure families."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "status": "passed-with-existing-mismatch",
+      "summary": "Protected sentinel unchanged: expected 164, actual 165, mismatch window 1 at index 31, actual Ask Microsoft Accessibility before expected Disability Answer Desk."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "summary": "455 tests: 399 passed, 56 skipped."
+    },
+    {
+      "command": "yarn build:extension-runtime",
+      "status": "passed",
+      "summary": "Turbo extension runtime build completed; engine runtime bundle regenerated."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "status": "failed-known-baseline",
+      "summary": "59 tests: 37 passed, 21 skipped, 1 failed on known www-microsoft-com-en-us-accessibility index 31 baseline mismatch."
+    }
+  ],
+  "resolvedFamilies": [
+    {
+      "family": "footer-inline-shop-text-boundaries",
+      "targets": [
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "result": "patched",
+      "rule": "AX-confirmed footer/contentinfo inline text-link decomposition, including DOM-backed inline span/small wrapper boundaries and no block-wrapper flattening",
+      "latestCompareResults": {
+        "www-apple-com": "266/256/10",
+        "www-apple-com-accessibility": "379/351/11",
+        "www-apple-com-apple-vision-pro": "384/500/41",
+        "www-apple-com-apple-tv-plus": "338/327/29",
+        "www-apple-com-education": "258/292/18",
+        "www-apple-com-apple-watch": "417/433/75",
+        "www-apple-com-apple-music": "403/378/54"
+      }
+    },
+    {
+      "family": "carousel-tabpanel-list-position",
+      "targets": [
+        "www-apple-com"
+      ],
+      "result": "patched-for-native-li-tabpanel-subgap",
+      "rule": "native li role=tabpanel participates in parent list summary and tabpanel announcements include parenthesized set position",
+      "latestCompareResults": {
+        "www-apple-com": "266/256/10; list now says list 1 item and tab panel says (1 of 1); residual is carousel play button group suffix"
+      }
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "carousel-tabpanel-list-position",
+      "targets": [
+        "www-apple-com-apple-tv-plus"
+      ],
+      "latestWindowIndexes": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "actualShape": "current selected tab panel/card region is decomposed differently from the C.5 one-item native-list tabpanel contract",
+      "expectedShape": "VoiceOver expects separate panel/card text, button group suffixes, and related carousel control grouping",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Split into independent carousel panel decomposition and button group suffix sub-gaps before another patch",
+      "blocker": "Patched native li role=tabpanel list-position rule did not apply to this target shape; broad tabpanel/card traversal change would be unsafe",
+      "checksNeeded": [
+        "focused C.5 artifact for Apple TV Plus panel shape",
+        "unit positives and negative controls",
+        "target compare",
+        "protected sentinel",
+        "full unit/runtime"
+      ]
+    },
+    {
+      "family": "hero-static-text-empty-group-suffix",
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education"
+      ],
+      "latestWindowIndexes": [
+        "c5:2",
+        "c5:5"
+      ],
+      "actualShape": "focusable static text descriptors omit empty group suffix and engine emits an extra region end",
+      "expectedShape": "VoiceOver appends empty group to focusable static text stops and changes following region-end ordering",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Design a narrow focusable-static-text grouping predicate with region-end negative controls",
+      "blocker": "Broader than wrapper-only and likely touches many focusable text stops; needs a dedicated patch pass and sentinels",
+      "checksNeeded": [
+        "focused unit with tabindex static text positives and plain negatives",
+        "accessibility and education compares",
+        "protected corpus"
+      ]
+    },
+    {
+      "family": "impact-stories-carousel-grouping",
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education"
+      ],
+      "latestWindowIndexes": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "actualShape": "complex story listitems remain flattened into combined list-position labels",
+      "expectedShape": "VoiceOver decomposes text empty-group, link, button, media/group, and listitem boundaries",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Split text empty-group suffix, child-link traversal, media group, and button-control sub-gaps",
+      "blocker": "Mixed family; a single card/list rule would be broad and site-shaped",
+      "checksNeeded": [
+        "minimal unit per sub-gap",
+        "accessibility/education compares",
+        "carousel/list sentinels"
+      ]
+    },
+    {
+      "family": "footnote-listitem-inline-link-grouping",
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "latestWindowIndexes": [
+        "c5:3-10"
+      ],
+      "actualShape": "focusable ordered listitems omit group suffix and inline link accessible names inside item text",
+      "expectedShape": "VoiceOver speaks item text with inline link names plus group, parenthesized list position",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Separate group suffix/position from inline-link text stitching and marker handling",
+      "blocker": "Negative notes also expose marker/link splitting; mixed sub-gaps require independent guards",
+      "checksNeeded": [
+        "ordered focusable listitem unit positives",
+        "unordered note negatives",
+        "all affected target compares",
+        "list marker corpus sentinels"
+      ]
+    },
+    {
+      "family": "product-section-heading-group-boundary",
+      "targets": [
+        "www-apple-com-apple-vision-pro"
+      ],
+      "latestWindowIndexes": [
+        "c5:2"
+      ],
+      "actualShape": "grouped h2 descendants collapse one text boundary and item count",
+      "expectedShape": "VoiceOver preserves split h2 descendant text boundaries and counts three heading items",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect heading fragment contract and add a narrow grouped-heading boundary rule if AX confirms children",
+      "blocker": "Heading boundary behavior is shared and needs dedicated negative controls for plain h2 text",
+      "checksNeeded": [
+        "focused grouped h2 unit",
+        "plain h2 negative",
+        "Vision Pro compare",
+        "heading corpus"
+      ]
+    },
+    {
+      "family": "carousel-gallery-descendant-traversal",
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-environment",
+        "www-apple-com-apple-watch"
+      ],
+      "latestWindowIndexes": [
+        "c5:5",
+        "c5:7"
+      ],
+      "actualShape": "figcaption/listitem descendant text lacks current item and empty group suffix",
+      "expectedShape": "VoiceOver appends current item, empty group for selected/current gallery caption and empty group for sibling caption",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Create a figcaption/listitem current-state suffix sub-gap, shared with media-gallery-control-context",
+      "blocker": "Needs current-state source/AX guard to avoid suffixing ordinary figcaptions",
+      "checksNeeded": [
+        "figcaption current item unit",
+        "plain list negative",
+        "affected compares",
+        "figure/card corpus"
+      ]
+    },
+    {
+      "family": "media-gallery-control-context",
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
+      "latestWindowIndexes": [
+        "c5:6"
+      ],
+      "actualShape": "media slide caption lacks current item empty-group suffix",
+      "expectedShape": "VoiceOver announces current item, empty group on the slide caption",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Unify only the caption suffix sub-gap with carousel-gallery-descendant-traversal; do not encode playback/name state",
+      "blocker": "Secondary image accessible-name difference is conditional-state-confirmed from AX Unable to play media and must stay out of engine rule",
+      "checksNeeded": [
+        "shared caption suffix unit",
+        "negative standalone media control",
+        "Apple Music compare",
+        "media/gallery sentinels"
+      ]
+    },
+    {
+      "family": "inline-footnote-boundaries",
+      "targets": [
+        "www-apple-com-apple-music",
+        "www-apple-com-business"
+      ],
+      "latestWindowIndexes": [
+        "c5:3-13"
+      ],
+      "actualShape": "paragraph text is joined around sup footnote links and complementary end marker is emitted",
+      "expectedShape": "VoiceOver splits surrounding text nodes, star-prefixed footnote link stops, and omits the complementary end marker",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Split inline sup/link text-boundary handling from complementary landmark end suppression",
+      "blocker": "Mixed text-boundary plus landmark-end behavior; broad inline split would regress ordinary inline links",
+      "checksNeeded": [
+        "sup footnote boundary unit",
+        "complementary end negative",
+        "music/business compares",
+        "inline-link corpus"
+      ]
+    },
+    {
+      "family": "card-composition-list-position-boundaries",
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
+      "latestWindowIndexes": [
+        "c5:4-15"
+      ],
+      "actualShape": "article cards use simple 1/2/3 list positions and joined price text",
+      "expectedShape": "VoiceOver composes article names with descendant text, shifted positions, and separate price text stops",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Split article-name composition, position shift, and price text boundaries",
+      "blocker": "Multiple independent card semantics in one family; no narrow single predicate was safe in this pass",
+      "checksNeeded": [
+        "article card composition unit",
+        "price boundary unit",
+        "Apple Music compare",
+        "article/list corpus"
+      ]
+    },
+    {
+      "family": "main-region-wrapper-group",
+      "targets": [
+        "www-apple-com-apple-watch"
+      ],
+      "latestWindowIndexes": [
+        "c5:0-9"
+      ],
+      "actualShape": "engine announces outer named main start/end around content",
+      "expectedShape": "VoiceOver skips that outer main wrapper while preserving nested named region/group",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect main landmark focused-node contract and try a narrow unnamed/root main suppression only if target/source evidence matches",
+      "blocker": "Main landmark suppression is high-blast-radius and needs a dedicated negative preserving named main landmarks",
+      "checksNeeded": [
+        "main wrapper unit",
+        "named main negative",
+        "Watch compare",
+        "landmark corpus"
+      ]
+    },
+    {
+      "family": "native-control-context",
+      "targets": [
+        "www-apple-com-apple-watch",
+        "www-apple-com-iphone",
+        "www-apple-com-business"
+      ],
+      "latestWindowIndexes": [
+        "c5:5-14"
+      ],
+      "actualShape": "native controls collapse fieldset legend/select label context into controls",
+      "expectedShape": "VoiceOver emits separate fieldset legend and select label context stops before controls",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Split fieldset legend stop and native select label stop rules with ARIA custom-control negatives",
+      "blocker": "Control context changes are broad and require separate native-control sentinels",
+      "checksNeeded": [
+        "fieldset/select label unit positives",
+        "custom ARIA negatives",
+        "watch/iphone/business compares",
+        "form-control corpus"
+      ]
+    }
+  ]
+}

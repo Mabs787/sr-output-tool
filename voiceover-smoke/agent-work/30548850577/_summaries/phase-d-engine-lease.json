@@ -6,11 +6,11 @@
   "spawnedBy": "top-level-codex",
   "sessionId": "/root/apple_engine",
   "runId": "30548850577",
-  "target": "www-apple-com-apple-vision-pro",
+  "target": "_shared-c5-confirmed-families",
   "branch": "codex/apple-voiceover-refinement",
   "worktree": "/private/tmp/sr-vo-apple-30548850577",
   "leaseOwner": "/root/apple_engine",
-  "targetFamily": "technology-inline-text-boundaries",
+  "targetFamily": "terminal C.5 engine-gap-confirmed shared families (12 total)",
   "status": "released",
   "activeEngineRefinerCount": 0,
   "activeLeaseCountAtStart": 1,
@@ -20,8 +20,8 @@
     "evidence": "Prior run-level lease entries are released; run-level preflight registers /root/apple_engine as the only Phase D engine-refiner session."
   },
   "separateWorktreeException": false,
-  "leaseAcquiredAt": "2026-07-31T14:35:02Z",
-  "leaseReleasedAt": "2026-07-31T14:43:59Z",
+  "leaseAcquiredAt": "2026-07-31T18:53:25Z",
+  "leaseReleasedAt": "2026-07-31T19:10:51Z",
   "leaseHistory": [
     {
       "owner": "/root/apple_engine",
@@ -71,6 +71,13 @@
       "targetFamily": "technology-inline-text-boundaries",
       "acquiredAt": "2026-07-31T14:35:02Z",
       "releasedAt": "2026-07-31T14:43:59Z"
+    },
+    {
+      "owner": "/root/apple_engine",
+      "status": "released",
+      "targetFamily": "terminal C.5 engine-gap-confirmed shared families (12 total)",
+      "acquiredAt": "2026-07-31T18:53:25Z",
+      "releasedAt": "2026-07-31T19:10:51Z"
     }
   ]
 }

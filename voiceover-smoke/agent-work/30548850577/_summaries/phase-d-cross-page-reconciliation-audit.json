@@ -9,7 +9,7 @@
   "runId": "30548850577",
   "status": "passed",
   "startedAt": "2026-07-31T15:42:49Z",
-  "finishedAt": "2026-07-31T15:42:49Z",
+  "finishedAt": "2026-07-31T19:10:51Z",
   "branch": "codex/apple-voiceover-refinement",
   "head": "b299bb8ad2b461f392e56c7fa38400c0e0690b6f",
   "auditScope": {
@@ -556,5 +556,100 @@
     "scope": "Run C.5 for footnote/listitem grouping, shared footer shop boundaries, footer legal single-link listitem markers, carousel/list-position, and local-nav grouping. Return only engine-gap-confirmed independent sub-gaps to Phase D.",
     "c5Needed": true,
     "reason": "No immediately actionable generic engine family remains at HEAD b299bb8 without additional isolated evidence."
+  },
+  "sharedC5EngineRefinement": {
+    "updatedAt": "2026-07-31T19:10:51Z",
+    "status": "patched-and-parked",
+    "engineGapConfirmedCount": 12,
+    "patchedFamilies": [
+      "footer-inline-shop-text-boundaries",
+      "carousel-tabpanel-list-position"
+    ],
+    "parkedFamilies": [
+      "carousel-tabpanel-list-position",
+      "hero-static-text-empty-group-suffix",
+      "impact-stories-carousel-grouping",
+      "footnote-listitem-inline-link-grouping",
+      "product-section-heading-group-boundary",
+      "carousel-gallery-descendant-traversal",
+      "media-gallery-control-context",
+      "inline-footnote-boundaries",
+      "card-composition-list-position-boundaries",
+      "main-region-wrapper-group",
+      "native-control-context"
+    ],
+    "fixtureChanges": [],
+    "verificationSummary": [
+      {
+        "command": "yarn workspace @sr-output/engine build",
+        "status": "passed",
+        "summary": "TypeScript build completed after both patches."
+      },
+      {
+        "command": "node --test --test-name-pattern \"footer contact text\" packages/sr-engine/tests/dom-scanner.test.mjs",
+        "status": "passed",
+        "summary": "2 focused footer inline text/link tests passed, including nested inline-wrapper negative control."
+      },
+      {
+        "command": "node --test --test-name-pattern \"native list item tab panels|footer contact text\" packages/sr-engine/tests/dom-scanner.test.mjs",
+        "status": "passed",
+        "summary": "3 focused tests passed for footer inline boundaries and native li role=tabpanel list position."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 266, actual 256, mismatch windows 10; footer text-boundary resolved and carousel tabpanel list-position reduced to remaining button/group residual."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 379, actual 351, mismatch windows 11; footer text-boundary resolved; residuals are list/marker families."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-vision-pro",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 384, actual 500, mismatch windows 41; footer text-boundary resolved; residuals remain list/marker, role/structure, text, and other punctuation boundaries."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-tv-plus",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 338, actual 327, mismatch windows 29; footer text-boundary resolved; current carousel residual has a different selected-panel/card decomposition shape than the patched native-li tabpanel list-position contract."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-education",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 258, actual 292, mismatch windows 18; footer text-boundary resolved; residuals are list/marker and role/structure families."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-watch",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 417, actual 433, mismatch windows 75; footer text-boundary resolved; residuals are list/marker and role/structure families."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-music",
+        "status": "passed-with-existing-mismatches",
+        "summary": "expected 403, actual 378, mismatch windows 54; footer text-boundary resolved; residuals are list/marker and role/structure families."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+        "status": "passed-with-existing-mismatch",
+        "summary": "Protected sentinel unchanged: expected 164, actual 165, mismatch window 1 at index 31, actual Ask Microsoft Accessibility before expected Disability Answer Desk."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine test:unit",
+        "status": "passed",
+        "summary": "455 tests: 399 passed, 56 skipped."
+      },
+      {
+        "command": "yarn build:extension-runtime",
+        "status": "passed",
+        "summary": "Turbo extension runtime build completed; engine runtime bundle regenerated."
+      },
+      {
+        "command": "yarn workspace @sr-output/engine test:voiceover",
+        "status": "failed-known-baseline",
+        "summary": "59 tests: 37 passed, 21 skipped, 1 failed on known www-microsoft-com-en-us-accessibility index 31 baseline mismatch."
+      }
+    ]
   }
 }

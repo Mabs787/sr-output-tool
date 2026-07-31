@@ -759,6 +759,9 @@
           case "tabpanel": {
             pushIfPresent(parts, label);
             parts.push("tab panel");
+            if (el.positionInSet && el.setSize) {
+              parts.push(`(${el.positionInSet} of ${el.setSize})`);
+            }
             pushSupplementalText(parts, el);
             break;
           }
@@ -1051,7 +1054,8 @@
           return descriptor?.name ? `end of, ${descriptor.name}, complementary` : "end of, complementary";
         }
         if (role === "tabpanel") {
-          return descriptor?.name ? `end of, ${descriptor.name}, tab panel` : "end of, tab panel";
+          const position = descriptor?.positionInSet && descriptor.setSize ? `, (${descriptor.positionInSet} of ${descriptor.setSize})` : "";
+          return descriptor?.name ? `end of, ${descriptor.name}, tab panel${position}` : `end of, tab panel${position}`;
         }
         if (role === "table") {
           return "end of table";
@@ -1128,7 +1132,8 @@
           "search",
           "navigation",
           "region",
-          "article"
+          "article",
+          "tabpanel"
         ]);
         function normalize(value) {
           const normalized = value?.replace(/[\u200B-\u200F\uFEFF]/g, "").replace(/\s+/g, " ").trim();
@@ -6558,7 +6563,7 @@
             return false;
           const tag = el.tagName.toLowerCase();
           const role = el.getAttribute("role") || "";
-          return role === "listitem" || tag === "li" && (!role || role === "listitem");
+          return role === "listitem" || tag === "li" && (!role || role === "listitem" || role === "tabpanel");
         }
         function isSeparatorListItem(el) {
           if (!isListItem(el))
@@ -11692,14 +11697,77 @@
             return void 0;
           if (links.some((link) => !axNodeForElementRole(link, "link")))
             return void 0;
-          const axLinkCount = axChildren.filter((node) => normalizedAxRole(node.role) === "link").length;
+          function elementForAxNode(node) {
+            const domNodeId = normalize(node.domNodeId);
+            if (!domNodeId)
+              return void 0;
+            return el.ownerDocument?.querySelector?.(`[data-sr-dom-node-id="${cssEscape(domNodeId)}"]`);
+          }
+          function flattenedInlineAxChildren(children) {
+            const flattened = [];
+            for (const child of children) {
+              const role = normalizedAxRole(child.role);
+              if (role === "statictext" || role === "link") {
+                flattened.push(child);
+                continue;
+              }
+              if (role !== "generic")
+                return void 0;
+              const childEl = elementForAxNode(child);
+              const tagName = childEl?.tagName?.toLowerCase();
+              if (!childEl || !el.contains(childEl) || !["span", "small"].includes(tagName)) {
+                return void 0;
+              }
+              const nestedChildren = flattenedInlineAxChildren(axChildNodes(child));
+              if (!nestedChildren?.length)
+                return void 0;
+              if (flattened.length)
+                flattened.push({ role: "LineBreak", name: "" });
+              flattened.push(...nestedChildren);
+            }
+            return flattened;
+          }
+          const inlineAxChildren = flattenedInlineAxChildren(axChildren);
+          if (!inlineAxChildren?.length)
+            return void 0;
+          const axLinkCount = inlineAxChildren.filter((node) => normalizedAxRole(node.role) === "link").length;
           if (axLinkCount !== links.length)
             return void 0;
-          if (axChildren.some((node) => {
-            const role = normalizedAxRole(node.role);
-            return role !== "statictext" && role !== "link";
-          })) {
-            return void 0;
+          if (links.length >= 2) {
+            let flushText = function() {
+              const text = normalize(pendingText);
+              if (text && /[\p{L}\p{N}]/u.test(text))
+                fragments2.push(text);
+              pendingText = "";
+            };
+            const fragments2 = [];
+            let pendingText = "";
+            for (const [index, child] of inlineAxChildren.entries()) {
+              const role = normalizedAxRole(child.role);
+              if (role === "linebreak") {
+                flushText();
+                continue;
+              }
+              if (role === "link") {
+                flushText();
+                const linkName = normalizeAnnouncementLabel(child.name);
+                if (!linkName)
+                  return void 0;
+                fragments2.push(`link, ${linkName}`);
+                continue;
+              }
+              const text = normalize(child.name);
+              if (!text || !/[\p{L}\p{N}]/u.test(text))
+                continue;
+              const previousRole = normalizedAxRole(inlineAxChildren[index - 1]?.role);
+              const nextRole = normalizedAxRole(inlineAxChildren[index + 1]?.role);
+              if (/^(?:and|or)$/iu.test(text) && previousRole === "link" && nextRole === "link") {
+                continue;
+              }
+              pendingText = pendingText ? `${pendingText} ${text}` : text;
+            }
+            flushText();
+            return fragments2.length > links.length && fragments2.some((fragment) => !fragment.startsWith("link, ")) ? fragments2 : void 0;
           }
           const fragments = [];
           let linkCount = 0;
