@@ -1,0 +1,815 @@
+{
+  "schemaVersion": 1,
+  "phase": "C",
+  "agent": "fixture-judge",
+  "agentConfigPath": ".codex/agents/fixture-judge.toml",
+  "spawnedBy": "orchestrator",
+  "sessionId": "/root/apple_labels_judge",
+  "target": "www-apple-com-apple-music",
+  "runId": "30548850577",
+  "status": "returned",
+  "startedAt": "2026-07-31T15:39:24Z",
+  "finishedAt": "2026-07-31T15:39:24Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "B",
+  "handoffTo": "repro-scanner",
+  "nextPhase": "C.5",
+  "inputs": [
+    {
+      "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/03-evidence-refinement.json",
+      "sha256": "a635d04888964f11d6c135db97af1f1ccb8b4e68fc99ec5ef490782597594067"
+    },
+    {
+      "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/03-evidence-packet.json",
+      "sha256": "be410d27f9affedf24c005857b249b413c3f56223e94d9783c5f23fce957e44c"
+    },
+    {
+      "path": "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-music/fixtures/www-apple-com-apple-music.expected.json",
+      "sha256": "02081e9105808460536d7af024308fdff02b6e78a2ed302814d27678781880fb"
+    }
+  ],
+  "evidence": {
+    "phaseBTrusted": true,
+    "rawExpectedAnnouncementsPreserved": true,
+    "rawVsRefinedDiffCountAfterPhaseB": 36,
+    "compare": {
+      "baseline": {
+        "expectedCount": 403,
+        "actualCount": 370,
+        "mismatchWindowCount": 54
+      },
+      "preRepair": {
+        "expectedCount": 403,
+        "actualCount": 376,
+        "mismatchWindowCount": 55
+      },
+      "postRepair": {
+        "expectedCount": 403,
+        "actualCount": 376,
+        "mismatchWindowCount": 53,
+        "grouped": {
+          "role/structure": 12,
+          "punctuation/text-boundary": 5,
+          "list/marker": 36
+        }
+      }
+    },
+    "pageIdentity": {
+      "status": "intended-url-loaded",
+      "url": "https://www.apple.com/apple-music/",
+      "initialDomStatus": "initial-dom",
+      "conditionalStateResidualWindows": 0
+    },
+    "conditionalState": [
+      {
+        "family": "galleries-media-and-controls",
+        "classification": "debug-evidence-missing",
+        "stateScope": "initial-dom",
+        "decision": "Feature cards, plan galleries, media/download links, and footer content exist in initial DOM/AX. Step fingerprints changed during traversal, but Phase B found no repaired text that was step-only; same-structure C.5 must decide the remaining media/control grouping behavior."
+      }
+    ],
+    "reviewedRepairClassifications": {
+      "phaseBNewRepairs": {
+        "count": 30,
+        "classification": "fixture-noise-confirmed",
+        "stateScope": "initial-dom"
+      },
+      "approvedPreexisting": {
+        "count": 6,
+        "classification": "already-correct",
+        "stateScope": "initial-dom",
+        "candidateIds": [
+          "www-apple-com-apple-music:approved-preexisting-ocr-cleanup:5383e6454e12",
+          "www-apple-com-apple-music:approved-preexisting-ocr-cleanup:affc26fcc3e3",
+          "www-apple-com-apple-music:approved-preexisting-ocr-cleanup:d83104f73dea",
+          "www-apple-com-apple-music:approved-preexisting-ocr-cleanup:8ec81b8249eb",
+          "www-apple-com-apple-music:approved-preexisting-ocr-cleanup:5348aa9acfb8",
+          "www-apple-com-apple-music:approved-preexisting-ocr-cleanup:0a0273705607"
+        ]
+      },
+      "rejectedToC5": [
+        {
+          "family": "native-control-responsive-gallery-control-context",
+          "classification": "debug-evidence-missing"
+        }
+      ]
+    }
+  },
+  "decisions": [
+    {
+      "familyId": "local-nav-wrapper-group",
+      "windows": [
+        1
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Phase B found AX role/name 'Local navigation' and nav/div wrapper shape, but the focused-node contract is incomplete without same-structure focused VoiceOver reproduction.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "windows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Hero offer/body/footnote content is initial-DOM and Phase B checked text boundaries, but the split-vs-joined body text and inline footnote traversal are broad text-boundary behavior requiring C.5.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "plan-card-list-position-composition",
+      "windows": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Plan card list-position suffixes and Apple One image/text composition are replayable but lack a conclusive generic focused-node/text-boundary contract.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "windows": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Buttons, collapsed state, initial AX image names, and gallery/card structures are present, but group suffix versus child/card decomposition needs focused generic repro evidence.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "media-gallery-control-context",
+      "windows": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Device, plans gallery, media, and download control context remains initial-DOM rather than conditional-state-only, but Phase B routed the family to C.5 because traversal state changed and a generic control-context predicate would be broad.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "faq-button-group-and-question-boundaries",
+      "windows": [
+        25,
+        26,
+        27
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "FAQ OCR repairs are confirmed, while residual heading/button group suffix and list-position behavior lacks complete structural reproduction evidence.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "windows": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Long footnote truncation and OCR repairs are source/AX supported; residual inline links, markers, and list-position suffixes need the shared footnote/list C.5 fixture before Phase D.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "windows": [
+        44,
+        45
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Shared footer shop text and adjacent links are initial-DOM; reuse the existing generic footer inline shop C.5 request.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "windows": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "classification": "debug-evidence-missing",
+      "requiresC5": true,
+      "stateScope": "initial-dom",
+      "reason": "Shared footer legal/list tail remains a broad list marker and single-link listitem behavior family; route through generic C.5 before engine-ready.",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    }
+  ],
+  "windowClassifications": [
+    {
+      "window": 1,
+      "classification": "debug-evidence-missing",
+      "familyId": "local-nav-wrapper-group",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 2,
+      "classification": "debug-evidence-missing",
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 3,
+      "classification": "debug-evidence-missing",
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 4,
+      "classification": "debug-evidence-missing",
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 5,
+      "classification": "debug-evidence-missing",
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 6,
+      "classification": "debug-evidence-missing",
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 7,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 8,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 9,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 10,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 11,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 12,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 13,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 14,
+      "classification": "debug-evidence-missing",
+      "familyId": "plan-card-list-position-composition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 15,
+      "classification": "debug-evidence-missing",
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 16,
+      "classification": "debug-evidence-missing",
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 17,
+      "classification": "debug-evidence-missing",
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 18,
+      "classification": "debug-evidence-missing",
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 19,
+      "classification": "debug-evidence-missing",
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 20,
+      "classification": "debug-evidence-missing",
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 21,
+      "classification": "debug-evidence-missing",
+      "familyId": "media-gallery-control-context",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 22,
+      "classification": "debug-evidence-missing",
+      "familyId": "media-gallery-control-context",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 23,
+      "classification": "debug-evidence-missing",
+      "familyId": "media-gallery-control-context",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 24,
+      "classification": "debug-evidence-missing",
+      "familyId": "media-gallery-control-context",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 25,
+      "classification": "debug-evidence-missing",
+      "familyId": "faq-button-group-and-question-boundaries",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 26,
+      "classification": "debug-evidence-missing",
+      "familyId": "faq-button-group-and-question-boundaries",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 27,
+      "classification": "debug-evidence-missing",
+      "familyId": "faq-button-group-and-question-boundaries",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 28,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 29,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 30,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 31,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 32,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 33,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 34,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 35,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 36,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 37,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 38,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 39,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 40,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 41,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 42,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 43,
+      "classification": "debug-evidence-missing",
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 44,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-inline-shop-text-boundaries",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 45,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-inline-shop-text-boundaries",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 46,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 47,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 48,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 49,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 50,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 51,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 52,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "window": 53,
+      "classification": "debug-evidence-missing",
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    }
+  ],
+  "classificationTotals": {
+    "residualWindows": {
+      "engine-gap-confirmed": 0,
+      "fixture-noise-confirmed": 0,
+      "conditional-state-confirmed": 0,
+      "insufficient-repro": 0,
+      "debug-evidence-missing": 53,
+      "already-correct": 0
+    },
+    "phaseBRepairReviews": {
+      "fixture-noise-confirmed": 30
+    },
+    "approvedPreexistingReviews": {
+      "already-correct": 6
+    },
+    "rejectedToC5Reviews": {
+      "debug-evidence-missing": 1
+    }
+  },
+  "engineReadyFamilies": [],
+  "c5Queue": [
+    {
+      "familyId": "local-nav-wrapper-group",
+      "windows": [
+        1
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "windows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-offer-inline-footnote-text-boundary.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "plan-card-list-position-composition",
+      "windows": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/plan-card-list-position-composition.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "windows": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-and-feature-card-decomposition.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "media-gallery-control-context",
+      "windows": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/media-gallery-control-context.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "faq-button-group-and-question-boundaries",
+      "windows": [
+        25,
+        26,
+        27
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/faq-button-group-and-question-boundaries.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "windows": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "windows": [
+        44,
+        45
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "windows": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    }
+  ],
+  "fixtureChanges": [],
+  "handoffReason": "All 53 Apple Music residual windows are trusted initial-DOM mismatches but are broad structural, text-boundary, control, list-marker, legal, or footer families requiring focused C.5 evidence. No family is conclusive enough for Phase D yet.",
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Run C.5 for the c5Queue families, reusing existing local-nav, footnote, footer-inline-shop, and footer-legal fixtures where marked.",
+    "c5Needed": true,
+    "reason": "Apple Music residuals are initial-DOM, but Phase B left complete focused-node/text-boundary contracts missing for broad reusable families."
+  },
+  "canonicalClassificationTotals": {
+    "residualWindows": {
+      "fixture-still-noisy": 0,
+      "reusable-engine-gap": 0,
+      "dynamic-state-mismatch": 0,
+      "scanner-evidence-gap": 53,
+      "ambiguous": 0
+    },
+    "disposition": {
+      "resolved": 0,
+      "fixture-ready": 0,
+      "engine-ready": 0,
+      "recapture-only": 0,
+      "conditional-state-blocked": 0,
+      "parked-with-evidence": 53
+    }
+  }
+}

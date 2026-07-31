@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "phase": "C-cross-page-family-ownership",
+  "agent": "fixture-judge",
+  "sessionId": "/root/apple_labels_judge",
+  "runId": "30548850577",
+  "status": "passed",
+  "scope": {
+    "validTargets": [
+      "www-apple-com-accessibility-labels",
+      "www-apple-com",
+      "www-apple-com-accessibility",
+      "www-apple-com-apple-vision-pro",
+      "www-apple-com-apple-tv-plus",
+      "www-apple-com-education",
+      "www-apple-com-apple-watch",
+      "www-apple-com-apple-music"
+    ],
+    "completedPhaseCTargets": [
+      "www-apple-com-accessibility-labels",
+      "www-apple-com",
+      "www-apple-com-accessibility",
+      "www-apple-com-apple-vision-pro",
+      "www-apple-com-apple-tv-plus",
+      "www-apple-com-education",
+      "www-apple-com-apple-watch",
+      "www-apple-com-apple-music"
+    ],
+    "provisionalTargets": [],
+    "sourcesRead": [
+      "per-target 04-fixture-judge.json receipts",
+      "phase-c-*family-queue.json summaries",
+      "phase-c-consent-detection-families.json",
+      "phase-c5-consent-detection-families.json"
+    ],
+    "excludedReads": [
+      "scan artifacts",
+      "fixtures",
+      "rendered HTML",
+      "AX trees"
+    ]
+  },
+  "engineReady": {
+    "familyCount": 13,
+    "windowCount": 25,
+    "families": [
+      {"familyId": "footer-buystrip-image-glyph-text-boundary", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
+      {"familyId": "footnote-listitem-group-and-inline-link-name", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
+      {"familyId": "footer-shop-inline-text-boundaries", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
+      {"familyId": "homepage-engine-ready-footnote-link-boundaries", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "fixture-judge", "windowCount": 6, "nextWorker": "engine-refiner"},
+      {"familyId": "external-link-pseudo-glyph", "targets": ["www-apple-com-accessibility"], "ownerTarget": "www-apple-com-accessibility", "ownerRole": "fixture-judge", "windowCount": 5, "nextWorker": "engine-refiner"},
+      {"familyId": "technology-inline-text-boundaries", "targets": ["www-apple-com-apple-vision-pro"], "ownerTarget": "www-apple-com-apple-vision-pro", "ownerRole": "fixture-judge", "windowCount": 3, "nextWorker": "engine-refiner"},
+      {"familyId": "technology-statistic-split-and-footnote-boundary", "targets": ["www-apple-com-apple-vision-pro"], "ownerTarget": "www-apple-com-apple-vision-pro", "ownerRole": "fixture-judge", "windowCount": 4, "nextWorker": "engine-refiner"},
+      {"familyId": "visionos-external-link-pseudo-glyph", "targets": ["www-apple-com-apple-vision-pro"], "ownerTarget": "www-apple-com-apple-vision-pro", "ownerRole": "fixture-judge", "windowCount": 1, "nextWorker": "engine-refiner"},
+      {"familyId": "consent-detection-label-matching", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "repro-scanner", "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json", "nextWorker": "engine-refiner"},
+      {"familyId": "consent-detection-overlay-bounds", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "repro-scanner", "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json", "nextWorker": "engine-refiner"},
+      {"familyId": "homepage-consent-scanner-handler", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "repro-scanner", "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json", "nextWorker": "engine-refiner"},
+      {"familyId": "accessibility-labels-engine-ready-footer-grouping", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
+      {"familyId": "homepage-engine-ready-misc-initial-dom", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"}
+    ]
+  },
+  "c5Families": [
+    {
+      "familyId": "local-nav-wrapper-group",
+      "ownerTarget": "www-apple-com-accessibility-labels",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-accessibility-labels", "www-apple-com-accessibility", "www-apple-com-apple-vision-pro", "www-apple-com-apple-tv-plus", "www-apple-com-education", "www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "button-group-suffix-and-list-position",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-vision-pro", "www-apple-com-education", "www-apple-com-apple-watch"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "carousel-gallery-descendant-traversal",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-vision-pro", "www-apple-com-education", "www-apple-com-apple-watch"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "ownerTarget": "www-apple-com-accessibility",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-accessibility", "www-apple-com-education", "www-apple-com-apple-watch", "www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "ownerTarget": "www-apple-com-accessibility",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-accessibility", "www-apple-com-apple-vision-pro", "www-apple-com-apple-tv-plus", "www-apple-com-education", "www-apple-com-apple-watch", "www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "ownerTarget": "www-apple-com-accessibility-labels",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-accessibility-labels", "www-apple-com-accessibility", "www-apple-com-education", "www-apple-com-apple-watch", "www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "impact-stories-carousel-grouping",
+      "ownerTarget": "www-apple-com-accessibility",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-accessibility", "www-apple-com-education"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/impact-stories-carousel-grouping.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "hero-static-text-empty-group-suffix",
+      "ownerTarget": "www-apple-com-accessibility",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-accessibility", "www-apple-com-education"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-static-text-empty-group-suffix.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footer-footnote-inline-link-list-boundaries",
+      "ownerTarget": "www-apple-com-apple-tv-plus",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-tv-plus"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-footnote-inline-link-list-boundaries.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json"]
+    },
+    {
+      "familyId": "native-control-context",
+      "ownerTarget": "www-apple-com-apple-watch",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-watch"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/native-control-context.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"]
+    },
+    {
+      "familyId": "lineup-card-link-position-price-text-boundary",
+      "ownerTarget": "www-apple-com-apple-watch",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-watch"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/lineup-card-link-position-price-text-boundary.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"]
+    },
+    {
+      "familyId": "tabpanel-and-gallery-button-group",
+      "ownerTarget": "www-apple-com-apple-tv-plus",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-tv-plus"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/tabpanel-gallery-button-group.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json"]
+    },
+    {
+      "familyId": "card-and-media-grouping",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-vision-pro", "www-apple-com-apple-tv-plus", "www-apple-com-education"],
+      "fixturePath": "multiple generic queued fixtures: product-media-group-wrapper.html, card-heading-link-list-positions.html, card-group-decomposition.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "ownerTarget": "www-apple-com-apple-music",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-offer-inline-footnote-text-boundary.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+    },
+    {
+      "familyId": "plan-card-list-position-composition",
+      "ownerTarget": "www-apple-com-apple-music",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/plan-card-list-position-composition.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+    },
+    {
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "ownerTarget": "www-apple-com-apple-music",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-and-feature-card-decomposition.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+    },
+    {
+      "familyId": "media-gallery-control-context",
+      "ownerTarget": "www-apple-com-apple-music",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/media-gallery-control-context.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+    },
+    {
+      "familyId": "faq-button-group-and-question-boundaries",
+      "ownerTarget": "www-apple-com-apple-music",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com-apple-music"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/faq-button-group-and-question-boundaries.html",
+      "status": "queued",
+      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+    },
+    {
+      "familyId": "consent-detection-families",
+      "ownerTarget": "www-apple-com",
+      "ownerRole": "repro-scanner",
+      "targets": ["www-apple-com"],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/consent-detection-label-matching.html and consent-detection-overlay-bounds.html",
+      "status": "c5-returned-engine-refiner",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-consent-detection-families.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json"
+      ]
+    }
+  ],
+  "targetStatus": [
+    {"target": "www-apple-com-accessibility-labels", "phaseCStatus": "passed", "engineReadyFamilies": 3, "c5Families": 2},
+    {"target": "www-apple-com", "phaseCStatus": "passed", "engineReadyFamilies": 2, "c5Families": 3},
+    {"target": "www-apple-com-accessibility", "phaseCStatus": "passed", "engineReadyFamilies": 1, "c5Families": 6},
+    {"target": "www-apple-com-apple-vision-pro", "phaseCStatus": "returned", "engineReadyFamilies": 3, "c5Families": 7},
+    {"target": "www-apple-com-apple-tv-plus", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 10},
+    {"target": "www-apple-com-education", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 11},
+    {"target": "www-apple-com-apple-watch", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 9},
+    {"target": "www-apple-com-apple-music", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 9}
+  ],
+  "notes": [
+    "This summary is based on existing Phase C receipts and queue summaries.",
+    "All 8 valid targets in this ownership scope have completed Phase C.",
+    "Queued status means Phase C requested C.5 and no C.5 status receipt was found for that family.",
+    "Only consent detection has a C.5 status receipt in this run-level summary at write time."
+  ]
+}

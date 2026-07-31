@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "phase": "C",
+  "agent": "fixture-judge",
+  "agentConfigPath": ".codex/agents/fixture-judge.toml",
+  "spawnedBy": "orchestrator",
+  "sessionId": "/root/apple_labels_judge",
+  "target": "www-apple-com-education",
+  "runId": "30548850577",
+  "status": "returned",
+  "startedAt": "2026-07-31T15:18:14Z",
+  "finishedAt": "2026-07-31T15:18:14Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "B",
+  "handoffTo": "repro-scanner",
+  "nextPhase": "C.5",
+  "inputs": [
+    {
+      "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/03-evidence-refinement.json",
+      "sha256": "a5168d7ed102f77496b004480df1b32dc327a348da993a94a54f39f3554536f8"
+    },
+    {
+      "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/03-evidence-packet.json",
+      "sha256": "4918e7ce4298d13fb6aa376b53afa3acae1cf1e9fc011e28d4f0a1edb6595758"
+    },
+    {
+      "path": "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-education/fixtures/www-apple-com-education.expected.json",
+      "sha256": "edb2bcedb892700fb35ce40415c00776c819e734b263f6475cc72c5bfe0d8bcd"
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-education/fixtures node packages/sr-engine/tests/compare-voiceover-fixture.mjs www-apple-com-education 3",
+      "result": {
+        "expectedCount": 258,
+        "actualCount": 290,
+        "mismatchWindowCount": 19
+      }
+    }
+  ],
+  "evidence": {
+    "phaseBTrusted": true,
+    "rawExpectedAnnouncementsPreserved": true,
+    "rawVsRefinedDiffCountAfterPhaseB": 21,
+    "compare": {
+      "baseline": {
+        "expectedCount": 258,
+        "actualCount": 284,
+        "mismatchWindowCount": 42
+      },
+      "preRepair": {
+        "expectedCount": 258,
+        "actualCount": 290,
+        "mismatchWindowCount": 27
+      },
+      "postRepair": {
+        "expectedCount": 258,
+        "actualCount": 290,
+        "mismatchWindowCount": 19,
+        "grouped": {
+          "role/structure": 6,
+          "list/marker": 13
+        }
+      }
+    },
+    "pageIdentity": {
+      "status": "intended-url-loaded",
+      "url": "https://www.apple.com/education/",
+      "initialDomStatus": "initial-dom",
+      "conditionalStateResidualWindows": 0
+    },
+    "conditionalState": [
+      {
+        "family": "responsive-galleries",
+        "classification": "debug-evidence-missing",
+        "stateScope": "initial-dom",
+        "decision": "Content is present in initial HTML and snapshots; group/list behavior needs C.5, not fixture normalization."
+      },
+      {
+        "family": "footer-footnotes",
+        "classification": "debug-evidence-missing",
+        "stateScope": "initial-dom",
+        "decision": "Footnote text and inline links are initial-DOM replayable; boundary behavior needs C.5."
+      }
+    ],
+    "reviewedRepairClassifications": {
+      "phaseBNewRepairs": [
+        {"candidateId": "www-apple-com-education:truncation-repair:2ad5b15c7b79", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:ocr-glyph-repair:6007ebd827e0", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:9eed48e002cd", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:e0436e5daa85", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:53c6232be830", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:3cce7030e1ef", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:ocr-glyph-repair:a803b6f3bc01", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:ocr-glyph-repair:c6f4c458c1c6", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:caption-or-ocr-repair:4b2a21b3763f", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:ocr-glyph-repair:a29219747314", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:caption-or-ocr-repair:a57359fdd8a1", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:a6c5f222c6d8", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:6dea2df23e9e", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:aab19cf03a1c", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:1fd76187e7fe", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:258f6db1cd49", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:1887031ac21f", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:truncation-repair:4304274d763b", "classification": "fixture-noise-confirmed"},
+        {"candidateId": "www-apple-com-education:ocr-spacing-repair:978de62317db", "classification": "fixture-noise-confirmed"}
+      ],
+      "approvedPreexisting": [
+        {"candidateId": "www-apple-com-education:approved-preexisting-ocr-cleanup:3f5e11f48c00", "classification": "already-correct"},
+        {"candidateId": "www-apple-com-education:approved-preexisting-ocr-cleanup:42501027da7c", "classification": "already-correct"}
+      ],
+      "rejectedToC5": [
+        {"family": "promo-inline-footnote-join", "classification": "debug-evidence-missing"},
+        {"family": "responsive-gallery-list-decomposition", "classification": "debug-evidence-missing"},
+        {"family": "footer-inline-link-boundaries", "classification": "debug-evidence-missing"}
+      ]
+    }
+  },
+  "decisions": [
+    {"familyId": "local-nav-wrapper-group", "windows": [1], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Initial DOM/AX/source support a standalone local-nav group, but the generic wrapper rule needs the existing local-nav C.5 shape before engine work."},
+    {"familyId": "button-group-suffix-and-list-position", "windows": [2], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Local-nav CTA button has source-backed group suffix; reuse generic button suffix C.5 before engine-ready."},
+    {"familyId": "inline-footnote-text-boundary", "windows": [3], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Promo sentence is split by inline footnote link in initial DOM; generic inline-footnote split needs focused repro."},
+    {"familyId": "hero-static-text-empty-group-suffix", "windows": [4], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Hero group boundary is initial-DOM and source-backed but should use existing static hero/group C.5 before engine-ready."},
+    {"familyId": "feature-list-footnote-boundaries", "windows": [5, 6], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Feature list image positions, static text, and inline footnotes are partial structural evidence and need focused generic C.5."},
+    {"familyId": "card-group-decomposition", "windows": [7], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Card/list group output differs from engine child decomposition; generic card grouping must be repro-scanned."},
+    {"familyId": "impact-stories-carousel-grouping", "windows": [8], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Gallery/card list state is initial-DOM but partial; reuse impact-stories carousel grouping C.5 shape."},
+    {"familyId": "carousel-gallery-descendant-traversal", "windows": [9], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Values gallery list versus group output is replayable but broad carousel traversal behavior requires C.5."},
+    {"familyId": "footnote-listitem-inline-link-grouping", "windows": [10, 11, 12, 13], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Footnote inline links and ordered-list marker suffixes are source-backed but need existing generic footnote C.5 before engine-ready."},
+    {"familyId": "footer-inline-shop-text-boundaries", "windows": [14, 15], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Shared footer shop text and adjacent links are initial-DOM; reuse generic footer inline shop C.5."},
+    {"familyId": "footer-legal-single-link-listitem-markers", "windows": [16, 17, 18, 19], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Footer legal listitem stops are shared footer role=list/listitem/link behavior; reuse generic footer legal marker C.5."}
+  ],
+  "windowClassifications": [
+    {"window": 1, "classification": "debug-evidence-missing", "familyId": "local-nav-wrapper-group"},
+    {"window": 2, "classification": "debug-evidence-missing", "familyId": "button-group-suffix-and-list-position"},
+    {"window": 3, "classification": "debug-evidence-missing", "familyId": "inline-footnote-text-boundary"},
+    {"window": 4, "classification": "debug-evidence-missing", "familyId": "hero-static-text-empty-group-suffix"},
+    {"window": 5, "classification": "debug-evidence-missing", "familyId": "feature-list-footnote-boundaries"},
+    {"window": 6, "classification": "debug-evidence-missing", "familyId": "feature-list-footnote-boundaries"},
+    {"window": 7, "classification": "debug-evidence-missing", "familyId": "card-group-decomposition"},
+    {"window": 8, "classification": "debug-evidence-missing", "familyId": "impact-stories-carousel-grouping"},
+    {"window": 9, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
+    {"window": 10, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
+    {"window": 11, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
+    {"window": 12, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
+    {"window": 13, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
+    {"window": 14, "classification": "debug-evidence-missing", "familyId": "footer-inline-shop-text-boundaries"},
+    {"window": 15, "classification": "debug-evidence-missing", "familyId": "footer-inline-shop-text-boundaries"},
+    {"window": 16, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"},
+    {"window": 17, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"},
+    {"window": 18, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"},
+    {"window": 19, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"}
+  ],
+  "classificationTotals": {
+    "residualWindows": {
+      "engine-gap-confirmed": 0,
+      "fixture-noise-confirmed": 0,
+      "conditional-state-confirmed": 0,
+      "insufficient-repro": 0,
+      "debug-evidence-missing": 19,
+      "already-correct": 0
+    },
+    "phaseBRepairReviews": {
+      "fixture-noise-confirmed": 19
+    },
+    "approvedPreexistingReviews": {
+      "already-correct": 2
+    },
+    "rejectedToC5Reviews": {
+      "debug-evidence-missing": 3
+    }
+  },
+  "engineReadyFamilies": [],
+  "c5Queue": [
+    {"familyId": "local-nav-wrapper-group", "windows": [1], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html", "reuseExistingFixture": true},
+    {"familyId": "button-group-suffix-and-list-position", "windows": [2], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html", "reuseExistingFixture": true},
+    {"familyId": "inline-footnote-text-boundary", "windows": [3], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/inline-footnote-text-boundary.html", "reuseExistingFixture": false},
+    {"familyId": "hero-static-text-empty-group-suffix", "windows": [4], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-static-text-empty-group-suffix.html", "reuseExistingFixture": true},
+    {"familyId": "feature-list-footnote-boundaries", "windows": [5, 6], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/feature-list-footnote-boundaries.html", "reuseExistingFixture": false},
+    {"familyId": "card-group-decomposition", "windows": [7], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-group-decomposition.html", "reuseExistingFixture": false},
+    {"familyId": "impact-stories-carousel-grouping", "windows": [8], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/impact-stories-carousel-grouping.html", "reuseExistingFixture": true},
+    {"familyId": "carousel-gallery-descendant-traversal", "windows": [9], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html", "reuseExistingFixture": true},
+    {"familyId": "footnote-listitem-inline-link-grouping", "windows": [10, 11, 12, 13], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html", "reuseExistingFixture": true},
+    {"familyId": "footer-inline-shop-text-boundaries", "windows": [14, 15], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html", "reuseExistingFixture": true},
+    {"familyId": "footer-legal-single-link-listitem-markers", "windows": [16, 17, 18, 19], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html", "reuseExistingFixture": true}
+  ],
+  "fixtureChanges": [],
+  "handoffReason": "All 19 residual windows are owned and C.5-gated. No family is engine-ready because local-nav/grouping/inline-footnote/gallery/list/footer behavior needs focused generic repro evidence before reusable engine work.",
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Run C.5 for the c5Queue families; reuse existing generic fixtures where marked and add only generic repros for missing inline-footnote, feature-list, and card-decomposition shapes.",
+    "c5Needed": true,
+    "reason": "Education post-repair residuals are trusted initial-DOM mismatches, but all are broad or uncertain reusable behavior families."
+  }
+}

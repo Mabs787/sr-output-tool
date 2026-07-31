@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "phase": "C-summary",
+  "agent": "fixture-judge",
+  "sessionId": "/root/apple_labels_judge",
+  "runId": "30548850577",
+  "target": "www-apple-com-apple-music",
+  "status": "returned",
+  "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/04-fixture-judge.json",
+  "currentCompare": {
+    "baseline": "403/370/54",
+    "preRepair": "403/376/55",
+    "postRepair": "403/376/53"
+  },
+  "classificationTotals": {
+    "residualWindows": {
+      "engine-gap-confirmed": 0,
+      "fixture-noise-confirmed": 0,
+      "conditional-state-confirmed": 0,
+      "insufficient-repro": 0,
+      "debug-evidence-missing": 53,
+      "already-correct": 0
+    },
+    "phaseBRepairReviews": {
+      "fixture-noise-confirmed": 30
+    },
+    "approvedPreexistingReviews": {
+      "already-correct": 6
+    }
+  },
+  "engineReadyFamilies": [],
+  "c5RequiredFamilies": [
+    {
+      "familyId": "local-nav-wrapper-group",
+      "windows": [
+        1
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "hero-offer-inline-footnote-text-boundary",
+      "windows": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-offer-inline-footnote-text-boundary.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "plan-card-list-position-composition",
+      "windows": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/plan-card-list-position-composition.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "gallery-button-group-and-feature-card-decomposition",
+      "windows": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-and-feature-card-decomposition.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "media-gallery-control-context",
+      "windows": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/media-gallery-control-context.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "faq-button-group-and-question-boundaries",
+      "windows": [
+        25,
+        26,
+        27
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/faq-button-group-and-question-boundaries.html",
+      "reuseExistingFixture": false,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "windows": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "windows": [
+        44,
+        45
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "windows": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "classification": "debug-evidence-missing",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
+      "reuseExistingFixture": true,
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence"
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Run generic C.5 repros for all listed families; no Apple Music family is engine-ready yet.",
+    "c5Needed": true,
+    "reason": "All residual windows are initial-DOM but require focused generic repro evidence."
+  },
+  "canonicalClassificationTotals": {
+    "residualWindows": {
+      "fixture-still-noisy": 0,
+      "reusable-engine-gap": 0,
+      "dynamic-state-mismatch": 0,
+      "scanner-evidence-gap": 53,
+      "ambiguous": 0
+    },
+    "disposition": {
+      "resolved": 0,
+      "fixture-ready": 0,
+      "engine-ready": 0,
+      "recapture-only": 0,
+      "conditional-state-blocked": 0,
+      "parked-with-evidence": 53
+    }
+  }
+}

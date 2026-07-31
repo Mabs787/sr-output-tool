@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "phase": "C-summary",
+  "agent": "fixture-judge",
+  "sessionId": "/root/apple_labels_judge",
+  "runId": "30548850577",
+  "target": "www-apple-com-apple-watch",
+  "status": "returned",
+  "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-watch/04-fixture-judge.json",
+  "currentCompare": {
+    "baseline": "421/430/67",
+    "preRepair": "421/431/64",
+    "postRepair": "421/431/59"
+  },
+  "classificationTotals": {
+    "residualWindows": {
+      "engine-gap-confirmed": 0,
+      "fixture-noise-confirmed": 0,
+      "conditional-state-confirmed": 0,
+      "insufficient-repro": 0,
+      "debug-evidence-missing": 59,
+      "already-correct": 0
+    },
+    "phaseBRepairReviews": {
+      "fixture-noise-confirmed": 41
+    },
+    "approvedPreexistingReviews": {
+      "already-correct": 7
+    }
+  },
+  "engineReadyFamilies": [],
+  "c5RequiredFamilies": [
+    {"familyId": "main-region-wrapper-group", "windows": [1], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/main-region-wrapper-group.html", "reuseExistingFixture": false},
+    {"familyId": "product-nav-button-group-and-inline-footnote", "windows": [2, 3], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/product-nav-button-group-and-inline-footnote.html", "reuseExistingFixture": false},
+    {"familyId": "lineup-card-link-position-price-text-boundary", "windows": [4, 5, 6, 7, 8, 9, 10, 11], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/lineup-card-link-position-price-text-boundary.html", "reuseExistingFixture": false},
+    {"familyId": "button-group-suffix-and-list-position", "windows": [12], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html", "reuseExistingFixture": true},
+    {"familyId": "carousel-gallery-descendant-traversal", "windows": [13, 14, 15, 16, 17, 18, 19], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html", "reuseExistingFixture": true},
+    {"familyId": "native-control-context", "windows": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/native-control-context.html", "reuseExistingFixture": false},
+    {"familyId": "footnote-listitem-inline-link-grouping", "windows": [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html", "reuseExistingFixture": true},
+    {"familyId": "footer-inline-shop-text-boundaries", "windows": [54, 55], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html", "reuseExistingFixture": true},
+    {"familyId": "footer-legal-single-link-listitem-markers", "windows": [56, 57, 58, 59], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html", "reuseExistingFixture": true}
+  ],
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Run generic C.5 repros for all listed families; no Apple Watch family is engine-ready yet.",
+    "c5Needed": true,
+    "reason": "All residual windows are initial-DOM but require focused generic repro evidence."
+  }
+}

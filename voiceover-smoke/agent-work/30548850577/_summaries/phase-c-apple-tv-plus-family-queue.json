@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "phase": "C-summary",
+  "agent": "fixture-judge",
+  "sessionId": "/root/apple_labels_judge",
+  "runId": "30548850577",
+  "target": "www-apple-com-apple-tv-plus",
+  "status": "returned",
+  "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/04-fixture-judge.json",
+  "currentCompare": {
+    "expectedCount": 338,
+    "actualCount": 325,
+    "mismatchWindowCount": 31
+  },
+  "redirectState": {
+    "status": "valid-redirect",
+    "intendedPath": "/apple-tv-plus/",
+    "finalPath": "/apple-tv/",
+    "initialDomStatus": "initial-dom"
+  },
+  "classificationTotals": {
+    "residualWindows": {
+      "engine-gap-confirmed": 0,
+      "fixture-noise-confirmed": 0,
+      "conditional-state-confirmed": 0,
+      "insufficient-repro": 0,
+      "debug-evidence-missing": 31,
+      "already-correct": 0
+    },
+    "phaseBRepairReviews": {
+      "fixture-noise-confirmed": 14
+    },
+    "approvedPreexistingReviews": {
+      "already-correct": 9
+    }
+  },
+  "engineReadyFamilies": [],
+  "c5RequiredFamilies": [
+    {"familyId": "local-nav-group-wrapper", "windows": [1], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html", "reuseExistingFixture": true},
+    {"familyId": "hero-media-group-wrapper", "windows": [2], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-media-group-wrapper.html", "reuseExistingFixture": false},
+    {"familyId": "offer-card-heading-link-list-positions", "windows": [3, 4, 5, 6, 7, 8, 9], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-heading-link-list-positions.html", "reuseExistingFixture": false},
+    {"familyId": "tabpanel-and-gallery-button-group", "windows": [10, 11, 12, 13], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/tabpanel-gallery-button-group.html", "reuseExistingFixture": false},
+    {"familyId": "show-river-carousel-list-counts", "windows": [14, 15, 16], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-list-counts.html", "reuseExistingFixture": false},
+    {"familyId": "sports-gallery-button-group", "windows": [17], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-suffix.html", "reuseExistingFixture": false},
+    {"familyId": "device-list-count-heading-figure-boundary", "windows": [18, 19, 20, 21], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/device-list-count-heading-figure-boundary.html", "reuseExistingFixture": false},
+    {"familyId": "footer-footnote-inline-link-list-boundaries", "windows": [22, 23, 24], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-footnote-inline-link-list-boundaries.html", "reuseExistingFixture": false},
+    {"familyId": "footer-inline-shop-text-boundaries", "windows": [25, 26, 27], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html", "reuseExistingFixture": true},
+    {"familyId": "footer-legal-listitem-markers", "windows": [28, 29, 30, 31], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-listitem-markers.html", "reuseExistingFixture": false}
+  ],
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Run C.5 for all listed families; no Apple TV Plus family is engine-ready yet.",
+    "c5Needed": true,
+    "reason": "Residual windows are all trusted initial-DOM but C.5-gated."
+  }
+}
