@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 button group suffix and list position</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      [role="list"] {
+        list-style: none;
+        margin: 8px 0;
+        padding: 0;
+      }
+
+      [role="listitem"] {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="button-group-suffix-and-list-position">
+      <p>C5 identity button group suffix and list position</p>
+
+      <section aria-label="Positive grouped controls" data-c5-control="positive-button-group">
+        <div role="group" aria-label="Gallery control group">
+          <ul role="list" aria-label="Gallery controls">
+            <li role="listitem"><button type="button" aria-label="Previous item">Previous</button></li>
+            <li role="listitem"><button type="button" aria-label="Next item">Next</button></li>
+          </ul>
+        </div>
+      </section>
+
+      <section aria-label="Negative standalone controls" data-c5-control="negative-standalone-buttons">
+        <button type="button">Plain previous</button>
+        <button type="button">Plain next</button>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail button group suffix and list position</p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 product media group wrapper</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      section,
+      figure {
+        margin: 16px 0;
+      }
+
+      video,
+      img {
+        display: block;
+        height: 48px;
+        width: 96px;
+      }
+
+      [data-c5-hidden="true"] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="product-media-group-wrapper">
+      <p>C5 identity product media group wrapper</p>
+
+      <section aria-label="Positive media group" data-c5-control="positive-media-group">
+        <div role="group" aria-label="Feature media">
+          <video role="img" aria-label="Motion sample showing a feature" muted playsinline></video>
+          <div role="group" aria-label="Animation controls">
+            <button type="button" aria-label="Play feature animation">Play</button>
+            <button type="button" aria-label="Pause feature animation" data-c5-hidden="true">Pause</button>
+          </div>
+          <img alt="Feature still image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+        </div>
+      </section>
+
+      <section aria-label="Negative plain media" data-c5-control="negative-plain-media">
+        <figure>
+          <img alt="Plain still image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+          <figcaption>Plain caption</figcaption>
+        </figure>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail product media group wrapper</p>
+    </main>
+  </body>
+</html>

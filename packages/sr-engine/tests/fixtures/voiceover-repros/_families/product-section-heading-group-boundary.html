@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 product section heading group boundary</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      section {
+        margin: 16px 0;
+      }
+
+      h2 span {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="product-section-heading-group-boundary">
+      <p>C5 identity product section heading group boundary</p>
+
+      <section aria-label="Positive heading group" data-c5-control="positive-heading-group">
+        <div role="group">
+          <h2 tabindex="-1">
+            <span>Immersive</span>
+            <span>workspace</span>
+          </h2>
+          <p>Short section copy.</p>
+        </div>
+      </section>
+
+      <section aria-label="Negative plain heading" data-c5-control="negative-plain-heading">
+        <h2 tabindex="-1">Plain heading text</h2>
+        <p>Plain section copy.</p>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail product section heading group boundary</p>
+    </main>
+  </body>
+</html>
