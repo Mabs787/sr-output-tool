@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 hero static text empty group suffix</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      section {
+        margin: 16px 0;
+      }
+
+      [role="group"] {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="hero-static-text-empty-group-suffix">
+      <p>C5 identity hero static text empty group suffix</p>
+
+      <section aria-label="Positive static wrapper" data-c5-control="positive-hero-static-wrapper">
+        <div role="group">
+          <div>
+            <p tabindex="-1">Short intro text for everyone.</p>
+          </div>
+          <div role="group" tabindex="-1"></div>
+        </div>
+      </section>
+
+      <section aria-label="Negative plain static text" data-c5-control="negative-plain-static-text">
+        <p tabindex="-1">Plain intro text outside a wrapper.</p>
+      </section>
+
+      <a href="#next">Next link</a>
+      <p data-c5-control="tail-guard">C5 tail hero static text empty group suffix</p>
+    </main>
+  </body>
+</html>

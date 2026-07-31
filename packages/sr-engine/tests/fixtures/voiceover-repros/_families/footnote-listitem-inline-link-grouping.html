@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 footnote listitem inline link grouping</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      li {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="footnote-listitem-inline-link-grouping">
+      <p>C5 identity footnote listitem inline link grouping</p>
+
+      <section aria-label="Footnotes" data-c5-control="positive-footnote-list">
+        <ol>
+          <li tabindex="-1">Feature one works in several languages.</li>
+          <li tabindex="-1">Feature two requires <a href="#devices" aria-label="compatible devices">compatible devices</a> and current software.</li>
+          <li tabindex="-1">Some settings vary by region.</li>
+          <li tabindex="-1">A network plan may be needed for remote updates.</li>
+          <li tabindex="-1">The trial includes <a href="#terms" aria-label="trial terms">terms</a> and renewal details.</li>
+          <li tabindex="-1">Availability depends on the selected model.</li>
+          <li tabindex="-1">For details, read the <a href="#guide" aria-label="support guide">support guide</a>.</li>
+          <li tabindex="-1">Features can change after release.</li>
+        </ol>
+      </section>
+
+      <section aria-label="Negative short unordered notes" data-c5-control="negative-short-notes">
+        <ul>
+          <li><a href="#short">Short link</a></li>
+          <li>Short note</li>
+        </ul>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail footnote listitem inline link grouping</p>
+    </main>
+  </body>
+</html>

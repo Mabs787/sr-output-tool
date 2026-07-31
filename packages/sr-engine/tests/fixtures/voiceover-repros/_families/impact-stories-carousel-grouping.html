@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 impact stories carousel grouping</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 820px;
+        padding: 24px;
+      }
+
+      [role="list"] {
+        list-style: none;
+        margin: 8px 0;
+        padding: 0;
+      }
+
+      [role="listitem"] {
+        border: 1px solid #777;
+        margin: 10px 0;
+        padding: 12px;
+      }
+
+      blockquote {
+        margin: 0;
+      }
+
+      img {
+        display: block;
+        height: 36px;
+        width: 64px;
+      }
+
+      button {
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="impact-stories-carousel-grouping">
+      <p>C5 identity impact stories carousel grouping</p>
+
+      <section aria-label="Story carousel" data-c5-control="positive-impact-carousel">
+        <ul role="list" aria-label="Impact stories gallery">
+          <li role="listitem">
+            <div>
+              <p tabindex="-1">Adaptive grip story.</p>
+              <p tabindex="-1">
+                <a href="#clip-one" aria-label="View clip, adaptive grip story opens in new tab">
+                  <span>View clip<span aria-hidden="true"> external</span></span>
+                </a>
+              </p>
+            </div>
+            <img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
+            <div role="img" aria-label="Hidden video preview" hidden></div>
+            <button type="button" aria-label="Play hidden video preview" hidden>Play</button>
+          </li>
+          <li role="listitem">
+            <blockquote>
+              <p tabindex="-1"><span aria-hidden="true">"</span>Music is how I tell my story.<span aria-hidden="true">"</span></p>
+              <footer>
+                <p tabindex="-1">Recording artist</p>
+              </footer>
+            </blockquote>
+            <a href="#artist-story" aria-label="Read recording artist story">Read story</a>
+          </li>
+          <li role="listitem">
+            <p tabindex="-1">Listen to the way speech can be enhanced.</p>
+            <button type="button" aria-label="Play audio demonstration">Play</button>
+          </li>
+          <li role="listitem">
+            <blockquote>
+              <p tabindex="-1"><span aria-hidden="true">"</span>Tools help me teach every day.<span aria-hidden="true">"</span></p>
+              <footer>
+                <p tabindex="-1">Classroom educator</p>
+              </footer>
+            </blockquote>
+          </li>
+        </ul>
+
+        <ul aria-label="Story gallery controls">
+          <li><button type="button" aria-label="Previous item, story gallery">Previous</button></li>
+          <li><button type="button" aria-label="Next item, story gallery" disabled>Next</button></li>
+        </ul>
+      </section>
+
+      <section aria-label="Negative static cards" data-c5-control="negative-static-cards">
+        <ul role="list">
+          <li role="listitem"><a href="#plain-one">Plain card link</a></li>
+          <li role="listitem"><span>Plain card text</span></li>
+        </ul>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail impact stories carousel grouping</p>
+    </main>
+  </body>
+</html>
