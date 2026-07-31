@@ -22,6 +22,11 @@ on:
         required: false
         default: false
         type: boolean
+      capture_conditional_evidence:
+        description: "Persist screenshots only when step snapshots detect a DOM/page state transition"
+        required: false
+        default: false
+        type: boolean
       max_step_seconds:
         description: "Maximum seconds to spend on one VoiceOver navigation/capture step"
         required: false
@@ -31,6 +36,16 @@ on:
         description: "Optional maximum number of VoiceOver steps to capture before stopping"
         required: false
         default: "0"
+        type: string
+      adaptive_max_steps:
+        description: "Raise a configured max_steps cap when initial DOM/AX complexity predicts truncation"
+        required: false
+        default: false
+        type: boolean
+      max_steps_ceiling:
+        description: "Hard ceiling used when adaptive max steps raises the configured cap"
+        required: false
+        default: "1000"
         type: string
       navigation_mode:
         description: "How VoiceOver should move between items"
@@ -177,8 +192,11 @@ jobs:
           VOICEOVER_CAPTURE_STEP_SCREENSHOTS: ${{ inputs.capture_step_screenshots && 'true' || '' }}
           VOICEOVER_CAPTURE_SCREEN_RECORDING: ${{ inputs.capture_screen_recording && 'true' || '' }}
           VOICEOVER_CAPTURE_STEP_SNAPSHOTS: ${{ inputs.capture_step_snapshots && 'true' || '' }}
+          VOICEOVER_CAPTURE_CONDITIONAL_EVIDENCE: ${{ inputs.capture_conditional_evidence && 'true' || '' }}
           VOICEOVER_MAX_STEP_SECONDS: ${{ inputs.max_step_seconds }}
           VOICEOVER_MAX_STEPS: ${{ inputs.max_steps }}
+          VOICEOVER_ADAPTIVE_MAX_STEPS: ${{ inputs.adaptive_max_steps && 'true' || '' }}
+          VOICEOVER_MAX_STEPS_CEILING: ${{ inputs.max_steps_ceiling }}
           VOICEOVER_NAVIGATION_MODE: ${{ inputs.navigation_mode }}
           VOICEOVER_VIEWPORT_WIDTH: ${{ inputs.viewport_width }}
           VOICEOVER_VIEWPORT_HEIGHT: ${{ inputs.viewport_height }}

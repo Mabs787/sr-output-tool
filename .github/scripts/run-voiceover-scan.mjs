@@ -13,6 +13,11 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { JSDOM } from "jsdom";
+import {
+  detectConditionalEvidence,
+  isPartialStopReason,
+  planAdaptiveMaxSteps,
+} from "./voiceover-scan-planning.mjs";
 
 const repoRoot = process.cwd();
 const require = createRequire(import.meta.url);
@@ -27,6 +32,10 @@ const captureScreenRecording =
   process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
 const captureStepSnapshots =
   process.env.VOICEOVER_CAPTURE_STEP_SNAPSHOTS === "true";
+const captureConditionalEvidence =
+  process.env.VOICEOVER_CAPTURE_CONDITIONAL_EVIDENCE === "true";
+const adaptiveMaxSteps =
+  process.env.VOICEOVER_ADAPTIVE_MAX_STEPS === "true";
 const captureStepHtmlMode = ["summary", "full", "off"].includes(
   process.env.VOICEOVER_CAPTURE_STEP_HTML || "",
 )
@@ -50,6 +59,10 @@ const defaultMaxStepSeconds = Number(
 const maxScanSteps = parseNonNegativeInteger(
   process.env.VOICEOVER_MAX_STEPS,
   0,
+);
+const maxScanStepsCeiling = parsePositiveInteger(
+  process.env.VOICEOVER_MAX_STEPS_CEILING,
+  1000,
 );
 const chromeDebuggingPort = Number(
   process.env.CHROME_REMOTE_DEBUGGING_PORT || 9222,
@@ -4351,6 +4364,7 @@ async function scanTarget(target, index) {
     url,
     source: target.fixturePath ? "fixture" : "url",
     maxSteps: maxScanSteps,
+    configuredMaxSteps: maxScanSteps,
     maxStepSeconds,
     navigationMode,
     systemDialogSweepInterval,
@@ -4407,6 +4421,7 @@ async function scanTarget(target, index) {
 
   const voiceOverSteps = [];
   const stepSnapshots = [];
+  let effectiveMaxScanSteps = maxScanSteps;
   let stopReason = "not-stopped";
   let failureReason = "";
 
@@ -4478,6 +4493,26 @@ async function scanTarget(target, index) {
     stepSnapshots.push(initialSnapshot);
     writeStepSnapshotsFile(targetOutputDir, stepSnapshots, true);
   }
+  if (adaptiveMaxSteps && initialSnapshot) {
+    summary.adaptiveStepPlan = planAdaptiveMaxSteps({
+      configuredMaxSteps: maxScanSteps,
+      ceiling: maxScanStepsCeiling,
+      domNodeCount: initialSnapshot.htmlAfterStep?.stats?.nodeCount || 0,
+      accessibilityNodeCount: initialSnapshot.accessibility?.nodeCount || 0,
+      source: summary.source,
+    });
+    effectiveMaxScanSteps = summary.adaptiveStepPlan.effectiveMaxSteps;
+    summary.maxSteps = effectiveMaxScanSteps;
+  } else {
+    summary.adaptiveStepPlan = {
+      enabled: false,
+      configuredMaxSteps: maxScanSteps,
+      effectiveMaxSteps: maxScanSteps,
+      ceiling: maxScanStepsCeiling,
+      adjusted: false,
+      reason: adaptiveMaxSteps ? "initial-snapshot-unavailable" : "disabled",
+    };
+  }
 
   for (let index = 0; ; index += 1) {
     const stepStartedAt = Date.now();
@@ -4542,6 +4577,18 @@ async function scanTarget(target, index) {
       focus,
     });
     if (stepSnapshot) {
+      const conditionalEvidence = captureConditionalEvidence
+        ? detectConditionalEvidence(stepSnapshots.at(-1), stepSnapshot)
+        : { capture: false, reasons: [] };
+      stepSnapshot.conditionalEvidence = conditionalEvidence;
+      if (conditionalEvidence.capture && !screenshots.step?.persisted) {
+        screenshots.conditionalState = captureScreenshot(
+          targetOutputDir,
+          stepNumber,
+          "conditional-state",
+          { persist: true },
+        );
+      }
       stepSnapshots.push(stepSnapshot);
       writeStepSnapshotsFile(targetOutputDir, stepSnapshots, true);
     }
@@ -4558,8 +4605,11 @@ async function scanTarget(target, index) {
       break;
     }
 
-    if (maxScanSteps > 0 && voiceOverSteps.length >= maxScanSteps) {
-      stopReason = `max-steps:${maxScanSteps}`;
+    if (
+      effectiveMaxScanSteps > 0 &&
+      voiceOverSteps.length >= effectiveMaxScanSteps
+    ) {
+      stopReason = `max-steps:${effectiveMaxScanSteps}`;
       break;
     }
 
@@ -4574,7 +4624,7 @@ async function scanTarget(target, index) {
 
   summary.finishedAt = new Date().toISOString();
   summary.stopReason = stopReason;
-  summary.partial = Boolean(failureReason);
+  summary.partial = Boolean(failureReason) || isPartialStopReason(stopReason);
   summary.failureReason = failureReason;
   summary.capturedSteps = voiceOverSteps.length;
   summary.screenRecording = screenRecordingResult;
@@ -4602,6 +4652,12 @@ async function scanTarget(target, index) {
   summary.resetVoiceOverAfterLoad = resetVoiceOverAfterLoad;
   summary.interactWithWebContentBeforeScan = interactWithWebContentBeforeScan;
   summary.captureStepScreenshots = captureStepScreenshots;
+  summary.captureConditionalEvidence = {
+    enabled: captureConditionalEvidence,
+    capturedTransitions: stepSnapshots.filter(
+      (snapshot) => snapshot.conditionalEvidence?.capture,
+    ).length,
+  };
   summary.stepSnapshots = {
     enabled: captureStepSnapshots,
     capturedSteps: stepSnapshots.length,
@@ -4668,17 +4724,17 @@ async function scanTarget(target, index) {
     path.join(targetOutputDir, "runner-environment.json"),
     summary.runnerEnvironment,
   );
-  writeStepSnapshotsFile(targetOutputDir, stepSnapshots, Boolean(failureReason));
+  writeStepSnapshotsFile(targetOutputDir, stepSnapshots, summary.partial);
   writeJson(path.join(targetOutputDir, "voiceover-output.json"), {
     announcements: voiceOverOutput,
     source: "VoiceOver",
     normalization: "caption-window-cropped-ocr-system-noise-filtered",
-    partial: Boolean(failureReason) || undefined,
+    partial: summary.partial || undefined,
   });
   writeJson(path.join(targetOutputDir, "voiceover-sources.json"), {
     schemaVersion: 1,
     source: "voiceover-caption-source-debug",
-    partial: Boolean(failureReason),
+    partial: summary.partial,
     steps: getVoiceOverSourceDebug(voiceOverSteps),
   });
   writeJson(
@@ -4743,6 +4799,9 @@ export {
   getScanRootSelector,
   getTargetUrl,
   hasLiveChromeDiagnosticsTarget,
+  detectConditionalEvidence,
+  isPartialStopReason,
+  planAdaptiveMaxSteps,
   writeStepSnapshotsFile,
 };
 

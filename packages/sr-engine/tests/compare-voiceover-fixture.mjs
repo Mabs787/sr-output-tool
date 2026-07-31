@@ -1,8 +1,13 @@
 import { createRequire } from "node:module";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { JSDOM } from "jsdom";
+import {
+  classifyWindow,
+  createSemanticDiagnostics,
+  findMismatchWindows,
+} from "./voiceover-compare-utils.mjs";
 
 const require = createRequire(import.meta.url);
 const {
@@ -14,12 +19,56 @@ const {
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixturesDir =
   process.env.SR_VOICEOVER_FIXTURES_DIR || path.join(testDir, "fixtures/voiceover");
-const fixtureName = process.argv[2];
-const contextSize = Number.parseInt(process.argv[3] || "3", 10);
+const { fixtureName, contextSize, baselineActualPath, actualOutputPath } = parseArgs(
+  process.argv.slice(2),
+);
 
 if (!fixtureName) {
-  console.error("Usage: node tests/compare-voiceover-fixture.mjs <fixture-name> [context]");
+  console.error(
+    "Usage: node tests/compare-voiceover-fixture.mjs <fixture-name> [context] [--actual-output <path>] [--baseline-actual <path>]",
+  );
   process.exit(1);
+}
+
+function parseArgs(args) {
+  const options = {
+    fixtureName: "",
+    contextSize: 3,
+    baselineActualPath: "",
+    actualOutputPath: "",
+  };
+  const remaining = [...args];
+  options.fixtureName = remaining.shift() || "";
+  if (remaining[0] && /^\d+$/.test(remaining[0])) {
+    options.contextSize = Number.parseInt(remaining.shift(), 10);
+  }
+  while (remaining.length > 0) {
+    const arg = remaining.shift();
+    if (arg === "--baseline-actual") {
+      options.baselineActualPath = remaining.shift() || "";
+      if (!options.baselineActualPath) {
+        throw new Error("--baseline-actual requires a JSON path");
+      }
+      continue;
+    }
+    if (arg.startsWith("--baseline-actual=")) {
+      options.baselineActualPath = arg.slice("--baseline-actual=".length);
+      continue;
+    }
+    if (arg === "--actual-output") {
+      options.actualOutputPath = remaining.shift() || "";
+      if (!options.actualOutputPath) {
+        throw new Error("--actual-output requires a JSON path");
+      }
+      continue;
+    }
+    if (arg.startsWith("--actual-output=")) {
+      options.actualOutputPath = arg.slice("--actual-output=".length);
+      continue;
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
 }
 
 function readJson(filePath) {
@@ -76,74 +125,6 @@ function restoreGlobal(name, previousValue) {
   }
 }
 
-function findMismatchWindows(actual, expected) {
-  const windows = [];
-  let actualIndex = 0;
-  let expectedIndex = 0;
-
-  while (actualIndex < actual.length || expectedIndex < expected.length) {
-    if (actual[actualIndex] === expected[expectedIndex]) {
-      actualIndex += 1;
-      expectedIndex += 1;
-      continue;
-    }
-
-    const firstActualIndex = actualIndex;
-    const firstExpectedIndex = expectedIndex;
-    const nextMatch = findNextSyncPoint(actual, expected, actualIndex, expectedIndex);
-
-    windows.push({
-      index: windows.length + 1,
-      actualIndex: firstActualIndex,
-      expectedIndex: firstExpectedIndex,
-      actual: actual.slice(
-        Math.max(0, firstActualIndex - contextSize),
-        Math.min(actual.length, nextMatch.actualIndex + contextSize),
-      ),
-      expected: expected.slice(
-        Math.max(0, firstExpectedIndex - contextSize),
-        Math.min(expected.length, nextMatch.expectedIndex + contextSize),
-      ),
-      firstActual: actual[firstActualIndex] ?? null,
-      firstExpected: expected[firstExpectedIndex] ?? null,
-    });
-
-    actualIndex = nextMatch.actualIndex;
-    expectedIndex = nextMatch.expectedIndex;
-  }
-
-  return windows;
-}
-
-function findNextSyncPoint(actual, expected, actualIndex, expectedIndex) {
-  const maxLookahead = 30;
-
-  for (let offset = 1; offset <= maxLookahead; offset += 1) {
-    for (let actualOffset = 0; actualOffset <= offset; actualOffset += 1) {
-      const expectedOffset = offset - actualOffset;
-      if (actual[actualIndex + actualOffset] === expected[expectedIndex + expectedOffset]) {
-        return {
-          actualIndex: actualIndex + actualOffset,
-          expectedIndex: expectedIndex + expectedOffset,
-        };
-      }
-    }
-  }
-
-  return {
-    actualIndex: Math.min(actual.length, actualIndex + 1),
-    expectedIndex: Math.min(expected.length, expectedIndex + 1),
-  };
-}
-
-function classifyWindow(window) {
-  const text = [...window.actual, ...window.expected].join("\n");
-  if (/^•|,\s*\d+ of \d+|list \d+ items/.test(text)) return "list/marker";
-  if (/[()".,]$|^\W+$/.test(text)) return "punctuation/text-boundary";
-  if (/link,|button|navigation|group/.test(text)) return "role/structure";
-  return "text";
-}
-
 const expectedPath = path.join(fixturesDir, `${fixtureName}.expected.json`);
 if (!existsSync(expectedPath)) {
   console.error(`Fixture not found: ${expectedPath}`);
@@ -157,12 +138,51 @@ const accessibilityTree = fixture.accessibilityTree
   : undefined;
 const expected = fixture.refinedAnnouncements || fixture.expectedAnnouncements;
 const actual = scanHtml(html, accessibilityTree);
-const windows = findMismatchWindows(actual, expected);
+if (actualOutputPath) {
+  writeFileSync(
+    path.resolve(actualOutputPath),
+    `${JSON.stringify(
+      {
+        fixture: fixture.name,
+        sourceRunId: fixture.sourceRunId,
+        announcements: actual,
+      },
+      null,
+      2,
+    )}\n`,
+  );
+}
+const windows = findMismatchWindows(actual, expected, contextSize);
 const grouped = windows.reduce((result, window) => {
   const key = classifyWindow(window);
   result[key] = (result[key] || 0) + 1;
   return result;
 }, {});
+let baselineActual = null;
+let baselineMismatchWindowCount = null;
+if (baselineActualPath) {
+  const baselineValue = readJson(path.resolve(baselineActualPath));
+  baselineActual = Array.isArray(baselineValue)
+    ? baselineValue
+    : baselineValue.announcements;
+  if (!Array.isArray(baselineActual)) {
+    throw new Error(
+      "Baseline JSON must be an announcement array or an object with announcements.",
+    );
+  }
+  baselineMismatchWindowCount = findMismatchWindows(
+    baselineActual,
+    expected,
+    contextSize,
+  ).length;
+}
+const semanticDiagnostics = createSemanticDiagnostics({
+  actual,
+  expected,
+  mismatchWindowCount: windows.length,
+  baselineActual,
+  baselineMismatchWindowCount,
+});
 
 console.log(
   JSON.stringify(
@@ -173,6 +193,7 @@ console.log(
       actualCount: actual.length,
       mismatchWindowCount: windows.length,
       grouped,
+      semanticDiagnostics,
       windows: windows.slice(0, 20),
       truncated: windows.length > 20,
     },
