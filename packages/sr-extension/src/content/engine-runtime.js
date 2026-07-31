@@ -12429,6 +12429,117 @@
           flushPlainText();
           return !disallowed && sawSup && sawText && fragments.length >= 2 ? fragments : void 0;
         }
+        function directSuperscriptLinkBoundaryFragments(el, role) {
+          if (!["paragraph", "text"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          const tag = el.tagName?.toLowerCase();
+          if (tag !== "p" && tag !== "small")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || expandedControlledRegionFor(el) || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || !accessibilityNodes.length) {
+            return void 0;
+          }
+          const visibleElements = Array.from(el.children || []).filter((child) => !isHidden(child));
+          const emphasisElements = visibleElements.filter((child) => ["strong", "b", "em", "i"].includes(child.tagName?.toLowerCase()));
+          const supElements = visibleElements.filter((child) => child.tagName?.toLowerCase() === "sup");
+          if (!emphasisElements.length || !supElements.length)
+            return void 0;
+          if (visibleElements.some((child) => !emphasisElements.includes(child) && !supElements.includes(child))) {
+            return void 0;
+          }
+          if (emphasisElements.some((child) => child.getAttribute("role") || child.hasAttribute("tabindex") || child.tabIndex >= 0 || child.querySelector?.(interactiveSelector) || !normalize(readableText(child)))) {
+            return void 0;
+          }
+          function directSupLink(sup) {
+            const visibleSupChildren = Array.from(sup.children || []).filter((child) => !isHidden(child));
+            if (visibleSupChildren.length !== 1)
+              return void 0;
+            const link = visibleSupChildren[0];
+            if (implicitRole(link) !== "link")
+              return void 0;
+            if (!normalize(accessibleName(link, "link")))
+              return void 0;
+            if (Array.from(sup.childNodes || []).some((child) => {
+              if (child.nodeType === Node.TEXT_NODE)
+                return Boolean(normalize(child.textContent || ""));
+              if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child))
+                return false;
+              return child !== link;
+            })) {
+              return void 0;
+            }
+            return link;
+          }
+          const supLinks = supElements.map((sup) => directSupLink(sup));
+          if (supLinks.some((link) => !link))
+            return void 0;
+          const axParent = axNodeAnyForElement(el);
+          const axChildren = axChildNodes(axParent).filter((child) => !child.ignored);
+          if (!axParent || axChildren.length < 3)
+            return void 0;
+          const fragments = [];
+          const comparableTextFragments = [];
+          let emphasisIndex = 0;
+          let supIndex = 0;
+          let sawSupLink = false;
+          function pushText(value) {
+            const text = normalize(value);
+            if (text && /[\p{L}\p{N}]/u.test(text)) {
+              fragments.push(text);
+              comparableTextFragments.push(text);
+            }
+          }
+          for (const child of axChildren) {
+            const childRole = normalizedAxRole(child.role);
+            if (childRole === "statictext") {
+              pushText(child.name);
+              continue;
+            }
+            if (childRole === "strong" || childRole === "emphasis") {
+              const emphasis = emphasisElements[emphasisIndex];
+              if (!emphasis)
+                return void 0;
+              const expectedRole = ["strong", "b"].includes(emphasis.tagName?.toLowerCase()) ? "strong" : "emphasis";
+              if (childRole !== expectedRole || normalize(child.domNodeId) !== normalize(emphasis.getAttribute("data-sr-dom-node-id"))) {
+                return void 0;
+              }
+              const staticChildren = axChildNodes(child).filter((node) => !node.ignored && normalizedAxRole(node.role) === "statictext");
+              if (staticChildren.length !== 1)
+                return void 0;
+              const text = normalize(staticChildren[0].name);
+              if (!text || text !== normalize(readableText(emphasis)))
+                return void 0;
+              pushText(text);
+              emphasisIndex += 1;
+              continue;
+            }
+            if (childRole === "superscript") {
+              const sup = supElements[supIndex];
+              const link = supLinks[supIndex];
+              if (!sup || !link || normalize(child.domNodeId) !== normalize(sup.getAttribute("data-sr-dom-node-id"))) {
+                return void 0;
+              }
+              const childLinks = axChildNodes(child).filter((node) => !node.ignored && normalizedAxRole(node.role) === "link");
+              if (childLinks.length !== 1)
+                return void 0;
+              const linkNode = childLinks[0];
+              const linkName = normalizeAnnouncementLabel(linkNode.name);
+              if (!linkName || linkNode.properties?.focusable !== true || normalize(linkNode.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))) {
+                return void 0;
+              }
+              fragments.push(`link, ${linkName}`);
+              supIndex += 1;
+              sawSupLink = true;
+              continue;
+            }
+            return void 0;
+          }
+          if (!sawSupLink || emphasisIndex !== emphasisElements.length || supIndex !== supElements.length || fragments.length < 3 || !fragmentsAppearInTextOrder(comparableTextFragments, normalize(readableText(el)) || "")) {
+            return void 0;
+          }
+          return fragments;
+        }
         function rubyBaseText(el) {
           const parts = [];
           for (const child of Array.from(el.childNodes || [])) {
@@ -15046,6 +15157,7 @@
             inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || directLinkGeneratedMetadataFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
             directSupSymbolBoundaryFragments: directSupSymbolBoundaryFragments(el, role),
+            directSuperscriptLinkBoundaryFragments: directSuperscriptLinkBoundaryFragments(el, role),
             expandedRegionInlineLinkFragments: role === "paragraph" ? expandedRegionInlineLinkFragments(el) : void 0,
             priceDisclosureFragments: priceDisclosureFragments(el, role),
             codeMirrorTextEntryText: codeMirrorTextEntryText(el, role),
@@ -16000,7 +16112,7 @@
             return hasOnlyInteractiveListItemContent(el) || hasLabeledNativeSelectListItemContent(el) || hasImageLinkWithCaptionListItemContent(el) || hasNamedImageListItemContent(el) || hasStructuredListItemContent(el) || hasSingleSemanticListItemChild(el) || Boolean(el.querySelector("ul, ol, dl, [role='list']"));
           }
           if (role === "paragraph") {
-            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !directLinkGeneratedMetadataFragments(el) && !directAxInlineLinkBreakParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
+            return !expandedRegionInlineLinkFragments(el) && !footerInlineBoundaryParagraphFragments(el) && !footerInlineBoundaryTextFragments(el) && !articleBylineAuthorListFragments(el) && !directAxInlineTextLinkParagraphFragments(el) && !directLinkGeneratedMetadataFragments(el) && !directAxInlineLinkBreakParagraphFragments(el) && !inlineCodeBreakTextFragments(el, role) && !inlineSemanticTextLinkFragments(el) && !plainTextTrailingLinkParagraphFragments(el) && !directAxInlineAbbrSupParagraphFragments(el) && !articleInlineTextLinkFragments(el) && !inlineTextLinkFragments(el) && !directSuperscriptLinkBoundaryFragments(el, role) && !hasInlineInteractiveEmbeddedInText(el) && Boolean(el.querySelector(interactiveSelector));
           }
           return false;
         }
@@ -16799,6 +16911,13 @@
           });
           return [firstAnnouncement, ...remainingFragments].filter((announcement) => Boolean(announcement));
         }
+        function splitDirectSuperscriptLinkBoundaryAnnouncements(descriptor) {
+          const fragments = descriptor.directSuperscriptLinkBoundaryFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
         function splitExpandedRegionInlineLinkAnnouncements(descriptor) {
           const fragments = descriptor.expandedRegionInlineLinkFragments;
           if (descriptor.role !== "paragraph" || !fragments?.length) {
@@ -17167,6 +17286,10 @@
               {
                 source: "split-direct-sup-symbol-boundary",
                 announcements: splitDirectSupSymbolBoundaryAnnouncements(descriptor)
+              },
+              {
+                source: "split-direct-superscript-link-boundary",
+                announcements: splitDirectSuperscriptLinkBoundaryAnnouncements(descriptor)
               },
               {
                 source: "split-inline-text-link",

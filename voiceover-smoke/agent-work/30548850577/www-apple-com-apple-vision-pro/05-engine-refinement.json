@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "target": "www-apple-com-apple-vision-pro",
+  "runId": "30548850577",
+  "status": "passed",
+  "startedAt": "2026-07-31T14:14:05Z",
+  "finishedAt": "2026-07-31T14:24:58Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "fixture-judge",
+  "handoffTo": "engine-refiner",
+  "nextPhase": "D",
+  "handoffReason": "One narrow reusable statistic footnote boundary engine gap was fixed; the remaining inline text-boundary family is still engine-ready, while grouped carousel/list/footer families remain Phase C.5-gated.",
+  "leaseAcquiredAt": "2026-07-31T14:14:05Z",
+  "leaseReleasedAt": "2026-07-31T14:24:58Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": {
+    "result": "sole-active-lease",
+    "evidence": "Run-level lease history shows prior entries released and this /root/apple_engine lease released at finish; preflight registers /root/apple_engine as the only Phase D engine-refiner session."
+  },
+  "inputs": {
+    "docs": [
+      "docs/workflows/voiceover-refinement.md",
+      "docs/workflows/agent-receipts.md",
+      "docs/workflows/phase-d-engine-refinement.md"
+    ],
+    "evidence": [
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/03-evidence-packet.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/03-evidence-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json"
+    ],
+    "fixturesDir": "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures"
+  },
+  "decisions": [
+    {
+      "family": "technology-statistic-split-and-footnote-boundary",
+      "decision": "implemented",
+      "reason": "Saved HTML and AX expose direct paragraph/small text, direct emphasis children, and direct superscript children containing one focusable link; VoiceOver splits those AX-confirmed boundaries before announcing the footnote link."
+    },
+    {
+      "family": "technology-inline-text-boundaries",
+      "decision": "deferred",
+      "reason": "Still engine-ready, but this turn was constrained to at most one minimal generic cause; it should be resumed as the next focused Phase D family."
+    },
+    {
+      "family": "visionos-external-link-pseudo-glyph",
+      "decision": "already-resolved",
+      "reason": "The latest target compare no longer contains the Phase C pseudo-glyph residual after the existing generic AX-generated pseudo link-name handling."
+    }
+  ],
+  "changedFiles": [
+    "packages/sr-engine/src/dom.ts",
+    "packages/sr-engine/tests/dom-scanner.test.mjs",
+    "packages/sr-extension/src/content/engine-runtime.js"
+  ],
+  "fixtureChanges": [],
+  "behaviorFixed": [
+    {
+      "family": "technology-statistic-split-and-footnote-boundary",
+      "currentWindowIndexesBefore": [30, 31, 32, 33],
+      "currentWindowIndexesAfter": [],
+      "rule": "Split paragraph/text announcements into AX-confirmed direct static text, direct emphasis text, and direct superscript focusable-link fragments when the DOM shape is generic and the child order is preserved.",
+      "guards": [
+        "applies only to p/small with role paragraph/text",
+        "requires saved AX evidence and direct strong/b/em/i plus sup children",
+        "requires each sup to contain exactly one visible direct link with a focusable AX link child",
+        "excludes explicit labels, explicit roles, interactive ancestors, list items, and expanded controlled regions"
+      ]
+    }
+  ],
+  "compareDelta": {
+    "beforePatch": {
+      "expectedCount": 384,
+      "actualCount": 494,
+      "mismatchWindowCount": 46
+    },
+    "afterPatch": {
+      "expectedCount": 384,
+      "actualCount": 496,
+      "mismatchWindowCount": 42,
+      "grouped": {
+        "list/marker": 33,
+        "punctuation/text-boundary": 5,
+        "role/structure": 2,
+        "text": 2
+      }
+    }
+  },
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Engine package built after the reusable rule change."
+    },
+    {
+      "command": "node --test --test-name-pattern \"superscript footnote links\" tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Focused unit passed: 1 matching test passed, 384 skipped."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-vision-pro",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Target compare improved from 46 to 42 mismatch windows; statistic split/footnote boundary windows resolved."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected sentinel stayed at its baseline: expected 378, actual 348, mismatch windows 13."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-accessibility-labels/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility-labels",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected labels compare completed: expected 223, actual 216, mismatch windows 8."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected homepage compare completed: expected 266, actual 254, mismatch windows 16."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected non-Apple sentinel stayed at its known baseline: expected 164, actual 165, mismatch windows 1."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Full unit suite passed: 451 tests, 395 passed, 56 skipped."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime rebuilt; engine and extension runtime build tasks succeeded."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Full corpus run hit the unchanged known Microsoft baseline only: expected 164, actual 165, first mismatch index 31, expected heading level 3 Disability Answer Desk, actual Ask Microsoft Accessibility."
+    }
+  ],
+  "remainingMismatchCount": 42,
+  "resolvedFamilies": [
+    {
+      "family": "technology-statistic-split-and-footnote-boundary",
+      "currentWindowIndexesBefore": [30, 31, 32, 33],
+      "currentWindowIndexesAfter": [],
+      "evidence": "Latest compare window sequence skips directly from technology inline text windows 27-29 to technology gallery/group window 30; the former statistic text/footnote link split windows are gone."
+    },
+    {
+      "family": "visionos-external-link-pseudo-glyph",
+      "currentWindowIndexesBefore": [39],
+      "currentWindowIndexesAfter": [],
+      "evidence": "Latest compare window 39 is now a footer legal list-item marker shape, not a link-name pseudo glyph shape."
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "technology-inline-text-boundaries",
+      "currentWindowIndexes": [27, 28, 29],
+      "latestActual": "paragraphs remain joined across inline text/emphasis boundaries",
+      "latestExpected": "same paragraphs split at direct inline phrase boundaries before rejoining surrounding text",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect Phase B text-boundary lookup, saved HTML direct child/text-node boundaries, and AX static/emphasis children; attempt one narrow generic inline segmentation rule with neutral unit coverage.",
+      "blocker": "Deferred only because this Phase D turn was limited to one minimal generic cause.",
+      "checksNeeded": "Focused neutral unit, target compare, protected compares, full unit, extension runtime, and final corpus check."
+    },
+    {
+      "family": "local-nav-wrapper-group",
+      "currentWindowIndexes": [1],
+      "latestActual": "local navigation starts without an expected preceding group stop",
+      "latestExpected": "group then local navigation",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 minimal reproduction for local navigation wrapper group synthesis before any traversal rule.",
+      "blocker": "Phase C marked this structural group behavior as C.5-required/debug-evidence-missing.",
+      "checksNeeded": "C.5 same-structure scan, then Phase C reclassification."
+    },
+    {
+      "family": "media-group-wrapper-and-extra-image",
+      "currentWindowIndexes": [2, 3, 9, 13, 17, 21, 24, 34],
+      "latestActual": "media or rich section content lacks expected group wrapper, or emits an extra generic image stop",
+      "latestExpected": "group/media wrapper boundary or suppressed duplicate image stop",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 on a reduced media-wrapper fixture with AX role/name and image child evidence, split wrapper grouping from duplicate image suppression if confirmed.",
+      "blocker": "Broad structural/image traversal rule would affect multiple section/card shapes and Phase C gated it for C.5.",
+      "checksNeeded": "C.5 minimal reproduction, protected image/group compares, focused unit if engine-confirmed."
+    },
+    {
+      "family": "section-heading-group-boundary",
+      "currentWindowIndexes": [6, 12, 16, 20],
+      "latestActual": "split heading/body teaser text before section media",
+      "latestExpected": "joined heading teaser followed by group",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 for heading teaser/group boundary synthesis; inspect focused node contract before Phase D.",
+      "blocker": "Structural/decomposition behavior remains C.5-gated.",
+      "checksNeeded": "C.5 minimal reproduction, then focused scanner-stop/grouping unit if confirmed."
+    },
+    {
+      "family": "carousel-gallery-descendant-traversal",
+      "currentWindowIndexes": [4, 7, 10, 14, 18, 22, 25, 30, 32],
+      "latestActual": "full gallery list descendants are traversed",
+      "latestExpected": "gallery group/list control shell only",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 for generic carousel/list shell traversal before changing scanner stop behavior.",
+      "blocker": "Potentially broad carousel/list traversal rule; Phase C required proof from isolated same-structure VoiceOver scan.",
+      "checksNeeded": "C.5 carousel shell scan, protected carousel/list compares, unit coverage if confirmed."
+    },
+    {
+      "family": "button-group-suffix-and-list-position",
+      "currentWindowIndexes": [5, 8, 11, 15, 19, 23, 26, 31, 33],
+      "latestActual": "previous/next controls lack group in button announcement",
+      "latestExpected": "button, group, position",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 on reduced grouped previous/next controls, then classify whether announcement wording or descriptor data is wrong.",
+      "blocker": "Group suffix wording across controls is broad and Phase C-gated.",
+      "checksNeeded": "C.5 grouped-button scan, then announcement/unit checks if confirmed."
+    },
+    {
+      "family": "footnote-and-legal-list-markers-inline-links",
+      "currentWindowIndexes": [35, 36, 39, 40, 41, 42],
+      "latestActual": "legal/footnote text and links are joined or list item markers are omitted",
+      "latestExpected": "separate inline link fragments and explicit list item markers",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 for legal list marker/link boundary synthesis; split list marker behavior from inline link segmentation after reproduction.",
+      "blocker": "Phase C marked list marker and footer legal inline link behavior as C.5-required.",
+      "checksNeeded": "C.5 legal/list fixture, protected list-marker compares, focused unit if engine-confirmed."
+    },
+    {
+      "family": "footer-inline-shop-text-boundaries",
+      "currentWindowIndexes": [37, 38],
+      "latestActual": "footer shopping sentence starts at links or joins adjacent text",
+      "latestExpected": "intro text and nearby sentence fragments announced separately around links",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 for footer inline text/link boundary behavior; avoid site-shaped footer copy predicates.",
+      "blocker": "Phase C gated this footer-specific inline behavior for minimal reproduction.",
+      "checksNeeded": "C.5 footer inline fixture, protected footer compares, focused unit if confirmed."
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Resume only technology-inline-text-boundaries windows 27-29 as the next engine-ready family; keep C5-gated grouping/carousel/button/list/footer families assigned to repro-scanner until C.5 returns engine-gap-confirmed.",
+    "c5Needed": false,
+    "reason": "One safe generic Phase D patch landed and the remaining engine-ready inline text family has a concrete next action."
+  }
+}

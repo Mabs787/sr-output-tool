@@ -13435,6 +13435,163 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       : undefined;
   }
 
+  function directSuperscriptLinkBoundaryFragments(el: any, role: string): string[] | undefined {
+    if (!["paragraph", "text"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    const tag = el.tagName?.toLowerCase();
+    if (tag !== "p" && tag !== "small") return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      expandedControlledRegionFor(el) ||
+      el.closest(interactiveSelector) ||
+      el.closest("li,[role='listitem']") ||
+      !accessibilityNodes.length
+    ) {
+      return undefined;
+    }
+
+    const visibleElements = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    const emphasisElements = visibleElements.filter((child: any) =>
+      ["strong", "b", "em", "i"].includes(child.tagName?.toLowerCase()),
+    );
+    const supElements = visibleElements.filter(
+      (child: any) => child.tagName?.toLowerCase() === "sup",
+    );
+    if (!emphasisElements.length || !supElements.length) return undefined;
+    if (visibleElements.some((child: any) => !emphasisElements.includes(child) && !supElements.includes(child))) {
+      return undefined;
+    }
+    if (
+      emphasisElements.some(
+        (child: any) =>
+          child.getAttribute("role") ||
+          child.hasAttribute("tabindex") ||
+          child.tabIndex >= 0 ||
+          child.querySelector?.(interactiveSelector) ||
+          !normalize(readableText(child)),
+      )
+    ) {
+      return undefined;
+    }
+
+    function directSupLink(sup: any): any | undefined {
+      const visibleSupChildren = Array.from(sup.children || []).filter(
+        (child: any) => !isHidden(child),
+      );
+      if (visibleSupChildren.length !== 1) return undefined;
+      const link = visibleSupChildren[0] as any;
+      if (implicitRole(link) !== "link") return undefined;
+      if (!normalize(accessibleName(link, "link"))) return undefined;
+      if (
+        Array.from(sup.childNodes || []).some((child: any) => {
+          if (child.nodeType === Node.TEXT_NODE) return Boolean(normalize(child.textContent || ""));
+          if (child.nodeType !== Node.ELEMENT_NODE || isHidden(child)) return false;
+          return child !== link;
+        })
+      ) {
+        return undefined;
+      }
+      return link;
+    }
+
+    const supLinks = supElements.map((sup: any) => directSupLink(sup));
+    if (supLinks.some((link: any) => !link)) return undefined;
+
+    const axParent = axNodeAnyForElement(el);
+    const axChildren = axChildNodes(axParent).filter((child) => !child.ignored);
+    if (!axParent || axChildren.length < 3) return undefined;
+
+    const fragments: string[] = [];
+    const comparableTextFragments: string[] = [];
+    let emphasisIndex = 0;
+    let supIndex = 0;
+    let sawSupLink = false;
+
+    function pushText(value?: string): void {
+      const text = normalize(value);
+      if (text && /[\p{L}\p{N}]/u.test(text)) {
+        fragments.push(text);
+        comparableTextFragments.push(text);
+      }
+    }
+
+    for (const child of axChildren) {
+      const childRole = normalizedAxRole(child.role);
+      if (childRole === "statictext") {
+        pushText(child.name);
+        continue;
+      }
+
+      if (childRole === "strong" || childRole === "emphasis") {
+        const emphasis = emphasisElements[emphasisIndex] as any | undefined;
+        if (!emphasis) return undefined;
+        const expectedRole = ["strong", "b"].includes(emphasis.tagName?.toLowerCase())
+          ? "strong"
+          : "emphasis";
+        if (
+          childRole !== expectedRole ||
+          normalize(child.domNodeId) !== normalize(emphasis.getAttribute("data-sr-dom-node-id"))
+        ) {
+          return undefined;
+        }
+        const staticChildren = axChildNodes(child).filter(
+          (node) => !node.ignored && normalizedAxRole(node.role) === "statictext",
+        );
+        if (staticChildren.length !== 1) return undefined;
+        const text = normalize(staticChildren[0].name);
+        if (!text || text !== normalize(readableText(emphasis))) return undefined;
+        pushText(text);
+        emphasisIndex += 1;
+        continue;
+      }
+
+      if (childRole === "superscript") {
+        const sup = supElements[supIndex] as any | undefined;
+        const link = supLinks[supIndex] as any | undefined;
+        if (
+          !sup ||
+          !link ||
+          normalize(child.domNodeId) !== normalize(sup.getAttribute("data-sr-dom-node-id"))
+        ) {
+          return undefined;
+        }
+        const childLinks = axChildNodes(child).filter(
+          (node) => !node.ignored && normalizedAxRole(node.role) === "link",
+        );
+        if (childLinks.length !== 1) return undefined;
+        const linkNode = childLinks[0];
+        const linkName = normalizeAnnouncementLabel(linkNode.name);
+        if (
+          !linkName ||
+          linkNode.properties?.focusable !== true ||
+          normalize(linkNode.domNodeId) !== normalize(link.getAttribute("data-sr-dom-node-id"))
+        ) {
+          return undefined;
+        }
+        fragments.push(`link, ${linkName}`);
+        supIndex += 1;
+        sawSupLink = true;
+        continue;
+      }
+
+      return undefined;
+    }
+
+    if (
+      !sawSupLink ||
+      emphasisIndex !== emphasisElements.length ||
+      supIndex !== supElements.length ||
+      fragments.length < 3 ||
+      !fragmentsAppearInTextOrder(comparableTextFragments, normalize(readableText(el)) || "")
+    ) {
+      return undefined;
+    }
+
+    return fragments;
+  }
+
   function rubyBaseText(el: any): string | undefined {
     const parts: string[] = [];
     for (const child of Array.from(el.childNodes || [])) {
@@ -17108,6 +17265,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       inlinePhrasingBoundaryFragments:
         role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : undefined,
       directSupSymbolBoundaryFragments: directSupSymbolBoundaryFragments(el, role),
+      directSuperscriptLinkBoundaryFragments:
+        directSuperscriptLinkBoundaryFragments(el, role),
       expandedRegionInlineLinkFragments:
         role === "paragraph" ? expandedRegionInlineLinkFragments(el) : undefined,
       priceDisclosureFragments: priceDisclosureFragments(el, role),
@@ -18308,6 +18467,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         !directAxInlineAbbrSupParagraphFragments(el) &&
         !articleInlineTextLinkFragments(el) &&
         !inlineTextLinkFragments(el) &&
+        !directSuperscriptLinkBoundaryFragments(el, role) &&
         !hasInlineInteractiveEmbeddedInText(el) &&
         Boolean(el.querySelector(interactiveSelector))
       );
@@ -19504,6 +19664,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     );
   }
 
+  function splitDirectSuperscriptLinkBoundaryAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.directSuperscriptLinkBoundaryFragments;
+    if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
   function splitExpandedRegionInlineLinkAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -19922,6 +20092,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-direct-sup-symbol-boundary",
           announcements: splitDirectSupSymbolBoundaryAnnouncements(descriptor),
+        },
+        {
+          source: "split-direct-superscript-link-boundary",
+          announcements: splitDirectSuperscriptLinkBoundaryAnnouncements(descriptor),
         },
         {
           source: "split-inline-text-link",

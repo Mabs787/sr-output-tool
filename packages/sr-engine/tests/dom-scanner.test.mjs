@@ -12756,6 +12756,79 @@ test("scanSubtree splits AX-confirmed scalar span boundaries without splitting u
   );
 });
 
+test("scanSubtree splits AX-confirmed inline emphasis before superscript footnote links", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p data-sr-dom-node-id="metric">
+            Renders <strong data-sr-dom-node-id="metric-value">10%</strong> more detail<sup data-sr-dom-node-id="metric-note"><a href="#metric-note" aria-label="Footnote 2" data-sr-dom-node-id="metric-link">2</a></sup>
+          </p>
+          <p data-sr-dom-node-id="flat">
+            Saves <strong data-sr-dom-node-id="flat-value">20%</strong> today<sup data-sr-dom-node-id="flat-note"><a href="#flat-note" aria-label="Footnote 3" data-sr-dom-node-id="flat-link">3</a></sup>
+          </p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "metric-ax",
+              ignored: true,
+              role: "none",
+              domNodeId: "metric",
+              childIds: ["metric-lead", "metric-value-ax", "metric-tail", "metric-note-ax"],
+            },
+            { nodeId: "metric-lead", role: "StaticText", name: "Renders" },
+            {
+              nodeId: "metric-value-ax",
+              role: "strong",
+              name: "",
+              domNodeId: "metric-value",
+              childIds: ["metric-value-text"],
+            },
+            { nodeId: "metric-value-text", role: "StaticText", name: "10%" },
+            { nodeId: "metric-tail", role: "StaticText", name: "more detail" },
+            {
+              nodeId: "metric-note-ax",
+              role: "superscript",
+              name: "",
+              domNodeId: "metric-note",
+              childIds: ["metric-link-ax"],
+            },
+            {
+              nodeId: "metric-link-ax",
+              role: "link",
+              name: "Footnote 2",
+              domNodeId: "metric-link",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "flat-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "flat",
+              childIds: ["flat-text"],
+            },
+            { nodeId: "flat-text", role: "StaticText", name: "Saves 20% today" },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Renders",
+      "10%",
+      "more detail",
+      "link, Footnote 2",
+      "Saves 20% today",
+      "20%",
+      "link, Footnote 3",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree keeps ordinary compact input action wrappers grouped", () => {
   assert.deepEqual(
     scanHtml(`
