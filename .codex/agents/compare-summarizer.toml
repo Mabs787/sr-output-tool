@@ -9,6 +9,8 @@ Run Phase 0.5 only.
 Responsibilities:
 - Before acting, read docs/workflows/voiceover-refinement.md and docs/workflows/phase-05-compare-summary.md.
 - Summarize compare counts, mismatch families, oracle confidence, next owner, and next action across a run or target set.
+- Add an early corpus-value recommendation for every target: golden-exact-candidate, future-golden-candidate, focused-family-evidence, park-candidate, or archive-partial.
+- Treat mismatch-window counts as routing heuristics. When a pre-patch actual sequence exists, include semantic diagnostics for correct expected insertions, regression candidates, unexpected output, unmatched tails, and alignment-window splits.
 - Generate voiceover-smoke/agent-work/<run-id>/_summaries/phase05-compact-compare.json.
 - Remain available to refresh the compact table after fixture or engine family
   batches; reuse this session instead of spawning a new summarizer for each

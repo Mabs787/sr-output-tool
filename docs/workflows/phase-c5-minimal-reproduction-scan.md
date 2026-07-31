@@ -131,6 +131,26 @@ scan is insufficient, refine and rerun the reproduction once; a second
 insufficient result returns the unsupported scope to Phase C for parking,
 scanner repair, or recapture.
 
+Prepare and assess the family with the repository lifecycle command:
+
+```bash
+yarn voiceover:c5 -- --spec <family-spec.json> --stage prepare
+yarn voiceover:c5 -- --spec <family-spec.json> --stage canary \
+  --artifact-dir <download-root>
+yarn voiceover:c5 -- --spec <family-spec.json> --stage full \
+  --artifact-dir <download-root>
+```
+
+The spec names the run/family owner, matrix targets and stable candidate refs,
+repo-local fixture, branch, identity text, positive controls, negative
+controls, tail guards, conditional-state risk, and confirmed/patched/remaining
+family scopes. The command verifies fixture identity and `data-sr-scan-root`,
+generates canary/full/retry workflow commands, checks artifact completeness and
+control coverage, and enforces the single retry ceiling. Its suggested verdict
+is routing support only; the repro-scanner must still inspect raw VoiceOver,
+DOM, AX, sources, snapshots, and engine differences before recording the
+terminal verdict.
+
 Record the exact command or workflow invocation in the receipt. A typical
 workflow invocation should include:
 
@@ -222,6 +242,15 @@ Record both fields separately:
   `conditional-state-confirmed`, `insufficient-repro`, or
   `debug-evidence-missing`
 - `debugEvidenceStatus`: `complete`, `partial`, or `missing`
+
+For a partially implemented family, also record three explicit scopes:
+
+- `confirmedScope`: DOM/AX shapes supported by the accepted C.5 evidence
+- `patchedScope`: the subset covered by committed generic engine tests
+- `remainingScope`: confirmed or related variants still parked or returned
+
+Do not describe a family as simply patched when broader variants remain, and
+do not describe the tested narrow scope as entirely parked.
 
 Also record which positive controls, negative controls, and tail or guard
 windows were reached. If a required negative control or tail window was not

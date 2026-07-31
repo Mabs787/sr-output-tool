@@ -152,6 +152,33 @@ For recurring families, write one run-level sidecar such as
 target. The top-level session reads the family sidecar once and otherwise uses
 the target's compact receipt.
 
+Refresh the compact run state after every phase batch. Run-level summaries and
+files named `*evidence-packet.json`, `*family-queue.json`, or
+`*family-coverage.json` are treated as sidecars; they are reported separately
+from the 4 KiB ordinary-receipt budget:
+
+```bash
+yarn voiceover:compact-state -- --run-id <run-id>
+```
+
+Use `--check --require-terminal` before completion. It fails on invalid JSON,
+oversized ordinary receipts, stale unfinished handoffs, session-pool excess,
+or missing terminal Phase E accounting. Large sidecars remain visible in the
+report but do not make an otherwise concise receipt fail its budget.
+
+Raw artifacts and verbose scratch receipts should normally remain ignored
+workflow data. To preserve a reviewable, tamper-evident evidence bundle without
+force-adding it to a source commit, run:
+
+```bash
+yarn voiceover:archive-evidence -- --run-id <run-id>
+```
+
+Upload the resulting archive plus `.manifest.json` as a durable CI/review
+artifact. The manifest records every path, byte size, SHA-256, category, branch,
+and source revision. Commit only canonical code, focused repro fixtures, and a
+concise final index unless the user explicitly requests receipt archival.
+
 Do not use `uncertain` as a terminal status. If uncertainty remains, use
 `returned` with the exact missing evidence or required prior phase. Use
 `skipped` only with an evidence-backed `handoffReason`.

@@ -9,6 +9,8 @@ Run Phase 0 only.
 Responsibilities:
 - Before acting, read docs/workflows/voiceover-refinement.md, docs/workflows/agent-receipts.md, and docs/workflows/phase-0-scan-health.md.
 - Verify that the scan reached the intended page or repo-local fixture path.
+- For step-capped broad pages, review the runner's adaptive step plan and recommend adaptive_max_steps with a bounded ceiling when initial DOM/AX complexity predicts truncation.
+- When conditional state is plausible, prefer transition-triggered screenshots and reserve full recordings for focus/motion-dependent evidence.
 - Check page identity, VoiceOver health, artifact completeness, popup/interstitial handling, and debug evidence completeness before Phase A.
 - Generate 00-scan-health.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 - Process the run's target list as one batch and remain available for any

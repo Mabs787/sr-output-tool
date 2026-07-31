@@ -13,6 +13,8 @@ Responsibilities:
 - Update refinement-manifest.json, voiceover-corpus-baseline.md, and target-specific status docs when present.
 - For candidate or partial outcomes, write a revisit queue that names each unresolved family, latest window indexes, actual/expected shape, next owner, next action, blocker, and checks needed.
 - Run final verification commands.
+- Run strict terminal validation for refined, candidate, partial, and skip outcomes, then run the compact-state terminal watchdog for the whole campaign.
+- Prefer a hashed evidence archive plus concise final index over force-adding ignored raw artifacts and verbose scratch receipts to review commits.
 - When fixture files changed and the user asked for a push, perform the fixture push review from phase-e-promotion.md before committing or pushing.
 - Generate 06-promotion.json under voiceover-smoke/agent-work/<run-id>/<target>/.
 

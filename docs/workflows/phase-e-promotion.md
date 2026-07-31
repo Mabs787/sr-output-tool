@@ -163,6 +163,20 @@ recommended phase owner, and the concrete action needed before the target can be
 promoted. If a family is blocked, record the missing evidence or rejected
 prototype and the check that should be rerun after it is addressed.
 
+Candidate, partial, and skip outcomes require the same terminal validation
+discipline as refined outcomes. Run the target validator with:
+
+```bash
+yarn voiceover:validate-agent-workflow <target-receipt-dir> \
+  --required-phases <applicable-phases> --strict-terminal-outcome
+```
+
+Strict terminal validation requires an explicit promotion decision and
+`exactMatch` boolean, evidence-backed revisit entries for candidate/partial
+outcomes, no pending checks, no hand-edited raw VoiceOver output, a `complete`
+handoff, and `nextRecommendedWorker.type=none`. A parked target is terminal
+accounting, not an assertion that the unresolved work disappeared.
+
 Do not commit or push ordinary refinement, fixture, engine, status, or docs
 changes just because a target phase completed. Push only when it is required to
 trigger a remote scan workflow, make a repo-local Phase C.5 reproduction

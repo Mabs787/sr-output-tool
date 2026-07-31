@@ -19,7 +19,8 @@ the phase as `0`.
 - Target URL or repo-relative HTML fixture path.
 - The scan options used, especially debug options:
   `capture_step_snapshots`, `capture_step_screenshots`,
-  `capture_screen_recording`, `max_steps`, `max_step_seconds`, viewport, and
+  `capture_conditional_evidence`, `capture_screen_recording`, `max_steps`,
+  `adaptive_max_steps`, `max_steps_ceiling`, `max_step_seconds`, viewport, and
   navigation mode.
 - Uploaded artifact file list.
 
@@ -72,6 +73,19 @@ enable debugging features by default:
   VoiceOver startup, focus, hover, timer, carousel, or other step-time state
 - a nonzero `max_steps` large enough to reach the disputed content but small
   enough to avoid long hangs on focused repros
+
+For broad pages with a nonzero cap, enable `adaptive_max_steps=true`. The
+runner estimates a safer limit from the initial rendered-DOM and AX node counts,
+raises the configured cap when needed, never exceeds `max_steps_ceiling`, and
+records the configured, estimated, and effective limits in `scan-debug.json`.
+An explicit `max_steps=0` remains unlimited.
+
+When full per-step screenshots would be wasteful but focus, carousel, popup,
+timer, or responsive state remains possible, set
+`capture_conditional_evidence=true` with step snapshots. The runner persists a
+screenshot only when the rendered DOM fingerprint, node count, body-text
+length, URL, or title changes. Enable a full recording separately when motion
+or VoiceOver focus movement itself is the disputed behavior.
 
 If `accessibility-tree.json` has 0 relevant nodes, `step-snapshots.json` has 0
 snapshots, or the active VoiceOver cursor/DOM state cannot be tied to the

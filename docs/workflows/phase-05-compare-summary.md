@@ -59,6 +59,10 @@ The summary must include one row per target:
 - `nextOwner`: `evidence-refiner`, `fixture-judge`, `repro-scanner`,
   `engine-refiner`, `promoter`, `scan-health`, or `none`
 - `nextAction`
+- `curationRecommendation`: `golden-exact-candidate`,
+  `future-golden-candidate`, `focused-family-evidence`, `park-candidate`, or
+  `archive-partial`; this predicts durable corpus value but does not promote
+  the target
 
 Keep detailed compare windows in per-target compare output files. The run-level
 receipt should contain counts, family labels, and evidence pointers rather than
@@ -81,3 +85,10 @@ embedding full logs or announcement arrays.
   trusting compare counts.
 - Keep parked families concrete: owner, next action, blocker, and evidence or
   checks needed.
+- Prefer `future-golden-candidate` only for complete, high-confidence,
+  near-exact captures. Prefer `focused-family-evidence` when a page mainly
+  repeats a shell or widget contract already shared by other targets. Use
+  `archive-partial` for step-capped or identity-unsafe evidence.
+- Refresh `yarn voiceover:compact-state` after writing the summary. Its
+  `curationTriage` is a deterministic cross-check; reconcile intentional
+  differences in the Phase 0.5 receipt rather than silently overriding them.
