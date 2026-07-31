@@ -8,20 +8,20 @@
   "target": "www-apple-com-apple-vision-pro",
   "runId": "30548850577",
   "status": "passed",
-  "startedAt": "2026-07-31T14:14:05Z",
-  "finishedAt": "2026-07-31T14:24:58Z",
+  "startedAt": "2026-07-31T14:35:02Z",
+  "finishedAt": "2026-07-31T14:43:59Z",
   "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
-  "handoffFrom": "fixture-judge",
+  "handoffFrom": "engine-refiner",
   "handoffTo": "engine-refiner",
   "nextPhase": "D",
-  "handoffReason": "One narrow reusable statistic footnote boundary engine gap was fixed; the remaining inline text-boundary family is still engine-ready, while grouped carousel/list/footer families remain Phase C.5-gated.",
-  "leaseAcquiredAt": "2026-07-31T14:14:05Z",
-  "leaseReleasedAt": "2026-07-31T14:24:58Z",
+  "handoffReason": "A narrow reusable single-span sentence-boundary sub-gap in technology-inline-text-boundaries was fixed. The remaining inline windows are multi-span shapes that need a separate narrow rule or C.5 if the predicate cannot be isolated.",
+  "leaseAcquiredAt": "2026-07-31T14:35:02Z",
+  "leaseReleasedAt": "2026-07-31T14:43:59Z",
   "activeLeaseCountAtStart": 1,
   "activeLeaseCountAtFinish": 0,
   "overlapCheckResult": {
     "result": "sole-active-lease",
-    "evidence": "Run-level lease history shows prior entries released and this /root/apple_engine lease released at finish; preflight registers /root/apple_engine as the only Phase D engine-refiner session."
+    "evidence": "Run-level lease history shows previous entries released before this /root/apple_engine inline-boundary lease; this lease was released at finish and activeEngineRefinerCount is 0."
   },
   "inputs": {
     "docs": [
@@ -30,28 +30,33 @@
       "docs/workflows/phase-d-engine-refinement.md"
     ],
     "evidence": [
-      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/03-evidence-packet.json",
-      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/03-evidence-refinement.json",
       "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/04-fixture-judge.json",
-      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json"
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/05-engine-refinement.json@d9e9df9",
+      "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures/www-apple-com-apple-vision-pro.expected.json",
+      "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures/www-apple-com-apple-vision-pro.html",
+      "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures/www-apple-com-apple-vision-pro.ax.json"
     ],
-    "fixturesDir": "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures"
+    "selectedFamily": "technology-inline-text-boundaries",
+    "rejectedFamily": "external-link-pseudo-glyph",
+    "rejectedFamilyReason": "The latest compare after d9e9df9 no longer contains a pseudo-glyph residual; the former glyph window is now a C5-gated footer/legal list marker shape."
   },
   "decisions": [
     {
-      "family": "technology-statistic-split-and-footnote-boundary",
-      "decision": "implemented",
-      "reason": "Saved HTML and AX expose direct paragraph/small text, direct emphasis children, and direct superscript children containing one focusable link; VoiceOver splits those AX-confirmed boundaries before announcing the footnote link."
+      "family": "technology-inline-text-boundaries",
+      "decision": "implemented-sub-gap",
+      "subGap": "direct-single-span-sentence-boundary",
+      "reason": "Saved HTML and AX expose one plain paragraph with exactly one direct span at a sentence boundary. AX has direct StaticText children in the same text/span/text order, and the current engine joined those fragments into one paragraph announcement."
     },
     {
       "family": "technology-inline-text-boundaries",
-      "decision": "deferred",
-      "reason": "Still engine-ready, but this turn was constrained to at most one minimal generic cause; it should be resumed as the next focused Phase D family."
+      "decision": "deferred-sub-gap",
+      "subGap": "multi-span-inline-boundaries",
+      "reason": "The remaining inline windows have multiple direct spans where VoiceOver split only selected spans. A broad all-span split would over-split the same target paragraph, so this requires a separate narrower rule or C.5 evidence."
     },
     {
-      "family": "visionos-external-link-pseudo-glyph",
-      "decision": "already-resolved",
-      "reason": "The latest target compare no longer contains the Phase C pseudo-glyph residual after the existing generic AX-generated pseudo link-name handling."
+      "family": "external-link-pseudo-glyph",
+      "decision": "no-current-patch",
+      "reason": "No current residual remained to patch after the previous generic pseudo-glyph handling."
     }
   ],
   "changedFiles": [
@@ -62,31 +67,32 @@
   "fixtureChanges": [],
   "behaviorFixed": [
     {
-      "family": "technology-statistic-split-and-footnote-boundary",
-      "currentWindowIndexesBefore": [30, 31, 32, 33],
+      "family": "technology-inline-text-boundaries",
+      "subGap": "direct-single-span-sentence-boundary",
+      "currentWindowIndexesBefore": [27],
       "currentWindowIndexesAfter": [],
-      "rule": "Split paragraph/text announcements into AX-confirmed direct static text, direct emphasis text, and direct superscript focusable-link fragments when the DOM shape is generic and the child order is preserved.",
+      "rule": "Split p/small paragraph text into direct AX StaticText text/span/text fragments only when the DOM has exactly one direct span, the leading direct text ends with sentence punctuation, the trailing text starts lowercase, and the AX children mirror the direct DOM text order.",
       "guards": [
-        "applies only to p/small with role paragraph/text",
-        "requires saved AX evidence and direct strong/b/em/i plus sup children",
-        "requires each sup to contain exactly one visible direct link with a focusable AX link child",
-        "excludes explicit labels, explicit roles, interactive ancestors, list items, and expanded controlled regions"
+        "requires p/small role paragraph/text with saved AX evidence",
+        "requires exactly one visible direct span and exactly three visible child nodes: text, span, text",
+        "excludes explicit labels, explicit roles, interactive descendants, list items, navigation, footer/contentinfo, and expanded controlled regions",
+        "does not apply to multi-span paragraphs or ordinary inline spans without a sentence boundary"
       ]
     }
   ],
   "compareDelta": {
     "beforePatch": {
       "expectedCount": 384,
-      "actualCount": 494,
-      "mismatchWindowCount": 46
+      "actualCount": 496,
+      "mismatchWindowCount": 42
     },
     "afterPatch": {
       "expectedCount": 384,
-      "actualCount": 496,
-      "mismatchWindowCount": 42,
+      "actualCount": 498,
+      "mismatchWindowCount": 41,
       "grouped": {
         "list/marker": 33,
-        "punctuation/text-boundary": 5,
+        "punctuation/text-boundary": 4,
         "role/structure": 2,
         "text": 2
       }
@@ -98,56 +104,56 @@
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Engine package built after the reusable rule change."
+      "summary": "Engine package built before focused validation."
     },
     {
-      "command": "node --test --test-name-pattern \"superscript footnote links\" tests/dom-scanner.test.mjs",
+      "command": "node --test --test-name-pattern \"single span sentence boundaries\" packages/sr-engine/tests/dom-scanner.test.mjs",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Focused unit passed: 1 matching test passed, 384 skipped."
+      "summary": "Focused unit passed: 1 matching test passed, 385 skipped. The first parallel attempt overlapped a dist rebuild and was rerun serially."
     },
     {
       "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-vision-pro/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-vision-pro",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Target compare improved from 46 to 42 mismatch windows; statistic split/footnote boundary windows resolved."
+      "summary": "Target compare improved from 42 to 41 mismatch windows; former inline window 27 resolved, leaving multi-span inline windows at 27-28."
     },
     {
       "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Protected sentinel stayed at its baseline: expected 378, actual 348, mismatch windows 13."
+      "summary": "Protected sentinel stayed at baseline: expected 378, actual 348, mismatch windows 13."
     },
     {
       "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-accessibility-labels/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility-labels",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Protected labels compare completed: expected 223, actual 216, mismatch windows 8."
+      "summary": "Protected labels compare stayed at baseline: expected 223, actual 216, mismatch windows 8."
     },
     {
       "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Protected homepage compare completed: expected 266, actual 254, mismatch windows 16."
+      "summary": "Protected homepage compare stayed at baseline: expected 266, actual 254, mismatch windows 16."
     },
     {
       "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Protected non-Apple sentinel stayed at its known baseline: expected 164, actual 165, mismatch windows 1."
+      "summary": "Protected non-Apple sentinel stayed at known baseline: expected 164, actual 165, mismatch windows 1."
     },
     {
       "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn workspace @sr-output/engine test:unit",
       "required": true,
       "status": "passed",
       "exitCode": 0,
-      "summary": "Full unit suite passed: 451 tests, 395 passed, 56 skipped."
+      "summary": "Full unit suite passed: 452 tests, 396 passed, 56 skipped."
     },
     {
       "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn build:extension-runtime",
@@ -161,34 +167,40 @@
       "required": true,
       "status": "failed",
       "exitCode": 1,
-      "summary": "Full corpus run hit the unchanged known Microsoft baseline only: expected 164, actual 165, first mismatch index 31, expected heading level 3 Disability Answer Desk, actual Ask Microsoft Accessibility."
+      "summary": "Full corpus hit only the unchanged known Microsoft baseline: expected 164, actual 165, first mismatch index 31, expected heading level 3 Disability Answer Desk, actual Ask Microsoft Accessibility."
     }
   ],
-  "remainingMismatchCount": 42,
+  "remainingMismatchCount": 41,
   "resolvedFamilies": [
     {
-      "family": "technology-statistic-split-and-footnote-boundary",
-      "currentWindowIndexesBefore": [30, 31, 32, 33],
+      "family": "technology-inline-text-boundaries",
+      "subGap": "direct-single-span-sentence-boundary",
+      "currentWindowIndexesBefore": [27],
       "currentWindowIndexesAfter": [],
-      "evidence": "Latest compare window sequence skips directly from technology inline text windows 27-29 to technology gallery/group window 30; the former statistic text/footnote link split windows are gone."
+      "evidence": "Latest compact compare now moves directly from visionOS gallery controls to the remaining multi-span sensor/chip paragraph windows; the former single-span paragraph window is gone."
     },
     {
-      "family": "visionos-external-link-pseudo-glyph",
-      "currentWindowIndexesBefore": [39],
+      "family": "technology-statistic-split-and-footnote-boundary",
       "currentWindowIndexesAfter": [],
-      "evidence": "Latest compare window 39 is now a footer legal list-item marker shape, not a link-name pseudo glyph shape."
+      "evidence": "Still resolved from d9e9df9."
+    },
+    {
+      "family": "external-link-pseudo-glyph",
+      "currentWindowIndexesAfter": [],
+      "evidence": "Still no current pseudo-glyph residual after d9e9df9."
     }
   ],
   "revisitQueue": [
     {
       "family": "technology-inline-text-boundaries",
-      "currentWindowIndexes": [27, 28, 29],
-      "latestActual": "paragraphs remain joined across inline text/emphasis boundaries",
-      "latestExpected": "same paragraphs split at direct inline phrase boundaries before rejoining surrounding text",
+      "subGap": "multi-span-inline-boundaries",
+      "currentWindowIndexes": [27, 28],
+      "latestActual": "multi-span paragraphs remain joined across selected direct span boundaries",
+      "latestExpected": "only selected span fragments are split from surrounding text, while neighboring spans in the same paragraph stay joined",
       "nextOwner": "engine-refiner",
-      "nextAction": "Inspect Phase B text-boundary lookup, saved HTML direct child/text-node boundaries, and AX static/emphasis children; attempt one narrow generic inline segmentation rule with neutral unit coverage.",
-      "blocker": "Deferred only because this Phase D turn was limited to one minimal generic cause.",
-      "checksNeeded": "Focused neutral unit, target compare, protected compares, full unit, extension runtime, and final corpus check."
+      "nextAction": "Inspect whether a generic predicate can isolate selected multi-span boundaries without splitting all spans in the same paragraph; request C.5 if the distinction depends on copy, class names, or surprising VoiceOver behavior.",
+      "blocker": "A broad direct-span splitter would over-split current target evidence.",
+      "checksNeeded": "Focused neutral unit with negative multi-span controls, target compare, protected compares, full unit, extension runtime, and final corpus check."
     },
     {
       "family": "local-nav-wrapper-group",
@@ -202,7 +214,7 @@
     },
     {
       "family": "media-group-wrapper-and-extra-image",
-      "currentWindowIndexes": [2, 3, 9, 13, 17, 21, 24, 34],
+      "currentWindowIndexes": [2, 3, 9, 13, 17, 21, 24, 33],
       "latestActual": "media or rich section content lacks expected group wrapper, or emits an extra generic image stop",
       "latestExpected": "group/media wrapper boundary or suppressed duplicate image stop",
       "nextOwner": "repro-scanner",
@@ -222,7 +234,7 @@
     },
     {
       "family": "carousel-gallery-descendant-traversal",
-      "currentWindowIndexes": [4, 7, 10, 14, 18, 22, 25, 30, 32],
+      "currentWindowIndexes": [4, 7, 10, 14, 18, 22, 25, 29, 31],
       "latestActual": "full gallery list descendants are traversed",
       "latestExpected": "gallery group/list control shell only",
       "nextOwner": "repro-scanner",
@@ -232,7 +244,7 @@
     },
     {
       "family": "button-group-suffix-and-list-position",
-      "currentWindowIndexes": [5, 8, 11, 15, 19, 23, 26, 31, 33],
+      "currentWindowIndexes": [5, 8, 11, 15, 19, 23, 26, 30, 32],
       "latestActual": "previous/next controls lack group in button announcement",
       "latestExpected": "button, group, position",
       "nextOwner": "repro-scanner",
@@ -242,7 +254,7 @@
     },
     {
       "family": "footnote-and-legal-list-markers-inline-links",
-      "currentWindowIndexes": [35, 36, 39, 40, 41, 42],
+      "currentWindowIndexes": [34, 35, 38, 39, 40, 41],
       "latestActual": "legal/footnote text and links are joined or list item markers are omitted",
       "latestExpected": "separate inline link fragments and explicit list item markers",
       "nextOwner": "repro-scanner",
@@ -252,7 +264,7 @@
     },
     {
       "family": "footer-inline-shop-text-boundaries",
-      "currentWindowIndexes": [37, 38],
+      "currentWindowIndexes": [36, 37],
       "latestActual": "footer shopping sentence starts at links or joins adjacent text",
       "latestExpected": "intro text and nearby sentence fragments announced separately around links",
       "nextOwner": "repro-scanner",
@@ -263,8 +275,8 @@
   ],
   "nextRecommendedWorker": {
     "type": "engine-refiner",
-    "scope": "Resume only technology-inline-text-boundaries windows 27-29 as the next engine-ready family; keep C5-gated grouping/carousel/button/list/footer families assigned to repro-scanner until C.5 returns engine-gap-confirmed.",
+    "scope": "Resume only technology-inline-text-boundaries multi-span windows 27-28 if a generic non-site-shaped predicate can be proven; otherwise request Phase C.5. Keep all grouping/carousel/button/list/footer families assigned to repro-scanner.",
     "c5Needed": false,
-    "reason": "One safe generic Phase D patch landed and the remaining engine-ready inline text family has a concrete next action."
+    "reason": "The safe single-span inline sub-gap landed; the remaining engine-ready inline residual is narrower but not yet safely isolated."
   }
 }

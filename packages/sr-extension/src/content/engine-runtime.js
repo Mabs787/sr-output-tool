@@ -1421,6 +1421,53 @@
             return void 0;
           return fragments;
         }
+        function directSingleSpanSentenceBoundaryFragments(el, role) {
+          if (!["paragraph", "text"].includes(role))
+            return void 0;
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return void 0;
+          const tag = el.tagName?.toLowerCase();
+          if (tag !== "p" && tag !== "small")
+            return void 0;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || expandedControlledRegionFor(el) || el.closest(interactiveSelector) || el.closest("li,[role='listitem']") || el.closest("footer,[role='contentinfo'],nav,[role='navigation']") || el.querySelector(interactiveSelector) || !accessibilityNodes.length) {
+            return void 0;
+          }
+          const visibleElements = Array.from(el.children || []).filter((child) => !isHidden(child));
+          if (visibleElements.length !== 1)
+            return void 0;
+          const boundary = visibleElements[0];
+          if (boundary.tagName?.toLowerCase() !== "span" || boundary.getAttribute("role") || boundary.getAttribute("aria-label") || boundary.getAttribute("aria-labelledby") || boundary.hasAttribute("tabindex") || boundary.tabIndex >= 0 || boundary.children?.length || boundary.querySelector?.("[aria-hidden='true'],[hidden]")) {
+            return void 0;
+          }
+          const childNodes = Array.from(el.childNodes || []).filter((child) => {
+            if (child.nodeType === Node.TEXT_NODE)
+              return Boolean(normalize(child.textContent || ""));
+            return child.nodeType === Node.ELEMENT_NODE && !isHidden(child);
+          });
+          if (childNodes.length !== 3 || childNodes[1] !== boundary)
+            return void 0;
+          const leadingText = normalize(childNodes[0]?.textContent || "");
+          const boundaryText = normalize(readableText(boundary) || boundary.textContent);
+          const trailingText = normalize(childNodes[2]?.textContent || "");
+          if (!leadingText || !boundaryText || !trailingText || !/[.!?。]$/u.test(leadingText) || !/^\p{Ll}/u.test(trailingText)) {
+            return void 0;
+          }
+          const axParent = axNodeAnyForElement(el);
+          const axChildren = axChildNodes(axParent).filter((child) => !child.ignored);
+          if (!axParent || !["paragraph", "statictext", "none"].includes(normalizedAxRole(axParent.role) || "") || axChildren.length !== 3 || axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")) {
+            return void 0;
+          }
+          const fragments = axChildren.map((child) => normalize(child.name)).filter((fragment) => Boolean(fragment));
+          if (fragments.length !== 3)
+            return void 0;
+          if (fragments[0] !== leadingText || fragments[1] !== boundaryText || !normalize(trailingText)?.startsWith(normalize(fragments[2]) || "")) {
+            return void 0;
+          }
+          if (!fragmentsAppearInTextOrder(fragments, normalize(readableText(el)) || "")) {
+            return void 0;
+          }
+          return fragments;
+        }
         function axInlinePhrasingStaticTextRunFragments(axChildren, hasVisibleElementChildren, text) {
           if (!hasVisibleElementChildren)
             return void 0;
@@ -15153,6 +15200,7 @@
             footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
             figureMockupHeaderText: figureMockupHeaderText(el, role),
             axStaticTextRunFragments: axStaticTextRunFragments(el, role),
+            directSingleSpanSentenceBoundaryFragments: directSingleSpanSentenceBoundaryFragments(el, role),
             axLineBreakTextFragments: axLineBreakTextFragments(el, role),
             inlineTextLinkFragments: role === "paragraph" ? footerInlineBoundaryParagraphFragments(el) || footerInlineBoundaryTextFragments(el) || articleBylineAuthorListFragments(el) || directAxInlineTextLinkParagraphFragments(el) || directLinkGeneratedMetadataFragments(el) || inlineCodeBreakTextFragments(el, role) || inlineSemanticTextLinkFragments(el) || plainTextTrailingLinkParagraphFragments(el) || directAxInlineAbbrSupParagraphFragments(el) || articleInlineTextLinkFragments(el) || inlineTextLinkFragments(el) : void 0,
             inlinePhrasingBoundaryFragments: role === "paragraph" ? inlinePhrasingBoundaryFragments(el) : void 0,
@@ -16862,6 +16910,13 @@
           }
           return fragments;
         }
+        function splitDirectSingleSpanSentenceBoundaryAnnouncements(descriptor) {
+          const fragments = descriptor.directSingleSpanSentenceBoundaryFragments;
+          if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+            return void 0;
+          }
+          return fragments;
+        }
         function splitNativeTableCellTextAnnouncements(descriptor) {
           const fragments = descriptor.nativeTableCellTextFragments;
           if (!["cell", "gridcell"].includes(descriptor.role || "") || !fragments?.length || descriptor.complexColumnHeaderContextText || descriptor.tableHasComplexColumnHeaders) {
@@ -17274,6 +17329,10 @@
               {
                 source: "split-ax-static-text-run",
                 announcements: splitAxStaticTextRunAnnouncements(descriptor)
+              },
+              {
+                source: "split-direct-single-span-sentence-boundary",
+                announcements: splitDirectSingleSpanSentenceBoundaryAnnouncements(descriptor)
               },
               {
                 source: "split-ax-linebreak-text",

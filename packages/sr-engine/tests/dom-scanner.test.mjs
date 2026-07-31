@@ -12756,6 +12756,63 @@ test("scanSubtree splits AX-confirmed scalar span boundaries without splitting u
   );
 });
 
+test("scanSubtree splits AX-confirmed single span sentence boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <p data-sr-dom-node-id="sentence">The room is quiet. <span data-sr-dom-node-id="sentence-term">Layered Sound</span> opens around you.</p>
+        <p data-sr-dom-node-id="inline">The room has <span data-sr-dom-node-id="inline-term">Layered Sound</span> around you.</p>
+        <p data-sr-dom-node-id="multi">The room is quiet. <span data-sr-dom-node-id="multi-first">Layered Sound</span> and <span data-sr-dom-node-id="multi-second">Room View</span> continue.</p>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "sentence-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "sentence",
+              childIds: ["sentence-lead", "sentence-term-ax", "sentence-tail"],
+            },
+            { nodeId: "sentence-lead", role: "StaticText", name: "The room is quiet. " },
+            { nodeId: "sentence-term-ax", role: "StaticText", name: "Layered Sound" },
+            { nodeId: "sentence-tail", role: "StaticText", name: " opens around you." },
+            {
+              nodeId: "inline-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "inline",
+              childIds: ["inline-lead", "inline-term-ax", "inline-tail"],
+            },
+            { nodeId: "inline-lead", role: "StaticText", name: "The room has " },
+            { nodeId: "inline-term-ax", role: "StaticText", name: "Layered Sound" },
+            { nodeId: "inline-tail", role: "StaticText", name: " around you." },
+            {
+              nodeId: "multi-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "multi",
+              childIds: ["multi-lead", "multi-first-ax", "multi-middle", "multi-second-ax", "multi-tail"],
+            },
+            { nodeId: "multi-lead", role: "StaticText", name: "The room is quiet. " },
+            { nodeId: "multi-first-ax", role: "StaticText", name: "Layered Sound" },
+            { nodeId: "multi-middle", role: "StaticText", name: " and " },
+            { nodeId: "multi-second-ax", role: "StaticText", name: "Room View" },
+            { nodeId: "multi-tail", role: "StaticText", name: " continue." },
+          ],
+        },
+      },
+    ),
+    [
+      "The room is quiet.",
+      "Layered Sound",
+      "opens around you.",
+      "The room has Layered Sound around you.",
+      "The room is quiet. Layered Sound and Room View continue.",
+    ],
+  );
+});
+
 test("scanSubtree splits AX-confirmed inline emphasis before superscript footnote links", () => {
   assert.deepEqual(
     scanHtml(

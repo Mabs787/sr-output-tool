@@ -479,6 +479,91 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function directSingleSpanSentenceBoundaryFragments(
+    el: any,
+    role: string,
+  ): string[] | undefined {
+    if (!["paragraph", "text"].includes(role)) return undefined;
+    if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return undefined;
+    const tag = el.tagName?.toLowerCase();
+    if (tag !== "p" && tag !== "small") return undefined;
+    if (
+      el.getAttribute("role") ||
+      el.getAttribute("aria-label") ||
+      el.getAttribute("aria-labelledby") ||
+      expandedControlledRegionFor(el) ||
+      el.closest(interactiveSelector) ||
+      el.closest("li,[role='listitem']") ||
+      el.closest("footer,[role='contentinfo'],nav,[role='navigation']") ||
+      el.querySelector(interactiveSelector) ||
+      !accessibilityNodes.length
+    ) {
+      return undefined;
+    }
+
+    const visibleElements = Array.from(el.children || []).filter((child: any) => !isHidden(child));
+    if (visibleElements.length !== 1) return undefined;
+    const boundary = visibleElements[0] as any;
+    if (
+      boundary.tagName?.toLowerCase() !== "span" ||
+      boundary.getAttribute("role") ||
+      boundary.getAttribute("aria-label") ||
+      boundary.getAttribute("aria-labelledby") ||
+      boundary.hasAttribute("tabindex") ||
+      boundary.tabIndex >= 0 ||
+      boundary.children?.length ||
+      boundary.querySelector?.("[aria-hidden='true'],[hidden]")
+    ) {
+      return undefined;
+    }
+
+    const childNodes = Array.from(el.childNodes || []).filter((child: any) => {
+      if (child.nodeType === Node.TEXT_NODE) return Boolean(normalize(child.textContent || ""));
+      return child.nodeType === Node.ELEMENT_NODE && !isHidden(child);
+    });
+    if (childNodes.length !== 3 || childNodes[1] !== boundary) return undefined;
+    const leadingText = normalize(childNodes[0]?.textContent || "");
+    const boundaryText = normalize(readableText(boundary) || boundary.textContent);
+    const trailingText = normalize(childNodes[2]?.textContent || "");
+    if (
+      !leadingText ||
+      !boundaryText ||
+      !trailingText ||
+      !/[.!?。]$/u.test(leadingText) ||
+      !/^\p{Ll}/u.test(trailingText)
+    ) {
+      return undefined;
+    }
+
+    const axParent = axNodeAnyForElement(el);
+    const axChildren = axChildNodes(axParent).filter((child) => !child.ignored);
+    if (
+      !axParent ||
+      !["paragraph", "statictext", "none"].includes(normalizedAxRole(axParent.role) || "") ||
+      axChildren.length !== 3 ||
+      axChildren.some((child) => normalizedAxRole(child.role) !== "statictext")
+    ) {
+      return undefined;
+    }
+
+    const fragments = axChildren
+      .map((child) => normalize(child.name))
+      .filter((fragment): fragment is string => Boolean(fragment));
+    if (fragments.length !== 3) return undefined;
+    if (
+      fragments[0] !== leadingText ||
+      fragments[1] !== boundaryText ||
+      !normalize(trailingText)?.startsWith(normalize(fragments[2]) || "")
+    ) {
+      return undefined;
+    }
+    if (!fragmentsAppearInTextOrder(fragments, normalize(readableText(el)) || "")) {
+      return undefined;
+    }
+
+    return fragments;
+  }
+
   function axInlinePhrasingStaticTextRunFragments(
     axChildren: AccessibilityTreeNode[],
     hasVisibleElementChildren: boolean,
@@ -17247,6 +17332,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       footerInlineBoundaryTextFragments: footerInlineBoundaryTextFragments(el),
       figureMockupHeaderText: figureMockupHeaderText(el, role),
       axStaticTextRunFragments: axStaticTextRunFragments(el, role),
+      directSingleSpanSentenceBoundaryFragments:
+        directSingleSpanSentenceBoundaryFragments(el, role),
       axLineBreakTextFragments: axLineBreakTextFragments(el, role),
       inlineTextLinkFragments:
         role === "paragraph"
@@ -19589,6 +19676,16 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return fragments;
   }
 
+  function splitDirectSingleSpanSentenceBoundaryAnnouncements(
+    descriptor: CapturedElementDescriptor,
+  ): string[] | undefined {
+    const fragments = descriptor.directSingleSpanSentenceBoundaryFragments;
+    if (!["paragraph", "text"].includes(descriptor.role || "") || !fragments?.length) {
+      return undefined;
+    }
+    return fragments;
+  }
+
   function splitNativeTableCellTextAnnouncements(
     descriptor: CapturedElementDescriptor,
   ): string[] | undefined {
@@ -20080,6 +20177,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
         {
           source: "split-ax-static-text-run",
           announcements: splitAxStaticTextRunAnnouncements(descriptor),
+        },
+        {
+          source: "split-direct-single-span-sentence-boundary",
+          announcements: splitDirectSingleSpanSentenceBoundaryAnnouncements(descriptor),
         },
         {
           source: "split-ax-linebreak-text",
