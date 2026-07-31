@@ -70,6 +70,7 @@ function usage() {
     "  --phase-05-summary <path>          Validate the run-level Phase 0.5 compact summary.",
     "  --allow-missing-preflight          Validate legacy receipts without 00-agent-preflight.json.",
     "  --allow-degraded                   Permit explicit degraded/manual runs.",
+    "  --strict-terminal-outcome          Validate candidate/partial/skip Phase E closure, not only refined promotion.",
     "",
     "Example:",
     "  yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/local/www-sky-com-protect --required-phases 0,B,C,C.5,E",
@@ -82,6 +83,7 @@ function parseArgs(argv) {
     requiredPhases: [],
     allowMissingPreflight: false,
     allowDegraded: false,
+    strictTerminalOutcome: false,
     phase05Summary: "",
   };
 
@@ -97,6 +99,10 @@ function parseArgs(argv) {
     }
     if (arg === "--allow-degraded") {
       options.allowDegraded = true;
+      continue;
+    }
+    if (arg === "--strict-terminal-outcome") {
+      options.strictTerminalOutcome = true;
       continue;
     }
     if (arg === "--phase-05-summary") {
@@ -834,6 +840,64 @@ function validatePhaseERunMetrics(receiptDir, errors) {
   }
 }
 
+function validatePhaseETerminalOutcome(receiptDir, options, errors) {
+  if (!options.strictTerminalOutcome) {
+    return;
+  }
+  const receiptPath = path.join(receiptDir, "06-promotion.json");
+  if (!existsSync(receiptPath)) {
+    return;
+  }
+  const receipt = readJson(receiptPath, errors);
+  if (!receipt) {
+    return;
+  }
+
+  const decisions = ["refined", "candidate", "partial", "skip"];
+  if (!decisions.includes(receipt.promotionDecision)) {
+    errors.push(`${receiptPath}: promotionDecision must be ${decisions.join(", ")}`);
+  }
+  if (typeof receipt.exactMatch !== "boolean") {
+    errors.push(`${receiptPath}: exactMatch must be boolean`);
+  }
+  if (receipt.promotionDecision === "refined" && receipt.exactMatch !== true) {
+    errors.push(`${receiptPath}: refined promotion requires exactMatch=true`);
+  }
+  if (["candidate", "partial"].includes(receipt.promotionDecision)) {
+    const queue = asArray(receipt.revisitQueue);
+    if (queue.length === 0) {
+      errors.push(`${receiptPath}: ${receipt.promotionDecision} outcome requires a non-empty revisitQueue`);
+    }
+    queue.forEach((entry, index) => {
+      if (!isObject(entry)) {
+        errors.push(`${receiptPath}: revisitQueue[${index}] must be an object`);
+        return;
+      }
+      for (const field of ["family", "nextOwner", "nextAction", "blocker"]) {
+        if (typeof entry[field] !== "string" || !entry[field].trim()) {
+          errors.push(`${receiptPath}: revisitQueue[${index}] requires non-empty ${field}`);
+        }
+      }
+      if (!Array.isArray(entry.checksNeeded) || entry.checksNeeded.length === 0) {
+        errors.push(`${receiptPath}: revisitQueue[${index}] requires checksNeeded`);
+      }
+    });
+  }
+  const checks = asArray(receipt.checks);
+  if (checks.some((check) => !check?.status || check.status === "pending")) {
+    errors.push(`${receiptPath}: terminal Phase E checks must not be pending`);
+  }
+  if (receipt.fixturePushReview?.rawOutputEdited === true) {
+    errors.push(`${receiptPath}: terminal outcome cannot report hand-edited raw VoiceOver output`);
+  }
+  if (receipt.nextPhase !== "complete" || receipt.handoffTo !== "complete") {
+    errors.push(`${receiptPath}: terminal Phase E outcome must hand off to complete`);
+  }
+  if (receipt.nextRecommendedWorker?.type !== "none") {
+    errors.push(`${receiptPath}: terminal Phase E outcome requires nextRecommendedWorker.type=none`);
+  }
+}
+
 function preflightPathFromReceiptReference(receiptDir, errors) {
   if (!existsSync(receiptDir)) {
     return "";
@@ -962,6 +1026,7 @@ function main() {
   validateReceipts(receiptDir, options, errors);
   validatePhase05Summary(options.phase05Summary, errors);
   validateRequiredRunChecks(preflightContext, receiptDir, options, errors);
+  validatePhaseETerminalOutcome(receiptDir, options, errors);
 
   for (const warning of warnings) {
     console.warn(`warning: ${warning}`);
