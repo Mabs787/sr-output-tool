@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "apple-consent-detection-families",
+  "branch": "codex/apple-voiceover-refinement",
+  "worktree": "/private/tmp/sr-vo-apple-30548850577",
+  "leaseOwner": "/root/apple_engine",
+  "targetFamily": "scanner-consent-handler",
+  "status": "released",
+  "activeEngineRefinerCount": 0,
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": {
+    "result": "sole-active-lease",
+    "evidence": "No existing phase-d-engine-lease.json was present under voiceover-smoke/agent-work/30548850577 before acquisition; run-level preflight registers /root/apple_engine as the only Phase D engine-refiner session."
+  },
+  "separateWorktreeException": false,
+  "leaseAcquiredAt": "2026-07-31T11:45:55Z",
+  "leaseReleasedAt": "2026-07-31T11:55:15Z",
+  "leaseHistory": [
+    {
+      "owner": "/root/apple_engine",
+      "status": "released",
+      "targetFamily": "scanner-consent-handler",
+      "acquiredAt": "2026-07-31T11:45:55Z",
+      "releasedAt": "2026-07-31T11:55:15Z"
+    }
+  ]
+}

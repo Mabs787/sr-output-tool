@@ -2265,19 +2265,8 @@ JSON.stringify((() => {
   return evaluateJavaScriptInChrome(script, 15000);
 }
 
-async function dismissPageConsent(target) {
-  if (!target.url) {
-    return {
-      ok: true,
-      status: 0,
-      signal: null,
-      stdout: "skipped: consent handling is only applied to live URL scans",
-      stderr: "",
-      error: "",
-    };
-  }
-
-  const script = `
+function getDismissPageConsentExpression() {
+  return `
 JSON.stringify((() => {
   const preferenceGroups = [
     {
@@ -2325,7 +2314,65 @@ JSON.stringify((() => {
     "a[href]",
   ];
   const consentTextPattern =
-    /cookie|cookies|consent|privacy|personal data|trusted partners/i;
+    /cookie|cookies|consent|privacy|personal data|trusted partners|data sharing|preferences/i;
+  const consentTopicNamePattern =
+    /cookie|cookies|consent|privacy|gdpr|ccpa|tracking|preference|preferences/i;
+  const popupSurfaceNamePattern =
+    /banner|notice|modal|dialog|popup|panel|preference|preferences|manager|choice|choices/i;
+  const overlaySurfaceSelector = [
+    "[role='dialog']",
+    "[role='alertdialog']",
+    "[aria-modal='true']",
+    "[popover]",
+    "[data-consent]",
+    "[data-cookie]",
+    "[data-privacy]",
+    "[class*='cookie' i]",
+    "[id*='cookie' i]",
+    "[class*='consent' i]",
+    "[id*='consent' i]",
+    "[class*='privacy' i]",
+    "[id*='privacy' i]",
+    "[class*='banner' i]",
+    "[id*='banner' i]",
+    "[class*='notice' i]",
+    "[id*='notice' i]",
+  ].join(",");
+  const overlayStructuralSelector = [
+    "[role='dialog']",
+    "[role='alertdialog']",
+    "[aria-modal='true']",
+    "[popover]",
+  ].join(",");
+  const consentControlLabels = new Set([
+    "reject all",
+    "reject optional",
+    "reject non-essential",
+    "reject non essential",
+    "decline all",
+    "decline",
+    "deny all",
+    "continue without accepting",
+    "necessary cookies only",
+    "essential cookies only",
+    "save choices",
+    "save settings",
+    "confirm choices",
+    "confirm my choices",
+    "accept all",
+    "accept",
+    "allow all",
+    "agree",
+    "i agree",
+    "accept cookies",
+    "close",
+    "close cookie notice",
+    "dismiss",
+    "ok",
+    "got it",
+    "manage preferences",
+    "privacy choices",
+  ]);
 
   const normalize = (value) =>
     String(value || "")
@@ -2343,7 +2390,28 @@ JSON.stringify((() => {
         "",
     );
 
+  const getSurfaceName = (element) =>
+    normalize(
+      element.getAttribute("aria-label") ||
+        element.getAttribute("aria-labelledby") ||
+        element.id ||
+        element.className ||
+        "",
+    );
+
+  const hasHiddenAncestor = (element) => {
+    for (let node = element; node && node.nodeType === 1; node = node.parentElement) {
+      if (node.getAttribute("aria-hidden") === "true" || node.hidden) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const isVisible = (element) => {
+    if (hasHiddenAncestor(element)) {
+      return false;
+    }
     const style = window.getComputedStyle(element);
     const rect = element.getBoundingClientRect();
     return (
@@ -2355,6 +2423,80 @@ JSON.stringify((() => {
     );
   };
 
+  const isClickableControl = (element) => {
+    const tagName = element.tagName.toLowerCase();
+    const role = normalize(element.getAttribute("role") || "");
+    const type = normalize(element.getAttribute("type") || "");
+    return (
+      tagName === "button" ||
+      role === "button" ||
+      (tagName === "input" && (type === "button" || type === "submit"))
+    );
+  };
+
+  const isLink = (element) => element.tagName.toLowerCase() === "a";
+
+  const hasBoundedActionPrefix = (candidateLabel, actionLabel) => {
+    if (candidateLabel === actionLabel) {
+      return true;
+    }
+    if (!candidateLabel.startsWith(actionLabel)) {
+      return false;
+    }
+    const next = candidateLabel.charAt(actionLabel.length);
+    return Boolean(next && !/[a-z0-9]/i.test(next));
+  };
+
+  const hasConsentControl = (surface) =>
+    Array.from(surface.querySelectorAll(selectors.join(",")))
+      .slice(0, 100)
+      .some((element) => {
+        if (!isVisible(element)) {
+          return false;
+        }
+        const label = getLabel(element);
+        return Boolean(
+          label &&
+            Array.from(consentControlLabels).some((actionLabel) =>
+              hasBoundedActionPrefix(label, actionLabel),
+            ),
+        );
+      });
+
+  const hasConsentSurfaceShape = (element) => {
+    const text = element.innerText || element.textContent || "";
+    if (!consentTextPattern.test(text)) {
+      return false;
+    }
+    if (element.matches(overlayStructuralSelector)) {
+      return true;
+    }
+    const surfaceName = getSurfaceName(element);
+    const tagName = element.tagName.toLowerCase();
+    if (tagName === "section" || tagName === "article" || tagName === "li" || tagName === "main") {
+      return false;
+    }
+    const style = window.getComputedStyle(element);
+    const hasPopupPosition = style.position === "fixed" || style.position === "sticky";
+    return (
+      consentTopicNamePattern.test(surfaceName) &&
+      (popupSurfaceNamePattern.test(surfaceName) || hasPopupPosition) &&
+      hasConsentControl(element)
+    );
+  };
+
+  const getConsentSurface = (element) => {
+    for (let node = element; node && node.nodeType === 1; node = node.parentElement) {
+      if (!isVisible(node)) {
+        continue;
+      }
+      if (node.matches(overlaySurfaceSelector) && hasConsentSurfaceShape(node)) {
+        return node;
+      }
+    }
+    return null;
+  };
+
   const candidates = Array.from(document.querySelectorAll(selectors.join(",")))
     .slice(0, 500)
     .filter((element, index, all) => all.indexOf(element) === index)
@@ -2364,16 +2506,24 @@ JSON.stringify((() => {
       tagName: element.tagName.toLowerCase(),
       role: element.getAttribute("role") || "",
       visible: isVisible(element),
+      consentSurface: getConsentSurface(element),
     }))
     .filter((candidate) => candidate.visible && candidate.label);
 
   for (const group of preferenceGroups) {
     for (const label of group.labels) {
-      const exactMatch = candidates.find((candidate) => candidate.label === label);
-      const partialMatch = candidates.find((candidate) =>
-        candidate.label.includes(label),
-      );
-      const match = exactMatch || partialMatch;
+      const match = candidates.find((candidate) => {
+        if (!candidate.consentSurface) {
+          return false;
+        }
+        if (isLink(candidate.element)) {
+          return candidate.label === label;
+        }
+        return (
+          isClickableControl(candidate.element) &&
+          hasBoundedActionPrefix(candidate.label, label)
+        );
+      });
       if (match) {
         match.element.click();
         return {
@@ -2390,22 +2540,12 @@ JSON.stringify((() => {
   }
 
   const overlayCandidates = Array.from(
-    document.querySelectorAll(
-      [
-        "[role='dialog']",
-        "[aria-modal='true']",
-        "[class*='cookie' i]",
-        "[id*='cookie' i]",
-        "[class*='consent' i]",
-        "[id*='consent' i]",
-        "[class*='privacy' i]",
-        "[id*='privacy' i]",
-      ].join(","),
-    ),
+    document.querySelectorAll(overlaySurfaceSelector),
   )
     .slice(0, 50)
     .filter((element) => isVisible(element))
-    .filter((element) => consentTextPattern.test(element.innerText || element.textContent || ""));
+    .filter((element) => hasConsentSurfaceShape(element))
+    .filter((element) => hasConsentControl(element));
 
   if (overlayCandidates.length) {
     for (const element of overlayCandidates) {
@@ -2433,6 +2573,22 @@ JSON.stringify((() => {
   };
 })())
 `;
+
+}
+
+async function dismissPageConsent(target) {
+  if (!target.url) {
+    return {
+      ok: true,
+      status: 0,
+      signal: null,
+      stdout: "skipped: consent handling is only applied to live URL scans",
+      stderr: "",
+      error: "",
+    };
+  }
+
+  const script = getDismissPageConsentExpression();
 
   return evaluateJavaScriptInChrome(script, 15000);
 }
@@ -4583,6 +4739,7 @@ export {
   captureAccessibilityTree,
   captureRenderedSourceHtml,
   captureStepSnapshot,
+  getDismissPageConsentExpression,
   getScanRootSelector,
   getTargetUrl,
   hasLiveChromeDiagnosticsTarget,
