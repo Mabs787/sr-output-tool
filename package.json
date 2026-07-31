@@ -25,7 +25,10 @@
     "voiceover:validate-agent-workflow:test": "node --test .github/scripts/validate-agent-workflow.test.mjs",
     "voiceover:compact-state": "node .github/scripts/compact-voiceover-run-state.mjs",
     "voiceover:compact-state:test": "node --test .github/scripts/compact-voiceover-run-state.test.mjs",
-    "voiceover:workflow-status": "node .github/scripts/voiceover-workflow-status.mjs"
+    "voiceover:workflow-status": "node .github/scripts/voiceover-workflow-status.mjs",
+    "voiceover:c5": "node .github/scripts/voiceover-c5-lifecycle.mjs",
+    "voiceover:archive-evidence": "node .github/scripts/archive-voiceover-evidence.mjs",
+    "voiceover:workflow-tools:test": "node --test .github/scripts/*.test.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.5",

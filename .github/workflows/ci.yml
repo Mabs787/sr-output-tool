@@ -80,6 +80,9 @@ jobs:
       - name: Extension unit tests
         run: yarn --cwd packages/sr-extension test:unit
 
+      - name: VoiceOver workflow unit tests
+        run: yarn voiceover:workflow-tools:test
+
   package-extension:
     name: Package extension
     runs-on: ubuntu-latest

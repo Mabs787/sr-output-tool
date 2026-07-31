@@ -696,3 +696,73 @@ test("accepts complete v3 workflow receipts with all required run checks", async
     assert.match(result.stdout, /Agent workflow validation passed/);
   });
 });
+
+test("strict terminal validation accepts evidence-backed candidate closure", async () => {
+  await withTempRun(async (dir) => {
+    const targetDir = path.join(dir, "run-1/example-target");
+    await writeJson(
+      path.join(targetDir, "00-agent-preflight.json"),
+      preflight(["promoter"]),
+    );
+    await writeJson(
+      path.join(targetDir, "06-promotion.json"),
+      phaseReceipt("E", "promoter", {
+        promotionDecision: "candidate",
+        exactMatch: false,
+        revisitQueue: [{
+          family: "carousel-context",
+          nextOwner: "repro-scanner",
+          nextAction: "Run the focused carousel reproduction.",
+          blocker: "Saved evidence does not contain the interaction state.",
+          checksNeeded: ["C.5 canary", "target comparison"],
+        }],
+        checks: [{ status: "passed", command: "fixture comparison" }],
+        nextPhase: "complete",
+        handoffTo: "complete",
+        nextRecommendedWorker: { type: "none" },
+      }),
+    );
+
+    const result = await runValidator([
+      targetDir,
+      "--required-phases",
+      "E",
+      "--strict-terminal-outcome",
+    ]);
+
+    assert.equal(result.exitCode, 0, result.stderr);
+  });
+});
+
+test("strict terminal validation rejects generic candidate parking", async () => {
+  await withTempRun(async (dir) => {
+    const targetDir = path.join(dir, "run-1/example-target");
+    await writeJson(
+      path.join(targetDir, "00-agent-preflight.json"),
+      preflight(["promoter"]),
+    );
+    await writeJson(
+      path.join(targetDir, "06-promotion.json"),
+      phaseReceipt("E", "promoter", {
+        promotionDecision: "candidate",
+        exactMatch: false,
+        revisitQueue: [],
+        checks: [{ status: "pending" }],
+        nextPhase: "complete",
+        handoffTo: "complete",
+        nextRecommendedWorker: { type: "none" },
+      }),
+    );
+
+    const result = await runValidator([
+      targetDir,
+      "--required-phases",
+      "E",
+      "--strict-terminal-outcome",
+    ]);
+
+    assert.equal(result.exitCode, 1);
+    assert.match(result.stderr, /requires a non-empty revisitQueue/);
+    assert.match(result.stderr, /checks must not be pending/);
+  });
+});

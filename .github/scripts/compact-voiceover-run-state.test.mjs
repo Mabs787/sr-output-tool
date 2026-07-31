@@ -121,3 +121,115 @@ test("--check reports oversized receipts without writing state", () => {
     true,
   );
 });
+
+test("separates large evidence sidecars from ordinary receipt budget", () => {
+  const runDir = mkdtempSync(path.join(os.tmpdir(), "voiceover-compact-sidecar-"));
+  writeJson(
+    path.join(runDir, "target-a/03-evidence-packet.json"),
+    receipt("B-evidence", "evidence-refiner", "evidence-session", {
+      evidence: "x".repeat(1200),
+    }),
+  );
+  writeJson(
+    path.join(runDir, "target-a/03-evidence-refinement.json"),
+    receipt("B", "evidence-refiner", "evidence-session"),
+  );
+
+  execFileSync(process.execPath, [scriptPath, "--run-dir", runDir], {
+    cwd: repoRoot,
+  });
+  const state = JSON.parse(
+    readFileSync(path.join(runDir, "_summaries/orchestrator-state.json"), "utf8"),
+  );
+  assert.equal(state.receipts.oversizedCount, 0);
+  assert.equal(state.receipts.oversizedSidecarCount, 0);
+  assert.equal(state.receipts.sidecarCount, 1);
+  assert.equal(state.receipts.ordinaryCount, 1);
+});
+
+test("watchdog reports missing terminal Phase E accounting", () => {
+  const runDir = mkdtempSync(path.join(os.tmpdir(), "voiceover-compact-terminal-"));
+  writeJson(
+    path.join(runDir, "target-a/03-evidence-refinement.json"),
+    receipt("B", "evidence-refiner", "evidence-session", {
+      nextPhase: "C",
+      nextRecommendedWorker: { type: "fixture-judge" },
+    }),
+  );
+
+  const result = spawnSync(
+    process.execPath,
+    [
+      scriptPath,
+      "--run-dir",
+      runDir,
+      "--check",
+      "--require-terminal",
+      "--stale-after-minutes",
+      "999999",
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 2);
+  const state = JSON.parse(result.stdout);
+  assert.deepEqual(state.watchdog.missingTerminalTargets, ["target-a"]);
+  assert.equal(state.watchdog.status, "incomplete");
+});
+
+test("watchdog accepts candidate and partial terminal Phase E receipts", () => {
+  const runDir = mkdtempSync(path.join(os.tmpdir(), "voiceover-compact-complete-"));
+  writeJson(
+    path.join(runDir, "target-a/06-promotion.json"),
+    receipt("E", "promoter", "promoter-session", {
+      promotionDecision: "candidate",
+      exactMatch: false,
+      nextPhase: "complete",
+      handoffTo: "complete",
+      nextRecommendedWorker: { type: "none" },
+    }),
+  );
+
+  const result = spawnSync(
+    process.execPath,
+    [scriptPath, "--run-dir", runDir, "--check", "--require-terminal"],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0);
+  const state = JSON.parse(result.stdout);
+  assert.equal(state.watchdog.terminalTargetCount, 1);
+  assert.equal(state.targets[0].promotionDecision, "candidate");
+});
+
+test("uses the Phase E ledger as target inventory and excludes support directories", () => {
+  const runDir = mkdtempSync(path.join(os.tmpdir(), "voiceover-compact-inventory-"));
+  writeJson(path.join(runDir, "_summaries/06-promotion.json"), {
+    schemaVersion: 1,
+    phase: "E",
+    decisionLedger: [{ target: "target-a", promotionDecision: "candidate" }],
+  });
+  writeJson(
+    path.join(runDir, "target-a/06-promotion.json"),
+    receipt("E", "promoter", "promoter-session", {
+      promotionDecision: "candidate",
+      nextPhase: "complete",
+      handoffTo: "complete",
+      nextRecommendedWorker: { type: "none" },
+    }),
+  );
+  writeJson(
+    path.join(runDir, "shared-c5-support/05-engine-refinement.json"),
+    receipt("D", "engine-refiner", "engine-session"),
+  );
+
+  execFileSync(process.execPath, [scriptPath, "--run-dir", runDir], {
+    cwd: repoRoot,
+  });
+  const state = JSON.parse(
+    readFileSync(path.join(runDir, "_summaries/orchestrator-state.json"), "utf8"),
+  );
+  assert.equal(state.targetCount, 1);
+  assert.equal(state.declaredTargetInventory, "phase-e-decision-ledger");
+  assert.deepEqual(state.supportDirectories, ["shared-c5-support"]);
+});
