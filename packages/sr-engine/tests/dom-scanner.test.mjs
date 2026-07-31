@@ -5962,6 +5962,79 @@ test("scanSubtree preserves exact AX parenthetical link names", () => {
   );
 });
 
+test("scanSubtree preserves AX-confirmed generated pseudo glyph link names", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <a data-sr-dom-node-id="external-link" href="https://example.com/features">
+            <span>Browse all features</span><span aria-hidden="true" data-sr-pseudo-after=""></span>
+          </a>
+          <a data-sr-dom-node-id="dom-only-pseudo" href="https://example.com/dom-only">
+            <span>DOM only</span><span aria-hidden="true" data-sr-pseudo-after=""></span>
+          </a>
+          <a data-sr-dom-node-id="textual-pseudo" href="https://example.com/textual">
+            <span>Textual pseudo</span><span aria-hidden="true" data-sr-pseudo-after="opens in new tab"></span>
+          </a>
+          <a data-sr-dom-node-id="url-mismatch" href="https://example.com/local">
+            <span>URL mismatch</span><span aria-hidden="true" data-sr-pseudo-after=""></span>
+          </a>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "link",
+              name: "Browse all features ",
+              domNodeId: "external-link",
+              properties: {
+                focusable: true,
+                url: "https://example.com/features",
+              },
+            },
+            {
+              role: "link",
+              name: "DOM only",
+              domNodeId: "dom-only-pseudo",
+              properties: {
+                focusable: true,
+                url: "https://example.com/dom-only",
+              },
+            },
+            {
+              role: "link",
+              name: "Textual pseudo opens in new tab",
+              domNodeId: "textual-pseudo",
+              properties: {
+                focusable: true,
+                url: "https://example.com/textual",
+              },
+            },
+            {
+              role: "link",
+              name: "URL mismatch ",
+              domNodeId: "url-mismatch",
+              properties: {
+                focusable: true,
+                url: "https://example.com/other",
+              },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "link, Browse all features ",
+      "link, DOM only",
+      "link, Textual pseudo",
+      "link, URL mismatch",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree keeps AX casing scoped to duplicate same-href link DOM nodes", () => {
   assert.deepEqual(
     scanHtml(

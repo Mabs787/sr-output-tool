@@ -1299,6 +1299,48 @@
           const names = new Set(candidates.map((node) => normalize(node.name)).filter((candidate) => Boolean(candidate)));
           return names.size === 1 ? Array.from(names)[0] : void 0;
         }
+        function generatedPseudoTextInSubtree(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE)
+            return [];
+          const values = [];
+          const visit = (node) => {
+            if (!node || node.nodeType !== Node.ELEMENT_NODE)
+              return;
+            for (const side of ["before", "after"]) {
+              const text = generatedPseudoText(node, side);
+              if (text)
+                values.push(text);
+            }
+            if (isHidden(node))
+              return;
+            for (const child of Array.from(node.children || [])) {
+              visit(child);
+            }
+          };
+          visit(el);
+          return values;
+        }
+        function axGeneratedPseudoLinkName(el, role, name) {
+          if (role !== "link" || !name || !accessibilityNodes.length)
+            return void 0;
+          if (el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby"))
+            return void 0;
+          const pseudoTokens = generatedPseudoTextInSubtree(el).filter((token) => {
+            const value = normalize(token);
+            return Boolean(value && value.length <= 4 && !/[\p{L}\p{N}]/u.test(value) && /[^\s]/u.test(value));
+          });
+          if (!pseudoTokens.length)
+            return void 0;
+          const axNode = axNodeForElementRole(el, "link");
+          const axName = normalize(axNode?.name);
+          if (!axNode || axNode.properties?.focusable !== true || !axName || axName === name) {
+            return void 0;
+          }
+          if (!linkMatchesAxUrl(el, axNode))
+            return void 0;
+          const compact = (value) => (normalize(value) ?? "").replace(/\s+/g, "");
+          return pseudoTokens.some((token) => compact(axName) === compact(`${name} ${token}`)) ? axName : void 0;
+        }
         function hasAxRole(el, role) {
           if (!accessibilityNodes.length)
             return false;
@@ -5467,7 +5509,7 @@
           if (role === "link") {
             const contentName = linkContentName(el);
             if (contentName) {
-              return axLinkedCardContentName(el, role, contentName) || renderedCaseName(el, role, contentName) || axParentheticalName(el, role, contentName) || axWhitespaceOnlyLinkName(el, role, contentName) || contentName;
+              return axLinkedCardContentName(el, role, contentName) || renderedCaseName(el, role, contentName) || axParentheticalName(el, role, contentName) || axGeneratedPseudoLinkName(el, role, contentName) || axWhitespaceOnlyLinkName(el, role, contentName) || contentName;
             }
             const titleName = normalize(el.getAttribute("title"));
             if (titleName)

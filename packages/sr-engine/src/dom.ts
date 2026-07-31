@@ -331,6 +331,56 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return names.size === 1 ? Array.from(names)[0] : undefined;
   }
 
+  function generatedPseudoTextInSubtree(el: any): string[] {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return [];
+    const values: string[] = [];
+    const visit = (node: any) => {
+      if (!node || node.nodeType !== Node.ELEMENT_NODE) return;
+      for (const side of ["before", "after"] as const) {
+        const text = generatedPseudoText(node, side);
+        if (text) values.push(text);
+      }
+      if (isHidden(node)) return;
+      for (const child of Array.from(node.children || [])) {
+        visit(child);
+      }
+    };
+    visit(el);
+    return values;
+  }
+
+  function axGeneratedPseudoLinkName(
+    el: any,
+    role: string,
+    name?: string,
+  ): string | undefined {
+    if (role !== "link" || !name || !accessibilityNodes.length) return undefined;
+    if (el.hasAttribute("aria-label") || el.hasAttribute("aria-labelledby")) return undefined;
+
+    const pseudoTokens = generatedPseudoTextInSubtree(el).filter((token) => {
+      const value = normalize(token);
+      return Boolean(
+        value &&
+          value.length <= 4 &&
+          !/[\p{L}\p{N}]/u.test(value) &&
+          /[^\s]/u.test(value),
+      );
+    });
+    if (!pseudoTokens.length) return undefined;
+
+    const axNode = axNodeForElementRole(el, "link");
+    const axName = normalize(axNode?.name);
+    if (!axNode || axNode.properties?.focusable !== true || !axName || axName === name) {
+      return undefined;
+    }
+    if (!linkMatchesAxUrl(el, axNode)) return undefined;
+
+    const compact = (value: string) => (normalize(value) ?? "").replace(/\s+/g, "");
+    return pseudoTokens.some((token) => compact(axName) === compact(`${name} ${token}`))
+      ? axName
+      : undefined;
+  }
+
   function hasAxRole(el: any, role: string): boolean {
     if (!accessibilityNodes.length) return false;
     const domNodeId = normalize(el?.getAttribute?.("data-sr-dom-node-id"));
@@ -5105,6 +5155,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           axLinkedCardContentName(el, role, contentName) ||
           renderedCaseName(el, role, contentName) ||
           axParentheticalName(el, role, contentName) ||
+          axGeneratedPseudoLinkName(el, role, contentName) ||
           axWhitespaceOnlyLinkName(el, role, contentName) ||
           contentName
         );

@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "sessionId": "/root/apple_engine",
+  "runId": "30548850577",
+  "target": "www-apple-com-accessibility",
+  "family": "external-link-pseudo-glyph",
+  "status": "patched",
+  "startedAt": "2026-07-31T12:04:07Z",
+  "completedAt": "2026-07-31T12:11:52Z",
+  "lease": {
+    "owner": "/root/apple_engine",
+    "acquiredAt": "2026-07-31T12:04:07Z",
+    "releasedAt": "2026-07-31T12:11:52Z",
+    "activeEngineRefinerCountAtFinish": 0
+  },
+  "sourceReceipts": [
+    "voiceover-smoke/agent-work/30548850577/_summaries/pre-phase-d-baseline.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/04-fixture-judge.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/04-fixture-judge.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com/04-fixture-judge.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json"
+  ],
+  "fixtureChanges": [],
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Preserve a focused link AX name when a saved generated pseudo glyph in the link subtree is confirmed by the AX focused link name and matching URL."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Adds a focused positive case plus negative controls for DOM-only pseudo metadata, textual pseudo content, and URL-mismatched AX nodes."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerated extension runtime bundle from the engine source change."
+    }
+  ],
+  "implementedRule": {
+    "kind": "link-name",
+    "genericCause": "AX-confirmed generated pseudo glyphs in link names",
+    "guards": [
+      "role must be link",
+      "descriptor name must come from link content, not aria-label or aria-labelledby",
+      "saved link subtree must expose a generated pseudo token",
+      "pseudo token must be short, non-alphanumeric, and non-whitespace",
+      "AX node must uniquely match the DOM node as a focusable link",
+      "AX URL path/search must match the link href",
+      "AX name compactly equals descriptor content name plus the pseudo token"
+    ],
+    "notImplemented": [
+      "No site selectors, Apple class names, product names, URLs, or text-copy assumptions.",
+      "No synthesis from DOM pseudo metadata without AX confirmation.",
+      "No broad textual pseudo suffix handling."
+    ]
+  },
+  "verification": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "status": "passed",
+      "summary": "TypeScript build completed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"preserves AX-confirmed generated pseudo glyph link names\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "status": "passed",
+      "summary": "1 matching test passed; 381 skipped by pattern."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "status": "passed",
+      "summary": "448 tests: 392 passed, 56 skipped."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
+      "status": "passed-with-existing-mismatches",
+      "summary": "expectedCount 378, actualCount 348, mismatchWindowCount 13; grouped list/marker 12 and punctuation/text-boundary 1. Latest windows no longer include the external-link pseudo-glyph family."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "status": "passed-with-existing-mismatch",
+      "summary": "expectedCount 164, actualCount 165, mismatchWindowCount 1 at actual/expected index 31; unchanged known baseline actual 'Ask Microsoft Accessibility' before expected 'heading level 3, Disability Answer Desk'."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "status": "failed-known-baseline",
+      "summary": "59 tests: 37 passed, 21 skipped, 1 failed on known www-microsoft-com-en-us-accessibility index 31 mismatch; matches pre-Phase-D baseline."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn build:extension-runtime",
+      "status": "passed",
+      "summary": "Turbo extension runtime build completed under Node 24 runtime."
+    }
+  ],
+  "targetCompareAfterPatch": {
+    "fixture": "www-apple-com-accessibility",
+    "expectedCount": 378,
+    "actualCount": 348,
+    "mismatchWindowCount": 13,
+    "grouped": {
+      "list/marker": 12,
+      "punctuation/text-boundary": 1
+    },
+    "latestWindowIndexes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ]
+  },
+  "resolvedFamilies": [
+    {
+      "family": "external-link-pseudo-glyph",
+      "phaseCWindowIndexes": [
+        2,
+        3,
+        8,
+        9,
+        10,
+        11
+      ],
+      "shape": "focused links whose AX name includes a saved generated external-link glyph token absent from the DOM-derived link content name",
+      "result": "patched-by-generic-ax-confirmed-pseudo-glyph-rule",
+      "phaseCConditionalRefsHeldBack": [
+        "da3570e3489c"
+      ]
+    }
+  ],
+  "revisitQueue": [
+    {
+      "target": "www-apple-com-accessibility",
+      "family": "local-nav-wrapper-group",
+      "latestWindowIndexes": [
+        1
+      ],
+      "actualShape": "Local navigation begins directly after global navigation.",
+      "expectedShape": "VoiceOver announces an intervening generic group before Local navigation.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 isolated same-structure scan before any scanner-stop/grouping rule.",
+      "blocker": "Phase C classified debug-evidence-missing/C5-gated.",
+      "checksNeeded": [
+        "isolated repro VoiceOver scan",
+        "target compare after evidence refinement",
+        "full unit/runtime checks if promoted to Phase D"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "family": "impact-stories-carousel-grouping",
+      "latestWindowIndexes": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "actualShape": "Carousel cards are largely flattened with list positions and missing several focused child boundaries.",
+      "expectedShape": "VoiceOver traverses watch links, list item boundaries, images/groups, block quote split, and selected story group structure.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 because Phase C marked conditional-state-confirmed and scanner evidence gated.",
+      "blocker": "Conditional carousel state and focused-node contract need isolated proof before a reusable card/list rule.",
+      "checksNeeded": [
+        "isolated same-structure carousel scan",
+        "AX/source state snapshot for current tabpanel/list item focus",
+        "target compare",
+        "unit and corpus checks for any future generic rule"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "family": "footnote-listitem-inline-link-grouping",
+      "latestWindowIndexes": [
+        6,
+        7
+      ],
+      "actualShape": "Footnote list items omit embedded link text and punctuation boundaries in long text runs.",
+      "expectedShape": "VoiceOver includes the omitted inline link text and link-adjacent punctuation inside numbered list item announcements.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Return to Phase C.5 for the accessibility target before applying a broad inline footnote/list rule.",
+      "blocker": "Accessibility family remained C5-gated even though a related labels family is engine-ready.",
+      "checksNeeded": [
+        "focused listitem/link AX-source evidence",
+        "target compare",
+        "unit negative controls across ordinary inline links"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "family": "apple-shell-footer-inline-shop-text-boundaries",
+      "latestWindowIndexes": [
+        8,
+        9
+      ],
+      "actualShape": "Footer shop paragraph starts at links and later text, omitting leading/static adjacent text boundaries.",
+      "expectedShape": "VoiceOver announces 'More ways to shop:', link stops, 'near you.', 'Or call', phone link, and trailing text separately.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run C.5 for accessibility footer shop shape before broad footer inline boundary work.",
+      "blocker": "Phase C held this target family behind C.5.",
+      "checksNeeded": [
+        "isolated footer inline paragraph scan",
+        "target compare",
+        "full unit/runtime checks for any reusable split rule"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "family": "footer-legal-single-link-listitem-markers",
+      "latestWindowIndexes": [
+        10,
+        11,
+        12,
+        13
+      ],
+      "actualShape": "Footer legal list emits consecutive positioned links without intervening list item marker stops.",
+      "expectedShape": "VoiceOver inserts 'list item' around single-link legal list items.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 because Phase C classified debug-evidence-missing.",
+      "blocker": "Saved evidence insufficient for a reusable listitem marker rule.",
+      "checksNeeded": [
+        "isolated legal single-link list scan",
+        "AX/source listitem evidence",
+        "corpus guard on ordinary link lists"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "family": "footer-buystrip-image-glyph-text-boundary",
+      "latestWindowIndexes": [
+        2,
+        3,
+        4
+      ],
+      "actualShape": "Buystrip image/glyph text boundaries differ from trusted VoiceOver output.",
+      "expectedShape": "VoiceOver splits the generic image/glyph text run at saved AX/DOM boundaries.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Handle as a separate generic cause from external-link pseudo glyph names.",
+      "blocker": "Not attempted in this single-cause patch.",
+      "checksNeeded": [
+        "focused unit test",
+        "labels target compare",
+        "engine unit tests",
+        "extension runtime build"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "family": "footnote-listitem-group-and-inline-link-name",
+      "latestWindowIndexes": [
+        5
+      ],
+      "actualShape": "Footnote listitem/group and inline-link naming differs from trusted VoiceOver output.",
+      "expectedShape": "VoiceOver preserves listitem/group boundaries and inline link naming.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect focused-node contract and implement only a narrow reusable listitem/link rule if evidence supports it.",
+      "blocker": "Not attempted in this single-cause patch.",
+      "checksNeeded": [
+        "focused unit test",
+        "labels target compare",
+        "engine unit tests",
+        "corpus guard"
+      ]
+    },
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "family": "footer-shop-inline-text-boundaries",
+      "latestWindowIndexes": [
+        6,
+        7
+      ],
+      "actualShape": "Footer shop inline text/link boundaries differ from trusted VoiceOver output.",
+      "expectedShape": "VoiceOver splits leading text, link stops, nearby text, phone intro, phone link, and trailing text.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Attempt narrow AX/DOM-confirmed inline text boundary rule using labels target evidence.",
+      "blocker": "Not attempted in this single-cause patch.",
+      "checksNeeded": [
+        "focused unit test",
+        "labels target compare",
+        "Apple accessibility compare as cross-target guard",
+        "engine unit tests"
+      ]
+    },
+    {
+      "target": "www-apple-com",
+      "family": "college-and-tradein-footnote-text-boundaries",
+      "latestWindowIndexes": [
+        1,
+        2
+      ],
+      "actualShape": "Homepage footnote/link text boundaries differ from trusted VoiceOver output.",
+      "expectedShape": "VoiceOver splits footnote text and inline link-adjacent boundaries from generic DOM/AX evidence.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect Phase B text-boundary lookup and implement a narrow reusable text segmentation rule if supported.",
+      "blocker": "Not attempted in this single-cause patch.",
+      "checksNeeded": [
+        "homepage target compare",
+        "focused segmentation unit tests",
+        "engine unit tests",
+        "corpus guard"
+      ]
+    },
+    {
+      "target": "www-apple-com",
+      "family": "footer-footnote-and-apple-card-link-boundaries",
+      "latestWindowIndexes": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "actualShape": "Homepage footer footnote and inline card link boundaries remain mismatched.",
+      "expectedShape": "VoiceOver preserves the trusted footnote/link text boundary sequence.",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Cluster with the homepage footnote-boundary cause only if evidence proves the same generic DOM/AX boundary.",
+      "blocker": "Not attempted in this single-cause patch.",
+      "checksNeeded": [
+        "homepage target compare",
+        "focused unit tests",
+        "engine unit tests",
+        "extension runtime build"
+      ]
+    },
+    {
+      "target": "www-apple-com",
+      "family": "apple-shell-carousel-tabpanel-list-position",
+      "latestWindowIndexes": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualShape": "Homepage carousel tabpanel/list positions require scanner evidence.",
+      "expectedShape": "VoiceOver uses carousel tabpanel/list position structure not yet safely modeled.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 before any reusable carousel table/list position rule.",
+      "blocker": "Phase C scanner-evidence-gap.",
+      "checksNeeded": [
+        "isolated carousel repro",
+        "AX/source snapshots",
+        "target compare after C5"
+      ]
+    }
+  ]
+}
