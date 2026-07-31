@@ -1,0 +1,560 @@
+{
+  "schemaVersion": 1,
+  "phase": "D-reconciliation-audit",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "target": "_summaries",
+  "runId": "30548850577",
+  "status": "passed",
+  "startedAt": "2026-07-31T15:42:49Z",
+  "finishedAt": "2026-07-31T15:42:49Z",
+  "branch": "codex/apple-voiceover-refinement",
+  "head": "b299bb8ad2b461f392e56c7fa38400c0e0690b6f",
+  "auditScope": {
+    "sourceHeadRequested": "b299bb8",
+    "leaseAcquired": false,
+    "activeLeaseCountAtStart": null,
+    "activeLeaseCountAtFinish": null,
+    "codeChanged": false,
+    "engineFilesChanged": [],
+    "fixtureChanges": [],
+    "largeArtifactsRead": [],
+    "inputEngineReadyFamilyCount": 13,
+    "inputEngineReadyWindowCount": 25
+  },
+  "inputs": {
+    "runLevelOwnership": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-cross-page-family-ownership.json",
+    "baseline": "voiceover-smoke/agent-work/30548850577/_summaries/pre-phase-d-baseline.json",
+    "phaseDReceipts": [
+      "voiceover-smoke/agent-work/30548850577/apple-consent-detection-families/05-engine-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/05-engine-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-engine-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-engine-final-audit.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/05-engine-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/05-engine-final-audit.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/05-engine-refinement.json"
+    ],
+    "compactFamilyReceipts": [
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json"
+    ]
+  },
+  "committedGenericPatches": [
+    {
+      "commit": "c0610f8",
+      "name": "consent scanner matching",
+      "families": [
+        "consent-detection-label-matching",
+        "consent-detection-overlay-bounds",
+        "homepage-consent-scanner-handler"
+      ]
+    },
+    {
+      "commit": "7659f77",
+      "name": "AX-confirmed generated pseudo glyph link names",
+      "families": [
+        "external-link-pseudo-glyph",
+        "visionos-external-link-pseudo-glyph"
+      ]
+    },
+    {
+      "commit": "cab923a",
+      "name": "figure SVG media intro image stops",
+      "families": [
+        "footer-buystrip-image-glyph-text-boundary"
+      ]
+    },
+    {
+      "commit": "e170e96",
+      "name": "named superscript footnote stops",
+      "families": [
+        "homepage-engine-ready-footnote-link-boundaries"
+      ]
+    },
+    {
+      "commit": "d9e9df9",
+      "name": "AX-confirmed superscript footnote metrics",
+      "families": [
+        "technology-statistic-split-and-footnote-boundary"
+      ]
+    },
+    {
+      "commit": "b299bb8",
+      "name": "single-span sentence boundaries",
+      "families": [
+        "technology-inline-text-boundaries"
+      ]
+    }
+  ],
+  "engineReadyReconciliation": [
+    {
+      "familyId": "footer-buystrip-image-glyph-text-boundary",
+      "targets": [
+        "www-apple-com-accessibility-labels"
+      ],
+      "inputWindowCount": 3,
+      "classification": "resolved-by-committed-generic-patches",
+      "resolvedBy": [
+        "7659f77",
+        "cab923a"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Labels Phase D improved from 10 to 8 windows and patched the remaining buystrip figure-intro image stops after the pseudo glyph sub-gap had already resolved."
+    },
+    {
+      "familyId": "footnote-listitem-group-and-inline-link-name",
+      "targets": [
+        "www-apple-com-accessibility-labels"
+      ],
+      "inputWindowCount": 1,
+      "classification": "c5-gated-after-cross-target-reconciliation",
+      "resolvedBy": [],
+      "currentResidualWindows": [
+        2
+      ],
+      "receiptEvidence": "Labels final audit returned this to repro-scanner because the listitem grouping plus inline-link naming shape overlaps Accessibility C.5 family footnote-listitem-inline-link-grouping."
+    },
+    {
+      "familyId": "footer-shop-inline-text-boundaries",
+      "targets": [
+        "www-apple-com-accessibility-labels"
+      ],
+      "inputWindowCount": 2,
+      "classification": "c5-gated-after-cross-target-reconciliation",
+      "resolvedBy": [],
+      "currentResidualWindows": [
+        3,
+        4
+      ],
+      "receiptEvidence": "Labels final audit returned this to repro-scanner because it shares the Apple shell footer shape with Homepage and Accessibility footer-shop C.5 queues."
+    },
+    {
+      "familyId": "homepage-engine-ready-footnote-link-boundaries",
+      "targets": [
+        "www-apple-com"
+      ],
+      "inputWindowCount": 6,
+      "classification": "partial-resolved-remaining-c5-gated",
+      "resolvedBy": [
+        "e170e96"
+      ],
+      "resolvedSubGaps": [
+        {
+          "subGap": "named-numeric-superscript-boundary",
+          "currentResidualWindows": [],
+          "evidence": "Homepage compare improved from 17 to 16 windows."
+        }
+      ],
+      "currentResidualWindows": [
+        1,
+        7,
+        8,
+        9,
+        10
+      ],
+      "receiptEvidence": "Homepage final audit kept the labelled span/group boundary and footer footnote/card link boundaries behind overlapping C.5 grouping and inline-link families."
+    },
+    {
+      "familyId": "external-link-pseudo-glyph",
+      "targets": [
+        "www-apple-com-accessibility"
+      ],
+      "inputWindowCount": 5,
+      "classification": "resolved-by-committed-generic-patch",
+      "resolvedBy": [
+        "7659f77"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Accessibility Phase D records a generic AX-confirmed pseudo-glyph link-name rule and no current pseudo-glyph residual."
+    },
+    {
+      "familyId": "technology-inline-text-boundaries",
+      "targets": [
+        "www-apple-com-apple-vision-pro"
+      ],
+      "inputWindowCount": 3,
+      "classification": "partial-resolved-target-residual",
+      "resolvedBy": [
+        "b299bb8"
+      ],
+      "resolvedSubGaps": [
+        {
+          "subGap": "direct-single-span-sentence-boundary",
+          "currentResidualWindows": [],
+          "evidence": "Vision Pro target compare improved from 42 to 41 windows."
+        }
+      ],
+      "currentResidualWindows": [
+        27,
+        28
+      ],
+      "receiptEvidence": "The remaining multi-span inline windows need a predicate that does not split every span in the same paragraph; broad direct-span splitting is documented as unsafe."
+    },
+    {
+      "familyId": "technology-statistic-split-and-footnote-boundary",
+      "targets": [
+        "www-apple-com-apple-vision-pro"
+      ],
+      "inputWindowCount": 4,
+      "classification": "resolved-by-committed-generic-patch",
+      "resolvedBy": [
+        "d9e9df9"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Vision Pro Phase D records this family as still resolved from d9e9df9."
+    },
+    {
+      "familyId": "visionos-external-link-pseudo-glyph",
+      "targets": [
+        "www-apple-com-apple-vision-pro"
+      ],
+      "inputWindowCount": 1,
+      "classification": "resolved-by-committed-generic-patch",
+      "resolvedBy": [
+        "7659f77"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Vision Pro Phase D records no current external-link pseudo-glyph residual."
+    },
+    {
+      "familyId": "consent-detection-label-matching",
+      "targets": [
+        "www-apple-com"
+      ],
+      "inputWindowCount": 0,
+      "classification": "resolved-by-committed-generic-scanner-patch",
+      "resolvedBy": [
+        "c0610f8"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Consent Phase D implemented exact-label link matching and bounded button-like prefix variants inside proven consent surfaces."
+    },
+    {
+      "familyId": "consent-detection-overlay-bounds",
+      "targets": [
+        "www-apple-com"
+      ],
+      "inputWindowCount": 0,
+      "classification": "resolved-by-committed-generic-scanner-patch",
+      "resolvedBy": [
+        "c0610f8"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Consent Phase D narrowed fallback hiding to visible modal/popover/banner-like consent surfaces and guarded normal content sections/listitems/cards."
+    },
+    {
+      "familyId": "homepage-consent-scanner-handler",
+      "targets": [
+        "www-apple-com"
+      ],
+      "inputWindowCount": 0,
+      "classification": "resolved-by-committed-generic-scanner-patch",
+      "resolvedBy": [
+        "c0610f8"
+      ],
+      "currentResidualWindows": [],
+      "receiptEvidence": "Consent Phase D resolved the homepage scanner handler cause; replacement live captures remain promoter-owned recapture work, not reusable engine residuals."
+    },
+    {
+      "familyId": "accessibility-labels-engine-ready-footer-grouping",
+      "targets": [
+        "www-apple-com-accessibility-labels"
+      ],
+      "inputWindowCount": 0,
+      "classification": "c5-gated-after-cross-target-reconciliation",
+      "resolvedBy": [],
+      "currentResidualWindows": [
+        2,
+        5,
+        6,
+        7,
+        8
+      ],
+      "receiptEvidence": "Labels final audit says no remaining Labels engine-ready family is independent of C.5-gated grouping or shared footer shapes; the grouped/listitem/legal residuals must wait for repro-scanner."
+    },
+    {
+      "familyId": "homepage-engine-ready-misc-initial-dom",
+      "targets": [
+        "www-apple-com"
+      ],
+      "inputWindowCount": 0,
+      "classification": "c5-gated-after-cross-target-reconciliation",
+      "resolvedBy": [],
+      "currentResidualWindows": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "receiptEvidence": "Homepage final audit says no remaining Homepage engine-ready family is wholly independent of C.5-gated grouping, carousel, footer-shop, or footer-legal shapes."
+    }
+  ],
+  "currentTargetCompareReceipts": [
+    {
+      "target": "www-apple-com",
+      "receipt": "voiceover-smoke/agent-work/30548850577/www-apple-com/05-engine-final-audit.json",
+      "expectedCount": 266,
+      "actualCount": 254,
+      "mismatchWindowCount": 16
+    },
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "receipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-engine-final-audit.json",
+      "expectedCount": 223,
+      "actualCount": 216,
+      "mismatchWindowCount": 8
+    },
+    {
+      "target": "www-apple-com-apple-vision-pro",
+      "receipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/05-engine-refinement.json",
+      "expectedCount": 384,
+      "actualCount": 498,
+      "mismatchWindowCount": 41
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "receipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/05-engine-refinement.json",
+      "expectedCount": 378,
+      "actualCount": 348,
+      "mismatchWindowCount": 13
+    }
+  ],
+  "revisitQueue": [
+    {
+      "family": "technology-inline-text-boundaries",
+      "target": "www-apple-com-apple-vision-pro",
+      "currentWindowIndexes": [
+        27,
+        28
+      ],
+      "latestActual": "multi-span paragraphs remain joined across selected direct span boundaries",
+      "latestExpected": "only selected span fragments are split from surrounding text, while neighboring spans in the same paragraph stay joined",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Inspect whether a generic predicate can isolate selected multi-span boundaries without splitting all spans in the same paragraph; request C.5 if the distinction depends on copy, classes, or surprising VoiceOver behavior.",
+      "blocker": "A broad direct-span splitter would over-split current target evidence.",
+      "checksNeeded": [
+        "focused neutral unit with negative multi-span controls",
+        "Vision Pro target compare",
+        "protected compares",
+        "full unit",
+        "extension runtime",
+        "final corpus check"
+      ]
+    },
+    {
+      "family": "footnote-listitem-group-and-inline-link-name",
+      "target": "www-apple-com-accessibility-labels",
+      "currentWindowIndexes": [
+        2
+      ],
+      "latestActual": "Footnote listitems use plain positional suffixes and truncate or merge inline-link tail text.",
+      "latestExpected": "Empty group/group listitem suffixes with full inline-link tail.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete Accessibility footnote-listitem-inline-link-grouping C.5 before Phase D.",
+      "blocker": "Overlapping C.5 grouping and inline-link family.",
+      "checksNeeded": [
+        "C.5 artifact verdict",
+        "Labels compare",
+        "protected compares if later engine-ready"
+      ]
+    },
+    {
+      "family": "footer-shop-inline-text-boundaries",
+      "target": "www-apple-com-accessibility-labels",
+      "currentWindowIndexes": [
+        3,
+        4
+      ],
+      "latestActual": "Footer shop sentence starts at links and later text.",
+      "latestExpected": "More ways to shop:, link stops, near you., Or call, phone link, trailing phone text.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete shared footer inline shop C.5 before a reusable footer text-boundary rule.",
+      "blocker": "Overlaps Homepage and Accessibility C.5 footer shop family.",
+      "checksNeeded": [
+        "footer inline shop C.5 verdict",
+        "Labels/Homepage/Accessibility compares if later engine-ready"
+      ]
+    },
+    {
+      "family": "footer-legal-single-link-listitem-markers",
+      "target": "www-apple-com-accessibility-labels",
+      "currentWindowIndexes": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "latestActual": "Legal links are traversed consecutively without interleaved list item stops.",
+      "latestExpected": "Standalone list item marker stops after each focused legal link except the last.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete legal single-link listitem marker C.5 before any broad list marker rule.",
+      "blocker": "Labels final audit classifies this as no-patch-c5-gated.",
+      "checksNeeded": [
+        "C.5 artifact verdict",
+        "AX/source listitem evidence",
+        "corpus guard on ordinary link lists"
+      ]
+    },
+    {
+      "family": "college-and-tradein-footnote-text-boundaries",
+      "subGap": "named-generic-span-symbol-group-boundary",
+      "target": "www-apple-com",
+      "currentWindowIndexes": [
+        1
+      ],
+      "latestActual": "Combined paragraph text with inline * symbol.",
+      "latestExpected": "Separate text, Footnote* symbol group, child *, end group, and trailing text.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete C.5 for the overlapping footnote/listitem grouping family before any labelled span/group scanner rule.",
+      "blocker": "Grouping rule overlaps pending C.5.",
+      "checksNeeded": [
+        "C.5 artifact verdict",
+        "focused generic unit only after C.5 confirms behavior",
+        "Homepage compare",
+        "protected compares"
+      ]
+    },
+    {
+      "family": "apple-shell-carousel-tabpanel-list-position",
+      "target": "www-apple-com",
+      "currentWindowIndexes": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "latestActual": "Carousel tabpanel/list positions remain mismatched after the superscript fix.",
+      "latestExpected": "VoiceOver uses carousel tabpanel/list position structure not yet safely modeled.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 before any reusable carousel table/list position rule.",
+      "blocker": "Phase C scanner-evidence-gap for a broad carousel structure.",
+      "checksNeeded": [
+        "isolated carousel repro",
+        "AX/source snapshots",
+        "target compare after C.5"
+      ]
+    },
+    {
+      "family": "footer-footnote-and-apple-card-link-boundaries",
+      "target": "www-apple-com",
+      "currentWindowIndexes": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "latestActual": "Footnote list items keep positional suffixes and omit or merge inline links.",
+      "latestExpected": "Separate inline link stops and listitem/group wording.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete footnote/listitem inline-link C.5 before Phase D.",
+      "blocker": "Overlaps pending C.5 grouping and inline-link family.",
+      "checksNeeded": [
+        "C.5 artifact verdict",
+        "target compare",
+        "corpus guards if later engine-ready"
+      ]
+    },
+    {
+      "family": "apple-shell-footer-inline-shop-text-boundaries",
+      "target": "www-apple-com",
+      "currentWindowIndexes": [
+        11,
+        12
+      ],
+      "latestActual": "Footer shop sentence starts at links and later text.",
+      "latestExpected": "More ways to shop:, link stops, near you., Or call, phone link, trailing phone text.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete shared footer inline shop C.5.",
+      "blocker": "Explicit C.5 gate across Apple shell targets.",
+      "checksNeeded": [
+        "footer inline shop C.5 verdict",
+        "Homepage/Labels/Accessibility compares if later engine-ready"
+      ]
+    },
+    {
+      "family": "apple-shell-footer-legal-single-link-listitem-markers",
+      "target": "www-apple-com",
+      "currentWindowIndexes": [
+        13,
+        14,
+        15,
+        16
+      ],
+      "latestActual": "Footer legal links are traversed without the expected single-link listitem marker stops.",
+      "latestExpected": "Legal single-link list item marker stops around the link sequence.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Complete legal single-link listitem marker C.5 before Phase D.",
+      "blocker": "Explicit C.5 gate across Apple shell targets.",
+      "checksNeeded": [
+        "C.5 legal/list fixture verdict",
+        "Homepage/Labels/Accessibility compares if later engine-ready",
+        "corpus guard on ordinary link lists"
+      ]
+    },
+    {
+      "family": "local-nav-wrapper-group",
+      "target": "www-apple-com-accessibility",
+      "currentWindowIndexes": [
+        1
+      ],
+      "latestActual": "Local navigation begins directly after global navigation.",
+      "latestExpected": "VoiceOver announces an intervening generic group before Local navigation.",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Run Phase C.5 isolated same-structure scan before any scanner-stop/grouping rule.",
+      "blocker": "Phase C classified debug-evidence-missing/C5-gated.",
+      "checksNeeded": [
+        "isolated repro VoiceOver scan",
+        "target compare after evidence refinement",
+        "full unit/runtime checks if promoted to Phase D"
+      ]
+    }
+  ],
+  "immediatelyActionableGenericEngineFamiliesRemaining": false,
+  "immediateActionabilityRationale": "Every residual family that current receipts still route to engine-refiner has an evidence-backed blocker: multi-span inline splitting would over-split without a narrower predicate, and remaining Homepage/Labels grouping, footer, legal, carousel, and listitem shapes are C.5-gated by cross-target final audits.",
+  "microsoftCorpusBaseline": {
+    "status": "pre-existing-unchanged",
+    "fixture": "www-microsoft-com-en-us-accessibility",
+    "mismatchWindowCount": 1,
+    "firstMismatchIndex": 31,
+    "expected": "heading level 3, Disability Answer Desk",
+    "actual": "Ask Microsoft Accessibility",
+    "regressionPolicy": "Do not attribute this failure to Apple work unless its count or shape worsens."
+  },
+  "checks": [
+    {
+      "command": "jq reads of current Phase D/compact family receipts only",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Audit reconciled current receipt state without opening fixture HTML, fixture AX, refinedAnnouncements, or raw scan artifacts."
+    },
+    {
+      "command": "engine code edits",
+      "required": false,
+      "status": "skipped",
+      "skipReason": "Parent requested read-only Phase D reconciliation audit only."
+    },
+    {
+      "command": "target compare rerun",
+      "required": false,
+      "status": "skipped",
+      "skipReason": "Parent requested current target compare receipts only; existing current receipts were used."
+    }
+  ],
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Run C.5 for footnote/listitem grouping, shared footer shop boundaries, footer legal single-link listitem markers, carousel/list-position, and local-nav grouping. Return only engine-gap-confirmed independent sub-gaps to Phase D.",
+    "c5Needed": true,
+    "reason": "No immediately actionable generic engine family remains at HEAD b299bb8 without additional isolated evidence."
+  }
+}
