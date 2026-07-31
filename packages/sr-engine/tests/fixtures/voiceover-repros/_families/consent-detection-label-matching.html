@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Consent Detection Label Matching C.5</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.45 Arial, sans-serif;
+        color: #1f2933;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 32px;
+      }
+
+      section {
+        margin-block: 20px;
+      }
+
+      .legal-links {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .consent-banner {
+        border: 2px solid #4b5563;
+        padding: 16px;
+        background: #ffffff;
+      }
+
+      .consent-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      a,
+      button {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="consent-detection-label-matching"
+      tabindex="-1">
+      <h1>Consent label matching fixture</h1>
+      <p id="fixture-identity">C5 identity consent-detection-label-matching</p>
+
+      <section aria-labelledby="ordinary-links-heading">
+        <h2 id="ordinary-links-heading">Ordinary page links</h2>
+        <p>
+          These links are visible page content outside any consent, cookie,
+          privacy, popup, modal, or dialog ancestor.
+        </p>
+        <ul class="legal-links">
+          <li>
+            <a id="membership-agreement-link" href="#membership-agreement">
+              Membership Agreement
+            </a>
+          </li>
+          <li>
+            <a id="service-agreement-link" href="#service-agreement">
+              Service Agreement
+            </a>
+          </li>
+          <li>
+            <a id="acceptable-use-link" href="#acceptable-use">
+              Acceptable Use Policy
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <aside
+        class="consent-banner"
+        aria-label="Cookie choices"
+        data-positive-control="non-modal-consent-banner">
+        <p id="banner-copy">
+          This site uses cookies for settings. Choose a short option.
+        </p>
+        <div class="consent-actions">
+          <button type="button" aria-describedby="banner-copy">
+            I agree
+          </button>
+          <button type="button">
+            Accept cookies
+          </button>
+        </div>
+      </aside>
+
+      <section id="membership-agreement" aria-labelledby="membership-heading">
+        <h2 id="membership-heading">Membership Agreement detail</h2>
+        <p>Short legal detail for the negative link target.</p>
+      </section>
+
+      <section id="service-agreement" aria-labelledby="service-heading">
+        <h2 id="service-heading">Service Agreement detail</h2>
+        <p>Short service detail for the negative link target.</p>
+      </section>
+
+      <section id="acceptable-use" aria-labelledby="acceptable-heading">
+        <h2 id="acceptable-heading">Acceptable Use detail</h2>
+        <p>Short acceptable-use detail for the negative link target.</p>
+      </section>
+    </main>
+  </body>
+</html>

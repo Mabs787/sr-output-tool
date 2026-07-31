@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Consent Detection Overlay Bounds C.5</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.45 Arial, sans-serif;
+        color: #1f2933;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 800px;
+        padding: 32px;
+      }
+
+      section,
+      aside {
+        margin-block: 20px;
+      }
+
+      .privacy-summary,
+      .trusted-partners-card {
+        border: 1px solid #9ca3af;
+        padding: 16px;
+      }
+
+      .cookie-panel {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: min(360px, calc(100vw - 48px));
+        padding: 16px;
+        border: 2px solid #4b5563;
+        background: #ffffff;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+      }
+
+      .inactive-dialog {
+        display: none;
+      }
+
+      button,
+      a {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-repro-family="consent-detection-overlay-bounds"
+      tabindex="-1">
+      <h1>Consent overlay bounds fixture</h1>
+      <p id="fixture-identity">C5 identity consent-detection-overlay-bounds</p>
+
+      <section
+        class="privacy-summary"
+        aria-label="Privacy"
+        data-negative-control="normal-privacy-section">
+        <h2>Privacy features</h2>
+        <p>
+          Privacy settings protect personal data for signed-in members.
+        </p>
+        <a href="#privacy-detail">Read privacy details</a>
+      </section>
+
+      <ul aria-label="Account cards">
+        <li
+          class="trusted-partners-card"
+          tabindex="-1"
+          data-negative-control="normal-listitem">
+          <h2>Trusted partners</h2>
+          <p>
+            Personal data sharing is explained in this normal visible list item.
+          </p>
+          <a href="#partners-detail">Read partner details</a>
+        </li>
+      </ul>
+
+      <div
+        class="inactive-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-label="Hidden cookie preferences"
+        data-negative-control="inactive-dialog">
+        <p>Hidden cookie choices are not visible page content.</p>
+        <button type="button">Close</button>
+      </div>
+
+      <aside
+        class="cookie-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cookie-heading"
+        aria-describedby="cookie-copy"
+        data-positive-control="visible-cookie-dialog">
+        <h2 id="cookie-heading">Cookie notice</h2>
+        <p id="cookie-copy">
+          Cookies support privacy choices for this local fixture.
+        </p>
+        <button type="button" aria-label="Close cookie notice">
+          Close
+        </button>
+      </aside>
+
+      <section id="privacy-detail" aria-labelledby="privacy-detail-heading">
+        <h2 id="privacy-detail-heading">Privacy detail</h2>
+        <p>Short detail that must remain available after consent handling.</p>
+      </section>
+
+      <section id="partners-detail" aria-labelledby="partners-detail-heading">
+        <h2 id="partners-detail-heading">Partner detail</h2>
+        <p>Short partner detail that must remain available after consent handling.</p>
+      </section>
+    </main>
+  </body>
+</html>
