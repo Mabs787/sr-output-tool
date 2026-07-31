@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "phase": "E",
+  "agent": "promoter",
+  "agentConfigPath": ".codex/agents/promoter.toml",
+  "spawnedBy": "manual",
+  "sessionId": "",
+  "target": "_summaries",
+  "runId": "30548850577",
+  "status": "passed",
+  "startedAt": "2026-07-31T19:34:24Z",
+  "finishedAt": "2026-07-31T19:34:24Z",
+  "inputs": [
+    "docs/workflows/voiceover-refinement.md",
+    "docs/workflows/agent-receipts.md",
+    "docs/workflows/phase-e-promotion.md",
+    "voiceover-smoke/agent-work/30548850577/_summaries/original-run-30548850577-rollup.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/exact-run-30622512581-rollup.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/post-fix-30628926126-rollup.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/recapture-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase05-compact-compare.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-cross-page-family-ownership.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-family-coverage.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-d-cross-page-reconciliation-audit.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-d-engine-lease.json",
+    "target Phase B/C/D receipts as needed for final compare counts and revisit queues"
+  ],
+  "promotionDecision": "candidate",
+  "exactMatch": false,
+  "trustedSlices": [],
+  "fixtureTier": "candidate-or-parked-corpus",
+  "decisions": [
+    "No target was promoted to refined because no actual zero compare plus workflow validation pass exists.",
+    "The 16 complete Apple captures remain candidate evidence with residual mismatches.",
+    "The four Accessibility subpage partial captures are terminal partial outcomes with trusted slices limited to scan-health/import evidence, not full-page refined replay.",
+    "No canonical fixture, index, manifest, status doc, raw output, refined output, or engine file was edited by Phase E.",
+    "Existing focused C.5 repros are preferred over promoting full Apple pages when behavior is already covered or still unresolved."
+  ],
+  "decisionLedger": [
+    {"target":"www-apple-com","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"266/256/10","primaryBlocker":"homepage still has 10 residual grouped/carousel/footer/list windows after shared Phase D"},
+    {"target":"www-apple-com-accessibility","promotionDecision":"candidate","curationDecision":"future-golden-exact-candidate","fixtureTier":"candidate-or-parked-corpus","latestCompare":"379/351/11","primaryBlocker":"accessibility page remains non-exact; local-nav, impact carousel, footnote/list, and footer families unresolved"},
+    {"target":"www-apple-com-accessibility-cognitive","promotionDecision":"partial","curationDecision":"terminal-partial","fixtureTier":"archived-scan-artifacts","latestCompare":null,"primaryBlocker":"parked partial recapture accounting; not eligible for full replay promotion"},
+    {"target":"www-apple-com-accessibility-hearing","promotionDecision":"partial","curationDecision":"terminal-partial","fixtureTier":"archived-scan-artifacts","latestCompare":null,"primaryBlocker":"step-capped partial evidence only"},
+    {"target":"www-apple-com-accessibility-labels","promotionDecision":"candidate","curationDecision":"future-golden-exact-candidate","fixtureTier":"candidate-or-parked-corpus","latestCompare":"223/218/8","primaryBlocker":"labels remains non-exact with footnote, footer-shop, and footer-legal residuals"},
+    {"target":"www-apple-com-accessibility-mobility","promotionDecision":"partial","curationDecision":"terminal-partial","fixtureTier":"archived-scan-artifacts","latestCompare":null,"primaryBlocker":"parked partial recapture accounting; not eligible for full replay promotion"},
+    {"target":"www-apple-com-accessibility-vision","promotionDecision":"partial","curationDecision":"terminal-partial","fixtureTier":"archived-scan-artifacts","latestCompare":null,"primaryBlocker":"step-capped partial evidence only"},
+    {"target":"www-apple-com-airpods","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"467/416/42","primaryBlocker":"AirPods table, product card, gallery, legal footnote, and footer families need C.5 or engine follow-up"},
+    {"target":"www-apple-com-apple-music","promotionDecision":"candidate","curationDecision":"parked-candidate","fixtureTier":"candidate-or-parked-corpus","latestCompare":"403/378/54","primaryBlocker":"large media/plans/gallery/FAQ/legal surface remains non-exact after shared Phase D"},
+    {"target":"www-apple-com-apple-tv-plus","promotionDecision":"candidate","curationDecision":"parked-candidate","fixtureTier":"candidate-or-parked-corpus","latestCompare":"338/327/29","primaryBlocker":"valid redirect preserved, but media/gallery/card/footer families remain non-exact"},
+    {"target":"www-apple-com-apple-vision-pro","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"384/500/41","primaryBlocker":"Vision Pro retains 41 residual windows including multi-span text and broad media/gallery/button/list families"},
+    {"target":"www-apple-com-apple-watch","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"417/433/75","primaryBlocker":"Watch native-control/gallery/list/footer families remain non-exact"},
+    {"target":"www-apple-com-business","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"322/464/72","primaryBlocker":"Business has broad product/gallery/native-control/footer residuals; no refined gate"},
+    {"target":"www-apple-com-education","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"258/292/18","primaryBlocker":"Education still has local-nav/card/carousel/footnote/footer residuals"},
+    {"target":"www-apple-com-environment","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"332/403/24","primaryBlocker":"Environment gallery/card/current-state and footer/text residuals remain"},
+    {"target":"www-apple-com-icloud","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"434/400/57","primaryBlocker":"iCloud plan table, footnote link order, image stops, and footer residuals remain"},
+    {"target":"www-apple-com-ipad","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"401/436/46","primaryBlocker":"iPad product lineup, card gallery, native controls, legal rows, and footer wrapper remain"},
+    {"target":"www-apple-com-iphone","promotionDecision":"candidate","curationDecision":"parked-candidate","fixtureTier":"candidate-or-parked-corpus","latestCompare":"376/505/217","primaryBlocker":"iPhone has very large shared list/marker and product-gallery residuals"},
+    {"target":"www-apple-com-mac","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"469/489/68","primaryBlocker":"Mac product gallery, shopping cards, legal footnotes, and wrapper groups remain"},
+    {"target":"www-apple-com-privacy","promotionDecision":"candidate","curationDecision":"focused-evidence-only","fixtureTier":"focused-repro-fixtures","latestCompare":"326/323/13","primaryBlocker":"Privacy table, gallery/card, Apple Intelligence, legal footnote, and footer residuals remain"}
+  ],
+  "exactClassificationTotals": {
+    "refined": 0,
+    "partial": 4,
+    "candidate": 16,
+    "skip": 0,
+    "goldenExact": 0,
+    "focusedExact": 0,
+    "focusedEvidenceOnly": 10,
+    "parkedCandidate": 4,
+    "futureGoldenExactCandidate": 2,
+    "terminalPartial": 4
+  },
+  "runMetrics": {
+    "reviewedCandidateCount": 20,
+    "appliedFixtureRepairCount": 0,
+    "rejectedCandidateCount": 0,
+    "mismatchWindowsBeforeFixtureWork": 939,
+    "mismatchWindowsAfterFixtureWork": 740,
+    "mismatchWindowsBeforeEngineWork": 740,
+    "mismatchWindowsAfterEngineWork": 785,
+    "exactTargets": 0,
+    "actionableTargets": 16,
+    "conditionalTargets": 1,
+    "parkedTargets": 20,
+    "recaptureOnlyTargets": 4
+  },
+  "remainingMismatchFamilies": [
+    "apple-shell footer/list/text-boundary families",
+    "local-nav-wrapper-group",
+    "footnote/listitem/inline-link families",
+    "carousel/tab-panel/gallery traversal families",
+    "card/media/product gallery composition families",
+    "native-control-context",
+    "privacy/iCloud table and header grouping",
+    "Mac/iPad product-lineup and legal-row families",
+    "iPhone shared list-marker/group suffix rollup"
+  ],
+  "conditionalStateHandling": [
+    {
+      "target": "www-apple-com-accessibility",
+      "family": "impact-stories-carousel-grouping",
+      "disposition": "candidate",
+      "reason": "Phase C/Phase D receipts record interaction-sequence or conditional carousel state requiring focused reproduction before any generic rule."
+    },
+    {
+      "target": "www-apple-com-apple-music",
+      "family": "media/gallery/control families",
+      "disposition": "candidate",
+      "reason": "Earlier conditional-state concern was narrowed to initial-DOM residuals plus traversal-state risk; target remains parked, not refined."
+    }
+  ],
+  "recaptureQueueStatus": {
+    "queuePath": "voiceover-smoke/agent-work/30548850577/_summaries/recapture-queue.json",
+    "status": "terminal-accounted",
+    "validReplacementCount": 15,
+    "validOriginalCount": 1,
+    "parkedPartialCount": 4,
+    "parkedPartialTargets": [
+      "www-apple-com-accessibility-cognitive",
+      "www-apple-com-accessibility-hearing",
+      "www-apple-com-accessibility-mobility",
+      "www-apple-com-accessibility-vision"
+    ],
+    "receiptCoverage": "Every target has a Phase E receipt; partial targets explicitly skip full refined replay promotion."
+  },
+  "fixturePushReview": {
+    "changedFixtureFiles": [],
+    "rawOutputEdited": false,
+    "rawOutputSourceRunIds": [],
+    "refinedOutputChanged": false,
+    "refinedChangeCount": 0,
+    "receiptCoverage": "not-applicable-no-phase-e-fixture-edits",
+    "mixedEngineAndFixtureChanges": false,
+    "riskLevel": "low",
+    "decision": "block-push",
+    "reason": "No commit or push requested; no promotion or remote scan trigger requires a push."
+  },
+  "engineLeaseReview": {
+    "activeLeaseCount": 0,
+    "leaseHistoryReceiptsChecked": [
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-d-engine-lease.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-d-cross-page-reconciliation-audit.json"
+    ],
+    "unreleasedLeases": [],
+    "overlapResult": "released sole Phase D lease; no Phase E engine edits",
+    "statusOrPromotionBlockedByEngineEditOwnership": false
+  },
+  "manifestChanges": [],
+  "statusDocsUpdated": [],
+  "fixtureChanges": [],
+  "checks": [
+    {
+      "command": "jq empty voiceover-smoke/agent-work/30548850577/**/06-promotion.json voiceover-smoke/agent-work/30548850577/_summaries/06-promotion.json",
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "All 20 target receipts and the Phase E summary parse as valid JSON."
+    },
+    {
+      "command": "git diff --name-only -- packages/sr-engine docs/status docs/workflows",
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Phase E made no canonical fixture, manifest, status-document, workflow-document, or engine edits."
+    },
+    {
+      "command": "engine build; focused scanner tests; engine unit tests; 16 affected comparisons; protected Microsoft comparison; extension runtime, unit, and production builds; full VoiceOver corpus",
+      "status": "passed-with-known-baseline",
+      "exitCode": 0,
+      "summary": "All requested gates passed except the known pre-existing Microsoft comparison mismatch (164 expected, 165 actual, index 31), which is unchanged and is the sole failure in the 59-target corpus (37 passed, 21 skipped, 1 known failure)."
+    }
+  ],
+  "verificationNotes": [
+    "Final Apple total is 785 heuristic mismatch windows across 16 complete candidates; all comparison commands exited 0 because non-exact candidates are reportable outcomes.",
+    "Business and iPhone each gained two correct footer stops. Full-window diagnostics proved those apparent increases are sequence-window splitting, not engine regressions.",
+    "The mismatch-window aggregate is a heuristic and is not monotonic across expectation repair and engine refinement; target-level evidence and negative controls govern promotion decisions."
+  ],
+  "agentWorkflowValidation": {
+    "command": "target validators not run for refined promotion because refined count is zero",
+    "requiredPhases": [],
+    "status": "skipped",
+    "exitCode": null,
+    "summary": "No target qualifies for refined; validation blockers would not change candidate/partial decisions.",
+    "degradedOrManualBlockers": ["Phase E receipts are manual promoter receipts", "no exact compare target"]
+  },
+  "nextPhase": "complete",
+  "handoffFrom": "Phase D",
+  "handoffTo": "complete",
+  "handoffReason": "All 20 targets have terminal Phase E curation decisions without canonical promotion.",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "No Phase E promotion follow-up until a target reaches zero compare or a user requests canonical status-doc updates.",
+    "c5Needed": false,
+    "reason": "Current outcome is candidate/partial only."
+  }
+}

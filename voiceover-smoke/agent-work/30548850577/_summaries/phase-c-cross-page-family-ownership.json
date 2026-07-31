@@ -13,8 +13,16 @@
       "www-apple-com-apple-vision-pro",
       "www-apple-com-apple-tv-plus",
       "www-apple-com-education",
+      "www-apple-com-environment",
+      "www-apple-com-icloud",
+      "www-apple-com-business",
       "www-apple-com-apple-watch",
-      "www-apple-com-apple-music"
+      "www-apple-com-apple-music",
+      "www-apple-com-iphone",
+      "www-apple-com-privacy",
+      "www-apple-com-airpods",
+      "www-apple-com-mac",
+      "www-apple-com-ipad"
     ],
     "completedPhaseCTargets": [
       "www-apple-com-accessibility-labels",
@@ -23,8 +31,16 @@
       "www-apple-com-apple-vision-pro",
       "www-apple-com-apple-tv-plus",
       "www-apple-com-education",
+      "www-apple-com-environment",
+      "www-apple-com-icloud",
+      "www-apple-com-business",
       "www-apple-com-apple-watch",
-      "www-apple-com-apple-music"
+      "www-apple-com-apple-music",
+      "www-apple-com-iphone",
+      "www-apple-com-privacy",
+      "www-apple-com-airpods",
+      "www-apple-com-mac",
+      "www-apple-com-ipad"
     ],
     "provisionalTargets": [],
     "sourcesRead": [
@@ -44,19 +60,131 @@
     "familyCount": 13,
     "windowCount": 25,
     "families": [
-      {"familyId": "footer-buystrip-image-glyph-text-boundary", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
-      {"familyId": "footnote-listitem-group-and-inline-link-name", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
-      {"familyId": "footer-shop-inline-text-boundaries", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
-      {"familyId": "homepage-engine-ready-footnote-link-boundaries", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "fixture-judge", "windowCount": 6, "nextWorker": "engine-refiner"},
-      {"familyId": "external-link-pseudo-glyph", "targets": ["www-apple-com-accessibility"], "ownerTarget": "www-apple-com-accessibility", "ownerRole": "fixture-judge", "windowCount": 5, "nextWorker": "engine-refiner"},
-      {"familyId": "technology-inline-text-boundaries", "targets": ["www-apple-com-apple-vision-pro"], "ownerTarget": "www-apple-com-apple-vision-pro", "ownerRole": "fixture-judge", "windowCount": 3, "nextWorker": "engine-refiner"},
-      {"familyId": "technology-statistic-split-and-footnote-boundary", "targets": ["www-apple-com-apple-vision-pro"], "ownerTarget": "www-apple-com-apple-vision-pro", "ownerRole": "fixture-judge", "windowCount": 4, "nextWorker": "engine-refiner"},
-      {"familyId": "visionos-external-link-pseudo-glyph", "targets": ["www-apple-com-apple-vision-pro"], "ownerTarget": "www-apple-com-apple-vision-pro", "ownerRole": "fixture-judge", "windowCount": 1, "nextWorker": "engine-refiner"},
-      {"familyId": "consent-detection-label-matching", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "repro-scanner", "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json", "nextWorker": "engine-refiner"},
-      {"familyId": "consent-detection-overlay-bounds", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "repro-scanner", "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json", "nextWorker": "engine-refiner"},
-      {"familyId": "homepage-consent-scanner-handler", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "repro-scanner", "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json", "nextWorker": "engine-refiner"},
-      {"familyId": "accessibility-labels-engine-ready-footer-grouping", "targets": ["www-apple-com-accessibility-labels"], "ownerTarget": "www-apple-com-accessibility-labels", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"},
-      {"familyId": "homepage-engine-ready-misc-initial-dom", "targets": ["www-apple-com"], "ownerTarget": "www-apple-com", "ownerRole": "fixture-judge", "nextWorker": "engine-refiner"}
+      {
+        "familyId": "footer-buystrip-image-glyph-text-boundary",
+        "targets": [
+          "www-apple-com-accessibility-labels"
+        ],
+        "ownerTarget": "www-apple-com-accessibility-labels",
+        "ownerRole": "fixture-judge",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "footnote-listitem-group-and-inline-link-name",
+        "targets": [
+          "www-apple-com-accessibility-labels"
+        ],
+        "ownerTarget": "www-apple-com-accessibility-labels",
+        "ownerRole": "fixture-judge",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "footer-shop-inline-text-boundaries",
+        "targets": [
+          "www-apple-com-accessibility-labels"
+        ],
+        "ownerTarget": "www-apple-com-accessibility-labels",
+        "ownerRole": "fixture-judge",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "homepage-engine-ready-footnote-link-boundaries",
+        "targets": [
+          "www-apple-com"
+        ],
+        "ownerTarget": "www-apple-com",
+        "ownerRole": "fixture-judge",
+        "windowCount": 6,
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "external-link-pseudo-glyph",
+        "targets": [
+          "www-apple-com-accessibility"
+        ],
+        "ownerTarget": "www-apple-com-accessibility",
+        "ownerRole": "fixture-judge",
+        "windowCount": 5,
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "technology-inline-text-boundaries",
+        "targets": [
+          "www-apple-com-apple-vision-pro"
+        ],
+        "ownerTarget": "www-apple-com-apple-vision-pro",
+        "ownerRole": "fixture-judge",
+        "windowCount": 3,
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "technology-statistic-split-and-footnote-boundary",
+        "targets": [
+          "www-apple-com-apple-vision-pro"
+        ],
+        "ownerTarget": "www-apple-com-apple-vision-pro",
+        "ownerRole": "fixture-judge",
+        "windowCount": 4,
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "visionos-external-link-pseudo-glyph",
+        "targets": [
+          "www-apple-com-apple-vision-pro"
+        ],
+        "ownerTarget": "www-apple-com-apple-vision-pro",
+        "ownerRole": "fixture-judge",
+        "windowCount": 1,
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "consent-detection-label-matching",
+        "targets": [
+          "www-apple-com"
+        ],
+        "ownerTarget": "www-apple-com",
+        "ownerRole": "repro-scanner",
+        "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "consent-detection-overlay-bounds",
+        "targets": [
+          "www-apple-com"
+        ],
+        "ownerTarget": "www-apple-com",
+        "ownerRole": "repro-scanner",
+        "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "homepage-consent-scanner-handler",
+        "targets": [
+          "www-apple-com"
+        ],
+        "ownerTarget": "www-apple-com",
+        "ownerRole": "repro-scanner",
+        "c5StatusRef": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "accessibility-labels-engine-ready-footer-grouping",
+        "targets": [
+          "www-apple-com-accessibility-labels"
+        ],
+        "ownerTarget": "www-apple-com-accessibility-labels",
+        "ownerRole": "fixture-judge",
+        "nextWorker": "engine-refiner"
+      },
+      {
+        "familyId": "homepage-engine-ready-misc-initial-dom",
+        "targets": [
+          "www-apple-com"
+        ],
+        "ownerTarget": "www-apple-com",
+        "ownerRole": "fixture-judge",
+        "nextWorker": "engine-refiner"
+      }
     ]
   },
   "c5Families": [
@@ -64,7 +192,16 @@
       "familyId": "local-nav-wrapper-group",
       "ownerTarget": "www-apple-com-accessibility-labels",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-accessibility-labels", "www-apple-com-accessibility", "www-apple-com-apple-vision-pro", "www-apple-com-apple-tv-plus", "www-apple-com-education", "www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
       "status": "queued",
       "statusRefs": [
@@ -73,54 +210,96 @@
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "button-group-suffix-and-list-position",
       "ownerTarget": "www-apple-com-apple-vision-pro",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-vision-pro", "www-apple-com-education", "www-apple-com-apple-watch"],
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-iphone",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html",
       "status": "queued",
       "statusRefs": [
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "carousel-gallery-descendant-traversal",
       "ownerTarget": "www-apple-com-apple-vision-pro",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-vision-pro", "www-apple-com-education", "www-apple-com-apple-watch"],
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-iphone",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html",
       "status": "queued",
       "statusRefs": [
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "footnote-listitem-inline-link-grouping",
       "ownerTarget": "www-apple-com-accessibility",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-accessibility", "www-apple-com-education", "www-apple-com-apple-watch", "www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html",
       "status": "queued",
       "statusRefs": [
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "footer-inline-shop-text-boundaries",
       "ownerTarget": "www-apple-com-accessibility",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-accessibility", "www-apple-com-apple-vision-pro", "www-apple-com-apple-tv-plus", "www-apple-com-education", "www-apple-com-apple-watch", "www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
       "status": "queued",
       "statusRefs": [
@@ -129,14 +308,25 @@
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "footer-legal-single-link-listitem-markers",
       "ownerTarget": "www-apple-com-accessibility-labels",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-accessibility-labels", "www-apple-com-accessibility", "www-apple-com-education", "www-apple-com-apple-watch", "www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com-accessibility",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
       "status": "queued",
       "statusRefs": [
@@ -144,14 +334,18 @@
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "impact-stories-carousel-grouping",
       "ownerTarget": "www-apple-com-accessibility",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-accessibility", "www-apple-com-education"],
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/impact-stories-carousel-grouping.html",
       "status": "queued",
       "statusRefs": [
@@ -163,7 +357,10 @@
       "familyId": "hero-static-text-empty-group-suffix",
       "ownerTarget": "www-apple-com-accessibility",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-accessibility", "www-apple-com-education"],
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-static-text-empty-group-suffix.html",
       "status": "queued",
       "statusRefs": [
@@ -175,101 +372,515 @@
       "familyId": "footer-footnote-inline-link-list-boundaries",
       "ownerTarget": "www-apple-com-apple-tv-plus",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-tv-plus"],
+      "targets": [
+        "www-apple-com-apple-tv-plus"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-footnote-inline-link-list-boundaries.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json"
+      ]
     },
     {
       "familyId": "native-control-context",
       "ownerTarget": "www-apple-com-apple-watch",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-watch"],
+      "targets": [
+        "www-apple-com-apple-watch",
+        "www-apple-com-iphone",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/native-control-context.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
+      ]
     },
     {
       "familyId": "lineup-card-link-position-price-text-boundary",
       "ownerTarget": "www-apple-com-apple-watch",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-watch"],
+      "targets": [
+        "www-apple-com-apple-watch",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/lineup-card-link-position-price-text-boundary.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
+      ]
     },
     {
       "familyId": "tabpanel-and-gallery-button-group",
       "ownerTarget": "www-apple-com-apple-tv-plus",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-tv-plus"],
+      "targets": [
+        "www-apple-com-apple-tv-plus"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/tabpanel-gallery-button-group.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json"
+      ]
     },
     {
       "familyId": "card-and-media-grouping",
       "ownerTarget": "www-apple-com-apple-vision-pro",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-vision-pro", "www-apple-com-apple-tv-plus", "www-apple-com-education"],
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-iphone",
+        "www-apple-com-business",
+        "www-apple-com-ipad"
+      ],
       "fixturePath": "multiple generic queued fixtures: product-media-group-wrapper.html, card-heading-link-list-positions.html, card-group-decomposition.html",
       "status": "queued",
       "statusRefs": [
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
         "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
-        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json"
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-ipad-family-queue.json"
       ]
     },
     {
       "familyId": "hero-offer-inline-footnote-text-boundary",
       "ownerTarget": "www-apple-com-apple-music",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-apple-music",
+        "www-apple-com-business"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-offer-inline-footnote-text-boundary.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
     },
     {
       "familyId": "plan-card-list-position-composition",
       "ownerTarget": "www-apple-com-apple-music",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/plan-card-list-position-composition.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
     },
     {
       "familyId": "gallery-button-group-and-feature-card-decomposition",
       "ownerTarget": "www-apple-com-apple-music",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-and-feature-card-decomposition.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
     },
     {
       "familyId": "media-gallery-control-context",
       "ownerTarget": "www-apple-com-apple-music",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/media-gallery-control-context.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
     },
     {
       "familyId": "faq-button-group-and-question-boundaries",
       "ownerTarget": "www-apple-com-apple-music",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com-apple-music"],
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/faq-button-group-and-question-boundaries.html",
       "status": "queued",
-      "statusRefs": ["voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"]
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "compare-plans-pseudo-glyph",
+      "ownerTarget": "www-apple-com-apple-music",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/compare-plans-pseudo-glyph.html",
+      "status": "queued",
+      "windowCount": 1,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "responsive-product-gallery-focused-group-vs-child-traversal",
+      "ownerTarget": "www-apple-com-iphone",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-iphone"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/responsive-product-gallery-focused-group-vs-child-traversal.html",
+      "status": "queued",
+      "windowCount": 5,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "apple-shell-list-marker-and-group-suffix-behavior",
+      "ownerTarget": "www-apple-com-iphone",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-iphone"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/apple-shell-list-marker-and-group-suffix-behavior.html",
+      "status": "queued",
+      "windowCount": 210,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footer-directory-list-markers",
+      "ownerTarget": "www-apple-com-iphone",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-iphone"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-directory-list-markers.html",
+      "status": "queued-under-apple-shell-rollup",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "heading-comma-text-boundary",
+      "ownerTarget": "www-apple-com-iphone",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-iphone"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/heading-comma-text-boundary.html",
+      "status": "queued-under-apple-shell-rollup",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "top-level-and-carousel-group-suffix",
+      "ownerTarget": "www-apple-com-iphone",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-iphone"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/top-level-and-carousel-group-suffix.html",
+      "status": "queued-under-apple-shell-rollup",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-iphone-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "hero-privacy-copy-grouping",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-privacy-copy-grouping.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "safari-comparison-table-header-grouping",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/safari-comparison-table-header-grouping.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "apple-intelligence-br-footnote-and-card-controls",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/apple-intelligence-br-footnote-and-card-controls.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "app-videos-gallery-card-and-controls",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/app-videos-gallery-card-and-controls.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "privacy-features-gallery-card-and-controls",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/privacy-features-gallery-card-and-controls.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "latest-privacy-gallery-card-and-controls",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/latest-privacy-gallery-card-and-controls.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "legal-footnote-inline-link-boundary",
+      "ownerTarget": "www-apple-com-privacy",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-privacy",
+        "www-apple-com-icloud"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/legal-footnote-inline-link-boundary.html",
+      "status": "queued",
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-privacy-family-queue.json",
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footnote-link-name-order",
+      "ownerTarget": "www-apple-com-icloud",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-icloud"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-link-name-order.html",
+      "status": "queued",
+      "windowCount": 2,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "apple-invites-media-group-stop",
+      "ownerTarget": "www-apple-com-icloud",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-icloud"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/apple-invites-media-group-stop.html",
+      "status": "queued",
+      "windowCount": 1,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "messages-empty-image-stops",
+      "ownerTarget": "www-apple-com-icloud",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-icloud"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/messages-empty-image-stops.html",
+      "status": "queued",
+      "windowCount": 2,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "icloud-plan-comparison-table-grouped-headers-and-cell-boundaries",
+      "ownerTarget": "www-apple-com-icloud",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-icloud"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/icloud-plan-comparison-table-grouped-headers-and-cell-boundaries.html",
+      "status": "queued",
+      "windowCount": 49,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "family-sharing-group-and-figure-stops",
+      "ownerTarget": "www-apple-com-icloud",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-icloud"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/family-sharing-group-and-figure-stops.html",
+      "status": "queued",
+      "windowCount": 2,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-icloud-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "hero-image-role-group",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-image-role-group.html",
+      "status": "queued",
+      "windowCount": 1,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "feature-card-gallery-wrapper-decomposition",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/feature-card-gallery-wrapper-decomposition.html",
+      "status": "queued",
+      "windowCount": 8,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "gallery-control-button-group-suffix",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-control-button-group-suffix.html",
+      "status": "queued",
+      "windowCount": 8,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "apple-business-heading-child-boundary",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/apple-business-heading-child-boundary.html",
+      "status": "queued",
+      "windowCount": 1,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "discover-products-native-tab-group",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/discover-products-native-tab-group.html",
+      "status": "queued",
+      "windowCount": 1,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "mac-product-gallery-responsive-descendants",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/mac-product-gallery-responsive-descendants.html",
+      "status": "queued",
+      "windowCount": 8,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "take-next-step-gallery-and-faq-accordion",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/take-next-step-gallery-and-faq-accordion.html",
+      "status": "queued",
+      "windowCount": 3,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
+    },
+    {
+      "familyId": "footer-directory-order-and-list-markers",
+      "ownerTarget": "www-apple-com-business",
+      "ownerRole": "repro-scanner",
+      "targets": [
+        "www-apple-com-business"
+      ],
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-directory-order-and-list-markers.html",
+      "status": "queued",
+      "windowCount": 37,
+      "statusRefs": [
+        "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-business-family-queue.json"
+      ]
     },
     {
       "familyId": "consent-detection-families",
       "ownerTarget": "www-apple-com",
       "ownerRole": "repro-scanner",
-      "targets": ["www-apple-com"],
+      "targets": [
+        "www-apple-com"
+      ],
       "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/consent-detection-label-matching.html and consent-detection-overlay-bounds.html",
       "status": "c5-returned-engine-refiner",
       "statusRefs": [
@@ -279,18 +890,1175 @@
     }
   ],
   "targetStatus": [
-    {"target": "www-apple-com-accessibility-labels", "phaseCStatus": "passed", "engineReadyFamilies": 3, "c5Families": 2},
-    {"target": "www-apple-com", "phaseCStatus": "passed", "engineReadyFamilies": 2, "c5Families": 3},
-    {"target": "www-apple-com-accessibility", "phaseCStatus": "passed", "engineReadyFamilies": 1, "c5Families": 6},
-    {"target": "www-apple-com-apple-vision-pro", "phaseCStatus": "returned", "engineReadyFamilies": 3, "c5Families": 7},
-    {"target": "www-apple-com-apple-tv-plus", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 10},
-    {"target": "www-apple-com-education", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 11},
-    {"target": "www-apple-com-apple-watch", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 9},
-    {"target": "www-apple-com-apple-music", "phaseCStatus": "returned", "engineReadyFamilies": 0, "c5Families": 9}
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 1,
+      "c5Families": 4,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 5,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 5,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-apple-vision-pro",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 1,
+      "c5Families": 8,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-apple-tv-plus",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 10,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-education",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 11,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-icloud",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 7,
+      "fixtureLoopbackFamilies": 0,
+      "loopbackRepairs": 8,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-icloud/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-business",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 11,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-business/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-apple-watch",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 9
+    },
+    {
+      "target": "www-apple-com-apple-music",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 10,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-iphone",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 2,
+      "c5MappedFamilies": 8,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-iphone/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-privacy",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 8,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-privacy/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-airpods",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 6,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-airpods/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-mac",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 6,
+      "c5Families": 0,
+      "fixtureLoopbackFamilies": 0,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-mac/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-ipad",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 7,
+      "c5Families": 0,
+      "fixtureLoopbackFamilies": 0,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-ipad/04-fixture-judge.json"
+    },
+    {
+      "target": "www-apple-com-environment",
+      "phaseCStatus": "returned",
+      "engineReadyFamilies": 0,
+      "c5Families": 11,
+      "recoveryOverrideRef": "voiceover-smoke/agent-work/30548850577/www-apple-com-environment/04-fixture-judge.json"
+    }
+  ],
+  "recoveryOverrides": [
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/04-fixture-judge.json",
+      "reason": "Rebuilt Phase B plus recovered C.5/D receipts supersede the earlier committed Labels ownership split without deleting its provenance.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [
+          "footer-buystrip-image-glyph-text-boundary"
+        ],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "residualWindows": {
+          "engine-gap-confirmed": 3,
+          "insufficient-repro": 8
+        }
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [
+          "footer-buystrip-image-glyph-text-boundary",
+          "footnote-listitem-group-and-inline-link-name",
+          "footer-shop-inline-text-boundaries",
+          "accessibility-labels-engine-ready-footer-grouping"
+        ],
+        "priorC5Families": [
+          "local-nav-wrapper-group",
+          "footer-legal-single-link-listitem-markers"
+        ]
+      }
+    },
+    {
+      "target": "www-apple-com",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com/04-fixture-judge.json",
+      "reason": "Rebuilt Homepage Phase B plus recovered C.5/D receipts supersede the earlier committed Homepage ownership split without deleting its provenance.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "college-and-tradein-footnote-text-boundaries",
+          "carousel-tabpanel-list-position",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "residualWindows": {
+          "insufficient-repro": 16
+        },
+        "resolvedByAlreadyPushedEnginePatches": [
+          "college-and-tradein-footnote-text-boundaries:named-numeric-superscript-boundary"
+        ]
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [
+          "homepage-engine-ready-footnote-link-boundaries",
+          "homepage-engine-ready-misc-initial-dom"
+        ],
+        "priorC5Families": [
+          "consent-detection-label-matching",
+          "consent-detection-overlay-bounds",
+          "homepage-consent-scanner-handler"
+        ]
+      }
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/04-fixture-judge.json",
+      "reason": "Rebuilt Accessibility Phase B plus recovered C.5/D receipts supersede the earlier committed Accessibility ownership split without deleting its provenance.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "impact-stories-carousel-grouping",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "residualWindows": {
+          "insufficient-repro": 13
+        },
+        "resolvedByAlreadyPushedEnginePatches": [
+          "external-link-pseudo-glyph"
+        ]
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [
+          "external-link-pseudo-glyph"
+        ],
+        "priorC5Families": [
+          "local-nav-wrapper-group",
+          "impact-stories-carousel-grouping",
+          "hero-static-text-empty-group-suffix",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ]
+      }
+    },
+    {
+      "target": "www-apple-com-apple-vision-pro",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/04-fixture-judge.json",
+      "reason": "Rebuilt Vision Pro Phase B plus already-pushed Phase D engine receipts supersede the earlier committed Vision Pro ownership split without deleting its provenance.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [
+          "technology-inline-text-boundaries:multi-span-inline-boundaries"
+        ],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "card-and-media-grouping",
+          "section-heading-text-boundary",
+          "carousel-gallery-descendant-traversal",
+          "button-group-suffix-and-list-position",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "residualWindows": {
+          "engine-gap-confirmed": 2,
+          "insufficient-repro": 39
+        },
+        "resolvedByAlreadyPushedEnginePatches": [
+          "visionos-external-link-pseudo-glyph",
+          "technology-statistic-split-and-footnote-boundary",
+          "technology-inline-text-boundaries:direct-single-span-sentence-boundary"
+        ]
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [
+          "technology-inline-text-boundaries",
+          "technology-statistic-split-and-footnote-boundary",
+          "visionos-external-link-pseudo-glyph"
+        ],
+        "priorC5Families": [
+          "local-nav-wrapper-group",
+          "card-and-media-grouping",
+          "carousel-gallery-descendant-traversal",
+          "button-group-suffix-and-list-position",
+          "section-heading-text-boundary",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ]
+      }
+    },
+    {
+      "target": "www-apple-com-apple-tv-plus",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/04-fixture-judge.json",
+      "reason": "Rebuilt Apple TV+ Phase B supersedes the earlier committed Apple TV+ Phase C queue taxonomy without deleting its provenance.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "hero-media-group-wrapper",
+          "offer-card-heading-footnote-list-position",
+          "media-tabpanel-gallery-button-grouping",
+          "show-river-carousel-list-counts",
+          "sports-gallery-button-grouping",
+          "device-list-heading-figure-text-boundaries",
+          "footer-footnote-inline-link-list-boundaries",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "residualWindows": {
+          "insufficient-repro": 31
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [
+          "local-nav-group-wrapper",
+          "hero-media-group-wrapper",
+          "offer-card-heading-link-list-positions",
+          "tabpanel-and-gallery-button-group",
+          "show-river-carousel-list-counts",
+          "sports-gallery-button-group",
+          "device-list-count-heading-figure-boundary",
+          "footer-footnote-inline-link-list-boundaries",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-listitem-markers"
+        ]
+      }
+    },
+    {
+      "target": "www-apple-com-education",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/04-fixture-judge.json",
+      "reason": "Rebuilt Education Phase B supersedes the earlier committed Education Phase C 19-window queue taxonomy without deleting its provenance.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "button-group-suffix-and-list-position",
+          "inline-footnote-text-boundary",
+          "hero-static-text-empty-group-suffix",
+          "feature-list-footnote-boundaries",
+          "card-group-decomposition",
+          "impact-stories-carousel-grouping",
+          "carousel-gallery-descendant-traversal",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "residualWindows": {
+          "insufficient-repro": 20
+        },
+        "resolvedByAlreadyPushedEnginePatches": [],
+        "prior19vs20Discrepancy": "The previous Education Phase C receipt undercounted one feature-list-footnote-boundaries residual; the rebuilt Phase B post-repair compare is 258/290/20 and includes the trusted initial-DOM image, 3 of 4 line."
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [
+          "local-nav-wrapper-group",
+          "button-group-suffix-and-list-position",
+          "inline-footnote-text-boundary",
+          "hero-static-text-empty-group-suffix",
+          "feature-list-footnote-boundaries",
+          "card-group-decomposition",
+          "impact-stories-carousel-grouping",
+          "carousel-gallery-descendant-traversal",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ]
+      }
+    },
+    {
+      "target": "www-apple-com-iphone",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-iphone/04-fixture-judge.json",
+      "reason": "Post-fix iPhone Phase B adds a trusted 376-line refined replay target, but all 215 current residual windows are C.5-gated grouped compare families rather than Phase D-ready engine gaps.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "responsive-product-gallery-focused-group-vs-child-traversal",
+          "apple-shell-list-marker-and-group-suffix-behavior"
+        ],
+        "mappedCrossPageFamilies": [
+          "top-level-and-carousel-group-suffix",
+          "button-group-suffix-and-list-position",
+          "responsive-product-gallery-focused-group-vs-child-traversal",
+          "heading-comma-text-boundary",
+          "card-and-media-grouping",
+          "native-control-context",
+          "footer-directory-list-markers",
+          "hidden-offscreen-modal-sections:no-current-residual"
+        ],
+        "openC5Rollups": [
+          {
+            "familyId": "responsive-product-gallery-focused-group-vs-child-traversal",
+            "windowCount": 5,
+            "compareGroup": "role/structure"
+          },
+          {
+            "familyId": "apple-shell-list-marker-and-group-suffix-behavior",
+            "windowCount": 210,
+            "compareGroup": "list/marker"
+          }
+        ],
+        "residualWindows": {
+          "insufficient-repro": 215
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 12,
+          "approvedPreexistingReviews": 3
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [],
+        "note": "iPhone did not have a prior Phase C receipt in this run; this row is additive."
+      }
+    },
+    {
+      "target": "www-apple-com-privacy",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-privacy/04-fixture-judge.json",
+      "reason": "Post-fix Privacy Phase B applies local-nav/footer legal fixture-noise cleanup and leaves 15 trusted initial-DOM residual windows across eight C.5-gated families.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "hero-privacy-copy-grouping",
+          "safari-comparison-table-header-grouping",
+          "apple-intelligence-br-footnote-and-card-controls",
+          "app-videos-gallery-card-and-controls",
+          "privacy-features-gallery-card-and-controls",
+          "latest-privacy-gallery-card-and-controls",
+          "legal-footnote-inline-link-boundary",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "hero-privacy-copy-grouping",
+            "windowCount": 1
+          },
+          {
+            "familyId": "safari-comparison-table-header-grouping",
+            "windowCount": 1
+          },
+          {
+            "familyId": "apple-intelligence-br-footnote-and-card-controls",
+            "windowCount": 4
+          },
+          {
+            "familyId": "app-videos-gallery-card-and-controls",
+            "windowCount": 2
+          },
+          {
+            "familyId": "privacy-features-gallery-card-and-controls",
+            "windowCount": 2
+          },
+          {
+            "familyId": "latest-privacy-gallery-card-and-controls",
+            "windowCount": 2
+          },
+          {
+            "familyId": "legal-footnote-inline-link-boundary",
+            "windowCount": 1
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 2
+          }
+        ],
+        "residualWindows": {
+          "insufficient-repro": 15
+        },
+        "postRepairGrouped": {
+          "role/structure": 4,
+          "punctuation/text-boundary": 4,
+          "list/marker": 7
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 20,
+          "approvedPreexistingReviews": 4,
+          "sharedC5Applied": [
+            "local-nav-wrapper-group",
+            "footer-legal-single-link-listitem-markers"
+          ]
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [],
+        "note": "Privacy did not have a prior Phase C receipt in this run; this row is additive."
+      }
+    },
+    {
+      "target": "www-apple-com-icloud",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-icloud/04-fixture-judge.json",
+      "reason": "Post-loopback iCloud Phase B preserves raw expectedAnnouncements, reduces the refined replay target to 434 lines with exactly 8 fixture-noise loopback repairs, and leaves seven broad initial-DOM families C.5-gated with no Phase D-ready engine family.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "footnote-link-name-order",
+          "apple-invites-media-group-stop",
+          "messages-empty-image-stops",
+          "icloud-plan-comparison-table-grouped-headers-and-cell-boundaries",
+          "family-sharing-group-and-figure-stops",
+          "legal-footnote-inline-link-boundary",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "footnote-link-name-order",
+            "windowCount": 2
+          },
+          {
+            "familyId": "apple-invites-media-group-stop",
+            "windowCount": 1
+          },
+          {
+            "familyId": "messages-empty-image-stops",
+            "windowCount": 2
+          },
+          {
+            "familyId": "icloud-plan-comparison-table-grouped-headers-and-cell-boundaries",
+            "windowCount": 49
+          },
+          {
+            "familyId": "family-sharing-group-and-figure-stops",
+            "windowCount": 2
+          },
+          {
+            "familyId": "legal-footnote-inline-link-boundary",
+            "windowCount": 1
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 2
+          }
+        ],
+        "residualWindows": {
+          "fixture-still-noisy": 0,
+          "scanner-evidence-gap": 59
+        },
+        "postRepairGrouped": {
+          "role/structure": 32,
+          "text": 19,
+          "punctuation/text-boundary": 5,
+          "list/marker": 3
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "loopbackRepairs": 8,
+          "fixtureRepairReviews": 32,
+          "approvedPreexistingReviews": 8,
+          "status": "resolved-by-phase-b-loopback",
+          "sharedC5Applied": [
+            "local-nav-wrapper-group",
+            "footer-legal-single-link-listitem-markers"
+          ],
+          "deterministicEvidenceRefiners": [
+            "faq-heading-ocr-ligature",
+            "legal-footnote-punctuation-and-list-position"
+          ]
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [
+          "named-numeric-superscript-boundary",
+          "AX figure intro image stops",
+          "AX pseudo glyph link names",
+          "consent scanner fixes"
+        ],
+        "priorC5Families": [
+          "local-nav-wrapper-group",
+          "footer-legal-single-link-listitem-markers",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "note": "Already-pushed engine patches are reconciled as not resolving current iCloud residual windows; recovered local-nav and footer-legal C.5 coverage has now been applied by Phase B loopback, leaving only C.5-gated residual families."
+      }
+    },
+    {
+      "target": "www-apple-com-business",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-business/04-fixture-judge.json",
+      "reason": "Post-fix Business Phase B repairs 9 fixture-noise lines plus 2 approved preexisting lines, then leaves 70 list/marker residual windows across overlapping C.5 family buckets with no current engine-ready family.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "hero-image-role-group",
+          "feature-card-gallery-wrapper-decomposition",
+          "gallery-control-button-group-suffix",
+          "apple-business-heading-child-boundary",
+          "discover-products-native-tab-group",
+          "mac-product-gallery-responsive-descendants",
+          "take-next-step-gallery-and-faq-accordion",
+          "footnote-listitem-inline-link-grouping",
+          "footer-directory-order-and-list-markers",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "local-nav-wrapper-group",
+            "windowCount": 1
+          },
+          {
+            "familyId": "hero-image-role-group",
+            "windowCount": 1
+          },
+          {
+            "familyId": "feature-card-gallery-wrapper-decomposition",
+            "windowCount": 8
+          },
+          {
+            "familyId": "gallery-control-button-group-suffix",
+            "windowCount": 8
+          },
+          {
+            "familyId": "apple-business-heading-child-boundary",
+            "windowCount": 1
+          },
+          {
+            "familyId": "discover-products-native-tab-group",
+            "windowCount": 1
+          },
+          {
+            "familyId": "mac-product-gallery-responsive-descendants",
+            "windowCount": 8,
+            "initialDomStatus": "volatile-dom",
+            "stateScope": "interaction-sequence"
+          },
+          {
+            "familyId": "take-next-step-gallery-and-faq-accordion",
+            "windowCount": 3
+          },
+          {
+            "familyId": "footnote-listitem-inline-link-grouping",
+            "windowCount": 12
+          },
+          {
+            "familyId": "footer-directory-order-and-list-markers",
+            "windowCount": 37
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 3
+          }
+        ],
+        "residualWindows": {
+          "insufficient-repro": 70
+        },
+        "postRepairGrouped": {
+          "list/marker": 70
+        },
+        "familyCoverage": {
+          "uniqueResidualWindows": 70,
+          "familyWindowCountWithOverlap": 83,
+          "missingWindows": []
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 9,
+          "approvedPreexistingReviews": 2
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [],
+        "note": "Business did not have a prior Phase C receipt in this run; this row is additive and preserves the concurrent iCloud override."
+      }
+    },
+    {
+      "target": "www-apple-com-apple-music",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/04-fixture-judge.json",
+      "reason": "Rebuilt Apple Music Phase B supersedes the stale prior 53-window Phase C receipt: current rawDiff is 0, 15 new fixture-noise repairs plus 6 approved preexisting repairs are fixture-ready, and all 56 post-repair residual windows remain C.5-gated.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "local-nav-wrapper-group",
+          "hero-offer-inline-footnote-text-boundary",
+          "plan-card-list-position-composition",
+          "gallery-button-group-and-feature-card-decomposition",
+          "media-gallery-control-context",
+          "faq-button-group-and-question-boundaries",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers",
+          "compare-plans-pseudo-glyph"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "local-nav-wrapper-group",
+            "windowCount": 1
+          },
+          {
+            "familyId": "hero-offer-inline-footnote-text-boundary",
+            "windowCount": 5
+          },
+          {
+            "familyId": "plan-card-list-position-composition",
+            "windowCount": 8
+          },
+          {
+            "familyId": "gallery-button-group-and-feature-card-decomposition",
+            "windowCount": 6
+          },
+          {
+            "familyId": "media-gallery-control-context",
+            "windowCount": 4,
+            "initialDomStatus": "volatile-dom",
+            "stateScope": "interaction-sequence"
+          },
+          {
+            "familyId": "faq-button-group-and-question-boundaries",
+            "windowCount": 3
+          },
+          {
+            "familyId": "footnote-listitem-inline-link-grouping",
+            "windowCount": 16
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 2
+          },
+          {
+            "familyId": "footer-legal-single-link-listitem-markers",
+            "windowCount": 11
+          },
+          {
+            "familyId": "compare-plans-pseudo-glyph",
+            "windowCount": 1
+          }
+        ],
+        "residualWindows": {
+          "insufficient-repro": 56
+        },
+        "postRepairGrouped": {
+          "list/marker": 42,
+          "role/structure": 13,
+          "punctuation/text-boundary": 1
+        },
+        "familyCoverage": {
+          "uniqueResidualWindows": 56,
+          "familyWindowCountWithOverlap": 57,
+          "missingWindows": [],
+          "overlapWindows": [
+            6
+          ]
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 15,
+          "approvedPreexistingReviews": 6
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [
+          "local-nav-wrapper-group",
+          "hero-offer-inline-footnote-text-boundary",
+          "plan-card-list-position-composition",
+          "gallery-button-group-and-feature-card-decomposition",
+          "media-gallery-control-context",
+          "faq-button-group-and-question-boundaries",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "priorResidualWindows": {
+          "debug-evidence-missing": 53
+        },
+        "priorPhaseBRepairReviews": 30,
+        "note": "The prior Apple Music 04 receipt predates the rebuilt Phase B divergence pass. The current authoritative split expands footer legal to windows 46-56 and adds the Compare plans pseudo-glyph C.5 bucket while preserving Business, iCloud, and Environment recovery overrides."
+      }
+    },
+    {
+      "target": "www-apple-com-airpods",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-airpods/04-fixture-judge.json",
+      "reason": "Updated loopback-aware AirPods Phase B supersedes the earlier 53-window Phase C split: the 9 fixture-noise windows were repaired and exactly 44 current residual windows remain C.5-gated.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "hero-inline-footnote-text-boundary",
+          "product-card-group-and-product-media",
+          "comparison-table-inline-footnote-and-text-boundary",
+          "get-to-know-gallery-card-grouping",
+          "legal-footnote-truncation-and-inline-link-boundaries",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "hero-inline-footnote-text-boundary",
+            "windowCount": 3
+          },
+          {
+            "familyId": "product-card-group-and-product-media",
+            "windowCount": 1
+          },
+          {
+            "familyId": "comparison-table-inline-footnote-and-text-boundary",
+            "windowCount": 25
+          },
+          {
+            "familyId": "get-to-know-gallery-card-grouping",
+            "windowCount": 6
+          },
+          {
+            "familyId": "legal-footnote-truncation-and-inline-link-boundaries",
+            "windowCount": 7
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 2
+          }
+        ],
+        "residualWindows": {
+          "insufficient-repro": 44
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBLoopbackRepairs": 9,
+          "phaseBRepairReviews": 78,
+          "approvedPreexistingReviews": 6
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [],
+        "note": "AirPods was not part of the earlier valid cross-page Phase C target set; this row is additive, but its first Phase C receipt has now been superseded by the updated loopback-aware Phase B packet."
+      }
+    },
+    {
+      "target": "www-apple-com-environment",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-environment/04-fixture-judge.json",
+      "reason": "Post-fix Environment Phase B repairs 29 fixture-noise lines plus 21 approved preexisting lines, applies shared local-nav/footer legal C.5 cleanup, and leaves 28 trusted initial-DOM residual windows across 11 C.5-gated families.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [],
+        "c5Families": [
+          "hero-environment-media-copy-grouping",
+          "hero-intro-text-boundaries",
+          "environment-highlights-tabpanel-counts",
+          "recycle-illustration-image-role",
+          "environmental-galleries-list-vs-group",
+          "product-report-tab-navigation-and-pdf-link-names",
+          "previous-reports-disclosure-control-boundary",
+          "environment-resource-link-name-glyphs",
+          "external-link-duplicate-name-glyphs",
+          "values-router-carousel-grouping-and-footer-order",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "hero-environment-media-copy-grouping",
+            "windowCount": 2,
+            "sharedC5FamilyId": "hero-media-copy-grouping"
+          },
+          {
+            "familyId": "hero-intro-text-boundaries",
+            "windowCount": 1,
+            "sharedC5FamilyId": "hero-intro-paragraph-text-boundaries"
+          },
+          {
+            "familyId": "environment-highlights-tabpanel-counts",
+            "windowCount": 3,
+            "sharedC5FamilyId": "tabpanel-and-gallery-button-group"
+          },
+          {
+            "familyId": "recycle-illustration-image-role",
+            "windowCount": 1,
+            "sharedC5FamilyId": "image-role-group-vs-image"
+          },
+          {
+            "familyId": "environmental-galleries-list-vs-group",
+            "windowCount": 3,
+            "sharedC5FamilyId": "carousel-gallery-descendant-traversal"
+          },
+          {
+            "familyId": "product-report-tab-navigation-and-pdf-link-names",
+            "windowCount": 5,
+            "sharedC5FamilyId": "product-report-tabs-and-pdf-link-names"
+          },
+          {
+            "familyId": "previous-reports-disclosure-control-boundary",
+            "windowCount": 1,
+            "sharedC5FamilyId": "disclosure-control-boundary"
+          },
+          {
+            "familyId": "environment-resource-link-name-glyphs",
+            "windowCount": 4,
+            "sharedC5FamilyId": "external-link-duplicate-name-glyphs"
+          },
+          {
+            "familyId": "external-link-duplicate-name-glyphs",
+            "windowCount": 2,
+            "sharedC5FamilyId": "external-link-duplicate-name-glyphs"
+          },
+          {
+            "familyId": "values-router-carousel-grouping-and-footer-order",
+            "windowCount": 4,
+            "sharedC5FamilyId": "values-router-carousel-grouping"
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 2,
+            "sharedC5FamilyId": "footer-inline-shop-text-boundaries"
+          }
+        ],
+        "residualWindows": {
+          "scanner-evidence-gap": 28
+        },
+        "postRepairGrouped": {
+          "role/structure": 6,
+          "list/marker": 19,
+          "punctuation/text-boundary": 3
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 29,
+          "approvedPreexistingReviews": 21,
+          "sharedC5Applied": [
+            "local-nav-wrapper-group",
+            "footer-legal-single-link-listitem-markers"
+          ]
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorEngineReadyFamilies": [],
+        "priorC5Families": [],
+        "reviewedAlreadyPushedPatchFamilies": [
+          "external-link-pseudo-glyph"
+        ],
+        "note": "Environment did not have a prior Phase C receipt in this run. Existing pseudo-glyph engine work is reconciled as not resolving current duplicate link-name/glyph-order residuals."
+      }
+    },
+    {
+      "target": "www-apple-com-apple-watch",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-watch/04-fixture-judge.json",
+      "reason": "Loopback Apple Watch Phase B supersedes the committed 59-window receipt and prior 82-window post-repair receipt: rawDiff0, 68 fixture changes plus 4 approved preexisting repairs, and a current post-loopback compare of 417/431/77. Phase C splits those 77 residual windows into 23 already-covered reusable engine gaps and 54 C.5-gated scanner-evidence gaps with zero current fixture loopbacks.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [
+          "legal-footnote-inline-link-grouping",
+          "footer-inline-shop-text-boundaries"
+        ],
+        "c5Families": [
+          "main-region-wrapper-group",
+          "product-nav-button-group-and-inline-footnote",
+          "lineup-card-link-position-price-text-boundary",
+          "button-group-suffix-and-list-position",
+          "why-apple-card-listitem-grouping",
+          "get-to-know-gallery-listitem-grouping",
+          "made-for-each-other-native-control-context",
+          "legal-footnote-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-end-wrapper-group"
+        ],
+        "openC5Families": [
+          {
+            "familyId": "main-region-wrapper-group",
+            "windowCount": 1,
+            "classification": "scanner-evidence-gap"
+          },
+          {
+            "familyId": "product-nav-button-group-and-inline-footnote",
+            "windowCount": 1,
+            "classification": "scanner-evidence-gap",
+            "sharedC5FamilyId": "button-group-suffix-and-list-position",
+            "coverageStatus": "already-covered-shared-family-needs-exact-window-reconciliation"
+          },
+          {
+            "familyId": "lineup-card-link-position-price-text-boundary",
+            "windowCount": 8,
+            "classification": "scanner-evidence-gap"
+          },
+          {
+            "familyId": "button-group-suffix-and-list-position",
+            "windowCount": 1,
+            "classification": "scanner-evidence-gap",
+            "coverageStatus": "already-covered-shared-family-needs-exact-window-reconciliation"
+          },
+          {
+            "familyId": "why-apple-card-listitem-grouping",
+            "windowCount": 23,
+            "classification": "scanner-evidence-gap",
+            "sharedC5FamilyId": "carousel-gallery-descendant-traversal"
+          },
+          {
+            "familyId": "get-to-know-gallery-listitem-grouping",
+            "windowCount": 11,
+            "classification": "scanner-evidence-gap",
+            "sharedC5FamilyId": "carousel-gallery-descendant-traversal"
+          },
+          {
+            "familyId": "made-for-each-other-native-control-context",
+            "windowCount": 8,
+            "classification": "scanner-evidence-gap",
+            "sharedC5FamilyId": "native-control-context"
+          },
+          {
+            "familyId": "footer-end-wrapper-group",
+            "windowCount": 1,
+            "classification": "scanner-evidence-gap"
+          }
+        ],
+        "alreadyCoveredC5Families": [
+          {
+            "familyId": "footnote-listitem-inline-link-grouping",
+            "mappedFamilyId": "legal-footnote-inline-link-grouping",
+            "windowCount": 21,
+            "classification": "reusable-engine-gap",
+            "coverageStatus": "retry-scan-complete",
+            "c5Verdict": "engine-gap-confirmed"
+          },
+          {
+            "familyId": "footer-inline-shop-text-boundaries",
+            "windowCount": 2,
+            "classification": "reusable-engine-gap",
+            "coverageStatus": "retry-scan-complete",
+            "c5Verdict": "engine-gap-confirmed"
+          },
+          {
+            "familyId": "footer-legal-single-link-listitem-markers",
+            "windowCount": 0,
+            "classification": "fixture-still-noisy",
+            "coverageStatus": "full-scan-complete",
+            "c5Verdict": "fixture-noise-confirmed",
+            "currentResidualWindowCount": 0
+          },
+          {
+            "familyId": "button-group-suffix-and-list-position",
+            "windowCount": 2,
+            "classification": "scanner-evidence-gap",
+            "coverageStatus": "full-scan-complete",
+            "c5Verdict": "fixture-noise-confirmed",
+            "currentResidualLoopback": false
+          }
+        ],
+        "residualWindows": {
+          "scanner-evidence-gap": 54,
+          "fixture-still-noisy": 0,
+          "reusable-engine-gap": 23,
+          "dynamic-state-mismatch": 0,
+          "ambiguous": 0
+        },
+        "postLoopbackGrouped": {
+          "list/marker": 75,
+          "punctuation/text-boundary": 1,
+          "role/structure": 1
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 68,
+          "approvedPreexistingReviews": 4,
+          "priorRemovedFamilies": [
+            {
+              "familyId": "footer-values-position-spacing",
+              "removedWindowCount": 1
+            },
+            {
+              "familyId": "footer-legal-single-link-listitem-markers",
+              "removedWindowCount": 4,
+              "sharedC5Applied": "footer-legal-single-link-listitem-markers",
+              "c5Verdict": "fixture-noise-confirmed"
+            }
+          ],
+          "families": []
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorResidualWindows": {
+          "stale-prior-taxonomy": 59
+        },
+        "priorC5Families": [
+          "main-region-wrapper-group",
+          "product-nav-button-group-and-inline-footnote",
+          "lineup-card-link-position-price-text-boundary",
+          "button-group-suffix-and-list-position",
+          "carousel-gallery-descendant-traversal",
+          "native-control-context",
+          "footnote-listitem-inline-link-grouping",
+          "footer-inline-shop-text-boundaries",
+          "footer-legal-single-link-listitem-markers"
+        ],
+        "note": "The old Watch 04 receipt is stale after rebuilt Phase B divergence and the later fixture-noise loopback. The updated split confirms the prior five fixture-noise windows are gone, routes already-covered footnote/footer text-boundary families to engine-refiner, and leaves the remaining 54 windows C.5-gated."
+      }
+    },
+    {
+      "target": "www-apple-com-mac",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-mac/04-fixture-judge.json",
+      "reason": "Final post-loopback Mac Phase C supersedes earlier 78-window split: current compare is 469/489/68 and all prior fixture-noise windows are gone. Terminal C.5 ledger maps all 68 residuals to engine-gap-confirmed.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [
+          "main-region-wrapper-group",
+          "mac-product-compare-gallery-list-position-native-controls",
+          "mac-shopping-get-to-know-responsive-galleries",
+          "mac-switch-directory-section-order",
+          "mac-legal-footnote-inline-link-grouping",
+          "footer-end-wrapper-group"
+        ],
+        "c5Families": [],
+        "fixtureLoopbackFamilies": [],
+        "residualWindows": {
+          "engine-gap-confirmed": 68,
+          "fixture-noise-confirmed": 0,
+          "conditional-state-confirmed": 0,
+          "insufficient-repro": 0,
+          "debug-evidence-missing": 0,
+          "already-correct": 0
+        },
+        "postLoopbackGrouped": {
+          "list/marker": 67,
+          "role/structure": 1
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 26,
+          "approvedPreexistingReviews": 15,
+          "priorRemovedFamilies": [
+            "mac-hero-inline-footnote-glyph",
+            "button-group-suffix-and-list-position",
+            "mac-shop-link-pseudo-glyph",
+            "footer-legal-single-link-listitem-markers"
+          ],
+          "families": []
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorResidualWindows": {
+          "engine-gap-confirmed": 6,
+          "fixture-noise-confirmed": 8,
+          "insufficient-repro": 64
+        },
+        "note": "Superseded by final loopback compare and terminal 16-family C.5 ledger."
+      }
+    },
+    {
+      "target": "www-apple-com-ipad",
+      "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-ipad/04-fixture-judge.json",
+      "reason": "Final post-loopback iPad Phase C supersedes earlier 60-window split: current compare is 401/436/46 and all prior fixture-noise windows are gone. Terminal C.5 ledger maps all 46 residuals to engine-gap-confirmed.",
+      "currentAuthoritativeSplit": {
+        "engineReadyFamilies": [
+          "footnote-link-name-order",
+          "ipad-product-lineup-gallery-list-position-native-controls",
+          "ipad-why-apple-card-gallery-one-object-vs-children",
+          "ipad-get-to-know-gallery-and-control-boundaries",
+          "ipad-essentials-and-significant-others-boundaries",
+          "ipad-legal-footnote-row-splits-source-shift",
+          "footer-end-wrapper-group"
+        ],
+        "c5Families": [],
+        "fixtureLoopbackFamilies": [],
+        "residualWindows": {
+          "engine-gap-confirmed": 46,
+          "fixture-noise-confirmed": 0,
+          "conditional-state-confirmed": 0,
+          "insufficient-repro": 0,
+          "debug-evidence-missing": 0,
+          "already-correct": 0
+        },
+        "postLoopbackGrouped": {
+          "list/marker": 43,
+          "role/structure": 3
+        },
+        "fixtureNoiseLoopbacks": {
+          "residualWindows": 0,
+          "phaseBRepairReviews": 28,
+          "approvedPreexistingReviews": 11,
+          "priorRemovedFamilies": [
+            "local-nav-wrapper-group",
+            "button-group-suffix-and-list-position",
+            "ipad-lineup-link-ocr-and-duplicate-name-repairs",
+            "ipad-legal-credit-curly-quote-ocr",
+            "footer-legal-single-link-listitem-markers"
+          ],
+          "families": []
+        },
+        "resolvedByAlreadyPushedEnginePatches": []
+      },
+      "committedCrossCheck": {
+        "priorResidualWindows": {
+          "engine-gap-confirmed": 5,
+          "fixture-noise-confirmed": 12,
+          "insufficient-repro": 43
+        },
+        "note": "Superseded by final loopback compare and terminal 16-family C.5 ledger."
+      }
+    }
   ],
   "notes": [
     "This summary is based on existing Phase C receipts and queue summaries.",
-    "All 8 valid targets in this ownership scope have completed Phase C.",
+    "All 16 valid targets in this ownership scope have completed Phase C, including newly valid post-fix iPhone, Privacy, iCloud, Business, AirPods, Environment, Mac, and iPad.",
     "Queued status means Phase C requested C.5 and no C.5 status receipt was found for that family.",
     "Only consent detection has a C.5 status receipt in this run-level summary at write time."
   ]

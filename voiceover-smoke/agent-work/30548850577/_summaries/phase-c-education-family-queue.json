@@ -7,45 +7,170 @@
   "target": "www-apple-com-education",
   "status": "returned",
   "sourceReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/04-fixture-judge.json",
+  "sourceEvidencePacket": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/03-evidence-packet.json",
   "currentCompare": {
     "baseline": "258/284/42",
     "preRepair": "258/290/27",
-    "postRepair": "258/290/19"
+    "postRepair": "258/290/20"
+  },
+  "rawDiffCount": 0,
+  "repairAccounting": {
+    "newRepairs": 19,
+    "approvedPreexisting": 1,
+    "classification": "fixture-noise-confirmed",
+    "canonicalClassification": "fixture-still-noisy",
+    "disposition": "fixture-ready"
+  },
+  "prior19vs20Discrepancy": {
+    "previousPhaseCPostRepairWindows": 19,
+    "rebuiltPhaseBPostRepairWindows": 20,
+    "correctedWindowFamily": "feature-list-footnote-boundaries",
+    "correctedWindowEvidence": "current refined index 85 is the trusted initial-DOM image-position line ending 'image, 3 of 4'",
+    "result": "feature-list-footnote-boundaries now owns windows [5, 6, 7]; later family windows are shifted by one."
   },
   "classificationTotals": {
     "residualWindows": {
       "engine-gap-confirmed": 0,
       "fixture-noise-confirmed": 0,
       "conditional-state-confirmed": 0,
-      "insufficient-repro": 0,
-      "debug-evidence-missing": 19,
+      "insufficient-repro": 20,
+      "debug-evidence-missing": 0,
       "already-correct": 0
     },
     "phaseBRepairReviews": {
       "fixture-noise-confirmed": 19
     },
     "approvedPreexistingReviews": {
-      "already-correct": 2
+      "already-correct": 1
+    },
+    "resolvedByAlreadyPushedEnginePatches": {
+      "engine-gap-confirmed": 0
+    }
+  },
+  "canonicalClassificationTotals": {
+    "residualWindows": {
+      "scanner-evidence-gap": 20
+    },
+    "phaseBRepairReviews": {
+      "fixture-still-noisy": 19
     }
   },
   "engineReadyFamilies": [],
+  "resolvedByAlreadyPushedEnginePatches": [],
   "c5RequiredFamilies": [
-    {"familyId": "local-nav-wrapper-group", "windows": [1], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html", "reuseExistingFixture": true},
-    {"familyId": "button-group-suffix-and-list-position", "windows": [2], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html", "reuseExistingFixture": true},
-    {"familyId": "inline-footnote-text-boundary", "windows": [3], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/inline-footnote-text-boundary.html", "reuseExistingFixture": false},
-    {"familyId": "hero-static-text-empty-group-suffix", "windows": [4], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-static-text-empty-group-suffix.html", "reuseExistingFixture": true},
-    {"familyId": "feature-list-footnote-boundaries", "windows": [5, 6], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/feature-list-footnote-boundaries.html", "reuseExistingFixture": false},
-    {"familyId": "card-group-decomposition", "windows": [7], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-group-decomposition.html", "reuseExistingFixture": false},
-    {"familyId": "impact-stories-carousel-grouping", "windows": [8], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/impact-stories-carousel-grouping.html", "reuseExistingFixture": true},
-    {"familyId": "carousel-gallery-descendant-traversal", "windows": [9], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html", "reuseExistingFixture": true},
-    {"familyId": "footnote-listitem-inline-link-grouping", "windows": [10, 11, 12, 13], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html", "reuseExistingFixture": true},
-    {"familyId": "footer-inline-shop-text-boundaries", "windows": [14, 15], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html", "reuseExistingFixture": true},
-    {"familyId": "footer-legal-single-link-listitem-markers", "windows": [16, 17, 18, 19], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html", "reuseExistingFixture": true}
+    {
+      "familyId": "local-nav-wrapper-group",
+      "windows": [1],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
+      "coverageStatus": "canary-passed-awaiting-existing-full-run",
+      "nextRunId": "30629199194",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "button-group-suffix-and-list-position",
+      "windows": [2],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html",
+      "coverageStatus": "queued-no-current-c5-coverage",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "inline-footnote-text-boundary",
+      "windows": [3],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/inline-footnote-text-boundary.html",
+      "coverageStatus": "missing-exact-c5",
+      "reuseExistingFixture": false
+    },
+    {
+      "familyId": "hero-static-text-empty-group-suffix",
+      "windows": [4],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-static-text-empty-group-suffix.html",
+      "coverageStatus": "canary-passed-awaiting-existing-full-run",
+      "nextRunId": "30642495301",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "feature-list-footnote-boundaries",
+      "windows": [5, 6, 7],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/feature-list-footnote-boundaries.html",
+      "coverageStatus": "missing-exact-c5",
+      "containsImage3of4Window": true,
+      "image3of4CandidateId": "www-apple-com-education:residual-structural-or-boundary:1a4f7d553a4b",
+      "reuseExistingFixture": false
+    },
+    {
+      "familyId": "card-group-decomposition",
+      "windows": [8],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-group-decomposition.html",
+      "coverageStatus": "queued-no-current-c5-coverage",
+      "umbrellaFamily": "card-and-media-grouping",
+      "reuseExistingFixture": false
+    },
+    {
+      "familyId": "impact-stories-carousel-grouping",
+      "windows": [9],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/impact-stories-carousel-grouping.html",
+      "coverageStatus": "canary-insufficient-awaiting-existing-retry-run",
+      "nextRunId": "30641766178",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "carousel-gallery-descendant-traversal",
+      "windows": [10],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html",
+      "coverageStatus": "queued-no-current-c5-coverage",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "windows": [11, 12, 13, 14],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html",
+      "coverageStatus": "canary-insufficient-awaiting-existing-retry-run",
+      "nextRunId": "30643160976",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "windows": [15, 16],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
+      "coverageStatus": "canary-insufficient-awaiting-existing-retry-run",
+      "nextRunId": "30638350207",
+      "reuseExistingFixture": true
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "windows": [17, 18, 19, 20],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
+      "coverageStatus": "canary-passed-awaiting-existing-full-run",
+      "nextRunId": "30632038935",
+      "reuseExistingFixture": true
+    }
   ],
   "nextRecommendedWorker": {
     "type": "repro-scanner",
-    "scope": "Run generic C.5 repros for all listed families; no Education family is engine-ready yet.",
+    "scope": "Run or consume C.5 for all 11 Education families; prioritize feature-list-footnote-boundaries for the corrected image, 3 of 4 residual.",
     "c5Needed": true,
-    "reason": "All residual windows are initial-DOM but need focused generic repro evidence."
+    "reason": "All residual windows are trusted initial-DOM mismatches but need focused generic C.5 evidence before Phase D."
   }
 }

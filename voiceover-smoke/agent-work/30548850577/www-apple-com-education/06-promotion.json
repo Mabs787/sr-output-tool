@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "phase": "E",
+  "agent": "promoter",
+  "agentConfigPath": ".codex/agents/promoter.toml",
+  "spawnedBy": "orchestrator-recovery-tail",
+  "sessionId": "",
+  "target": "www-apple-com-education",
+  "runId": "30548850577",
+  "status": "passed",
+  "startedAt": "2026-07-31T19:50:00Z",
+  "finishedAt": "2026-07-31T19:50:00Z",
+  "inputs": [
+    "03-evidence-refinement.json",
+    "04-fixture-judge.json",
+    "05-engine-refinement.json",
+    "../_summaries/phase05-compact-compare.json",
+    "../_summaries/phase-c5-family-coverage.json",
+    "../_summaries/phase-d-cross-page-reconciliation-audit.json"
+  ],
+  "promotionDecision": "candidate",
+  "exactMatch": false,
+  "trustedSlices": [],
+  "remainingMismatchFamilies": [
+    "local-nav-wrapper-group",
+    "button-group-suffix-and-list-position",
+    "inline-footnote-text-boundary",
+    "hero-static-text-empty-group-suffix",
+    "feature-list-footnote-boundaries",
+    "card-group-decomposition",
+    "impact-stories-carousel-grouping",
+    "carousel-gallery-descendant-traversal",
+    "footnote-listitem-inline-link-grouping",
+    "footer-inline-shop-text-boundaries",
+    "footer-legal-single-link-listitem-markers"
+  ],
+  "revisitQueue": [
+    {
+      "families": [
+        "local-nav-wrapper-group",
+        "button-group-suffix-and-list-position",
+        "inline-footnote-text-boundary",
+        "hero-static-text-empty-group-suffix",
+        "feature-list-footnote-boundaries",
+        "card-group-decomposition",
+        "impact-stories-carousel-grouping",
+        "carousel-gallery-descendant-traversal",
+        "footnote-listitem-inline-link-grouping",
+        "footer-inline-shop-text-boundaries",
+        "footer-legal-single-link-listitem-markers"
+      ],
+      "latestCompare": "258/292/18",
+      "detailsRef": "05-engine-refinement.json#revisitQueue",
+      "nextOwner": "engine-refiner",
+      "nextAction": "Resume each family-specific parked queue only after its focused evidence and negative-control requirements are met.",
+      "evidenceNeeded": "Use the terminal C.5 verdict and target-specific Phase C/D receipt; do not infer from Apple product text or transient live state.",
+      "checksNeeded": [
+        "focused positive and negative unit coverage",
+        "affected target compare",
+        "protected VoiceOver sentinel",
+        "engine unit and extension runtime"
+      ]
+    }
+  ],
+  "blockers": [
+    "Latest current-engine compare is 258/292/18, not exact."
+  ],
+  "manifestChanges": [],
+  "statusDocsUpdated": [],
+  "fixtureTier": "focused-repro-fixtures",
+  "uniqueCoverage": "Education adds card, carousel, footnote, and hero evidence already better protected by focused repros.",
+  "existingCoverageChecked": "Terminal shared C.5 coverage and existing canonical corpus checked; focused repros or parked evidence are preferable to this non-exact full page.",
+  "runMetrics": {
+    "reviewedCandidateCount": 1,
+    "appliedFixtureRepairCount": 0,
+    "rejectedCandidateCount": 0,
+    "mismatchWindowsAfterEngineWork": 18,
+    "exactTargets": 0,
+    "actionableTargets": 1,
+    "conditionalTargets": 0,
+    "parkedTargets": 1,
+    "recaptureOnlyTargets": 0
+  },
+  "recaptureQueueStatus": {
+    "queuePath": "../_summaries/recapture-queue.json",
+    "status": "terminal-accounted"
+  },
+  "fixturePushReview": {
+    "changedFixtureFiles": [],
+    "rawOutputEdited": false,
+    "rawOutputSourceRunIds": [],
+    "refinedOutputChanged": false,
+    "refinedChangeCount": 0,
+    "receiptCoverage": "complete",
+    "mixedEngineAndFixtureChanges": false,
+    "riskLevel": "low",
+    "decision": "block-push",
+    "reason": "No canonical fixture promotion or workflow-trigger push is required."
+  },
+  "engineLeaseReview": {
+    "activeLeaseCount": 0,
+    "leaseHistoryReceiptsChecked": [
+      "../_summaries/phase-d-engine-lease.json"
+    ],
+    "unreleasedLeases": [],
+    "overlapResult": "released",
+    "statusOrPromotionBlockedByEngineEditOwnership": false
+  },
+  "checks": [
+    {
+      "command": "final verification ladder (see ../_summaries/06-promotion.json)",
+      "required": true,
+      "status": "passed-with-known-baseline",
+      "exitCode": 0,
+      "summary": "Builds, focused and unit tests, 16 target compares, extension checks, and protected compare completed; full corpus has only the pre-existing Microsoft baseline failure."
+    }
+  ],
+  "agentWorkflowValidation": {
+    "command": "yarn voiceover:validate-agent-workflow voiceover-smoke/agent-work/30548850577/www-apple-com-education --required-phases 0,A,B,C,C.5,D,E",
+    "requiredPhases": [
+      "0",
+      "A",
+      "B",
+      "C",
+      "C.5",
+      "D",
+      "E"
+    ],
+    "status": "not-promotion-gating",
+    "exitCode": null,
+    "summary": "Candidate outcome; no claim of refined schema-valid promotion."
+  },
+  "fixtureChanges": [],
+  "nextPhase": "complete",
+  "handoffReason": "Non-exact candidate retained as focused or parked evidence; no canonical promotion.",
+  "handoffFrom": "Phase D",
+  "handoffTo": "complete",
+  "nextRecommendedWorker": {
+    "type": "none",
+    "scope": "parked candidate with family-specific Phase D revisit queue",
+    "c5Needed": false,
+    "reason": "Phase E terminal candidate decision"
+  }
+}

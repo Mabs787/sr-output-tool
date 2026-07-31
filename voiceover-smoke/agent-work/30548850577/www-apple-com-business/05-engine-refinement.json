@@ -7,7 +7,7 @@
   "target": "www-apple-com-business",
   "status": "patched-and-parked",
   "startedAt": "2026-07-31T18:53:25Z",
-  "completedAt": "2026-07-31T19:10:51Z",
+  "completedAt": "2026-07-31T19:28:52Z",
   "fixtureChanges": [],
   "sharedC5EngineRefinement": {
     "updatedAt": "2026-07-31T19:10:51Z",
@@ -60,5 +60,49 @@
       }
     ],
     "verificationSummary": "Focused units, affected compares, Microsoft protected sentinel, full engine unit, extension runtime build, and full corpus check completed; corpus failure is unchanged Microsoft baseline."
+  },
+  "finishedAt": "2026-07-31T19:28:52Z",
+  "businessIphonePlusTwoAudit": {
+    "updatedAt": "2026-07-31T19:28:52Z",
+    "classification": "audited-no-regression",
+    "artifactType": "compare-window-split artifact",
+    "implementedRule": "footer-inline-shop-text-boundaries",
+    "noCodeNarrowing": true,
+    "insertedAnnouncements": [
+      "More ways to shop:",
+      "near you."
+    ],
+    "prePatchCompare": {
+      "expectedCount": 322,
+      "actualCount": 462,
+      "mismatchWindowCount": 70
+    },
+    "currentCompare": {
+      "expectedCount": 322,
+      "actualCount": 464,
+      "mismatchWindowCount": 72,
+      "grouped": {
+        "role/structure": 7,
+        "list/marker": 54,
+        "text": 11
+      }
+    },
+    "expectedIndexes": {
+      "More ways to shop:": 301,
+      "near you.": 304
+    },
+    "insertedActualIndexes": {
+      "More ways to shop:": 447,
+      "near you.": 450
+    },
+    "priorTerminalWindowIndex": 70,
+    "currentTerminalWindowIndex": 72,
+    "evidence": [
+      "Before/after scanner diff against pre-patch commit 3a83139 showed exactly two current-only actual announcements.",
+      "`More ways to shop:` and `near you.` are present verbatim in the refined expected sequence for this target.",
+      "The target footer sequence is already heavily desynchronized, so the newly correct stops also appear in the terminal unmatched-tail window and increase the heuristic mismatch-window count by two.",
+      "Because the added stops are VoiceOver-backed expected announcements, they are not false-positive scanner output and the generic footer predicate was not narrowed."
+    ],
+    "checksNeeded": []
   }
 }

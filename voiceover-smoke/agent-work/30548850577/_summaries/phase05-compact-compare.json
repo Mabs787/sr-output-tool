@@ -1,0 +1,1268 @@
+{
+  "schemaVersion": 1,
+  "phase": "0.5",
+  "runId": "30548850577",
+  "agent": "compare-summarizer",
+  "agentConfigPath": ".codex/agents/compare-summarizer.toml",
+  "sessionId": "/root/apple_compare",
+  "spawnedBy": "top-level",
+  "recoveryRebuilt": true,
+  "provisional": true,
+  "refreshRequiredAfterRecaptures": true,
+  "sharedPreflightRef": "voiceover-smoke/agent-work/30548850577/_summaries/00-agent-preflight.json",
+  "totals": {
+    "target": 16,
+    "valid": 16,
+    "invalid": 0,
+    "exact": 0,
+    "actionableMismatchWindow": 939,
+    "conditionalStateOutlierMismatchWindow": 0
+  },
+  "recurringFamilies": [
+    {
+      "family": "local-nav-wrapper-group",
+      "affectedTargets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "occurrenceCount": 7,
+      "confidence": "medium",
+      "c5Required": true,
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: re-anchor group boundaries to initial DOM/AX and map queued local-nav wrapper C.5 fixture.",
+      "familySignature": "semantic local navigation/group wrappers independent of CSS or copy"
+    },
+    {
+      "family": "footer-text-list-boundary",
+      "affectedTargets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "occurrenceCount": 5,
+      "confidence": "medium",
+      "c5Required": true,
+      "nextOwner": "fixture-judge",
+      "nextAction": "Audit footer image/group and legal list-item boundaries against committed ownership.",
+      "familySignature": "content-information footer with grouped media, static text, and legal links"
+    },
+    {
+      "family": "native-control-boundary",
+      "affectedTargets": [
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "occurrenceCount": 1,
+      "confidence": "low",
+      "c5Required": true,
+      "nextOwner": "repro-scanner",
+      "nextAction": "Isolate native-control AX role/value contract before reusable routing.",
+      "familySignature": "native control announcement boundary distinct from generic grouped wrapper"
+    }
+  ],
+  "sharedShellFamilies": [
+    {
+      "familyId": "apple-shell-header-footer-v1",
+      "shellFingerprint": "global-navigation>main>content-information; nav/list links; footer heading and legal list",
+      "affectedTargets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "confidence": "high",
+      "proposedFamilyOwner": "fixture-judge"
+    }
+  ],
+  "rows": [
+    {
+      "target": "www-apple-com-accessibility-labels",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/accessibility/labels/",
+        "final": "https://www.apple.com/accessibility/labels/",
+        "title": "Apple Accessibility Labels",
+        "intended": true
+      },
+      "expectedCount": 223,
+      "actualCount": 211,
+      "mismatchWindowCount": 15,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "landmark",
+        "text-cleanup",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; local navigation/list links; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "engine-family-candidate",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B priority: validate initial DOM/AX evidence, then map local-nav and footer/list boundaries to committed C.5/engine ownership.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 223,
+        "actualCount": 211,
+        "mismatchWindowCount": 15
+      },
+      "preRepairCompare": {
+        "expectedCount": 223,
+        "actualCount": 214,
+        "mismatchWindowCount": 12,
+        "grouped": {
+          "role/structure": 5,
+          "text": 1,
+          "list/marker": 6
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 223,
+        "actualCount": 214,
+        "mismatchWindowCount": 11,
+        "grouped": {
+          "role/structure": 4,
+          "text": 1,
+          "list/marker": 6
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 223,
+        "actualCount": 218,
+        "mismatchWindowCount": 8,
+        "grouped": {
+          "list": 7,
+          "role": 1
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/",
+        "final": "https://www.apple.com/",
+        "title": "Apple",
+        "intended": true
+      },
+      "expectedCount": 266,
+      "actualCount": 253,
+      "mismatchWindowCount": 24,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "landmark",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; product navigation/list links; footer heading, consent groups and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "engine-family-candidate",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: validate initial DOM/AX evidence; map consent, product-group and footer boundaries to committed C.5 ownership.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 266,
+        "actualCount": 253,
+        "mismatchWindowCount": 24
+      },
+      "preRepairCompare": {
+        "expectedCount": 266,
+        "actualCount": 254,
+        "mismatchWindowCount": 21,
+        "grouped": {
+          "role/structure": 6,
+          "punctuation/text-boundary": 3,
+          "list/marker": 12
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 266,
+        "actualCount": 254,
+        "mismatchWindowCount": 16,
+        "grouped": {
+          "role/structure": 4,
+          "list/marker": 11,
+          "punctuation/text-boundary": 1
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 266,
+        "actualCount": 256,
+        "mismatchWindowCount": 10,
+        "grouped": {
+          "role": 1,
+          "list": 9
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-accessibility",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/accessibility/",
+        "final": "https://www.apple.com/accessibility/",
+        "title": "Accessibility - Apple",
+        "intended": true
+      },
+      "expectedCount": 379,
+      "actualCount": 342,
+      "mismatchWindowCount": 32,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "text-cleanup",
+        "heading/grouped-text",
+        "landmark",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; accessibility navigation/list links; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "engine-family-candidate",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: validate accessibility control/group boundaries and map local-nav/external-link families to committed C.5 ownership.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 379,
+        "actualCount": 342,
+        "mismatchWindowCount": 32
+      },
+      "preRepairCompare": {
+        "expectedCount": 379,
+        "actualCount": 349,
+        "mismatchWindowCount": 27,
+        "grouped": {
+          "roleOrStructure": 14,
+          "punctuationOrTextBoundary": 1,
+          "listOrMarker": 12
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 379,
+        "actualCount": 349,
+        "mismatchWindowCount": 13,
+        "grouped": {
+          "listOrMarker": 12,
+          "punctuationOrTextBoundary": 1
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 379,
+        "actualCount": 351,
+        "mismatchWindowCount": 11,
+        "grouped": {
+          "list": 11
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-apple-vision-pro",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/apple-vision-pro/",
+        "final": "https://www.apple.com/apple-vision-pro/",
+        "title": "Apple Vision Pro",
+        "intended": true
+      },
+      "expectedCount": 384,
+      "actualCount": 481,
+      "mismatchWindowCount": 55,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "native-control",
+        "other",
+        "landmark"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; product/media navigation and gallery sections; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate product media/section/gallery/button groups and native-control AX contract before reusable routing.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 384,
+        "actualCount": 481,
+        "mismatchWindowCount": 55
+      },
+      "postRepairCompare": {
+        "expectedCount": 384,
+        "actualCount": 494,
+        "mismatchWindowCount": 48,
+        "grouped": {
+          "role/structure": 17,
+          "list/marker": 25,
+          "punctuation/text-boundary": 4,
+          "text": 2
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 384,
+        "actualCount": 500,
+        "mismatchWindowCount": 41,
+        "grouped": {
+          "list": 32,
+          "punctuation": 3,
+          "role": 3,
+          "text": 3
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-apple-tv-plus",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/apple-tv-plus/",
+        "final": "https://www.apple.com/apple-tv/",
+        "title": "Apple TV",
+        "intended": true,
+        "redirect": "/apple-tv-plus/ -> /apple-tv/"
+      },
+      "expectedCount": 338,
+      "actualCount": 317,
+      "mismatchWindowCount": 34,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "landmark",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; media/gallery navigation and lists; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "engine-family-candidate",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: preserve redirect identity; validate media/gallery groups and text boundaries, then map to committed C.5 ownership.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 338,
+        "actualCount": 317,
+        "mismatchWindowCount": 34
+      },
+      "postRepairCompare": {
+        "expectedCount": 338,
+        "actualCount": 325,
+        "mismatchWindowCount": 31,
+        "grouped": {
+          "list/marker": 29,
+          "text": 1,
+          "punctuation/text-boundary": 1
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 338,
+        "actualCount": 327,
+        "mismatchWindowCount": 29,
+        "grouped": {
+          "list": 28,
+          "text": 1
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-education",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/education/",
+        "final": "https://www.apple.com/education/",
+        "title": "Education - Apple",
+        "intended": true
+      },
+      "expectedCount": 258,
+      "actualCount": 284,
+      "mismatchWindowCount": 42,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "text-cleanup",
+        "heading/grouped-text"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; education/product navigation and lists; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "engine-family-candidate",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: validate heading/grouped-text and button boundaries; map education local-nav/card structure to existing C.5 ownership.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 258,
+        "actualCount": 284,
+        "mismatchWindowCount": 42
+      },
+      "preRepairCompare": {
+        "expectedCount": 258,
+        "actualCount": 290,
+        "mismatchWindowCount": 27,
+        "grouped": {
+          "list/marker": 21,
+          "role/structure": 5,
+          "punctuation/text-boundary": 1
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 258,
+        "actualCount": 290,
+        "mismatchWindowCount": 20,
+        "grouped": {
+          "list/marker": 15,
+          "role/structure": 4,
+          "punctuation/text-boundary": 1
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-education/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 258,
+        "actualCount": 292,
+        "mismatchWindowCount": 18,
+        "grouped": {
+          "list": 14,
+          "role": 4
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-apple-watch",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/apple-watch/",
+        "final": "https://www.apple.com/apple-watch/",
+        "title": "Apple Watch - Apple",
+        "intended": true
+      },
+      "expectedCount": 421,
+      "actualCount": 430,
+      "mismatchWindowCount": 67,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "other",
+        "text-cleanup",
+        "native-control",
+        "landmark"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; product/control navigation and lists; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate product/control groups and native-control AX contract; map generic boundaries to committed families.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 421,
+        "actualCount": 430,
+        "mismatchWindowCount": 67
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-watch/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 417,
+        "actualCount": 433,
+        "mismatchWindowCount": 75,
+        "grouped": {
+          "list": 74,
+          "role": 1
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-apple-music",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/apple-music/",
+        "final": "https://www.apple.com/apple-music/",
+        "title": "Apple Music - Apple",
+        "intended": true
+      },
+      "expectedCount": 403,
+      "actualCount": 370,
+      "mismatchWindowCount": 54,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "text-cleanup",
+        "heading/grouped-text",
+        "other",
+        "landmark"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; media/gallery navigation and lists; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "conditional-state-blocked",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: separate conditional media/gallery state from initial DOM/AX oracle, then map grouped/text boundaries to committed C.5 families.",
+      "scanStatus": "complete",
+      "snapshotStage": "pre-phase-b",
+      "beforeCompare": {
+        "expectedCount": 403,
+        "actualCount": 370,
+        "mismatchWindowCount": 54
+      },
+      "preRepairCompare": {
+        "expectedCount": 403,
+        "actualCount": 376,
+        "mismatchWindowCount": 56,
+        "grouped": {
+          "list/marker": 43,
+          "role/structure": 12,
+          "punctuation/text-boundary": 1
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 403,
+        "actualCount": 376,
+        "mismatchWindowCount": 56,
+        "grouped": {
+          "list/marker": 42,
+          "role/structure": 13,
+          "punctuation/text-boundary": 1
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 403,
+        "actualCount": 378,
+        "mismatchWindowCount": 54,
+        "grouped": {
+          "list": 41,
+          "role": 13
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-business",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/business/",
+        "final": "https://www.apple.com/business/",
+        "title": "Apple Business",
+        "intended": true
+      },
+      "expectedCount": 322,
+      "actualCount": 451,
+      "mismatchWindowCount": 66,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "text-cleanup",
+        "heading/grouped-text",
+        "native-control"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; business/product navigation and grouped cards; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate conditional/grouping behavior and native-control AX contract before reusable routing.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 322,
+        "actualCount": 451,
+        "mismatchWindowCount": 66
+      },
+      "preRepairCompare": {
+        "expectedCount": 322,
+        "actualCount": 462,
+        "mismatchWindowCount": 70,
+        "grouped": {
+          "list/marker": 70
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 322,
+        "actualCount": 462,
+        "mismatchWindowCount": 70,
+        "grouped": {
+          "list/marker": 70
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-business/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 322,
+        "actualCount": 464,
+        "mismatchWindowCount": 72,
+        "grouped": {
+          "list": 72
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-airpods",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/airpods/",
+        "final": "https://www.apple.com/airpods/",
+        "title": "AirPods - Apple",
+        "intended": true
+      },
+      "expectedCount": 472,
+      "actualCount": 409,
+      "mismatchWindowCount": 54,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "other",
+        "landmark"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; product-media/carousel navigation and groups; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate conditional product-media/carousel grouping and map text/group boundaries to committed families.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 472,
+        "actualCount": 409,
+        "mismatchWindowCount": 54
+      },
+      "preRepairCompare": {
+        "expectedCount": 472,
+        "actualCount": 414,
+        "mismatchWindowCount": 55,
+        "grouped": {
+          "list/marker": 30,
+          "role/structure": 21,
+          "punctuation/text-boundary": 4
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 467,
+        "actualCount": 414,
+        "mismatchWindowCount": 44,
+        "grouped": {
+          "role/structure": 24,
+          "list/marker": 16,
+          "punctuation/text-boundary": 4
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-airpods/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 467,
+        "actualCount": 416,
+        "mismatchWindowCount": 42,
+        "grouped": {
+          "role": 24,
+          "list": 15,
+          "punctuation": 3
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-iphone",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/iphone/",
+        "final": "https://www.apple.com/iphone/",
+        "title": "iPhone - Apple",
+        "intended": true
+      },
+      "expectedCount": 376,
+      "actualCount": 479,
+      "mismatchWindowCount": 194,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "native-control",
+        "landmark"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; responsive product/gallery navigation, controls, and groups; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B priority: distinguish responsive/conditional product-gallery state from initial DOM/AX; then C.5 native-control and broad grouping repros.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 376,
+        "actualCount": 479,
+        "mismatchWindowCount": 194
+      },
+      "preRepairCompare": {
+        "expectedCount": 376,
+        "actualCount": 503,
+        "mismatchWindowCount": 215,
+        "grouped": {
+          "list/marker": 210,
+          "role/structure": 5
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 376,
+        "actualCount": 503,
+        "mismatchWindowCount": 215,
+        "grouped": {
+          "list/marker": 210,
+          "role/structure": 5
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-iphone/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 376,
+        "actualCount": 505,
+        "mismatchWindowCount": 217,
+        "grouped": {
+          "list": 212,
+          "role": 5
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-privacy",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/privacy/",
+        "final": "https://www.apple.com/privacy/",
+        "title": "Privacy - Apple",
+        "intended": true
+      },
+      "expectedCount": 331,
+      "actualCount": 317,
+      "mismatchWindowCount": 25,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "text-cleanup",
+        "heading/grouped-text",
+        "landmark",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; privacy navigation and conditional content groups; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "engine-family-candidate",
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: validate conditional privacy controls and grouped/text boundaries against initial DOM/AX; map to committed C.5 families.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 331,
+        "actualCount": 317,
+        "mismatchWindowCount": 25
+      },
+      "preRepairCompare": {
+        "expectedCount": 331,
+        "actualCount": 321,
+        "mismatchWindowCount": 26,
+        "grouped": {
+          "list/marker": 17,
+          "role/structure": 5,
+          "punctuation/text-boundary": 4
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 326,
+        "actualCount": 321,
+        "mismatchWindowCount": 15,
+        "grouped": {
+          "role/structure": 4,
+          "punctuation/text-boundary": 4,
+          "list/marker": 7
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-privacy/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 326,
+        "actualCount": 323,
+        "mismatchWindowCount": 13,
+        "grouped": {
+          "role": 4,
+          "punctuation": 3,
+          "list": 6
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-icloud",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/icloud/",
+        "final": "https://www.apple.com/icloud/",
+        "title": "iCloud - Apple",
+        "intended": true
+      },
+      "expectedCount": 439,
+      "actualCount": 398,
+      "mismatchWindowCount": 88,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "text-cleanup",
+        "landmark",
+        "other",
+        "heading/grouped-text"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; iCloud product/feature media and responsive groups; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: separate responsive/product-media state and isolate group/landmark boundaries against initial DOM/AX.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 439,
+        "actualCount": 398,
+        "mismatchWindowCount": 88
+      },
+      "preRepairCompare": {
+        "expectedCount": 439,
+        "actualCount": 398,
+        "mismatchWindowCount": 84,
+        "grouped": {
+          "list/marker": 12,
+          "role/structure": 40,
+          "text": 25,
+          "punctuation/text-boundary": 7
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 434,
+        "actualCount": 398,
+        "mismatchWindowCount": 59,
+        "grouped": {
+          "role/structure": 32,
+          "text": 19,
+          "punctuation/text-boundary": 5,
+          "list/marker": 3
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-icloud/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 434,
+        "actualCount": 400,
+        "mismatchWindowCount": 57,
+        "grouped": {
+          "role": 32,
+          "text": 19,
+          "punctuation": 4,
+          "list": 2
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-environment",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/environment/",
+        "final": "https://www.apple.com/environment/",
+        "title": "Environment - Apple",
+        "intended": true
+      },
+      "expectedCount": 337,
+      "actualCount": 397,
+      "mismatchWindowCount": 41,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "native-control",
+        "other",
+        "landmark"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; environmental gallery/card navigation and groups; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate conditional environmental galleries/cards and native-control AX contract against initial DOM/AX.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 337,
+        "actualCount": 397,
+        "mismatchWindowCount": 41
+      },
+      "preRepairCompare": {
+        "expectedCount": 337,
+        "actualCount": 401,
+        "mismatchWindowCount": 37,
+        "grouped": {
+          "list/marker": 28,
+          "role/structure": 6,
+          "punctuation/text-boundary": 3
+        }
+      },
+      "postRepairCompare": {
+        "expectedCount": 332,
+        "actualCount": 401,
+        "mismatchWindowCount": 28,
+        "grouped": {
+          "role/structure": 6,
+          "list/marker": 19,
+          "punctuation/text-boundary": 3
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-environment/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 332,
+        "actualCount": 403,
+        "mismatchWindowCount": 24,
+        "grouped": {
+          "role": 6,
+          "list": 17,
+          "punctuation": 1
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-mac",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/mac/",
+        "final": "https://www.apple.com/mac/",
+        "title": "Mac - Apple",
+        "intended": true
+      },
+      "expectedCount": 473,
+      "actualCount": 485,
+      "mismatchWindowCount": 83,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "landmark",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; responsive Mac product/gallery navigation and grouped cards; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate responsive product galleries, grouping, and native-control interactions against initial DOM/AX.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 473,
+        "actualCount": 485,
+        "mismatchWindowCount": 83
+      },
+      "preRepairCompare": {
+        "expectedCount": 473,
+        "actualCount": 487,
+        "mismatchWindowCount": 81,
+        "grouped": {
+          "list/marker": 77,
+          "role/structure": 3,
+          "punctuation/text-boundary": 1
+        },
+        "note": "Parent supplied restored baseline was 473/485/83; current local compare before Phase B repairs was 473/487/81 after post-fix engine state."
+      },
+      "postRepairCompare": {
+        "expectedCount": 469,
+        "actualCount": 489,
+        "mismatchWindowCount": 68,
+        "grouped": {
+          "list/marker": 67,
+          "role/structure": 1
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-mac/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 469,
+        "actualCount": 489,
+        "mismatchWindowCount": 68,
+        "grouped": {
+          "list": 67,
+          "role": 1
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    },
+    {
+      "target": "www-apple-com-ipad",
+      "pageIdentity": {
+        "expected": "https://www.apple.com/ipad/",
+        "final": "https://www.apple.com/ipad/",
+        "title": "iPad - Apple",
+        "intended": true
+      },
+      "expectedCount": 406,
+      "actualCount": 432,
+      "mismatchWindowCount": 65,
+      "dominantMismatchFamilies": [
+        "button/group",
+        "heading/grouped-text",
+        "text-cleanup",
+        "landmark",
+        "other"
+      ],
+      "shellFingerprint": "global-navigation>main>content-information; responsive iPad product/gallery navigation and grouped cards; footer heading, contact/regulatory groups, footnotes and legal list",
+      "sharedShellFamilies": [
+        "apple-shell-header-footer-v1"
+      ],
+      "oracleConfidence": "medium",
+      "disposition": "needs-c5",
+      "nextOwner": "repro-scanner",
+      "nextAction": "Phase B then C.5: isolate responsive product galleries, grouping, and native-control interactions against initial DOM/AX.",
+      "scanStatus": "complete",
+      "snapshotStage": "post-fix-phase-a",
+      "beforeCompare": {
+        "expectedCount": 406,
+        "actualCount": 432,
+        "mismatchWindowCount": 65
+      },
+      "preRepairCompare": {
+        "expectedCount": 406,
+        "actualCount": 434,
+        "mismatchWindowCount": 63,
+        "grouped": {
+          "list/marker": 59,
+          "role/structure": 3,
+          "punctuation/text-boundary": 1
+        },
+        "note": "Current local compare before Phase B repairs; parent supplied post-fix baseline was 406/432/65."
+      },
+      "postRepairCompare": {
+        "expectedCount": 401,
+        "actualCount": 436,
+        "mismatchWindowCount": 46,
+        "grouped": {
+          "role/structure": 3,
+          "list/marker": 43
+        }
+      },
+      "targetReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-ipad/04-fixture-judge.json",
+      "finalAfterPhaseD": {
+        "expectedCount": 401,
+        "actualCount": 436,
+        "mismatchWindowCount": 46,
+        "grouped": {
+          "role": 3,
+          "list": 43
+        },
+        "exitStatus": 0,
+        "command": "NODE_VERSION=24 SR_VOICEOVER_FIXTURES_DIR=<absolute candidate fixtures> node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>"
+      }
+    }
+  ],
+  "finalAfterPhaseB": {
+    "targetCount": 16,
+    "exactCount": 0,
+    "actionableMismatchWindowCount": 740,
+    "conditionalStateMismatchWindowCount": 0,
+    "parkedTargetCount": 4,
+    "unavailableAfterCompareTargets": [
+      "www-apple-com-apple-watch"
+    ]
+  },
+  "partialParkedTargets": [
+    "www-apple-com-accessibility-cognitive",
+    "www-apple-com-accessibility-hearing",
+    "www-apple-com-accessibility-mobility",
+    "www-apple-com-accessibility-vision"
+  ],
+  "knownExternalSentinelFailures": [
+    {
+      "sentinel": "Microsoft",
+      "status": "pre-existing-failure",
+      "excludedFromAppleTotals": true
+    }
+  ],
+  "groupedFamilySummary": [
+    {
+      "family": "local-nav-wrapper-group",
+      "affectedTargets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "occurrenceCount": 7,
+      "confidence": "medium",
+      "c5Required": true,
+      "nextOwner": "fixture-judge",
+      "nextAction": "Phase B: re-anchor group boundaries to initial DOM/AX and map queued local-nav wrapper C.5 fixture.",
+      "familySignature": "semantic local navigation/group wrappers independent of CSS or copy"
+    },
+    {
+      "family": "footer-text-list-boundary",
+      "affectedTargets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "occurrenceCount": 5,
+      "confidence": "medium",
+      "c5Required": true,
+      "nextOwner": "fixture-judge",
+      "nextAction": "Audit footer image/group and legal list-item boundaries against committed ownership.",
+      "familySignature": "content-information footer with grouped media, static text, and legal links"
+    },
+    {
+      "family": "native-control-boundary",
+      "affectedTargets": [
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music",
+        "www-apple-com-business",
+        "www-apple-com-airpods",
+        "www-apple-com-iphone",
+        "www-apple-com-privacy",
+        "www-apple-com-icloud",
+        "www-apple-com-environment",
+        "www-apple-com-mac",
+        "www-apple-com-ipad"
+      ],
+      "occurrenceCount": 1,
+      "confidence": "low",
+      "c5Required": true,
+      "nextOwner": "repro-scanner",
+      "nextAction": "Isolate native-control AX role/value contract before reusable routing.",
+      "familySignature": "native control announcement boundary distinct from generic grouped wrapper"
+    }
+  ],
+  "finalAfterPhaseD": {
+    "targetCount": 16,
+    "exactCount": 0,
+    "actionableMismatchWindowCount": 785,
+    "conditionalStateMismatchWindowCount": 0,
+    "parkedTargetCount": 4,
+    "allExitStatus": 0,
+    "commandTemplate": "Node24 with absolute SR_VOICEOVER_FIXTURES_DIR under each candidate; node packages/sr-engine/tests/compare-voiceover-fixture.mjs <target>",
+    "potentialRegressionNote": "Business and iPhone +2-window deltas were audited as compare-window split artifacts, not regressions; see diagnosticClassification and diagnosticEvidence.",
+    "knownExternalSentinelFailures": [
+      {
+        "sentinel": "Microsoft",
+        "status": "pre-existing-failure",
+        "excludedFromAppleTotals": true
+      }
+    ],
+    "auditedNoRegressionTargets": [
+      "www-apple-com-business",
+      "www-apple-com-iphone"
+    ],
+    "diagnosticClassification": "compare-window-split-artifact",
+    "diagnosticCommand": "full-window diagnostic against refined expected announcements on current HEAD0488c6d engine",
+    "diagnosticEvidence": "More ways to shop: and near you. are present verbatim in refined expected; page-wide sequence desynchronization causes terminal unmatched-tail reappearance and +2 heuristic windows."
+  }
+}

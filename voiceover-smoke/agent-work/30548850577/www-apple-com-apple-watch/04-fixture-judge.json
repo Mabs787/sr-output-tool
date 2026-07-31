@@ -4,207 +4,332 @@
   "agent": "fixture-judge",
   "agentConfigPath": ".codex/agents/fixture-judge.toml",
   "spawnedBy": "orchestrator",
-  "sessionId": "/root/apple_labels_judge",
+  "sessionId": "/root/apple_environment_judge",
   "target": "www-apple-com-apple-watch",
   "runId": "30548850577",
   "status": "returned",
-  "startedAt": "2026-07-31T15:27:54Z",
-  "finishedAt": "2026-07-31T15:27:54Z",
+  "startedAt": "2026-07-31T18:42:17Z",
+  "finishedAt": "2026-07-31T18:42:17Z",
   "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
   "handoffFrom": "B",
-  "handoffTo": "repro-scanner",
-  "nextPhase": "C.5",
-  "inputs": [
-    {
+  "handoffTo": "repro-scanner-and-engine-refiner",
+  "nextPhase": "split-C.5-and-D",
+  "inputs": {
+    "phaseBReceipt": {
       "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-watch/03-evidence-refinement.json",
-      "sha256": "187b4a9c9543e551f75d34bf424786866b4a25423843f2fffac32c9dde501e72"
+      "sha256": "3e12a5f6ba48f29210d15ba81feaefc9195f7af2cd784a07d814d3ba661bd557"
     },
-    {
+    "phaseBEvidencePacket": {
       "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-watch/03-evidence-packet.json",
-      "sha256": "8ffaef8a1ac15ac7f2a3aeaa6de693bad435abf9a5e173f2543cebce79abb817"
+      "sha256": "752cd8a615a5a4447d686b7decccda4e6501ca1cb73901879295bb60105966d8"
     },
-    {
+    "fixture": {
       "path": "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-watch/fixtures/www-apple-com-apple-watch.expected.json",
-      "sha256": "0adb50209a417bb9b03a82048cf051c55f4e2035bca8b5cc69850254c79c63f9"
-    }
-  ],
-  "evidence": {
+      "sha256": "005a77c27d34004f57dc3150bb030af2ae1dd00d1fa18022c0d5481f810abe0f"
+    },
+    "renderedHtml": "voiceover-smoke/autonomous-runs/30548850577/recaptures/30622512581/artifacts/voiceover-scan-www-apple-com-apple-watch/scans/www-apple-com-apple-watch/rendered-html.html",
+    "axTree": "voiceover-smoke/autonomous-runs/30548850577/recaptures/30622512581/artifacts/voiceover-scan-www-apple-com-apple-watch/scans/www-apple-com-apple-watch/accessibility-tree.json",
+    "voiceoverSources": "voiceover-smoke/autonomous-runs/30548850577/recaptures/30622512581/artifacts/voiceover-scan-www-apple-com-apple-watch/scans/www-apple-com-apple-watch/voiceover-sources.json",
+    "stepSnapshots": "voiceover-smoke/autonomous-runs/30548850577/recaptures/30622512581/artifacts/voiceover-scan-www-apple-com-apple-watch/scans/www-apple-com-apple-watch/step-snapshots.json",
+    "familyCoverage": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-family-coverage.json",
+    "crossPageOwnership": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-cross-page-family-ownership.json",
+    "commands": [
+      "env SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-watch/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-apple-watch"
+    ]
+  },
+  "decisions": {
     "phaseBTrusted": true,
+    "phaseBTrustBasis": "The loopback Phase B receipt reports status passed, rawDiff0 from recapture, 68 fixture changes, 4 approved preexisting lines, no unaudited ranges, and postLoopback compare 417/431/77.",
+    "refinedAnnouncementsReplayTarget": "initial rendered-html.html",
     "rawExpectedAnnouncementsPreserved": true,
-    "rawVsRefinedDiffCountAfterPhaseB": 48,
+    "rawVsRecaptureDiffCount": 0,
+    "priorFixtureNoiseWindowsGone": true,
+    "targetShouldProceedToEngineRefiner": true,
+    "targetShouldProceedToReproScanner": true,
+    "classificationPolicy": "Use existing terminal C.5 verdicts where they cover the exact family: footnote inline links and footer inline shop boundaries are reusable-engine-gap, and footer legal single-link markers are already removed from the residual set. Remaining current residual families, including composite button/group windows that need exact-window reconciliation, stay scanner-evidence-gap until focused C.5 or evidence-refiner output covers that exact Watch window."
+  },
+  "evidence": {
     "compare": {
-      "baseline": {
+      "baselineFromPhase05": {
         "expectedCount": 421,
         "actualCount": 430,
         "mismatchWindowCount": 67
       },
-      "preRepair": {
+      "preRepairCurrent": {
         "expectedCount": 421,
         "actualCount": 431,
-        "mismatchWindowCount": 64
+        "mismatchWindowCount": 64,
+        "grouped": {
+          "list/marker": 60,
+          "punctuation/text-boundary": 3,
+          "role/structure": 1
+        }
       },
       "postRepair": {
         "expectedCount": 421,
         "actualCount": 431,
-        "mismatchWindowCount": 59,
+        "mismatchWindowCount": 82,
         "grouped": {
-          "role/structure": 8,
-          "list/marker": 50,
-          "punctuation/text-boundary": 1
+          "list/marker": 80,
+          "punctuation/text-boundary": 1,
+          "role/structure": 1
+        }
+      },
+      "postLoopback": {
+        "expectedCount": 417,
+        "actualCount": 431,
+        "mismatchWindowCount": 77,
+        "grouped": {
+          "list/marker": 75,
+          "punctuation/text-boundary": 1,
+          "role/structure": 1
         }
       }
     },
-    "pageIdentity": {
-      "status": "intended-url-loaded",
-      "url": "https://www.apple.com/apple-watch/",
-      "initialDomStatus": "initial-dom",
-      "conditionalStateResidualWindows": 0
+    "phaseBRepairAudit": {
+      "fixtureRepairCount": 68,
+      "approvedPreexistingRepairCount": 4,
+      "classification": "fixture-still-noisy",
+      "disposition": "fixture-ready",
+      "stateScope": "initial-dom",
+      "rawRefinedDiffCountAfterPhaseB": 67,
+      "fixtureChangeGroups": {
+        "caption-or-ocr-repair": 32,
+        "truncation-repair": 32,
+        "minimal-repro-confirmed": 4
+      },
+      "originalEvidencePacketRepairGroups": {
+        "caption-or-ocr-repair": 1,
+        "get-to-know-gallery-listitem-grouping": 8,
+        "legal-footnote-truncation": 25,
+        "ocr-glyph-repair": 11,
+        "text-boundary-normalization": 10,
+        "why-apple-card-listitem-grouping": 8
+      },
+      "approvedPreexistingGroups": {
+        "caption-or-ocr-repair": 3,
+        "legal-footnote-truncation": 1
+      }
     },
-    "conditionalState": [
+    "loopbackConfirmation": {
+      "priorPostRepairResidualWindows": 82,
+      "currentPostLoopbackResidualWindows": 77,
+      "removedWindowCount": 5,
+      "removedPriorFamilies": [
+        "footer-values-position-spacing",
+        "footer-legal-single-link-listitem-markers"
+      ],
+      "currentFixtureNoiseResidualWindows": [],
+      "reason": "The previous footer spacing and footer legal marker windows are absent after the loopback. No current residual window is being routed as a fixture-noise loopback in this Phase C receipt."
+    },
+    "alreadyCoveredC5Families": [
       {
-        "family": "galleries-and-native-controls",
-        "classification": "debug-evidence-missing",
-        "stateScope": "initial-dom",
-        "decision": "Lineup, gallery, native/product controls, legal, and footer content is present in initial DOM; group/control behavior needs C.5."
+        "familyId": "button-group-suffix-and-list-position",
+        "windows": [2, 11],
+        "classification": "scanner-evidence-gap",
+        "coverageStatus": "full-scan-complete",
+        "verdict": "fixture-noise-confirmed",
+        "handoffTo": "repro-scanner",
+        "reason": "The shared reduced reproduction is fixture-noise-confirmed, but the current Watch windows are composite product-nav/gallery windows; they are not routed as fixture loopbacks in this post-loopback receipt."
+      },
+      {
+        "familyId": "footnote-listitem-inline-link-grouping",
+        "windows": [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74],
+        "classification": "reusable-engine-gap",
+        "coverageStatus": "retry-scan-complete",
+        "verdict": "engine-gap-confirmed",
+        "handoffTo": "engine-refiner"
+      },
+      {
+        "familyId": "footer-inline-shop-text-boundaries",
+        "windows": [75, 76],
+        "classification": "reusable-engine-gap",
+        "coverageStatus": "retry-scan-complete",
+        "verdict": "engine-gap-confirmed",
+        "handoffTo": "engine-refiner"
+      },
+      {
+        "familyId": "footer-legal-single-link-listitem-markers",
+        "windows": [],
+        "classification": "fixture-still-noisy",
+        "coverageStatus": "full-scan-complete",
+        "verdict": "fixture-noise-confirmed",
+        "handoffTo": "none-currently-residual"
       }
     ],
-    "reviewedRepairClassifications": {
-      "phaseBNewRepairs": {
-        "count": 41,
-        "classification": "fixture-noise-confirmed",
-        "stateScope": "initial-dom"
-      },
-      "approvedPreexisting": {
-        "count": 7,
-        "classification": "already-correct",
-        "stateScope": "initial-dom",
-        "candidateIds": [
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:c8d2a29a8c7e",
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:b1b7f8653125",
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:2839102b08f7",
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:277cf0713e43",
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:9a68e4a45f58",
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:2d625ff54858",
-          "www-apple-com-apple-watch:approved-preexisting-ocr-cleanup:ad5fde121bec"
-        ]
-      },
-      "rejectedToC5": [
-        {
-          "family": "native-control-responsive-gallery-control-context",
-          "classification": "debug-evidence-missing"
-        }
+    "structuralAndBoundaryGate": {
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "stateScope": "initial-dom",
+      "ruledOut": [
+        "raw oracle drift: loopback handoff reports rawDiff0 against recapture",
+        "step-only retained state: Phase B marks reviewed semantic families initial-dom and the replay target is rendered-html.html",
+        "terminal dynamic-state mismatch: saved HTML, AX, and source evidence contain the semantic objects VoiceOver announced",
+        "reusable engine readiness for still-uncovered broad families: focused-node or text-boundary contracts are still missing"
+      ],
+      "notRuledOut": [
+        "generic main wrapper group synthesis",
+        "generic lineup card link position and price text-boundary behavior",
+        "generic one-focusable-card/listitem announcement versus descendant decomposition",
+        "generic native disclosure/control context",
+        "generic footer end wrapper synthesis"
+      ],
+      "missingEvidence": [
+        "focused-node contracts for the main wrapper, lineup cards, card listitems, gallery cards, native controls, and footer end group",
+        "text-boundary lookups for lineup price fragments and grouped card labels",
+        "same-structure positive and negative C.5 scans for the uncovered Watch-specific structural shapes"
       ]
     }
   },
-  "decisions": [
-    {"familyId": "main-region-wrapper-group", "windows": [1], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Main wrapper group before product navigation is initial-DOM but partial structural evidence; use generic wrapper repro before engine-ready."},
-    {"familyId": "product-nav-button-group-and-inline-footnote", "windows": [2, 3], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Product nav button group suffix and inline footnote glyph/order are replayable but require generic C.5."},
-    {"familyId": "lineup-card-link-position-price-text-boundary", "windows": [4, 5, 6, 7, 8, 9, 10, 11], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Lineup cards mix link list positions, price text splits, and inline footnote controls; not conclusive enough for Phase D without focused repro."},
-    {"familyId": "button-group-suffix-and-list-position", "windows": [12], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Compare gallery controls use the shared button group suffix/list-position shape."},
-    {"familyId": "carousel-gallery-descendant-traversal", "windows": [13, 14, 15, 16, 17, 18, 19], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Shopping/why-gallery card group output versus child decomposition is broad carousel/gallery behavior."},
-    {"familyId": "native-control-context", "windows": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Get-to-know gallery and product/native controls include card decomposition, CTA control context, and external/glyph-like link naming that needs generic C.5 evidence."},
-    {"familyId": "footnote-listitem-inline-link-grouping", "windows": [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Long legal footnotes and related lists have repaired text but unresolved markers, inline links, and list-position suffixes."},
-    {"familyId": "footer-inline-shop-text-boundaries", "windows": [54, 55], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Shared footer shop text and adjacent links are initial-DOM; reuse generic footer inline shop C.5."},
-    {"familyId": "footer-legal-single-link-listitem-markers", "windows": [56, 57, 58, 59], "classification": "debug-evidence-missing", "requiresC5": true, "reason": "Shared footer legal links need generic listitem marker C.5 before engine-ready."}
-  ],
-  "windowClassifications": [
-    {"window": 1, "classification": "debug-evidence-missing", "familyId": "main-region-wrapper-group"},
-    {"window": 2, "classification": "debug-evidence-missing", "familyId": "product-nav-button-group-and-inline-footnote"},
-    {"window": 3, "classification": "debug-evidence-missing", "familyId": "product-nav-button-group-and-inline-footnote"},
-    {"window": 4, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 5, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 6, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 7, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 8, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 9, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 10, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 11, "classification": "debug-evidence-missing", "familyId": "lineup-card-link-position-price-text-boundary"},
-    {"window": 12, "classification": "debug-evidence-missing", "familyId": "button-group-suffix-and-list-position"},
-    {"window": 13, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 14, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 15, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 16, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 17, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 18, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 19, "classification": "debug-evidence-missing", "familyId": "carousel-gallery-descendant-traversal"},
-    {"window": 20, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 21, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 22, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 23, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 24, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 25, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 26, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 27, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 28, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 29, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 30, "classification": "debug-evidence-missing", "familyId": "native-control-context"},
-    {"window": 31, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 32, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 33, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 34, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 35, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 36, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 37, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 38, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 39, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 40, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 41, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 42, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 43, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 44, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 45, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 46, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 47, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 48, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 49, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 50, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 51, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 52, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 53, "classification": "debug-evidence-missing", "familyId": "footnote-listitem-inline-link-grouping"},
-    {"window": 54, "classification": "debug-evidence-missing", "familyId": "footer-inline-shop-text-boundaries"},
-    {"window": 55, "classification": "debug-evidence-missing", "familyId": "footer-inline-shop-text-boundaries"},
-    {"window": 56, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"},
-    {"window": 57, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"},
-    {"window": 58, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"},
-    {"window": 59, "classification": "debug-evidence-missing", "familyId": "footer-legal-single-link-listitem-markers"}
-  ],
   "classificationTotals": {
     "residualWindows": {
-      "engine-gap-confirmed": 0,
-      "fixture-noise-confirmed": 0,
-      "conditional-state-confirmed": 0,
-      "insufficient-repro": 0,
-      "debug-evidence-missing": 59,
-      "already-correct": 0
+      "reusable-engine-gap": 23,
+      "fixture-still-noisy": 0,
+      "dynamic-state-mismatch": 0,
+      "scanner-evidence-gap": 54,
+      "ambiguous": 0
     },
     "phaseBRepairReviews": {
-      "fixture-noise-confirmed": 41
+      "fixture-still-noisy": 68
     },
     "approvedPreexistingReviews": {
-      "already-correct": 7
+      "fixture-still-noisy": 4
     },
-    "rejectedToC5Reviews": {
-      "debug-evidence-missing": 1
+    "resolvedByAlreadyCoveredC5": {
+      "reusable-engine-gap": 23,
+      "fixture-still-noisy": 0
     }
   },
-  "engineReadyFamilies": [],
-  "c5Queue": [
-    {"familyId": "main-region-wrapper-group", "windows": [1], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/main-region-wrapper-group.html", "reuseExistingFixture": false},
-    {"familyId": "product-nav-button-group-and-inline-footnote", "windows": [2, 3], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/product-nav-button-group-and-inline-footnote.html", "reuseExistingFixture": false},
-    {"familyId": "lineup-card-link-position-price-text-boundary", "windows": [4, 5, 6, 7, 8, 9, 10, 11], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/lineup-card-link-position-price-text-boundary.html", "reuseExistingFixture": false},
-    {"familyId": "button-group-suffix-and-list-position", "windows": [12], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html", "reuseExistingFixture": true},
-    {"familyId": "carousel-gallery-descendant-traversal", "windows": [13, 14, 15, 16, 17, 18, 19], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html", "reuseExistingFixture": true},
-    {"familyId": "native-control-context", "windows": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/native-control-context.html", "reuseExistingFixture": false},
-    {"familyId": "footnote-listitem-inline-link-grouping", "windows": [31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html", "reuseExistingFixture": true},
-    {"familyId": "footer-inline-shop-text-boundaries", "windows": [54, 55], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html", "reuseExistingFixture": true},
-    {"familyId": "footer-legal-single-link-listitem-markers", "windows": [56, 57, 58, 59], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html", "reuseExistingFixture": true}
+  "postLoopbackGrouped": {
+    "list/marker": 75,
+    "punctuation/text-boundary": 1,
+    "role/structure": 1
+  },
+  "engineReadyFamilies": [
+    {
+      "familyId": "legal-footnote-inline-link-grouping",
+      "windows": [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74],
+      "windowCount": 21,
+      "classification": "reusable-engine-gap",
+      "sharedC5FamilyId": "footnote-listitem-inline-link-grouping",
+      "coverageStatus": "retry-scan-complete",
+      "c5Verdict": "engine-gap-confirmed"
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "windows": [75, 76],
+      "windowCount": 2,
+      "classification": "reusable-engine-gap",
+      "coverageStatus": "retry-scan-complete",
+      "c5Verdict": "engine-gap-confirmed"
+    }
   ],
-  "fixtureChanges": [],
-  "handoffReason": "All 59 residual windows are owned and C.5-gated. No family is engine-ready because product-nav/button, lineup boundaries, galleries, native-control context, footnote/legal, and footer behaviors are broad reusable families requiring focused generic repro evidence.",
+  "fixtureNoiseResidualFamilies": [],
+  "c5RequiredFamilies": [
+    {
+      "familyId": "main-region-wrapper-group",
+      "windows": [1],
+      "windowCount": 1,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "coverageStatus": "missing-exact-c5"
+    },
+    {
+      "familyId": "product-nav-button-group-and-inline-footnote",
+      "windows": [2],
+      "windowCount": 1,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "sharedC5FamilyId": "button-group-suffix-and-list-position",
+      "coverageStatus": "already-covered-shared-family-needs-exact-window-reconciliation"
+    },
+    {
+      "familyId": "lineup-card-link-position-price-text-boundary",
+      "windows": [3, 4, 5, 6, 7, 8, 9, 10],
+      "windowCount": 8,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "coverageStatus": "missing-exact-c5"
+    },
+    {
+      "familyId": "button-group-suffix-and-list-position",
+      "windows": [11],
+      "windowCount": 1,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "coverageStatus": "already-covered-shared-family-needs-exact-window-reconciliation"
+    },
+    {
+      "familyId": "why-apple-card-listitem-grouping",
+      "windows": [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+      "windowCount": 23,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "sharedC5FamilyId": "carousel-gallery-descendant-traversal",
+      "coverageStatus": "missing-exact-c5"
+    },
+    {
+      "familyId": "get-to-know-gallery-listitem-grouping",
+      "windows": [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+      "windowCount": 11,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "sharedC5FamilyId": "carousel-gallery-descendant-traversal",
+      "coverageStatus": "missing-exact-c5"
+    },
+    {
+      "familyId": "made-for-each-other-native-control-context",
+      "windows": [46, 47, 48, 49, 50, 51, 52, 53],
+      "windowCount": 8,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "sharedC5FamilyId": "native-control-context",
+      "coverageStatus": "missing-exact-c5"
+    },
+    {
+      "familyId": "footer-end-wrapper-group",
+      "windows": [77],
+      "windowCount": 1,
+      "classification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "coverageStatus": "missing-exact-c5"
+    }
+  ],
+  "windowClassificationRanges": [
+    {"windows": [1], "classification": "scanner-evidence-gap", "familyId": "main-region-wrapper-group"},
+    {"windows": [2], "classification": "scanner-evidence-gap", "familyId": "product-nav-button-group-and-inline-footnote"},
+    {"windows": [3, 4, 5, 6, 7, 8, 9, 10], "classification": "scanner-evidence-gap", "familyId": "lineup-card-link-position-price-text-boundary"},
+    {"windows": [11], "classification": "scanner-evidence-gap", "familyId": "button-group-suffix-and-list-position"},
+    {"windows": [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34], "classification": "scanner-evidence-gap", "familyId": "why-apple-card-listitem-grouping"},
+    {"windows": [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45], "classification": "scanner-evidence-gap", "familyId": "get-to-know-gallery-listitem-grouping"},
+    {"windows": [46, 47, 48, 49, 50, 51, 52, 53], "classification": "scanner-evidence-gap", "familyId": "made-for-each-other-native-control-context"},
+    {"windows": [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74], "classification": "reusable-engine-gap", "familyId": "legal-footnote-inline-link-grouping"},
+    {"windows": [75, 76], "classification": "reusable-engine-gap", "familyId": "footer-inline-shop-text-boundaries"},
+    {"windows": [77], "classification": "scanner-evidence-gap", "familyId": "footer-end-wrapper-group"}
+  ],
   "nextRecommendedWorker": {
-    "type": "repro-scanner",
-    "scope": "Run C.5 for the c5Queue families, reusing existing generic button, carousel, footnote, and footer fixtures where marked.",
-    "c5Needed": true,
-    "reason": "Apple Watch residuals are trusted initial-DOM mismatches, but none are conclusive enough for Phase D without C.5."
-  }
+    "phase": "split-C.5-and-D",
+    "reason": "Route 23 already-covered reusable-engine-gap windows to engine-refiner and 54 scanner-evidence-gap windows to repro-scanner. No current residual windows are routed as fixture loopbacks.",
+    "engineRefinerFamilies": [
+      "legal-footnote-inline-link-grouping",
+      "footer-inline-shop-text-boundaries"
+    ],
+    "reproScannerFamilies": [
+      "main-region-wrapper-group",
+      "product-nav-button-group-and-inline-footnote",
+      "lineup-card-link-position-price-text-boundary",
+      "button-group-suffix-and-list-position",
+      "why-apple-card-listitem-grouping",
+      "get-to-know-gallery-listitem-grouping",
+      "made-for-each-other-native-control-context",
+      "footer-end-wrapper-group"
+    ],
+    "evidenceRefinerFamilies": [],
+    "c5FamilyQueue": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json"
+  },
+  "notes": [
+    "No reusable engine logic, fixture JSON, scan artifacts, or promotion files were changed by Phase C.",
+    "The previous 5 fixture-noise residual windows are gone from the current 77-window compare, and this receipt has zero current fixture loopbacks.",
+    "The footer legal single-link marker family remains an already-covered fixture-noise C.5 family with no current residual windows."
+  ]
 }

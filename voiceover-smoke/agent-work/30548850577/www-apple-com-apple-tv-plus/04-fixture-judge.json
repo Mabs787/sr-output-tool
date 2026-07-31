@@ -3,227 +3,296 @@
   "phase": "C",
   "agent": "fixture-judge",
   "agentConfigPath": ".codex/agents/fixture-judge.toml",
-  "spawnedBy": "orchestrator",
+  "spawnedBy": "top-level-codex",
   "sessionId": "/root/apple_labels_judge",
-  "target": "www-apple-com-apple-tv-plus",
   "runId": "30548850577",
+  "target": "www-apple-com-apple-tv-plus",
   "status": "returned",
-  "startedAt": "2026-07-31T14:53:40Z",
-  "finishedAt": "2026-07-31T14:53:40Z",
-  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
-  "handoffFrom": "B",
+  "startedAt": "2026-07-31T17:29:41Z",
+  "finishedAt": "2026-07-31T17:29:41Z",
+  "handoffFrom": "evidence-refiner",
+  "handoffReason": "Recovery Phase C from rebuilt Apple TV+ Phase B; classify trusted refinedAnnouncements residuals, preserve valid redirect provenance, and separate already-pushed generic patches from current C5 routing.",
   "handoffTo": "repro-scanner",
   "nextPhase": "C.5",
-  "inputs": [
-    {
-      "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/03-evidence-refinement.json",
-      "sha256": "6ff268eb2c07984dd6d4ca6d355460b98627c943b1b57635b2798f5ee032a791"
-    },
-    {
-      "path": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/03-evidence-packet.json",
-      "sha256": "e280fac6b73c33095809aa330b363a71ade7afb23b1adc5c1fa93284143b8abf"
-    },
-    {
-      "path": "voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-apple-tv-plus/fixtures/www-apple-com-apple-tv-plus.expected.json",
-      "sha256": "389b8f5e8d25778e86c175b7fdbe83269349fafb54d6f0206ed0c642b7b755fc"
-    }
-  ],
+  "inputs": {
+    "phaseBReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/03-evidence-refinement.json",
+    "phaseBEvidencePacket": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/03-evidence-packet.json",
+    "priorPhaseCReceipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-tv-plus/04-fixture-judge.json",
+    "phaseDReconciliationAudit": "voiceover-smoke/agent-work/30548850577/_summaries/phase-d-cross-page-reconciliation-audit.json",
+    "c5CoverageSummary": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-family-coverage.json",
+    "committedCrossPageOwnership": "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-cross-page-family-ownership.json"
+  },
   "evidence": {
     "phaseBTrusted": true,
-    "rawExpectedAnnouncementsPreserved": true,
-    "compare": {
-      "expectedCount": 338,
-      "actualCount": 325,
-      "mismatchWindowCount": 31
-    },
     "redirectState": {
       "status": "valid-redirect",
       "intendedPath": "/apple-tv-plus/",
       "finalPath": "/apple-tv/",
-      "replacementRunId": "30622512581",
-      "initialDomStatus": "initial-dom",
-      "replayTarget": "accepted final /apple-tv/ rendered-html.html"
+      "pageTitle": "Apple TV",
+      "decision": "Preserve redirect provenance; the recaptured final Apple TV page is the trusted initial-DOM replay target."
     },
-    "conditionalState": {
-      "residualConditionalStateWindows": 0,
-      "mediaGalleriesAndCarousels": "initial-dom content with possibly volatile list/carousel state; routed to C.5, not treated as fixture noise",
-      "footerFootnotes": "initial-dom ordered-list and inline-link content; routed to C.5 for shared footer boundary behavior"
-    }
-  },
-  "reviewedRepairs": {
-    "phaseBNewRepairs": {
-      "count": 14,
-      "classification": "fixture-noise-confirmed",
-      "stateScope": "initial-dom"
-    },
-    "approvedPreexisting": {
-      "count": 9,
-      "classification": "already-correct",
-      "stateScope": "initial-dom"
-    },
-    "rejectedCandidates": [
-      {
-        "family": "app-store-pseudo-glyphs",
-        "indexes": [150, 152, 155],
-        "classification": "already-correct"
+    "counts": {
+      "baselineCompare": {
+        "expectedCount": 338,
+        "actualCount": 317,
+        "mismatchWindowCount": 34
       },
-      {
-        "family": "xbox-case-source-disagreement",
-        "indexes": [166],
-        "classification": "already-correct"
-      }
-    ]
-  },
-  "decisions": [
-    {
-      "familyId": "local-nav-group-wrapper",
-      "windows": [1],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "reusable-engine-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
+      "phaseBPreRepairCompare": {
+        "expectedCount": 338,
+        "actualCount": 325,
+        "mismatchWindowCount": 36
+      },
+      "phaseBPostRepairCompare": {
+        "expectedCount": 338,
+        "actualCount": 325,
+        "mismatchWindowCount": 31
+      },
+      "rawDiffCount": 0,
+      "newPhaseBRepairs": 18,
+      "approvedPreexistingRepairCount": 8,
+      "totalRefinedDiffCount": 25,
+      "sourceNoiseRejected": 1
     },
-    {
-      "familyId": "hero-media-group-wrapper",
-      "windows": [2],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "reusable-engine-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
+    "phaseBRepairAudit": {
+      "newRepairs": {
+        "count": 18,
+        "classification": "fixture-noise-confirmed",
+        "canonicalClassification": "fixture-still-noisy",
+        "reason": "Repairs are limited to source-backed truncation, OCR dash/spacing/glyph cleanup, and rejection of URL slug source noise while raw expectedAnnouncements remain unchanged."
+      },
+      "approvedPreexistingRepairs": {
+        "count": 8,
+        "classification": "already-correct",
+        "reason": "Phase B reviewed preexisting refined diffs against source/HTML/AX and kept them; no evidence-refiner return is required."
+      },
+      "missedEvidenceBackedRepairs": []
     },
-    {
-      "familyId": "offer-card-heading-link-list-positions",
-      "windows": [3, 4, 5, 6, 7, 8, 9],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "reusable-engine-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "tabpanel-and-gallery-button-group",
-      "windows": [10, 11, 12, 13],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "reusable-engine-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "show-river-carousel-list-counts",
-      "windows": [14, 15, 16],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "scanner-evidence-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "sports-gallery-button-group",
-      "windows": [17],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "reusable-engine-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "device-list-count-heading-figure-boundary",
-      "windows": [18, 19, 20, 21],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "scanner-evidence-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "footer-footnote-inline-link-list-boundaries",
-      "windows": [22, 23, 24],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "scanner-evidence-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "footer-inline-shop-text-boundaries",
-      "windows": [25, 26, 27],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "scanner-evidence-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
-    },
-    {
-      "familyId": "footer-legal-listitem-markers",
-      "windows": [28, 29, 30, 31],
-      "classification": "debug-evidence-missing",
-      "phaseCClassification": "scanner-evidence-gap",
-      "phaseCDisposition": "parked-with-evidence",
-      "requiresC5": true
+    "alreadyPushedPatchReconciliation": {
+      "confirmedResolvedForAppleTvPlus": [],
+      "reviewedGenericPatches": [
+        "c0610f8 consent scanner matching",
+        "7659f77 AX-confirmed generated pseudo glyph link names",
+        "cab923a figure SVG media intro image stops",
+        "e170e96 named superscript footnote stops",
+        "d9e9df9 AX-confirmed superscript footnote metrics",
+        "b299bb8 single-span sentence boundaries"
+      ],
+      "decision": "No current Apple TV+ Phase D compare receipt exists in phase-d-cross-page-reconciliation-audit.json, and Phase B post-repair residual families still require C5. Do not claim an already-pushed patch resolved an Apple TV+ residual."
     }
-  ],
-  "windowClassifications": [
-    {"window": 1, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "local-nav-group-wrapper"},
-    {"window": 2, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "hero-media-group-wrapper"},
-    {"window": 3, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 4, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 5, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 6, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 7, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 8, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 9, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "offer-card-heading-link-list-positions"},
-    {"window": 10, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "tabpanel-and-gallery-button-group"},
-    {"window": 11, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "tabpanel-and-gallery-button-group"},
-    {"window": 12, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "tabpanel-and-gallery-button-group"},
-    {"window": 13, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "tabpanel-and-gallery-button-group"},
-    {"window": 14, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "show-river-carousel-list-counts"},
-    {"window": 15, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "show-river-carousel-list-counts"},
-    {"window": 16, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "show-river-carousel-list-counts"},
-    {"window": 17, "classification": "debug-evidence-missing", "phaseCClassification": "reusable-engine-gap", "familyId": "sports-gallery-button-group"},
-    {"window": 18, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "device-list-count-heading-figure-boundary"},
-    {"window": 19, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "device-list-count-heading-figure-boundary"},
-    {"window": 20, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "device-list-count-heading-figure-boundary"},
-    {"window": 21, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "device-list-count-heading-figure-boundary"},
-    {"window": 22, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-footnote-inline-link-list-boundaries"},
-    {"window": 23, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-footnote-inline-link-list-boundaries"},
-    {"window": 24, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-footnote-inline-link-list-boundaries"},
-    {"window": 25, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-inline-shop-text-boundaries"},
-    {"window": 26, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-inline-shop-text-boundaries"},
-    {"window": 27, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-inline-shop-text-boundaries"},
-    {"window": 28, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-legal-listitem-markers"},
-    {"window": 29, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-legal-listitem-markers"},
-    {"window": 30, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-legal-listitem-markers"},
-    {"window": 31, "classification": "debug-evidence-missing", "phaseCClassification": "scanner-evidence-gap", "familyId": "footer-legal-listitem-markers"}
-  ],
+  },
   "classificationTotals": {
     "residualWindows": {
       "engine-gap-confirmed": 0,
       "fixture-noise-confirmed": 0,
       "conditional-state-confirmed": 0,
-      "insufficient-repro": 0,
-      "debug-evidence-missing": 31,
+      "insufficient-repro": 31,
+      "debug-evidence-missing": 0,
       "already-correct": 0
     },
     "phaseBRepairReviews": {
-      "fixture-noise-confirmed": 14
+      "fixture-noise-confirmed": 18
     },
     "approvedPreexistingReviews": {
-      "already-correct": 9
+      "already-correct": 8
+    },
+    "resolvedByAlreadyPushedEnginePatches": {
+      "engine-gap-confirmed": 0
+    }
+  },
+  "canonicalClassificationTotals": {
+    "residualWindows": {
+      "fixture-still-noisy": 0,
+      "reusable-engine-gap": 0,
+      "dynamic-state-mismatch": 0,
+      "scanner-evidence-gap": 31,
+      "ambiguous": 0
+    },
+    "phaseBRepairReviews": {
+      "fixture-still-noisy": 18
+    },
+    "disposition": {
+      "resolved": 0,
+      "fixture-ready": 26,
+      "engine-ready": 0,
+      "recapture-only": 0,
+      "conditional-state-blocked": 0,
+      "parked-with-evidence": 31
     }
   },
   "engineReadyFamilies": [],
   "c5Queue": [
-    {"familyId": "local-nav-group-wrapper", "windows": [1], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html", "reuseExistingFixture": true},
-    {"familyId": "hero-media-group-wrapper", "windows": [2], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-media-group-wrapper.html", "reuseExistingFixture": false},
-    {"familyId": "offer-card-heading-link-list-positions", "windows": [3, 4, 5, 6, 7, 8, 9], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-heading-link-list-positions.html", "reuseExistingFixture": false},
-    {"familyId": "tabpanel-and-gallery-button-group", "windows": [10, 11, 12, 13], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/tabpanel-gallery-button-group.html", "reuseExistingFixture": false},
-    {"familyId": "show-river-carousel-list-counts", "windows": [14, 15, 16], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-list-counts.html", "reuseExistingFixture": false},
-    {"familyId": "sports-gallery-button-group", "windows": [17], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-suffix.html", "reuseExistingFixture": false},
-    {"familyId": "device-list-count-heading-figure-boundary", "windows": [18, 19, 20, 21], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/device-list-count-heading-figure-boundary.html", "reuseExistingFixture": false},
-    {"familyId": "footer-footnote-inline-link-list-boundaries", "windows": [22, 23, 24], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-footnote-inline-link-list-boundaries.html", "reuseExistingFixture": false},
-    {"familyId": "footer-inline-shop-text-boundaries", "windows": [25, 26, 27], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html", "reuseExistingFixture": true},
-    {"familyId": "footer-legal-listitem-markers", "windows": [28, 29, 30, 31], "classification": "debug-evidence-missing", "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-listitem-markers.html", "reuseExistingFixture": false}
+    {
+      "familyId": "local-nav-wrapper-group",
+      "windows": [1],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
+      "reuseExistingFixture": true,
+      "nextRunId": "30629199194",
+      "coverageStatus": "canary-passed-awaiting-existing-full-run",
+      "reason": "Initial DOM contains the local nav wrapper and raw VoiceOver announces a group, but structural focused-node/full-run evidence is still incomplete."
+    },
+    {
+      "familyId": "hero-media-group-wrapper",
+      "umbrellaFamily": "card-and-media-grouping",
+      "windows": [2],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-media-group-wrapper.html",
+      "reuseExistingFixture": false,
+      "coverageStatus": "missing-exact-c5",
+      "reason": "Hero media grouping overlaps generic card/media wrapper behavior, but no exact TV+ hero-media focused reproduction is complete."
+    },
+    {
+      "familyId": "offer-card-heading-footnote-list-position",
+      "umbrellaFamily": "card-and-media-grouping",
+      "windows": [3, 4, 5, 6, 7, 8, 9],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-heading-link-list-positions.html",
+      "reuseExistingFixture": false,
+      "coverageStatus": "missing-exact-c5",
+      "reason": "Offer cards are initial-DOM listitems with headings/sup footnote links, but list-position and card decomposition need a complete focused-node contract."
+    },
+    {
+      "familyId": "media-tabpanel-gallery-button-grouping",
+      "crossPageFamily": "carousel-tabpanel-list-position",
+      "windows": [10, 11, 12, 13],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/tabpanel-gallery-button-group.html",
+      "reuseExistingFixture": false,
+      "relatedExistingRunId": "30639105141",
+      "coverageStatus": "overlaps-existing-carousel-tabpanel-retry-but-missing-exact-gallery-button-c5",
+      "reason": "The tabpanel/list-position shape has shared retry coverage, but TV+ gallery button grouping is broader than the existing carousel-tabpanel fixture."
+    },
+    {
+      "familyId": "show-river-carousel-list-counts",
+      "windows": [14, 15, 16, 17],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-list-counts.html",
+      "reuseExistingFixture": false,
+      "coverageStatus": "missing-exact-c5",
+      "reason": "Phase B recorded carousel/focus-state variation around show rows; a minimal same-structure scan is required before treating list counts as reusable."
+    },
+    {
+      "familyId": "sports-gallery-button-grouping",
+      "windows": [18],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/gallery-button-group-suffix.html",
+      "reuseExistingFixture": false,
+      "coverageStatus": "missing-exact-c5",
+      "reason": "Raw VoiceOver includes a group suffix for initial-DOM gallery buttons, but broad grouped-button wording needs isolated proof."
+    },
+    {
+      "familyId": "device-list-heading-figure-text-boundaries",
+      "windows": [19, 20, 21, 22, 23],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/device-list-count-heading-figure-boundary.html",
+      "reuseExistingFixture": false,
+      "coverageStatus": "missing-exact-c5",
+      "reason": "Device/app sections are initial-DOM content, but list count and figure/text boundary behavior is broad and lacks a focused reproduction."
+    },
+    {
+      "familyId": "footer-footnote-inline-link-list-boundaries",
+      "windows": [24, 25],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-footnote-inline-link-list-boundaries.html",
+      "reuseExistingFixture": false,
+      "coverageStatus": "missing-exact-c5",
+      "reason": "TV+ footer footnote inline links are initial-DOM, but this footer-specific family is not covered by the shared footnote-listitem-inline-link retry matrix."
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "windows": [27, 28],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
+      "reuseExistingFixture": true,
+      "nextRunId": "30638350207",
+      "coverageStatus": "canary-insufficient-awaiting-existing-retry-run",
+      "reason": "Shared Apple footer inline text/link behavior has positive evidence only; retry scan must provide negative/tail coverage."
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "sourceFamilyId": "footer-legal-listitem-markers",
+      "windows": [29, 30, 31, 32],
+      "classification": "insufficient-repro",
+      "canonicalClassification": "scanner-evidence-gap",
+      "disposition": "parked-with-evidence",
+      "familyReproPath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
+      "reuseExistingFixture": true,
+      "nextRunId": "30632038935",
+      "coverageStatus": "canary-passed-awaiting-existing-full-run",
+      "reason": "Footer legal links are initial-DOM list/listitem content, but the shared single-link marker full run is still pending."
+    }
   ],
-  "fixtureChanges": [],
-  "handoffReason": "All current windows are owned. No residual family is engine-ready without C.5 because every remaining mismatch is part of traversal/grouping/naming/responsive carousel/control-context or shared footer list-boundary behavior.",
+  "resolvedByAlreadyPushedEnginePatches": [],
+  "fixtureChanges": {
+    "newPhaseBRepairs": 18,
+    "approvedPreexistingRepairs": 8,
+    "sourceNoiseRejected": 1,
+    "reviewClassification": "fixture-noise-confirmed",
+    "canonicalClassification": "fixture-still-noisy",
+    "decision": "No fixture edits were made in Phase C; rebuilt Phase B is trusted and no evidence-backed repair is missing."
+  },
+  "windowClassifications": [
+    {"window": 1, "familyId": "local-nav-wrapper-group", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 2, "familyId": "hero-media-group-wrapper", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 3, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 4, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 5, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 6, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 7, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 8, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 9, "familyId": "offer-card-heading-footnote-list-position", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 10, "familyId": "media-tabpanel-gallery-button-grouping", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 11, "familyId": "media-tabpanel-gallery-button-grouping", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 12, "familyId": "media-tabpanel-gallery-button-grouping", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 13, "familyId": "media-tabpanel-gallery-button-grouping", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 14, "familyId": "show-river-carousel-list-counts", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 15, "familyId": "show-river-carousel-list-counts", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 16, "familyId": "show-river-carousel-list-counts", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 17, "familyId": "show-river-carousel-list-counts", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 18, "familyId": "sports-gallery-button-grouping", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 19, "familyId": "device-list-heading-figure-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 20, "familyId": "device-list-heading-figure-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 21, "familyId": "device-list-heading-figure-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 22, "familyId": "device-list-heading-figure-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 23, "familyId": "device-list-heading-figure-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 24, "familyId": "footer-footnote-inline-link-list-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 25, "familyId": "footer-footnote-inline-link-list-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 27, "familyId": "footer-inline-shop-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 28, "familyId": "footer-inline-shop-text-boundaries", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 29, "familyId": "footer-legal-single-link-listitem-markers", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 30, "familyId": "footer-legal-single-link-listitem-markers", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 31, "familyId": "footer-legal-single-link-listitem-markers", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"},
+    {"window": 32, "familyId": "footer-legal-single-link-listitem-markers", "classification": "insufficient-repro", "canonicalClassification": "scanner-evidence-gap", "nextWorker": "repro-scanner"}
+  ],
+  "decisions": [
+    "Trusted rebuilt Phase B: raw expectedAnnouncements are unchanged, refinedAnnouncements target initial rendered HTML, and redirect from /apple-tv-plus/ to /apple-tv/ is valid scan provenance.",
+    "Classified all 31 post-repair residual windows as insufficient-repro with canonical scanner-evidence-gap because each family is broad structural, gallery/carousel, card/list-position, or footer/list-marker behavior requiring C5 before Phase D.",
+    "No Apple TV+ family is currently engine-ready. Deterministic initial-DOM evidence is present, but focused-node contracts or exact C5 negative/tail coverage are incomplete.",
+    "No already-pushed generic engine patch is confirmed to have resolved an Apple TV+ residual; the Phase D reconciliation audit contains no current Apple TV+ post-patch compare receipt.",
+    "Mapped shared families to existing C5 where available and recorded missing exact C5 coverage for TV-specific media/card/gallery/footer families."
+  ],
   "nextRecommendedWorker": {
     "type": "repro-scanner",
-    "scope": "Run C.5 for the ten c5Queue families. No Apple TV Plus family is engine-ready yet.",
+    "scope": "Run or complete C.5 for the ten listed Apple TV+ families; return only engine-gap-confirmed independent sub-gaps after mini-scan evidence is complete.",
     "c5Needed": true,
-    "reason": "31 current residual windows are trusted initial-DOM mismatches but all are C.5-gated."
+    "reason": "Every current Apple TV+ residual is trusted initial-DOM output, but all are C5-gated due to broad structural, media/gallery/card, carousel/list, or shared footer behavior."
   }
 }

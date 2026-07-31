@@ -9,7 +9,7 @@
   "runId": "30548850577",
   "status": "passed",
   "startedAt": "2026-07-31T15:42:49Z",
-  "finishedAt": "2026-07-31T19:10:51Z",
+  "finishedAt": "2026-07-31T19:28:52Z",
   "branch": "codex/apple-voiceover-refinement",
   "head": "b299bb8ad2b461f392e56c7fa38400c0e0690b6f",
   "auditScope": {
@@ -326,7 +326,9 @@
       "expectedCount": 378,
       "actualCount": 348,
       "mismatchWindowCount": 13
-    }
+    },
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-mac/05-engine-refinement.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-ipad/05-engine-refinement.json"
   ],
   "revisitQueue": [
     {
@@ -650,6 +652,389 @@
         "status": "failed-known-baseline",
         "summary": "59 tests: 37 passed, 21 skipped, 1 failed on known www-microsoft-com-en-us-accessibility index 31 baseline mismatch."
       }
+    ]
+  },
+  "fixtureChanges": [],
+  "businessIphonePlusTwoAudit": {
+    "updatedAt": "2026-07-31T19:28:52Z",
+    "status": "audited-no-regression",
+    "artifactType": "compare-window-split artifact",
+    "implementedRule": "footer-inline-shop-text-boundaries",
+    "noCodeNarrowing": true,
+    "targets": {
+      "www-apple-com-business": {
+        "prePatchCompare": {
+          "expectedCount": 322,
+          "actualCount": 462,
+          "mismatchWindowCount": 70
+        },
+        "currentCompare": {
+          "expectedCount": 322,
+          "actualCount": 464,
+          "mismatchWindowCount": 72
+        },
+        "insertedAnnouncements": [
+          "More ways to shop:",
+          "near you."
+        ],
+        "expectedIndexes": {
+          "More ways to shop:": 301,
+          "near you.": 304
+        },
+        "currentActualIndexes": {
+          "More ways to shop:": 447,
+          "near you.": 450
+        },
+        "terminalTailWindow": {
+          "prior": 70,
+          "current": 72
+        }
+      },
+      "www-apple-com-iphone": {
+        "prePatchCompare": {
+          "expectedCount": 376,
+          "actualCount": 503,
+          "mismatchWindowCount": 215
+        },
+        "currentCompare": {
+          "expectedCount": 376,
+          "actualCount": 505,
+          "mismatchWindowCount": 217
+        },
+        "insertedAnnouncements": [
+          "More ways to shop:",
+          "near you."
+        ],
+        "expectedIndexes": {
+          "More ways to shop:": 355,
+          "near you.": 358
+        },
+        "currentActualIndexes": {
+          "More ways to shop:": 488,
+          "near you.": 491
+        },
+        "terminalTailWindow": {
+          "prior": 215,
+          "current": 217
+        }
+      }
+    },
+    "evidence": "A full before/after scanner diff showed exactly two added actual stops per target; both are in refined expected arrays and match the shared footer-inline-shop-text-boundaries rule. The count increase is a compare-window split artifact caused by existing footer/page desynchronization, not a regression."
+  },
+  "postLoopbackMacIpadReconciliation": {
+    "updatedAt": "2026-07-31T19:28:52Z",
+    "status": "returned",
+    "fixtureChanges": [],
+    "lease": {
+      "status": "released",
+      "activeLeaseCountAtFinish": 0,
+      "releasedAt": "2026-07-31T19:10:51Z",
+      "note": "No read-only lease acquired for Mac/iPad receipt pass."
+    },
+    "implementedRuleMappings": [
+      {
+        "rule": "footer-inline-shop-text-boundaries",
+        "implementedIn": [
+          "packages/sr-engine/src/dom.ts",
+          "packages/sr-engine/tests/dom-scanner.test.mjs",
+          "packages/sr-extension/src/content/engine-runtime.js"
+        ],
+        "currentMacIpadEffect": "not-applicable",
+        "evidence": "Current Mac 469/489/68 and iPad 401/436/46 residual family mappings contain inline footnote and legal footnote grouping gaps, but no Apple shell footer shop paragraph text-boundary windows matching the implemented `More ways to shop:` / `near you.` shape."
+      },
+      {
+        "rule": "carousel-tabpanel-list-position",
+        "implementedIn": [
+          "packages/sr-engine/src/dom.ts",
+          "packages/sr-engine/src/announcements.ts",
+          "packages/sr-engine/tests/dom-scanner.test.mjs",
+          "packages/sr-extension/src/content/engine-runtime.js"
+        ],
+        "currentMacIpadEffect": "not-applicable",
+        "evidence": "Current Mac/iPad residuals are product gallery descendant/card composition/native-control context families; Phase C does not identify a native `li role=tabpanel` one-item list-position family on either target."
+      }
+    ],
+    "targets": {
+      "www-apple-com-mac": {
+        "receipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-mac/05-engine-refinement.json",
+        "currentCompare": {
+          "command": "SR_VOICEOVER_FIXTURES_DIR=.../candidates/www-apple-com-mac/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-mac",
+          "status": "passed-with-existing-mismatches",
+          "expectedCount": 469,
+          "actualCount": 489,
+          "mismatchWindowCount": 68,
+          "grouped": {
+            "list/marker": 67,
+            "role/structure": 1
+          },
+          "source": "current compare run before interrupted receipt write; no subsequent code changes"
+        },
+        "residualFamilies": [
+          {
+            "family": "main-region-wrapper-group",
+            "currentWindowIndexes": [
+              1
+            ],
+            "mappedTo": [
+              "main-region-wrapper-group"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "mac-product-compare-gallery-list-position-native-controls",
+            "currentWindowIndexes": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18
+            ],
+            "mappedTo": [
+              "carousel-gallery-descendant-traversal",
+              "native-control-context",
+              "inline-footnote-boundaries",
+              "card-composition-list-position-boundaries"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "mac-shopping-get-to-know-responsive-galleries",
+            "currentWindowIndexes": [
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54
+            ],
+            "mappedTo": [
+              "carousel-gallery-descendant-traversal",
+              "card-composition-list-position-boundaries"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "mac-switch-directory-section-order",
+            "currentWindowIndexes": [
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62
+            ],
+            "mappedTo": [
+              "carousel-gallery-descendant-traversal",
+              "product-section-heading-group-boundary"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "mac-legal-footnote-inline-link-grouping",
+            "currentWindowIndexes": [
+              63,
+              64,
+              65,
+              66,
+              67
+            ],
+            "mappedTo": [
+              "footnote-listitem-inline-link-grouping"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "footer-end-wrapper-group",
+            "currentWindowIndexes": [
+              68
+            ],
+            "mappedTo": [
+              "main-region-wrapper-group"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          }
+        ]
+      },
+      "www-apple-com-ipad": {
+        "receipt": "voiceover-smoke/agent-work/30548850577/www-apple-com-ipad/05-engine-refinement.json",
+        "currentCompare": {
+          "command": "SR_VOICEOVER_FIXTURES_DIR=.../candidates/www-apple-com-ipad/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-ipad 0",
+          "status": "passed-with-existing-mismatches",
+          "expectedCount": 401,
+          "actualCount": 436,
+          "mismatchWindowCount": 46,
+          "grouped": {
+            "role/structure": 6,
+            "list/marker": 25,
+            "text": 9,
+            "punctuation/text-boundary": 6
+          }
+        },
+        "residualFamilies": [
+          {
+            "family": "footnote-link-name-order",
+            "currentWindowIndexes": [
+              1
+            ],
+            "mappedTo": [
+              "inline-footnote-boundaries"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "ipad-product-lineup-gallery-list-position-native-controls",
+            "currentWindowIndexes": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            "mappedTo": [
+              "carousel-gallery-descendant-traversal",
+              "native-control-context",
+              "inline-footnote-boundaries"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "ipad-why-apple-card-gallery-one-object-vs-children",
+            "currentWindowIndexes": [
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35
+            ],
+            "mappedTo": [
+              "carousel-gallery-descendant-traversal",
+              "card-composition-list-position-boundaries"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "ipad-get-to-know-gallery-and-control-boundaries",
+            "currentWindowIndexes": [
+              36,
+              37,
+              38,
+              39
+            ],
+            "mappedTo": [
+              "carousel-gallery-descendant-traversal",
+              "native-control-context"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "ipad-essentials-and-significant-others-boundaries",
+            "currentWindowIndexes": [
+              40,
+              41,
+              42
+            ],
+            "mappedTo": [
+              "native-control-context",
+              "product-section-heading-group-boundary"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "ipad-legal-footnote-row-splits-source-shift",
+            "currentWindowIndexes": [
+              43,
+              44,
+              45
+            ],
+            "mappedTo": [
+              "footnote-listitem-inline-link-grouping"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          },
+          {
+            "family": "footer-end-wrapper-group",
+            "currentWindowIndexes": [
+              46
+            ],
+            "mappedTo": [
+              "main-region-wrapper-group"
+            ],
+            "implementedRuleEffect": "none-on-current-target-compare"
+          }
+        ]
+      }
+    },
+    "revisitQueueRefs": [
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-mac/05-engine-refinement.json#revisitQueue",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-ipad/05-engine-refinement.json#revisitQueue"
     ]
   }
 }
