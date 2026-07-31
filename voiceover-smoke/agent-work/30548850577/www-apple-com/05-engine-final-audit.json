@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "target": "www-apple-com",
+  "runId": "30548850577",
+  "status": "returned",
+  "startedAt": "2026-07-31T12:41:48Z",
+  "finishedAt": "2026-07-31T12:43:37Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "engine-refiner",
+  "handoffTo": "repro-scanner",
+  "nextPhase": "C.5",
+  "leaseAcquiredAt": "2026-07-31T12:41:48Z",
+  "leaseReleasedAt": "2026-07-31T12:43:37Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": {
+    "result": "sole-active-lease-no-code",
+    "evidence": "After e170e96, the final audit cross-checked Homepage, Accessibility, and Labels Phase C/C.5 queues. The only remaining Homepage engine-ready candidates overlap pending C.5 grouping/footer shapes or require C.5 before a grouping rule."
+  },
+  "inputs": {
+    "sourceReceipts": [
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/05-engine-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-minimal-repro.json"
+    ]
+  },
+  "decisions": [
+    {
+      "family": "college-and-tradein-footnote-text-boundaries",
+      "subGap": "named-generic-span-symbol-group-boundary",
+      "currentWindowIndexes": [1],
+      "decision": "no-patch-c5-gated",
+      "reason": "A labelled span to AX generic/group rule is a grouping rule. It overlaps the pending Accessibility footnote-listitem-inline-link-grouping C.5 family and must not be implemented before C.5 proves the generic behavior."
+    },
+    {
+      "family": "footer-footnote-and-apple-card-link-boundaries",
+      "currentWindowIndexes": [7, 8, 9, 10],
+      "decision": "no-patch-c5-overlap",
+      "reason": "The remaining Homepage footnote/footer link boundaries include listitem grouping, positional suffixes, and inline link decomposition. Those shapes overlap the pending Accessibility footnote-listitem-inline-link-grouping C.5 family."
+    },
+    {
+      "family": "apple-shell-footer-inline-shop-text-boundaries",
+      "currentWindowIndexes": [11, 12],
+      "decision": "no-patch-c5-gated",
+      "reason": "Shared footer inline shop text boundaries are explicitly C.5-gated in Homepage and Accessibility and overlap the Labels footer-shop family."
+    },
+    {
+      "family": "apple-shell-footer-legal-single-link-listitem-markers",
+      "currentWindowIndexes": [13, 14, 15, 16],
+      "decision": "no-patch-c5-gated",
+      "reason": "Footer legal single-link listitem marker stops are explicitly C.5-gated in Homepage, Accessibility, and Labels."
+    }
+  ],
+  "fixtureChanges": [],
+  "engineChanges": [],
+  "checks": [
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Current Homepage compare remains expectedCount 266, actualCount 254, mismatchWindowCount 16."
+    }
+  ],
+  "remainingMismatches": {
+    "targetCompareAfterAudit": {
+      "expectedCount": 266,
+      "actualCount": 254,
+      "mismatchWindowCount": 16,
+      "latestWindowIndexes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    },
+    "revisitQueue": [
+      {
+        "family": "college-and-tradein-footnote-text-boundaries",
+        "currentWindowIndexes": [1],
+        "latestActual": "Combined paragraph text with inline * symbol.",
+        "latestExpected": "Separate text, Footnote* symbol group, child *, end group, and trailing text.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Complete C.5 for the overlapping footnote/listitem grouping family before any labelled span/group scanner rule.",
+        "blocker": "Grouping rule overlaps pending C.5.",
+        "checksNeeded": ["C.5 artifact verdict", "focused generic unit only after C.5 confirms behavior", "Homepage compare", "protected compares"]
+      },
+      {
+        "family": "footer-footnote-and-apple-card-link-boundaries",
+        "currentWindowIndexes": [7, 8, 9, 10],
+        "latestActual": "Footnote list items keep positional suffixes and omit or merge inline links.",
+        "latestExpected": "Separate inline link stops and listitem/group wording.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Complete footnote/listitem inline-link C.5 before Phase D.",
+        "blocker": "Overlaps pending C.5 grouping and inline-link family.",
+        "checksNeeded": ["C.5 artifact verdict", "target compare", "corpus guards if later engine-ready"]
+      },
+      {
+        "family": "apple-shell-footer-inline-shop-text-boundaries",
+        "currentWindowIndexes": [11, 12],
+        "latestActual": "Footer shop sentence starts at links and later text.",
+        "latestExpected": "More ways to shop:, link stops, near you., Or call, phone link, trailing phone text.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Complete shared footer inline shop C.5.",
+        "blocker": "Explicit C.5 gate across Apple shell targets.",
+        "checksNeeded": ["footer inline shop C.5 verdict", "Homepage/Labels/Accessibility compares if later engine-ready"]
+      }
+    ]
+  },
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Complete pending C.5 artifacts for footnote/listitem grouping, footer inline shop, carousel, and footer legal families before further Phase D.",
+    "c5Needed": true,
+    "reason": "No remaining Homepage engine-ready family is wholly independent of C.5-gated grouping or footer shapes."
+  }
+}

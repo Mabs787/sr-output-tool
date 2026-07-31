@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "target": "www-apple-com-accessibility-labels",
+  "runId": "30548850577",
+  "status": "returned",
+  "startedAt": "2026-07-31T12:41:48Z",
+  "finishedAt": "2026-07-31T12:43:37Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "engine-refiner",
+  "handoffTo": "repro-scanner",
+  "nextPhase": "C.5",
+  "leaseAcquiredAt": "2026-07-31T12:41:48Z",
+  "leaseReleasedAt": "2026-07-31T12:43:37Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": {
+    "result": "sole-active-lease-no-code",
+    "evidence": "After e170e96, the final audit cross-checked Labels engine-ready families against Homepage and Accessibility C.5 queues. Both remaining Labels candidates overlap pending C.5 families."
+  },
+  "inputs": {
+    "sourceReceipts": [
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-engine-refinement.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-minimal-repro.json"
+    ]
+  },
+  "decisions": [
+    {
+      "family": "footnote-listitem-group-and-inline-link-name",
+      "currentWindowIndexes": [2],
+      "decision": "no-patch-c5-overlap",
+      "reason": "Although Labels Phase C marked this engine-ready, the shape is listitem grouping plus inline-link naming and overlaps Accessibility C.5 family footnote-listitem-inline-link-grouping. Phase D must wait for the C.5 verdict before implementing a reusable grouping rule."
+    },
+    {
+      "family": "footer-shop-inline-text-boundaries",
+      "currentWindowIndexes": [3, 4],
+      "decision": "no-patch-c5-overlap",
+      "reason": "The Labels footer shop text-boundary family shares the Apple shell footer shape with Homepage and Accessibility apple-shell-footer-inline-shop-text-boundaries, which are C.5-gated."
+    },
+    {
+      "family": "footer-legal-single-link-listitem-markers",
+      "currentWindowIndexes": [5, 6, 7, 8],
+      "decision": "no-patch-c5-gated",
+      "reason": "Legal single-link listitem marker stops are explicitly C.5-gated and broad list-marker changes require isolated proof."
+    }
+  ],
+  "fixtureChanges": [],
+  "engineChanges": [],
+  "checks": [
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-accessibility-labels/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility-labels",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Current Labels compare remains expectedCount 223, actualCount 216, mismatchWindowCount 8."
+    }
+  ],
+  "remainingMismatches": {
+    "targetCompareAfterAudit": {
+      "expectedCount": 223,
+      "actualCount": 216,
+      "mismatchWindowCount": 8,
+      "latestWindowIndexes": [1, 2, 3, 4, 5, 6, 7, 8]
+    },
+    "revisitQueue": [
+      {
+        "family": "footnote-listitem-group-and-inline-link-name",
+        "currentWindowIndexes": [2],
+        "latestActual": "Footnote listitems use plain positional suffixes and truncate or merge inline-link tail text.",
+        "latestExpected": "Empty group/group listitem suffixes with full inline-link tail.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Complete Accessibility footnote-listitem-inline-link-grouping C.5 before Phase D.",
+        "blocker": "Overlapping C.5 grouping and inline-link family.",
+        "checksNeeded": ["C.5 artifact verdict", "Labels compare", "protected compares if later engine-ready"]
+      },
+      {
+        "family": "footer-shop-inline-text-boundaries",
+        "currentWindowIndexes": [3, 4],
+        "latestActual": "Footer shop sentence starts at links and later text.",
+        "latestExpected": "More ways to shop:, link stops, near you., Or call, phone link, trailing phone text.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Complete shared footer inline shop C.5 before a reusable footer text-boundary rule.",
+        "blocker": "Overlaps Homepage and Accessibility C.5 footer shop family.",
+        "checksNeeded": ["footer inline shop C.5 verdict", "Labels/Homepage/Accessibility compares if later engine-ready"]
+      }
+    ]
+  },
+  "nextRecommendedWorker": {
+    "type": "repro-scanner",
+    "scope": "Complete pending C.5 artifacts for footnote/listitem grouping, footer inline shop, local-nav, and footer legal families.",
+    "c5Needed": true,
+    "reason": "No remaining Labels engine-ready family is wholly independent of C.5-gated grouping or shared footer shapes."
+  }
+}
