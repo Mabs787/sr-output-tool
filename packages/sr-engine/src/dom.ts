@@ -6660,6 +6660,8 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
       const text = normalize(readableText(next) || next.textContent);
       if (!text) return false;
       if (
+        ["heading", "paragraph"].includes(implicitRole(next)) ||
+        ["strong", "b"].includes(next.tagName?.toLowerCase()) ||
         firstVisibleDescendantMatching(next, (candidate: any) =>
           ["heading", "paragraph"].includes(implicitRole(candidate)) ||
             ["strong", "b"].includes(candidate.tagName?.toLowerCase()),

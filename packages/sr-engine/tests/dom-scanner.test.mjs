@@ -5827,6 +5827,50 @@ test("scanSubtree includes AX-confirmed unnamed SVG media before card text", () 
   );
 });
 
+test("scanSubtree includes AX-confirmed figure SVG media before direct card headings", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section aria-label="Support cards">
+          <div>
+            <figure><svg data-sr-dom-node-id="contact-image"></svg></figure>
+            <h3>Contact Us</h3>
+            <p>Support is available over the phone or chat.</p>
+            <a href="/contact">Learn more</a>
+          </div>
+          <div>
+            <figure><svg data-sr-dom-node-id="dom-only-image"></svg></figure>
+            <h3>Documentation</h3>
+            <p>Read the setup guide.</p>
+          </div>
+        </section>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              role: "image",
+              name: "",
+              domNodeId: "contact-image",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Support cards, region",
+      "image",
+      "group",
+      "heading level 3, Contact Us",
+      "Support is available over the phone or chat.",
+      "link, Learn more",
+      "heading level 3, Documentation",
+      "Read the setup guide.",
+      "end of, Support cards, region",
+    ],
+  );
+});
+
 test("scanSubtree includes AX-confirmed unnamed footer media before text link banks", () => {
   const announcements = scanHtml(
     `

@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "target": "www-apple-com-accessibility-labels",
+  "runId": "30548850577",
+  "status": "passed",
+  "startedAt": "2026-07-31T12:17:32Z",
+  "finishedAt": "2026-07-31T12:21:35Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "C",
+  "handoffTo": "engine-refiner",
+  "nextPhase": "D",
+  "leaseAcquiredAt": "2026-07-31T12:17:32Z",
+  "leaseReleasedAt": "2026-07-31T12:21:35Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": {
+    "result": "sole-active-lease",
+    "evidence": "Run-level phase-d-engine-lease.json was reacquired by /root/apple_engine for footer-buystrip-figure-intro-image-stops after the previous external-link-pseudo-glyph lease was released."
+  },
+  "inputs": {
+    "phaseCReceipts": [
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json"
+    ],
+    "artifactEvidence": [
+      "voiceover-smoke/autonomous-runs/30548850577/artifacts/voiceover-scan-www-apple-com-accessibility-labels/scans/www-apple-com-accessibility-labels/rendered-html.html",
+      "voiceover-smoke/autonomous-runs/30548850577/artifacts/voiceover-scan-www-apple-com-accessibility-labels/scans/www-apple-com-accessibility-labels/accessibility-tree.json"
+    ]
+  },
+  "decisions": [
+    {
+      "family": "footer-buystrip-image-glyph-text-boundary",
+      "subGap": "footer-buystrip-figure-intro-image-stops",
+      "classification": "engine-gap-confirmed",
+      "c5Required": false,
+      "decision": "patched",
+      "reason": "After commit 7659f77, the generated glyph-name sub-gap was resolved. The remaining buystrip windows were two AX-confirmed unnamed SVG image stops inside figure wrappers before direct heading siblings."
+    }
+  ],
+  "evidence": {
+    "focusedDomContract": {
+      "shape": "visible figure > svg with AX role image/name empty, followed by a visible direct heading sibling and card text/link content",
+      "positiveDomNodeIds": [
+        "1929/1930",
+        "1953/1954"
+      ],
+      "axEvidence": "AX nodes 1448/1449 and 1472/1473 expose figure children with image role/name ''. Hidden SignTime card 1941/1942 was not used for the rule.",
+      "currentEngineGap": "Before the patch, compare omitted 'image' before Contact Us and Regulatory Information; after the patch actualCount increased from 214 to 216 and those windows disappeared."
+    }
+  },
+  "fixtureChanges": [],
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Allow AX-confirmed unnamed SVG card intro images to match when their next visible sibling is itself a heading, paragraph, strong, or bold text boundary."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added a focused figure-wrapped SVG before direct heading test with a same-shape DOM-only negative card."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerated runtime bundle from engine source."
+    }
+  ],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed."
+    },
+    {
+      "command": "node --test --test-name-pattern \"figure SVG media before direct card headings\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "1 matching focused test passed; 382 skipped by pattern."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-accessibility-labels/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility-labels",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Labels target improved from 10 to 8 mismatch windows; expectedCount 223, actualCount 216, grouped list/marker 7 and punctuation/text-boundary 1."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "449 tests: 393 passed, 56 skipped."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected Apple accessibility compare unchanged at 13 windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected Microsoft compare unchanged at one known index-31 text mismatch."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Known baseline failure only: www-microsoft-com-en-us-accessibility firstMismatchIndex 31, actual 'Ask Microsoft Accessibility', expected 'heading level 3, Disability Answer Desk'."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime build passed under Node 24."
+    }
+  ],
+  "remainingMismatches": {
+    "targetCompareAfterPatch": {
+      "expectedCount": 223,
+      "actualCount": 216,
+      "mismatchWindowCount": 8,
+      "latestWindowIndexes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "revisitQueue": [
+      {
+        "family": "local-nav-wrapper-group",
+        "currentWindowIndexes": [
+          1
+        ],
+        "latestActual": "Local navigation starts directly after Global navigation.",
+        "latestExpected": "Standalone group before Local navigation.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Use existing C.5 queue; do not implement Phase D until direct group AX/repro evidence exists.",
+        "blocker": "Phase C debug-evidence-missing.",
+        "checksNeeded": [
+          "isolated local-nav-wrapper-group scan",
+          "target compare",
+          "unit/corpus checks if later engine-ready"
+        ]
+      },
+      {
+        "family": "footnote-listitem-group-and-inline-link-name",
+        "currentWindowIndexes": [
+          2
+        ],
+        "latestActual": "Focusable footnote listitems use plain positional suffixes and third item truncates before inline-link tail.",
+        "latestExpected": "Empty group/group listitem suffixes with full inline-link tail.",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Consider as a separate generic focused-listitem whole-name/group-suffix cause; avoid overlap with accessibility target C5-gated footnote family unless evidence is independently complete.",
+        "blocker": "Not attempted in this single-cause patch.",
+        "checksNeeded": [
+          "focused unit test with negative controls",
+          "Labels compare",
+          "protected compares",
+          "unit/runtime gates"
+        ]
+      },
+      {
+        "family": "footer-shop-inline-text-boundaries",
+        "currentWindowIndexes": [
+          3,
+          4
+        ],
+        "latestActual": "Footer shop sentence starts at links and later text.",
+        "latestExpected": "More ways to shop:, link stops, near you., Or call, phone link, trailing phone text.",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Only attempt from Labels evidence; Homepage shared footer shop remains C5-gated and must not be used for a broad shared-shell rule.",
+        "blocker": "Not attempted in this single-cause patch.",
+        "checksNeeded": [
+          "focused inline text/link boundary unit test",
+          "Labels compare",
+          "Apple accessibility compare",
+          "unit/runtime gates"
+        ]
+      },
+      {
+        "family": "footer-legal-single-link-listitem-markers",
+        "currentWindowIndexes": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "latestActual": "Legal links are consecutive positioned link stops.",
+        "latestExpected": "Interleaved standalone list item stops.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Use existing C.5 queue.",
+        "blocker": "Phase C debug-evidence-missing and broad listitem-marker risk.",
+        "checksNeeded": [
+          "footer-legal-single-link-listitem-markers C.5 scan",
+          "AX/source focused-node contract",
+          "corpus guard if later engine-ready"
+        ]
+      }
+    ]
+  },
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Next safe Labels-only engine-ready family, excluding C5-gated legal/local-nav and excluding any Homepage footer shop broad rule until C.5.",
+    "c5Needed": false,
+    "reason": "One independent buystrip image-stop cause was fixed; two Labels engine-ready families remain but require separate evidence review."
+  }
+}
