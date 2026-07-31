@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 native control context</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      fieldset {
+        margin: 16px 0;
+        padding: 12px;
+      }
+
+      label,
+      select,
+      input,
+      button {
+        display: block;
+        margin: 8px 0;
+      }
+
+      .custom-control {
+        border: 1px solid #999;
+        display: inline-block;
+        margin: 8px 0;
+        padding: 4px 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="native-control-context">
+      <p>C5 identity native control context</p>
+
+      <section aria-labelledby="native-controls-heading" data-c5-control="positive-native-controls">
+        <h2 id="native-controls-heading">Positive native controls</h2>
+        <form aria-labelledby="native-controls-heading">
+          <fieldset>
+            <legend>Settings group</legend>
+
+            <label for="choice-select">Choose a mode</label>
+            <select id="choice-select" name="choice">
+              <option>Standard</option>
+              <option selected>Detailed</option>
+            </select>
+
+            <label>
+              <input type="checkbox" name="updates" checked>
+              Enable updates
+            </label>
+
+            <label>
+              <input type="radio" name="level" value="basic">
+              Basic level
+            </label>
+
+            <label>
+              <input type="radio" name="level" value="advanced" checked>
+              Advanced level
+            </label>
+
+            <label for="amount-range">Amount</label>
+            <input id="amount-range" type="range" min="0" max="10" value="5">
+
+            <button type="button" disabled>Unavailable action</button>
+          </fieldset>
+        </form>
+      </section>
+
+      <section aria-labelledby="custom-controls-heading" data-c5-control="negative-custom-controls">
+        <h2 id="custom-controls-heading">Negative custom controls</h2>
+        <div class="custom-control" role="button" tabindex="0" aria-pressed="false">Custom option</div>
+        <a href="#custom-link">Custom link</a>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail native control context</p>
+    </main>
+  </body>
+</html>

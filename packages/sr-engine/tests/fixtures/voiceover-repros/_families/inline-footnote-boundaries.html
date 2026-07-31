@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 inline footnote boundaries</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      section {
+        margin: 16px 0;
+      }
+
+      .visually-hidden {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      sup {
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="inline-footnote-boundaries">
+      <p>C5 identity inline footnote boundaries</p>
+
+      <section aria-labelledby="inline-note-heading" data-c5-control="positive-inline-footnote">
+        <h2 id="inline-note-heading">Positive inline note</h2>
+        <p>
+          A short plan includes shared access
+          <sup>
+            <a href="#note-one" aria-describedby="note-one-label">
+              <span aria-hidden="true">1</span>
+              <span id="note-one-label" class="visually-hidden">Footnote one</span>
+            </a>
+          </sup>
+          and simple setup.
+        </p>
+        <p>
+          The second sentence keeps a
+          <a href="#details">details link</a>
+          next to a note
+          <sup>
+            <a href="#note-two" aria-label="Footnote two">2</a>
+          </sup>
+          so inline text boundaries stay visible.
+        </p>
+        <aside aria-label="Inline footnote text">
+          <p id="note-one" tabindex="-1">1. Shared access requires an active account.</p>
+          <p id="note-two" tabindex="-1">2. Details may vary by setting.</p>
+        </aside>
+      </section>
+
+      <section aria-labelledby="plain-link-heading" data-c5-control="negative-plain-inline-link">
+        <h2 id="plain-link-heading">Negative plain inline link</h2>
+        <p>
+          A plain sentence has a
+          <a href="#plain">plain link</a>
+          without footnote reference or note text.
+        </p>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail inline footnote boundaries</p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 main region wrapper group</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      [role="region"],
+      [role="group"] {
+        margin: 16px 0;
+        padding: 12px;
+      }
+
+      [role="region"] {
+        border: 1px solid #999;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="main-region-wrapper-group" aria-labelledby="page-title">
+      <p>C5 identity main region wrapper group</p>
+
+      <h1 id="page-title">Generic page heading</h1>
+
+      <div data-c5-control="positive-main-region-wrapper">
+        <h2 id="wrapper-heading">Positive named region wrapper</h2>
+        <div role="region" aria-labelledby="wrapper-heading" tabindex="-1">
+          <div role="group" aria-label="Content group">
+            <p>Primary content starts inside a named region and grouped wrapper.</p>
+            <a href="#primary-action">Primary action</a>
+          </div>
+        </div>
+      </div>
+
+      <div data-c5-control="negative-plain-section">
+        <h2 id="plain-section-heading">Negative plain section</h2>
+        <p>Plain content has a heading and link without a region wrapper.</p>
+        <a href="#plain-action">Plain action</a>
+      </div>
+
+      <p data-c5-control="tail-guard">C5 tail main region wrapper group</p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,537 @@
+{
+  "schemaVersion": 1,
+  "phase": "C.5-family-coverage-audit",
+  "agent": "repro-scanner",
+  "runId": "30548850577",
+  "status": "passed",
+  "generatedAt": "2026-07-31T15:48:22Z",
+  "constraints": {
+    "largeArtifactsInspected": false,
+    "scansDispatched": false,
+    "engineOrFixtureEdits": false,
+    "fixturePromotionAttempted": false
+  },
+  "inputs": [
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-cross-page-family-ownership.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-accessibility-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-education-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-watch-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-tv-plus-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-vision-pro-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-apple-music-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c-labels-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-music/04-fixture-judge.json",
+    "voiceover-smoke/agent-work/30548850577/_summaries/phase-c5-consent-detection-families.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/05-minimal-repro.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/05-minimal-repro.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com/05-minimal-repro.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-apple-vision-pro/05-minimal-repro.json",
+    "voiceover-smoke/agent-work/30548850577/www-apple-com-education/05-minimal-repro.json",
+    "packages/sr-engine/tests/fixtures/voiceover-repros/_families"
+  ],
+  "summary": {
+    "familyCount": 19,
+    "existingFixtureWithRunCount": 9,
+    "reusableFixturePendingRunCount": 10,
+    "genuinelyMissingGenericFixtureCount": 0,
+    "unmappedExistingFixtureCount": 2,
+    "provisionalTargetCount": 0,
+    "dedupedAliasCount": 24
+  },
+  "families": [
+    {
+      "familyId": "local-nav-wrapper-group",
+      "ownerTarget": "www-apple-com-accessibility-labels",
+      "targets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/local-nav-wrapper-group.html",
+      "fixtureExists": true,
+      "canaryRunId": "30624096461",
+      "canaryStatus": "passed",
+      "fullRunId": "30629199194",
+      "fullRunStatus": "queued",
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "local-nav-group-wrapper"
+      ]
+    },
+    {
+      "familyId": "footer-legal-single-link-listitem-markers",
+      "ownerTarget": "www-apple-com-accessibility-labels",
+      "targets": [
+        "www-apple-com-accessibility-labels",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-legal-single-link-listitem-markers.html",
+      "fixtureExists": true,
+      "canaryRunId": "30624096461",
+      "canaryStatus": "passed",
+      "fullRunId": "30632038935",
+      "fullRunStatus": "queued",
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "footer-legal-listitem-markers",
+        "footnote-and-legal-list-markers-inline-links:footer-legal-single-link-listitems"
+      ]
+    },
+    {
+      "familyId": "footer-inline-shop-text-boundaries",
+      "ownerTarget": "www-apple-com-accessibility",
+      "targets": [
+        "www-apple-com",
+        "www-apple-com-accessibility",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footer-inline-shop-text-boundaries.html",
+      "fixtureExists": true,
+      "canaryRunId": "30626738003",
+      "canaryStatus": "insufficient-control-gate",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": "30638350207",
+      "retryStatus": "queued",
+      "aliases": [
+        "apple-shell-footer-inline-shop-text-boundaries"
+      ]
+    },
+    {
+      "familyId": "carousel-tabpanel-list-position",
+      "ownerTarget": "www-apple-com",
+      "targets": [
+        "www-apple-com",
+        "www-apple-com-apple-tv-plus"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-tabpanel-list-position.html",
+      "fixtureExists": true,
+      "canaryRunId": "30626738003",
+      "canaryStatus": "insufficient-control-gate",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": "30639105141",
+      "retryStatus": "queued",
+      "aliases": [
+        "tabpanel-and-gallery-button-group"
+      ],
+      "dedupeReason": "The TV Plus family points at tabpanel/gallery button structure; the existing generic tabpanel fixture preserves tablist, selected tab, tabpanel, grouped media, and gallery button context."
+    },
+    {
+      "familyId": "hero-static-text-empty-group-suffix",
+      "ownerTarget": "www-apple-com-accessibility",
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/hero-static-text-empty-group-suffix.html",
+      "fixtureExists": true,
+      "canaryRunId": "30628903055",
+      "canaryStatus": "passed",
+      "fullRunId": "30642495301",
+      "fullRunStatus": "queued",
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": []
+    },
+    {
+      "familyId": "impact-stories-carousel-grouping",
+      "ownerTarget": "www-apple-com-accessibility",
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-education"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/impact-stories-carousel-grouping.html",
+      "fixtureExists": true,
+      "canaryRunId": "30628903055",
+      "canaryStatus": "insufficient-control-gate",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": "30641766178",
+      "retryStatus": "queued",
+      "aliases": []
+    },
+    {
+      "familyId": "footnote-listitem-inline-link-grouping",
+      "ownerTarget": "www-apple-com-accessibility",
+      "targets": [
+        "www-apple-com-accessibility",
+        "www-apple-com-accessibility-labels",
+        "www-apple-com",
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/footnote-listitem-inline-link-grouping.html",
+      "fixtureExists": true,
+      "canaryRunId": "30628903055",
+      "canaryStatus": "insufficient-control-gate",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": "30643160976",
+      "retryStatus": "queued",
+      "aliases": [
+        "footnote-and-legal-list-markers-inline-links:product-footnote-inline-links"
+      ]
+    },
+    {
+      "familyId": "consent-detection-label-matching",
+      "ownerTarget": "www-apple-com",
+      "targets": [
+        "www-apple-com"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/consent-detection-label-matching.html",
+      "fixtureExists": true,
+      "canaryRunId": "30623875787",
+      "canaryStatus": "completed-insufficient-local-handler-skipped",
+      "fullRunId": "30626595317",
+      "fullRunStatus": "cancelled-before-scan",
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "scanner-consent-partial-label-link-click"
+      ],
+      "loopback": "c5-returned-engine-refiner"
+    },
+    {
+      "familyId": "consent-detection-overlay-bounds",
+      "ownerTarget": "www-apple-com",
+      "targets": [
+        "www-apple-com"
+      ],
+      "coverageStatus": "existing-fixture-with-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/consent-detection-overlay-bounds.html",
+      "fixtureExists": true,
+      "canaryRunId": "30623875787",
+      "canaryStatus": "completed-insufficient-local-handler-skipped",
+      "fullRunId": "30626595317",
+      "fullRunStatus": "cancelled-before-scan",
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "scanner-consent-broad-overlay-hide"
+      ],
+      "loopback": "c5-returned-engine-refiner"
+    },
+    {
+      "familyId": "button-group-suffix-and-list-position",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-suffix-and-list-position.html",
+      "fixtureExists": true,
+      "canaryRunId": "30637690233",
+      "canaryStatus": "queued",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "product-nav-button-group-and-inline-footnote:button-group-aspect",
+        "faq-button-group-and-question-boundaries:button-group-list-position-aspect"
+      ]
+    },
+    {
+      "familyId": "carousel-gallery-descendant-traversal",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-education",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-gallery-descendant-traversal.html",
+      "fixtureExists": true,
+      "canaryRunId": "30637690233",
+      "canaryStatus": "queued",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "show-river-carousel-list-counts",
+        "sports-gallery-button-group",
+        "gallery-button-group-and-feature-card-decomposition:gallery-button-aspect"
+      ]
+    },
+    {
+      "familyId": "product-media-group-wrapper",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "targets": [
+        "www-apple-com-apple-vision-pro",
+        "www-apple-com-apple-tv-plus"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/product-media-group-wrapper.html",
+      "fixtureExists": true,
+      "canaryRunId": "30637690233",
+      "canaryStatus": "queued",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "media-group-wrapper-and-extra-image",
+        "hero-media-group-wrapper",
+        "card-and-media-grouping:product-media-group-wrapper"
+      ]
+    },
+    {
+      "familyId": "product-section-heading-group-boundary",
+      "ownerTarget": "www-apple-com-apple-vision-pro",
+      "targets": [
+        "www-apple-com-apple-vision-pro"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/product-section-heading-group-boundary.html",
+      "fixtureExists": true,
+      "canaryRunId": "30637690233",
+      "canaryStatus": "queued",
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "section-heading-group-boundary"
+      ]
+    },
+    {
+      "familyId": "button-group-region-state",
+      "ownerTarget": "www-apple-com-apple-music",
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/button-group-region-state.html",
+      "fixtureExists": true,
+      "canaryRunId": null,
+      "canaryStatus": null,
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "faq-button-group-and-question-boundaries:expanded-collapsed-region-state-aspect"
+      ],
+      "dedupeReason": "The existing fixture preserves checkbox/button role, aria-expanded state, aria-controls, hidden region panels, and FAQ-style question controls; Music's FAQ family should reuse it before creating a new FAQ-only repro."
+    },
+    {
+      "familyId": "inline-footnote-boundaries",
+      "ownerTarget": "www-apple-com-education",
+      "targets": [
+        "www-apple-com-education",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/inline-footnote-boundaries.html",
+      "fixtureExists": true,
+      "canaryRunId": null,
+      "canaryStatus": null,
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "inline-footnote-text-boundary",
+        "feature-list-footnote-boundaries",
+        "footer-footnote-inline-link-list-boundaries",
+        "hero-offer-inline-footnote-text-boundary",
+        "product-nav-button-group-and-inline-footnote:inline-footnote-aspect"
+      ],
+      "dedupeReason": "These queues all describe inline footnote/text-boundary behavior outside the already-covered listitem marker/link grouping fixture."
+    },
+    {
+      "familyId": "card-composition-list-position-boundaries",
+      "ownerTarget": "www-apple-com-apple-tv-plus",
+      "targets": [
+        "www-apple-com-education",
+        "www-apple-com-apple-tv-plus",
+        "www-apple-com-apple-watch",
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-composition-list-position-boundaries.html",
+      "fixtureExists": true,
+      "canaryRunId": null,
+      "canaryStatus": null,
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [
+        "card-group-decomposition",
+        "offer-card-heading-link-list-positions",
+        "card-heading-link-list-positions",
+        "lineup-card-link-position-price-text-boundary",
+        "plan-card-list-position-composition",
+        "device-list-count-heading-figure-boundary",
+        "gallery-button-group-and-feature-card-decomposition:feature-card-decomposition-aspect",
+        "card-and-media-grouping:card-composition-list-position-boundaries"
+      ],
+      "dedupeReason": "The shared contract is repeated card/list composition with heading/link/list-position or price/text boundaries; this remains separate from product-media-group-wrapper because it needs card text and list-position controls, not only media wrapper grouping."
+    },
+    {
+      "familyId": "media-gallery-control-context",
+      "ownerTarget": "www-apple-com-apple-music",
+      "targets": [
+        "www-apple-com-apple-music"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/media-gallery-control-context.html",
+      "fixtureExists": true,
+      "canaryRunId": null,
+      "canaryStatus": null,
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [],
+      "dedupeReason": "Kept distinct from Watch native-control-context because Music's receipt describes media/download/gallery control context and traversal changes rather than native form/control semantics."
+    },
+    {
+      "familyId": "main-region-wrapper-group",
+      "ownerTarget": "www-apple-com-apple-watch",
+      "targets": [
+        "www-apple-com-apple-watch"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/main-region-wrapper-group.html",
+      "fixtureExists": true,
+      "canaryRunId": null,
+      "canaryStatus": null,
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [],
+      "dedupeReason": "Kept distinct because the Watch queue describes the page-level main/region wrapper contract, not a card, gallery, or inline text-boundary behavior."
+    },
+    {
+      "familyId": "native-control-context",
+      "ownerTarget": "www-apple-com-apple-watch",
+      "targets": [
+        "www-apple-com-apple-watch"
+      ],
+      "coverageStatus": "reusable-fixture-pending-run",
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/native-control-context.html",
+      "fixtureExists": true,
+      "canaryRunId": null,
+      "canaryStatus": null,
+      "fullRunId": null,
+      "fullRunStatus": null,
+      "retryRunId": null,
+      "retryStatus": null,
+      "aliases": [],
+      "dedupeReason": "Kept distinct from generic button/gallery controls because the Watch queue calls out native-control context explicitly."
+    }
+  ],
+  "missingGenericFixtures": [],
+  "fixtureImplementation": {
+    "status": "implemented-pending-canary",
+    "implementedFixturePaths": [
+      "packages/sr-engine/tests/fixtures/voiceover-repros/_families/inline-footnote-boundaries.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/_families/card-composition-list-position-boundaries.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/_families/media-gallery-control-context.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/_families/main-region-wrapper-group.html",
+      "packages/sr-engine/tests/fixtures/voiceover-repros/_families/native-control-context.html"
+    ],
+    "scanDispatchStatus": "not-dispatched",
+    "reason": "Root requested fixture implementation and static validation only; canary/full scans require later authorization."
+  },
+  "unmappedExistingFixtures": [
+    {
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/carousel-media-image-role.html",
+      "reason": "Fixture exists in inventory but is not needed by the current deduped family coverage. Music's gallery card image-name aspect is covered with carousel/gallery and card-composition rows until C.5 evidence says a separate media-image-role fixture is required."
+    },
+    {
+      "fixturePath": "packages/sr-engine/tests/fixtures/voiceover-repros/_families/expanded-accordion-inline-link-order.html",
+      "reason": "Fixture exists in inventory but the current Apple Music FAQ residual is a collapsed/expanded button-region state and question-boundary issue, so button-group-region-state is the closer reusable repro."
+    }
+  ],
+  "provisionalTargets": [],
+  "dedupeDecisions": [
+    {
+      "sourceFamilies": [
+        "inline-footnote-text-boundary",
+        "feature-list-footnote-boundaries",
+        "footer-footnote-inline-link-list-boundaries",
+        "hero-offer-inline-footnote-text-boundary",
+        "product-nav-button-group-and-inline-footnote:inline-footnote-aspect"
+      ],
+      "canonicalFamilyId": "inline-footnote-boundaries"
+    },
+    {
+      "sourceFamilies": [
+        "card-group-decomposition",
+        "offer-card-heading-link-list-positions",
+        "card-heading-link-list-positions",
+        "lineup-card-link-position-price-text-boundary",
+        "plan-card-list-position-composition",
+        "device-list-count-heading-figure-boundary",
+        "gallery-button-group-and-feature-card-decomposition:feature-card-decomposition-aspect"
+      ],
+      "canonicalFamilyId": "card-composition-list-position-boundaries"
+    },
+    {
+      "sourceFamilies": [
+        "tabpanel-and-gallery-button-group",
+        "show-river-carousel-list-counts",
+        "sports-gallery-button-group",
+        "gallery-button-group-and-feature-card-decomposition:gallery-button-aspect"
+      ],
+      "canonicalFamilyIds": [
+        "carousel-tabpanel-list-position",
+        "carousel-gallery-descendant-traversal"
+      ]
+    },
+    {
+      "sourceFamilies": [
+        "faq-button-group-and-question-boundaries"
+      ],
+      "canonicalFamilyIds": [
+        "button-group-suffix-and-list-position",
+        "button-group-region-state"
+      ]
+    }
+  ],
+  "notes": [
+    "Apple Music is no longer provisional because www-apple-com-apple-music/04-fixture-judge.json and _summaries/phase-c-apple-music-family-queue.json are present.",
+    "All Watch target references use the canonical slug www-apple-com-apple-watch.",
+    "This audit deduplicates aliases into one owner target per reusable family and does not create standalone Phase E promotion targets.",
+    "Consent detection fixtures are listed as existing with run history, but their local C.5 scans are insufficient because the consent handler skipped local fixtures; they remain looped back as engine-refiner support evidence rather than promotion candidates.",
+    "The cross-page card-and-media-grouping family is split by DOM contract: product media wrapper coverage uses product-media-group-wrapper.html, while card heading/link/list-position and price/text boundary behavior remains a missing shared generic fixture."
+  ]
+}
