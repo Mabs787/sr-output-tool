@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 footer inline shop text boundaries</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      footer {
+        margin-top: 16px;
+      }
+
+      p {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="footer-inline-shop-text-boundaries">
+      <p>C5 identity footer inline shop text boundaries</p>
+
+      <footer role="contentinfo" data-c5-control="positive-footer-inline">
+        <section aria-label="Footer contact">
+          <div>
+            More options:
+            <a href="#store">Store</a>
+            or
+            <a href="#location">local partner</a>
+            near you.
+            <span>Call <a href="tel:5550100">555-0100</a> (555-0100).</span>
+          </div>
+        </section>
+      </footer>
+
+      <section aria-label="Negative single link sentence" data-c5-control="negative-single-link-sentence">
+        <p>One sentence before <a href="#single">one link</a> and one tail.</p>
+      </section>
+
+      <section aria-label="Negative linked phrase" data-c5-control="negative-linked-phrase">
+        <p><a href="#combined">All linked sentence text</a></p>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail footer inline shop text boundaries</p>
+    </main>
+  </body>
+</html>

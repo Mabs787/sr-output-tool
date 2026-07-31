@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 carousel tabpanel list position</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      [role="tablist"],
+      [role="list"] {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        margin: 8px 0;
+        padding: 0;
+      }
+
+      [role="tabpanel"][aria-hidden="true"] {
+        display: none;
+      }
+
+      svg {
+        height: 1em;
+        width: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="carousel-tabpanel-list-position">
+      <p>C5 identity carousel tabpanel list position</p>
+
+      <section aria-labelledby="gallery-heading" data-c5-control="positive-carousel">
+        <h2 id="gallery-heading">Media gallery</h2>
+        <div>
+          <ul role="tablist" aria-label="Media gallery items">
+            <li role="presentation"><a id="media-tab-1" href="#media-panel-1" role="tab" aria-controls="media-panel-1" aria-selected="true">Item 1</a></li>
+            <li role="presentation"><a id="media-tab-2" href="#media-panel-2" role="tab" aria-controls="media-panel-2" aria-selected="false" tabindex="-1">Item 2</a></li>
+            <li role="presentation"><a id="media-tab-3" href="#media-panel-3" role="tab" aria-controls="media-panel-3" aria-selected="false" tabindex="-1">Item 3</a></li>
+            <li role="presentation"><a id="media-tab-4" href="#media-panel-4" role="tab" aria-controls="media-panel-4" aria-selected="false" tabindex="-1">Item 4</a></li>
+            <li role="presentation"><a id="media-tab-5" href="#media-panel-5" role="tab" aria-controls="media-panel-5" aria-selected="false" tabindex="-1">Item 5</a></li>
+            <li role="presentation"><a id="media-tab-6" href="#media-panel-6" role="tab" aria-controls="media-panel-6" aria-selected="false" tabindex="-1">Item 6</a></li>
+            <li role="presentation"><a id="media-tab-7" href="#media-panel-7" role="tab" aria-controls="media-panel-7" aria-selected="false" tabindex="-1">Item 7</a></li>
+            <li role="presentation"><a id="media-tab-8" href="#media-panel-8" role="tab" aria-controls="media-panel-8" aria-selected="false" tabindex="-1">Item 8</a></li>
+            <li role="presentation"><a id="media-tab-9" href="#media-panel-9" role="tab" aria-controls="media-panel-9" aria-selected="false" tabindex="-1">Item 9</a></li>
+          </ul>
+          <button type="button" aria-label="Play media gallery">
+            <span>
+              <svg aria-hidden="true" style="display: none" viewBox="0 0 16 16"></svg>
+              <svg aria-hidden="true" viewBox="0 0 16 16">
+                <path d="M5 3l7 5-7 5z"></path>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <div role="group" aria-label="Gallery media items">
+          <ul role="list">
+            <li id="media-panel-1" role="tabpanel" aria-labelledby="media-tab-1">
+              <a href="#stream" aria-label="Stream now, Short comedy feature.">
+                <div><img alt="" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></div>
+                <div aria-hidden="true">Stream now</div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="negative-tabs-heading" data-c5-control="negative-plain-tabpanel">
+        <h2 id="negative-tabs-heading">Plain panels</h2>
+        <div role="tablist" aria-label="Plain panel controls">
+          <button id="plain-tab-1" role="tab" aria-controls="plain-panel-1" aria-selected="true">Plain 1</button>
+          <button id="plain-tab-2" role="tab" aria-controls="plain-panel-2" aria-selected="false" tabindex="-1">Plain 2</button>
+        </div>
+        <div id="plain-panel-1" role="tabpanel" aria-labelledby="plain-tab-1">
+          <a href="#plain">Plain panel link</a>
+        </div>
+      </section>
+
+      <p data-c5-control="tail-guard">C5 tail carousel tabpanel list position</p>
+    </main>
+  </body>
+</html>
