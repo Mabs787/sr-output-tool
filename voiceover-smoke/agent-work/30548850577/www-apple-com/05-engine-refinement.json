@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 1,
+  "phase": "D",
+  "agent": "engine-refiner",
+  "agentConfigPath": ".codex/agents/engine-refiner.toml",
+  "spawnedBy": "top-level-codex",
+  "sessionId": "/root/apple_engine",
+  "target": "www-apple-com",
+  "runId": "30548850577",
+  "status": "passed",
+  "startedAt": "2026-07-31T12:25:07Z",
+  "finishedAt": "2026-07-31T12:38:11Z",
+  "sharedPreflightRef": "../_summaries/00-agent-preflight.json",
+  "handoffFrom": "C",
+  "handoffTo": "engine-refiner",
+  "nextPhase": "D",
+  "leaseAcquiredAt": "2026-07-31T12:25:07Z",
+  "leaseReleasedAt": "2026-07-31T12:38:11Z",
+  "activeLeaseCountAtStart": 1,
+  "activeLeaseCountAtFinish": 0,
+  "overlapCheckResult": {
+    "result": "sole-active-lease",
+    "evidence": "Run-level phase-d-engine-lease.json was reacquired by /root/apple_engine for homepage-inline-footnote-symbol-boundaries after the previous footer-buystrip-figure-intro-image-stops lease was released. Rechecked all C5-gated Apple Homepage, Accessibility, and Accessibility Labels families before patching; only the named numeric superscript sub-gap was attempted."
+  },
+  "inputs": {
+    "phaseCReceipts": [
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com/phase-c-family-queue.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility/04-fixture-judge.json",
+      "voiceover-smoke/agent-work/30548850577/www-apple-com-accessibility-labels/04-fixture-judge.json"
+    ],
+    "artifactEvidence": [
+      "voiceover-smoke/autonomous-runs/30548850577/artifacts/voiceover-scan-www-apple-com/scans/www-apple-com/rendered-html.html",
+      "voiceover-smoke/autonomous-runs/30548850577/artifacts/voiceover-scan-www-apple-com/scans/www-apple-com/accessibility-tree.json"
+    ]
+  },
+  "decisions": [
+    {
+      "family": "college-and-tradein-footnote-text-boundaries",
+      "subGap": "named-numeric-superscript-boundary",
+      "classification": "engine-gap-confirmed",
+      "c5Required": false,
+      "decision": "patched",
+      "reason": "The trade-in teaser paragraph has a direct sup child with literal text '1'; saved AX exposes a direct child role superscript with name 'Footnote 1' and one StaticText child '1'. The scanner previously merged the numeric superscript into the paragraph text. The rule is structural: it requires a direct sup, exact AX parent-child relationship, a matching single StaticText child, and a non-empty AX name for numeric symbols. It does not inspect English label prefixes; the focused unit includes a localized 'Nota 2' control."
+    },
+    {
+      "family": "college-and-tradein-footnote-text-boundaries",
+      "subGap": "named-generic-span-symbol-group-boundary",
+      "classification": "engine-gap-candidate",
+      "c5Required": false,
+      "decision": "deferred",
+      "reason": "The college teaser paragraph remains unresolved. A broader direct labelled span/group prototype was reduced away because the generic span contract was not proven safely by the focused unit. This sub-gap is recorded separately for revisit rather than shipping a broad rule."
+    },
+    {
+      "family": "apple-shell-carousel-tabpanel-list-position",
+      "classification": "c5-gated",
+      "decision": "not-attempted",
+      "reason": "Phase C.5 requested scanner evidence for carousel tab panel list positions."
+    },
+    {
+      "family": "apple-shell-footer-inline-shop-text-boundaries",
+      "classification": "c5-gated-overlap",
+      "decision": "not-attempted",
+      "reason": "Shared footer shop text-boundary family overlaps Homepage and Accessibility C5 queues; no broad shared-shell rule attempted."
+    },
+    {
+      "family": "apple-shell-footer-legal-single-link-listitem-markers",
+      "classification": "c5-gated",
+      "decision": "not-attempted",
+      "reason": "Phase C.5 requested scanner evidence for legal list item marker stops."
+    }
+  ],
+  "evidence": {
+    "focusedDomContract": {
+      "patchedShape": "p/small paragraph with direct sup child; parent has no role/name/label; sup has a direct literal symbol text; AX parent has the sup AX node as a direct child; sup AX node role is superscript, has a non-empty name for numeric symbols, and has exactly one StaticText child matching the DOM symbol.",
+      "positiveDomNodeIds": [
+        "1065/1066"
+      ],
+      "axEvidence": "AX paragraph domNodeId 1065 has childIds ['1756','976']; AX node 976 has role 'superscript', name 'Footnote 1', domNodeId 1066, and childIds ['1757']; AX node 1757 is StaticText '1'.",
+      "currentEngineGap": "Before the patch, Homepage compare merged the direct numeric superscript into 'Get up to $195-$695 in credit when you trade in iPhone 13 or higher.1'. After the patch, target compare actualCount increased from 253 to 254 and mismatchWindowCount decreased from 17 to 16."
+    }
+  },
+  "fixtureChanges": [],
+  "engineChanges": [
+    {
+      "file": "packages/sr-engine/src/dom.ts",
+      "summary": "Extended direct superscript boundary splitting to AX-confirmed named numeric superscript symbols while preserving the existing plain dagger/double-dagger path."
+    },
+    {
+      "file": "packages/sr-engine/tests/dom-scanner.test.mjs",
+      "summary": "Added a focused named superscript boundary test with localized positive coverage, unnamed numeric negative coverage, and a labelled span negative control."
+    },
+    {
+      "file": "packages/sr-extension/src/content/engine-runtime.js",
+      "summary": "Regenerated runtime bundle from engine source."
+    }
+  ],
+  "checks": [
+    {
+      "command": "yarn workspace @sr-output/engine build",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "TypeScript build passed after the final narrowed patch."
+    },
+    {
+      "command": "node --test --test-name-pattern \"direct named superscript symbols\" packages/sr-engine/tests/dom-scanner.test.mjs",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "1 matching focused test passed; 383 skipped by pattern."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Homepage target improved from 17 to 16 mismatch windows; expectedCount 266, actualCount 254, grouped role/structure 4, list/marker 11, punctuation/text-boundary 1."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:unit",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "450 tests: 394 passed, 56 skipped."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected Apple accessibility compare unchanged at 13 mismatch windows."
+    },
+    {
+      "command": "SR_VOICEOVER_FIXTURES_DIR=/private/tmp/sr-vo-apple-30548850577/voiceover-smoke/autonomous-runs/30548850577/candidates/www-apple-com-accessibility-labels/fixtures yarn workspace @sr-output/engine voiceover:compare www-apple-com-accessibility-labels",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected Labels compare unchanged at 8 mismatch windows."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine voiceover:compare www-microsoft-com-en-us-accessibility",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Protected Microsoft compare unchanged at one known index-31 text mismatch."
+    },
+    {
+      "command": "yarn workspace @sr-output/engine test:voiceover",
+      "required": true,
+      "status": "failed",
+      "exitCode": 1,
+      "summary": "Known baseline failure only: www-microsoft-com-en-us-accessibility firstMismatchIndex 31, actual 'Ask Microsoft Accessibility', expected 'heading level 3, Disability Answer Desk'."
+    },
+    {
+      "command": "PATH=/Users/mrn41/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH yarn build:extension-runtime",
+      "required": true,
+      "status": "passed",
+      "exitCode": 0,
+      "summary": "Extension runtime build passed under Node 24."
+    }
+  ],
+  "remainingMismatches": {
+    "targetCompareAfterPatch": {
+      "expectedCount": 266,
+      "actualCount": 254,
+      "mismatchWindowCount": 16,
+      "latestWindowIndexes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    "revisitQueue": [
+      {
+        "family": "college-and-tradein-footnote-text-boundaries",
+        "subGap": "named-generic-span-symbol-group-boundary",
+        "currentWindowIndexes": [
+          1
+        ],
+        "latestActual": "Paragraph text remains combined as 'Get a gift card from $100 to $150* when you buy Mac or iPad with education savings.'",
+        "latestExpected": "Text before symbol, 'Footnote* symbol, group', '*', 'end of, Footnote * symbol, group', text after symbol.",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Revisit as an independent direct labelled span/generic symbol group rule only if a structural AX contract can be proven with focused positive and negative controls; do not use English label prefixes.",
+        "blocker": "Direct labelled span prototype was not safely proven in focused unit; broad rule removed before commit.",
+        "checksNeeded": [
+          "focused span/generic symbol unit with AX parent-child proof and mismatch negatives",
+          "Homepage compare",
+          "Apple accessibility and Labels protected compares",
+          "unit/runtime gates"
+        ]
+      },
+      {
+        "family": "apple-shell-carousel-tabpanel-list-position",
+        "currentWindowIndexes": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "latestActual": "Carousel controls and tab panels lack expected group/list item position wording.",
+        "latestExpected": "Button group suffixes, 'list 1 item', and 'Item 1, tab panel, (1 of 1)' start/end wording.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Run the requested C.5 isolated same-structure scan before Phase D attempts a table/list/tab-panel rule.",
+        "blocker": "Phase C.5 scanner-evidence-gap.",
+        "checksNeeded": [
+          "isolated carousel tabpanel/list-position C.5 scan",
+          "AX/source focused-node contract",
+          "target compare and corpus guards if later engine-ready"
+        ]
+      },
+      {
+        "family": "footer-footnote-and-apple-card-link-boundaries",
+        "currentWindowIndexes": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "latestActual": "Footnote list items retain positional suffixes and inline links are missing or merged into text.",
+        "latestExpected": "Separate inline link stops and plain footnote text without list-item positional suffixes.",
+        "nextOwner": "engine-refiner",
+        "nextAction": "Consider as a separate generic footnote/listitem text-link boundary cause; split link-boundary and positional-suffix sub-gaps before patching.",
+        "blocker": "Not attempted in this single-cause Phase D patch.",
+        "checksNeeded": [
+          "focused listitem text-link boundary unit tests",
+          "Homepage compare",
+          "protected compares",
+          "unit/runtime gates"
+        ]
+      },
+      {
+        "family": "apple-shell-footer-inline-shop-text-boundaries",
+        "currentWindowIndexes": [
+          11,
+          12
+        ],
+        "latestActual": "Footer shop sentence starts at links and later text.",
+        "latestExpected": "'More ways to shop:', link stops, 'near you.', 'Or call', phone link, trailing phone text.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Use existing C.5 queue before any shared footer-shell engine rule; this overlaps Accessibility and Labels footer-shop C5/evidence concerns.",
+        "blocker": "C5-gated overlap across Apple shell targets.",
+        "checksNeeded": [
+          "footer shop C.5 scan",
+          "AX/source focused-node contract",
+          "Homepage, Accessibility, and Labels compares if later engine-ready"
+        ]
+      },
+      {
+        "family": "apple-shell-footer-legal-single-link-listitem-markers",
+        "currentWindowIndexes": [
+          13,
+          14,
+          15,
+          16
+        ],
+        "latestActual": "Legal links are consecutive positioned link stops.",
+        "latestExpected": "Interleaved standalone 'list item' stops before each legal link after the first.",
+        "nextOwner": "repro-scanner",
+        "nextAction": "Use existing C.5 queue before Phase D; avoid broad listitem-marker changes without isolated proof.",
+        "blocker": "Phase C.5 scanner-evidence-gap and broad list-marker regression risk.",
+        "checksNeeded": [
+          "footer legal listitem-marker C.5 scan",
+          "focused-node AX/source contract",
+          "corpus guard if later engine-ready"
+        ]
+      }
+    ]
+  },
+  "nextRecommendedWorker": {
+    "type": "engine-refiner",
+    "scope": "Next safe engine-ready sub-gap after this named numeric superscript patch, excluding C5-gated carousel/footer legal/footer shop families and excluding any direct labelled span rule until focused structural proof is available.",
+    "c5Needed": false,
+    "reason": "One independent reusable superscript sub-gap was fixed; remaining Homepage families are either C5-gated, mixed and unattempted, or need a narrower structural proof."
+  }
+}

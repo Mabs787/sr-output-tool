@@ -12283,21 +12283,45 @@
             return void 0;
           }
           const directElements = Array.from(el.children || []).filter((child) => !isHidden(child));
-          const directSuperscripts = directElements.filter((child) => child.tagName?.toLowerCase() === "sup");
-          if (!directSuperscripts.length)
+          function directSymbolText(node) {
+            let rawText = "";
+            for (const child of Array.from(node?.childNodes || [])) {
+              if (child.nodeType === Node.TEXT_NODE)
+                rawText = `${rawText}${child.textContent || ""}`;
+            }
+            const text = normalize(rawText);
+            return text && /^(?:[†‡*]|\p{N}{1,3})$/u.test(text) ? text : void 0;
+          }
+          function directInlineSymbolBoundaryElements() {
+            return directElements.filter((child) => {
+              const tag2 = child.tagName?.toLowerCase();
+              return tag2 === "sup" && Boolean(directSymbolText(child));
+            });
+          }
+          const directInlineSymbolBoundaries = directInlineSymbolBoundaryElements();
+          if (!directInlineSymbolBoundaries.length)
             return void 0;
-          if (directSuperscripts.some((sup) => !/^[†‡]$/u.test(normalize(readableText(sup)) || ""))) {
+          if (directInlineSymbolBoundaries.some((boundary) => {
+            const tag2 = boundary.tagName?.toLowerCase();
+            const symbol = directSymbolText(boundary);
+            if (!symbol)
+              return true;
+            if (tag2 !== "sup")
+              return false;
+            const label = normalize(boundary.getAttribute?.("aria-label") || textFromIdRefs(boundary.getAttribute?.("aria-labelledby")));
+            return !/^[†‡]$/u.test(symbol) && !label;
+          })) {
             return void 0;
           }
           const hasDirectLineBreak = directElements.some((child) => child.tagName?.toLowerCase() === "br");
           const firstVisibleElement = directElements[0];
-          if (role !== "listitem" && !hasDirectLineBreak && firstVisibleElement?.tagName?.toLowerCase() !== "sup") {
+          if (role !== "listitem" && !hasDirectLineBreak && !directInlineSymbolBoundaries.includes(firstVisibleElement)) {
             return void 0;
           }
           const directLinks = directElements.filter((child) => implicitRole(child) === "link" && child.tagName?.toLowerCase() === "a");
           if (directElements.some((child) => {
             const childTag = child.tagName?.toLowerCase();
-            if (childTag === "sup" || childTag === "br")
+            if (directInlineSymbolBoundaries.includes(child) || childTag === "br")
               return false;
             if (directLinks.includes(child))
               return false;
@@ -12310,18 +12334,33 @@
           const axChildren = axChildNodes(axParent);
           if (!axParent || !axChildren.length)
             return void 0;
-          function axSupSymbol(sup) {
-            const supAx = axNodeForElementRole(sup, "superscript");
-            if (!supAx || !axChildren.includes(supAx))
+          function axInlineSymbolBoundary(boundary) {
+            const symbol = directSymbolText(boundary);
+            if (!symbol)
               return void 0;
-            const staticChildren = axChildNodes(supAx).filter((child) => normalizedAxRole(child.role) === "statictext");
+            const role2 = "superscript";
+            const boundaryAx = axNodeForElementRole(boundary, role2);
+            if (!boundaryAx || !axChildren.includes(boundaryAx))
+              return void 0;
+            const staticChildren = axChildNodes(boundaryAx).filter((child) => normalizedAxRole(child.role) === "statictext");
             if (staticChildren.length !== 1)
               return void 0;
-            const symbol = normalize(staticChildren[0].name);
-            return symbol && /^[†‡]$/u.test(symbol) ? symbol : void 0;
+            if (normalize(staticChildren[0].name) !== symbol)
+              return void 0;
+            const axName = normalize(boundaryAx.name);
+            if (!axName) {
+              return /^[†‡]$/u.test(symbol) ? { kind: "plain-symbol", symbol } : void 0;
+            }
+            return {
+              kind: "named-symbol",
+              label: axName,
+              role: role2,
+              symbol
+            };
           }
-          if (directSuperscripts.some((sup) => !axSupSymbol(sup)))
+          if (directInlineSymbolBoundaries.some((boundary) => !axInlineSymbolBoundary(boundary))) {
             return void 0;
+          }
           if (directLinks.some((link) => {
             const linkAx = axNodeForElementRole(link, "link");
             return !linkAx || !axChildren.includes(linkAx) || !normalizeAnnouncementLabel(linkAx.name);
@@ -12359,14 +12398,24 @@
               flushPlainText();
               continue;
             }
-            if (childTag === "sup") {
+            if (directInlineSymbolBoundaries.includes(child)) {
               flushPlainText();
-              const symbol = axSupSymbol(child);
-              if (!symbol) {
+              const boundary = axInlineSymbolBoundary(child);
+              if (!boundary) {
                 disallowed = true;
                 break;
               }
-              fragments.push(symbol);
+              if (boundary.kind === "plain-symbol") {
+                fragments.push(boundary.symbol);
+              } else {
+                const label = boundary.label || "";
+                const roleName = boundary.role || "group";
+                const startLabel = /^[^\p{N}]$/u.test(boundary.symbol) ? label.replace(new RegExp(`\\s+${boundary.symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "u"), boundary.symbol) : label;
+                fragments.push(`${startLabel}, ${roleName}`);
+                if (roleName === "group")
+                  fragments.push(boundary.symbol);
+                fragments.push(`end of, ${label}, ${roleName}`);
+              }
               sawSup = true;
               continue;
             }

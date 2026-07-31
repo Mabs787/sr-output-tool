@@ -3250,6 +3250,116 @@ test("scanSubtree splits AX-confirmed direct superscript footnote paragraph boun
   );
 });
 
+test("scanSubtree splits AX-confirmed direct named superscript symbols in card text", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p data-sr-dom-node-id="inline-superscript">
+            Submit a completed application by Friday.<sup aria-label="Footnote 1" data-sr-dom-node-id="inline-superscript-note">1</sup>
+          </p>
+          <p data-sr-dom-node-id="localized">
+            Oferta valida<sup aria-label="Nota 2" data-sr-dom-node-id="localized-note">2</sup>
+          </p>
+          <p data-sr-dom-node-id="plain-number">
+            Release 1<sup data-sr-dom-node-id="plain-sup">1</sup>
+          </p>
+          <p data-sr-dom-node-id="mismatched-symbol">
+            Keep<span aria-label="Reference * marker" data-sr-dom-node-id="mismatched-span">*</span>together.
+          </p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "inline-superscript-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "inline-superscript",
+              childIds: ["inline-superscript-text", "inline-superscript-note-ax"],
+            },
+            {
+              nodeId: "inline-superscript-text",
+              role: "StaticText",
+              name: "Submit a completed application by Friday.",
+            },
+            {
+              nodeId: "inline-superscript-note-ax",
+              role: "superscript",
+              name: "Footnote 1",
+              domNodeId: "inline-superscript-note",
+              childIds: ["inline-superscript-note-text"],
+            },
+            { nodeId: "inline-superscript-note-text", role: "StaticText", name: "1" },
+            {
+              nodeId: "localized-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "localized",
+              childIds: ["localized-text", "localized-note-ax"],
+            },
+            { nodeId: "localized-text", role: "StaticText", name: "Oferta valida" },
+            {
+              nodeId: "localized-note-ax",
+              role: "superscript",
+              name: "Nota 2",
+              domNodeId: "localized-note",
+              childIds: ["localized-note-text"],
+            },
+            { nodeId: "localized-note-text", role: "StaticText", name: "2" },
+            {
+              nodeId: "plain-number-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "plain-number",
+              childIds: ["plain-number-text", "plain-sup-ax"],
+            },
+            { nodeId: "plain-number-text", role: "StaticText", name: "Release 1" },
+            {
+              nodeId: "plain-sup-ax",
+              role: "superscript",
+              name: "",
+              domNodeId: "plain-sup",
+              childIds: ["plain-sup-text"],
+            },
+            { nodeId: "plain-sup-text", role: "StaticText", name: "1" },
+            {
+              nodeId: "mismatched-symbol-ax",
+              role: "paragraph",
+              name: "",
+              domNodeId: "mismatched-symbol",
+              childIds: ["mismatched-before", "mismatched-span-ax", "mismatched-after"],
+            },
+            { nodeId: "mismatched-before", role: "StaticText", name: "Keep" },
+            {
+              nodeId: "mismatched-span-ax",
+              role: "generic",
+              name: "Reference * marker",
+              domNodeId: "mismatched-span",
+              childIds: ["mismatched-span-text"],
+            },
+            { nodeId: "mismatched-span-text", role: "StaticText", name: "not-star" },
+            { nodeId: "mismatched-after", role: "StaticText", name: "together." },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Submit a completed application by Friday.",
+      "Footnote 1, superscript",
+      "end of, Footnote 1, superscript",
+      "Oferta valida",
+      "Nota 2, superscript",
+      "end of, Nota 2, superscript",
+      "Release 1 1",
+      "Keep*together.",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree places links before adjacent generated metadata siblings", () => {
   assert.deepEqual(
     scanHtml(`
