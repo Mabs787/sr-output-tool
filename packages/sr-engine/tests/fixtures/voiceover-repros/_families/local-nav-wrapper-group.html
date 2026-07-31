@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 local nav wrapper group</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      nav {
+        margin-block: 12px;
+      }
+
+      ul {
+        display: flex;
+        gap: 12px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      [hidden],
+      .is-hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="local-nav-wrapper-group">
+      <p>C5 identity local nav wrapper group</p>
+
+      <nav aria-label="Global" data-c5-control="positive-global-nav">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#docs">Docs</a></li>
+          <li><a href="#search" role="button" aria-label="Search" aria-expanded="false">Search</a></li>
+          <li><a href="#bag" role="button" aria-label="Basket" aria-expanded="false">Basket</a></li>
+        </ul>
+      </nav>
+
+      <input
+        type="checkbox"
+        id="topic-menu-state"
+        aria-controls="topic-menu-tray"
+        aria-expanded="false"
+        class="is-hidden"
+        data-c5-control="hidden-menu-state">
+      <div class="is-hidden" data-c5-control="hidden-menu-buttons">
+        <a href="#topic-menu-state" role="button" aria-controls="topic-menu-tray" aria-expanded="false">
+          <span>Open local menu</span>
+        </a>
+        <a href="#" role="button" aria-controls="topic-menu-tray" aria-expanded="true">
+          <span>Close local menu</span>
+        </a>
+      </div>
+
+      <nav aria-label="Local" data-c5-control="positive-local-nav">
+        <div data-c5-control="positive-local-wrapper">
+          <div></div>
+          <div>
+            <div><a href="#topic">Topic</a></div>
+            <div id="topic-menu-tray">
+              <ul>
+                <li><a href="#start" aria-current="page">Start</a></li>
+                <li><a href="#details">Details</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <label for="topic-menu-state"></label>
+
+      <nav aria-label="Primary" data-c5-control="negative-adjacent-primary">
+        <ul>
+          <li><a href="#alpha">Alpha</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Secondary" data-c5-control="negative-adjacent-secondary">
+        <ul>
+          <li><a href="#beta">Beta</a></li>
+        </ul>
+      </nav>
+    </main>
+  </body>
+</html>

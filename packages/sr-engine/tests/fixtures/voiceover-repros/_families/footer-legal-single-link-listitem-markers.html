@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>C5 footer single link listitem markers</title>
+    <style>
+      body {
+        margin: 0;
+        font: 16px/1.4 Arial, sans-serif;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 760px;
+        padding: 24px;
+      }
+
+      footer {
+        margin-top: 16px;
+      }
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        list-style: none;
+        margin: 8px 0;
+        padding: 0;
+      }
+
+      .stack {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root data-c5-family="footer-legal-single-link-listitem-markers">
+      <p>C5 identity footer single link listitem markers</p>
+
+      <footer role="contentinfo" data-c5-control="positive-footer">
+        <section>
+          <div>More options: <a href="#shop">Shop</a> or <a href="#find">find a location</a>.</div>
+          <div>
+            <div>Copyright 2026 Example Inc. All rights reserved.</div>
+            <ul role="list" data-c5-control="positive-single-link-list">
+              <li role="listitem"><a href="#policy">Policy</a></li>
+              <li role="listitem"><a href="#terms">Terms</a></li>
+              <li role="listitem"><a href="#sales">Sales</a></li>
+              <li role="listitem"><a href="#legal">Legal</a></li>
+              <li role="listitem"><a href="#map">Map</a></li>
+            </ul>
+          </div>
+        </section>
+      </footer>
+
+      <section aria-label="Plain links negative control">
+        <ul role="list" data-c5-control="negative-plain-single-link-list">
+          <li role="listitem"><a href="#one">One</a></li>
+          <li role="listitem"><a href="#two">Two</a></li>
+          <li role="listitem"><a href="#three">Three</a></li>
+        </ul>
+      </section>
+
+      <section aria-label="Mixed item negative control">
+        <ul role="list" class="stack" data-c5-control="negative-mixed-listitem">
+          <li role="listitem">Read <a href="#guide">Guide</a> before starting.</li>
+          <li role="listitem"><a href="#help">Help</a> and support text.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
