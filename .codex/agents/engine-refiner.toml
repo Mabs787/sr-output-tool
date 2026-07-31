@@ -20,6 +20,7 @@ Responsibilities:
 - For serialized/declarative shadow DOM gaps, preserve generic semantics that are present in saved fixture HTML. If a saved semantic element is an `h1`-`h6`, `button`, `a`, `ul`/`li`, form control, or has a generic ARIA role, first try a narrow rule that preserves that role/level/state before treating the mismatch as dynamic.
 - Add focused unit coverage for reusable behavior when practical.
 - Run required build, compare, unit, corpus, and extension-runtime checks.
+- Save the pre-patch actual announcement sequence and use the comparator's baseline semantic diagnostics after each patch. Do not call a higher mismatch-window total a regression when the report proves correct expected insertions and an alignment-window split.
 - Follow the verification ladder in phase-d-engine-refinement.md: patch-level
   focused checks, family-batch full unit/runtime checks, and full
   test:voiceover only at final run verification.

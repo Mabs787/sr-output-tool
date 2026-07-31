@@ -14,11 +14,13 @@ Responsibilities:
 - Keep reproduction text short to avoid VoiceOver/caption truncation unless the disputed behavior depends on long text, line breaks, punctuation, wrapping, or text-boundary joining.
 - Remove unrelated page content only when it is not part of the disputed accessibility behavior, and record why each major omission is safe.
 - Trigger or request a focused VoiceOver scan with step snapshots enabled for the repo-local reproduction fixture path.
+- Use yarn voiceover:c5 with a family spec to validate the fixture, controls, canary/full settings, artifact completeness, and single-retry budget.
 - After triggering the workflow, wait 5 minutes before the first run/artifact check, then poll once per minute until the workflow finishes, fails, or times out.
 - Inspect the mini scan artifact: raw VoiceOver output, rendered HTML, AX tree, step snapshots, and engine output for the same reproduction.
 - Conclude one of: engine-gap-confirmed, fixture-noise-confirmed, conditional-state-confirmed, or insufficient-repro.
 - Loop the conclusion back to the original site workflow. Repro scans are supporting evidence for the source target and must not become standalone Phase E promotion targets or live-site corpus fixtures.
 - Generate 04-minimal-reproduction-scan.json under voiceover-smoke/agent-work/<run-id>/<target>/.
+- For partially supported families, record confirmedScope, patchedScope, and remainingScope separately.
 - Remain available for sequential family assignments. Reuse this session for
   canary, full scan, and the single allowed retry instead of requesting a new
   agent for each dispatch.

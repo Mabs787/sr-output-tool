@@ -78,6 +78,13 @@ Use this triage to separate special cases early:
 - Exact or near-exact target: finish evidence receipts quickly and keep it out
   of broad engine experiments.
 
+Phase 0.5 must also record an early corpus-value recommendation for every
+target: `golden-exact-candidate`, `future-golden-candidate`,
+`focused-family-evidence`, `park-candidate`, or `archive-partial`. This is a
+routing recommendation, not promotion. Use it to spend deep Phase B/C time on
+durable targets and shared families rather than treating every scanned page as
+an equally likely full-page golden fixture.
+
 Prefer batches like these over "first five sites" batches:
 
 - linked logo or image-role behavior
@@ -122,6 +129,26 @@ the affected sites after the family decision. Final receipts for a large set
 must include the compact compare table, C.5 count, engine changes, fixture
 changes, exact targets, parked blockers, and verification results.
 
+Do not use mismatch-window totals alone as the progress or regression metric.
+The window heuristic can increase when a correct insertion creates additional
+sync points. Capture the pre-patch engine output, then compare the patched
+output against it:
+
+```bash
+yarn workspace @sr-output/engine voiceover:compare <target> \
+  --actual-output <pre-patch-announcements.json>
+
+# After the patch:
+yarn workspace @sr-output/engine voiceover:compare <target> \
+  --baseline-actual <pre-patch-announcements.json>
+```
+
+Review `semanticDiagnostics.baselineComparison` for correct expected
+insertions, genuine regression candidates, new unexpected output, resolved
+unexpected output, unmatched tails, and alignment-window splits. Target-level
+semantic evidence and negative controls govern the decision; window totals are
+secondary routing data.
+
 ## Next-Run Action Checklist
 
 For every new multi-site refinement session, confirm these contracts before
@@ -161,6 +188,12 @@ The user's selected GPT-5.6 Sol session is the sole top-level orchestrator; that
 task-level choice is not a repository-wide default. Keep behavior and handoffs
 in these workflow docs.
 
+`yarn voiceover:compact-state` exposes the effective model and reasoning effort
+from every agent config in `agents.routing`. Check that routing summary before
+spawning workers. Do not replace the low-cost Phase 0/A/0.5 roles with a
+high-reasoning model unless a receipt records a concrete nondeterministic
+evidence problem that requires escalation.
+
 ## Token-Efficient Execution
 
 Start each multi-site refinement set in a fresh Codex chat. Keep the top-level
@@ -168,6 +201,19 @@ session as the sole orchestrator and do not spawn the optional `orchestrator`
 role for a normal full-set run. The top-level session should read compact
 run-level summaries and receipts; open full artifacts only for integration
 conflicts or decisions that cannot be resolved from the evidence packet.
+
+At every phase boundary refresh the campaign state:
+
+```bash
+yarn voiceover:compact-state -- --run-id <run-id>
+```
+
+Before Phase E closure, require terminal accounting and fail stale handoffs:
+
+```bash
+yarn voiceover:compact-state -- --run-id <run-id> --check \
+  --require-terminal --stale-after-minutes 60
+```
 
 Reuse phase agents instead of spawning one agent per target or loop iteration:
 

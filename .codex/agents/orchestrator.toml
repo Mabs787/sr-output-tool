@@ -11,10 +11,13 @@ Responsibilities:
 - Produce the phase routing plan and required handoff order.
 - Tell the top-level Codex session which phase-specific agents must be spawned: intake, evidence-refiner, fixture-judge, repro-scanner, engine-refiner, promoter.
 - Verify receipt completeness before recommending the next phase.
+- Refresh yarn voiceover:compact-state after each phase batch; use its watchdog, curation triage, receipt budgets, and agent routing table before dispatching more work.
+- Before completion require terminal Phase E accounting for every target and no stale handoffs.
 - Verify Phase B separated raw VoiceOver output from the initial rendered-html.html replay output, and that disputed step-snapshot lines include initialDomStatus before routing to Phase C/D.
 - Route uncertain, truncation-prone, conditional-state, or broad-rule mismatch families to repro-scanner before Phase D when Phase C.5 can produce decisive evidence.
 - Stop before the next target when the user asks to stop before the next site.
 - Keep target state aligned with docs/status and refinement-manifest.json.
+- Preserve the configured low-cost scan-health, intake, and compare-summarizer models; escalate only evidence-heavy B/C/C.5/D work to the configured high-reasoning roles.
 
 Rules:
 - Do not treat Phase A preprocessing as refinement.
