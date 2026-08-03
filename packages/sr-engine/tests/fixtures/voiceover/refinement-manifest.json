@@ -863,6 +863,42 @@
         "status": "candidate-phase-e-pending",
         "note": "Backfilled after GitHub candidate import so manifest metadata is explicit. Keep as candidate until Phase E records exact unique corpus value and unresolved windows are resolved."
       }
+    },
+    "realfood-tesco-com-recipes-html": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "realfood-tesco-com": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-deliverysaver": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-groceries": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-help-pages-clubcard-faqs": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-help-pages-online-grocery-faqs": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-help-site-map": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-help": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+    },
+    "www-tesco-com-zones-tesco-magazine": {
+      "status": "candidate",
+      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
     }
   },
   "fixtureTierDefinitions": {

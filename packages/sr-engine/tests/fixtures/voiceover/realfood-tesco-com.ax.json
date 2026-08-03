@@ -1,0 +1,8341 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 570,
+  "ignoredNodeCount": 230,
+  "axMappedNodeCount": 400,
+  "domSnapshotMappedNodeCount": 627,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "125",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Tesco Recipes: For a little help making recipes you'll all love",
+      "backendDOMNodeId": 125,
+      "childIds": [
+        "161"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://realfood.tesco.com/"
+      }
+    },
+    {
+      "nodeId": "161",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 161,
+      "childIds": [
+        "195"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "195",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 195,
+      "childIds": [
+        "196",
+        "197",
+        "730"
+      ]
+    },
+    {
+      "nodeId": "196",
+      "ignored": false,
+      "role": "link",
+      "name": "Skip to content",
+      "backendDOMNodeId": 196,
+      "domNodeId": "1",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
+      "tagName": "a",
+      "childIds": [
+        "124"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/#content"
+      }
+    },
+    {
+      "nodeId": "197",
+      "ignored": false,
+      "role": "form",
+      "name": "",
+      "backendDOMNodeId": 197,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "form",
+      "childIds": [
+        "198",
+        "200",
+        "204",
+        "367",
+        "368",
+        "659",
+        "726"
+      ]
+    },
+    {
+      "nodeId": "730",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 730,
+      "domNodeId": "597",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"597\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://r.turn.com/r/beacon?&b2=QkgameWNxKEO79E0FPehfslyh5zH8mQJC0XTXUFjqD46GiIjpiexRfFmIy_e14teVBWOzmT1qIFHrh2xQEAXzQ&jsb=1&cid=&rnd=0.05846676220696423"
+      }
+    },
+    {
+      "nodeId": "124",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Skip to content",
+      "backendDOMNodeId": 124,
+      "childIds": [
+        "-1000000525"
+      ]
+    },
+    {
+      "nodeId": "198",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 198,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "200",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 200,
+      "domNodeId": "10",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "204",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 204,
+      "domNodeId": "15",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"15\"]",
+      "tagName": "div",
+      "childIds": [
+        "205"
+      ]
+    },
+    {
+      "nodeId": "367",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 367,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "368",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 368,
+      "domNodeId": "188",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"188\"]",
+      "tagName": "main",
+      "childIds": [
+        "369",
+        "445",
+        "449",
+        "474",
+        "517",
+        "521",
+        "540",
+        "560",
+        "617",
+        "637"
+      ]
+    },
+    {
+      "nodeId": "659",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "",
+      "backendDOMNodeId": 659,
+      "domNodeId": "526",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"526\"]",
+      "tagName": "footer",
+      "childIds": [
+        "660",
+        "724"
+      ]
+    },
+    {
+      "nodeId": "726",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 726,
+      "domNodeId": "593",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"593\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://r.turn.com/r/beacon?b2=QkgameWNxKEO79E0FPehfslyh5zH8mQJC0XTXUFjqD46GiIjpiexRfFmIy_e14teVBWOzmT1qIFHrh2xQEAXzQ&cid="
+      }
+    },
+    {
+      "nodeId": "-1000000525",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Skip to content"
+    },
+    {
+      "nodeId": "205",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 205,
+      "domNodeId": "16",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"16\"]",
+      "tagName": "header",
+      "childIds": [
+        "206",
+        "215"
+      ]
+    },
+    {
+      "nodeId": "369",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 369,
+      "domNodeId": "189",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"189\"]",
+      "tagName": "section",
+      "childIds": [
+        "370",
+        "371",
+        "441"
+      ]
+    },
+    {
+      "nodeId": "445",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 445,
+      "domNodeId": "307",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"307\"]",
+      "tagName": "section",
+      "childIds": [
+        "446"
+      ]
+    },
+    {
+      "nodeId": "449",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 449,
+      "domNodeId": "312",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"312\"]",
+      "tagName": "section",
+      "childIds": [
+        "450"
+      ]
+    },
+    {
+      "nodeId": "474",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 474,
+      "domNodeId": "338",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"338\"]",
+      "tagName": "nav",
+      "childIds": [
+        "475"
+      ]
+    },
+    {
+      "nodeId": "517",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 517,
+      "domNodeId": "383",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"383\"]",
+      "tagName": "section",
+      "childIds": [
+        "518"
+      ]
+    },
+    {
+      "nodeId": "521",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 521,
+      "domNodeId": "388",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"388\"]",
+      "tagName": "nav",
+      "childIds": [
+        "522"
+      ]
+    },
+    {
+      "nodeId": "540",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 540,
+      "domNodeId": "407",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"407\"]",
+      "tagName": "section",
+      "childIds": [
+        "541"
+      ]
+    },
+    {
+      "nodeId": "560",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 560,
+      "domNodeId": "427",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"427\"]",
+      "tagName": "nav",
+      "childIds": [
+        "561"
+      ]
+    },
+    {
+      "nodeId": "617",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 617,
+      "domNodeId": "484",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"484\"]",
+      "tagName": "section",
+      "childIds": [
+        "618"
+      ]
+    },
+    {
+      "nodeId": "637",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 637,
+      "domNodeId": "504",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"504\"]",
+      "tagName": "nav",
+      "childIds": [
+        "638"
+      ]
+    },
+    {
+      "nodeId": "660",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 660,
+      "domNodeId": "527",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"527\"]",
+      "tagName": "div",
+      "childIds": [
+        "661",
+        "705"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "661",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 661,
+      "domNodeId": "528",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"528\"]",
+      "tagName": "div",
+      "childIds": [
+        "662",
+        "664"
+      ]
+    },
+    {
+      "nodeId": "705",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 705,
+      "domNodeId": "572",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"572\"]",
+      "tagName": "div",
+      "childIds": [
+        "706"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "706",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 706,
+      "domNodeId": "573",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"573\"]",
+      "tagName": "div",
+      "childIds": [
+        "707"
+      ]
+    },
+    {
+      "nodeId": "724",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 724,
+      "domNodeId": "591",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"591\"]",
+      "tagName": "div",
+      "childIds": [
+        "725"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "725",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 725,
+      "domNodeId": "592",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"592\"]",
+      "tagName": "p",
+      "childIds": [
+        "123"
+      ]
+    },
+    {
+      "nodeId": "206",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 206,
+      "domNodeId": "17",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"17\"]",
+      "tagName": "div",
+      "childIds": [
+        "207"
+      ]
+    },
+    {
+      "nodeId": "215",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 215,
+      "domNodeId": "26",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"26\"]",
+      "tagName": "div",
+      "childIds": [
+        "216"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "216",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 216,
+      "domNodeId": "27",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"27\"]",
+      "tagName": "div",
+      "childIds": [
+        "217",
+        "219"
+      ]
+    },
+    {
+      "nodeId": "370",
+      "ignored": false,
+      "role": "heading",
+      "name": "Tesco Recipes: For a little help making recipes you'll all love",
+      "backendDOMNodeId": 370,
+      "domNodeId": "190",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
+      "tagName": "h1",
+      "childIds": [
+        "62"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "371",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 371,
+      "domNodeId": "191",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1460"
+      ]
+    },
+    {
+      "nodeId": "441",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 441,
+      "domNodeId": "292",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"292\"]",
+      "tagName": "div",
+      "childIds": [
+        "442",
+        "443",
+        "444"
+      ]
+    },
+    {
+      "nodeId": "446",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 446,
+      "domNodeId": "308",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"308\"]",
+      "tagName": "div",
+      "childIds": [
+        "447"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "447",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 447,
+      "domNodeId": "309",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"309\"]",
+      "tagName": "div",
+      "childIds": [
+        "993"
+      ]
+    },
+    {
+      "nodeId": "450",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 450,
+      "domNodeId": "313",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"313\"]",
+      "tagName": "div",
+      "childIds": [
+        "451",
+        "452"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "451",
+      "ignored": false,
+      "role": "heading",
+      "name": "Tesco Kitchen",
+      "backendDOMNodeId": 451,
+      "domNodeId": "314",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"314\"]",
+      "tagName": "h2",
+      "childIds": [
+        "63"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "452",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 452,
+      "domNodeId": "315",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"315\"]",
+      "tagName": "ul",
+      "childIds": [
+        "453",
+        "461"
+      ]
+    },
+    {
+      "nodeId": "475",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 475,
+      "domNodeId": "339",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"339\"]",
+      "tagName": "div",
+      "childIds": [
+        "476",
+        "477"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "476",
+      "ignored": false,
+      "role": "heading",
+      "name": "Most popular",
+      "backendDOMNodeId": 476,
+      "domNodeId": "340",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"340\"]",
+      "tagName": "h2",
+      "childIds": [
+        "66"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "477",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 477,
+      "domNodeId": "341",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"341\"]",
+      "tagName": "ul",
+      "childIds": [
+        "479",
+        "484",
+        "489",
+        "495",
+        "501",
+        "507"
+      ]
+    },
+    {
+      "nodeId": "518",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 518,
+      "domNodeId": "384",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"384\"]",
+      "tagName": "div",
+      "childIds": [
+        "519"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "519",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 519,
+      "domNodeId": "385",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"385\"]",
+      "tagName": "div",
+      "childIds": [
+        "994"
+      ]
+    },
+    {
+      "nodeId": "522",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 522,
+      "domNodeId": "389",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"389\"]",
+      "tagName": "div",
+      "childIds": [
+        "523",
+        "524"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "523",
+      "ignored": false,
+      "role": "heading",
+      "name": "Don't let anything go to waste",
+      "backendDOMNodeId": 523,
+      "domNodeId": "390",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"390\"]",
+      "tagName": "h2",
+      "childIds": [
+        "73"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "524",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 524,
+      "domNodeId": "391",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"391\"]",
+      "tagName": "ul",
+      "childIds": [
+        "525",
+        "530",
+        "535"
+      ]
+    },
+    {
+      "nodeId": "541",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 541,
+      "domNodeId": "408",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"408\"]",
+      "tagName": "div",
+      "childIds": [
+        "542",
+        "543"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "542",
+      "ignored": false,
+      "role": "heading",
+      "name": "Cocktails and drinks recipes",
+      "backendDOMNodeId": 542,
+      "domNodeId": "409",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"409\"]",
+      "tagName": "h2",
+      "childIds": [
+        "77"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "543",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 543,
+      "domNodeId": "410",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"410\"]",
+      "tagName": "ul",
+      "childIds": [
+        "544",
+        "552"
+      ]
+    },
+    {
+      "nodeId": "561",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 561,
+      "domNodeId": "428",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"428\"]",
+      "tagName": "div",
+      "childIds": [
+        "562",
+        "563"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "562",
+      "ignored": false,
+      "role": "heading",
+      "name": "New recipes",
+      "backendDOMNodeId": 562,
+      "domNodeId": "429",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"429\"]",
+      "tagName": "h2",
+      "childIds": [
+        "80"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "563",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 563,
+      "domNodeId": "430",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"430\"]",
+      "tagName": "ul",
+      "childIds": [
+        "565",
+        "571",
+        "577",
+        "583",
+        "589",
+        "595",
+        "601",
+        "607"
+      ]
+    },
+    {
+      "nodeId": "618",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 618,
+      "domNodeId": "485",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"485\"]",
+      "tagName": "div",
+      "childIds": [
+        "619",
+        "620"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "619",
+      "ignored": false,
+      "role": "heading",
+      "name": "Videos",
+      "backendDOMNodeId": 619,
+      "domNodeId": "486",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"486\"]",
+      "tagName": "h2",
+      "childIds": [
+        "89"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "620",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 620,
+      "domNodeId": "487",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"487\"]",
+      "tagName": "ul",
+      "childIds": [
+        "621",
+        "629"
+      ]
+    },
+    {
+      "nodeId": "638",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 638,
+      "domNodeId": "505",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"505\"]",
+      "tagName": "div",
+      "childIds": [
+        "639"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "639",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 639,
+      "domNodeId": "506",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"506\"]",
+      "tagName": "ul",
+      "childIds": [
+        "640",
+        "646",
+        "652"
+      ]
+    },
+    {
+      "nodeId": "662",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 662,
+      "domNodeId": "529",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"529\"]",
+      "tagName": "div",
+      "childIds": [
+        "663"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "663",
+      "ignored": false,
+      "role": "image",
+      "name": "Every little helps",
+      "backendDOMNodeId": 663,
+      "domNodeId": "530",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"530\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://realfood.tesco.com/images/_images2017/every-little-helps.svg"
+      }
+    },
+    {
+      "nodeId": "664",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 664,
+      "domNodeId": "531",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"531\"]",
+      "tagName": "div",
+      "childIds": [
+        "665"
+      ]
+    },
+    {
+      "nodeId": "707",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 707,
+      "domNodeId": "574",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"574\"]",
+      "tagName": "div",
+      "childIds": [
+        "708",
+        "709"
+      ]
+    },
+    {
+      "nodeId": "123",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "© Tesco.com 2026 All Rights Reserved",
+      "backendDOMNodeId": 123,
+      "childIds": [
+        "-1000000524"
+      ]
+    },
+    {
+      "nodeId": "207",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 207,
+      "domNodeId": "18",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"18\"]",
+      "tagName": "nav",
+      "childIds": [
+        "208"
+      ]
+    },
+    {
+      "nodeId": "217",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 217,
+      "domNodeId": "28",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"28\"]",
+      "tagName": "div",
+      "childIds": [
+        "218",
+        "1024"
+      ]
+    },
+    {
+      "nodeId": "219",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 219,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "div",
+      "childIds": [
+        "222"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "222",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 222,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "nav",
+      "childIds": [
+        "224",
+        "364"
+      ]
+    },
+    {
+      "nodeId": "62",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Recipes: For a little help making recipes you'll all love",
+      "backendDOMNodeId": 62,
+      "childIds": [
+        "-1000000476"
+      ]
+    },
+    {
+      "nodeId": "1460",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1460,
+      "domNodeId": "192",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"192\"]",
+      "tagName": "div",
+      "childIds": [
+        "1342"
+      ],
+      "properties": {
+        "live": "polite",
+        "atomic": false,
+        "relevant": "additions text"
+      }
+    },
+    {
+      "nodeId": "442",
+      "ignored": false,
+      "role": "button",
+      "name": "Previous",
+      "backendDOMNodeId": 442,
+      "domNodeId": "293",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"293\"]",
+      "tagName": "button",
+      "childIds": [
+        "60"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "443",
+      "ignored": false,
+      "role": "toolbar",
+      "name": "",
+      "backendDOMNodeId": 443,
+      "domNodeId": "294",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"294\"]",
+      "tagName": "div",
+      "childIds": [
+        "1504"
+      ],
+      "properties": {
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "444",
+      "ignored": false,
+      "role": "button",
+      "name": "Next",
+      "backendDOMNodeId": 444,
+      "domNodeId": "306",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"306\"]",
+      "tagName": "button",
+      "childIds": [
+        "61"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "993",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 993,
+      "domNodeId": "310",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"310\"]",
+      "tagName": "div",
+      "childIds": [
+        "2079"
+      ]
+    },
+    {
+      "nodeId": "63",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Kitchen",
+      "backendDOMNodeId": 63,
+      "childIds": [
+        "-1000000477"
+      ]
+    },
+    {
+      "nodeId": "453",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 453,
+      "domNodeId": "316",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"316\"]",
+      "tagName": "li",
+      "childIds": [
+        "455"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "461",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 461,
+      "domNodeId": "324",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"324\"]",
+      "tagName": "li",
+      "childIds": [
+        "463"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "66",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Most popular",
+      "backendDOMNodeId": 66,
+      "childIds": [
+        "-1000000486"
+      ]
+    },
+    {
+      "nodeId": "479",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 479,
+      "domNodeId": "343",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"343\"]",
+      "tagName": "a",
+      "childIds": [
+        "480",
+        "481"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "480",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 480,
+      "domNodeId": "344",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"344\"]",
+      "tagName": "div",
+      "childIds": [
+        "126"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "126",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 126,
+      "domNodeId": "345",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"345\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "481",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 481,
+      "domNodeId": "346",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"346\"]",
+      "tagName": "span",
+      "childIds": [
+        "482"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "482",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 482,
+      "domNodeId": "347",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"347\"]",
+      "tagName": "h3",
+      "childIds": [
+        "67"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "67",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 67,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "484",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 484,
+      "domNodeId": "349",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"349\"]",
+      "tagName": "a",
+      "childIds": [
+        "485",
+        "486"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "485",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 485,
+      "domNodeId": "350",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"350\"]",
+      "tagName": "div",
+      "childIds": [
+        "160"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "160",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 160,
+      "domNodeId": "351",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"351\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "486",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 486,
+      "domNodeId": "352",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"352\"]",
+      "tagName": "span",
+      "childIds": [
+        "487"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "487",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 487,
+      "domNodeId": "353",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"353\"]",
+      "tagName": "h3",
+      "childIds": [
+        "68"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "68",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 68,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "489",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 489,
+      "domNodeId": "355",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"355\"]",
+      "tagName": "a",
+      "childIds": [
+        "490",
+        "492"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "490",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 490,
+      "domNodeId": "356",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"356\"]",
+      "tagName": "div",
+      "childIds": [
+        "491"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "491",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 491,
+      "domNodeId": "357",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"357\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "492",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 492,
+      "domNodeId": "358",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"358\"]",
+      "tagName": "span",
+      "childIds": [
+        "493"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "493",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 493,
+      "domNodeId": "359",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"359\"]",
+      "tagName": "h3",
+      "childIds": [
+        "69"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "69",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 69,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "495",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 495,
+      "domNodeId": "361",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"361\"]",
+      "tagName": "a",
+      "childIds": [
+        "496",
+        "498"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "496",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 496,
+      "domNodeId": "362",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"362\"]",
+      "tagName": "div",
+      "childIds": [
+        "497"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "497",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 497,
+      "domNodeId": "363",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"363\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "498",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 498,
+      "domNodeId": "364",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"364\"]",
+      "tagName": "span",
+      "childIds": [
+        "499"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "499",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 499,
+      "domNodeId": "365",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"365\"]",
+      "tagName": "h3",
+      "childIds": [
+        "70"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "70",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 70,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "501",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 501,
+      "domNodeId": "367",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"367\"]",
+      "tagName": "a",
+      "childIds": [
+        "502",
+        "504"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "502",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 502,
+      "domNodeId": "368",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"368\"]",
+      "tagName": "div",
+      "childIds": [
+        "503"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "503",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 503,
+      "domNodeId": "369",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"369\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "504",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 504,
+      "domNodeId": "370",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"370\"]",
+      "tagName": "span",
+      "childIds": [
+        "505"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "505",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 505,
+      "domNodeId": "371",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"371\"]",
+      "tagName": "h3",
+      "childIds": [
+        "71"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "71",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 71,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "507",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 507,
+      "domNodeId": "373",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"373\"]",
+      "tagName": "a",
+      "childIds": [
+        "508",
+        "510"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "508",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 508,
+      "domNodeId": "374",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"374\"]",
+      "tagName": "div",
+      "childIds": [
+        "509"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "509",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 509,
+      "domNodeId": "375",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"375\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "510",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 510,
+      "domNodeId": "376",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"376\"]",
+      "tagName": "span",
+      "childIds": [
+        "511"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "511",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 511,
+      "domNodeId": "377",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"377\"]",
+      "tagName": "h3",
+      "childIds": [
+        "72"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "72",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 72,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "994",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 994,
+      "domNodeId": "386",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"386\"]",
+      "tagName": "div",
+      "childIds": [
+        "2080"
+      ]
+    },
+    {
+      "nodeId": "73",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Don't let anything go to waste",
+      "backendDOMNodeId": 73,
+      "childIds": [
+        "-1000000487"
+      ]
+    },
+    {
+      "nodeId": "525",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 525,
+      "domNodeId": "392",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"392\"]",
+      "tagName": "li",
+      "childIds": [
+        "526"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "530",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 530,
+      "domNodeId": "397",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"397\"]",
+      "tagName": "li",
+      "childIds": [
+        "531"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "535",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 535,
+      "domNodeId": "402",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"402\"]",
+      "tagName": "li",
+      "childIds": [
+        "536"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "77",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Cocktails and drinks recipes",
+      "backendDOMNodeId": 77,
+      "childIds": [
+        "-1000000491"
+      ]
+    },
+    {
+      "nodeId": "544",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 544,
+      "domNodeId": "411",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"411\"]",
+      "tagName": "li",
+      "childIds": [
+        "546"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "552",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 552,
+      "domNodeId": "419",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"419\"]",
+      "tagName": "li",
+      "childIds": [
+        "554"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "80",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "New recipes",
+      "backendDOMNodeId": 80,
+      "childIds": [
+        "-1000000494"
+      ]
+    },
+    {
+      "nodeId": "565",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 565,
+      "domNodeId": "432",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"432\"]",
+      "tagName": "a",
+      "childIds": [
+        "566",
+        "568"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "566",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 566,
+      "domNodeId": "433",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"433\"]",
+      "tagName": "div",
+      "childIds": [
+        "567"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "567",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 567,
+      "domNodeId": "434",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"434\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "568",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 568,
+      "domNodeId": "435",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"435\"]",
+      "tagName": "span",
+      "childIds": [
+        "569"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "569",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 569,
+      "domNodeId": "436",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"436\"]",
+      "tagName": "h3",
+      "childIds": [
+        "81"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "81",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 81,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "571",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 571,
+      "domNodeId": "438",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"438\"]",
+      "tagName": "a",
+      "childIds": [
+        "572",
+        "574"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "572",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 572,
+      "domNodeId": "439",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"439\"]",
+      "tagName": "div",
+      "childIds": [
+        "573"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "573",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 573,
+      "domNodeId": "440",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"440\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "574",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 574,
+      "domNodeId": "441",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"441\"]",
+      "tagName": "span",
+      "childIds": [
+        "575"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "575",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 575,
+      "domNodeId": "442",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"442\"]",
+      "tagName": "h3",
+      "childIds": [
+        "82"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "82",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 82,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "577",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 577,
+      "domNodeId": "444",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"444\"]",
+      "tagName": "a",
+      "childIds": [
+        "578",
+        "580"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "578",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 578,
+      "domNodeId": "445",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"445\"]",
+      "tagName": "div",
+      "childIds": [
+        "579"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "579",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 579,
+      "domNodeId": "446",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"446\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "580",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 580,
+      "domNodeId": "447",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"447\"]",
+      "tagName": "span",
+      "childIds": [
+        "581"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "581",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 581,
+      "domNodeId": "448",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"448\"]",
+      "tagName": "h3",
+      "childIds": [
+        "83"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "83",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 83,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "583",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 583,
+      "domNodeId": "450",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"450\"]",
+      "tagName": "a",
+      "childIds": [
+        "584",
+        "586"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "584",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 584,
+      "domNodeId": "451",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"451\"]",
+      "tagName": "div",
+      "childIds": [
+        "585"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "585",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 585,
+      "domNodeId": "452",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"452\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "586",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 586,
+      "domNodeId": "453",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"453\"]",
+      "tagName": "span",
+      "childIds": [
+        "587"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "587",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 587,
+      "domNodeId": "454",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"454\"]",
+      "tagName": "h3",
+      "childIds": [
+        "84"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "84",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 84,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "589",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 589,
+      "domNodeId": "456",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"456\"]",
+      "tagName": "a",
+      "childIds": [
+        "590",
+        "592"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "590",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 590,
+      "domNodeId": "457",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"457\"]",
+      "tagName": "div",
+      "childIds": [
+        "591"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "591",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 591,
+      "domNodeId": "458",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"458\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "592",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 592,
+      "domNodeId": "459",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"459\"]",
+      "tagName": "span",
+      "childIds": [
+        "593"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "593",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 593,
+      "domNodeId": "460",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"460\"]",
+      "tagName": "h3",
+      "childIds": [
+        "85"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "85",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 85,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "595",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 595,
+      "domNodeId": "462",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"462\"]",
+      "tagName": "a",
+      "childIds": [
+        "596",
+        "598"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "596",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 596,
+      "domNodeId": "463",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"463\"]",
+      "tagName": "div",
+      "childIds": [
+        "597"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "597",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 597,
+      "domNodeId": "464",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"464\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "598",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 598,
+      "domNodeId": "465",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"465\"]",
+      "tagName": "span",
+      "childIds": [
+        "599"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "599",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 599,
+      "domNodeId": "466",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"466\"]",
+      "tagName": "h3",
+      "childIds": [
+        "86"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "86",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 86,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "601",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 601,
+      "domNodeId": "468",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"468\"]",
+      "tagName": "a",
+      "childIds": [
+        "602",
+        "604"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "602",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 602,
+      "domNodeId": "469",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"469\"]",
+      "tagName": "div",
+      "childIds": [
+        "603"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "603",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 603,
+      "domNodeId": "470",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"470\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "604",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 604,
+      "domNodeId": "471",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"471\"]",
+      "tagName": "span",
+      "childIds": [
+        "605"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "605",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 605,
+      "domNodeId": "472",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"472\"]",
+      "tagName": "h3",
+      "childIds": [
+        "87"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "87",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 87,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "607",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 607,
+      "domNodeId": "474",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"474\"]",
+      "tagName": "a",
+      "childIds": [
+        "608",
+        "610"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "608",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 608,
+      "domNodeId": "475",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"475\"]",
+      "tagName": "div",
+      "childIds": [
+        "609"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "609",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 609,
+      "domNodeId": "476",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
+      "tagName": "img",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "610",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 610,
+      "domNodeId": "477",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
+      "tagName": "span",
+      "childIds": [
+        "611"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "611",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 611,
+      "domNodeId": "478",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"478\"]",
+      "tagName": "h3",
+      "childIds": [
+        "88"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "88",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 88,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "89",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Videos",
+      "backendDOMNodeId": 89,
+      "childIds": [
+        "-1000000495"
+      ]
+    },
+    {
+      "nodeId": "621",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 621,
+      "domNodeId": "488",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"488\"]",
+      "tagName": "li",
+      "childIds": [
+        "623"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "629",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 629,
+      "domNodeId": "496",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"496\"]",
+      "tagName": "li",
+      "childIds": [
+        "631"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "640",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 640,
+      "domNodeId": "507",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"507\"]",
+      "tagName": "li",
+      "childIds": [
+        "641"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "646",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 646,
+      "domNodeId": "513",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"513\"]",
+      "tagName": "li",
+      "childIds": [
+        "647"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "652",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 652,
+      "domNodeId": "519",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"519\"]",
+      "tagName": "li",
+      "childIds": [
+        "653"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "665",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 665,
+      "domNodeId": "532",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"532\"]",
+      "tagName": "div",
+      "childIds": [
+        "666",
+        "674",
+        "690"
+      ]
+    },
+    {
+      "nodeId": "708",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 708,
+      "domNodeId": "575",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"575\"]",
+      "tagName": "span",
+      "childIds": [
+        "111"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "111",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Follow us:",
+      "backendDOMNodeId": 111,
+      "childIds": [
+        "-1000000517"
+      ]
+    },
+    {
+      "nodeId": "709",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 709,
+      "domNodeId": "576",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"576\"]",
+      "tagName": "ul",
+      "childIds": [
+        "710",
+        "712",
+        "714",
+        "716",
+        "718",
+        "720"
+      ]
+    },
+    {
+      "nodeId": "-1000000524",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "© Tesco.com 2026 All Rights Reserved"
+    },
+    {
+      "nodeId": "208",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 208,
+      "domNodeId": "19",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"19\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1015",
+        "1018"
+      ]
+    },
+    {
+      "nodeId": "218",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Real Food",
+      "backendDOMNodeId": 218,
+      "domNodeId": "29",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"29\"]",
+      "tagName": "a",
+      "childIds": [
+        "127"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/"
+      }
+    },
+    {
+      "nodeId": "1024",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1024,
+      "domNodeId": "31",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"31\"]",
+      "tagName": "div",
+      "childIds": [
+        "2687"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2687",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2687,
+      "domNodeId": "32",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"32\"]",
+      "tagName": "div",
+      "childIds": [
+        "2688",
+        "2689",
+        "2690"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2688",
+      "ignored": false,
+      "role": "textbox",
+      "name": "Recipe, ingredient, keyword…",
+      "backendDOMNodeId": 2688,
+      "domNodeId": "33",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"33\"]",
+      "tagName": "input",
+      "childIds": [
+        "2693",
+        "2692"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "multiline": false,
+        "readonly": false,
+        "required": false
+      }
+    },
+    {
+      "nodeId": "2689",
+      "ignored": false,
+      "role": "button",
+      "name": "Search",
+      "backendDOMNodeId": 2689,
+      "domNodeId": "34",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"34\"]",
+      "tagName": "input",
+      "childIds": [
+        "2697"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "2690",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2690,
+      "domNodeId": "35",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"35\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "224",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 224,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1088",
+        "1121",
+        "1124",
+        "1145",
+        "1160"
+      ]
+    },
+    {
+      "nodeId": "364",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 364,
+      "domNodeId": "184",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"184\"]",
+      "tagName": "div",
+      "childIds": [
+        "365",
+        "366"
+      ]
+    },
+    {
+      "nodeId": "-1000000476",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Recipes: For a little help making recipes you'll all love"
+    },
+    {
+      "nodeId": "1342",
+      "ignored": false,
+      "role": "listbox",
+      "name": "",
+      "backendDOMNodeId": 1342,
+      "domNodeId": "193",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"193\"]",
+      "tagName": "div",
+      "childIds": [
+        "1461",
+        "372",
+        "385",
+        "399",
+        "413",
+        "427",
+        "1475"
+      ],
+      "properties": {
+        "multiselectable": false,
+        "orientation": "vertical",
+        "required": false
+      }
+    },
+    {
+      "nodeId": "60",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Previous",
+      "backendDOMNodeId": 60,
+      "childIds": [
+        "-1000000473"
+      ]
+    },
+    {
+      "nodeId": "1504",
+      "ignored": false,
+      "role": "tablist",
+      "name": "",
+      "backendDOMNodeId": 1504,
+      "domNodeId": "295",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"295\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1490",
+        "1494",
+        "1496",
+        "1499",
+        "1503"
+      ],
+      "properties": {
+        "multiselectable": false,
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "61",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Next",
+      "backendDOMNodeId": 61,
+      "childIds": [
+        "-1000000475"
+      ]
+    },
+    {
+      "nodeId": "2079",
+      "ignored": false,
+      "role": "Iframe",
+      "name": "Advertisement",
+      "description": "3rd party ad content",
+      "backendDOMNodeId": 2079,
+      "domNodeId": "311",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"311\"]",
+      "tagName": "iframe"
+    },
+    {
+      "nodeId": "-1000000477",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Kitchen"
+    },
+    {
+      "nodeId": "455",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 455,
+      "domNodeId": "318",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"318\"]",
+      "tagName": "div",
+      "childIds": [
+        "456"
+      ]
+    },
+    {
+      "nodeId": "463",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 463,
+      "domNodeId": "326",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"326\"]",
+      "tagName": "div",
+      "childIds": [
+        "464",
+        "466"
+      ]
+    },
+    {
+      "nodeId": "-1000000486",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Most popular"
+    },
+    {
+      "nodeId": "2080",
+      "ignored": false,
+      "role": "Iframe",
+      "name": "Advertisement",
+      "description": "3rd party ad content",
+      "backendDOMNodeId": 2080,
+      "domNodeId": "387",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"387\"]",
+      "tagName": "iframe"
+    },
+    {
+      "nodeId": "-1000000487",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Don't let anything go to waste"
+    },
+    {
+      "nodeId": "526",
+      "ignored": false,
+      "role": "link",
+      "name": "Clever ways to use up leftovers Clever ways to use up leftovers",
+      "backendDOMNodeId": 526,
+      "domNodeId": "393",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"393\"]",
+      "tagName": "a",
+      "childIds": [
+        "527",
+        "528"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/clever-ways-to-use-up-leftovers.html"
+      }
+    },
+    {
+      "nodeId": "531",
+      "ignored": false,
+      "role": "link",
+      "name": "Reduce food waste tips Reduce food waste tips",
+      "backendDOMNodeId": 531,
+      "domNodeId": "398",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"398\"]",
+      "tagName": "a",
+      "childIds": [
+        "532",
+        "533"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/reduce-food-waste.html"
+      }
+    },
+    {
+      "nodeId": "536",
+      "ignored": false,
+      "role": "link",
+      "name": "Try a use up day Try a use up day",
+      "backendDOMNodeId": 536,
+      "domNodeId": "403",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"403\"]",
+      "tagName": "a",
+      "childIds": [
+        "537",
+        "538"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/curatedlist/use-up-day.html"
+      }
+    },
+    {
+      "nodeId": "-1000000491",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Cocktails and drinks recipes"
+    },
+    {
+      "nodeId": "546",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 546,
+      "domNodeId": "413",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"413\"]",
+      "tagName": "div",
+      "childIds": [
+        "547"
+      ]
+    },
+    {
+      "nodeId": "554",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 554,
+      "domNodeId": "421",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"421\"]",
+      "tagName": "div",
+      "childIds": [
+        "555"
+      ]
+    },
+    {
+      "nodeId": "-1000000494",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "New recipes"
+    },
+    {
+      "nodeId": "-1000000495",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Videos"
+    },
+    {
+      "nodeId": "623",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 623,
+      "domNodeId": "490",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"490\"]",
+      "tagName": "div",
+      "childIds": [
+        "624"
+      ]
+    },
+    {
+      "nodeId": "631",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 631,
+      "domNodeId": "498",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"498\"]",
+      "tagName": "div",
+      "childIds": [
+        "632"
+      ]
+    },
+    {
+      "nodeId": "641",
+      "ignored": false,
+      "role": "link",
+      "name": "Helpful guides",
+      "backendDOMNodeId": 641,
+      "domNodeId": "508",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
+      "tagName": "a",
+      "childIds": [
+        "642",
+        "644"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/helpful-guides.html"
+      }
+    },
+    {
+      "nodeId": "647",
+      "ignored": false,
+      "role": "link",
+      "name": "What can I make with these ingredients...",
+      "backendDOMNodeId": 647,
+      "domNodeId": "514",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"514\"]",
+      "tagName": "a",
+      "childIds": [
+        "648",
+        "650"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/what-can-i-make-with.html"
+      }
+    },
+    {
+      "nodeId": "653",
+      "ignored": false,
+      "role": "link",
+      "name": "Follow us @tesco",
+      "backendDOMNodeId": 653,
+      "domNodeId": "520",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"520\"]",
+      "tagName": "a",
+      "childIds": [
+        "654",
+        "656"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.instagram.com/tesco/?hl=en"
+      }
+    },
+    {
+      "nodeId": "666",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 666,
+      "domNodeId": "533",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"533\"]",
+      "tagName": "div",
+      "childIds": [
+        "667",
+        "669"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "667",
+      "ignored": false,
+      "role": "heading",
+      "name": "Your Tesco Real Food",
+      "backendDOMNodeId": 667,
+      "domNodeId": "534",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"534\"]",
+      "tagName": "h2",
+      "childIds": [
+        "668"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "669",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 669,
+      "domNodeId": "536",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"536\"]",
+      "tagName": "ul",
+      "childIds": [
+        "670",
+        "672"
+      ]
+    },
+    {
+      "nodeId": "674",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 674,
+      "domNodeId": "541",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"541\"]",
+      "tagName": "div",
+      "childIds": [
+        "675",
+        "677"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "675",
+      "ignored": false,
+      "role": "heading",
+      "name": "Recipes",
+      "backendDOMNodeId": 675,
+      "domNodeId": "542",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"542\"]",
+      "tagName": "h2",
+      "childIds": [
+        "676"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "677",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 677,
+      "domNodeId": "544",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"544\"]",
+      "tagName": "ul",
+      "childIds": [
+        "678",
+        "680",
+        "682",
+        "684",
+        "686",
+        "688"
+      ]
+    },
+    {
+      "nodeId": "690",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 690,
+      "domNodeId": "557",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"557\"]",
+      "tagName": "div",
+      "childIds": [
+        "691",
+        "693",
+        "698",
+        "700"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "691",
+      "ignored": false,
+      "role": "heading",
+      "name": "Privacy Centre",
+      "backendDOMNodeId": 691,
+      "domNodeId": "558",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"558\"]",
+      "tagName": "h2",
+      "childIds": [
+        "692"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "693",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 693,
+      "domNodeId": "560",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"560\"]",
+      "tagName": "ul",
+      "childIds": [
+        "694",
+        "696"
+      ]
+    },
+    {
+      "nodeId": "698",
+      "ignored": false,
+      "role": "heading",
+      "name": "Useful links",
+      "backendDOMNodeId": 698,
+      "domNodeId": "565",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"565\"]",
+      "tagName": "h2",
+      "childIds": [
+        "699"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "700",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 700,
+      "domNodeId": "567",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"567\"]",
+      "tagName": "ul",
+      "childIds": [
+        "701",
+        "703"
+      ]
+    },
+    {
+      "nodeId": "-1000000517",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Follow us:"
+    },
+    {
+      "nodeId": "710",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 710,
+      "domNodeId": "577",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"577\"]",
+      "tagName": "li",
+      "childIds": [
+        "711"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "712",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 712,
+      "domNodeId": "579",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"579\"]",
+      "tagName": "li",
+      "childIds": [
+        "713"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "714",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 714,
+      "domNodeId": "581",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"581\"]",
+      "tagName": "li",
+      "childIds": [
+        "715"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "716",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 716,
+      "domNodeId": "583",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"583\"]",
+      "tagName": "li",
+      "childIds": [
+        "717"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "718",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 718,
+      "domNodeId": "585",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"585\"]",
+      "tagName": "li",
+      "childIds": [
+        "719"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "720",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 720,
+      "domNodeId": "587",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"587\"]",
+      "tagName": "li",
+      "childIds": [
+        "721"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1015",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1015,
+      "domNodeId": "20",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"20\"]",
+      "tagName": "li",
+      "childIds": [
+        "1014"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1018",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1018,
+      "domNodeId": "23",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"23\"]",
+      "tagName": "li",
+      "childIds": [
+        "1017"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "127",
+      "ignored": false,
+      "role": "image",
+      "name": "Tesco Real Food",
+      "backendDOMNodeId": 127,
+      "domNodeId": "30",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"30\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://realfood.tesco.com/images/_images2017/tesco-logo-2017.svg"
+      }
+    },
+    {
+      "nodeId": "2693",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2693
+    },
+    {
+      "nodeId": "2692",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2692,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "2697",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Search",
+      "backendDOMNodeId": 2697,
+      "childIds": [
+        "-1000000538"
+      ]
+    },
+    {
+      "nodeId": "1088",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1088,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "li",
+      "childIds": [
+        "1028"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1121",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1121,
+      "domNodeId": "106",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"106\"]",
+      "tagName": "li",
+      "childIds": [
+        "1089"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1124",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1124,
+      "domNodeId": "139",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"139\"]",
+      "tagName": "li",
+      "childIds": [
+        "1122"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1145",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1145,
+      "domNodeId": "142",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"142\"]",
+      "tagName": "li",
+      "childIds": [
+        "1125"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1160",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1160,
+      "domNodeId": "163",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"163\"]",
+      "tagName": "li",
+      "childIds": [
+        "1146"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "365",
+      "ignored": false,
+      "role": "button",
+      "name": "Close",
+      "backendDOMNodeId": 365,
+      "domNodeId": "185",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"185\"]",
+      "tagName": "button",
+      "childIds": [
+        "808",
+        "44",
+        "809"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "366",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 366,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1461",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1461,
+      "domNodeId": "195",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
+      "tagName": "a",
+      "childIds": [
+        "1462",
+        "1464",
+        "1466"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1462",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1462,
+      "domNodeId": "196",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"196\"]",
+      "tagName": "div",
+      "childIds": [
+        "1463"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1463",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1463,
+      "domNodeId": "197",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"197\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1464",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1464,
+      "domNodeId": "198",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"198\"]",
+      "tagName": "div",
+      "childIds": [
+        "1465"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1465",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1465,
+      "domNodeId": "199",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"199\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1466",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1466,
+      "domNodeId": "200",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"200\"]",
+      "tagName": "div",
+      "childIds": [
+        "1467"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1467",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1467,
+      "domNodeId": "201",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"201\"]",
+      "tagName": "div",
+      "childIds": [
+        "1468",
+        "1471"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1468",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1468,
+      "domNodeId": "202",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"202\"]",
+      "tagName": "div",
+      "childIds": [
+        "1469",
+        "1470"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1469",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1469,
+      "domNodeId": "203",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"203\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1523"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1523",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1523,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1470",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1470,
+      "domNodeId": "204",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"204\"]",
+      "tagName": "p",
+      "childIds": [
+        "1524"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1524",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1524,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1471",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1471,
+      "domNodeId": "205",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"205\"]",
+      "tagName": "div",
+      "childIds": [
+        "1472"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1472",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1472,
+      "domNodeId": "206",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"206\"]",
+      "tagName": "span",
+      "childIds": [
+        "1473",
+        "1506"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1473",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1473,
+      "domNodeId": "207",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"207\"]",
+      "tagName": "span",
+      "childIds": [
+        "1525"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1525",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1525,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1506",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1506,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "372",
+      "ignored": false,
+      "role": "option",
+      "name": "Healthy recipes Brimming with fresh flavours, our beautifully balanced plates make eating well easier Be inspired",
+      "description": "1",
+      "backendDOMNodeId": 372,
+      "domNodeId": "208",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"208\"]",
+      "tagName": "li",
+      "childIds": [
+        "373"
+      ],
+      "properties": {
+        "focusable": true,
+        "selected": false,
+        "describedby": "slick-slide00"
+      }
+    },
+    {
+      "nodeId": "385",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 385,
+      "domNodeId": "222",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"222\"]",
+      "tagName": "li",
+      "childIds": [
+        "386"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "386",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 386,
+      "domNodeId": "223",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"223\"]",
+      "tagName": "a",
+      "childIds": [
+        "387",
+        "389",
+        "391"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "387",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 387,
+      "domNodeId": "224",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"224\"]",
+      "tagName": "div",
+      "childIds": [
+        "388"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "388",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 388,
+      "domNodeId": "225",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"225\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "389",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 389,
+      "domNodeId": "226",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
+      "tagName": "div",
+      "childIds": [
+        "390"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "390",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 390,
+      "domNodeId": "227",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"227\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "391",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 391,
+      "domNodeId": "228",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"228\"]",
+      "tagName": "div",
+      "childIds": [
+        "392"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "392",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 392,
+      "domNodeId": "229",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"229\"]",
+      "tagName": "div",
+      "childIds": [
+        "393",
+        "396"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "393",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 393,
+      "domNodeId": "230",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"230\"]",
+      "tagName": "div",
+      "childIds": [
+        "394",
+        "395"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "394",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 394,
+      "domNodeId": "231",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"231\"]",
+      "tagName": "h2",
+      "childIds": [
+        "48"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "48",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 48,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "395",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 395,
+      "domNodeId": "232",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"232\"]",
+      "tagName": "p",
+      "childIds": [
+        "49"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "49",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 49,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "396",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 396,
+      "domNodeId": "233",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"233\"]",
+      "tagName": "div",
+      "childIds": [
+        "397"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "397",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 397,
+      "domNodeId": "234",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"234\"]",
+      "tagName": "span",
+      "childIds": [
+        "398",
+        "1510"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "398",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 398,
+      "domNodeId": "235",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"235\"]",
+      "tagName": "span",
+      "childIds": [
+        "50"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "50",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 50,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1510",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1510,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "399",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 399,
+      "domNodeId": "236",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"236\"]",
+      "tagName": "li",
+      "childIds": [
+        "400"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "400",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 400,
+      "domNodeId": "237",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"237\"]",
+      "tagName": "a",
+      "childIds": [
+        "401",
+        "403",
+        "405"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "401",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 401,
+      "domNodeId": "238",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"238\"]",
+      "tagName": "div",
+      "childIds": [
+        "402"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "402",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 402,
+      "domNodeId": "239",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"239\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "403",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 403,
+      "domNodeId": "240",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"240\"]",
+      "tagName": "div",
+      "childIds": [
+        "404"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "404",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 404,
+      "domNodeId": "241",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"241\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "405",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 405,
+      "domNodeId": "242",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"242\"]",
+      "tagName": "div",
+      "childIds": [
+        "406"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "406",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 406,
+      "domNodeId": "243",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"243\"]",
+      "tagName": "div",
+      "childIds": [
+        "407",
+        "410"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "407",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 407,
+      "domNodeId": "244",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"244\"]",
+      "tagName": "div",
+      "childIds": [
+        "408",
+        "409"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "408",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 408,
+      "domNodeId": "245",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"245\"]",
+      "tagName": "h2",
+      "childIds": [
+        "51"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "51",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 51,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "409",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 409,
+      "domNodeId": "246",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"246\"]",
+      "tagName": "p",
+      "childIds": [
+        "52"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "52",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 52,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "410",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 410,
+      "domNodeId": "247",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"247\"]",
+      "tagName": "div",
+      "childIds": [
+        "411"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "411",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 411,
+      "domNodeId": "248",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"248\"]",
+      "tagName": "span",
+      "childIds": [
+        "412",
+        "1512"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "412",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 412,
+      "domNodeId": "249",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"249\"]",
+      "tagName": "span",
+      "childIds": [
+        "53"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "53",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 53,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1512",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1512,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "413",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 413,
+      "domNodeId": "250",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"250\"]",
+      "tagName": "li",
+      "childIds": [
+        "414"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "414",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 414,
+      "domNodeId": "251",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"251\"]",
+      "tagName": "a",
+      "childIds": [
+        "415",
+        "417",
+        "419"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "415",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 415,
+      "domNodeId": "252",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"252\"]",
+      "tagName": "div",
+      "childIds": [
+        "416"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "416",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 416,
+      "domNodeId": "253",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"253\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "417",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 417,
+      "domNodeId": "254",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"254\"]",
+      "tagName": "div",
+      "childIds": [
+        "418"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "418",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 418,
+      "domNodeId": "255",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"255\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "419",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 419,
+      "domNodeId": "256",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"256\"]",
+      "tagName": "div",
+      "childIds": [
+        "420"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "420",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 420,
+      "domNodeId": "257",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"257\"]",
+      "tagName": "div",
+      "childIds": [
+        "421",
+        "424"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "421",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 421,
+      "domNodeId": "258",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"258\"]",
+      "tagName": "div",
+      "childIds": [
+        "422",
+        "423"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "422",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 422,
+      "domNodeId": "259",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"259\"]",
+      "tagName": "h2",
+      "childIds": [
+        "54"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "54",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 54,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "423",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 423,
+      "domNodeId": "260",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"260\"]",
+      "tagName": "p",
+      "childIds": [
+        "55"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "55",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 55,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "424",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 424,
+      "domNodeId": "261",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"261\"]",
+      "tagName": "div",
+      "childIds": [
+        "425"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "425",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 425,
+      "domNodeId": "262",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"262\"]",
+      "tagName": "span",
+      "childIds": [
+        "426",
+        "1514"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "426",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 426,
+      "domNodeId": "263",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"263\"]",
+      "tagName": "span",
+      "childIds": [
+        "56"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "56",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 56,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1514",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1514,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "427",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 427,
+      "domNodeId": "264",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"264\"]",
+      "tagName": "li",
+      "childIds": [
+        "428"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "428",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 428,
+      "domNodeId": "265",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"265\"]",
+      "tagName": "a",
+      "childIds": [
+        "429",
+        "431",
+        "433"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "429",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 429,
+      "domNodeId": "266",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"266\"]",
+      "tagName": "div",
+      "childIds": [
+        "430"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "430",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 430,
+      "domNodeId": "267",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"267\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "431",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 431,
+      "domNodeId": "268",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"268\"]",
+      "tagName": "div",
+      "childIds": [
+        "432"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "432",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 432,
+      "domNodeId": "269",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"269\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "433",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 433,
+      "domNodeId": "270",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"270\"]",
+      "tagName": "div",
+      "childIds": [
+        "434"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "434",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 434,
+      "domNodeId": "271",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"271\"]",
+      "tagName": "div",
+      "childIds": [
+        "435",
+        "438"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "435",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 435,
+      "domNodeId": "272",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"272\"]",
+      "tagName": "div",
+      "childIds": [
+        "436",
+        "437"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "436",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 436,
+      "domNodeId": "273",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"273\"]",
+      "tagName": "h2",
+      "childIds": [
+        "57"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "57",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 57,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "437",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 437,
+      "domNodeId": "274",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"274\"]",
+      "tagName": "p",
+      "childIds": [
+        "58"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "58",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 58,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "438",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 438,
+      "domNodeId": "275",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"275\"]",
+      "tagName": "div",
+      "childIds": [
+        "439"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "439",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 439,
+      "domNodeId": "276",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"276\"]",
+      "tagName": "span",
+      "childIds": [
+        "440",
+        "1516"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "440",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 440,
+      "domNodeId": "277",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"277\"]",
+      "tagName": "span",
+      "childIds": [
+        "59"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "59",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 59,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1516",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1516,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1475",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1475,
+      "domNodeId": "279",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"279\"]",
+      "tagName": "a",
+      "childIds": [
+        "1476",
+        "1478",
+        "1480"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1476",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1476,
+      "domNodeId": "280",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"280\"]",
+      "tagName": "div",
+      "childIds": [
+        "1477"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1477",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1477,
+      "domNodeId": "281",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"281\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1478",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1478,
+      "domNodeId": "282",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"282\"]",
+      "tagName": "div",
+      "childIds": [
+        "1479"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1479",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1479,
+      "domNodeId": "283",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"283\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1480",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1480,
+      "domNodeId": "284",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"284\"]",
+      "tagName": "div",
+      "childIds": [
+        "1481"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1481",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1481,
+      "domNodeId": "285",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"285\"]",
+      "tagName": "div",
+      "childIds": [
+        "1482",
+        "1485"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1482",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1482,
+      "domNodeId": "286",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"286\"]",
+      "tagName": "div",
+      "childIds": [
+        "1483",
+        "1484"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1483",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1483,
+      "domNodeId": "287",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"287\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1526"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1526",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1526,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1484",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1484,
+      "domNodeId": "288",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"288\"]",
+      "tagName": "p",
+      "childIds": [
+        "1527"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1527",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1527,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1485",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1485,
+      "domNodeId": "289",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"289\"]",
+      "tagName": "div",
+      "childIds": [
+        "1486"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1486",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1486,
+      "domNodeId": "290",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"290\"]",
+      "tagName": "span",
+      "childIds": [
+        "1487",
+        "1518"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1487",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1487,
+      "domNodeId": "291",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"291\"]",
+      "tagName": "span",
+      "childIds": [
+        "1528"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1528",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1528,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1518",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1518,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000473",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Previous"
+    },
+    {
+      "nodeId": "1490",
+      "ignored": false,
+      "role": "button",
+      "name": "1",
+      "backendDOMNodeId": 1490,
+      "domNodeId": "297",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"297\"]",
+      "tagName": "button",
+      "childIds": [
+        "1538"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1494",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1494,
+      "domNodeId": "298",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"298\"]",
+      "tagName": "li",
+      "childIds": [
+        "1493"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1493",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1493,
+      "domNodeId": "299",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"299\"]",
+      "tagName": "button",
+      "childIds": [
+        "1539"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1539",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1539,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1496",
+      "ignored": false,
+      "role": "button",
+      "name": "3",
+      "backendDOMNodeId": 1496,
+      "domNodeId": "301",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"301\"]",
+      "tagName": "button",
+      "childIds": [
+        "1540"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1499",
+      "ignored": false,
+      "role": "button",
+      "name": "4",
+      "backendDOMNodeId": 1499,
+      "domNodeId": "303",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"303\"]",
+      "tagName": "button",
+      "childIds": [
+        "1541"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1503",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1503,
+      "domNodeId": "304",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"304\"]",
+      "tagName": "li",
+      "childIds": [
+        "1502"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1502",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1502,
+      "domNodeId": "305",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"305\"]",
+      "tagName": "button",
+      "childIds": [
+        "1542"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1542",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1542,
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000475",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Next"
+    },
+    {
+      "nodeId": "456",
+      "ignored": false,
+      "role": "link",
+      "name": "Recipes from the Tesco Kitchen",
+      "backendDOMNodeId": 456,
+      "domNodeId": "319",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"319\"]",
+      "tagName": "a",
+      "childIds": [
+        "457",
+        "459"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/the-kitchen.html"
+      }
+    },
+    {
+      "nodeId": "464",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 464,
+      "domNodeId": "327",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"327\"]",
+      "tagName": "div",
+      "childIds": [
+        "2098"
+      ]
+    },
+    {
+      "nodeId": "466",
+      "ignored": false,
+      "role": "button",
+      "name": "Big Zuu’s lasagne Video",
+      "backendDOMNodeId": 466,
+      "domNodeId": "329",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"329\"]",
+      "tagName": "button",
+      "childIds": [
+        "129"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "527",
+      "ignored": false,
+      "role": "image",
+      "name": "Clever ways to use up leftovers",
+      "backendDOMNodeId": 527,
+      "domNodeId": "394",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"394\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://realfood.tesco.com/media/images/380x250-Bang-bang-chicken--noodle-salad-bd86af16-5046-44c3-9d4d-1b377e9b9c13-0-380x250.jpg"
+      }
+    },
+    {
+      "nodeId": "528",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 528,
+      "domNodeId": "395",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"395\"]",
+      "tagName": "span",
+      "childIds": [
+        "529"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "529",
+      "ignored": false,
+      "role": "heading",
+      "name": "Clever ways to use up leftovers",
+      "backendDOMNodeId": 529,
+      "domNodeId": "396",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"396\"]",
+      "tagName": "h3",
+      "childIds": [
+        "74"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "532",
+      "ignored": false,
+      "role": "image",
+      "name": "Reduce food waste tips",
+      "backendDOMNodeId": 532,
+      "domNodeId": "399",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"399\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://realfood.tesco.com/media/images/380x250-Almond-berry-and-banana-breakfast-tacos-c07524c0-1fec-40ec-b06a-174fc6e8e533-0-380x250.jpg"
+      }
+    },
+    {
+      "nodeId": "533",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 533,
+      "domNodeId": "400",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"400\"]",
+      "tagName": "span",
+      "childIds": [
+        "534"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "534",
+      "ignored": false,
+      "role": "heading",
+      "name": "Reduce food waste tips",
+      "backendDOMNodeId": 534,
+      "domNodeId": "401",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"401\"]",
+      "tagName": "h3",
+      "childIds": [
+        "75"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "537",
+      "ignored": false,
+      "role": "image",
+      "name": "Try a use up day",
+      "backendDOMNodeId": 537,
+      "domNodeId": "404",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"404\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://realfood.tesco.com/media/images/380x250-Roasted-vegetable-nachos-37e2483c-9081-45bf-8dca-251d9f0080dd-0-380x250.jpg"
+      }
+    },
+    {
+      "nodeId": "538",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 538,
+      "domNodeId": "405",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"405\"]",
+      "tagName": "span",
+      "childIds": [
+        "539"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "539",
+      "ignored": false,
+      "role": "heading",
+      "name": "Try a use up day",
+      "backendDOMNodeId": 539,
+      "domNodeId": "406",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"406\"]",
+      "tagName": "h3",
+      "childIds": [
+        "76"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "547",
+      "ignored": false,
+      "role": "link",
+      "name": "Drinks recipes",
+      "backendDOMNodeId": 547,
+      "domNodeId": "414",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"414\"]",
+      "tagName": "a",
+      "childIds": [
+        "548",
+        "550"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/drinks-and-beverage-recipes.html"
+      }
+    },
+    {
+      "nodeId": "555",
+      "ignored": false,
+      "role": "link",
+      "name": "Cocktail recipes",
+      "backendDOMNodeId": 555,
+      "domNodeId": "422",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"422\"]",
+      "tagName": "a",
+      "childIds": [
+        "556",
+        "558"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/cocktail-recipes-and-ideas.html"
+      }
+    },
+    {
+      "nodeId": "624",
+      "ignored": false,
+      "role": "link",
+      "name": "How to BBQ burgers",
+      "backendDOMNodeId": 624,
+      "domNodeId": "491",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"491\"]",
+      "tagName": "a",
+      "childIds": [
+        "625",
+        "627"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/videos/how-to-bbq-burgers.html"
+      }
+    },
+    {
+      "nodeId": "632",
+      "ignored": false,
+      "role": "link",
+      "name": "See more videos",
+      "backendDOMNodeId": 632,
+      "domNodeId": "499",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"499\"]",
+      "tagName": "a",
+      "childIds": [
+        "633",
+        "635"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/videos.html"
+      }
+    },
+    {
+      "nodeId": "642",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 642,
+      "domNodeId": "509",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"509\"]",
+      "tagName": "div",
+      "childIds": [
+        "643"
+      ]
+    },
+    {
+      "nodeId": "644",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 644,
+      "domNodeId": "511",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"511\"]",
+      "tagName": "div",
+      "childIds": [
+        "645"
+      ]
+    },
+    {
+      "nodeId": "648",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 648,
+      "domNodeId": "515",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"515\"]",
+      "tagName": "div",
+      "childIds": [
+        "649"
+      ]
+    },
+    {
+      "nodeId": "650",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 650,
+      "domNodeId": "517",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"517\"]",
+      "tagName": "div",
+      "childIds": [
+        "651"
+      ]
+    },
+    {
+      "nodeId": "654",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 654,
+      "domNodeId": "521",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"521\"]",
+      "tagName": "div",
+      "childIds": [
+        "655"
+      ]
+    },
+    {
+      "nodeId": "656",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 656,
+      "domNodeId": "523",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"523\"]",
+      "tagName": "div",
+      "childIds": [
+        "657",
+        "658"
+      ]
+    },
+    {
+      "nodeId": "668",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 668,
+      "domNodeId": "535",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"535\"]",
+      "tagName": "span",
+      "childIds": [
+        "95"
+      ]
+    },
+    {
+      "nodeId": "670",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 670,
+      "domNodeId": "537",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"537\"]",
+      "tagName": "li",
+      "childIds": [
+        "671"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "672",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 672,
+      "domNodeId": "539",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"539\"]",
+      "tagName": "li",
+      "childIds": [
+        "673"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "676",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 676,
+      "domNodeId": "543",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"543\"]",
+      "tagName": "span",
+      "childIds": [
+        "98"
+      ]
+    },
+    {
+      "nodeId": "678",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 678,
+      "domNodeId": "545",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"545\"]",
+      "tagName": "li",
+      "childIds": [
+        "679"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "680",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 680,
+      "domNodeId": "547",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"547\"]",
+      "tagName": "li",
+      "childIds": [
+        "681"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "682",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 682,
+      "domNodeId": "549",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"549\"]",
+      "tagName": "li",
+      "childIds": [
+        "683"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "684",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 684,
+      "domNodeId": "551",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"551\"]",
+      "tagName": "li",
+      "childIds": [
+        "685"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "686",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 686,
+      "domNodeId": "553",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"553\"]",
+      "tagName": "li",
+      "childIds": [
+        "687"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "688",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 688,
+      "domNodeId": "555",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"555\"]",
+      "tagName": "li",
+      "childIds": [
+        "689"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "692",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 692,
+      "domNodeId": "559",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"559\"]",
+      "tagName": "span",
+      "childIds": [
+        "105"
+      ]
+    },
+    {
+      "nodeId": "694",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 694,
+      "domNodeId": "561",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"561\"]",
+      "tagName": "li",
+      "childIds": [
+        "695"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "696",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 696,
+      "domNodeId": "563",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"563\"]",
+      "tagName": "li",
+      "childIds": [
+        "697"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "699",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 699,
+      "domNodeId": "566",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"566\"]",
+      "tagName": "span",
+      "childIds": [
+        "108"
+      ]
+    },
+    {
+      "nodeId": "701",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 701,
+      "domNodeId": "568",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"568\"]",
+      "tagName": "li",
+      "childIds": [
+        "702"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "703",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 703,
+      "domNodeId": "570",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"570\"]",
+      "tagName": "li",
+      "childIds": [
+        "704"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "711",
+      "ignored": false,
+      "role": "link",
+      "name": "Tiktok",
+      "backendDOMNodeId": 711,
+      "domNodeId": "578",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"578\"]",
+      "tagName": "a",
+      "childIds": [
+        "112"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tiktok.com/@tesco"
+      }
+    },
+    {
+      "nodeId": "713",
+      "ignored": false,
+      "role": "link",
+      "name": "Facebook",
+      "backendDOMNodeId": 713,
+      "domNodeId": "580",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"580\"]",
+      "tagName": "a",
+      "childIds": [
+        "113"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://www.facebook.com/tesco"
+      }
+    },
+    {
+      "nodeId": "715",
+      "ignored": false,
+      "role": "link",
+      "name": "Twitter",
+      "backendDOMNodeId": 715,
+      "domNodeId": "582",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"582\"]",
+      "tagName": "a",
+      "childIds": [
+        "114"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://twitter.com/Tesco"
+      }
+    },
+    {
+      "nodeId": "717",
+      "ignored": false,
+      "role": "link",
+      "name": "YouTube",
+      "backendDOMNodeId": 717,
+      "domNodeId": "584",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"584\"]",
+      "tagName": "a",
+      "childIds": [
+        "115"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://www.youtube.com/tescofoodandwine"
+      }
+    },
+    {
+      "nodeId": "719",
+      "ignored": false,
+      "role": "link",
+      "name": "Pinterest",
+      "backendDOMNodeId": 719,
+      "domNodeId": "586",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"586\"]",
+      "tagName": "a",
+      "childIds": [
+        "116"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://uk.pinterest.com/tesco/"
+      }
+    },
+    {
+      "nodeId": "721",
+      "ignored": false,
+      "role": "link",
+      "name": "Instagram",
+      "backendDOMNodeId": 721,
+      "domNodeId": "588",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"588\"]",
+      "tagName": "a",
+      "childIds": [
+        "117"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://instagram.com/tesco"
+      }
+    },
+    {
+      "nodeId": "1014",
+      "ignored": false,
+      "role": "link",
+      "name": "Groceries",
+      "backendDOMNodeId": 1014,
+      "domNodeId": "21",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"21\"]",
+      "tagName": "a",
+      "childIds": [
+        "1250"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/?icid=realfood_grocery"
+      }
+    },
+    {
+      "nodeId": "1017",
+      "ignored": false,
+      "role": "link",
+      "name": "Website feedback",
+      "backendDOMNodeId": 1017,
+      "domNodeId": "24",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"24\"]",
+      "tagName": "a",
+      "childIds": [
+        "1251"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "javascript:oo_feedback.show();"
+      }
+    },
+    {
+      "nodeId": "-1000000538",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Search"
+    },
+    {
+      "nodeId": "1028",
+      "ignored": false,
+      "role": "button",
+      "name": "Recipes",
+      "backendDOMNodeId": 1028,
+      "domNodeId": "46",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"46\"]",
+      "tagName": "button",
+      "childIds": [
+        "1252"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "1089",
+      "ignored": false,
+      "role": "button",
+      "name": "Seasonal",
+      "backendDOMNodeId": 1089,
+      "domNodeId": "107",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"107\"]",
+      "tagName": "button",
+      "childIds": [
+        "1253"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "1122",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Kitchen",
+      "backendDOMNodeId": 1122,
+      "domNodeId": "140",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"140\"]",
+      "tagName": "a",
+      "childIds": [
+        "1254"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/the-kitchen.html"
+      }
+    },
+    {
+      "nodeId": "1125",
+      "ignored": false,
+      "role": "button",
+      "name": "Affordable living",
+      "backendDOMNodeId": 1125,
+      "domNodeId": "143",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"143\"]",
+      "tagName": "button",
+      "childIds": [
+        "1255"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "1146",
+      "ignored": false,
+      "role": "button",
+      "name": "Healthy recipes",
+      "backendDOMNodeId": 1146,
+      "domNodeId": "164",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"164\"]",
+      "tagName": "button",
+      "childIds": [
+        "1256"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "808",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 808
+    },
+    {
+      "nodeId": "44",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Close",
+      "backendDOMNodeId": 44,
+      "childIds": [
+        "-1000002052"
+      ]
+    },
+    {
+      "nodeId": "809",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 809
+    },
+    {
+      "nodeId": "373",
+      "ignored": false,
+      "role": "link",
+      "name": "Healthy recipes Brimming with fresh flavours, our beautifully balanced plates make eating well easier Be inspired",
+      "backendDOMNodeId": 373,
+      "domNodeId": "209",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"209\"]",
+      "tagName": "a",
+      "childIds": [
+        "376",
+        "377"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/healthy-recipes.html"
+      }
+    },
+    {
+      "nodeId": "1538",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "1",
+      "backendDOMNodeId": 1538,
+      "childIds": [
+        "-1000005215"
+      ]
+    },
+    {
+      "nodeId": "1540",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "3",
+      "backendDOMNodeId": 1540,
+      "childIds": [
+        "-1000005166"
+      ]
+    },
+    {
+      "nodeId": "1541",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "4",
+      "backendDOMNodeId": 1541,
+      "childIds": [
+        "-1000005192"
+      ]
+    },
+    {
+      "nodeId": "457",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 457,
+      "domNodeId": "320",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"320\"]",
+      "tagName": "div",
+      "childIds": [
+        "458"
+      ]
+    },
+    {
+      "nodeId": "459",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 459,
+      "domNodeId": "322",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"322\"]",
+      "tagName": "div",
+      "childIds": [
+        "460"
+      ]
+    },
+    {
+      "nodeId": "2098",
+      "ignored": false,
+      "role": "Iframe",
+      "name": "Can Big Zuu Handle the Heat in the Tesco Kitchen?",
+      "backendDOMNodeId": 2098,
+      "domNodeId": "328",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"328\"]",
+      "tagName": "iframe"
+    },
+    {
+      "nodeId": "129",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 129,
+      "domNodeId": "330",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"330\"]",
+      "tagName": "span",
+      "childIds": [
+        "65"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "65",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Big Zuu’s lasagne Video",
+      "backendDOMNodeId": 65,
+      "childIds": [
+        "-1000002701"
+      ]
+    },
+    {
+      "nodeId": "74",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Clever ways to use up leftovers",
+      "backendDOMNodeId": 74,
+      "childIds": [
+        "-1000000488"
+      ]
+    },
+    {
+      "nodeId": "75",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Reduce food waste tips",
+      "backendDOMNodeId": 75,
+      "childIds": [
+        "-1000000489"
+      ]
+    },
+    {
+      "nodeId": "76",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Try a use up day",
+      "backendDOMNodeId": 76,
+      "childIds": [
+        "-1000000490"
+      ]
+    },
+    {
+      "nodeId": "548",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 548,
+      "domNodeId": "415",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"415\"]",
+      "tagName": "div",
+      "childIds": [
+        "549"
+      ]
+    },
+    {
+      "nodeId": "550",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 550,
+      "domNodeId": "417",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"417\"]",
+      "tagName": "div",
+      "childIds": [
+        "551"
+      ]
+    },
+    {
+      "nodeId": "556",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 556,
+      "domNodeId": "423",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"423\"]",
+      "tagName": "div",
+      "childIds": [
+        "557"
+      ]
+    },
+    {
+      "nodeId": "558",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 558,
+      "domNodeId": "425",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"425\"]",
+      "tagName": "div",
+      "childIds": [
+        "559"
+      ]
+    },
+    {
+      "nodeId": "625",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 625,
+      "domNodeId": "492",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"492\"]",
+      "tagName": "div",
+      "childIds": [
+        "626"
+      ]
+    },
+    {
+      "nodeId": "627",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 627,
+      "domNodeId": "494",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"494\"]",
+      "tagName": "div",
+      "childIds": [
+        "628"
+      ]
+    },
+    {
+      "nodeId": "633",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 633,
+      "domNodeId": "500",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"500\"]",
+      "tagName": "div",
+      "childIds": [
+        "634"
+      ]
+    },
+    {
+      "nodeId": "635",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 635,
+      "domNodeId": "502",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"502\"]",
+      "tagName": "div",
+      "childIds": [
+        "636"
+      ]
+    },
+    {
+      "nodeId": "643",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 643,
+      "domNodeId": "510",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"510\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "645",
+      "ignored": false,
+      "role": "heading",
+      "name": "Helpful guides",
+      "backendDOMNodeId": 645,
+      "domNodeId": "512",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"512\"]",
+      "tagName": "h3",
+      "childIds": [
+        "92"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "649",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 649,
+      "domNodeId": "516",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"516\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "651",
+      "ignored": false,
+      "role": "heading",
+      "name": "What can I make with these ingredients...",
+      "backendDOMNodeId": 651,
+      "domNodeId": "518",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"518\"]",
+      "tagName": "h3",
+      "childIds": [
+        "93"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "655",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 655,
+      "domNodeId": "522",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "657",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 657,
+      "domNodeId": "524",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"524\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "658",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 658,
+      "domNodeId": "525",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"525\"]",
+      "tagName": "span",
+      "childIds": [
+        "94"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "94",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Follow us @tesco",
+      "backendDOMNodeId": 94,
+      "childIds": [
+        "-1000003912"
+      ]
+    },
+    {
+      "nodeId": "95",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Your Tesco Real Food",
+      "backendDOMNodeId": 95,
+      "childIds": [
+        "-1000000501"
+      ]
+    },
+    {
+      "nodeId": "671",
+      "ignored": false,
+      "role": "link",
+      "name": "Recipe finder",
+      "backendDOMNodeId": 671,
+      "domNodeId": "538",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"538\"]",
+      "tagName": "a",
+      "childIds": [
+        "96"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/what-can-i-make-with.html"
+      }
+    },
+    {
+      "nodeId": "673",
+      "ignored": false,
+      "role": "link",
+      "name": "About us",
+      "backendDOMNodeId": 673,
+      "domNodeId": "540",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"540\"]",
+      "tagName": "a",
+      "childIds": [
+        "97"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/article/authors/the-tesco-real-food-team.html"
+      }
+    },
+    {
+      "nodeId": "98",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Recipes",
+      "backendDOMNodeId": 98,
+      "childIds": [
+        "-1000000504"
+      ]
+    },
+    {
+      "nodeId": "679",
+      "ignored": false,
+      "role": "link",
+      "name": "Family favourites",
+      "backendDOMNodeId": 679,
+      "domNodeId": "546",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"546\"]",
+      "tagName": "a",
+      "childIds": [
+        "99"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/family-favourites.html"
+      }
+    },
+    {
+      "nodeId": "681",
+      "ignored": false,
+      "role": "link",
+      "name": "Healthy meal ideas",
+      "backendDOMNodeId": 681,
+      "domNodeId": "548",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"548\"]",
+      "tagName": "a",
+      "childIds": [
+        "100"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/healthy-recipes.html"
+      }
+    },
+    {
+      "nodeId": "683",
+      "ignored": false,
+      "role": "link",
+      "name": "Under 30 minute meals",
+      "backendDOMNodeId": 683,
+      "domNodeId": "550",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"550\"]",
+      "tagName": "a",
+      "childIds": [
+        "101"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/under-30-minute-meals.html"
+      }
+    },
+    {
+      "nodeId": "685",
+      "ignored": false,
+      "role": "link",
+      "name": "Budget meals",
+      "backendDOMNodeId": 685,
+      "domNodeId": "552",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"552\"]",
+      "tagName": "a",
+      "childIds": [
+        "102"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/budget-meals.html"
+      }
+    },
+    {
+      "nodeId": "687",
+      "ignored": false,
+      "role": "link",
+      "name": "Chicken recipes",
+      "backendDOMNodeId": 687,
+      "domNodeId": "554",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"554\"]",
+      "tagName": "a",
+      "childIds": [
+        "103"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/chicken-recipes.html"
+      }
+    },
+    {
+      "nodeId": "689",
+      "ignored": false,
+      "role": "link",
+      "name": "Baking recipes",
+      "backendDOMNodeId": 689,
+      "domNodeId": "556",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"556\"]",
+      "tagName": "a",
+      "childIds": [
+        "104"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://realfood.tesco.com/baking.html"
+      }
+    },
+    {
+      "nodeId": "105",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy Centre",
+      "backendDOMNodeId": 105,
+      "childIds": [
+        "-1000000511"
+      ]
+    },
+    {
+      "nodeId": "695",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy & cookies policy",
+      "backendDOMNodeId": 695,
+      "domNodeId": "562",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"562\"]",
+      "tagName": "a",
+      "childIds": [
+        "106"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/privacy-and-cookies/privacy-centre/privacy-policy-information/privacy-policy/"
+      }
+    },
+    {
+      "nodeId": "697",
+      "ignored": false,
+      "role": "link",
+      "name": "Visit our Privacy Centre",
+      "backendDOMNodeId": 697,
+      "domNodeId": "564",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"564\"]",
+      "tagName": "a",
+      "childIds": [
+        "107"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/privacy-and-cookies/privacy-centre/"
+      }
+    },
+    {
+      "nodeId": "108",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Useful links",
+      "backendDOMNodeId": 108,
+      "childIds": [
+        "-1000000514"
+      ]
+    },
+    {
+      "nodeId": "702",
+      "ignored": false,
+      "role": "link",
+      "name": "Website feedback",
+      "backendDOMNodeId": 702,
+      "domNodeId": "569",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"569\"]",
+      "tagName": "a",
+      "childIds": [
+        "109"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "javascript:void(0);"
+      }
+    },
+    {
+      "nodeId": "704",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco PLC",
+      "backendDOMNodeId": 704,
+      "domNodeId": "571",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"571\"]",
+      "tagName": "a",
+      "childIds": [
+        "110"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescoplc.com/"
+      }
+    },
+    {
+      "nodeId": "112",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tiktok",
+      "backendDOMNodeId": 112,
+      "childIds": [
+        "-1000000518"
+      ]
+    },
+    {
+      "nodeId": "113",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Facebook",
+      "backendDOMNodeId": 113,
+      "childIds": [
+        "-1000000519"
+      ]
+    },
+    {
+      "nodeId": "114",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Twitter",
+      "backendDOMNodeId": 114,
+      "childIds": [
+        "-1000000520"
+      ]
+    },
+    {
+      "nodeId": "115",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "YouTube",
+      "backendDOMNodeId": 115,
+      "childIds": [
+        "-1000000521"
+      ]
+    },
+    {
+      "nodeId": "116",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Pinterest",
+      "backendDOMNodeId": 116,
+      "childIds": [
+        "-1000000522"
+      ]
+    },
+    {
+      "nodeId": "117",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Instagram",
+      "backendDOMNodeId": 117,
+      "childIds": [
+        "-1000000523"
+      ]
+    },
+    {
+      "nodeId": "1250",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Groceries",
+      "backendDOMNodeId": 1250,
+      "childIds": [
+        "-1000000461"
+      ]
+    },
+    {
+      "nodeId": "1251",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Website feedback",
+      "backendDOMNodeId": 1251,
+      "childIds": [
+        "-1000000462"
+      ]
+    },
+    {
+      "nodeId": "1252",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Recipes",
+      "backendDOMNodeId": 1252,
+      "childIds": [
+        "-1000000464"
+      ]
+    },
+    {
+      "nodeId": "1253",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Seasonal",
+      "backendDOMNodeId": 1253,
+      "childIds": [
+        "-1000000465"
+      ]
+    },
+    {
+      "nodeId": "1254",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Kitchen",
+      "backendDOMNodeId": 1254,
+      "childIds": [
+        "-1000000466"
+      ]
+    },
+    {
+      "nodeId": "1255",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Affordable living",
+      "backendDOMNodeId": 1255,
+      "childIds": [
+        "-1000000467"
+      ]
+    },
+    {
+      "nodeId": "1256",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Healthy recipes",
+      "backendDOMNodeId": 1256,
+      "childIds": [
+        "-1000000468"
+      ]
+    },
+    {
+      "nodeId": "-1000002052",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Close"
+    },
+    {
+      "nodeId": "376",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 376,
+      "domNodeId": "212",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"212\"]",
+      "tagName": "div",
+      "childIds": [
+        "130"
+      ]
+    },
+    {
+      "nodeId": "377",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 377,
+      "domNodeId": "214",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"214\"]",
+      "tagName": "div",
+      "childIds": [
+        "378"
+      ]
+    },
+    {
+      "nodeId": "-1000005215",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "1"
+    },
+    {
+      "nodeId": "-1000005166",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "3"
+    },
+    {
+      "nodeId": "-1000005192",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "4"
+    },
+    {
+      "nodeId": "458",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 458,
+      "domNodeId": "321",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"321\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "460",
+      "ignored": false,
+      "role": "heading",
+      "name": "Recipes from the Tesco Kitchen",
+      "backendDOMNodeId": 460,
+      "domNodeId": "323",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"323\"]",
+      "tagName": "h3",
+      "childIds": [
+        "64"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "-1000002701",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Big Zuu’s lasagne Video"
+    },
+    {
+      "nodeId": "-1000000488",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Clever ways to use up leftovers"
+    },
+    {
+      "nodeId": "-1000000489",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Reduce food waste tips"
+    },
+    {
+      "nodeId": "-1000000490",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Try a use up day"
+    },
+    {
+      "nodeId": "549",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 549,
+      "domNodeId": "416",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"416\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "551",
+      "ignored": false,
+      "role": "heading",
+      "name": "Drinks recipes",
+      "backendDOMNodeId": 551,
+      "domNodeId": "418",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"418\"]",
+      "tagName": "h3",
+      "childIds": [
+        "78"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "557",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 557,
+      "domNodeId": "424",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"424\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "559",
+      "ignored": false,
+      "role": "heading",
+      "name": "Cocktail recipes",
+      "backendDOMNodeId": 559,
+      "domNodeId": "426",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"426\"]",
+      "tagName": "h3",
+      "childIds": [
+        "79"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "626",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 626,
+      "domNodeId": "493",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"493\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "628",
+      "ignored": false,
+      "role": "heading",
+      "name": "How to BBQ burgers",
+      "backendDOMNodeId": 628,
+      "domNodeId": "495",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"495\"]",
+      "tagName": "h3",
+      "childIds": [
+        "90"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "634",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 634,
+      "domNodeId": "501",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"501\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "636",
+      "ignored": false,
+      "role": "heading",
+      "name": "See more videos",
+      "backendDOMNodeId": 636,
+      "domNodeId": "503",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"503\"]",
+      "tagName": "h3",
+      "childIds": [
+        "91"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "92",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Helpful guides",
+      "backendDOMNodeId": 92,
+      "childIds": [
+        "-1000003600"
+      ]
+    },
+    {
+      "nodeId": "93",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What can I make with these ingredients...",
+      "backendDOMNodeId": 93,
+      "childIds": [
+        "-1000003632"
+      ]
+    },
+    {
+      "nodeId": "-1000003912",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Follow us @tesco"
+    },
+    {
+      "nodeId": "-1000000501",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Your Tesco Real Food"
+    },
+    {
+      "nodeId": "96",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Recipe finder",
+      "backendDOMNodeId": 96,
+      "childIds": [
+        "-1000003913"
+      ]
+    },
+    {
+      "nodeId": "97",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "About us",
+      "backendDOMNodeId": 97,
+      "childIds": [
+        "-1000003940"
+      ]
+    },
+    {
+      "nodeId": "-1000000504",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Recipes"
+    },
+    {
+      "nodeId": "99",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Family favourites",
+      "backendDOMNodeId": 99,
+      "childIds": [
+        "-1000004087"
+      ]
+    },
+    {
+      "nodeId": "100",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Healthy meal ideas",
+      "backendDOMNodeId": 100,
+      "childIds": [
+        "-1000004129"
+      ]
+    },
+    {
+      "nodeId": "101",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Under 30 minute meals",
+      "backendDOMNodeId": 101,
+      "childIds": [
+        "-1000004171"
+      ]
+    },
+    {
+      "nodeId": "102",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Budget meals",
+      "backendDOMNodeId": 102,
+      "childIds": [
+        "-1000004198"
+      ]
+    },
+    {
+      "nodeId": "103",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Chicken recipes",
+      "backendDOMNodeId": 103,
+      "childIds": [
+        "-1000004246"
+      ]
+    },
+    {
+      "nodeId": "104",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Baking recipes",
+      "backendDOMNodeId": 104,
+      "childIds": [
+        "-1000004283"
+      ]
+    },
+    {
+      "nodeId": "-1000000511",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy Centre"
+    },
+    {
+      "nodeId": "106",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy & cookies policy",
+      "backendDOMNodeId": 106,
+      "childIds": [
+        "-1000004429"
+      ]
+    },
+    {
+      "nodeId": "107",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Visit our Privacy Centre",
+      "backendDOMNodeId": 107,
+      "childIds": [
+        "-1000004478"
+      ]
+    },
+    {
+      "nodeId": "-1000000514",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Useful links"
+    },
+    {
+      "nodeId": "109",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Website feedback",
+      "backendDOMNodeId": 109,
+      "childIds": [
+        "-1000004637"
+      ]
+    },
+    {
+      "nodeId": "110",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco PLC",
+      "backendDOMNodeId": 110,
+      "childIds": [
+        "-1000004666"
+      ]
+    },
+    {
+      "nodeId": "-1000000518",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tiktok"
+    },
+    {
+      "nodeId": "-1000000519",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Facebook"
+    },
+    {
+      "nodeId": "-1000000520",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Twitter"
+    },
+    {
+      "nodeId": "-1000000521",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "YouTube"
+    },
+    {
+      "nodeId": "-1000000522",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Pinterest"
+    },
+    {
+      "nodeId": "-1000000523",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Instagram"
+    },
+    {
+      "nodeId": "-1000000461",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Groceries"
+    },
+    {
+      "nodeId": "-1000000462",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Website feedback"
+    },
+    {
+      "nodeId": "-1000000464",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Recipes"
+    },
+    {
+      "nodeId": "-1000000465",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Seasonal"
+    },
+    {
+      "nodeId": "-1000000466",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Kitchen"
+    },
+    {
+      "nodeId": "-1000000467",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Affordable living"
+    },
+    {
+      "nodeId": "-1000000468",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Healthy recipes"
+    },
+    {
+      "nodeId": "130",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 130,
+      "domNodeId": "213",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"213\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "378",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 378,
+      "domNodeId": "215",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"215\"]",
+      "tagName": "div",
+      "childIds": [
+        "379",
+        "382"
+      ]
+    },
+    {
+      "nodeId": "64",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Recipes from the Tesco Kitchen",
+      "backendDOMNodeId": 64,
+      "childIds": [
+        "-1000002416"
+      ]
+    },
+    {
+      "nodeId": "78",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Drinks recipes",
+      "backendDOMNodeId": 78,
+      "childIds": [
+        "-1000003149"
+      ]
+    },
+    {
+      "nodeId": "79",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Cocktail recipes",
+      "backendDOMNodeId": 79,
+      "childIds": [
+        "-1000003379"
+      ]
+    },
+    {
+      "nodeId": "90",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "How to BBQ burgers",
+      "backendDOMNodeId": 90,
+      "childIds": [
+        "-1000003420"
+      ]
+    },
+    {
+      "nodeId": "91",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "See more videos",
+      "backendDOMNodeId": 91,
+      "childIds": [
+        "-1000003573"
+      ]
+    },
+    {
+      "nodeId": "-1000003600",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Helpful guides"
+    },
+    {
+      "nodeId": "-1000003632",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What can I make with these ingredients..."
+    },
+    {
+      "nodeId": "-1000003913",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Recipe finder"
+    },
+    {
+      "nodeId": "-1000003940",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "About us"
+    },
+    {
+      "nodeId": "-1000004087",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Family favourites"
+    },
+    {
+      "nodeId": "-1000004129",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Healthy meal ideas"
+    },
+    {
+      "nodeId": "-1000004171",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Under 30 minute meals"
+    },
+    {
+      "nodeId": "-1000004198",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Budget meals"
+    },
+    {
+      "nodeId": "-1000004246",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Chicken recipes"
+    },
+    {
+      "nodeId": "-1000004283",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Baking recipes"
+    },
+    {
+      "nodeId": "-1000004429",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy & cookies policy"
+    },
+    {
+      "nodeId": "-1000004478",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Visit our Privacy Centre"
+    },
+    {
+      "nodeId": "-1000004637",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Website feedback"
+    },
+    {
+      "nodeId": "-1000004666",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco PLC"
+    },
+    {
+      "nodeId": "379",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 379,
+      "domNodeId": "216",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"216\"]",
+      "tagName": "div",
+      "childIds": [
+        "380",
+        "381"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "380",
+      "ignored": false,
+      "role": "heading",
+      "name": "Healthy recipes",
+      "backendDOMNodeId": 380,
+      "domNodeId": "217",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"217\"]",
+      "tagName": "h2",
+      "childIds": [
+        "45"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "381",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 381,
+      "domNodeId": "218",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"218\"]",
+      "tagName": "p",
+      "childIds": [
+        "46"
+      ]
+    },
+    {
+      "nodeId": "382",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 382,
+      "domNodeId": "219",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"219\"]",
+      "tagName": "div",
+      "childIds": [
+        "383"
+      ]
+    },
+    {
+      "nodeId": "-1000002416",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Recipes from the Tesco Kitchen"
+    },
+    {
+      "nodeId": "-1000003149",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Drinks recipes"
+    },
+    {
+      "nodeId": "-1000003379",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Cocktail recipes"
+    },
+    {
+      "nodeId": "-1000003420",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "How to BBQ burgers"
+    },
+    {
+      "nodeId": "-1000003573",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "See more videos"
+    },
+    {
+      "nodeId": "45",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Healthy recipes",
+      "backendDOMNodeId": 45,
+      "childIds": [
+        "-1000005231"
+      ]
+    },
+    {
+      "nodeId": "46",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Brimming with fresh flavours, our beautifully balanced plates make eating well easier",
+      "backendDOMNodeId": 46,
+      "childIds": [
+        "-1000005232"
+      ]
+    },
+    {
+      "nodeId": "383",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 383,
+      "domNodeId": "220",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"220\"]",
+      "tagName": "span",
+      "childIds": [
+        "47",
+        "1508"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "47",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Be inspired",
+      "backendDOMNodeId": 47,
+      "childIds": [
+        "-1000005233"
+      ]
+    },
+    {
+      "nodeId": "1508",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1508
+    },
+    {
+      "nodeId": "-1000005231",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Healthy recipes"
+    },
+    {
+      "nodeId": "-1000005232",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Brimming with fresh flavours, our beautifully balanced plates make eating well easier"
+    },
+    {
+      "nodeId": "-1000005233",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Be inspired"
+    }
+  ]
+}

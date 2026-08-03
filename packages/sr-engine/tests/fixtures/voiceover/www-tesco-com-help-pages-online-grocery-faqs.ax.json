@@ -1,0 +1,4845 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 359,
+  "ignoredNodeCount": 75,
+  "axMappedNodeCount": 225,
+  "domSnapshotMappedNodeCount": 522,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "1480",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "FAQ : Online Grocery FAQs - Tesco.com",
+      "backendDOMNodeId": 1480,
+      "childIds": [
+        "1526"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs"
+      }
+    },
+    {
+      "nodeId": "1526",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1526,
+      "childIds": [
+        "1589"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1589",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1589,
+      "childIds": [
+        "1591",
+        "2203"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1591",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1591,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "div",
+      "childIds": [
+        "1592"
+      ]
+    },
+    {
+      "nodeId": "2203",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2203,
+      "domNodeId": "521",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"521\"]",
+      "tagName": "next-route-announcer",
+      "childIds": [
+        "2334"
+      ]
+    },
+    {
+      "nodeId": "1592",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1592,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "div",
+      "childIds": [
+        "1599",
+        "1688",
+        "1789"
+      ]
+    },
+    {
+      "nodeId": "2334",
+      "ignored": false,
+      "role": "alert",
+      "name": "",
+      "backendDOMNodeId": 2334,
+      "domNodeId": "522",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"522\"]",
+      "tagName": "p",
+      "properties": {
+        "live": "assertive",
+        "atomic": true,
+        "relevant": "additions text"
+      }
+    },
+    {
+      "nodeId": "1599",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1599,
+      "domNodeId": "4",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
+      "tagName": "div",
+      "childIds": [
+        "1600"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1600",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 1600,
+      "domNodeId": "5",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
+      "tagName": "header",
+      "childIds": [
+        "1601"
+      ]
+    },
+    {
+      "nodeId": "1688",
+      "ignored": false,
+      "role": "main",
+      "name": "",
+      "backendDOMNodeId": 1688,
+      "domNodeId": "100",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"100\"]",
+      "tagName": "main",
+      "childIds": [
+        "2288",
+        "1689"
+      ]
+    },
+    {
+      "nodeId": "1789",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1789,
+      "domNodeId": "219",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"219\"]",
+      "tagName": "div",
+      "childIds": [
+        "1790"
+      ]
+    },
+    {
+      "nodeId": "1601",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1601,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "div",
+      "childIds": [
+        "1602",
+        "1622"
+      ]
+    },
+    {
+      "nodeId": "2288",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2288,
+      "domNodeId": "101",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"101\"]",
+      "tagName": "div",
+      "childIds": [
+        "2249"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2249",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2249,
+      "domNodeId": "102",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"102\"]",
+      "tagName": "div",
+      "childIds": [
+        "2248"
+      ]
+    },
+    {
+      "nodeId": "1689",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1689,
+      "domNodeId": "116",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"116\"]",
+      "tagName": "div",
+      "childIds": [
+        "1690"
+      ]
+    },
+    {
+      "nodeId": "1790",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "",
+      "backendDOMNodeId": 1790,
+      "domNodeId": "220",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"220\"]",
+      "tagName": "footer",
+      "childIds": [
+        "1791",
+        "2085"
+      ]
+    },
+    {
+      "nodeId": "1602",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1602,
+      "domNodeId": "7",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"7\"]",
+      "tagName": "div",
+      "childIds": [
+        "1603"
+      ]
+    },
+    {
+      "nodeId": "1622",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1622,
+      "domNodeId": "39",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"39\"]",
+      "tagName": "div",
+      "childIds": [
+        "1623"
+      ]
+    },
+    {
+      "nodeId": "2248",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2248,
+      "domNodeId": "103",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"103\"]",
+      "tagName": "div",
+      "childIds": [
+        "2247"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2247",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2247,
+      "domNodeId": "104",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"104\"]",
+      "tagName": "div",
+      "childIds": [
+        "2245",
+        "2246"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2245",
+      "ignored": false,
+      "role": "heading",
+      "name": "How can we help?",
+      "backendDOMNodeId": 2245,
+      "domNodeId": "105",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"105\"]",
+      "tagName": "h1",
+      "childIds": [
+        "2365"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2246",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2246,
+      "domNodeId": "106",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"106\"]",
+      "tagName": "div",
+      "childIds": [
+        "2244"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2244",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2244,
+      "domNodeId": "107",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"107\"]",
+      "tagName": "div",
+      "childIds": [
+        "2242",
+        "2243"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2242",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2242,
+      "domNodeId": "108",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"108\"]",
+      "tagName": "div",
+      "childIds": [
+        "2238"
+      ]
+    },
+    {
+      "nodeId": "2243",
+      "ignored": false,
+      "role": "button",
+      "name": "Search",
+      "backendDOMNodeId": 2243,
+      "domNodeId": "112",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"112\"]",
+      "tagName": "button",
+      "childIds": [
+        "2241"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1690",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1690,
+      "domNodeId": "117",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"117\"]",
+      "tagName": "div",
+      "childIds": [
+        "1691",
+        "1734",
+        "1788"
+      ]
+    },
+    {
+      "nodeId": "1791",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1791,
+      "domNodeId": "221",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"221\"]",
+      "tagName": "div",
+      "childIds": [
+        "1792",
+        "1854",
+        "1913",
+        "1972",
+        "2007",
+        "2028"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1792",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1792,
+      "domNodeId": "222",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"222\"]",
+      "tagName": "div",
+      "childIds": [
+        "1793",
+        "1812",
+        "1831",
+        "1842"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1793",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1793,
+      "domNodeId": "223",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"223\"]",
+      "tagName": "div",
+      "childIds": [
+        "1794",
+        "1795"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1794",
+      "ignored": false,
+      "role": "heading",
+      "name": "Here to Help",
+      "backendDOMNodeId": 1794,
+      "domNodeId": "224",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"224\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1452"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1795",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1795,
+      "domNodeId": "225",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"225\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1796",
+        "1798",
+        "1800",
+        "1802",
+        "1804",
+        "1806",
+        "1808",
+        "1810"
+      ]
+    },
+    {
+      "nodeId": "1812",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1812,
+      "domNodeId": "242",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"242\"]",
+      "tagName": "div",
+      "childIds": [
+        "1813",
+        "1814"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1813",
+      "ignored": false,
+      "role": "heading",
+      "name": "About",
+      "backendDOMNodeId": 1813,
+      "domNodeId": "243",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"243\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1461"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1814",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1814,
+      "domNodeId": "244",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"244\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1815",
+        "1817",
+        "1819",
+        "1821",
+        "1823",
+        "1825",
+        "1827",
+        "1829"
+      ]
+    },
+    {
+      "nodeId": "1831",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1831,
+      "domNodeId": "261",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"261\"]",
+      "tagName": "div",
+      "childIds": [
+        "1832",
+        "1833"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1832",
+      "ignored": false,
+      "role": "heading",
+      "name": "Ways to save",
+      "backendDOMNodeId": 1832,
+      "domNodeId": "262",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"262\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1470"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1833",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1833,
+      "domNodeId": "263",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"263\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1834",
+        "1836",
+        "1838",
+        "1840"
+      ]
+    },
+    {
+      "nodeId": "1842",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1842,
+      "domNodeId": "272",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"272\"]",
+      "tagName": "div",
+      "childIds": [
+        "1843",
+        "1844"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1843",
+      "ignored": false,
+      "role": "heading",
+      "name": "Contact us",
+      "backendDOMNodeId": 1843,
+      "domNodeId": "273",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"273\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1475"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1844",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1844,
+      "domNodeId": "274",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"274\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1845",
+        "1847"
+      ]
+    },
+    {
+      "nodeId": "1854",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1854,
+      "domNodeId": "284",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"284\"]",
+      "tagName": "button",
+      "childIds": [
+        "1855",
+        "1857"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1855",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1855,
+      "domNodeId": "285",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"285\"]",
+      "tagName": "span",
+      "childIds": [
+        "1856"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1856",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1856,
+      "domNodeId": "286",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"286\"]",
+      "tagName": "span",
+      "childIds": [
+        "2094"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2094",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2094,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1857",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1857,
+      "domNodeId": "287",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"287\"]",
+      "tagName": "span",
+      "childIds": [
+        "1858"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1858",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1858,
+      "domNodeId": "288",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"288\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1859"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1859",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1859,
+      "domNodeId": "289",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"289\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1913",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1913,
+      "domNodeId": "343",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"343\"]",
+      "tagName": "button",
+      "childIds": [
+        "1914",
+        "1916"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1914",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1914,
+      "domNodeId": "344",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"344\"]",
+      "tagName": "span",
+      "childIds": [
+        "1915"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1915",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1915,
+      "domNodeId": "345",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"345\"]",
+      "tagName": "span",
+      "childIds": [
+        "2103"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2103",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2103,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1916",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1916,
+      "domNodeId": "346",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"346\"]",
+      "tagName": "span",
+      "childIds": [
+        "1917"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1917",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1917,
+      "domNodeId": "347",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"347\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1918"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1918",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1918,
+      "domNodeId": "348",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"348\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1972",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1972,
+      "domNodeId": "402",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"402\"]",
+      "tagName": "button",
+      "childIds": [
+        "1973",
+        "1975"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1973",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1973,
+      "domNodeId": "403",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"403\"]",
+      "tagName": "span",
+      "childIds": [
+        "1974"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1974",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1974,
+      "domNodeId": "404",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"404\"]",
+      "tagName": "span",
+      "childIds": [
+        "2112"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2112",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2112,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1975",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1975,
+      "domNodeId": "405",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"405\"]",
+      "tagName": "span",
+      "childIds": [
+        "1976"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1976",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1976,
+      "domNodeId": "406",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"406\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1977"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1977",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1977,
+      "domNodeId": "407",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"407\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2007",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2007,
+      "domNodeId": "437",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"437\"]",
+      "tagName": "button",
+      "childIds": [
+        "2008",
+        "2010"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2008",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2008,
+      "domNodeId": "438",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"438\"]",
+      "tagName": "span",
+      "childIds": [
+        "2009"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2009",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2009,
+      "domNodeId": "439",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"439\"]",
+      "tagName": "span",
+      "childIds": [
+        "2117"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2117",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2117,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2010",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2010,
+      "domNodeId": "440",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"440\"]",
+      "tagName": "span",
+      "childIds": [
+        "2011"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2011",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2011,
+      "domNodeId": "441",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"441\"]",
+      "tagName": "svg",
+      "childIds": [
+        "2012"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2012",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2012,
+      "domNodeId": "442",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"442\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "2028",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2028,
+      "domNodeId": "458",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"458\"]",
+      "tagName": "div",
+      "childIds": [
+        "2029",
+        "2030"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2029",
+      "ignored": false,
+      "role": "heading",
+      "name": "",
+      "backendDOMNodeId": 2029,
+      "domNodeId": "459",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"459\"]",
+      "tagName": "h2",
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "2030",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 2030,
+      "domNodeId": "460",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"460\"]",
+      "tagName": "ul",
+      "childIds": [
+        "2031",
+        "2040",
+        "2045",
+        "2056",
+        "2067",
+        "2076"
+      ]
+    },
+    {
+      "nodeId": "2085",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2085,
+      "domNodeId": "515",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"515\"]",
+      "tagName": "div",
+      "childIds": [
+        "2086"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2086",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 2086,
+      "domNodeId": "516",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"516\"]",
+      "tagName": "p",
+      "childIds": [
+        "1478",
+        "1479"
+      ]
+    },
+    {
+      "nodeId": "1603",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1603,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "div",
+      "childIds": [
+        "1604"
+      ]
+    },
+    {
+      "nodeId": "1623",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1623,
+      "domNodeId": "40",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"40\"]",
+      "tagName": "div",
+      "childIds": [
+        "1624"
+      ]
+    },
+    {
+      "nodeId": "2365",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "How can we help?",
+      "backendDOMNodeId": 2365,
+      "childIds": [
+        "-1000000811"
+      ]
+    },
+    {
+      "nodeId": "2238",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2238,
+      "domNodeId": "109",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"109\"]",
+      "tagName": "div",
+      "childIds": [
+        "2237"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2237",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2237,
+      "domNodeId": "110",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"110\"]",
+      "tagName": "div",
+      "childIds": [
+        "2236"
+      ]
+    },
+    {
+      "nodeId": "2241",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2241,
+      "domNodeId": "113",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"113\"]",
+      "tagName": "span",
+      "childIds": [
+        "2240"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2240",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 2240,
+      "domNodeId": "114",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"114\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "1691",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1691,
+      "domNodeId": "118",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"118\"]",
+      "tagName": "div",
+      "childIds": [
+        "1692"
+      ]
+    },
+    {
+      "nodeId": "1734",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1734,
+      "domNodeId": "164",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"164\"]",
+      "tagName": "div",
+      "childIds": [
+        "1735",
+        "1736",
+        "1740",
+        "1744",
+        "1748",
+        "1752",
+        "1756",
+        "1760",
+        "1764",
+        "1768",
+        "1772",
+        "1776",
+        "1780",
+        "1784"
+      ]
+    },
+    {
+      "nodeId": "1788",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1788,
+      "domNodeId": "218",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"218\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "1452",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Here to Help",
+      "backendDOMNodeId": 1452,
+      "childIds": [
+        "-1000000743"
+      ]
+    },
+    {
+      "nodeId": "1796",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1796,
+      "domNodeId": "226",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
+      "tagName": "li",
+      "childIds": [
+        "1797"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1798",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1798,
+      "domNodeId": "228",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"228\"]",
+      "tagName": "li",
+      "childIds": [
+        "1799"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1800",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1800,
+      "domNodeId": "230",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"230\"]",
+      "tagName": "li",
+      "childIds": [
+        "1801"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1802",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1802,
+      "domNodeId": "232",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"232\"]",
+      "tagName": "li",
+      "childIds": [
+        "1803"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1804",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1804,
+      "domNodeId": "234",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"234\"]",
+      "tagName": "li",
+      "childIds": [
+        "1805"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1806",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1806,
+      "domNodeId": "236",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"236\"]",
+      "tagName": "li",
+      "childIds": [
+        "1807"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1808",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1808,
+      "domNodeId": "238",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"238\"]",
+      "tagName": "li",
+      "childIds": [
+        "1809"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1810",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1810,
+      "domNodeId": "240",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"240\"]",
+      "tagName": "li",
+      "childIds": [
+        "1811"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1461",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "About",
+      "backendDOMNodeId": 1461,
+      "childIds": [
+        "-1000000752"
+      ]
+    },
+    {
+      "nodeId": "1815",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1815,
+      "domNodeId": "245",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"245\"]",
+      "tagName": "li",
+      "childIds": [
+        "1816"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1817",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1817,
+      "domNodeId": "247",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"247\"]",
+      "tagName": "li",
+      "childIds": [
+        "1818"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1819",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1819,
+      "domNodeId": "249",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"249\"]",
+      "tagName": "li",
+      "childIds": [
+        "1820"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1821",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1821,
+      "domNodeId": "251",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"251\"]",
+      "tagName": "li",
+      "childIds": [
+        "1822"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1823",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1823,
+      "domNodeId": "253",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"253\"]",
+      "tagName": "li",
+      "childIds": [
+        "1824"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1825",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1825,
+      "domNodeId": "255",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"255\"]",
+      "tagName": "li",
+      "childIds": [
+        "1826"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1827",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1827,
+      "domNodeId": "257",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"257\"]",
+      "tagName": "li",
+      "childIds": [
+        "1828"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1829",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1829,
+      "domNodeId": "259",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"259\"]",
+      "tagName": "li",
+      "childIds": [
+        "1830"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1470",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Ways to save",
+      "backendDOMNodeId": 1470,
+      "childIds": [
+        "-1000000761"
+      ]
+    },
+    {
+      "nodeId": "1834",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1834,
+      "domNodeId": "264",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"264\"]",
+      "tagName": "li",
+      "childIds": [
+        "1835"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1836",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1836,
+      "domNodeId": "266",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"266\"]",
+      "tagName": "li",
+      "childIds": [
+        "1837"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1838",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1838,
+      "domNodeId": "268",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"268\"]",
+      "tagName": "li",
+      "childIds": [
+        "1839"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1840",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1840,
+      "domNodeId": "270",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"270\"]",
+      "tagName": "li",
+      "childIds": [
+        "1841"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1475",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact us",
+      "backendDOMNodeId": 1475,
+      "childIds": [
+        "-1000000766"
+      ]
+    },
+    {
+      "nodeId": "1845",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1845,
+      "domNodeId": "275",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"275\"]",
+      "tagName": "li",
+      "childIds": [
+        "1846"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1847",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1847,
+      "domNodeId": "277",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"277\"]",
+      "tagName": "li",
+      "childIds": [
+        "1848"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2031",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 2031,
+      "domNodeId": "461",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"461\"]",
+      "tagName": "li",
+      "childIds": [
+        "2032"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2040",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 2040,
+      "domNodeId": "470",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"470\"]",
+      "tagName": "li",
+      "childIds": [
+        "2041"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2045",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 2045,
+      "domNodeId": "475",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"475\"]",
+      "tagName": "li",
+      "childIds": [
+        "2046"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2056",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 2056,
+      "domNodeId": "486",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"486\"]",
+      "tagName": "li",
+      "childIds": [
+        "2057"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2067",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 2067,
+      "domNodeId": "497",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"497\"]",
+      "tagName": "li",
+      "childIds": [
+        "2068"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "2076",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 2076,
+      "domNodeId": "506",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"506\"]",
+      "tagName": "li",
+      "childIds": [
+        "2077"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1478",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "© ",
+      "backendDOMNodeId": 1478,
+      "childIds": [
+        "-1000000769"
+      ]
+    },
+    {
+      "nodeId": "1479",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "2026 All rights reserved",
+      "backendDOMNodeId": 1479,
+      "childIds": [
+        "-1000000770"
+      ]
+    },
+    {
+      "nodeId": "1604",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Settings and contact",
+      "backendDOMNodeId": 1604,
+      "domNodeId": "9",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"9\"]",
+      "tagName": "nav",
+      "childIds": [
+        "1605"
+      ]
+    },
+    {
+      "nodeId": "1624",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1624,
+      "domNodeId": "41",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"41\"]",
+      "tagName": "div",
+      "childIds": [
+        "1625"
+      ]
+    },
+    {
+      "nodeId": "-1000000811",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "How can we help?"
+    },
+    {
+      "nodeId": "2236",
+      "ignored": false,
+      "role": "combobox",
+      "name": "How can we help?",
+      "backendDOMNodeId": 2236,
+      "domNodeId": "111",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"111\"]",
+      "tagName": "input",
+      "childIds": [
+        "2232"
+      ],
+      "properties": {
+        "invalid": "false",
+        "focusable": true,
+        "editable": "plaintext",
+        "settable": true,
+        "autocomplete": "list",
+        "hasPopup": "listbox",
+        "required": true,
+        "expanded": false
+      }
+    },
+    {
+      "nodeId": "1692",
+      "ignored": false,
+      "role": "navigation",
+      "name": "",
+      "backendDOMNodeId": 1692,
+      "domNodeId": "119",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"119\"]",
+      "tagName": "nav",
+      "childIds": [
+        "1693",
+        "1697",
+        "1701",
+        "1705",
+        "1708",
+        "1712",
+        "1716",
+        "1719",
+        "1724",
+        "1729"
+      ]
+    },
+    {
+      "nodeId": "1735",
+      "ignored": false,
+      "role": "heading",
+      "name": "Online Grocery FAQs",
+      "backendDOMNodeId": 1735,
+      "domNodeId": "165",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"165\"]",
+      "tagName": "h1",
+      "childIds": [
+        "1436"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1736",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1736,
+      "domNodeId": "166",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"166\"]",
+      "tagName": "div",
+      "childIds": [
+        "2519"
+      ]
+    },
+    {
+      "nodeId": "1740",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1740,
+      "domNodeId": "170",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"170\"]",
+      "tagName": "div",
+      "childIds": [
+        "2521"
+      ]
+    },
+    {
+      "nodeId": "1744",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1744,
+      "domNodeId": "174",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"174\"]",
+      "tagName": "div",
+      "childIds": [
+        "2523"
+      ]
+    },
+    {
+      "nodeId": "1748",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1748,
+      "domNodeId": "178",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"178\"]",
+      "tagName": "div",
+      "childIds": [
+        "2525"
+      ]
+    },
+    {
+      "nodeId": "1752",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1752,
+      "domNodeId": "182",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"182\"]",
+      "tagName": "div",
+      "childIds": [
+        "2527"
+      ]
+    },
+    {
+      "nodeId": "1756",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1756,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "div",
+      "childIds": [
+        "2529"
+      ]
+    },
+    {
+      "nodeId": "1760",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1760,
+      "domNodeId": "190",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
+      "tagName": "div",
+      "childIds": [
+        "2531"
+      ]
+    },
+    {
+      "nodeId": "1764",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1764,
+      "domNodeId": "194",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"194\"]",
+      "tagName": "div",
+      "childIds": [
+        "2533"
+      ]
+    },
+    {
+      "nodeId": "1768",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1768,
+      "domNodeId": "198",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"198\"]",
+      "tagName": "div",
+      "childIds": [
+        "2535"
+      ]
+    },
+    {
+      "nodeId": "1772",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1772,
+      "domNodeId": "202",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"202\"]",
+      "tagName": "div",
+      "childIds": [
+        "2537"
+      ]
+    },
+    {
+      "nodeId": "1776",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1776,
+      "domNodeId": "206",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"206\"]",
+      "tagName": "div",
+      "childIds": [
+        "2539"
+      ]
+    },
+    {
+      "nodeId": "1780",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1780,
+      "domNodeId": "210",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"210\"]",
+      "tagName": "div",
+      "childIds": [
+        "2541"
+      ]
+    },
+    {
+      "nodeId": "1784",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1784,
+      "domNodeId": "214",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"214\"]",
+      "tagName": "div",
+      "childIds": [
+        "2543"
+      ]
+    },
+    {
+      "nodeId": "-1000000743",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Here to Help"
+    },
+    {
+      "nodeId": "1797",
+      "ignored": false,
+      "role": "link",
+      "name": "My Account",
+      "backendDOMNodeId": 1797,
+      "domNodeId": "227",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"227\"]",
+      "tagName": "a",
+      "childIds": [
+        "1453"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/account/dashboard/en-GB"
+      }
+    },
+    {
+      "nodeId": "1799",
+      "ignored": false,
+      "role": "link",
+      "name": "My Grocery Orders",
+      "backendDOMNodeId": 1799,
+      "domNodeId": "229",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"229\"]",
+      "tagName": "a",
+      "childIds": [
+        "1454"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/orders"
+      }
+    },
+    {
+      "nodeId": "1801",
+      "ignored": false,
+      "role": "link",
+      "name": "Help & FAQs",
+      "backendDOMNodeId": 1801,
+      "domNodeId": "231",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"231\"]",
+      "tagName": "a",
+      "childIds": [
+        "1455"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/"
+      }
+    },
+    {
+      "nodeId": "1803",
+      "ignored": false,
+      "role": "link",
+      "name": "Product Recall",
+      "backendDOMNodeId": 1803,
+      "domNodeId": "233",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"233\"]",
+      "tagName": "a",
+      "childIds": [
+        "1456"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/zones/product-recall/"
+      }
+    },
+    {
+      "nodeId": "1805",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy centre",
+      "backendDOMNodeId": 1805,
+      "domNodeId": "235",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"235\"]",
+      "tagName": "a",
+      "childIds": [
+        "1457"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/zones/privacy-centre/"
+      }
+    },
+    {
+      "nodeId": "1807",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Pharmacy",
+      "backendDOMNodeId": 1807,
+      "domNodeId": "237",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"237\"]",
+      "tagName": "a",
+      "childIds": [
+        "1458"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/pharmacy"
+      }
+    },
+    {
+      "nodeId": "1809",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Photo",
+      "backendDOMNodeId": 1809,
+      "domNodeId": "239",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"239\"]",
+      "tagName": "a",
+      "childIds": [
+        "1459"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescophoto.com/"
+      }
+    },
+    {
+      "nodeId": "1811",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Magazine",
+      "backendDOMNodeId": 1811,
+      "domNodeId": "241",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"241\"]",
+      "tagName": "a",
+      "childIds": [
+        "1460"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/zones/tesco-magazine/"
+      }
+    },
+    {
+      "nodeId": "-1000000752",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "About"
+    },
+    {
+      "nodeId": "1816",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility",
+      "backendDOMNodeId": 1816,
+      "domNodeId": "246",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"246\"]",
+      "tagName": "a",
+      "childIds": [
+        "1462"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/accessibility/"
+      }
+    },
+    {
+      "nodeId": "1818",
+      "ignored": false,
+      "role": "link",
+      "name": "Sitemap",
+      "backendDOMNodeId": 1818,
+      "domNodeId": "248",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"248\"]",
+      "tagName": "a",
+      "childIds": [
+        "1463"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/sitemap/"
+      }
+    },
+    {
+      "nodeId": "1820",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy & cookies policy",
+      "backendDOMNodeId": 1820,
+      "domNodeId": "250",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"250\"]",
+      "tagName": "a",
+      "childIds": [
+        "1464"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/privacy-and-cookies-policy/"
+      }
+    },
+    {
+      "nodeId": "1822",
+      "ignored": false,
+      "role": "link",
+      "name": "General terms & conditions",
+      "backendDOMNodeId": 1822,
+      "domNodeId": "252",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"252\"]",
+      "tagName": "a",
+      "childIds": [
+        "1465"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/general-terms-and-conditions"
+      }
+    },
+    {
+      "nodeId": "1824",
+      "ignored": false,
+      "role": "link",
+      "name": "Product terms & conditions",
+      "backendDOMNodeId": 1824,
+      "domNodeId": "254",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"254\"]",
+      "tagName": "a",
+      "childIds": [
+        "1466"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/grocery-terms-and-conditions/"
+      }
+    },
+    {
+      "nodeId": "1826",
+      "ignored": false,
+      "role": "link",
+      "name": "Coupon terms & conditions",
+      "backendDOMNodeId": 1826,
+      "domNodeId": "256",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"256\"]",
+      "tagName": "a",
+      "childIds": [
+        "1467"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/general-terms-and-conditions"
+      }
+    },
+    {
+      "nodeId": "1828",
+      "ignored": false,
+      "role": "link",
+      "name": "Ratings & reviews policy",
+      "backendDOMNodeId": 1828,
+      "domNodeId": "258",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"258\"]",
+      "tagName": "a",
+      "childIds": [
+        "1468"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/zones/ratings-and-reviews-policy"
+      }
+    },
+    {
+      "nodeId": "1830",
+      "ignored": false,
+      "role": "link",
+      "name": "Partner directory",
+      "backendDOMNodeId": 1830,
+      "domNodeId": "260",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"260\"]",
+      "tagName": "a",
+      "childIds": [
+        "1469"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://digitalcontent.api.tesco.com/v2/media/ghs-mktg/"
+      }
+    },
+    {
+      "nodeId": "-1000000761",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Ways to save"
+    },
+    {
+      "nodeId": "1835",
+      "ignored": false,
+      "role": "link",
+      "name": "Delivery Saver",
+      "backendDOMNodeId": 1835,
+      "domNodeId": "265",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"265\"]",
+      "tagName": "a",
+      "childIds": [
+        "1471"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/"
+      }
+    },
+    {
+      "nodeId": "1837",
+      "ignored": false,
+      "role": "link",
+      "name": "Clubcard",
+      "backendDOMNodeId": 1837,
+      "domNodeId": "267",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"267\"]",
+      "tagName": "a",
+      "childIds": [
+        "1472"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://secure.tesco.com/clubcard/"
+      }
+    },
+    {
+      "nodeId": "1839",
+      "ignored": false,
+      "role": "link",
+      "name": "Click+Collect",
+      "backendDOMNodeId": 1839,
+      "domNodeId": "269",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"269\"]",
+      "tagName": "a",
+      "childIds": [
+        "1473"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/zone/tesco-delivery-click-and-collect"
+      }
+    },
+    {
+      "nodeId": "1841",
+      "ignored": false,
+      "role": "link",
+      "name": "Clubcard Prices",
+      "backendDOMNodeId": 1841,
+      "domNodeId": "271",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"271\"]",
+      "tagName": "a",
+      "childIds": [
+        "1474"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/en-GB/buylists/clubcard-prices/top-picks"
+      }
+    },
+    {
+      "nodeId": "-1000000766",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact us"
+    },
+    {
+      "nodeId": "1846",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1846,
+      "domNodeId": "276",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"276\"]",
+      "tagName": "a",
+      "childIds": [
+        "1476"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/"
+      }
+    },
+    {
+      "nodeId": "1848",
+      "ignored": false,
+      "role": "link",
+      "name": "Store locator",
+      "backendDOMNodeId": 1848,
+      "domNodeId": "278",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"278\"]",
+      "tagName": "a",
+      "childIds": [
+        "1477"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/zones/product-recall"
+      }
+    },
+    {
+      "nodeId": "2032",
+      "ignored": false,
+      "role": "link",
+      "name": "Facebook",
+      "backendDOMNodeId": 2032,
+      "domNodeId": "462",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"462\"]",
+      "tagName": "a",
+      "childIds": [
+        "2033"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.facebook.com/tesco/"
+      }
+    },
+    {
+      "nodeId": "2041",
+      "ignored": false,
+      "role": "link",
+      "name": "Twitter",
+      "backendDOMNodeId": 2041,
+      "domNodeId": "471",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"471\"]",
+      "tagName": "a",
+      "childIds": [
+        "2042"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://twitter.com/tesco"
+      }
+    },
+    {
+      "nodeId": "2046",
+      "ignored": false,
+      "role": "link",
+      "name": "Instagram",
+      "backendDOMNodeId": 2046,
+      "domNodeId": "476",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"476\"]",
+      "tagName": "a",
+      "childIds": [
+        "2047"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.instagram.com/tesco/?hl=en"
+      }
+    },
+    {
+      "nodeId": "2057",
+      "ignored": false,
+      "role": "link",
+      "name": "Tiktok",
+      "backendDOMNodeId": 2057,
+      "domNodeId": "487",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"487\"]",
+      "tagName": "a",
+      "childIds": [
+        "2058"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tiktok.com/@tesco"
+      }
+    },
+    {
+      "nodeId": "2068",
+      "ignored": false,
+      "role": "link",
+      "name": "Pinterest",
+      "backendDOMNodeId": 2068,
+      "domNodeId": "498",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"498\"]",
+      "tagName": "a",
+      "childIds": [
+        "2069"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://pinterest.com/tesco/"
+      }
+    },
+    {
+      "nodeId": "2077",
+      "ignored": false,
+      "role": "link",
+      "name": "YouTube",
+      "backendDOMNodeId": 2077,
+      "domNodeId": "507",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"507\"]",
+      "tagName": "a",
+      "childIds": [
+        "2078"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://www.youtube.com/tesco"
+      }
+    },
+    {
+      "nodeId": "-1000000769",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "© "
+    },
+    {
+      "nodeId": "-1000000770",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "2026 All rights reserved"
+    },
+    {
+      "nodeId": "1605",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1605,
+      "domNodeId": "10",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
+      "tagName": "div",
+      "childIds": [
+        "1606"
+      ]
+    },
+    {
+      "nodeId": "1625",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1625,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "div",
+      "childIds": [
+        "1626"
+      ]
+    },
+    {
+      "nodeId": "2232",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 2232,
+      "childIds": [
+        "2233"
+      ]
+    },
+    {
+      "nodeId": "2233",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 2233,
+      "properties": {
+        "editable": "plaintext"
+      }
+    },
+    {
+      "nodeId": "1693",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1693,
+      "domNodeId": "120",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"120\"]",
+      "tagName": "div",
+      "childIds": [
+        "2512"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2512",
+      "ignored": false,
+      "role": "link",
+      "name": "Online Grocery FAQs",
+      "backendDOMNodeId": 2512,
+      "domNodeId": "121",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"121\"]",
+      "tagName": "a",
+      "childIds": [
+        "2572"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs"
+      }
+    },
+    {
+      "nodeId": "1697",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1697,
+      "domNodeId": "124",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"124\"]",
+      "tagName": "div",
+      "childIds": [
+        "2513"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2513",
+      "ignored": false,
+      "role": "link",
+      "name": "Clubcard FAQs",
+      "backendDOMNodeId": 2513,
+      "domNodeId": "125",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"125\"]",
+      "tagName": "a",
+      "childIds": [
+        "2573"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/clubcard-faqs"
+      }
+    },
+    {
+      "nodeId": "1701",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1701,
+      "domNodeId": "128",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"128\"]",
+      "tagName": "div",
+      "childIds": [
+        "2514"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2514",
+      "ignored": false,
+      "role": "link",
+      "name": "F&F Clothing online FAQs",
+      "backendDOMNodeId": 2514,
+      "domNodeId": "129",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"129\"]",
+      "tagName": "a",
+      "childIds": [
+        "2574"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/f-f-clothing-online-faqs"
+      }
+    },
+    {
+      "nodeId": "1705",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1705,
+      "domNodeId": "132",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"132\"]",
+      "tagName": "div",
+      "childIds": [
+        "2515"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2515",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco account FAQs",
+      "backendDOMNodeId": 2515,
+      "domNodeId": "133",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"133\"]",
+      "tagName": "a",
+      "childIds": [
+        "2575"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/tesco-account-faqs"
+      }
+    },
+    {
+      "nodeId": "1708",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1708,
+      "domNodeId": "136",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"136\"]",
+      "tagName": "div",
+      "childIds": [
+        "2516"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2516",
+      "ignored": false,
+      "role": "link",
+      "name": "In-store FAQs",
+      "backendDOMNodeId": 2516,
+      "domNodeId": "137",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"137\"]",
+      "tagName": "a",
+      "childIds": [
+        "2576"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/in-store-faqs"
+      }
+    },
+    {
+      "nodeId": "1712",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1712,
+      "domNodeId": "140",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"140\"]",
+      "tagName": "div",
+      "childIds": [
+        "2517"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "2517",
+      "ignored": false,
+      "role": "link",
+      "name": "Return and refund FAQs",
+      "backendDOMNodeId": 2517,
+      "domNodeId": "141",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"141\"]",
+      "tagName": "a",
+      "childIds": [
+        "2577"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/return-and-refund-faqs"
+      }
+    },
+    {
+      "nodeId": "1716",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Mobile FAQs",
+      "backendDOMNodeId": 1716,
+      "domNodeId": "144",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"144\"]",
+      "tagName": "a",
+      "childIds": [
+        "1717",
+        "1524"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescomobile.com/help"
+      }
+    },
+    {
+      "nodeId": "1719",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Bank FAQs",
+      "backendDOMNodeId": 1719,
+      "domNodeId": "149",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"149\"]",
+      "tagName": "a",
+      "childIds": [
+        "1720",
+        "1721"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescobank.com/online-banking/help/"
+      }
+    },
+    {
+      "nodeId": "1724",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Insurance FAQs",
+      "backendDOMNodeId": 1724,
+      "domNodeId": "154",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"154\"]",
+      "tagName": "a",
+      "childIds": [
+        "1725",
+        "1726"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescoinsurance.com/help/"
+      }
+    },
+    {
+      "nodeId": "1729",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Travel Money FAQs",
+      "backendDOMNodeId": 1729,
+      "domNodeId": "159",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"159\"]",
+      "tagName": "a",
+      "childIds": [
+        "1730",
+        "1731"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescotravelmoney.com/"
+      }
+    },
+    {
+      "nodeId": "1436",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Online Grocery FAQs",
+      "backendDOMNodeId": 1436,
+      "childIds": [
+        "-1000000729"
+      ]
+    },
+    {
+      "nodeId": "2519",
+      "ignored": false,
+      "role": "link",
+      "name": "Delivery and collection basics",
+      "backendDOMNodeId": 2519,
+      "domNodeId": "167",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"167\"]",
+      "tagName": "a",
+      "childIds": [
+        "2578"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/delivery-and-collection-basics"
+      }
+    },
+    {
+      "nodeId": "2521",
+      "ignored": false,
+      "role": "link",
+      "name": "Ordering online",
+      "backendDOMNodeId": 2521,
+      "domNodeId": "171",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"171\"]",
+      "tagName": "a",
+      "childIds": [
+        "2579"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/ordering-online"
+      }
+    },
+    {
+      "nodeId": "2523",
+      "ignored": false,
+      "role": "link",
+      "name": "Collecting your order and delivery issues",
+      "backendDOMNodeId": 2523,
+      "domNodeId": "175",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"175\"]",
+      "tagName": "a",
+      "childIds": [
+        "2580"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/collecting-your-order-and-delivery-issues"
+      }
+    },
+    {
+      "nodeId": "2525",
+      "ignored": false,
+      "role": "link",
+      "name": "Whoosh",
+      "backendDOMNodeId": 2525,
+      "domNodeId": "179",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"179\"]",
+      "tagName": "a",
+      "childIds": [
+        "2581"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/whoosh"
+      }
+    },
+    {
+      "nodeId": "2527",
+      "ignored": false,
+      "role": "link",
+      "name": "Bag-free deliveries",
+      "backendDOMNodeId": 2527,
+      "domNodeId": "183",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"183\"]",
+      "tagName": "a",
+      "childIds": [
+        "2582"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/bag-free-deliveries"
+      }
+    },
+    {
+      "nodeId": "2529",
+      "ignored": false,
+      "role": "link",
+      "name": "Marketplace",
+      "backendDOMNodeId": 2529,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "a",
+      "childIds": [
+        "2583"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/marketplace"
+      }
+    },
+    {
+      "nodeId": "2531",
+      "ignored": false,
+      "role": "link",
+      "name": "Payment issues and information",
+      "backendDOMNodeId": 2531,
+      "domNodeId": "191",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
+      "tagName": "a",
+      "childIds": [
+        "2584"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/payment-issues-and-information"
+      }
+    },
+    {
+      "nodeId": "2533",
+      "ignored": false,
+      "role": "link",
+      "name": "Clubcard Prices, vouchers and eCoupons",
+      "backendDOMNodeId": 2533,
+      "domNodeId": "195",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
+      "tagName": "a",
+      "childIds": [
+        "2585"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/clubcard-prices-vouchers-and-ecoupons"
+      }
+    },
+    {
+      "nodeId": "2535",
+      "ignored": false,
+      "role": "link",
+      "name": "Technical issues with ordering",
+      "backendDOMNodeId": 2535,
+      "domNodeId": "199",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"199\"]",
+      "tagName": "a",
+      "childIds": [
+        "2586"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/technical-issues-with-ordering"
+      }
+    },
+    {
+      "nodeId": "2537",
+      "ignored": false,
+      "role": "link",
+      "name": "eCDNs – electronic customer delivery notes",
+      "backendDOMNodeId": 2537,
+      "domNodeId": "203",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"203\"]",
+      "tagName": "a",
+      "childIds": [
+        "2587"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/ecdns-electronic-customer-delivery-notes"
+      }
+    },
+    {
+      "nodeId": "2539",
+      "ignored": false,
+      "role": "link",
+      "name": "Alcohol rules and regulations in Scotland and Wales",
+      "backendDOMNodeId": 2539,
+      "domNodeId": "207",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"207\"]",
+      "tagName": "a",
+      "childIds": [
+        "2588"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/alcohol-rules-and-regulations-in-scotland-and-wales"
+      }
+    },
+    {
+      "nodeId": "2541",
+      "ignored": false,
+      "role": "link",
+      "name": "Oban islands orders",
+      "backendDOMNodeId": 2541,
+      "domNodeId": "211",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"211\"]",
+      "tagName": "a",
+      "childIds": [
+        "2589"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/oban-islands-orders"
+      }
+    },
+    {
+      "nodeId": "2543",
+      "ignored": false,
+      "role": "link",
+      "name": "Accessibility",
+      "backendDOMNodeId": 2543,
+      "domNodeId": "215",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"215\"]",
+      "tagName": "a",
+      "childIds": [
+        "2590"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/pages/online-grocery-faqs/accessibility"
+      }
+    },
+    {
+      "nodeId": "1453",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "My Account",
+      "backendDOMNodeId": 1453,
+      "childIds": [
+        "-1000000744"
+      ]
+    },
+    {
+      "nodeId": "1454",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "My Grocery Orders",
+      "backendDOMNodeId": 1454,
+      "childIds": [
+        "-1000000745"
+      ]
+    },
+    {
+      "nodeId": "1455",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help & FAQs",
+      "backendDOMNodeId": 1455,
+      "childIds": [
+        "-1000000746"
+      ]
+    },
+    {
+      "nodeId": "1456",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Product Recall",
+      "backendDOMNodeId": 1456,
+      "childIds": [
+        "-1000000747"
+      ]
+    },
+    {
+      "nodeId": "1457",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy centre",
+      "backendDOMNodeId": 1457,
+      "childIds": [
+        "-1000000748"
+      ]
+    },
+    {
+      "nodeId": "1458",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Pharmacy",
+      "backendDOMNodeId": 1458,
+      "childIds": [
+        "-1000000749"
+      ]
+    },
+    {
+      "nodeId": "1459",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Photo",
+      "backendDOMNodeId": 1459,
+      "childIds": [
+        "-1000000750"
+      ]
+    },
+    {
+      "nodeId": "1460",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Magazine",
+      "backendDOMNodeId": 1460,
+      "childIds": [
+        "-1000000751"
+      ]
+    },
+    {
+      "nodeId": "1462",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility",
+      "backendDOMNodeId": 1462,
+      "childIds": [
+        "-1000000753"
+      ]
+    },
+    {
+      "nodeId": "1463",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sitemap",
+      "backendDOMNodeId": 1463,
+      "childIds": [
+        "-1000000754"
+      ]
+    },
+    {
+      "nodeId": "1464",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy & cookies policy",
+      "backendDOMNodeId": 1464,
+      "childIds": [
+        "-1000000755"
+      ]
+    },
+    {
+      "nodeId": "1465",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "General terms & conditions",
+      "backendDOMNodeId": 1465,
+      "childIds": [
+        "-1000000756"
+      ]
+    },
+    {
+      "nodeId": "1466",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Product terms & conditions",
+      "backendDOMNodeId": 1466,
+      "childIds": [
+        "-1000000757"
+      ]
+    },
+    {
+      "nodeId": "1467",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Coupon terms & conditions",
+      "backendDOMNodeId": 1467,
+      "childIds": [
+        "-1000000758"
+      ]
+    },
+    {
+      "nodeId": "1468",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Ratings & reviews policy",
+      "backendDOMNodeId": 1468,
+      "childIds": [
+        "-1000000759"
+      ]
+    },
+    {
+      "nodeId": "1469",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Partner directory",
+      "backendDOMNodeId": 1469,
+      "childIds": [
+        "-1000000760"
+      ]
+    },
+    {
+      "nodeId": "1471",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery Saver",
+      "backendDOMNodeId": 1471,
+      "childIds": [
+        "-1000000762"
+      ]
+    },
+    {
+      "nodeId": "1472",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Clubcard",
+      "backendDOMNodeId": 1472,
+      "childIds": [
+        "-1000000763"
+      ]
+    },
+    {
+      "nodeId": "1473",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Click+Collect",
+      "backendDOMNodeId": 1473,
+      "childIds": [
+        "-1000000764"
+      ]
+    },
+    {
+      "nodeId": "1474",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Clubcard Prices",
+      "backendDOMNodeId": 1474,
+      "childIds": [
+        "-1000000765"
+      ]
+    },
+    {
+      "nodeId": "1476",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1476,
+      "childIds": [
+        "-1000000767"
+      ]
+    },
+    {
+      "nodeId": "1477",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Store locator",
+      "backendDOMNodeId": 1477,
+      "childIds": [
+        "-1000000768"
+      ]
+    },
+    {
+      "nodeId": "2033",
+      "ignored": false,
+      "role": "image",
+      "name": "Facebook",
+      "backendDOMNodeId": 2033,
+      "domNodeId": "463",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"463\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "2042",
+      "ignored": false,
+      "role": "image",
+      "name": "Twitter",
+      "backendDOMNodeId": 2042,
+      "domNodeId": "472",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"472\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "2047",
+      "ignored": false,
+      "role": "image",
+      "name": "Instagram",
+      "backendDOMNodeId": 2047,
+      "domNodeId": "477",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"477\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "2058",
+      "ignored": false,
+      "role": "image",
+      "name": "Tiktok",
+      "backendDOMNodeId": 2058,
+      "domNodeId": "488",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"488\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "2069",
+      "ignored": false,
+      "role": "image",
+      "name": "Pinterest",
+      "backendDOMNodeId": 2069,
+      "domNodeId": "499",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"499\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "2078",
+      "ignored": false,
+      "role": "image",
+      "name": "YouTube",
+      "backendDOMNodeId": 2078,
+      "domNodeId": "508",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "1606",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1606,
+      "domNodeId": "11",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"11\"]",
+      "tagName": "div",
+      "childIds": [
+        "1607"
+      ]
+    },
+    {
+      "nodeId": "1626",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1626,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "div",
+      "childIds": [
+        "1627"
+      ]
+    },
+    {
+      "nodeId": "2572",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Online Grocery FAQs",
+      "backendDOMNodeId": 2572,
+      "childIds": [
+        "-1000000719"
+      ]
+    },
+    {
+      "nodeId": "2573",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Clubcard FAQs",
+      "backendDOMNodeId": 2573,
+      "childIds": [
+        "-1000000720"
+      ]
+    },
+    {
+      "nodeId": "2574",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "F&F Clothing online FAQs",
+      "backendDOMNodeId": 2574,
+      "childIds": [
+        "-1000000721"
+      ]
+    },
+    {
+      "nodeId": "2575",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco account FAQs",
+      "backendDOMNodeId": 2575,
+      "childIds": [
+        "-1000000722"
+      ]
+    },
+    {
+      "nodeId": "2576",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "In-store FAQs",
+      "backendDOMNodeId": 2576,
+      "childIds": [
+        "-1000000723"
+      ]
+    },
+    {
+      "nodeId": "2577",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Return and refund FAQs",
+      "backendDOMNodeId": 2577,
+      "childIds": [
+        "-1000000724"
+      ]
+    },
+    {
+      "nodeId": "1717",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1717,
+      "domNodeId": "145",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"145\"]",
+      "tagName": "span",
+      "childIds": [
+        "1432"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1432",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Mobile FAQs",
+      "backendDOMNodeId": 1432,
+      "childIds": [
+        "-1000000725"
+      ]
+    },
+    {
+      "nodeId": "1524",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1524,
+      "domNodeId": "146",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"146\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1720",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1720,
+      "domNodeId": "150",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"150\"]",
+      "tagName": "span",
+      "childIds": [
+        "1433"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1433",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Bank FAQs",
+      "backendDOMNodeId": 1433,
+      "childIds": [
+        "-1000000726"
+      ]
+    },
+    {
+      "nodeId": "1721",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1721,
+      "domNodeId": "151",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"151\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1725",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1725,
+      "domNodeId": "155",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"155\"]",
+      "tagName": "span",
+      "childIds": [
+        "1434"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1434",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Insurance FAQs",
+      "backendDOMNodeId": 1434,
+      "childIds": [
+        "-1000000727"
+      ]
+    },
+    {
+      "nodeId": "1726",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1726,
+      "domNodeId": "156",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"156\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1730",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1730,
+      "domNodeId": "160",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"160\"]",
+      "tagName": "span",
+      "childIds": [
+        "1435"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1435",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Travel Money FAQs",
+      "backendDOMNodeId": 1435,
+      "childIds": [
+        "-1000000728"
+      ]
+    },
+    {
+      "nodeId": "1731",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1731,
+      "domNodeId": "161",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"161\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000729",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Online Grocery FAQs"
+    },
+    {
+      "nodeId": "2578",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery and collection basics",
+      "backendDOMNodeId": 2578,
+      "childIds": [
+        "-1000000730"
+      ]
+    },
+    {
+      "nodeId": "2579",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Ordering online",
+      "backendDOMNodeId": 2579,
+      "childIds": [
+        "-1000000731"
+      ]
+    },
+    {
+      "nodeId": "2580",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Collecting your order and delivery issues",
+      "backendDOMNodeId": 2580,
+      "childIds": [
+        "-1000000732"
+      ]
+    },
+    {
+      "nodeId": "2581",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Whoosh",
+      "backendDOMNodeId": 2581,
+      "childIds": [
+        "-1000000733"
+      ]
+    },
+    {
+      "nodeId": "2582",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Bag-free deliveries",
+      "backendDOMNodeId": 2582,
+      "childIds": [
+        "-1000000734"
+      ]
+    },
+    {
+      "nodeId": "2583",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Marketplace",
+      "backendDOMNodeId": 2583,
+      "childIds": [
+        "-1000000735"
+      ]
+    },
+    {
+      "nodeId": "2584",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Payment issues and information",
+      "backendDOMNodeId": 2584,
+      "childIds": [
+        "-1000000736"
+      ]
+    },
+    {
+      "nodeId": "2585",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Clubcard Prices, vouchers and eCoupons",
+      "backendDOMNodeId": 2585,
+      "childIds": [
+        "-1000000737"
+      ]
+    },
+    {
+      "nodeId": "2586",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Technical issues with ordering",
+      "backendDOMNodeId": 2586,
+      "childIds": [
+        "-1000000738"
+      ]
+    },
+    {
+      "nodeId": "2587",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "eCDNs – electronic customer delivery notes",
+      "backendDOMNodeId": 2587,
+      "childIds": [
+        "-1000000739"
+      ]
+    },
+    {
+      "nodeId": "2588",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Alcohol rules and regulations in Scotland and Wales",
+      "backendDOMNodeId": 2588,
+      "childIds": [
+        "-1000000740"
+      ]
+    },
+    {
+      "nodeId": "2589",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Oban islands orders",
+      "backendDOMNodeId": 2589,
+      "childIds": [
+        "-1000000741"
+      ]
+    },
+    {
+      "nodeId": "2590",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Accessibility",
+      "backendDOMNodeId": 2590,
+      "childIds": [
+        "-1000000742"
+      ]
+    },
+    {
+      "nodeId": "-1000000744",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "My Account"
+    },
+    {
+      "nodeId": "-1000000745",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "My Grocery Orders"
+    },
+    {
+      "nodeId": "-1000000746",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help & FAQs"
+    },
+    {
+      "nodeId": "-1000000747",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Product Recall"
+    },
+    {
+      "nodeId": "-1000000748",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy centre"
+    },
+    {
+      "nodeId": "-1000000749",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Pharmacy"
+    },
+    {
+      "nodeId": "-1000000750",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Photo"
+    },
+    {
+      "nodeId": "-1000000751",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Magazine"
+    },
+    {
+      "nodeId": "-1000000753",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility"
+    },
+    {
+      "nodeId": "-1000000754",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sitemap"
+    },
+    {
+      "nodeId": "-1000000755",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy & cookies policy"
+    },
+    {
+      "nodeId": "-1000000756",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "General terms & conditions"
+    },
+    {
+      "nodeId": "-1000000757",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Product terms & conditions"
+    },
+    {
+      "nodeId": "-1000000758",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Coupon terms & conditions"
+    },
+    {
+      "nodeId": "-1000000759",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Ratings & reviews policy"
+    },
+    {
+      "nodeId": "-1000000760",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Partner directory"
+    },
+    {
+      "nodeId": "-1000000762",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery Saver"
+    },
+    {
+      "nodeId": "-1000000763",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Clubcard"
+    },
+    {
+      "nodeId": "-1000000764",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Click+Collect"
+    },
+    {
+      "nodeId": "-1000000765",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Clubcard Prices"
+    },
+    {
+      "nodeId": "-1000000767",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco.com"
+    },
+    {
+      "nodeId": "-1000000768",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Store locator"
+    },
+    {
+      "nodeId": "1607",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1607,
+      "domNodeId": "12",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"12\"]",
+      "tagName": "div",
+      "childIds": [
+        "1512"
+      ]
+    },
+    {
+      "nodeId": "1627",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1627,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "div",
+      "childIds": [
+        "1628"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1628",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1628,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "div",
+      "childIds": [
+        "1629"
+      ]
+    },
+    {
+      "nodeId": "-1000000719",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Online Grocery FAQs"
+    },
+    {
+      "nodeId": "-1000000720",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Clubcard FAQs"
+    },
+    {
+      "nodeId": "-1000000721",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "F&F Clothing online FAQs"
+    },
+    {
+      "nodeId": "-1000000722",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco account FAQs"
+    },
+    {
+      "nodeId": "-1000000723",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "In-store FAQs"
+    },
+    {
+      "nodeId": "-1000000724",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Return and refund FAQs"
+    },
+    {
+      "nodeId": "-1000000725",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Mobile FAQs"
+    },
+    {
+      "nodeId": "-1000000726",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Bank FAQs"
+    },
+    {
+      "nodeId": "-1000000727",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Insurance FAQs"
+    },
+    {
+      "nodeId": "-1000000728",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Travel Money FAQs"
+    },
+    {
+      "nodeId": "-1000000730",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery and collection basics"
+    },
+    {
+      "nodeId": "-1000000731",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Ordering online"
+    },
+    {
+      "nodeId": "-1000000732",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Collecting your order and delivery issues"
+    },
+    {
+      "nodeId": "-1000000733",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Whoosh"
+    },
+    {
+      "nodeId": "-1000000734",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Bag-free deliveries"
+    },
+    {
+      "nodeId": "-1000000735",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Marketplace"
+    },
+    {
+      "nodeId": "-1000000736",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Payment issues and information"
+    },
+    {
+      "nodeId": "-1000000737",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Clubcard Prices, vouchers and eCoupons"
+    },
+    {
+      "nodeId": "-1000000738",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Technical issues with ordering"
+    },
+    {
+      "nodeId": "-1000000739",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "eCDNs – electronic customer delivery notes"
+    },
+    {
+      "nodeId": "-1000000740",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Alcohol rules and regulations in Scotland and Wales"
+    },
+    {
+      "nodeId": "-1000000741",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Oban islands orders"
+    },
+    {
+      "nodeId": "-1000000742",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Accessibility"
+    },
+    {
+      "nodeId": "1512",
+      "ignored": false,
+      "role": "menubar",
+      "name": "",
+      "backendDOMNodeId": 1512,
+      "domNodeId": "13",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"13\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1513",
+        "1515",
+        "1517",
+        "1519",
+        "1522",
+        "1616"
+      ],
+      "properties": {
+        "focusable": true,
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "1629",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1629,
+      "domNodeId": "46",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"46\"]",
+      "tagName": "div",
+      "childIds": [
+        "1630",
+        "1668"
+      ]
+    },
+    {
+      "nodeId": "1513",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1513,
+      "domNodeId": "14",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"14\"]",
+      "tagName": "li",
+      "childIds": [
+        "1514"
+      ]
+    },
+    {
+      "nodeId": "1515",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Sign in",
+      "backendDOMNodeId": 1515,
+      "domNodeId": "17",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"17\"]",
+      "tagName": "li",
+      "childIds": [
+        "1516"
+      ]
+    },
+    {
+      "nodeId": "1517",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Register",
+      "backendDOMNodeId": 1517,
+      "domNodeId": "20",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"20\"]",
+      "tagName": "li",
+      "childIds": [
+        "1518"
+      ]
+    },
+    {
+      "nodeId": "1519",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Store locator",
+      "backendDOMNodeId": 1519,
+      "domNodeId": "23",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"23\"]",
+      "tagName": "li",
+      "childIds": [
+        "1520"
+      ]
+    },
+    {
+      "nodeId": "1522",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Help and FAQs",
+      "backendDOMNodeId": 1522,
+      "domNodeId": "30",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"30\"]",
+      "tagName": "li",
+      "childIds": [
+        "1523"
+      ]
+    },
+    {
+      "nodeId": "1616",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "My Account",
+      "backendDOMNodeId": 1616,
+      "domNodeId": "33",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"33\"]",
+      "tagName": "li",
+      "childIds": [
+        "1617"
+      ]
+    },
+    {
+      "nodeId": "1630",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Home Help",
+      "backendDOMNodeId": 1630,
+      "domNodeId": "47",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"47\"]",
+      "tagName": "a",
+      "childIds": [
+        "1632",
+        "1667"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help"
+      }
+    },
+    {
+      "nodeId": "1668",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1668,
+      "domNodeId": "80",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"80\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "1514",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1514,
+      "domNodeId": "15",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"15\"]",
+      "tagName": "a",
+      "childIds": [
+        "1608"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/"
+      }
+    },
+    {
+      "nodeId": "1516",
+      "ignored": false,
+      "role": "link",
+      "name": "Sign in",
+      "backendDOMNodeId": 1516,
+      "domNodeId": "18",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"18\"]",
+      "tagName": "a",
+      "childIds": [
+        "1609"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://secure.tesco.com/account/en-GB/login?from=https%3A%2F%2Fwww.tesco.com%2Fhelp%2Fpages%2Fonline-grocery-faqs"
+      }
+    },
+    {
+      "nodeId": "1518",
+      "ignored": false,
+      "role": "link",
+      "name": "Register",
+      "backendDOMNodeId": 1518,
+      "domNodeId": "21",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"21\"]",
+      "tagName": "a",
+      "childIds": [
+        "1610"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://secure.tesco.com/account/en-GB/register?from=https%3A%2F%2Fwww.tesco.com%2Fhelp%2Fpages%2Fonline-grocery-faqs"
+      }
+    },
+    {
+      "nodeId": "1520",
+      "ignored": false,
+      "role": "link",
+      "name": "Store locator",
+      "backendDOMNodeId": 1520,
+      "domNodeId": "24",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"24\"]",
+      "tagName": "a",
+      "childIds": [
+        "1611",
+        "1612"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/store-locator/uk/"
+      }
+    },
+    {
+      "nodeId": "1523",
+      "ignored": false,
+      "role": "link",
+      "name": "Help and FAQs",
+      "backendDOMNodeId": 1523,
+      "domNodeId": "31",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"31\"]",
+      "tagName": "a",
+      "childIds": [
+        "1615"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help"
+      }
+    },
+    {
+      "nodeId": "1617",
+      "ignored": false,
+      "role": "link",
+      "name": "My Account",
+      "backendDOMNodeId": 1617,
+      "domNodeId": "34",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"34\"]",
+      "tagName": "a",
+      "childIds": [
+        "1618",
+        "1619"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://secure.tesco.com/account/en-GB/manage"
+      }
+    },
+    {
+      "nodeId": "1632",
+      "ignored": false,
+      "role": "image",
+      "name": "Tesco Home",
+      "backendDOMNodeId": 1632,
+      "domNodeId": "49",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"49\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1645",
+        "1650",
+        "1655",
+        "1660",
+        "1665"
+      ]
+    },
+    {
+      "nodeId": "1667",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1667,
+      "domNodeId": "79",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"79\"]",
+      "tagName": "p",
+      "childIds": [
+        "1425"
+      ]
+    },
+    {
+      "nodeId": "1608",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1608,
+      "domNodeId": "16",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"16\"]",
+      "tagName": "span",
+      "childIds": [
+        "1419"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1419",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1419,
+      "childIds": [
+        "-1000000775"
+      ]
+    },
+    {
+      "nodeId": "1609",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1609,
+      "domNodeId": "19",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"19\"]",
+      "tagName": "span",
+      "childIds": [
+        "1420"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1420",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign in",
+      "backendDOMNodeId": 1420,
+      "childIds": [
+        "-1000000776"
+      ]
+    },
+    {
+      "nodeId": "1610",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1610,
+      "domNodeId": "22",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"22\"]",
+      "tagName": "span",
+      "childIds": [
+        "1421"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1421",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Register",
+      "backendDOMNodeId": 1421,
+      "childIds": [
+        "-1000000777"
+      ]
+    },
+    {
+      "nodeId": "1611",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1611,
+      "domNodeId": "25",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"25\"]",
+      "tagName": "span",
+      "childIds": [
+        "1422"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1422",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Store locator",
+      "backendDOMNodeId": 1422,
+      "childIds": [
+        "-1000000778"
+      ]
+    },
+    {
+      "nodeId": "1612",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1612,
+      "domNodeId": "26",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"26\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1615",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1615,
+      "domNodeId": "32",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"32\"]",
+      "tagName": "span",
+      "childIds": [
+        "1423"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1423",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help and FAQs",
+      "backendDOMNodeId": 1423,
+      "childIds": [
+        "-1000000779"
+      ]
+    },
+    {
+      "nodeId": "1618",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1618,
+      "domNodeId": "35",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"35\"]",
+      "tagName": "span",
+      "childIds": [
+        "1424"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1424",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "My Account",
+      "backendDOMNodeId": 1424,
+      "childIds": [
+        "-1000000780"
+      ]
+    },
+    {
+      "nodeId": "1619",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1619,
+      "domNodeId": "36",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"36\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1645",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1645,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1650",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1650,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1655",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1655,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1660",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1660,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1665",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1665,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1425",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help",
+      "backendDOMNodeId": 1425,
+      "childIds": [
+        "-1000000717"
+      ]
+    },
+    {
+      "nodeId": "-1000000775",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco.com"
+    },
+    {
+      "nodeId": "-1000000776",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign in"
+    },
+    {
+      "nodeId": "-1000000777",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Register"
+    },
+    {
+      "nodeId": "-1000000778",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Store locator"
+    },
+    {
+      "nodeId": "-1000000779",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help and FAQs"
+    },
+    {
+      "nodeId": "-1000000780",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "My Account"
+    },
+    {
+      "nodeId": "-1000000717",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help"
+    }
+  ]
+}

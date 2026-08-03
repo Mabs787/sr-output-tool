@@ -1,0 +1,6664 @@
+{
+  "schemaVersion": 1,
+  "source": "chrome-accessibility-tree",
+  "nodeCount": 541,
+  "ignoredNodeCount": 75,
+  "axMappedNodeCount": 304,
+  "domSnapshotMappedNodeCount": 625,
+  "mapSource": "rendered-html:data-sr-dom-node-id",
+  "nodes": [
+    {
+      "nodeId": "1019",
+      "ignored": false,
+      "role": "RootWebArea",
+      "name": "Delivery Saver | Tesco - Homepage",
+      "backendDOMNodeId": 1019,
+      "childIds": [
+        "1025"
+      ],
+      "properties": {
+        "focusable": true,
+        "focused": true,
+        "url": "https://www.tesco.com/deliverysaver/"
+      }
+    },
+    {
+      "nodeId": "1025",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1025,
+      "childIds": [
+        "1070"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1070",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1070,
+      "childIds": [
+        "1071",
+        "1759"
+      ]
+    },
+    {
+      "nodeId": "1071",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1071,
+      "domNodeId": "1",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"1\"]",
+      "tagName": "div",
+      "childIds": [
+        "1072"
+      ]
+    },
+    {
+      "nodeId": "1759",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1759,
+      "domNodeId": "621",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"621\"]",
+      "tagName": "next-route-announcer",
+      "childIds": [
+        "1760"
+      ]
+    },
+    {
+      "nodeId": "1072",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1072,
+      "domNodeId": "2",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"2\"]",
+      "tagName": "div",
+      "childIds": [
+        "1073"
+      ]
+    },
+    {
+      "nodeId": "1760",
+      "ignored": false,
+      "role": "alert",
+      "name": "",
+      "backendDOMNodeId": 1760,
+      "domNodeId": "622",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"622\"]",
+      "tagName": "p",
+      "properties": {
+        "live": "assertive",
+        "atomic": true,
+        "relevant": "additions text"
+      }
+    },
+    {
+      "nodeId": "1073",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1073,
+      "domNodeId": "3",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"3\"]",
+      "tagName": "div",
+      "childIds": [
+        "1074"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1074",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1074,
+      "domNodeId": "4",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"4\"]",
+      "tagName": "div",
+      "childIds": [
+        "1075",
+        "1166",
+        "1438"
+      ]
+    },
+    {
+      "nodeId": "1075",
+      "ignored": false,
+      "role": "banner",
+      "name": "",
+      "backendDOMNodeId": 1075,
+      "domNodeId": "5",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"5\"]",
+      "tagName": "header",
+      "childIds": [
+        "1076",
+        "1077",
+        "1140"
+      ]
+    },
+    {
+      "nodeId": "1166",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1166,
+      "domNodeId": "91",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"91\"]",
+      "tagName": "div",
+      "childIds": [
+        "1167"
+      ]
+    },
+    {
+      "nodeId": "1438",
+      "ignored": false,
+      "role": "contentinfo",
+      "name": "",
+      "backendDOMNodeId": 1438,
+      "domNodeId": "368",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"368\"]",
+      "tagName": "footer",
+      "childIds": [
+        "1439",
+        "1440",
+        "1680"
+      ]
+    },
+    {
+      "nodeId": "1076",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1076,
+      "domNodeId": "6",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"6\"]",
+      "tagName": "p",
+      "childIds": [
+        "925"
+      ]
+    },
+    {
+      "nodeId": "1077",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1077,
+      "domNodeId": "7",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"7\"]",
+      "tagName": "div",
+      "childIds": [
+        "1078",
+        "1116"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1078",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Delivery Saver",
+      "backendDOMNodeId": 1078,
+      "domNodeId": "8",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"8\"]",
+      "tagName": "a",
+      "childIds": [
+        "1080",
+        "1115"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/#"
+      }
+    },
+    {
+      "nodeId": "1116",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Settings and contact",
+      "backendDOMNodeId": 1116,
+      "domNodeId": "41",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"41\"]",
+      "tagName": "nav",
+      "childIds": [
+        "1117"
+      ]
+    },
+    {
+      "nodeId": "1140",
+      "ignored": false,
+      "role": "navigation",
+      "name": "Main",
+      "backendDOMNodeId": 1140,
+      "domNodeId": "65",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"65\"]",
+      "tagName": "nav",
+      "childIds": [
+        "1141"
+      ]
+    },
+    {
+      "nodeId": "1167",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1167,
+      "domNodeId": "92",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"92\"]",
+      "tagName": "div",
+      "childIds": [
+        "1168"
+      ]
+    },
+    {
+      "nodeId": "1439",
+      "ignored": false,
+      "role": "heading",
+      "name": "Footer",
+      "backendDOMNodeId": 1439,
+      "domNodeId": "369",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"369\"]",
+      "tagName": "h2",
+      "childIds": [
+        "1018"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1440",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1440,
+      "domNodeId": "370",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"370\"]",
+      "tagName": "div",
+      "childIds": [
+        "1441"
+      ]
+    },
+    {
+      "nodeId": "1680",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1680,
+      "domNodeId": "610",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"610\"]",
+      "tagName": "div",
+      "childIds": [
+        "1681"
+      ]
+    },
+    {
+      "nodeId": "925",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "You are offline. Some functionality may be unavailable.",
+      "backendDOMNodeId": 925,
+      "childIds": [
+        "-1000000852"
+      ]
+    },
+    {
+      "nodeId": "1080",
+      "ignored": false,
+      "role": "image",
+      "name": "Tesco Home",
+      "backendDOMNodeId": 1080,
+      "domNodeId": "10",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"10\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1093",
+        "1098",
+        "1103",
+        "1108",
+        "1113"
+      ]
+    },
+    {
+      "nodeId": "1115",
+      "ignored": false,
+      "role": "heading",
+      "name": "Delivery Saver",
+      "backendDOMNodeId": 1115,
+      "domNodeId": "40",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"40\"]",
+      "tagName": "h5",
+      "childIds": [
+        "926"
+      ],
+      "properties": {
+        "level": 5
+      }
+    },
+    {
+      "nodeId": "1117",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1117,
+      "domNodeId": "42",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"42\"]",
+      "tagName": "div",
+      "childIds": [
+        "1118"
+      ]
+    },
+    {
+      "nodeId": "1141",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1141,
+      "domNodeId": "66",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"66\"]",
+      "tagName": "div",
+      "childIds": [
+        "1142"
+      ]
+    },
+    {
+      "nodeId": "1168",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1168,
+      "domNodeId": "93",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"93\"]",
+      "tagName": "div",
+      "childIds": [
+        "1169",
+        "1170",
+        "1186",
+        "1389",
+        "1427",
+        "1431"
+      ]
+    },
+    {
+      "nodeId": "1018",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Footer",
+      "backendDOMNodeId": 1018,
+      "childIds": [
+        "-1000000979"
+      ]
+    },
+    {
+      "nodeId": "1441",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1441,
+      "domNodeId": "371",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"371\"]",
+      "tagName": "div",
+      "childIds": [
+        "1442",
+        "1509",
+        "1548",
+        "1575",
+        "1602",
+        "1633"
+      ]
+    },
+    {
+      "nodeId": "1681",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1681,
+      "domNodeId": "611",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"611\"]",
+      "tagName": "div",
+      "childIds": [
+        "1682"
+      ]
+    },
+    {
+      "nodeId": "-1000000852",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "You are offline. Some functionality may be unavailable."
+    },
+    {
+      "nodeId": "1093",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1093,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1098",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1098,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1103",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1103,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1108",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1108,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1113",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1113,
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "926",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery Saver",
+      "backendDOMNodeId": 926,
+      "childIds": [
+        "-1000000853"
+      ]
+    },
+    {
+      "nodeId": "1118",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1118,
+      "domNodeId": "43",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"43\"]",
+      "tagName": "div",
+      "childIds": [
+        "1119"
+      ]
+    },
+    {
+      "nodeId": "1142",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1142,
+      "domNodeId": "67",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"67\"]",
+      "tagName": "div",
+      "childIds": [
+        "1143"
+      ]
+    },
+    {
+      "nodeId": "1169",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1169,
+      "domNodeId": "94",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"94\"]",
+      "tagName": "div"
+    },
+    {
+      "nodeId": "1170",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1170,
+      "domNodeId": "95",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"95\"]",
+      "tagName": "div",
+      "childIds": [
+        "1171"
+      ]
+    },
+    {
+      "nodeId": "1186",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1186,
+      "domNodeId": "112",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"112\"]",
+      "tagName": "div",
+      "childIds": [
+        "1187"
+      ]
+    },
+    {
+      "nodeId": "1389",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1389,
+      "domNodeId": "315",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"315\"]",
+      "tagName": "div",
+      "childIds": [
+        "1390"
+      ]
+    },
+    {
+      "nodeId": "1427",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1427,
+      "domNodeId": "357",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"357\"]",
+      "tagName": "div",
+      "childIds": [
+        "1428"
+      ]
+    },
+    {
+      "nodeId": "1431",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1431,
+      "domNodeId": "361",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"361\"]",
+      "tagName": "div",
+      "childIds": [
+        "1432"
+      ]
+    },
+    {
+      "nodeId": "-1000000979",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Footer"
+    },
+    {
+      "nodeId": "1442",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1442,
+      "domNodeId": "372",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"372\"]",
+      "tagName": "div",
+      "childIds": [
+        "1443",
+        "1462",
+        "1475",
+        "1488"
+      ]
+    },
+    {
+      "nodeId": "1509",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1509,
+      "domNodeId": "439",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"439\"]",
+      "tagName": "button",
+      "childIds": [
+        "1510",
+        "1511"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1510",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1510,
+      "domNodeId": "440",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"440\"]",
+      "tagName": "span",
+      "childIds": [
+        "1722"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1722",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1722,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1511",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1511,
+      "domNodeId": "441",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"441\"]",
+      "tagName": "span",
+      "childIds": [
+        "1512"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1512",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1512,
+      "domNodeId": "442",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"442\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1513"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1513",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1513,
+      "domNodeId": "443",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"443\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1548",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1548,
+      "domNodeId": "478",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"478\"]",
+      "tagName": "button",
+      "childIds": [
+        "1549",
+        "1550"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1549",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1549,
+      "domNodeId": "479",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"479\"]",
+      "tagName": "span",
+      "childIds": [
+        "1728"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1728",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1728,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1550",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1550,
+      "domNodeId": "480",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"480\"]",
+      "tagName": "span",
+      "childIds": [
+        "1551"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1551",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1551,
+      "domNodeId": "481",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"481\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1552"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1552",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1552,
+      "domNodeId": "482",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"482\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1575",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1575,
+      "domNodeId": "505",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"505\"]",
+      "tagName": "button",
+      "childIds": [
+        "1576",
+        "1577"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1576",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1576,
+      "domNodeId": "506",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"506\"]",
+      "tagName": "span",
+      "childIds": [
+        "1732"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1732",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1732,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1577",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1577,
+      "domNodeId": "507",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"507\"]",
+      "tagName": "span",
+      "childIds": [
+        "1578"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1578",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1578,
+      "domNodeId": "508",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"508\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1579"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1579",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1579,
+      "domNodeId": "509",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"509\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1602",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1602,
+      "domNodeId": "532",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"532\"]",
+      "tagName": "button",
+      "childIds": [
+        "1603",
+        "1604"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1603",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1603,
+      "domNodeId": "533",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"533\"]",
+      "tagName": "span",
+      "childIds": [
+        "1736"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1736",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1736,
+      "ignoredReasons": [
+        {
+          "name": "notRendered",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1604",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1604,
+      "domNodeId": "534",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"534\"]",
+      "tagName": "span",
+      "childIds": [
+        "1605"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1605",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1605,
+      "domNodeId": "535",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"535\"]",
+      "tagName": "svg",
+      "childIds": [
+        "1606"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenElement",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1606",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1606,
+      "domNodeId": "536",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"536\"]",
+      "tagName": "path",
+      "ignoredReasons": [
+        {
+          "name": "ariaHiddenSubtree",
+          "value": null
+        }
+      ]
+    },
+    {
+      "nodeId": "1633",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1633,
+      "domNodeId": "563",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"563\"]",
+      "tagName": "div",
+      "childIds": [
+        "1634"
+      ]
+    },
+    {
+      "nodeId": "1682",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1682,
+      "domNodeId": "612",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"612\"]",
+      "tagName": "div",
+      "childIds": [
+        "1683"
+      ]
+    },
+    {
+      "nodeId": "-1000000853",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery Saver"
+    },
+    {
+      "nodeId": "1119",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1119,
+      "domNodeId": "44",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"44\"]",
+      "tagName": "div",
+      "childIds": [
+        "1120"
+      ]
+    },
+    {
+      "nodeId": "1143",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1143,
+      "domNodeId": "68",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"68\"]",
+      "tagName": "div",
+      "childIds": [
+        "1144"
+      ]
+    },
+    {
+      "nodeId": "1171",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1171,
+      "domNodeId": "96",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"96\"]",
+      "tagName": "div",
+      "childIds": [
+        "1172",
+        "1173"
+      ]
+    },
+    {
+      "nodeId": "1187",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1187,
+      "domNodeId": "113",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"113\"]",
+      "tagName": "div",
+      "childIds": [
+        "1188",
+        "1189"
+      ]
+    },
+    {
+      "nodeId": "1390",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1390,
+      "domNodeId": "316",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"316\"]",
+      "tagName": "div",
+      "childIds": [
+        "1391",
+        "1392"
+      ]
+    },
+    {
+      "nodeId": "1428",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1428,
+      "domNodeId": "358",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"358\"]",
+      "tagName": "div",
+      "childIds": [
+        "1429"
+      ]
+    },
+    {
+      "nodeId": "1432",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1432,
+      "domNodeId": "362",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"362\"]",
+      "tagName": "div",
+      "childIds": [
+        "1433",
+        "1434"
+      ]
+    },
+    {
+      "nodeId": "1443",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1443,
+      "domNodeId": "373",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"373\"]",
+      "tagName": "div",
+      "childIds": [
+        "1444"
+      ]
+    },
+    {
+      "nodeId": "1462",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1462,
+      "domNodeId": "392",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"392\"]",
+      "tagName": "div",
+      "childIds": [
+        "1463"
+      ]
+    },
+    {
+      "nodeId": "1475",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1475,
+      "domNodeId": "405",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"405\"]",
+      "tagName": "div",
+      "childIds": [
+        "1476"
+      ]
+    },
+    {
+      "nodeId": "1488",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1488,
+      "domNodeId": "418",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"418\"]",
+      "tagName": "div",
+      "childIds": [
+        "1489"
+      ]
+    },
+    {
+      "nodeId": "1634",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1634,
+      "domNodeId": "564",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"564\"]",
+      "tagName": "div",
+      "childIds": [
+        "1635"
+      ]
+    },
+    {
+      "nodeId": "1683",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1683,
+      "domNodeId": "613",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"613\"]",
+      "tagName": "p",
+      "childIds": [
+        "1016",
+        "1017"
+      ]
+    },
+    {
+      "nodeId": "1120",
+      "ignored": false,
+      "role": "menubar",
+      "name": "",
+      "backendDOMNodeId": 1120,
+      "domNodeId": "45",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"45\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1121",
+        "1124",
+        "1127",
+        "1130",
+        "1137"
+      ],
+      "properties": {
+        "focusable": true,
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "1144",
+      "ignored": false,
+      "role": "menubar",
+      "name": "",
+      "backendDOMNodeId": 1144,
+      "domNodeId": "69",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"69\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1151",
+        "1154",
+        "1157"
+      ],
+      "properties": {
+        "focusable": true,
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "1172",
+      "ignored": false,
+      "role": "heading",
+      "name": "Delivery Saver",
+      "backendDOMNodeId": 1172,
+      "domNodeId": "97",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"97\"]",
+      "tagName": "h1",
+      "childIds": [
+        "935"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1173",
+      "ignored": false,
+      "role": "region",
+      "name": "Save £176 on delivery and collection charges*, Get a weekly shop delivered? Or prefer Click+Collect? Sign up to Delivery Saver from £2.49 a month and you won’t have to pay for your slot.",
+      "backendDOMNodeId": 1173,
+      "domNodeId": "98",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"98\"]",
+      "tagName": "section",
+      "childIds": [
+        "1174",
+        "1179"
+      ]
+    },
+    {
+      "nodeId": "1188",
+      "ignored": false,
+      "role": "heading",
+      "name": "Choose a plan that suits the way you shop",
+      "backendDOMNodeId": 1188,
+      "domNodeId": "114",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"114\"]",
+      "tagName": "h2",
+      "childIds": [
+        "940"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1189",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1189,
+      "domNodeId": "115",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"115\"]",
+      "tagName": "div",
+      "childIds": [
+        "1190"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1190",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1190,
+      "domNodeId": "116",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"116\"]",
+      "tagName": "div",
+      "childIds": [
+        "1191",
+        "1203"
+      ]
+    },
+    {
+      "nodeId": "1391",
+      "ignored": false,
+      "role": "heading",
+      "name": "Enjoy these Delivery Saver benefits",
+      "backendDOMNodeId": 1391,
+      "domNodeId": "317",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"317\"]",
+      "tagName": "h2",
+      "childIds": [
+        "979"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1392",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1392,
+      "domNodeId": "318",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"318\"]",
+      "tagName": "div",
+      "childIds": [
+        "1393"
+      ]
+    },
+    {
+      "nodeId": "1429",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1429,
+      "domNodeId": "359",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"359\"]",
+      "tagName": "p",
+      "childIds": [
+        "989",
+        "1430"
+      ]
+    },
+    {
+      "nodeId": "1433",
+      "ignored": false,
+      "role": "heading",
+      "name": "Still have questions?",
+      "backendDOMNodeId": 1433,
+      "domNodeId": "363",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"363\"]",
+      "tagName": "h2",
+      "childIds": [
+        "990"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1434",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1434,
+      "domNodeId": "364",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"364\"]",
+      "tagName": "p",
+      "childIds": [
+        "994",
+        "1435",
+        "995",
+        "1436",
+        "996",
+        "1437"
+      ]
+    },
+    {
+      "nodeId": "1444",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1444,
+      "domNodeId": "374",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"374\"]",
+      "tagName": "section",
+      "childIds": [
+        "1445",
+        "1446"
+      ]
+    },
+    {
+      "nodeId": "1463",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1463,
+      "domNodeId": "393",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"393\"]",
+      "tagName": "section",
+      "childIds": [
+        "1464",
+        "1465"
+      ]
+    },
+    {
+      "nodeId": "1476",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1476,
+      "domNodeId": "406",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"406\"]",
+      "tagName": "section",
+      "childIds": [
+        "1477",
+        "1478"
+      ]
+    },
+    {
+      "nodeId": "1489",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1489,
+      "domNodeId": "419",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"419\"]",
+      "tagName": "section",
+      "childIds": [
+        "1490",
+        "1491"
+      ]
+    },
+    {
+      "nodeId": "1635",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1635,
+      "domNodeId": "565",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"565\"]",
+      "tagName": "div",
+      "childIds": [
+        "1636"
+      ]
+    },
+    {
+      "nodeId": "1016",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "© ",
+      "backendDOMNodeId": 1016,
+      "childIds": [
+        "-1000000977"
+      ]
+    },
+    {
+      "nodeId": "1017",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco.com 2026 All rights reserved",
+      "backendDOMNodeId": 1017,
+      "childIds": [
+        "-1000000978"
+      ]
+    },
+    {
+      "nodeId": "1121",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1121,
+      "domNodeId": "46",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"46\"]",
+      "tagName": "li",
+      "childIds": [
+        "1122"
+      ]
+    },
+    {
+      "nodeId": "1124",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Groceries",
+      "backendDOMNodeId": 1124,
+      "domNodeId": "49",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"49\"]",
+      "tagName": "li",
+      "childIds": [
+        "1125"
+      ]
+    },
+    {
+      "nodeId": "1127",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Sign In",
+      "backendDOMNodeId": 1127,
+      "domNodeId": "52",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"52\"]",
+      "tagName": "li",
+      "childIds": [
+        "1128"
+      ]
+    },
+    {
+      "nodeId": "1130",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Store Locator",
+      "backendDOMNodeId": 1130,
+      "domNodeId": "55",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"55\"]",
+      "tagName": "li",
+      "childIds": [
+        "1131"
+      ]
+    },
+    {
+      "nodeId": "1137",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Contact us",
+      "backendDOMNodeId": 1137,
+      "domNodeId": "62",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"62\"]",
+      "tagName": "li",
+      "childIds": [
+        "1138"
+      ]
+    },
+    {
+      "nodeId": "1151",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "Home",
+      "backendDOMNodeId": 1151,
+      "domNodeId": "76",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"76\"]",
+      "tagName": "li",
+      "childIds": [
+        "1152"
+      ]
+    },
+    {
+      "nodeId": "1154",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "My Plan",
+      "backendDOMNodeId": 1154,
+      "domNodeId": "79",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"79\"]",
+      "tagName": "li",
+      "childIds": [
+        "1155"
+      ]
+    },
+    {
+      "nodeId": "1157",
+      "ignored": false,
+      "role": "menuitem",
+      "name": "FAQs",
+      "backendDOMNodeId": 1157,
+      "domNodeId": "82",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"82\"]",
+      "tagName": "li",
+      "childIds": [
+        "1158"
+      ]
+    },
+    {
+      "nodeId": "935",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Delivery Saver",
+      "backendDOMNodeId": 935,
+      "childIds": [
+        "-1000000862"
+      ]
+    },
+    {
+      "nodeId": "1174",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1174,
+      "domNodeId": "99",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"99\"]",
+      "tagName": "div",
+      "childIds": [
+        "1020",
+        "1177"
+      ]
+    },
+    {
+      "nodeId": "1179",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1179,
+      "domNodeId": "105",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"105\"]",
+      "tagName": "div",
+      "childIds": [
+        "1180",
+        "1184"
+      ]
+    },
+    {
+      "nodeId": "940",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Choose a plan that suits the way you shop",
+      "backendDOMNodeId": 940,
+      "childIds": [
+        "-1000000873"
+      ]
+    },
+    {
+      "nodeId": "1191",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1191,
+      "domNodeId": "117",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"117\"]",
+      "tagName": "div",
+      "childIds": [
+        "1192"
+      ]
+    },
+    {
+      "nodeId": "1203",
+      "ignored": false,
+      "role": "tabpanel",
+      "name": "6-month plans",
+      "backendDOMNodeId": 1203,
+      "domNodeId": "129",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"129\"]",
+      "tagName": "section",
+      "childIds": [
+        "1204"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "979",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Enjoy these Delivery Saver benefits",
+      "backendDOMNodeId": 979,
+      "childIds": [
+        "-1000000926"
+      ]
+    },
+    {
+      "nodeId": "1393",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1393,
+      "domNodeId": "319",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"319\"]",
+      "tagName": "div",
+      "childIds": [
+        "1394"
+      ]
+    },
+    {
+      "nodeId": "989",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "See the full Delivery Saver ",
+      "backendDOMNodeId": 989,
+      "childIds": [
+        "-1000000948"
+      ]
+    },
+    {
+      "nodeId": "1430",
+      "ignored": false,
+      "role": "link",
+      "name": "terms and conditions",
+      "backendDOMNodeId": 1430,
+      "domNodeId": "360",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"360\"]",
+      "tagName": "a",
+      "childIds": [
+        "988"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/terms-and-conditions"
+      }
+    },
+    {
+      "nodeId": "990",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Still have questions?",
+      "backendDOMNodeId": 990,
+      "childIds": [
+        "-1000000949"
+      ]
+    },
+    {
+      "nodeId": "994",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "We’re trialling the WhatsApp messaging service to answer questions about your Delivery Saver account or our plans. You can send us a message via ",
+      "backendDOMNodeId": 994,
+      "childIds": [
+        "-1000000953"
+      ]
+    },
+    {
+      "nodeId": "1435",
+      "ignored": false,
+      "role": "link",
+      "name": "0800 917 7403",
+      "backendDOMNodeId": 1435,
+      "domNodeId": "365",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"365\"]",
+      "tagName": "a",
+      "childIds": [
+        "991"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "sms:08009177403"
+      }
+    },
+    {
+      "nodeId": "995",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " or ",
+      "backendDOMNodeId": 995,
+      "childIds": [
+        "-1000000954"
+      ]
+    },
+    {
+      "nodeId": "1436",
+      "ignored": false,
+      "role": "link",
+      "name": "wa.me/448009177403",
+      "backendDOMNodeId": 1436,
+      "domNodeId": "366",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"366\"]",
+      "tagName": "a",
+      "childIds": [
+        "992"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://wa.me/448009177403"
+      }
+    },
+    {
+      "nodeId": "996",
+      "ignored": false,
+      "role": "StaticText",
+      "name": " from mobile devices, Monday-Friday 7am-11pm and Saturday-Sunday 7am-9pm. For all other queries, please see our ",
+      "backendDOMNodeId": 996,
+      "childIds": [
+        "-1000000955",
+        "-1000000956",
+        "-1000000957"
+      ]
+    },
+    {
+      "nodeId": "1437",
+      "ignored": false,
+      "role": "link",
+      "name": "contact us page",
+      "backendDOMNodeId": 1437,
+      "domNodeId": "367",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"367\"]",
+      "tagName": "a",
+      "childIds": [
+        "993"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/contact"
+      }
+    },
+    {
+      "nodeId": "1445",
+      "ignored": false,
+      "role": "heading",
+      "name": "Here to help",
+      "backendDOMNodeId": 1445,
+      "domNodeId": "375",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"375\"]",
+      "tagName": "h3",
+      "childIds": [
+        "997"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1446",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1446,
+      "domNodeId": "376",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"376\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1447",
+        "1450",
+        "1453",
+        "1456",
+        "1459"
+      ]
+    },
+    {
+      "nodeId": "1464",
+      "ignored": false,
+      "role": "heading",
+      "name": "About Tesco",
+      "backendDOMNodeId": 1464,
+      "domNodeId": "394",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"394\"]",
+      "tagName": "h3",
+      "childIds": [
+        "1003"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1465",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1465,
+      "domNodeId": "395",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"395\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1466",
+        "1469",
+        "1472"
+      ]
+    },
+    {
+      "nodeId": "1477",
+      "ignored": false,
+      "role": "heading",
+      "name": "Useful links",
+      "backendDOMNodeId": 1477,
+      "domNodeId": "407",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"407\"]",
+      "tagName": "h3",
+      "childIds": [
+        "1007"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1478",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1478,
+      "domNodeId": "408",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"408\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1479",
+        "1482",
+        "1485"
+      ]
+    },
+    {
+      "nodeId": "1490",
+      "ignored": false,
+      "role": "heading",
+      "name": "More from Tesco",
+      "backendDOMNodeId": 1490,
+      "domNodeId": "420",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"420\"]",
+      "tagName": "h3",
+      "childIds": [
+        "1011"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1491",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1491,
+      "domNodeId": "421",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"421\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1492",
+        "1495",
+        "1498",
+        "1501"
+      ]
+    },
+    {
+      "nodeId": "1636",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1636,
+      "domNodeId": "566",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"566\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1637",
+        "1646",
+        "1651",
+        "1660",
+        "1669"
+      ]
+    },
+    {
+      "nodeId": "-1000000977",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "© "
+    },
+    {
+      "nodeId": "-1000000978",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco.com 2026 All rights reserved"
+    },
+    {
+      "nodeId": "1122",
+      "ignored": false,
+      "role": "button",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1122,
+      "domNodeId": "47",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"47\"]",
+      "tagName": "a",
+      "childIds": [
+        "1123"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1125",
+      "ignored": false,
+      "role": "button",
+      "name": "Groceries",
+      "backendDOMNodeId": 1125,
+      "domNodeId": "50",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"50\"]",
+      "tagName": "a",
+      "childIds": [
+        "1126"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1128",
+      "ignored": false,
+      "role": "button",
+      "name": "Sign In",
+      "backendDOMNodeId": 1128,
+      "domNodeId": "53",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"53\"]",
+      "tagName": "a",
+      "childIds": [
+        "1129"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1131",
+      "ignored": false,
+      "role": "button",
+      "name": "Store Locator",
+      "backendDOMNodeId": 1131,
+      "domNodeId": "56",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"56\"]",
+      "tagName": "a",
+      "childIds": [
+        "1132",
+        "1133"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1138",
+      "ignored": false,
+      "role": "button",
+      "name": "Contact us",
+      "backendDOMNodeId": 1138,
+      "domNodeId": "63",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"63\"]",
+      "tagName": "a",
+      "childIds": [
+        "1139"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1152",
+      "ignored": false,
+      "role": "button",
+      "name": "Home",
+      "backendDOMNodeId": 1152,
+      "domNodeId": "77",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"77\"]",
+      "tagName": "a",
+      "childIds": [
+        "932"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1155",
+      "ignored": false,
+      "role": "button",
+      "name": "My Plan",
+      "backendDOMNodeId": 1155,
+      "domNodeId": "80",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"80\"]",
+      "tagName": "a",
+      "childIds": [
+        "933"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1158",
+      "ignored": false,
+      "role": "button",
+      "name": "FAQs",
+      "backendDOMNodeId": 1158,
+      "domNodeId": "83",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"83\"]",
+      "tagName": "a",
+      "childIds": [
+        "934"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "-1000000862",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Delivery Saver"
+    },
+    {
+      "nodeId": "1020",
+      "ignored": false,
+      "role": "image",
+      "name": "Save £176 on delivery and collection charges*",
+      "backendDOMNodeId": 1020,
+      "domNodeId": "102",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"102\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://digitalcontent.api.tesco.com/v2/media/ghs-mktg/5d93e872-187a-4892-944b-a72451c35431/Delivery-Saver4.png"
+      }
+    },
+    {
+      "nodeId": "1177",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1177,
+      "domNodeId": "103",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"103\"]",
+      "tagName": "div",
+      "childIds": [
+        "1178"
+      ]
+    },
+    {
+      "nodeId": "1180",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1180,
+      "domNodeId": "106",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"106\"]",
+      "tagName": "div",
+      "childIds": [
+        "1181",
+        "1182"
+      ]
+    },
+    {
+      "nodeId": "1184",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1184,
+      "domNodeId": "110",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"110\"]",
+      "tagName": "p",
+      "childIds": [
+        "1185"
+      ]
+    },
+    {
+      "nodeId": "-1000000873",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Choose a plan that suits the way you shop"
+    },
+    {
+      "nodeId": "1192",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1192,
+      "domNodeId": "118",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"118\"]",
+      "tagName": "div",
+      "childIds": [
+        "1193"
+      ],
+      "properties": {
+        "focusable": true
+      }
+    },
+    {
+      "nodeId": "1204",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1204,
+      "domNodeId": "130",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"130\"]",
+      "tagName": "div",
+      "childIds": [
+        "1205",
+        "1247",
+        "1278"
+      ]
+    },
+    {
+      "nodeId": "-1000000926",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Enjoy these Delivery Saver benefits"
+    },
+    {
+      "nodeId": "1394",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1394,
+      "domNodeId": "320",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"320\"]",
+      "tagName": "div",
+      "childIds": [
+        "1395",
+        "1403",
+        "1411",
+        "1419"
+      ]
+    },
+    {
+      "nodeId": "-1000000948",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "See the full Delivery Saver "
+    },
+    {
+      "nodeId": "988",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "terms and conditions",
+      "backendDOMNodeId": 988,
+      "childIds": [
+        "-1000000947"
+      ]
+    },
+    {
+      "nodeId": "-1000000949",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Still have questions?"
+    },
+    {
+      "nodeId": "-1000000953",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "We’re trialling the WhatsApp messaging service to answer questions about your Delivery Saver account or our plans. You can send us a message via "
+    },
+    {
+      "nodeId": "991",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "0800 917 7403",
+      "backendDOMNodeId": 991,
+      "childIds": [
+        "-1000000950"
+      ]
+    },
+    {
+      "nodeId": "-1000000954",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " or "
+    },
+    {
+      "nodeId": "992",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "wa.me/448009177403",
+      "backendDOMNodeId": 992,
+      "childIds": [
+        "-1000000951"
+      ]
+    },
+    {
+      "nodeId": "-1000000955",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " from mobile devices, Monday-Friday 7am-11pm and Saturday-Sunday 7am-9pm. For all other queries, please see"
+    },
+    {
+      "nodeId": "-1000000956",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": " "
+    },
+    {
+      "nodeId": "-1000000957",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "our "
+    },
+    {
+      "nodeId": "993",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "contact us page",
+      "backendDOMNodeId": 993,
+      "childIds": [
+        "-1000000952"
+      ]
+    },
+    {
+      "nodeId": "997",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Here to help",
+      "backendDOMNodeId": 997,
+      "childIds": [
+        "-1000000958"
+      ]
+    },
+    {
+      "nodeId": "1447",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1447,
+      "domNodeId": "377",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"377\"]",
+      "tagName": "li",
+      "childIds": [
+        "1448"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1450",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1450,
+      "domNodeId": "380",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"380\"]",
+      "tagName": "li",
+      "childIds": [
+        "1451"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1453",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1453,
+      "domNodeId": "383",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"383\"]",
+      "tagName": "li",
+      "childIds": [
+        "1454"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1456",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1456,
+      "domNodeId": "386",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"386\"]",
+      "tagName": "li",
+      "childIds": [
+        "1457"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1459",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1459,
+      "domNodeId": "389",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"389\"]",
+      "tagName": "li",
+      "childIds": [
+        "1460"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1003",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "About Tesco",
+      "backendDOMNodeId": 1003,
+      "childIds": [
+        "-1000000964"
+      ]
+    },
+    {
+      "nodeId": "1466",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1466,
+      "domNodeId": "396",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"396\"]",
+      "tagName": "li",
+      "childIds": [
+        "1467"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1469",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1469,
+      "domNodeId": "399",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"399\"]",
+      "tagName": "li",
+      "childIds": [
+        "1470"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1472",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1472,
+      "domNodeId": "402",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"402\"]",
+      "tagName": "li",
+      "childIds": [
+        "1473"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1007",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Useful links",
+      "backendDOMNodeId": 1007,
+      "childIds": [
+        "-1000000968"
+      ]
+    },
+    {
+      "nodeId": "1479",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1479,
+      "domNodeId": "409",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"409\"]",
+      "tagName": "li",
+      "childIds": [
+        "1480"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1482",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1482,
+      "domNodeId": "412",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"412\"]",
+      "tagName": "li",
+      "childIds": [
+        "1483"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1485",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1485,
+      "domNodeId": "415",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"415\"]",
+      "tagName": "li",
+      "childIds": [
+        "1486"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1011",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "More from Tesco",
+      "backendDOMNodeId": 1011,
+      "childIds": [
+        "-1000000972"
+      ]
+    },
+    {
+      "nodeId": "1492",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1492,
+      "domNodeId": "422",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"422\"]",
+      "tagName": "li",
+      "childIds": [
+        "1493"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1495",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1495,
+      "domNodeId": "425",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"425\"]",
+      "tagName": "li",
+      "childIds": [
+        "1496"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1498",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1498,
+      "domNodeId": "428",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"428\"]",
+      "tagName": "li",
+      "childIds": [
+        "1499"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1501",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1501,
+      "domNodeId": "431",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"431\"]",
+      "tagName": "li",
+      "childIds": [
+        "1502"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1637",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1637,
+      "domNodeId": "567",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"567\"]",
+      "tagName": "li",
+      "childIds": [
+        "1638"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1646",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1646,
+      "domNodeId": "576",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"576\"]",
+      "tagName": "li",
+      "childIds": [
+        "1647"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1651",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1651,
+      "domNodeId": "581",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"581\"]",
+      "tagName": "li",
+      "childIds": [
+        "1652"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1660",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1660,
+      "domNodeId": "590",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"590\"]",
+      "tagName": "li",
+      "childIds": [
+        "1661"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1669",
+      "ignored": false,
+      "role": "listitem",
+      "name": "",
+      "backendDOMNodeId": 1669,
+      "domNodeId": "599",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"599\"]",
+      "tagName": "li",
+      "childIds": [
+        "1670"
+      ],
+      "properties": {
+        "level": 1
+      }
+    },
+    {
+      "nodeId": "1123",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1123,
+      "domNodeId": "48",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"48\"]",
+      "tagName": "span",
+      "childIds": [
+        "927"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "927",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 927,
+      "childIds": [
+        "-1000001000"
+      ]
+    },
+    {
+      "nodeId": "1126",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1126,
+      "domNodeId": "51",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"51\"]",
+      "tagName": "span",
+      "childIds": [
+        "928"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "928",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Groceries",
+      "backendDOMNodeId": 928,
+      "childIds": [
+        "-1000001001"
+      ]
+    },
+    {
+      "nodeId": "1129",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1129,
+      "domNodeId": "54",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"54\"]",
+      "tagName": "span",
+      "childIds": [
+        "929"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "929",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign In",
+      "backendDOMNodeId": 929,
+      "childIds": [
+        "-1000001002"
+      ]
+    },
+    {
+      "nodeId": "1132",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1132,
+      "domNodeId": "57",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"57\"]",
+      "tagName": "span",
+      "childIds": [
+        "930"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "930",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Store Locator",
+      "backendDOMNodeId": 930,
+      "childIds": [
+        "-1000001003"
+      ]
+    },
+    {
+      "nodeId": "1133",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1133,
+      "domNodeId": "58",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"58\"]",
+      "tagName": "span",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1139",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1139,
+      "domNodeId": "64",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"64\"]",
+      "tagName": "span",
+      "childIds": [
+        "931"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "931",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact us",
+      "backendDOMNodeId": 931,
+      "childIds": [
+        "-1000001004"
+      ]
+    },
+    {
+      "nodeId": "932",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Home",
+      "backendDOMNodeId": 932,
+      "childIds": [
+        "-1000000859"
+      ]
+    },
+    {
+      "nodeId": "933",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "My Plan",
+      "backendDOMNodeId": 933,
+      "childIds": [
+        "-1000000860"
+      ]
+    },
+    {
+      "nodeId": "934",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "FAQs",
+      "backendDOMNodeId": 934,
+      "childIds": [
+        "-1000000861"
+      ]
+    },
+    {
+      "nodeId": "1178",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1178,
+      "domNodeId": "104",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"104\"]",
+      "tagName": "div",
+      "childIds": [
+        "939"
+      ]
+    },
+    {
+      "nodeId": "1181",
+      "ignored": false,
+      "role": "heading",
+      "name": "Save £176 on delivery and collection charges*",
+      "backendDOMNodeId": 1181,
+      "domNodeId": "107",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"107\"]",
+      "tagName": "h3",
+      "childIds": [
+        "936"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1182",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1182,
+      "domNodeId": "108",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"108\"]",
+      "tagName": "p",
+      "childIds": [
+        "937"
+      ]
+    },
+    {
+      "nodeId": "1185",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1185,
+      "domNodeId": "111",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"111\"]",
+      "tagName": "span",
+      "childIds": [
+        "938"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "938",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "*Based on one weekly £5 slot compared to a 12-month Anytime plan.",
+      "backendDOMNodeId": 938,
+      "childIds": [
+        "-1000000868"
+      ]
+    },
+    {
+      "nodeId": "1193",
+      "ignored": false,
+      "role": "LayoutTable",
+      "name": "",
+      "backendDOMNodeId": 1193,
+      "domNodeId": "119",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"119\"]",
+      "tagName": "div",
+      "childIds": [
+        "1194"
+      ]
+    },
+    {
+      "nodeId": "1205",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1205,
+      "domNodeId": "131",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"131\"]",
+      "tagName": "div",
+      "childIds": [
+        "1206",
+        "1208",
+        "1216",
+        "1218",
+        "1221"
+      ]
+    },
+    {
+      "nodeId": "1247",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1247,
+      "domNodeId": "173",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"173\"]",
+      "tagName": "div",
+      "childIds": [
+        "1248",
+        "1249",
+        "1257",
+        "1259",
+        "1262"
+      ]
+    },
+    {
+      "nodeId": "1278",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1278,
+      "domNodeId": "204",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"204\"]",
+      "tagName": "div",
+      "childIds": [
+        "1279",
+        "1280",
+        "1288",
+        "1290",
+        "1293"
+      ]
+    },
+    {
+      "nodeId": "1395",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1395,
+      "domNodeId": "321",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"321\"]",
+      "tagName": "div",
+      "childIds": [
+        "1396"
+      ]
+    },
+    {
+      "nodeId": "1403",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1403,
+      "domNodeId": "330",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"330\"]",
+      "tagName": "div",
+      "childIds": [
+        "1404"
+      ]
+    },
+    {
+      "nodeId": "1411",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1411,
+      "domNodeId": "339",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"339\"]",
+      "tagName": "div",
+      "childIds": [
+        "1412"
+      ]
+    },
+    {
+      "nodeId": "1419",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1419,
+      "domNodeId": "348",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"348\"]",
+      "tagName": "div",
+      "childIds": [
+        "1420"
+      ]
+    },
+    {
+      "nodeId": "-1000000947",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "terms and conditions"
+    },
+    {
+      "nodeId": "-1000000950",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "0800 917 7403"
+    },
+    {
+      "nodeId": "-1000000951",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "wa.me/448009177403"
+    },
+    {
+      "nodeId": "-1000000952",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "contact us page"
+    },
+    {
+      "nodeId": "-1000000958",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Here to help"
+    },
+    {
+      "nodeId": "1448",
+      "ignored": false,
+      "role": "link",
+      "name": "My Plan",
+      "backendDOMNodeId": 1448,
+      "domNodeId": "378",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"378\"]",
+      "tagName": "a",
+      "childIds": [
+        "998"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/manage"
+      }
+    },
+    {
+      "nodeId": "1451",
+      "ignored": false,
+      "role": "link",
+      "name": "Help & FAQs",
+      "backendDOMNodeId": 1451,
+      "domNodeId": "381",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"381\"]",
+      "tagName": "a",
+      "childIds": [
+        "999"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/faqs"
+      }
+    },
+    {
+      "nodeId": "1454",
+      "ignored": false,
+      "role": "link",
+      "name": "Terms & Conditions",
+      "backendDOMNodeId": 1454,
+      "domNodeId": "384",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"384\"]",
+      "tagName": "a",
+      "childIds": [
+        "1000"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/terms-and-conditions"
+      }
+    },
+    {
+      "nodeId": "1457",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy & Cookies Policy",
+      "backendDOMNodeId": 1457,
+      "domNodeId": "387",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"387\"]",
+      "tagName": "a",
+      "childIds": [
+        "1001"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/privacy-and-cookies/privacy-centre/privacy-policy-information/privacy-policy/"
+      }
+    },
+    {
+      "nodeId": "1460",
+      "ignored": false,
+      "role": "link",
+      "name": "Privacy centre",
+      "backendDOMNodeId": 1460,
+      "domNodeId": "390",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"390\"]",
+      "tagName": "a",
+      "childIds": [
+        "1002"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/privacy-and-cookies/privacy-centre/"
+      }
+    },
+    {
+      "nodeId": "-1000000964",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "About Tesco"
+    },
+    {
+      "nodeId": "1467",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco PLC",
+      "backendDOMNodeId": 1467,
+      "domNodeId": "397",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"397\"]",
+      "tagName": "a",
+      "childIds": [
+        "1004"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tescoplc.com/"
+      }
+    },
+    {
+      "nodeId": "1470",
+      "ignored": false,
+      "role": "link",
+      "name": "Careers",
+      "backendDOMNodeId": 1470,
+      "domNodeId": "400",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"400\"]",
+      "tagName": "a",
+      "childIds": [
+        "1005"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco-careers.com/"
+      }
+    },
+    {
+      "nodeId": "1473",
+      "ignored": false,
+      "role": "link",
+      "name": "Contact us",
+      "backendDOMNodeId": 1473,
+      "domNodeId": "403",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"403\"]",
+      "tagName": "a",
+      "childIds": [
+        "1006"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/contact/"
+      }
+    },
+    {
+      "nodeId": "-1000000968",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Useful links"
+    },
+    {
+      "nodeId": "1480",
+      "ignored": false,
+      "role": "link",
+      "name": "Product recall",
+      "backendDOMNodeId": 1480,
+      "domNodeId": "410",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"410\"]",
+      "tagName": "a",
+      "childIds": [
+        "1008"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/productrecall/"
+      }
+    },
+    {
+      "nodeId": "1483",
+      "ignored": false,
+      "role": "link",
+      "name": "Store locator",
+      "backendDOMNodeId": 1483,
+      "domNodeId": "413",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"413\"]",
+      "tagName": "a",
+      "childIds": [
+        "1009"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://www.tesco.com/store-locator/uk/"
+      }
+    },
+    {
+      "nodeId": "1486",
+      "ignored": false,
+      "role": "link",
+      "name": "Help",
+      "backendDOMNodeId": 1486,
+      "domNodeId": "416",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"416\"]",
+      "tagName": "a",
+      "childIds": [
+        "1010"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/help/"
+      }
+    },
+    {
+      "nodeId": "-1000000972",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "More from Tesco"
+    },
+    {
+      "nodeId": "1493",
+      "ignored": false,
+      "role": "link",
+      "name": "Groceries",
+      "backendDOMNodeId": 1493,
+      "domNodeId": "423",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"423\"]",
+      "tagName": "a",
+      "childIds": [
+        "1012"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/groceries/"
+      }
+    },
+    {
+      "nodeId": "1496",
+      "ignored": false,
+      "role": "link",
+      "name": "Clubcard",
+      "backendDOMNodeId": 1496,
+      "domNodeId": "426",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"426\"]",
+      "tagName": "a",
+      "childIds": [
+        "1013"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/clubcard/"
+      }
+    },
+    {
+      "nodeId": "1499",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1499,
+      "domNodeId": "429",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"429\"]",
+      "tagName": "a",
+      "childIds": [
+        "1014"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/"
+      }
+    },
+    {
+      "nodeId": "1502",
+      "ignored": false,
+      "role": "link",
+      "name": "Tesco Mobile",
+      "backendDOMNodeId": 1502,
+      "domNodeId": "432",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"432\"]",
+      "tagName": "a",
+      "childIds": [
+        "1015"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "http://www.tescomobile.com/"
+      }
+    },
+    {
+      "nodeId": "1638",
+      "ignored": false,
+      "role": "link",
+      "name": "",
+      "backendDOMNodeId": 1638,
+      "domNodeId": "568",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"568\"]",
+      "tagName": "a",
+      "childIds": [
+        "1639"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.facebook.com/tesco/"
+      }
+    },
+    {
+      "nodeId": "1647",
+      "ignored": false,
+      "role": "link",
+      "name": "",
+      "backendDOMNodeId": 1647,
+      "domNodeId": "577",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"577\"]",
+      "tagName": "a",
+      "childIds": [
+        "1648"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://twitter.com/tesco"
+      }
+    },
+    {
+      "nodeId": "1652",
+      "ignored": false,
+      "role": "link",
+      "name": "",
+      "backendDOMNodeId": 1652,
+      "domNodeId": "582",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"582\"]",
+      "tagName": "a",
+      "childIds": [
+        "1653"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://youtube.com/tesco"
+      }
+    },
+    {
+      "nodeId": "1661",
+      "ignored": false,
+      "role": "link",
+      "name": "",
+      "backendDOMNodeId": 1661,
+      "domNodeId": "591",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"591\"]",
+      "tagName": "a",
+      "childIds": [
+        "1662"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://pinterest.com/tesco"
+      }
+    },
+    {
+      "nodeId": "1670",
+      "ignored": false,
+      "role": "link",
+      "name": "",
+      "backendDOMNodeId": 1670,
+      "domNodeId": "600",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"600\"]",
+      "tagName": "a",
+      "childIds": [
+        "1671"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.instagram.com/tesco/"
+      }
+    },
+    {
+      "nodeId": "-1000001000",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco.com"
+    },
+    {
+      "nodeId": "-1000001001",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Groceries"
+    },
+    {
+      "nodeId": "-1000001002",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign In"
+    },
+    {
+      "nodeId": "-1000001003",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Store Locator"
+    },
+    {
+      "nodeId": "-1000001004",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact us"
+    },
+    {
+      "nodeId": "-1000000859",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Home"
+    },
+    {
+      "nodeId": "-1000000860",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "My Plan"
+    },
+    {
+      "nodeId": "-1000000861",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "FAQs"
+    },
+    {
+      "nodeId": "939",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Priority Christmas slots included with Anytime plan",
+      "backendDOMNodeId": 939,
+      "childIds": [
+        "-1000000869",
+        "-1000000870",
+        "-1000000871",
+        "-1000000872"
+      ]
+    },
+    {
+      "nodeId": "936",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Save £176 on delivery and collection charges*",
+      "backendDOMNodeId": 936,
+      "childIds": [
+        "-1000000863",
+        "-1000000864"
+      ]
+    },
+    {
+      "nodeId": "937",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Get a weekly shop delivered? Or prefer Click+Collect? Sign up to Delivery Saver from £2.49 a month and you won’t have to pay for your slot.",
+      "backendDOMNodeId": 937,
+      "childIds": [
+        "-1000000865",
+        "-1000000866",
+        "-1000000867"
+      ]
+    },
+    {
+      "nodeId": "-1000000868",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "*Based on one weekly £5 slot compared to a 12-month Anytime plan."
+    },
+    {
+      "nodeId": "1194",
+      "ignored": false,
+      "role": "tablist",
+      "name": "",
+      "backendDOMNodeId": 1194,
+      "domNodeId": "120",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"120\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1196",
+        "1200"
+      ],
+      "properties": {
+        "multiselectable": false,
+        "orientation": "horizontal"
+      }
+    },
+    {
+      "nodeId": "1206",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1206,
+      "domNodeId": "132",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"132\"]",
+      "tagName": "div",
+      "childIds": [
+        "1207"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1207",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1207,
+      "domNodeId": "133",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"133\"]",
+      "tagName": "p",
+      "childIds": [
+        "944"
+      ]
+    },
+    {
+      "nodeId": "1208",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1208,
+      "domNodeId": "134",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"134\"]",
+      "tagName": "div",
+      "childIds": [
+        "1209"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1209",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1209,
+      "domNodeId": "135",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"135\"]",
+      "tagName": "div",
+      "childIds": [
+        "1210",
+        "1211"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1210",
+      "ignored": false,
+      "role": "heading",
+      "name": "Anytime",
+      "backendDOMNodeId": 1210,
+      "domNodeId": "136",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"136\"]",
+      "tagName": "h2",
+      "childIds": [
+        "945"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1211",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1211,
+      "domNodeId": "137",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"137\"]",
+      "tagName": "div",
+      "childIds": [
+        "1212",
+        "1215"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1212",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1212,
+      "domNodeId": "138",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"138\"]",
+      "tagName": "div",
+      "childIds": [
+        "1213",
+        "1214"
+      ]
+    },
+    {
+      "nodeId": "1215",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1215,
+      "domNodeId": "141",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"141\"]",
+      "tagName": "p",
+      "childIds": [
+        "948"
+      ]
+    },
+    {
+      "nodeId": "1216",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1216,
+      "domNodeId": "142",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"142\"]",
+      "tagName": "div",
+      "childIds": [
+        "1217"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1217",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1217,
+      "domNodeId": "143",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"143\"]",
+      "tagName": "p",
+      "childIds": [
+        "949"
+      ]
+    },
+    {
+      "nodeId": "1218",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1218,
+      "domNodeId": "144",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"144\"]",
+      "tagName": "div",
+      "childIds": [
+        "1219"
+      ]
+    },
+    {
+      "nodeId": "1221",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1221,
+      "domNodeId": "147",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"147\"]",
+      "tagName": "div",
+      "childIds": [
+        "1222"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1222",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1222,
+      "domNodeId": "148",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"148\"]",
+      "tagName": "div",
+      "childIds": [
+        "1223",
+        "1224",
+        "1245"
+      ]
+    },
+    {
+      "nodeId": "1248",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1248,
+      "domNodeId": "174",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"174\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1249",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1249,
+      "domNodeId": "175",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"175\"]",
+      "tagName": "div",
+      "childIds": [
+        "1250"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1250",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1250,
+      "domNodeId": "176",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"176\"]",
+      "tagName": "div",
+      "childIds": [
+        "1251",
+        "1252"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1251",
+      "ignored": false,
+      "role": "heading",
+      "name": "Off Peak",
+      "backendDOMNodeId": 1251,
+      "domNodeId": "177",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"177\"]",
+      "tagName": "h2",
+      "childIds": [
+        "958"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1252",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1252,
+      "domNodeId": "178",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"178\"]",
+      "tagName": "div",
+      "childIds": [
+        "1253",
+        "1256"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1253",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1253,
+      "domNodeId": "179",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"179\"]",
+      "tagName": "div",
+      "childIds": [
+        "1254",
+        "1255"
+      ]
+    },
+    {
+      "nodeId": "1256",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1256,
+      "domNodeId": "182",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"182\"]",
+      "tagName": "p",
+      "childIds": [
+        "961"
+      ]
+    },
+    {
+      "nodeId": "1257",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1257,
+      "domNodeId": "183",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"183\"]",
+      "tagName": "div",
+      "childIds": [
+        "1258"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1258",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1258,
+      "domNodeId": "184",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"184\"]",
+      "tagName": "p",
+      "childIds": [
+        "962"
+      ]
+    },
+    {
+      "nodeId": "1259",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1259,
+      "domNodeId": "185",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"185\"]",
+      "tagName": "div",
+      "childIds": [
+        "1260"
+      ]
+    },
+    {
+      "nodeId": "1262",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1262,
+      "domNodeId": "188",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"188\"]",
+      "tagName": "div",
+      "childIds": [
+        "1263"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1263",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1263,
+      "domNodeId": "189",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"189\"]",
+      "tagName": "div",
+      "childIds": [
+        "1264",
+        "1265"
+      ]
+    },
+    {
+      "nodeId": "1279",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1279,
+      "domNodeId": "205",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"205\"]",
+      "tagName": "div",
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1280",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1280,
+      "domNodeId": "206",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"206\"]",
+      "tagName": "div",
+      "childIds": [
+        "1281"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1281",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1281,
+      "domNodeId": "207",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"207\"]",
+      "tagName": "div",
+      "childIds": [
+        "1282",
+        "1283"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1282",
+      "ignored": false,
+      "role": "heading",
+      "name": "Click+Collect",
+      "backendDOMNodeId": 1282,
+      "domNodeId": "208",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"208\"]",
+      "tagName": "h2",
+      "childIds": [
+        "968"
+      ],
+      "properties": {
+        "level": 2
+      }
+    },
+    {
+      "nodeId": "1283",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1283,
+      "domNodeId": "209",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"209\"]",
+      "tagName": "div",
+      "childIds": [
+        "1284",
+        "1287"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1284",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1284,
+      "domNodeId": "210",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"210\"]",
+      "tagName": "div",
+      "childIds": [
+        "1285",
+        "1286"
+      ]
+    },
+    {
+      "nodeId": "1287",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1287,
+      "domNodeId": "213",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"213\"]",
+      "tagName": "p",
+      "childIds": [
+        "971"
+      ]
+    },
+    {
+      "nodeId": "1288",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1288,
+      "domNodeId": "214",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"214\"]",
+      "tagName": "div",
+      "childIds": [
+        "1289"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1289",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1289,
+      "domNodeId": "215",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"215\"]",
+      "tagName": "p",
+      "childIds": [
+        "972"
+      ]
+    },
+    {
+      "nodeId": "1290",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1290,
+      "domNodeId": "216",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"216\"]",
+      "tagName": "div",
+      "childIds": [
+        "1291"
+      ]
+    },
+    {
+      "nodeId": "1293",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1293,
+      "domNodeId": "219",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"219\"]",
+      "tagName": "div",
+      "childIds": [
+        "1294"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1294",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1294,
+      "domNodeId": "220",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"220\"]",
+      "tagName": "div",
+      "childIds": [
+        "1295",
+        "1296"
+      ]
+    },
+    {
+      "nodeId": "1396",
+      "ignored": false,
+      "role": "region",
+      "name": "Same-day deliveries, Last-minute shop? On our Anytime plan, choose from available same-day slots.",
+      "backendDOMNodeId": 1396,
+      "domNodeId": "322",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"322\"]",
+      "tagName": "section",
+      "childIds": [
+        "1397",
+        "1399"
+      ]
+    },
+    {
+      "nodeId": "1404",
+      "ignored": false,
+      "role": "region",
+      "name": "Access to more slots, Book up to 4 weeks in advance and get priority Christmas slots on our Anytime plan.",
+      "backendDOMNodeId": 1404,
+      "domNodeId": "331",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"331\"]",
+      "tagName": "section",
+      "childIds": [
+        "1405",
+        "1407"
+      ]
+    },
+    {
+      "nodeId": "1412",
+      "ignored": false,
+      "role": "region",
+      "name": "Never out of pocket, With our Delivery Saver guarantee, if you don’t save on delivery and collection charges, we'll give you a coupon for the difference.",
+      "backendDOMNodeId": 1412,
+      "domNodeId": "340",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"340\"]",
+      "tagName": "section",
+      "childIds": [
+        "1413",
+        "1415"
+      ]
+    },
+    {
+      "nodeId": "1420",
+      "ignored": false,
+      "role": "region",
+      "name": "Collect when you like, All of our plans include same-day Click+Collect, which you can pick up any time within your selected timeslot.",
+      "backendDOMNodeId": 1420,
+      "domNodeId": "349",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"349\"]",
+      "tagName": "section",
+      "childIds": [
+        "1421",
+        "1423"
+      ]
+    },
+    {
+      "nodeId": "998",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "My Plan",
+      "backendDOMNodeId": 998,
+      "childIds": [
+        "-1000000959"
+      ]
+    },
+    {
+      "nodeId": "999",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help & FAQs",
+      "backendDOMNodeId": 999,
+      "childIds": [
+        "-1000000960"
+      ]
+    },
+    {
+      "nodeId": "1000",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Terms & Conditions",
+      "backendDOMNodeId": 1000,
+      "childIds": [
+        "-1000000961"
+      ]
+    },
+    {
+      "nodeId": "1001",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy & Cookies Policy",
+      "backendDOMNodeId": 1001,
+      "childIds": [
+        "-1000000962"
+      ]
+    },
+    {
+      "nodeId": "1002",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Privacy centre",
+      "backendDOMNodeId": 1002,
+      "childIds": [
+        "-1000000963"
+      ]
+    },
+    {
+      "nodeId": "1004",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco PLC",
+      "backendDOMNodeId": 1004,
+      "childIds": [
+        "-1000000965"
+      ]
+    },
+    {
+      "nodeId": "1005",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Careers",
+      "backendDOMNodeId": 1005,
+      "childIds": [
+        "-1000000966"
+      ]
+    },
+    {
+      "nodeId": "1006",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Contact us",
+      "backendDOMNodeId": 1006,
+      "childIds": [
+        "-1000000967"
+      ]
+    },
+    {
+      "nodeId": "1008",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Product recall",
+      "backendDOMNodeId": 1008,
+      "childIds": [
+        "-1000000969"
+      ]
+    },
+    {
+      "nodeId": "1009",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Store locator",
+      "backendDOMNodeId": 1009,
+      "childIds": [
+        "-1000000970"
+      ]
+    },
+    {
+      "nodeId": "1010",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Help",
+      "backendDOMNodeId": 1010,
+      "childIds": [
+        "-1000000971"
+      ]
+    },
+    {
+      "nodeId": "1012",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Groceries",
+      "backendDOMNodeId": 1012,
+      "childIds": [
+        "-1000000973"
+      ]
+    },
+    {
+      "nodeId": "1013",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Clubcard",
+      "backendDOMNodeId": 1013,
+      "childIds": [
+        "-1000000974"
+      ]
+    },
+    {
+      "nodeId": "1014",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco.com",
+      "backendDOMNodeId": 1014,
+      "childIds": [
+        "-1000000975"
+      ]
+    },
+    {
+      "nodeId": "1015",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Tesco Mobile",
+      "backendDOMNodeId": 1015,
+      "childIds": [
+        "-1000000976"
+      ]
+    },
+    {
+      "nodeId": "1639",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 1639,
+      "domNodeId": "569",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"569\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "1648",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 1648,
+      "domNodeId": "578",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"578\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "1653",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 1653,
+      "domNodeId": "583",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"583\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "1662",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 1662,
+      "domNodeId": "592",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"592\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "1671",
+      "ignored": false,
+      "role": "image",
+      "name": "",
+      "backendDOMNodeId": 1671,
+      "domNodeId": "601",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"601\"]",
+      "tagName": "svg"
+    },
+    {
+      "nodeId": "-1000000869",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Priority "
+    },
+    {
+      "nodeId": "-1000000870",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Christmas slots "
+    },
+    {
+      "nodeId": "-1000000871",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "included with "
+    },
+    {
+      "nodeId": "-1000000872",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Anytime plan"
+    },
+    {
+      "nodeId": "-1000000863",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Save £176 on delivery and collection "
+    },
+    {
+      "nodeId": "-1000000864",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "charges*"
+    },
+    {
+      "nodeId": "-1000000865",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Get a weekly shop delivered? Or prefer "
+    },
+    {
+      "nodeId": "-1000000866",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Click+Collect? Sign up to Delivery Saver from £2.49 a "
+    },
+    {
+      "nodeId": "-1000000867",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "month and you won’t have to pay for your slot."
+    },
+    {
+      "nodeId": "1196",
+      "ignored": false,
+      "role": "tab",
+      "name": "6-month plans",
+      "backendDOMNodeId": 1196,
+      "domNodeId": "122",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"122\"]",
+      "tagName": "a",
+      "childIds": [
+        "1197"
+      ],
+      "properties": {
+        "focusable": true,
+        "expanded": true,
+        "selected": true,
+        "controls": "tab-6-panel"
+      }
+    },
+    {
+      "nodeId": "1200",
+      "ignored": false,
+      "role": "tab",
+      "name": "12-month plans",
+      "backendDOMNodeId": 1200,
+      "domNodeId": "126",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"126\"]",
+      "tagName": "a",
+      "childIds": [
+        "1201"
+      ],
+      "properties": {
+        "focusable": true,
+        "selected": false
+      }
+    },
+    {
+      "nodeId": "944",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Most popular",
+      "backendDOMNodeId": 944,
+      "childIds": [
+        "-1000000876"
+      ]
+    },
+    {
+      "nodeId": "945",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Anytime",
+      "backendDOMNodeId": 945,
+      "childIds": [
+        "-1000000877"
+      ]
+    },
+    {
+      "nodeId": "1213",
+      "ignored": false,
+      "role": "heading",
+      "name": "£7.99",
+      "backendDOMNodeId": 1213,
+      "domNodeId": "139",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"139\"]",
+      "tagName": "h3",
+      "childIds": [
+        "946"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1214",
+      "ignored": false,
+      "role": "heading",
+      "name": "a month for 6 months",
+      "backendDOMNodeId": 1214,
+      "domNodeId": "140",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"140\"]",
+      "tagName": "h4",
+      "childIds": [
+        "947"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "948",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "£47.94 in total",
+      "backendDOMNodeId": 948,
+      "childIds": [
+        "-1000000880"
+      ]
+    },
+    {
+      "nodeId": "949",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Your shopping, how you want it, when you want it",
+      "backendDOMNodeId": 949,
+      "childIds": [
+        "-1000000881",
+        "-1000000882"
+      ]
+    },
+    {
+      "nodeId": "1219",
+      "ignored": false,
+      "role": "link",
+      "name": "Sign up",
+      "backendDOMNodeId": 1219,
+      "domNodeId": "145",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"145\"]",
+      "tagName": "a",
+      "childIds": [
+        "1220",
+        "1694"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/checkout?planGroupId=3&planTenure=6"
+      }
+    },
+    {
+      "nodeId": "1223",
+      "ignored": false,
+      "role": "heading",
+      "name": "What’s included",
+      "backendDOMNodeId": 1223,
+      "domNodeId": "149",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"149\"]",
+      "tagName": "h5",
+      "childIds": [
+        "951"
+      ],
+      "properties": {
+        "level": 5
+      }
+    },
+    {
+      "nodeId": "1224",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1224,
+      "domNodeId": "150",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"150\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1225",
+        "1229",
+        "1233",
+        "1237",
+        "1241"
+      ]
+    },
+    {
+      "nodeId": "1245",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1245,
+      "domNodeId": "171",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"171\"]",
+      "tagName": "div",
+      "childIds": [
+        "1246"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1246",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1246,
+      "domNodeId": "172",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"172\"]",
+      "tagName": "p",
+      "childIds": [
+        "957"
+      ]
+    },
+    {
+      "nodeId": "958",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Off Peak",
+      "backendDOMNodeId": 958,
+      "childIds": [
+        "-1000000895"
+      ]
+    },
+    {
+      "nodeId": "1254",
+      "ignored": false,
+      "role": "heading",
+      "name": "£4.99",
+      "backendDOMNodeId": 1254,
+      "domNodeId": "180",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"180\"]",
+      "tagName": "h3",
+      "childIds": [
+        "959"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1255",
+      "ignored": false,
+      "role": "heading",
+      "name": "a month for 6 months",
+      "backendDOMNodeId": 1255,
+      "domNodeId": "181",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"181\"]",
+      "tagName": "h4",
+      "childIds": [
+        "960"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "961",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "£29.94 in total",
+      "backendDOMNodeId": 961,
+      "childIds": [
+        "-1000000898"
+      ]
+    },
+    {
+      "nodeId": "962",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Take advantage of our less busy delivery slots",
+      "backendDOMNodeId": 962,
+      "childIds": [
+        "-1000000899",
+        "-1000000900"
+      ]
+    },
+    {
+      "nodeId": "1260",
+      "ignored": false,
+      "role": "link",
+      "name": "Sign up",
+      "backendDOMNodeId": 1260,
+      "domNodeId": "186",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"186\"]",
+      "tagName": "a",
+      "childIds": [
+        "1261",
+        "1695"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/checkout?planGroupId=2&planTenure=6"
+      }
+    },
+    {
+      "nodeId": "1264",
+      "ignored": false,
+      "role": "heading",
+      "name": "What’s included",
+      "backendDOMNodeId": 1264,
+      "domNodeId": "190",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"190\"]",
+      "tagName": "h5",
+      "childIds": [
+        "964"
+      ],
+      "properties": {
+        "level": 5
+      }
+    },
+    {
+      "nodeId": "1265",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1265,
+      "domNodeId": "191",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"191\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1266",
+        "1270",
+        "1274"
+      ]
+    },
+    {
+      "nodeId": "968",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Click+Collect",
+      "backendDOMNodeId": 968,
+      "childIds": [
+        "-1000000910"
+      ]
+    },
+    {
+      "nodeId": "1285",
+      "ignored": false,
+      "role": "heading",
+      "name": "£2.49",
+      "backendDOMNodeId": 1285,
+      "domNodeId": "211",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"211\"]",
+      "tagName": "h3",
+      "childIds": [
+        "969"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1286",
+      "ignored": false,
+      "role": "heading",
+      "name": "a month for 6 months",
+      "backendDOMNodeId": 1286,
+      "domNodeId": "212",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"212\"]",
+      "tagName": "h4",
+      "childIds": [
+        "970"
+      ],
+      "properties": {
+        "level": 4
+      }
+    },
+    {
+      "nodeId": "971",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "£14.94 in total",
+      "backendDOMNodeId": 971,
+      "childIds": [
+        "-1000000913"
+      ]
+    },
+    {
+      "nodeId": "972",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Your shopping, picked, packed and ready to collect",
+      "backendDOMNodeId": 972,
+      "childIds": [
+        "-1000000914",
+        "-1000000915"
+      ]
+    },
+    {
+      "nodeId": "1291",
+      "ignored": false,
+      "role": "link",
+      "name": "Sign up",
+      "backendDOMNodeId": 1291,
+      "domNodeId": "217",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"217\"]",
+      "tagName": "a",
+      "childIds": [
+        "1292",
+        "1696"
+      ],
+      "properties": {
+        "focusable": true,
+        "url": "https://www.tesco.com/deliverysaver/checkout?planGroupId=1&planTenure=6"
+      }
+    },
+    {
+      "nodeId": "1295",
+      "ignored": false,
+      "role": "heading",
+      "name": "What’s included",
+      "backendDOMNodeId": 1295,
+      "domNodeId": "221",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"221\"]",
+      "tagName": "h5",
+      "childIds": [
+        "974"
+      ],
+      "properties": {
+        "level": 5
+      }
+    },
+    {
+      "nodeId": "1296",
+      "ignored": false,
+      "role": "list",
+      "name": "",
+      "backendDOMNodeId": 1296,
+      "domNodeId": "222",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"222\"]",
+      "tagName": "ul",
+      "childIds": [
+        "1297",
+        "1301",
+        "1305",
+        "1309"
+      ]
+    },
+    {
+      "nodeId": "1397",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1397,
+      "domNodeId": "323",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"323\"]",
+      "tagName": "div",
+      "childIds": [
+        "1021"
+      ]
+    },
+    {
+      "nodeId": "1399",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1399,
+      "domNodeId": "326",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"326\"]",
+      "tagName": "div",
+      "childIds": [
+        "1400"
+      ]
+    },
+    {
+      "nodeId": "1405",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1405,
+      "domNodeId": "332",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"332\"]",
+      "tagName": "div",
+      "childIds": [
+        "1022"
+      ]
+    },
+    {
+      "nodeId": "1407",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1407,
+      "domNodeId": "335",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"335\"]",
+      "tagName": "div",
+      "childIds": [
+        "1408"
+      ]
+    },
+    {
+      "nodeId": "1413",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1413,
+      "domNodeId": "341",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"341\"]",
+      "tagName": "div",
+      "childIds": [
+        "1023"
+      ]
+    },
+    {
+      "nodeId": "1415",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1415,
+      "domNodeId": "344",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"344\"]",
+      "tagName": "div",
+      "childIds": [
+        "1416"
+      ]
+    },
+    {
+      "nodeId": "1421",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1421,
+      "domNodeId": "350",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"350\"]",
+      "tagName": "div",
+      "childIds": [
+        "1024"
+      ]
+    },
+    {
+      "nodeId": "1423",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1423,
+      "domNodeId": "353",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"353\"]",
+      "tagName": "div",
+      "childIds": [
+        "1424"
+      ]
+    },
+    {
+      "nodeId": "-1000000959",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "My Plan"
+    },
+    {
+      "nodeId": "-1000000960",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help & FAQs"
+    },
+    {
+      "nodeId": "-1000000961",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Terms & Conditions"
+    },
+    {
+      "nodeId": "-1000000962",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy & Cookies Policy"
+    },
+    {
+      "nodeId": "-1000000963",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Privacy centre"
+    },
+    {
+      "nodeId": "-1000000965",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco PLC"
+    },
+    {
+      "nodeId": "-1000000966",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Careers"
+    },
+    {
+      "nodeId": "-1000000967",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Contact us"
+    },
+    {
+      "nodeId": "-1000000969",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Product recall"
+    },
+    {
+      "nodeId": "-1000000970",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Store locator"
+    },
+    {
+      "nodeId": "-1000000971",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Help"
+    },
+    {
+      "nodeId": "-1000000973",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Groceries"
+    },
+    {
+      "nodeId": "-1000000974",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Clubcard"
+    },
+    {
+      "nodeId": "-1000000975",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco.com"
+    },
+    {
+      "nodeId": "-1000000976",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Tesco Mobile"
+    },
+    {
+      "nodeId": "1197",
+      "ignored": false,
+      "role": "LayoutTable",
+      "name": "",
+      "backendDOMNodeId": 1197,
+      "domNodeId": "123",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"123\"]",
+      "tagName": "div",
+      "childIds": [
+        "941"
+      ]
+    },
+    {
+      "nodeId": "1201",
+      "ignored": false,
+      "role": "LayoutTable",
+      "name": "",
+      "backendDOMNodeId": 1201,
+      "domNodeId": "127",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"127\"]",
+      "tagName": "div",
+      "childIds": [
+        "942",
+        "943"
+      ]
+    },
+    {
+      "nodeId": "-1000000876",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Most popular"
+    },
+    {
+      "nodeId": "-1000000877",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Anytime"
+    },
+    {
+      "nodeId": "946",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "£7.99",
+      "backendDOMNodeId": 946,
+      "childIds": [
+        "-1000000878"
+      ]
+    },
+    {
+      "nodeId": "947",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "a month for 6 months",
+      "backendDOMNodeId": 947,
+      "childIds": [
+        "-1000000879"
+      ]
+    },
+    {
+      "nodeId": "-1000000880",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "£47.94 in total"
+    },
+    {
+      "nodeId": "-1000000881",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Your shopping, how you want it, "
+    },
+    {
+      "nodeId": "-1000000882",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "when you want it"
+    },
+    {
+      "nodeId": "1220",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1220,
+      "domNodeId": "146",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"146\"]",
+      "tagName": "span",
+      "childIds": [
+        "950"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "950",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign up",
+      "backendDOMNodeId": 950,
+      "childIds": [
+        "-1000001035"
+      ]
+    },
+    {
+      "nodeId": "1694",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1694
+    },
+    {
+      "nodeId": "951",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What’s included",
+      "backendDOMNodeId": 951,
+      "childIds": [
+        "-1000000884"
+      ]
+    },
+    {
+      "nodeId": "1225",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1225,
+      "domNodeId": "151",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"151\"]",
+      "tagName": "div",
+      "childIds": [
+        "1228"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1228",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1228,
+      "domNodeId": "154",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"154\"]",
+      "tagName": "p",
+      "childIds": [
+        "952"
+      ]
+    },
+    {
+      "nodeId": "1229",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1229,
+      "domNodeId": "155",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"155\"]",
+      "tagName": "div",
+      "childIds": [
+        "1232"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1232",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1232,
+      "domNodeId": "158",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"158\"]",
+      "tagName": "p",
+      "childIds": [
+        "953"
+      ]
+    },
+    {
+      "nodeId": "1233",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1233,
+      "domNodeId": "159",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"159\"]",
+      "tagName": "div",
+      "childIds": [
+        "1236"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1236",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1236,
+      "domNodeId": "162",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"162\"]",
+      "tagName": "p",
+      "childIds": [
+        "954"
+      ]
+    },
+    {
+      "nodeId": "1237",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1237,
+      "domNodeId": "163",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"163\"]",
+      "tagName": "div",
+      "childIds": [
+        "1240"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1240",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1240,
+      "domNodeId": "166",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"166\"]",
+      "tagName": "p",
+      "childIds": [
+        "955"
+      ]
+    },
+    {
+      "nodeId": "1241",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1241,
+      "domNodeId": "167",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"167\"]",
+      "tagName": "div",
+      "childIds": [
+        "1244"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1244",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1244,
+      "domNodeId": "170",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"170\"]",
+      "tagName": "p",
+      "childIds": [
+        "956"
+      ]
+    },
+    {
+      "nodeId": "957",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "* Doesn't include Whoosh and F&F Clothing",
+      "backendDOMNodeId": 957,
+      "childIds": [
+        "-1000000894"
+      ]
+    },
+    {
+      "nodeId": "-1000000895",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Off Peak"
+    },
+    {
+      "nodeId": "959",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "£4.99",
+      "backendDOMNodeId": 959,
+      "childIds": [
+        "-1000000896"
+      ]
+    },
+    {
+      "nodeId": "960",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "a month for 6 months",
+      "backendDOMNodeId": 960,
+      "childIds": [
+        "-1000000897"
+      ]
+    },
+    {
+      "nodeId": "-1000000898",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "£29.94 in total"
+    },
+    {
+      "nodeId": "-1000000899",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Take advantage of our less busy "
+    },
+    {
+      "nodeId": "-1000000900",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "delivery slots"
+    },
+    {
+      "nodeId": "1261",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1261,
+      "domNodeId": "187",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"187\"]",
+      "tagName": "span",
+      "childIds": [
+        "963"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "963",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign up",
+      "backendDOMNodeId": 963,
+      "childIds": [
+        "-1000001045"
+      ]
+    },
+    {
+      "nodeId": "1695",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1695
+    },
+    {
+      "nodeId": "964",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What’s included",
+      "backendDOMNodeId": 964,
+      "childIds": [
+        "-1000000902"
+      ]
+    },
+    {
+      "nodeId": "1266",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1266,
+      "domNodeId": "192",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"192\"]",
+      "tagName": "div",
+      "childIds": [
+        "1269"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1269",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1269,
+      "domNodeId": "195",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"195\"]",
+      "tagName": "p",
+      "childIds": [
+        "965"
+      ]
+    },
+    {
+      "nodeId": "1270",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1270,
+      "domNodeId": "196",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"196\"]",
+      "tagName": "div",
+      "childIds": [
+        "1273"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1273",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1273,
+      "domNodeId": "199",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"199\"]",
+      "tagName": "p",
+      "childIds": [
+        "966"
+      ]
+    },
+    {
+      "nodeId": "1274",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1274,
+      "domNodeId": "200",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"200\"]",
+      "tagName": "div",
+      "childIds": [
+        "1277"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1277",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1277,
+      "domNodeId": "203",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"203\"]",
+      "tagName": "p",
+      "childIds": [
+        "967"
+      ]
+    },
+    {
+      "nodeId": "-1000000910",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Click+Collect"
+    },
+    {
+      "nodeId": "969",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "£2.49",
+      "backendDOMNodeId": 969,
+      "childIds": [
+        "-1000000911"
+      ]
+    },
+    {
+      "nodeId": "970",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "a month for 6 months",
+      "backendDOMNodeId": 970,
+      "childIds": [
+        "-1000000912"
+      ]
+    },
+    {
+      "nodeId": "-1000000913",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "£14.94 in total"
+    },
+    {
+      "nodeId": "-1000000914",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Your shopping, picked, packed "
+    },
+    {
+      "nodeId": "-1000000915",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "and ready to collect"
+    },
+    {
+      "nodeId": "1292",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1292,
+      "domNodeId": "218",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"218\"]",
+      "tagName": "span",
+      "childIds": [
+        "973"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "973",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Sign up",
+      "backendDOMNodeId": 973,
+      "childIds": [
+        "-1000001051"
+      ]
+    },
+    {
+      "nodeId": "1696",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1696
+    },
+    {
+      "nodeId": "974",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "What’s included",
+      "backendDOMNodeId": 974,
+      "childIds": [
+        "-1000000917"
+      ]
+    },
+    {
+      "nodeId": "1297",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1297,
+      "domNodeId": "223",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"223\"]",
+      "tagName": "div",
+      "childIds": [
+        "1300"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1300",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1300,
+      "domNodeId": "226",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"226\"]",
+      "tagName": "p",
+      "childIds": [
+        "975"
+      ]
+    },
+    {
+      "nodeId": "1301",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1301,
+      "domNodeId": "227",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"227\"]",
+      "tagName": "div",
+      "childIds": [
+        "1304"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1304",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1304,
+      "domNodeId": "230",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"230\"]",
+      "tagName": "p",
+      "childIds": [
+        "976"
+      ]
+    },
+    {
+      "nodeId": "1305",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1305,
+      "domNodeId": "231",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"231\"]",
+      "tagName": "div",
+      "childIds": [
+        "1308"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1308",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1308,
+      "domNodeId": "234",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"234\"]",
+      "tagName": "p",
+      "childIds": [
+        "977"
+      ]
+    },
+    {
+      "nodeId": "1309",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 1309,
+      "domNodeId": "235",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"235\"]",
+      "tagName": "div",
+      "childIds": [
+        "1312"
+      ],
+      "ignoredReasons": [
+        {
+          "name": "uninteresting",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "1312",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1312,
+      "domNodeId": "238",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"238\"]",
+      "tagName": "p",
+      "childIds": [
+        "978"
+      ]
+    },
+    {
+      "nodeId": "1021",
+      "ignored": false,
+      "role": "image",
+      "name": "Same-day deliveries",
+      "backendDOMNodeId": 1021,
+      "domNodeId": "325",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"325\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://digitalcontent.api.tesco.com/v2/media/ghs-mktg/c595c3c8-b5b1-4061-9227-8ea6a70221f5/Delivery-Saver3.png"
+      }
+    },
+    {
+      "nodeId": "1400",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1400,
+      "domNodeId": "327",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"327\"]",
+      "tagName": "div",
+      "childIds": [
+        "1401",
+        "1402"
+      ]
+    },
+    {
+      "nodeId": "1022",
+      "ignored": false,
+      "role": "image",
+      "name": "Marketplace delivery",
+      "backendDOMNodeId": 1022,
+      "domNodeId": "334",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"334\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://digitalcontent.api.tesco.com/v2/media/ghs-mktg/d353a373-2d6e-486f-9293-80e4c1dd6ae5/Delivery-Saver5.png"
+      }
+    },
+    {
+      "nodeId": "1408",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1408,
+      "domNodeId": "336",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"336\"]",
+      "tagName": "div",
+      "childIds": [
+        "1409",
+        "1410"
+      ]
+    },
+    {
+      "nodeId": "1023",
+      "ignored": false,
+      "role": "image",
+      "name": "Never out of pocket",
+      "backendDOMNodeId": 1023,
+      "domNodeId": "343",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"343\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://digitalcontent.api.tesco.com/v2/media/ghs-mktg/1b4bee9f-86dc-4674-9056-4109153622ad/Delivery-Saver2.png"
+      }
+    },
+    {
+      "nodeId": "1416",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1416,
+      "domNodeId": "345",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"345\"]",
+      "tagName": "div",
+      "childIds": [
+        "1417",
+        "1418"
+      ]
+    },
+    {
+      "nodeId": "1024",
+      "ignored": false,
+      "role": "image",
+      "name": "Collect when you like",
+      "backendDOMNodeId": 1024,
+      "domNodeId": "352",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"352\"]",
+      "tagName": "img",
+      "properties": {
+        "url": "https://digitalcontent.api.tesco.com/v2/media/ghs-mktg/ee849da4-bc5b-4d5f-a4cb-dbebcb50cb21/Delivery-Saver-4col-PPE.jpeg"
+      }
+    },
+    {
+      "nodeId": "1424",
+      "ignored": false,
+      "role": "generic",
+      "name": "",
+      "backendDOMNodeId": 1424,
+      "domNodeId": "354",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"354\"]",
+      "tagName": "div",
+      "childIds": [
+        "1425",
+        "1426"
+      ]
+    },
+    {
+      "nodeId": "941",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "6-month plans",
+      "backendDOMNodeId": 941,
+      "childIds": [
+        "-1000001005"
+      ]
+    },
+    {
+      "nodeId": "942",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "12-month plans",
+      "backendDOMNodeId": 942,
+      "childIds": [
+        "-1000001052"
+      ]
+    },
+    {
+      "nodeId": "943",
+      "ignored": true,
+      "role": "none",
+      "name": "",
+      "backendDOMNodeId": 943,
+      "ignoredReasons": [
+        {
+          "name": "notVisible",
+          "value": true
+        }
+      ]
+    },
+    {
+      "nodeId": "-1000000878",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "£7.99"
+    },
+    {
+      "nodeId": "-1000000879",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "a month for 6 months"
+    },
+    {
+      "nodeId": "-1000001035",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign up"
+    },
+    {
+      "nodeId": "-1000000884",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What’s included"
+    },
+    {
+      "nodeId": "952",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Includes same-day delivery*",
+      "backendDOMNodeId": 952,
+      "childIds": [
+        "-1000000885"
+      ]
+    },
+    {
+      "nodeId": "953",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Home Delivery for any available slot",
+      "backendDOMNodeId": 953,
+      "childIds": [
+        "-1000000886"
+      ]
+    },
+    {
+      "nodeId": "954",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Early access to Christmas and Easter slots",
+      "backendDOMNodeId": 954,
+      "childIds": [
+        "-1000000887",
+        "-1000000888"
+      ]
+    },
+    {
+      "nodeId": "955",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "With our Delivery Saver guarantee, we’ll give you coupons for the difference if you don’t save on delivery charges",
+      "backendDOMNodeId": 955,
+      "childIds": [
+        "-1000000889",
+        "-1000000890",
+        "-1000000891",
+        "-1000000892"
+      ]
+    },
+    {
+      "nodeId": "956",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Collection for any available slot",
+      "backendDOMNodeId": 956,
+      "childIds": [
+        "-1000000893"
+      ]
+    },
+    {
+      "nodeId": "-1000000894",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "* Doesn't include Whoosh and F&F Clothing"
+    },
+    {
+      "nodeId": "-1000000896",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "£4.99"
+    },
+    {
+      "nodeId": "-1000000897",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "a month for 6 months"
+    },
+    {
+      "nodeId": "-1000001045",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign up"
+    },
+    {
+      "nodeId": "-1000000902",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What’s included"
+    },
+    {
+      "nodeId": "965",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Home Delivery for any available slot after 3pm",
+      "backendDOMNodeId": 965,
+      "childIds": [
+        "-1000000903",
+        "-1000000904"
+      ]
+    },
+    {
+      "nodeId": "966",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "With our Delivery Saver guarantee, we’ll give you coupons for the difference if you don’t save on delivery charges",
+      "backendDOMNodeId": 966,
+      "childIds": [
+        "-1000000905",
+        "-1000000906",
+        "-1000000907",
+        "-1000000908"
+      ]
+    },
+    {
+      "nodeId": "967",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Collection for any available slot",
+      "backendDOMNodeId": 967,
+      "childIds": [
+        "-1000000909"
+      ]
+    },
+    {
+      "nodeId": "-1000000911",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "£2.49"
+    },
+    {
+      "nodeId": "-1000000912",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "a month for 6 months"
+    },
+    {
+      "nodeId": "-1000001051",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Sign up"
+    },
+    {
+      "nodeId": "-1000000917",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "What’s included"
+    },
+    {
+      "nodeId": "975",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Includes same-day collection",
+      "backendDOMNodeId": 975,
+      "childIds": [
+        "-1000000918"
+      ]
+    },
+    {
+      "nodeId": "976",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Collection for any available slot",
+      "backendDOMNodeId": 976,
+      "childIds": [
+        "-1000000919"
+      ]
+    },
+    {
+      "nodeId": "977",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Early access to Christmas and Easter collection slots",
+      "backendDOMNodeId": 977,
+      "childIds": [
+        "-1000000920",
+        "-1000000921"
+      ]
+    },
+    {
+      "nodeId": "978",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "With our Delivery Saver guarantee, we’ll give you coupons for the difference if you don’t save on delivery charges",
+      "backendDOMNodeId": 978,
+      "childIds": [
+        "-1000000922",
+        "-1000000923",
+        "-1000000924",
+        "-1000000925"
+      ]
+    },
+    {
+      "nodeId": "1401",
+      "ignored": false,
+      "role": "heading",
+      "name": "Same-day deliveries",
+      "backendDOMNodeId": 1401,
+      "domNodeId": "328",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"328\"]",
+      "tagName": "h3",
+      "childIds": [
+        "980"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1402",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1402,
+      "domNodeId": "329",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"329\"]",
+      "tagName": "p",
+      "childIds": [
+        "981"
+      ]
+    },
+    {
+      "nodeId": "1409",
+      "ignored": false,
+      "role": "heading",
+      "name": "Access to more slots",
+      "backendDOMNodeId": 1409,
+      "domNodeId": "337",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"337\"]",
+      "tagName": "h3",
+      "childIds": [
+        "982"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1410",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1410,
+      "domNodeId": "338",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"338\"]",
+      "tagName": "p",
+      "childIds": [
+        "983"
+      ]
+    },
+    {
+      "nodeId": "1417",
+      "ignored": false,
+      "role": "heading",
+      "name": "Never out of pocket",
+      "backendDOMNodeId": 1417,
+      "domNodeId": "346",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"346\"]",
+      "tagName": "h3",
+      "childIds": [
+        "984"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1418",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1418,
+      "domNodeId": "347",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"347\"]",
+      "tagName": "p",
+      "childIds": [
+        "985"
+      ]
+    },
+    {
+      "nodeId": "1425",
+      "ignored": false,
+      "role": "heading",
+      "name": "Collect when you like",
+      "backendDOMNodeId": 1425,
+      "domNodeId": "355",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"355\"]",
+      "tagName": "h3",
+      "childIds": [
+        "986"
+      ],
+      "properties": {
+        "level": 3
+      }
+    },
+    {
+      "nodeId": "1426",
+      "ignored": false,
+      "role": "paragraph",
+      "name": "",
+      "backendDOMNodeId": 1426,
+      "domNodeId": "356",
+      "renderedHtmlSelector": "[data-sr-dom-node-id=\"356\"]",
+      "tagName": "p",
+      "childIds": [
+        "987"
+      ]
+    },
+    {
+      "nodeId": "-1000001005",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "6-month plans"
+    },
+    {
+      "nodeId": "-1000001052",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "12-month plans"
+    },
+    {
+      "nodeId": "-1000000885",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Includes same-day delivery*"
+    },
+    {
+      "nodeId": "-1000000886",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Home Delivery for any available slot"
+    },
+    {
+      "nodeId": "-1000000887",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Early access to Christmas and Easter "
+    },
+    {
+      "nodeId": "-1000000888",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "slots"
+    },
+    {
+      "nodeId": "-1000000889",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "With our Delivery Saver guarantee, "
+    },
+    {
+      "nodeId": "-1000000890",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "we’ll give you coupons for the "
+    },
+    {
+      "nodeId": "-1000000891",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "difference if you don’t save on "
+    },
+    {
+      "nodeId": "-1000000892",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "delivery charges"
+    },
+    {
+      "nodeId": "-1000000893",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Collection for any available slot"
+    },
+    {
+      "nodeId": "-1000000903",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Home Delivery for any available slot "
+    },
+    {
+      "nodeId": "-1000000904",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "after 3pm"
+    },
+    {
+      "nodeId": "-1000000905",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "With our Delivery Saver guarantee, "
+    },
+    {
+      "nodeId": "-1000000906",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "we’ll give you coupons for the "
+    },
+    {
+      "nodeId": "-1000000907",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "difference if you don’t save on "
+    },
+    {
+      "nodeId": "-1000000908",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "delivery charges"
+    },
+    {
+      "nodeId": "-1000000909",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Collection for any available slot"
+    },
+    {
+      "nodeId": "-1000000918",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Includes same-day collection"
+    },
+    {
+      "nodeId": "-1000000919",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Collection for any available slot"
+    },
+    {
+      "nodeId": "-1000000920",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Early access to Christmas and Easter "
+    },
+    {
+      "nodeId": "-1000000921",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "collection slots"
+    },
+    {
+      "nodeId": "-1000000922",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "With our Delivery Saver guarantee, "
+    },
+    {
+      "nodeId": "-1000000923",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "we’ll give you coupons for the "
+    },
+    {
+      "nodeId": "-1000000924",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "difference if you don’t save on "
+    },
+    {
+      "nodeId": "-1000000925",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "delivery charges"
+    },
+    {
+      "nodeId": "980",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Same-day deliveries",
+      "backendDOMNodeId": 980,
+      "childIds": [
+        "-1000000927"
+      ]
+    },
+    {
+      "nodeId": "981",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Last-minute shop? On our Anytime plan, choose from available same-day slots.",
+      "backendDOMNodeId": 981,
+      "childIds": [
+        "-1000000928",
+        "-1000000929",
+        "-1000000930"
+      ]
+    },
+    {
+      "nodeId": "982",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Access to more slots",
+      "backendDOMNodeId": 982,
+      "childIds": [
+        "-1000000931"
+      ]
+    },
+    {
+      "nodeId": "983",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Book up to 4 weeks in advance and get priority Christmas slots on our Anytime plan.",
+      "backendDOMNodeId": 983,
+      "childIds": [
+        "-1000000932",
+        "-1000000933",
+        "-1000000934"
+      ]
+    },
+    {
+      "nodeId": "984",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Never out of pocket",
+      "backendDOMNodeId": 984,
+      "childIds": [
+        "-1000000935"
+      ]
+    },
+    {
+      "nodeId": "985",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "With our Delivery Saver guarantee, if you don’t save on delivery and collection charges, we'll give you a coupon for the difference.",
+      "backendDOMNodeId": 985,
+      "childIds": [
+        "-1000000936",
+        "-1000000937",
+        "-1000000938",
+        "-1000000939",
+        "-1000000940"
+      ]
+    },
+    {
+      "nodeId": "986",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "Collect when you like",
+      "backendDOMNodeId": 986,
+      "childIds": [
+        "-1000000941",
+        "-1000000942"
+      ]
+    },
+    {
+      "nodeId": "987",
+      "ignored": false,
+      "role": "StaticText",
+      "name": "All of our plans include same-day Click+Collect, which you can pick up any time within your selected timeslot.",
+      "backendDOMNodeId": 987,
+      "childIds": [
+        "-1000000943",
+        "-1000000944",
+        "-1000000945",
+        "-1000000946"
+      ]
+    },
+    {
+      "nodeId": "-1000000927",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Same-day deliveries"
+    },
+    {
+      "nodeId": "-1000000928",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Last-minute shop? On our "
+    },
+    {
+      "nodeId": "-1000000929",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Anytime plan, choose from "
+    },
+    {
+      "nodeId": "-1000000930",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "available same-day slots."
+    },
+    {
+      "nodeId": "-1000000931",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Access to more slots"
+    },
+    {
+      "nodeId": "-1000000932",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Book up to 4 weeks in advance "
+    },
+    {
+      "nodeId": "-1000000933",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "and get priority Christmas slots "
+    },
+    {
+      "nodeId": "-1000000934",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "on our Anytime plan."
+    },
+    {
+      "nodeId": "-1000000935",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Never out of pocket"
+    },
+    {
+      "nodeId": "-1000000936",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "With our Delivery Saver "
+    },
+    {
+      "nodeId": "-1000000937",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "guarantee, if you don’t save on "
+    },
+    {
+      "nodeId": "-1000000938",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "delivery and collection charges, "
+    },
+    {
+      "nodeId": "-1000000939",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "we'll give you a coupon for the "
+    },
+    {
+      "nodeId": "-1000000940",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "difference."
+    },
+    {
+      "nodeId": "-1000000941",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "Collect when you "
+    },
+    {
+      "nodeId": "-1000000942",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "like"
+    },
+    {
+      "nodeId": "-1000000943",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "All of our plans include same-"
+    },
+    {
+      "nodeId": "-1000000944",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "day Click+Collect, which you "
+    },
+    {
+      "nodeId": "-1000000945",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "can pick up any time within your "
+    },
+    {
+      "nodeId": "-1000000946",
+      "ignored": false,
+      "role": "InlineTextBox",
+      "name": "selected timeslot."
+    }
+  ]
+}

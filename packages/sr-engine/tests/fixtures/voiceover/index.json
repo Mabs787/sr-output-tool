@@ -498,6 +498,87 @@
       "stepSnapshots": "github-com-resources-articles.step-snapshots.json",
       "voiceOverAnnouncementCount": 163,
       "sanitizationStatus": "needs-manual-refinement"
+    },
+    {
+      "name": "realfood-tesco-com-recipes-html",
+      "expected": "realfood-tesco-com-recipes-html.expected.json",
+      "html": "realfood-tesco-com-recipes-html.html",
+      "accessibilityTree": "realfood-tesco-com-recipes-html.ax.json",
+      "stepSnapshots": "realfood-tesco-com-recipes-html.step-snapshots.json",
+      "voiceOverAnnouncementCount": 135,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "realfood-tesco-com",
+      "expected": "realfood-tesco-com.expected.json",
+      "html": "realfood-tesco-com.html",
+      "accessibilityTree": "realfood-tesco-com.ax.json",
+      "stepSnapshots": "realfood-tesco-com.step-snapshots.json",
+      "voiceOverAnnouncementCount": 117,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-deliverysaver",
+      "expected": "www-tesco-com-deliverysaver.expected.json",
+      "html": "www-tesco-com-deliverysaver.html",
+      "accessibilityTree": "www-tesco-com-deliverysaver.ax.json",
+      "stepSnapshots": "www-tesco-com-deliverysaver.step-snapshots.json",
+      "voiceOverAnnouncementCount": 142,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-groceries",
+      "expected": "www-tesco-com-groceries.expected.json",
+      "html": "www-tesco-com-groceries.html",
+      "accessibilityTree": "www-tesco-com-groceries.ax.json",
+      "stepSnapshots": "www-tesco-com-groceries.step-snapshots.json",
+      "voiceOverAnnouncementCount": 243,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-help-pages-clubcard-faqs",
+      "expected": "www-tesco-com-help-pages-clubcard-faqs.expected.json",
+      "html": "www-tesco-com-help-pages-clubcard-faqs.html",
+      "accessibilityTree": "www-tesco-com-help-pages-clubcard-faqs.ax.json",
+      "stepSnapshots": "www-tesco-com-help-pages-clubcard-faqs.step-snapshots.json",
+      "voiceOverAnnouncementCount": 86,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-help-pages-online-grocery-faqs",
+      "expected": "www-tesco-com-help-pages-online-grocery-faqs.expected.json",
+      "html": "www-tesco-com-help-pages-online-grocery-faqs.html",
+      "accessibilityTree": "www-tesco-com-help-pages-online-grocery-faqs.ax.json",
+      "stepSnapshots": "www-tesco-com-help-pages-online-grocery-faqs.step-snapshots.json",
+      "voiceOverAnnouncementCount": 90,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-help-site-map",
+      "expected": "www-tesco-com-help-site-map.expected.json",
+      "html": "www-tesco-com-help-site-map.html",
+      "accessibilityTree": "www-tesco-com-help-site-map.ax.json",
+      "stepSnapshots": "www-tesco-com-help-site-map.step-snapshots.json",
+      "voiceOverAnnouncementCount": 160,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-help",
+      "expected": "www-tesco-com-help.expected.json",
+      "html": "www-tesco-com-help.html",
+      "accessibilityTree": "www-tesco-com-help.ax.json",
+      "stepSnapshots": "www-tesco-com-help.step-snapshots.json",
+      "voiceOverAnnouncementCount": 133,
+      "sanitizationStatus": "sanitized"
+    },
+    {
+      "name": "www-tesco-com-zones-tesco-magazine",
+      "expected": "www-tesco-com-zones-tesco-magazine.expected.json",
+      "html": "www-tesco-com-zones-tesco-magazine.html",
+      "accessibilityTree": "www-tesco-com-zones-tesco-magazine.ax.json",
+      "stepSnapshots": "www-tesco-com-zones-tesco-magazine.step-snapshots.json",
+      "voiceOverAnnouncementCount": 96,
+      "sanitizationStatus": "sanitized"
     }
   ],
   "skipped": [],
