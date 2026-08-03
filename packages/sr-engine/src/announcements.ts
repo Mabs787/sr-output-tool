@@ -1095,10 +1095,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
 
     case "tab": {
       pushIfPresent(parts, label);
-      if (el.selected) {
+      if (el.selected && el.tabExpandedState && el.expanded !== undefined) {
+        parts.push(`selected ${el.expanded ? "expanded" : "collapsed"}`);
+      } else if (el.selected) {
         parts.push("selected");
-      }
-      if (el.tabExpandedState && el.expanded !== undefined) {
+      } else if (el.tabExpandedState && el.expanded !== undefined) {
         parts.push(el.expanded ? "expanded" : "collapsed");
       }
       const popupType = formatPopupType(el.hasPopup);

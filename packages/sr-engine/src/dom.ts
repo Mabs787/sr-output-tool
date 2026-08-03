@@ -1613,6 +1613,73 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
     return tabs.every((tab: any) => !tab.hasAttribute("aria-selected"));
   }
 
+  function isExpandedTabWithControlledPanel(el: any, role = implicitRole(el)): boolean {
+    if (role !== "tab") return false;
+    const tablist = el.closest?.("[role='tablist']");
+    if (!tablist || isHidden(tablist)) return false;
+    if (!el.hasAttribute("aria-expanded")) return false;
+    const controlled = resolveIdRef(el.getAttribute("aria-controls"));
+    if (!controlled || isHidden(controlled) || implicitRole(controlled) !== "tabpanel") {
+      return false;
+    }
+
+    const tabs = Array.from(tablist.querySelectorAll("[role='tab']")).filter(
+      (tab: any) => !isHidden(tab),
+    );
+    if (tabs.length < 2 || !tabs.includes(el)) return false;
+
+    if (accessibilityNodes.length) {
+      const axNode = axNodeForElementRole(el, "tab");
+      if (!axNode || normalizedAxRole(axNode.role) !== "tab") return false;
+      if (axNode.properties?.expanded !== parseBooleanAttribute(el, "aria-expanded")) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function headingButtonSuppressesGroupContext(heading: any, button: any): boolean {
+    if (!heading || implicitRole(heading) !== "heading") return false;
+    if (!button || implicitRole(button) !== "button") return false;
+    if (!button.hasAttribute("aria-expanded") || !button.hasAttribute("aria-controls")) {
+      return false;
+    }
+    if (parseBooleanAttribute(button, "aria-expanded") !== false) return false;
+    const listItem = heading.closest?.("li,[role='listitem']");
+    if (listItem && isListItem(listItem) && listItem.contains(heading)) return false;
+    const headingTag = heading.tagName?.toLowerCase() || "h2";
+    const headingLevel =
+      Number.parseInt(heading.getAttribute("aria-level") || headingTag.slice(1), 10) || 2;
+    const ownerRegion = heading.parentElement;
+    const hasNamedOwnerRegion =
+      ownerRegion &&
+      implicitRole(ownerRegion) === "region" &&
+      normalize(accessibleName(ownerRegion, "region") || readableText(ownerRegion));
+    if (!hasNamedOwnerRegion && headingLevel < 4) {
+      return false;
+    }
+    const controlled = resolveIdRef(button.getAttribute("aria-controls"));
+    if (!controlled || !["region", "group"].includes(implicitRole(controlled))) return false;
+    if (!isHidden(controlled)) return false;
+    if (controlled.contains?.(button) || heading.contains?.(controlled)) return false;
+
+    const headingText = normalize(readableText(heading));
+    const buttonName = normalize(accessibleName(button, "button") || readableText(button));
+    if (!headingText || !buttonName || headingText !== buttonName) return false;
+
+    if (accessibilityNodes.length) {
+      const headingNode = axNodeForElementRole(heading, "heading");
+      const buttonNode = axNodeForElementRole(button, "button");
+      if (!headingNode || !buttonNode) return false;
+      if (normalize(headingNode.name) !== headingText || normalize(buttonNode.name) !== buttonName) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   function isLabelledAriaTabGroup(el: any): boolean {
     if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el)) return false;
     if (el.getAttribute("role") !== "tablist") return false;
@@ -16640,7 +16707,7 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           !suppressCollapsedAnchorButtonGroup &&
           !suppressSingleButtonNestedGenericGroup &&
           !(role === "button" && el.hasAttribute("aria-pressed")) &&
-          (Boolean(headingButton) ||
+          ((Boolean(headingButton) && !headingButtonSuppressesGroupContext(el, headingButton)) ||
             (role === "tab" && isControlledTablistTab(el, role)) ||
             (role === "button" &&
               !suppressPositionedChoiceGroup &&
@@ -16893,7 +16960,10 @@ export function createDomScanner(options: DomScannerOptions): DomScanner {
           hasSingleTitledIframeArticleContext(el.parentElement)) ||
         undefined,
       tabExpandedState:
-        role === "tab" && (isPreviewFrameTab(el, role) || isCodePanelTab(el, role))
+        role === "tab" &&
+        (isPreviewFrameTab(el, role) ||
+          isCodePanelTab(el, role) ||
+          isExpandedTabWithControlledPanel(el, role))
           ? true
           : undefined,
       axInlineTwoLinkListItemAnnouncements:

@@ -227,6 +227,102 @@ test("scanSubtree handles embedded inline links without site-specific rules", ()
   );
 });
 
+test("scanSubtree announces expanded ARIA tab state from controlled tab panels", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul role="tablist">
+          <li role="presentation"><a id="tab-a" role="tab" href="/" aria-selected="true" aria-expanded="true" aria-controls="panel-a">Monthly</a></li>
+          <li role="presentation"><a id="tab-b" role="tab" href="/" aria-selected="false" aria-controls="panel-b">Yearly</a></li>
+        </ul>
+        <section id="panel-a" role="tabpanel" aria-labelledby="tab-a"><p>Current panel</p></section>
+        <section id="panel-b" role="tabpanel" aria-labelledby="tab-b" hidden><p>Hidden panel</p></section>
+        <button aria-expanded="true">Expanded standalone button</button>
+      </main>
+    `),
+    [
+      "main",
+      "Monthly, selected expanded, tab, 1 of 2",
+      "Yearly, tab, 2 of 2",
+      "Monthly, tab panel",
+      "Current panel",
+      "end of, Monthly, tab panel",
+      "Expanded standalone button, expanded, button, group",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul role="tablist">
+          <li role="presentation"><a id="tab-a" role="tab" href="/" aria-selected="true" aria-expanded="true" aria-controls="missing-panel">Monthly</a></li>
+          <li role="presentation"><a id="tab-b" role="tab" href="/" aria-selected="false">Yearly</a></li>
+        </ul>
+      </main>
+    `),
+    [
+      "main",
+      "Monthly, selected, tab, 1 of 2",
+      "Yearly, tab, 2 of 2",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree suppresses generic group suffix for heading disclosure buttons", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <section aria-label="Questions">
+          <h3><button aria-expanded="false" aria-controls="answer-a">Question A</button></h3>
+          <div id="answer-a" role="region" hidden>Answer A</div>
+        </section>
+      </main>
+    `),
+    [
+      "main",
+      "Questions, region",
+      "heading level 3, Question A, collapsed, button",
+      "end of, Questions, region",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <h3><button aria-expanded="false">Uncontrolled Question</button></h3>
+      </main>
+    `),
+    [
+      "main",
+      "heading level 3, Uncontrolled Question, collapsed, button, group",
+      "end of, main",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(`
+      <main>
+        <ul>
+          <li>
+            <h3><button aria-expanded="false" aria-controls="answer-list-a">List Question</button></h3>
+            <div id="answer-list-a" role="region" hidden>Answer list A</div>
+          </li>
+        </ul>
+      </main>
+    `),
+    [
+      "main",
+      "list 1 item",
+      "heading level 3, List Question, collapsed, button, group",
+      "end of list",
+      "end of, main",
+    ],
+  );
+});
+
 test("scanSubtree preserves AX-exposed anonymous SVG stops in plain list items", () => {
   const html = `
     <main>
