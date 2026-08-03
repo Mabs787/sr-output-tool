@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Tesco menu bar vs button shell C5</title>
+    <style>body { font-family: Arial, sans-serif; margin: 24px; } [hidden], .hidden { display: none; }</style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Tesco C5 menu bar vs button shell identity</h1>
+      <header role="banner">
+        <a href="#" aria-label="Tesco Delivery Saver"><span><svg aria-label="Tesco Home"></svg><span>Delivery Saver</span></span></a>
+        <nav aria-label="Settings and contact" role="navigation">
+          <ul aria-orientation="horizontal" role="menubar" tabindex="-1">
+            <li role="menuitem"><a role="button" href="/"><span>Tesco.com</span></a></li>
+            <li role="menuitem"><a role="button" href="/groceries"><span>Groceries</span></a></li>
+            <li role="menuitem"><a role="button" href="/signin"><span>Sign In</span></a></li>
+            <li role="menuitem"><a role="button" href="/store"><span>Store Locator</span><span><svg aria-hidden="true"></svg></span></a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Main" role="navigation">
+          <ul aria-orientation="horizontal" role="menubar" tabindex="-1">
+            <li role="menuitem" class="hidden"><a role="button" href="/" aria-expanded="false" aria-haspopup="true">Menu</a></li>
+            <li role="menuitem" name="local-nav-home"><a role="button" href="/deliverysaver" aria-current="true" aria-haspopup="false"><span>Home</span></a></li>
+            <li role="menuitem" name="local-nav-faq"><a role="button" href="/deliverysaver/faqs" aria-current="false" aria-haspopup="false"><span>FAQs</span></a></li>
+          </ul>
+        </nav>
+      </header>
+      <p>Menu bar shell positive control</p>
+      <nav aria-label="Plain link navigation"><a href="/plain">Plain link negative control</a></nav>
+      <p>Tesco menu bar shell tail guard</p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Tesco shared header search duplication C5</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; }
+      [hidden], .hidden { display: none; }
+      .offscreen { position: absolute; left: -10000px; }
+    </style>
+  </head>
+  <body>
+    <main data-sr-scan-root>
+      <h1>Tesco C5 shared header search duplication identity</h1>
+      <header aria-label="Global Header">
+        <ul>
+          <li><a href="#search-input-1">Skip to search</a></li>
+        </ul>
+        <nav aria-label="Useful Links">
+          <ul>
+            <li><a role="button" href="/bank"><span>Tesco Bank</span></a></li>
+            <li><a role="button" href="/mobile"><span>Tesco Mobile</span></a></li>
+          </ul>
+        </nav>
+        <nav aria-label="All departments menu">
+          <div role="presentation">
+            <ul>
+              <li>
+                <button type="button" aria-expanded="false" aria-controls="primary-nav-all-departments-submenu">
+                  <span>All Departments</span>
+                </button>
+                <div aria-label="All Departments navigation panel" hidden role="dialog" aria-modal="true">
+                  <button type="button" aria-label="Close">Close</button>
+                  <ul id="primary-nav-all-departments-submenu">
+                    <li><button type="button" aria-controls="fresh-submenu" aria-label="Fresh Food" tabindex="-1">Fresh Food</button></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <form>
+          <div aria-atomic="true" aria-live="polite" role="status" id="search-input-1-results-status"></div>
+          <input id="search-input-1" aria-describedby="search-input-1-error search-input-1-hint search-input-1-results-status" type="search" aria-autocomplete="list" aria-busy="false" aria-haspopup="listbox" aria-label="Enter a product to search for" placeholder="Search" required>
+          <button type="submit" aria-label="Search for products">Search</button>
+        </form>
+        <a href="/login"><span>Sign in</span></a>
+        <a href="/register"><span>Register</span></a>
+      </header>
+      <p>Shared header search positive control</p>
+      <nav aria-label="Plain negative nav"><a href="/plain">Plain negative link</a></nav>
+      <p>Tesco shared header search tail guard</p>
+    </main>
+  </body>
+</html>
