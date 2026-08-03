@@ -143,19 +143,17 @@ metadata.
 
 `www-sky-com-tv` was promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare is now 177 expected, 177 actual, and 0 mismatch windows.
 
-Run `30661318298` processed 20 Tesco targets through Phase E on 2026-08-03. No target was promoted to refined: all 9 imported fixtures remain `candidate-parked-corpus` because current compares are non-exact, the 8 importer-rejected step-cap targets are partial recapture-only archives, and Store Locator, Clubcard, and Clubcard Reward Partners require recapture before corpus use. Terminal receipts with revisit queues live under `voiceover-smoke/agent-work/30661318298/<target>/06-promotion.json`; retained evidence is archived by the run-level evidence manifest.
+Run `30661318298` processed 20 Tesco targets through Phase E on 2026-08-03. A follow-up evidence-backed Phase D/E pass promoted both Real Food fixtures to `golden-exact-corpus`: `realfood-tesco-com` is 113/113 exact and `realfood-tesco-com-recipes-html` is 133/133 exact after reusable carousel/listbox and iframe-boundary fixes. The other 7 imported fixtures remain `candidate-parked-corpus`; the 8 importer-rejected step-cap targets are partial recapture-only archives, and Store Locator, Clubcard, and Clubcard Reward Partners require recapture before corpus use. Terminal receipts with revisit queues live under `voiceover-smoke/agent-work/30661318298/<target>/06-promotion.json`; retained evidence is archived by the run-level evidence manifest.
 
 Parked Tesco candidate fixtures from this run:
 
-- `www-tesco-com-help-pages-clubcard-faqs`: 3 mismatch windows; tier `candidate-parked-corpus`.
-- `www-tesco-com-help-pages-online-grocery-faqs`: 3 mismatch windows; tier `candidate-parked-corpus`.
-- `realfood-tesco-com`: 4 mismatch windows; tier `candidate-parked-corpus`.
-- `realfood-tesco-com-recipes-html`: 9 mismatch windows; tier `candidate-parked-corpus`.
-- `www-tesco-com-help`: 10 mismatch windows; tier `candidate-parked-corpus`.
-- `www-tesco-com-help-site-map`: 9 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-help-pages-clubcard-faqs`: 1 mismatch window; tier `candidate-parked-corpus`.
+- `www-tesco-com-help-pages-online-grocery-faqs`: 1 mismatch window; tier `candidate-parked-corpus`.
+- `www-tesco-com-help`: 8 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-help-site-map`: 7 mismatch windows; tier `candidate-parked-corpus`.
 - `www-tesco-com-zones-tesco-magazine`: 5 mismatch windows; tier `candidate-parked-corpus`.
-- `www-tesco-com-deliverysaver`: 7 mismatch windows; tier `candidate-parked-corpus`.
-- `www-tesco-com-groceries`: 71 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-deliverysaver`: 5 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-groceries`: 18 mismatch windows; tier `candidate-parked-corpus`.
 
 Tesco recapture-only terminal outcomes from this run:
 

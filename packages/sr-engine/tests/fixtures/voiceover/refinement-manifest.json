@@ -865,42 +865,42 @@
       }
     },
     "realfood-tesco-com-recipes-html": {
-      "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 133 expected, 146 actual, and 9 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/realfood-tesco-com-recipes-html/06-promotion.json.",
-      "fixtureTier": "candidate-parked-corpus",
+      "status": "refined",
+      "reason": "Run 30661318298 follow-up Phase D/E resolved the AX-backed carousel/listbox and labelled advertisement-frame families; the exact compare is 133 expected, 133 actual, and 0 mismatch windows.",
+      "fixtureTier": "golden-exact-corpus",
       "uniqueCoverage": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior.",
       "existingCoverageChecked": {
-        "status": "reviewed-candidate-evidence",
+        "status": "reviewed-overlap-keep",
         "coverageCluster": "tesco-realfood-content-and-media",
-        "existingCoverageSufficientForExactGate": false
+        "existingCoverageSufficientForExactGate": true
       },
       "curationDecision": {
         "reviewedAt": "2026-08-03",
-        "decision": "candidate-parked-corpus",
+        "decision": "golden-exact-corpus",
         "coverageCluster": "tesco-realfood-content-and-media",
-        "rationale": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+        "rationale": "Keep as an exact gate for repeated AX-backed carousel/listbox and labelled advertisement-frame structures across the dense recipe index."
       }
     },
     "realfood-tesco-com": {
-      "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 113 expected, 105 actual, and 4 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/realfood-tesco-com/06-promotion.json.",
-      "fixtureTier": "candidate-parked-corpus",
+      "status": "refined",
+      "reason": "Run 30661318298 follow-up Phase D/E resolved the AX-backed carousel/listbox, labelled advertisement-frame, and list-item embedded-video-frame families; the exact compare is 113 expected, 113 actual, and 0 mismatch windows.",
+      "fixtureTier": "golden-exact-corpus",
       "uniqueCoverage": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior.",
       "existingCoverageChecked": {
-        "status": "reviewed-candidate-evidence",
+        "status": "reviewed-overlap-keep",
         "coverageCluster": "tesco-realfood-content-and-media",
-        "existingCoverageSufficientForExactGate": false
+        "existingCoverageSufficientForExactGate": true
       },
       "curationDecision": {
         "reviewedAt": "2026-08-03",
-        "decision": "candidate-parked-corpus",
+        "decision": "golden-exact-corpus",
         "coverageCluster": "tesco-realfood-content-and-media",
-        "rationale": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+        "rationale": "Keep as an exact gate for AX-backed carousel/listbox, labelled advertisement-frame, and positioned embedded-video-frame behavior on a content homepage."
       }
     },
     "www-tesco-com-deliverysaver": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 141 expected, 138 actual, and 7 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-deliverysaver/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 141 expected, 142 actual, and 5 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-deliverysaver/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Delivery Saver evidence for tab group state, plan controls, menu-bar/button shell conflicts, terminal groups, and retail service-page navigation.",
       "existingCoverageChecked": {
@@ -917,7 +917,7 @@
     },
     "www-tesco-com-groceries": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 243 expected, 293 actual, and 71 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-groceries/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 243 expected, 234 actual, and 18 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-groceries/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Large Tesco groceries evidence for product/promo card link decomposition, list position metadata, shared header search duplication, and retail commerce shell diversity.",
       "existingCoverageChecked": {
@@ -934,7 +934,7 @@
     },
     "www-tesco-com-help-pages-clubcard-faqs": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 86 expected, 84 actual, and 3 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-pages-clubcard-faqs/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 86 expected, 85 actual, and 1 mismatch window. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-pages-clubcard-faqs/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Tesco Help FAQ evidence for shared header/menu shell, FAQ search/settings controls, terminal groups, list markers, and footer heading behavior.",
       "existingCoverageChecked": {
@@ -951,7 +951,7 @@
     },
     "www-tesco-com-help-pages-online-grocery-faqs": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 90 expected, 88 actual, and 3 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-pages-online-grocery-faqs/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 90 expected, 89 actual, and 1 mismatch window. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-pages-online-grocery-faqs/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Tesco Help FAQ evidence for shared header/menu shell, FAQ search/settings controls, terminal groups, list markers, and footer heading behavior.",
       "existingCoverageChecked": {
@@ -968,7 +968,7 @@
     },
     "www-tesco-com-help-site-map": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 160 expected, 172 actual, and 9 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-site-map/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 160 expected, 167 actual, and 7 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-site-map/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Dense Tesco sitemap evidence for grouped link headings, URL anchor naming, duplicate link/separator structure, and shared grocery navigation shell.",
       "existingCoverageChecked": {
@@ -985,7 +985,7 @@
     },
     "www-tesco-com-help": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 133 expected, 138 actual, and 10 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 133 expected, 139 actual, and 8 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Tesco Help page evidence for disclosure button group suffixes, separator drift, list markers, search controls, and shared retail header/footer structure.",
       "existingCoverageChecked": {
@@ -1002,7 +1002,7 @@
     },
     "www-tesco-com-zones-tesco-magazine": {
       "status": "candidate",
-      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 95 expected, 88 actual, and 5 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-zones-tesco-magazine/06-promotion.json.",
+      "reason": "Run 30661318298 follow-up Phase D/E keeps this fixture parked: latest compare has 95 expected, 92 actual, and 5 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-zones-tesco-magazine/06-promotion.json.",
       "fixtureTier": "candidate-parked-corpus",
       "uniqueCoverage": "Tesco Magazine evidence for content shell navigation, terminal group behavior, unlabeled images, and article/promo link structures.",
       "existingCoverageChecked": {
@@ -1039,10 +1039,10 @@
   },
   "lastPromotion": {
     "runId": "30661318298",
-    "promotedAt": "2026-08-03T12:40:13.368Z",
-    "promotedBy": "Phase E promoter",
-    "refined": 0,
-    "candidate": 9,
+    "promotedAt": "2026-08-03T14:34:08Z",
+    "promotedBy": "Phase D/E follow-up",
+    "refined": 2,
+    "candidate": 7,
     "partial": 8,
     "skip": 3
   }
