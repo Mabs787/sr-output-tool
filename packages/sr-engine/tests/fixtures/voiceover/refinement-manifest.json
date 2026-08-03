@@ -866,39 +866,156 @@
     },
     "realfood-tesco-com-recipes-html": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 133 expected, 146 actual, and 9 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/realfood-tesco-com-recipes-html/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-realfood-content-and-media",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-realfood-content-and-media",
+        "rationale": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "realfood-tesco-com": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 113 expected, 105 actual, and 4 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/realfood-tesco-com/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-realfood-content-and-media",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-realfood-content-and-media",
+        "rationale": "Real Food live-site evidence for recipe/content cards, carousel/listbox structure, iframe advertisement/video structures, and footer/content shell behavior. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-deliverysaver": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 141 expected, 138 actual, and 7 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-deliverysaver/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Delivery Saver evidence for tab group state, plan controls, menu-bar/button shell conflicts, terminal groups, and retail service-page navigation.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-deliverysaver-tabs-and-plans",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-deliverysaver-tabs-and-plans",
+        "rationale": "Delivery Saver evidence for tab group state, plan controls, menu-bar/button shell conflicts, terminal groups, and retail service-page navigation. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-groceries": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 243 expected, 293 actual, and 71 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-groceries/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Large Tesco groceries evidence for product/promo card link decomposition, list position metadata, shared header search duplication, and retail commerce shell diversity.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-groceries-commerce-cards",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-groceries-commerce-cards",
+        "rationale": "Large Tesco groceries evidence for product/promo card link decomposition, list position metadata, shared header search duplication, and retail commerce shell diversity. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-help-pages-clubcard-faqs": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 86 expected, 84 actual, and 3 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-pages-clubcard-faqs/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Tesco Help FAQ evidence for shared header/menu shell, FAQ search/settings controls, terminal groups, list markers, and footer heading behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-help-faq-shell",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-help-faq-shell",
+        "rationale": "Tesco Help FAQ evidence for shared header/menu shell, FAQ search/settings controls, terminal groups, list markers, and footer heading behavior. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-help-pages-online-grocery-faqs": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 90 expected, 88 actual, and 3 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-pages-online-grocery-faqs/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Tesco Help FAQ evidence for shared header/menu shell, FAQ search/settings controls, terminal groups, list markers, and footer heading behavior.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-help-faq-shell",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-help-faq-shell",
+        "rationale": "Tesco Help FAQ evidence for shared header/menu shell, FAQ search/settings controls, terminal groups, list markers, and footer heading behavior. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-help-site-map": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 160 expected, 172 actual, and 9 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help-site-map/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Dense Tesco sitemap evidence for grouped link headings, URL anchor naming, duplicate link/separator structure, and shared grocery navigation shell.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-site-map-link-density",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-site-map-link-density",
+        "rationale": "Dense Tesco sitemap evidence for grouped link headings, URL anchor naming, duplicate link/separator structure, and shared grocery navigation shell. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-help": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 133 expected, 138 actual, and 10 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-help/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Tesco Help page evidence for disclosure button group suffixes, separator drift, list markers, search controls, and shared retail header/footer structure.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-help-page-disclosure-shell",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-help-page-disclosure-shell",
+        "rationale": "Tesco Help page evidence for disclosure button group suffixes, separator drift, list markers, search controls, and shared retail header/footer structure. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     },
     "www-tesco-com-zones-tesco-magazine": {
       "status": "candidate",
-      "reason": "Imported by voiceover:preprocess-artifact. Keep as candidate until the generated report's engine gaps are resolved."
+      "reason": "Run 30661318298 Phase E parked this fixture as candidate: latest compare has 95 expected, 88 actual, and 5 mismatch windows. Remaining families are recorded in voiceover-smoke/agent-work/30661318298/www-tesco-com-zones-tesco-magazine/06-promotion.json.",
+      "fixtureTier": "candidate-parked-corpus",
+      "uniqueCoverage": "Tesco Magazine evidence for content shell navigation, terminal group behavior, unlabeled images, and article/promo link structures.",
+      "existingCoverageChecked": {
+        "status": "reviewed-candidate-evidence",
+        "coverageCluster": "tesco-magazine-content-shell",
+        "existingCoverageSufficientForExactGate": false
+      },
+      "curationDecision": {
+        "reviewedAt": "2026-08-03",
+        "decision": "candidate-parked-corpus",
+        "coverageCluster": "tesco-magazine-content-shell",
+        "rationale": "Tesco Magazine evidence for content shell navigation, terminal group behavior, unlabeled images, and article/promo link structures. Current compare is non-exact, so keep as parked candidate evidence rather than golden corpus."
+      }
     }
   },
   "fixtureTierDefinitions": {
@@ -919,5 +1036,14 @@
     "scope": "First-pass corpus curation over all current manifest entries.",
     "method": "Grouped fixtures by site family and behavior coverage, marked exact focused examples separately from full-page golden fixtures, and recorded overlap/pruning recommendations without deleting historical evidence.",
     "nextAudit": "Review high-overlap Sky and legacy no-step exact fixtures after the next full corpus timing report; replace duplicate full-page gates with focused repros where the same engine rule is already protected."
+  },
+  "lastPromotion": {
+    "runId": "30661318298",
+    "promotedAt": "2026-08-03T12:40:13.368Z",
+    "promotedBy": "Phase E promoter",
+    "refined": 0,
+    "candidate": 9,
+    "partial": 8,
+    "skip": 3
   }
 }

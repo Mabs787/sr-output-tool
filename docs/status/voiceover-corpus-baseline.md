@@ -1,6 +1,6 @@
 # VoiceOver Corpus Baseline
 
-Last refreshed: 2026-07-09
+Last refreshed: 2026-08-03
 
 This baseline uses the VoiceOver-first refinement workflow:
 
@@ -142,6 +142,34 @@ metadata.
 `business-sky-com-s` was refreshed from successful scan `28305378853` on 2026-06-28 and reviewed through Phase B/C/D/E. OCR/source-backed fixture repairs were applied, and hover-open navigation submenu announcements were later removed because the fixture replays the initial non-hover DOM state. The current compare is 193 expected, 233 actual, and 31 mismatch windows. Rich package-card decomposition/list counting is now fixed, while unresolved trusted initial-DOM families still cover carousel/list-position, wrapper groups, legal/tail traversal, selected-state/text-boundary evidence, and timer volatility. The target remains candidate.
 
 `www-sky-com-tv` was promoted after Phase D fixed the reusable generic-wrapper group-boundary traversal gap. Phase B trusted the three standalone `group` announcements as initial-DOM replayable, and the exact compare is now 177 expected, 177 actual, and 0 mismatch windows.
+
+Run `30661318298` processed 20 Tesco targets through Phase E on 2026-08-03. No target was promoted to refined: all 9 imported fixtures remain `candidate-parked-corpus` because current compares are non-exact, the 8 importer-rejected step-cap targets are partial recapture-only archives, and Store Locator, Clubcard, and Clubcard Reward Partners require recapture before corpus use. Terminal receipts with revisit queues live under `voiceover-smoke/agent-work/30661318298/<target>/06-promotion.json`; retained evidence is archived by the run-level evidence manifest.
+
+Parked Tesco candidate fixtures from this run:
+
+- `www-tesco-com-help-pages-clubcard-faqs`: 3 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-help-pages-online-grocery-faqs`: 3 mismatch windows; tier `candidate-parked-corpus`.
+- `realfood-tesco-com`: 4 mismatch windows; tier `candidate-parked-corpus`.
+- `realfood-tesco-com-recipes-html`: 9 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-help`: 10 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-help-site-map`: 9 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-zones-tesco-magazine`: 5 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-deliverysaver`: 7 mismatch windows; tier `candidate-parked-corpus`.
+- `www-tesco-com-groceries`: 71 mismatch windows; tier `candidate-parked-corpus`.
+
+Tesco recapture-only terminal outcomes from this run:
+
+- `www-tesco-com-groceries-en-gb-shop-frozen-food-all`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-groceries-en-gb-promotions`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-groceries-en-gb-shop-drinks-all`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-groceries-en-gb-zone-clubcard-prices`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-groceries-en-gb-shop-household-all`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-groceries-en-gb-shop-bakery-all`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-groceries-en-gb-shop-fresh-food-all`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com`: partial archive/recapture-only, step-cap-no-boundary-markers.
+- `www-tesco-com-store-locator`: skip/needs recapture, permission-system-dialog-stall.
+- `www-tesco-com-clubcard`: skip/needs recapture, security-check-error-page.
+- `www-tesco-com-clubcard-reward-partners`: skip/needs recapture, security-check-error-page.
 
 `www-tesco-com` was processed through Phase E on 2026-06-28. The target remains candidate: the Tesco compare improved from 28 to 2 mismatch windows after reusable carousel/slideshow, linked-heading, quantity-label, fieldset-radio, structured native-footer, searchbox wording, Clubcard list-position spacing, Pets roundel fixture, and promo punctuation cleanup. The target-specific status doc now carries a revisit queue for the remaining saved/live header DOM-state divergence; exact gating is still unresolved and the full corpus test remains red on unrelated Sky fixtures.
 
