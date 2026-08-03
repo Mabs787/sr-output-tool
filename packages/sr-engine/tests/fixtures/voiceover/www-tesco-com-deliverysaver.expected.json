@@ -291,8 +291,7 @@
     "link, image, tesco, 5 of 5",
     "end of list",
     "© Tesco.com 2026 All rights reserved",
-    "end of, content information",
-    "group"
+    "end of, content information"
   ],
   "scan": {
     "stopReason": "scan-end-marker",
