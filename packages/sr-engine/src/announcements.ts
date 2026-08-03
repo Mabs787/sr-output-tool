@@ -917,6 +917,11 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
+    case "menubar": {
+      parts.push("menu bar");
+      break;
+    }
+
     case "tabpanel": {
       pushIfPresent(parts, label);
       parts.push("tab panel");
@@ -1133,7 +1138,16 @@ export function generateAnnouncement(el: ElementDescriptor): string {
       break;
     }
 
-    case "menuitem":
+    case "menuitem": {
+      pushIfPresent(parts, label);
+      parts.push("menu item");
+      if (el.groupContext) {
+        parts.push("group");
+      }
+      pushCollectionPosition(parts, el);
+      break;
+    }
+
     case "option": {
       pushIfPresent(parts, label);
       parts.push("menu item");
@@ -1310,6 +1324,10 @@ export function getContextEndAnnouncement(
     return descriptor?.name
       ? `end of, ${descriptor.name}, navigation`
       : "end of, navigation";
+  }
+
+  if (role === "menubar") {
+    return "end of menu bar";
   }
 
   if (role === "region" && descriptor?.roleDescription === "carousel") {

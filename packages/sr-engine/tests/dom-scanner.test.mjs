@@ -17549,3 +17549,437 @@ test("scanSubtree suppresses wrapper group stops before standalone card headings
     ],
   );
 });
+
+test("scanSubtree preserves explicit menubar and menuitem boundaries", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <nav aria-label="Settings and contact">
+        <ul role="menubar" tabindex="-1">
+          <li role="menuitem"><a role="button" href="/">Tesco.com</a></li>
+          <li role="menuitem"><a role="button" href="/groceries">Groceries</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Plain navigation"><a href="/plain">Plain link</a></nav>
+    `),
+    [
+      "Settings and contact, navigation",
+      "menu bar",
+      "Tesco.com, menu item, (1 of 2)",
+      "Groceries, menu item, (2 of 2)",
+      "end of menu bar",
+      "end of, Settings and contact, navigation",
+      "Plain navigation, navigation",
+      "link, Plain link",
+      "end of, Plain navigation, navigation",
+    ],
+  );
+
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul role="menubar" data-sr-dom-node-id="menu">
+          <li role="menuitem" data-sr-dom-node-id="item">
+            <a role="button" href="/" data-sr-dom-node-id="button">Tesco.com</a>
+          </li>
+        </ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "item-ax",
+              role: "menuitem",
+              name: "Tesco.com",
+              domNodeId: "item",
+              childIds: ["button-ax"],
+            },
+            {
+              nodeId: "button-ax",
+              role: "button",
+              name: "Tesco.com",
+              domNodeId: "button",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "menu bar",
+      "Tesco.com, menu item, group",
+      "end of menu bar",
+    ],
+  );
+});
+
+test("scanSubtree emits an explicit empty named group once without a closing boundary", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <main>
+          <p>Before group</p>
+          <div role="group" aria-label="FAQ terminal group" data-sr-dom-node-id="group"></div>
+          <p>After group</p>
+        </main>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "group-ax",
+              role: "group",
+              name: "FAQ terminal group",
+              domNodeId: "group",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "main",
+      "Before group",
+      "FAQ terminal group, empty group",
+      "After group",
+      "end of, main",
+    ],
+  );
+});
+
+test("scanSubtree skips an AX-empty footer heading before a labelled social-link list", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <footer>
+          <h2 data-sr-dom-node-id="placeholder"></h2>
+          <ul>
+            <li><a href="/facebook" aria-label="Facebook"><svg></svg></a></li>
+            <li><a href="/twitter" aria-label="Twitter"><svg></svg></a></li>
+          </ul>
+          <h2 data-sr-dom-node-id="ordinary"></h2>
+          <p>Ordinary footer content</p>
+        </footer>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "placeholder-ax",
+              role: "heading",
+              name: "",
+              domNodeId: "placeholder",
+              properties: { level: 2 },
+            },
+            {
+              nodeId: "ordinary-ax",
+              role: "heading",
+              name: "",
+              domNodeId: "ordinary",
+              properties: { level: 2 },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "footer",
+      "list 2 items",
+      "link, Facebook, 1 of 2",
+      "link, Twitter, 2 of 2",
+      "end of list",
+      "heading level 2",
+      "Ordinary footer content",
+      "end of, footer",
+    ],
+  );
+});
+
+test("scanSubtree skips an earlier AX-backed duplicate header navigation before search", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <header>
+          <nav aria-label="All departments menu" data-sr-dom-node-id="earlier">
+            <ul><li><button>All Departments</button></li></ul>
+          </nav>
+          <input type="search" aria-label="Search products" data-sr-dom-node-id="search">
+          <nav aria-label="All departments menu" data-sr-dom-node-id="later">
+            <ul><li><button>All Departments</button></li></ul>
+          </nav>
+        </header>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "earlier-ax",
+              role: "navigation",
+              name: "All departments menu",
+              domNodeId: "earlier",
+            },
+            {
+              nodeId: "search-ax",
+              role: "searchbox",
+              name: "Search products",
+              domNodeId: "search",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "later-ax",
+              role: "navigation",
+              name: "All departments menu",
+              domNodeId: "later",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "banner",
+      "Search products, search text field",
+      "All departments menu, navigation",
+      "list 1 item",
+      "All Departments, button",
+      "end of list",
+      "end of, All departments menu, navigation",
+      "end of, banner",
+    ],
+  );
+});
+
+test("scanSubtree collapses duplicated saved-DOM links to their AX-backed name", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <div>
+          <a href="/offers/top-picks" data-sr-dom-node-id="card-link"></a>
+          <div>
+            <a href="/offers/top-picks" data-sr-dom-node-id="card-link"></a>
+            <div>
+              <a href="/offers/top-picks" data-sr-dom-node-id="card-link"></a>
+              <a><span>Half price chocolate pouches</span></a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <a href="/offers/summer" data-sr-dom-node-id="summer-link"></a>
+          <div>
+            <a href="/offers/summer" data-sr-dom-node-id="summer-link"></a>
+            <section aria-label="Summer savings">
+              <a href="/offers/summer" data-sr-dom-node-id="summer-link"><h3>Summer savings</h3></a>
+              <a href="/offers/summer">Shop now</a>
+            </section>
+          </div>
+        </div>
+        <a href="/plain">Plain link</a>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "card-link-ax",
+              role: "link",
+              name: "Half price chocolate pouches",
+              domNodeId: "card-link",
+              properties: {
+                focusable: true,
+                url: "https://sr-output.local/offers/top-picks",
+              },
+            },
+            {
+              nodeId: "summer-link-ax",
+              role: "link",
+              name: "Summer savings",
+              domNodeId: "summer-link",
+              properties: {
+                focusable: true,
+                url: "https://sr-output.local/offers/summer",
+              },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "link, Half price chocolate pouches",
+      "link, Summer savings",
+      "link, Plain link",
+    ],
+  );
+});
+
+test("scanSubtree joins product-card price and unit-price paragraphs", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section role="region" aria-label="Tomatoes">
+        <h3>Tomatoes</h3>
+        <div><p>£0.99</p><p>£0.16/each</p></div>
+        <button aria-label="add 1 Tomatoes">Add</button>
+      </section>
+      <section aria-label="Price reference">
+        <p>£4.99</p><p>£2.50/each</p>
+      </section>
+    `),
+    [
+      "Tomatoes, region",
+      "heading level 3, Tomatoes",
+      "£0.99 £0.16/each",
+      "add 1 Tomatoes, button",
+      "end of, Tomatoes, region",
+      "Price reference, region",
+      "£4.99",
+      "£2.50/each",
+      "end of, Price reference, region",
+    ],
+  );
+});
+
+test("scanSubtree collapses AX-backed carousel listboxes to VoiceOver boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section aria-label="Events">
+          <ul>
+            <div><div role="listbox" data-sr-dom-node-id="carousel">
+              <li role="option"><a href="/summer">Summer recipes</a></li>
+              <li role="option"><a href="/winter">Winter recipes</a></li>
+            </div></div>
+          </ul>
+          <button>Previous</button><button>Next</button>
+        </section>
+        <ul><li>Plain list</li></ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "carousel-ax",
+              role: "listbox",
+              name: "Summer recipes Winter recipes",
+              domNodeId: "carousel",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Events, region",
+      "list 1 item",
+      "list box",
+      "end of list",
+      "Previous, button",
+      "Next, button",
+      "end of, Events, region",
+      "list 1 item",
+      "Plain list",
+      "end of list",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX-backed labelled embedded-frame boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <section role="group" aria-label="Advertisement">
+          <h2>Advertisement</h2>
+          <iframe aria-label="Advertisement" title="3rd party ad content" srcdoc="<p>Ad</p>" data-sr-dom-node-id="inline-ad"></iframe>
+        </section>
+        <iframe aria-label="Advertisement" title="3rd party ad content" data-sr-dom-node-id="remote-ad"></iframe>
+        <iframe aria-label="Matching title" title="Matching title" data-sr-dom-node-id="negative"></iframe>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "inline-ad-ax",
+              role: "frame",
+              name: "Advertisement",
+              description: "3rd party ad content",
+              domNodeId: "inline-ad",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "remote-ad-ax",
+              role: "frame",
+              name: "Advertisement",
+              description: "3rd party ad content",
+              domNodeId: "remote-ad",
+              properties: { focusable: true },
+            },
+            {
+              nodeId: "negative-ax",
+              role: "frame",
+              name: "Matching title",
+              domNodeId: "negative",
+              properties: { focusable: true },
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "Advertisement, group",
+      "heading level 2, Advertisement",
+      "Advertisement, group",
+      "frame 0",
+      "end of, Advertisement, group",
+      "end of, Advertisement, group",
+      "Advertisement, group",
+      "SafeFrame Container, frame",
+      "end of, Advertisement, group",
+    ],
+  );
+});
+
+test("scanSubtree preserves AX-backed list-item embedded-frame boundaries", () => {
+  assert.deepEqual(
+    scanHtml(
+      `
+        <ul aria-label="Video list">
+          <li><iframe title="First video" data-sr-dom-node-id="first"></iframe><button>First Video</button></li>
+          <li><div><iframe title="Second video" data-sr-dom-node-id="second"></iframe></div><button>Second Video</button></li>
+        </ul>
+        <ul><li><iframe title="Ordinary frame" data-sr-dom-node-id="ordinary"></iframe><button>Continue</button></li></ul>
+      `,
+      {
+        accessibilityTree: {
+          nodes: [
+            {
+              nodeId: "first-ax",
+              role: "frame",
+              name: "First video",
+              domNodeId: "first",
+            },
+            {
+              nodeId: "second-ax",
+              role: "frame",
+              name: "Second video",
+              domNodeId: "second",
+            },
+            {
+              nodeId: "ordinary-ax",
+              role: "frame",
+              name: "Ordinary frame",
+              domNodeId: "ordinary",
+            },
+          ],
+        },
+      },
+    ),
+    [
+      "list Video list 2 items",
+      "First video, group, 1 of 2",
+      "First video - Youtube, frame",
+      "end of, First video, group",
+      "First Video, button",
+      "Second video, group, 2 of 2",
+      "Second video - Youtube, frame",
+      "end of, Second video, group",
+      "Second Video, button",
+      "end of list",
+      "list 1 item",
+      "Continue, button",
+      "end of list",
+    ],
+  );
+});
