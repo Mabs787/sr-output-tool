@@ -396,18 +396,18 @@
     },
     "www-sky-com-shop-mobile": {
       "status": "candidate",
-      "reason": "Restored to the prior VoiceOver/refined fixture baseline after audit found carousel/group/card fixture edits could mask true VO output. Current compare is 165 expected, 160 actual, and 12 mismatch windows; keep as candidate until the carousel and product-card traversal gaps are resolved in the engine or with stronger evidence.",
+      "reason": "Phase B/C/C.5/D on 2026-08-29 confirmed and fixed the standalone accessible text-leaf-in-structured-listitem family without editing refinedAnnouncements. Current compare is 165 expected, 165 actual, and 15 mismatch windows; keep as candidate until the separate carousel state, group/card, list-position, link-name, and linked-image wording families are resolved with evidence-backed workflow.",
       "fixtureTier": "candidate-parked-corpus",
-      "uniqueCoverage": "Sky candidate evidence for carousel and product-card traversal gaps.",
+      "uniqueCoverage": "Sky candidate evidence for carousel state, product-card/list traversal, grouped card, link-name, linked-image wording, and confirmed standalone accessible text-leaf traversal behavior.",
       "existingCoverageChecked": {
         "status": "reviewed-candidate-evidence",
         "coverageCluster": "sky-commerce-family"
       },
       "curationDecision": {
-        "reviewedAt": "2026-07-10",
+        "reviewedAt": "2026-08-29",
         "decision": "candidate-parked-corpus",
         "coverageCluster": "sky-commerce-family",
-        "rationale": "Sky candidate evidence for carousel and product-card traversal gaps."
+        "rationale": "The confirmed standalone text-leaf engine gap is covered by focused C.5 evidence and unit tests, but the full Sky Mobile fixture remains non-exact with separate unresolved families."
       }
     },
     "www-sky-com-smart-home": {

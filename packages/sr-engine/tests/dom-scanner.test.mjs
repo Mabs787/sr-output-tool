@@ -16668,6 +16668,211 @@ test("scanSubtree splits heading and body text in structured list items", () => 
   );
 });
 
+test("scanSubtree announces standalone accessible text leaves in structured list items", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-labelledby="current-product-cards-heading">
+        <h2 id="current-product-cards-heading">Current product-card structure</h2>
+        <ul aria-label="Current product card deals">
+          <li>
+            <div>
+              <div>
+                <h3>Apple iPhone 17 Pro</h3>
+                <p>Pair with Unlimited Data for just £19 extra a month.</p>
+                <div>
+                  <span>from £31.50 a month</span>
+                  <div aria-hidden="true">
+                    <span>from</span><span>£</span><span>31</span><span>.50</span><span>a month</span>
+                  </div>
+                </div>
+              </div>
+              <img alt="">
+              <a href="#apple-deal" aria-label="View deal">View deal</a>
+            </div>
+          </li>
+          <li>
+            <div>Trade in and save up to £505</div>
+            <div>
+              <div>
+                <h3>Google Pixel 11</h3>
+                <p>Save £180 on the watch when bought with this device.</p>
+                <div>
+                  <span>from £25 a month</span>
+                  <div aria-hidden="true">
+                    <span>from</span><span>£</span><span>25</span><span>a month</span>
+                  </div>
+                </div>
+              </div>
+              <img alt="">
+              <a href="#pixel-deal" aria-label="View deal">View deal</a>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div>
+                <h3>Samsung Galaxy Z Flip8 5G with Galaxy AI</h3>
+                <p>Claim £150 extra when you trade in.</p>
+                <div>
+                  <span>from £38 a month</span>
+                  <div aria-hidden="true">
+                    <span>from</span><span>£</span><span>38</span><span>a month</span>
+                  </div>
+                </div>
+              </div>
+              <img alt="">
+              <a href="#samsung-deal" aria-label="view del">View deal</a>
+            </div>
+          </li>
+        </ul>
+        <p>Tail guard after current cards.</p>
+      </section>
+    `),
+    [
+      "Current product-card structure, region",
+      "heading level 2, Current product-card structure",
+      "list Current product card deals 3 items",
+      "heading level 3, Apple iPhone 17 Pro, 1 of 3",
+      "Pair with Unlimited Data for just £19 extra a month.",
+      "from £31.50 a month",
+      "link, View deal, 1 of 3",
+      "Trade in and save up to £505",
+      "heading level 3, Google Pixel 11, 2 of 3",
+      "Save £180 on the watch when bought with this device.",
+      "from £25 a month",
+      "link, View deal, 2 of 3",
+      "heading level 3, Samsung Galaxy Z Flip8 5G with Galaxy AI, 3 of 3",
+      "Claim £150 extra when you trade in.",
+      "from £38 a month",
+      "link, view del, 3 of 3",
+      "end of list",
+      "Tail guard after current cards.",
+      "end of, Current product-card structure, region",
+    ],
+  );
+});
+
+test("scanSubtree guards standalone structured list text leaves against hidden and owned text", () => {
+  assert.deepEqual(
+    scanHtml(`
+      <section aria-labelledby="generic-heading">
+        <h2 id="generic-heading">Generic readable text leaves</h2>
+        <ul aria-label="Generic card leaves">
+          <li>
+            <div>
+              <h3>Generic plan</h3>
+              <span>standalone support text</span>
+              <div aria-hidden="true">standalone support text visual duplicate</div>
+              <a href="#generic-plan">View plan</a>
+            </div>
+          </li>
+        </ul>
+        <p>Tail guard after generic leaf.</p>
+      </section>
+      <section aria-labelledby="older-heading">
+        <h2 id="older-heading">Older saved Sky shape</h2>
+        <ul aria-label="Older product card deals">
+          <li>
+            <div>
+              <h3>Older saved phone</h3>
+              <p>Older copied body text.</p>
+              <div data-sr-computed-hidden="display:none">
+                <span>from £34 a month</span>
+                <div aria-hidden="true">
+                  <span>from</span><span>£</span><span>34</span><span>a month</span>
+                </div>
+              </div>
+              <a href="#older-phone" aria-label="View older saved phone deal">View deal</a>
+            </div>
+          </li>
+        </ul>
+        <p>Tail guard after older shape.</p>
+      </section>
+      <section aria-labelledby="negative-heading">
+        <h2 id="negative-heading">Negative controls</h2>
+        <ul aria-label="Negative control cards">
+          <li>
+            <div>
+              <h3>Semantic paragraph owner</h3>
+              <p><span>Paragraph-owned text must stay paragraph text.</span></p>
+              <a href="#paragraph-owner">View paragraph control</a>
+            </div>
+          </li>
+          <li>
+            <button type="button" aria-labelledby="name-owner-source">
+              <span id="name-owner-source">Accessible name owner</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" aria-describedby="description-source">View description control</button>
+            <span hidden id="description-source">Description source text</span>
+          </li>
+          <li>
+            <button type="button">
+              <span>Button-owned text</span>
+              View button control
+            </button>
+          </li>
+          <li>
+            <a href="#link-owner">
+              <span>Link-owned text</span>
+              View link control
+            </a>
+          </li>
+          <li>
+            <label>
+              <span>Label-owned text</span>
+              <input type="text" value="">
+            </label>
+          </li>
+          <li>
+            <div aria-hidden="true">
+              <span>Hidden duplicate text</span>
+              Hidden visual duplicate text
+            </div>
+            <a href="#hidden-control">View hidden control</a>
+          </li>
+        </ul>
+        <p>Tail guard after negative controls.</p>
+      </section>
+    `),
+    [
+      "Generic readable text leaves, region",
+      "heading level 2, Generic readable text leaves",
+      "list Generic card leaves 1 item",
+      "heading level 3, Generic plan",
+      "standalone support text",
+      "link, View plan",
+      "end of list",
+      "Tail guard after generic leaf.",
+      "end of, Generic readable text leaves, region",
+      "Older saved Sky shape, region",
+      "heading level 2, Older saved Sky shape",
+      "list Older product card deals 1 item",
+      "heading level 3, Older saved phone",
+      "Older copied body text.",
+      "link, View older saved phone deal",
+      "end of list",
+      "Tail guard after older shape.",
+      "end of, Older saved Sky shape, region",
+      "Negative controls, region",
+      "heading level 2, Negative controls",
+      "list Negative control cards 7 items",
+      "heading level 3, Semantic paragraph owner, 1 of 7",
+      "Paragraph-owned text must stay paragraph text.",
+      "link, View paragraph control, 1 of 7",
+      "Accessible name owner, button, 2 of 7",
+      "View description control Description source text, button, 3 of 7",
+      "Button-owned text View button control, button, 4 of 7",
+      "link, Link-owned text View link control, 5 of 7",
+      "Label-owned text, 6 of 7",
+      "link, View hidden control, 7 of 7",
+      "end of list",
+      "Tail guard after negative controls.",
+      "end of, Negative controls, region",
+    ],
+  );
+});
+
 test("scanSubtree splits text and controls in interactive card list items", () => {
   assert.deepEqual(
     scanHtml(`
