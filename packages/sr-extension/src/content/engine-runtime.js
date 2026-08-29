@@ -6323,6 +6323,8 @@
             return "text";
           if (isCustomHeadedTextCardBody(el))
             return "text";
+          if (isStandaloneStructuredListItemTextLeaf(el))
+            return "text";
           if (footerInlineBoundaryTextFragments(el))
             return tag === "p" ? "paragraph" : "text";
           if (expandedRegionInlineLinkFragments(el))
@@ -13153,6 +13155,40 @@
           }
           const linkedHeading = el.querySelector("h1 a[href], h2 a[href], h3 a[href], h4 a[href], h5 a[href], h6 a[href]");
           return Boolean(linkedHeading && textWithoutInteractive(el));
+        }
+        function isAriaNameOrDescriptionSource(el) {
+          const id = normalize(el?.id);
+          if (!id)
+            return false;
+          return Array.from(document.querySelectorAll("[aria-labelledby], [aria-describedby]")).some((owner) => owner !== el && (idRefsContain(owner.getAttribute("aria-labelledby"), id) || idRefsContain(owner.getAttribute("aria-describedby"), id)));
+        }
+        function hasReadableElementChild(el) {
+          return Array.from(el?.children || []).some((child) => !isHidden(child) && Boolean(readableText(child)));
+        }
+        function isStandaloneStructuredListItemTextLeaf(el) {
+          if (!el || el.nodeType !== Node.ELEMENT_NODE || isHidden(el))
+            return false;
+          if (!["span", "div"].includes(el.tagName?.toLowerCase()))
+            return false;
+          if (el.getAttribute("role") || el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) {
+            return false;
+          }
+          if (el.matches?.(interactiveSelector) || el.closest?.(interactiveSelector))
+            return false;
+          if (el.closest?.("p, [role='paragraph'], label, h1, h2, h3, h4, h5, h6, [role='heading']")) {
+            return false;
+          }
+          if (hasVisibleInteractiveDescendant(el) || hasReadableElementChild(el))
+            return false;
+          if (isAriaNameOrDescriptionSource(el))
+            return false;
+          const ownText = directOwnText(el);
+          const text = readableText(el);
+          if (!ownText || !text || ownText !== text || !/[\p{L}\p{N}]/u.test(text)) {
+            return false;
+          }
+          const listItem = el.closest?.("li,[role='listitem']");
+          return Boolean(listItem && listItem !== el && hasStructuredListItemContent(listItem));
         }
         function hasRichProductCardListItemContent(el) {
           if (!isListItem(el))

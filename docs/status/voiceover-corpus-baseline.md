@@ -97,7 +97,7 @@ These fixtures are useful evidence but are not exact corpus gates yet:
 - `www-sky-com-glass`
 - `www-sky-com-glass-43-inch`
 - `www-sky-com-glass-air` - current compare is 257 expected, 265 actual, and 11 mismatch windows; keep as candidate until the color/price, hero/carousel, table, and tab-panel boundaries are resolved or reclassified.
-- `www-sky-com-shop-mobile`
+- `www-sky-com-shop-mobile` - Phase B/C/C.5/D on 2026-08-29 confirmed and fixed the standalone accessible text-leaf-in-structured-listitem family, but the full-page fixture remains candidate at 165 expected, 165 actual, and 15 mismatch windows. Remaining families are carousel state, group/card structure, list positions, link-name composition, and linked-image wording; see `voiceover-smoke/agent-work/run-20260829-accessible-text-leaf/www-sky-com-shop-mobile/06-promotion.json` for the revisit queue.
 - `www-sky-com-watch`
 - `www-tesco-com`
 
