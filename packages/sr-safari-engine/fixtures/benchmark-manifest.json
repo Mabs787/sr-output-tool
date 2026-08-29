@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "browserSettings": {
+    "locale": "en-GB",
+    "viewport": { "width": 1200, "height": 700 },
+    "navigationMode": "voiceover-right-arrow",
+    "repeatRuns": 3
+  },
+  "targets": [
+    {
+      "name": "www-sky-com-shop-mobile",
+      "url": "https://www.sky.com/shop/mobile/",
+      "use": "development",
+      "chromeFixture": "www-sky-com-shop-mobile"
+    },
+    {
+      "name": "www-gov-uk-find-local-council",
+      "url": "https://www.gov.uk/find-local-council",
+      "use": "development",
+      "chromeFixture": "www-gov-uk-find-local-council"
+    },
+    {
+      "name": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy",
+      "url": "https://www.nhs.uk/service-search/pharmacy/find-a-pharmacy",
+      "use": "development",
+      "chromeFixture": "www-nhs-uk-service-search-pharmacy-find-a-pharmacy"
+    },
+    {
+      "name": "www-w3-org-wai",
+      "url": "https://www.w3.org/WAI/",
+      "use": "development",
+      "chromeFixture": "www-w3-org-wai"
+    },
+    {
+      "name": "github-com-login",
+      "url": "https://github.com/login",
+      "use": "holdout",
+      "chromeFixture": "github-com-login"
+    },
+    {
+      "name": "www-apple-com-accessibility",
+      "url": "https://www.apple.com/accessibility/",
+      "use": "holdout",
+      "chromeFixture": "www-apple-com-accessibility"
+    }
+  ]
+}

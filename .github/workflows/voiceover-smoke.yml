@@ -18,7 +18,7 @@ on:
         default: false
         type: boolean
       capture_step_snapshots:
-        description: "Save per-step DOM/AX diagnostics for each VoiceOver step"
+        description: "Save per-step Safari DOM/focus diagnostics for each VoiceOver step"
         required: false
         default: false
         type: boolean
@@ -41,12 +41,12 @@ on:
           - voiceover-right-arrow
           - plain-right-arrow
       viewport_width:
-        description: "Chrome viewport/window width for each scan"
+        description: "Safari window width for each scan"
         required: false
         default: "1200"
         type: string
       viewport_height:
-        description: "Chrome viewport/window height for each scan"
+        description: "Safari window height for each scan"
         required: false
         default: "543"
         type: string
@@ -115,8 +115,13 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Build engine
-        run: yarn workspace @sr-output/engine build
+      - name: Build independent Safari engine
+        run: yarn workspace @sr-output/safari-engine build
+
+      - name: Test Safari runner and engine
+        run: |
+          node --test .github/scripts/run-safari-voiceover-scan.test.mjs
+          yarn workspace @sr-output/safari-engine test:unit
 
       - name: Create single-page manifest
         run: |
@@ -124,7 +129,7 @@ jobs:
             --url "${{ matrix.input }}" \
             --output voiceover-smoke/url-manifest.json
 
-      - name: Configure Chrome and VoiceOver
+      - name: Configure Safari and VoiceOver
         run: |
           set +e
           mkdir -p voiceover-smoke
@@ -136,13 +141,14 @@ jobs:
             /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /System/Library/CoreServices/VoiceOver.app/Contents/Info.plist || true
             echo
 
-            echo "## Chrome"
-            xattr -dr com.apple.quarantine /Applications/Google\ Chrome.app || true
-            /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version || true
-            osascript -e 'tell application "Google Chrome" to quit' || true
-            killall "Google Chrome" || true
+            echo "## Safari"
+            /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' /Applications/Safari.app/Contents/Info.plist || true
+            /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' /Applications/Safari.app/Contents/Info.plist || true
+            osascript -e 'tell application "Safari" to quit' || true
+            killall Safari || true
             sleep 2
-            defaults write com.google.Chrome AllowJavaScriptFromAppleEvents -bool true
+            defaults write com.apple.Safari IncludeDevelopMenu -bool true
+            defaults write com.apple.Safari AllowJavaScriptFromAppleEvents -bool true
             defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
             defaults write com.apple.assistant.support "Dictation Enabled" -bool false
             echo
@@ -154,7 +160,7 @@ jobs:
             defaults write com.apple.VoiceOverTraining hasRunQuickStart -bool true
             defaults write com.apple.VoiceOverTraining quickStartCompleted -bool true
             defaults write com.apple.VoiceOverTraining showTrainingAtStartup -bool false
-            defaults write com.apple.VoiceOver4/default SCREnableCaptionPanel -bool true
+            defaults write com.apple.VoiceOver4/default SCREnableCaptionPanel -bool false
             for domain in com.apple.VoiceOver4/default com.apple.VoiceOver4 com.apple.VoiceOver; do
               for key in \
                 SCRCognitionEnabled \
@@ -183,7 +189,7 @@ jobs:
           VOICEOVER_VIEWPORT_WIDTH: ${{ inputs.viewport_width }}
           VOICEOVER_VIEWPORT_HEIGHT: ${{ inputs.viewport_height }}
           VOICEOVER_POST_NAVIGATION_SETTLE_SECONDS: ${{ inputs.post_navigation_settle_seconds }}
-        run: node .github/scripts/run-voiceover-scan.mjs
+        run: node .github/scripts/run-safari-voiceover-scan.mjs
 
       - name: Capture diagnostics
         if: always()
@@ -221,19 +227,15 @@ jobs:
         with:
           name: voiceover-scan-${{ matrix.name }}
           path: |
-            voiceover-smoke/scans/**/voiceover-output.json
-            voiceover-smoke/scans/**/voiceover-sources.json
-            voiceover-smoke/scans/**/rendered-html.html
-            voiceover-smoke/scans/**/accessibility-tree.json
-            voiceover-smoke/scans/**/engine-traversal-debug.json
-            voiceover-smoke/scans/**/step-snapshots.json
-            voiceover-smoke/scans/**/screenshots/**/*.png
-            voiceover-smoke/scans/**/scan-debug.json
-            voiceover-smoke/scans/**/refinement-manifest.json
-            voiceover-smoke/scans/**/runner-environment.json
-            voiceover-smoke/recordings/voiceover-scan.mov
-            voiceover-smoke/screen-recording.json
-            voiceover-smoke/screen-recording-preflight.json
+            voiceover-smoke/safari-scans/**/voiceover-output.json
+            voiceover-smoke/safari-scans/**/voiceover-sources.json
+            voiceover-smoke/safari-scans/**/rendered-html.html
+            voiceover-smoke/safari-scans/**/step-snapshots.json
+            voiceover-smoke/safari-scans/**/screenshots/**/*.png
+            voiceover-smoke/safari-scans/**/safari-voiceover.mov
+            voiceover-smoke/safari-scans/**/scan-debug.json
+            voiceover-smoke/safari-scans/**/capture-manifest.json
+            voiceover-smoke/safari-scans/**/runner-environment.json
             voiceover-smoke/environment.txt
             voiceover-smoke/voiceover-diagnostics.txt
             voiceover-smoke/voiceover-cleanup.txt
