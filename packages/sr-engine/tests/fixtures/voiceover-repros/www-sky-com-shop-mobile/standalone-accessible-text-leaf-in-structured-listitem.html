@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Standalone accessible text leaf in structured list item</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.45;
+        margin: 24px;
+      }
+
+      [data-sr-scan-root] {
+        max-width: 880px;
+      }
+
+      section {
+        margin-block: 28px;
+      }
+
+      .product-card-list-item,
+      .control-list-item {
+        margin-block: 18px;
+      }
+
+      .visually-hidden-text {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      .hidden-by-display {
+        display: none;
+      }
+
+      .visual-price {
+        display: inline-flex;
+        gap: 0.15em;
+      }
+    </style>
+  </head>
+  <body>
+    <main
+      data-sr-scan-root
+      data-sr-fixture-status="phase-c5-dispatch-ready"
+      data-sr-repro-family="standalone-accessible-text-leaf-in-structured-listitem"
+      aria-labelledby="repro-title"
+    >
+      <h1 id="repro-title">Standalone accessible text leaf in structured list item</h1>
+
+      <section aria-labelledby="current-product-cards-heading">
+        <h2 id="current-product-cards-heading">Current product-card structure</h2>
+        <ul
+          data-testid="product-cards-section"
+          data-skyui-core="Flex@13.2.0"
+          aria-label="Current product card deals"
+        >
+          <li class="product-card-list-item">
+            <div data-testid="product-card" data-skyui-core="Card@13.2.0">
+              <div data-skyui-core="Flex@13.2.0">
+                <div data-skyui-core="Flex@13.2.0">
+                  <div data-skyui-core="Markdown@13.2.0">
+                    <h3 id="apple-iphone-17-pro" data-skyui-core="Text@13.2.0">
+                      Apple iPhone 17 Pro
+                    </h3>
+                    <p data-testid="product-card-p" data-skyui-core="Text@13.2.0">
+                      Pair with Unlimited Data for just £19 extra a month.
+                    </p>
+                  </div>
+                  <div data-skyui-core="HeadlinePrice@13.2.0" data-testid="product-card-price">
+                    <span
+                      data-skyui-core="VisuallyHiddenText@13.2.0"
+                      class="visually-hidden-text"
+                    >from £31.50 a month</span>
+                    <div aria-hidden="true" data-skyui-core="Flex@13.2.0" class="visual-price">
+                      <span data-skyui-core="Text@13.2.0">from</span>
+                      <span data-skyui-core="Text@13.2.0">£</span>
+                      <span data-skyui-core="Text@13.2.0">31</span>
+                      <span data-skyui-core="Text@13.2.0">.50</span>
+                      <span data-skyui-core="Text@13.2.0">a month</span>
+                    </div>
+                  </div>
+                </div>
+                <div data-skyui-core="Flex@13.2.0">
+                  <img alt="" data-testid="product-card-image">
+                  <div data-skyui-core="Box@13.2.0">
+                    <a aria-label="View deal" href="#apple-deal" data-testid="product-card-button">
+                      View deal
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="product-card-list-item">
+            <div data-testid="product-card-highlight">Trade in and save up to £505</div>
+            <div data-testid="product-card" data-skyui-core="Card@13.2.0">
+              <div data-skyui-core="Flex@13.2.0">
+                <div data-skyui-core="Flex@13.2.0">
+                  <div data-skyui-core="Markdown@13.2.0">
+                    <h3 id="google-pixel-11" data-skyui-core="Text@13.2.0">
+                      Google Pixel 11
+                    </h3>
+                    <p data-testid="product-card-p" data-skyui-core="Text@13.2.0">
+                      Save £180 on the watch when bought with this device.
+                    </p>
+                  </div>
+                  <div data-skyui-core="HeadlinePrice@13.2.0" data-testid="product-card-price">
+                    <span
+                      data-skyui-core="VisuallyHiddenText@13.2.0"
+                      class="visually-hidden-text"
+                    >from £25 a month</span>
+                    <div aria-hidden="true" data-skyui-core="Flex@13.2.0" class="visual-price">
+                      <span data-skyui-core="Text@13.2.0">from</span>
+                      <span data-skyui-core="Text@13.2.0">£</span>
+                      <span data-skyui-core="Text@13.2.0">25</span>
+                      <span data-skyui-core="Text@13.2.0"></span>
+                      <span data-skyui-core="Text@13.2.0">a month</span>
+                    </div>
+                  </div>
+                </div>
+                <div data-skyui-core="Flex@13.2.0">
+                  <img alt="" data-testid="product-card-image">
+                  <div data-skyui-core="Box@13.2.0">
+                    <a aria-label="View deal" href="#pixel-deal" data-testid="product-card-button">
+                      View deal
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="product-card-list-item">
+            <div data-testid="product-card" data-skyui-core="Card@13.2.0">
+              <div data-skyui-core="Flex@13.2.0">
+                <div data-skyui-core="Flex@13.2.0">
+                  <div data-skyui-core="Markdown@13.2.0">
+                    <h3 id="samsung-galaxy-z-flip8-5g-with-galaxy-ai" data-skyui-core="Text@13.2.0">
+                      Samsung Galaxy Z Flip8 5G with Galaxy AI
+                    </h3>
+                    <p data-testid="product-card-p" data-skyui-core="Text@13.2.0">
+                      Claim £150 extra when you trade in.
+                    </p>
+                  </div>
+                  <div data-skyui-core="HeadlinePrice@13.2.0" data-testid="product-card-price">
+                    <span
+                      data-skyui-core="VisuallyHiddenText@13.2.0"
+                      class="visually-hidden-text"
+                    >from £38 a month</span>
+                    <div aria-hidden="true" data-skyui-core="Flex@13.2.0" class="visual-price">
+                      <span data-skyui-core="Text@13.2.0">from</span>
+                      <span data-skyui-core="Text@13.2.0">£</span>
+                      <span data-skyui-core="Text@13.2.0">38</span>
+                      <span data-skyui-core="Text@13.2.0"></span>
+                      <span data-skyui-core="Text@13.2.0">a month</span>
+                    </div>
+                  </div>
+                </div>
+                <div data-skyui-core="Flex@13.2.0">
+                  <img alt="" data-testid="product-card-image">
+                  <div data-skyui-core="Box@13.2.0">
+                    <a aria-label="view del" href="#samsung-deal" data-testid="product-card-button">
+                      View deal
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <p id="tail-current-cards">Tail guard after current cards.</p>
+      </section>
+
+      <section aria-labelledby="generic-leaf-heading">
+        <h2 id="generic-leaf-heading">Generic readable text leaves</h2>
+        <ul aria-label="Generic card leaves">
+          <li class="product-card-list-item">
+            <div>
+              <h3>Generic plan</h3>
+              <span class="visually-hidden-text">standalone support text</span>
+              <div aria-hidden="true">standalone support text visual duplicate</div>
+              <a href="#generic-plan">View plan</a>
+            </div>
+          </li>
+        </ul>
+        <p id="tail-generic-leaf">Tail guard after generic leaf.</p>
+      </section>
+
+      <section aria-labelledby="older-shape-heading">
+        <h2 id="older-shape-heading">Older saved Sky shape</h2>
+        <ul aria-label="Older product card deals">
+          <li class="product-card-list-item">
+            <div>
+              <h3>Older saved phone</h3>
+              <p>Older copied body text.</p>
+              <div class="hidden-by-display">
+                <span>from £34 a month</span>
+                <div aria-hidden="true">
+                  <span>from</span><span>£</span><span>34</span><span>a month</span>
+                </div>
+              </div>
+              <a aria-label="View older saved phone deal" href="#older-phone">View deal</a>
+            </div>
+          </li>
+        </ul>
+        <p id="tail-older-shape">Tail guard after older shape.</p>
+      </section>
+
+      <section aria-labelledby="negative-controls-heading">
+        <h2 id="negative-controls-heading">Negative controls</h2>
+        <ul aria-label="Negative control cards">
+          <li class="control-list-item">
+            <div>
+              <h3>Semantic paragraph owner</h3>
+              <p>Paragraph-owned text must stay paragraph text.</p>
+              <a href="#paragraph-owner">View paragraph control</a>
+            </div>
+          </li>
+          <li class="control-list-item">
+            <div aria-label="Accessible name owner">
+              <span class="visually-hidden-text">Accessible name owner</span>
+              <a href="#name-owner">View name control</a>
+            </div>
+          </li>
+          <li class="control-list-item">
+            <div aria-describedby="describedby-control-note">
+              <span class="visually-hidden-text" id="describedby-control-note">
+                Description source text
+              </span>
+              <a href="#description-owner">View description control</a>
+            </div>
+          </li>
+          <li class="control-list-item">
+            <button type="button">
+              <span class="visually-hidden-text">Button-owned text</span>
+              View button control
+            </button>
+          </li>
+          <li class="control-list-item">
+            <a href="#link-owner">
+              <span class="visually-hidden-text">Link-owned text</span>
+              View link control
+            </a>
+          </li>
+          <li class="control-list-item">
+            <div aria-hidden="true">
+              <span class="visually-hidden-text">Hidden duplicate text</span>
+              Hidden visual duplicate text
+            </div>
+            <a href="#hidden-control">View hidden control</a>
+          </li>
+        </ul>
+        <p id="tail-negative-controls">Tail guard after negative controls.</p>
+      </section>
+    </main>
+  </body>
+</html>
