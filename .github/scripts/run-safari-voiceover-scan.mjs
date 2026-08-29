@@ -57,6 +57,7 @@ function run(command, args, options = {}) {
     encoding: "utf8",
     input: options.input,
     timeout: options.timeout || 15000,
+    maxBuffer: options.maxBuffer || 64 * 1024 * 1024,
   });
   return {
     ok: result.status === 0 && !result.error,
