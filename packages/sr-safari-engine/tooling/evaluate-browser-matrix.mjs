@@ -97,6 +97,11 @@ function compare(actual, expected) {
     actualCount: actual.length,
     firstMismatchIndex: mismatches[0] ?? -1,
     mismatchWindows: windows,
+    mismatchWindowDetails: windows.map((window) => ({
+      ...window,
+      expected: expected.slice(Math.max(0, window.start - 2), window.end + 3),
+      actual: actual.slice(Math.max(0, window.start - 2), window.end + 3),
+    })),
     missing,
     extra,
     reordered: mismatches.length > 0 && missing.length === 0 && extra.length === 0,
@@ -108,11 +113,17 @@ function loadAssembledFixture(browser, name) {
   const fixturePath = path.join(directory, `${name}.fixture.json`);
   if (!existsSync(fixturePath)) return null;
   const fixture = readJson(fixturePath);
+  const representativeCandidateRun = fixture.rawRuns?.find(
+    (run) => run.markers?.startReached && run.markers?.endReached && !run.errors?.length,
+  );
   return {
     browser,
     status: fixture.status,
     statusReason: fixture.trustReasons?.join("; ") || "three-run trust gate passed",
-    expected: fixture.expectedAnnouncements || [],
+    expected:
+      fixture.expectedAnnouncements?.length
+        ? fixture.expectedAnnouncements
+        : representativeCandidateRun?.announcements || fixture.candidateRuns?.[0] || [],
     html: readFileSync(path.join(directory, fixture.html), "utf8"),
     accessibilityTree: null,
     source: path.relative(repoRoot, fixturePath),
@@ -203,6 +214,10 @@ function markdownReport(report) {
     "",
     "## Evidence status",
     "",
+    `Trusted Safari targets: ${report.trustedSafariTargets.length ? report.trustedSafariTargets.join(", ") : "none"}`,
+    "",
+    `Candidate Safari targets: ${report.candidateSafariTargets.length ? report.candidateSafariTargets.join(", ") : "none"}`,
+    "",
     `Safari targets pending three-run trust: ${report.pendingSafariTargets.length ? report.pendingSafariTargets.join(", ") : "none"}`,
     "",
     "## Two-by-two results",
@@ -220,10 +235,14 @@ function markdownReport(report) {
 function main() {
   const rows = [];
   const pendingSafariTargets = [];
+  const trustedSafariTargets = [];
+  const candidateSafariTargets = [];
   for (const target of manifest.targets) {
     const safariCorpus = loadAssembledFixture("safari", target.name);
     const chromeCorpus = loadAssembledFixture("chrome", target.name) || loadExistingChromeFixture(target);
     if (!safariCorpus) pendingSafariTargets.push(target.name);
+    else if (safariCorpus.status === "trusted") trustedSafariTargets.push(target.name);
+    else candidateSafariTargets.push(target.name);
     for (const corpus of [safariCorpus, chromeCorpus].filter(Boolean)) {
       if (!corpus.expected.length) continue;
       for (const engine of ["safari", "chrome"]) {
@@ -260,10 +279,12 @@ function main() {
     generatedAt: new Date().toISOString(),
     matrix: "own-oracle-plus-cross-browser",
     pendingSafariTargets,
+    trustedSafariTargets,
+    candidateSafariTargets,
     evidenceCost: {
       requiredRunsPerBrowserPerTarget: manifest.browserSettings.repeatRuns,
       manualSafariRefinementAllowed: false,
-      stableSafariTargetRate: `${manifest.targets.length - pendingSafariTargets.length}/${manifest.targets.length}`,
+      stableSafariTargetRate: `${trustedSafariTargets.length}/${manifest.targets.length}`,
     },
     rows,
   };

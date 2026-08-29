@@ -5,6 +5,7 @@ import {
   detectSafariStall,
   getScanBoundary,
   isSafariSystemNoise,
+  minimumSemanticFingerprintSimilarity,
   normalizeCapturedAnnouncements,
   normalizeDirectVoiceOverText,
   selectDirectVoiceOverSource,
@@ -64,4 +65,12 @@ test("trust requires three identical complete direct-source runs", () => {
   const result = assessSafariCaptureTrust([run, run, changed]);
   assert.equal(result.trusted, false);
   assert.match(result.reasons.join(" "), /differ/);
+});
+
+test("semantic stability tolerates a bounded dynamic line", () => {
+  const stableLines = Array.from({ length: 40 }, (_, index) => `BUTTON|item-${index}`);
+  const first = [...stableLines, "SPAN|timestamp-one"].join("\n");
+  const second = [...stableLines, "SPAN|timestamp-two"].join("\n");
+  assert.ok(minimumSemanticFingerprintSimilarity([first, second, second]) >= 0.95);
+  assert.ok(minimumSemanticFingerprintSimilarity(["A\nB", "C\nD", "A\nB"]) < 0.95);
 });

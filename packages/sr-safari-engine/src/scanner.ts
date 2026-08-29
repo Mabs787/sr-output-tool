@@ -10,16 +10,23 @@ import type {
 
 const SEMANTIC_TAG_ROLES: Record<string, string> = {
   A: "link",
+  ASIDE: "complementary",
   BUTTON: "button",
+  FOOTER: "contentinfo",
   H1: "heading",
   H2: "heading",
   H3: "heading",
   H4: "heading",
   H5: "heading",
   H6: "heading",
+  HEADER: "banner",
+  HR: "separator",
   IMG: "img",
   INPUT: "textbox",
+  LABEL: "text",
   LI: "listitem",
+  MAIN: "main",
+  NAV: "navigation",
   OL: "list",
   P: "text",
   SELECT: "combobox",
@@ -28,8 +35,10 @@ const SEMANTIC_TAG_ROLES: Record<string, string> = {
 };
 
 const PRESENTATIONAL_ROLES = new Set(["none", "presentation"]);
-const SOURCE_ONLY_TAGS = new Set(["LABEL"]);
+const SOURCE_ONLY_TAGS = new Set<string>();
 const NON_DESCENDING_ROLES = new Set(["button", "checkbox", "combobox", "img", "link", "radio", "textbox"]);
+const CONTEXT_ROLES = new Set(["banner", "complementary", "contentinfo", "main", "navigation", "region"]);
+const IGNORED_TAGS = new Set(["NOSCRIPT", "SCRIPT", "STYLE", "TEMPLATE"]);
 
 interface ScanState {
   candidates: SafariCoverageCandidate[];
@@ -92,6 +101,9 @@ function implicitRole(element: Element): string {
     if (type === "radio") return "radio";
     if (["button", "submit", "reset"].includes(type)) return "button";
   }
+  if (element.tagName === "SECTION" && (element.hasAttribute("aria-label") || element.hasAttribute("aria-labelledby"))) {
+    return "region";
+  }
   return SEMANTIC_TAG_ROLES[element.tagName] || "";
 }
 
@@ -148,6 +160,14 @@ function accessibleName(element: Element, state: ScanState): string {
   const label = associatedLabel(element, state);
   if (label) return label;
   if (element.tagName === "IMG") return clean(element.getAttribute("alt"));
+  if (element.tagName === "A") {
+    const imageName = clean(
+      Array.from(element.querySelectorAll("img"))
+        .map((image) => image.getAttribute("aria-label") || image.getAttribute("alt") || "")
+        .join(" "),
+    );
+    if (imageName) return imageName;
+  }
   if (element.tagName === "INPUT" && ["button", "submit", "reset"].includes(clean(element.getAttribute("type")).toLowerCase())) {
     return clean((element as HTMLInputElement).value);
   }
@@ -156,6 +176,14 @@ function accessibleName(element: Element, state: ScanState): string {
 
 function accessibleDescription(element: Element, state: ScanState): string {
   return textForIds(element, "aria-describedby", state, "accessible-description");
+}
+
+function contextName(element: Element, state: ScanState): string {
+  return (
+    textForIds(element, "aria-labelledby", state, "accessible-name") ||
+    clean(element.getAttribute("aria-label")) ||
+    clean(element.getAttribute("title"))
+  );
 }
 
 function booleanAttribute(element: Element, name: string): boolean | undefined {
@@ -236,6 +264,7 @@ function createDescriptor(state: ScanState, element: Element, role: string, name
     expanded: booleanAttribute(element, "aria-expanded"),
     required: element.hasAttribute("required") || booleanAttribute(element, "aria-required"),
     selected: element.hasAttribute("selected") || booleanAttribute(element, "aria-selected"),
+    hasImage: role === "link" && Boolean(element.querySelector("img:not([aria-hidden='true'])")),
     provenance: {
       candidateIds: [],
       domPath: elementPath(element),
@@ -298,6 +327,10 @@ function planTextNode(node: Text, state: ScanState, owner: Element | null, listP
 }
 
 function planElement(element: Element, state: ScanState, inheritedOwner: Element | null, listPosition?: ListPosition): void {
+  if (IGNORED_TAGS.has(element.tagName)) {
+    suppressSubtree(element, state, "non-accessibility executable or styling subtree");
+    return;
+  }
   if (isElementHidden(element)) {
     suppressSubtree(element, state, "accessibility-hidden subtree");
     return;
@@ -331,6 +364,41 @@ function planElement(element: Element, state: ScanState, inheritedOwner: Element
     items.forEach((item, index) => planElement(item, state, null, { position: index + 1, setSize: items.length }));
     if (state.includeContextEndings) {
       addStop(state, { ...descriptor, id: `safari-stop-${++state.descriptorSequence}`, kind: "context-end", provenance: { ...descriptor.provenance, candidateIds: [] } }, []);
+    }
+    return;
+  }
+
+  if (CONTEXT_ROLES.has(role)) {
+    const name = contextName(element, state);
+    const descriptor: SafariDescriptor = {
+      id: `safari-stop-${++state.descriptorSequence}`,
+      kind: "context-start",
+      role,
+      name,
+      description: "",
+      value: "",
+      text: "",
+      tagName: element.tagName.toLowerCase(),
+      position: listPosition?.position,
+      setSize: listPosition?.setSize,
+      provenance: {
+        candidateIds: semanticCandidate ? [semanticCandidate.id] : [],
+        domPath: elementPath(element),
+        source: name ? "accessible-name" : "semantic",
+      },
+    };
+    addStop(state, descriptor, semanticCandidate ? [semanticCandidate] : []);
+    for (const child of Array.from(element.childNodes)) {
+      if (child.nodeType === 3) planTextNode(child as Text, state, null, listPosition);
+      else if (child.nodeType === 1) planElement(child as Element, state, null, listPosition);
+    }
+    if (state.includeContextEndings) {
+      addStop(state, {
+        ...descriptor,
+        id: `safari-stop-${++state.descriptorSequence}`,
+        kind: "context-end",
+        provenance: { ...descriptor.provenance, candidateIds: [] },
+      }, []);
     }
     return;
   }

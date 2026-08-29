@@ -34,6 +34,7 @@ export interface SafariDescriptor {
   expanded?: boolean;
   required?: boolean;
   selected?: boolean;
+  hasImage?: boolean;
   provenance: SafariSourceProvenance;
 }
 

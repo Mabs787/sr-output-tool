@@ -4,65 +4,58 @@ function clean(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
-function appendPosition(parts: string[], descriptor: SafariDescriptor): void {
-  if (descriptor.position && descriptor.setSize) {
-    parts.push(`${descriptor.position} of ${descriptor.setSize}`);
-  }
+function positionText(descriptor: SafariDescriptor): string {
+  return descriptor.position && descriptor.setSize
+    ? ` ${descriptor.position} of ${descriptor.setSize}`
+    : "";
 }
 
 export function generateSafariAnnouncement(descriptor: SafariDescriptor): string {
   if (descriptor.kind === "context-start" && descriptor.role === "list") {
-    return `list ${descriptor.setSize || 0} items`;
+    const count = descriptor.setSize || 0;
+    return `list ${count} ${count === 1 ? "item" : "items"}`;
   }
   if (descriptor.kind === "context-end" && descriptor.role === "list") {
     return "end of list";
   }
 
+  const contextRole = descriptor.role === "contentinfo" ? "content information" : descriptor.role;
+  if (descriptor.kind === "context-start") {
+    return clean([descriptor.name, contextRole].filter(Boolean).join(" "));
+  }
+  if (descriptor.kind === "context-end") {
+    return clean(`end of ${[descriptor.name, contextRole].filter(Boolean).join(" ")}`);
+  }
+
   const name = clean(descriptor.name || descriptor.text || descriptor.value);
-  const parts: string[] = [];
+  const states: string[] = [];
+  if (descriptor.required) states.push("required");
+  if (descriptor.disabled) states.push("dimmed");
+  if (descriptor.expanded !== undefined) states.push(descriptor.expanded ? "expanded" : "collapsed");
+  if (descriptor.selected) states.push("selected");
+  const stateText = states.length ? ` ${states.join(" ")}` : "";
+  const position = positionText(descriptor);
+  const description = descriptor.description ? ` ${clean(descriptor.description)}` : "";
 
   switch (descriptor.role) {
     case "heading":
-      parts.push(`heading level ${descriptor.level || 1}`);
-      if (name) parts.push(name);
-      break;
+      return clean(`heading level ${descriptor.level || 1} ${name}${position}`);
     case "link":
-      parts.push("link");
-      if (name) parts.push(name);
-      break;
+      return clean(`link${descriptor.hasImage ? " image" : ""} ${name}${stateText}${position}${description}`);
     case "button":
-      parts.push("button");
-      if (name) parts.push(name);
-      break;
+      return clean(`${name}${stateText} button${position}${description}`);
     case "checkbox":
     case "radio":
-      parts.push(descriptor.checked ? "checked" : "not checked", descriptor.role);
-      if (name) parts.push(name);
-      break;
+      return clean(`${name} ${descriptor.checked ? "checked" : "not checked"} ${descriptor.role}${stateText}${position}${description}`);
     case "textbox":
-      parts.push("text field");
-      if (name) parts.push(name);
-      if (descriptor.value && clean(descriptor.value) !== name) parts.push(clean(descriptor.value));
-      break;
+      return clean(`${name}${description}${descriptor.value ? ` ${clean(descriptor.value)}` : ""} edit text${stateText}${position}`);
     case "combobox":
-      parts.push("pop up button");
-      if (name) parts.push(name);
-      if (descriptor.value && clean(descriptor.value) !== name) parts.push(clean(descriptor.value));
-      break;
+      return clean(`${name}${descriptor.value ? ` ${clean(descriptor.value)}` : ""}${stateText} pop up button${position}${description}`);
     case "img":
-      if (name) parts.push(name);
-      parts.push("image");
-      break;
+      return clean(`${name} image${position}${description}`);
+    case "separator":
+      return "horizontal separator";
     default:
-      if (name) parts.push(name);
-      break;
+      return clean(`${name}${stateText}${position}${description}`);
   }
-
-  if (descriptor.required) parts.push("required");
-  if (descriptor.disabled) parts.push("dimmed");
-  if (descriptor.expanded !== undefined) parts.push(descriptor.expanded ? "expanded" : "collapsed");
-  if (descriptor.selected) parts.push("selected");
-  if (descriptor.description) parts.push(clean(descriptor.description));
-  appendPosition(parts, descriptor);
-  return parts.filter(Boolean).join(", ");
 }

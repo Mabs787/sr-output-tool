@@ -188,8 +188,27 @@ export function assessSafariCaptureTrust(runs) {
   const sequences = (runs || []).map((runResult) => JSON.stringify(runResult?.announcements || []));
   if (sequences.length === 3 && new Set(sequences).size !== 1) reasons.push("ordered announcements differ between runs");
   const fingerprints = (runs || []).map((runResult) => runResult?.semanticFingerprint || "").filter(Boolean);
-  if (fingerprints.length === 3 && new Set(fingerprints).size !== 1) reasons.push("semantic fingerprints differ between runs");
+  if (fingerprints.length !== 3) {
+    reasons.push("all three semantic fingerprints are required");
+  } else if (minimumSemanticFingerprintSimilarity(fingerprints) < 0.95) {
+    reasons.push("semantic fingerprint overlap is below 95%");
+  }
   return { trusted: reasons.length === 0, status: reasons.length ? "candidate" : "trusted", reasons };
+}
+
+export function minimumSemanticFingerprintSimilarity(fingerprints) {
+  let minimum = 1;
+  for (let leftIndex = 0; leftIndex < fingerprints.length; leftIndex += 1) {
+    for (let rightIndex = leftIndex + 1; rightIndex < fingerprints.length; rightIndex += 1) {
+      const left = new Set(String(fingerprints[leftIndex] || "").split("\n").map(normalizeWhitespace).filter(Boolean));
+      const right = new Set(String(fingerprints[rightIndex] || "").split("\n").map(normalizeWhitespace).filter(Boolean));
+      const union = new Set([...left, ...right]);
+      const intersectionSize = [...left].filter((line) => right.has(line)).length;
+      const similarity = union.size ? intersectionSize / union.size : 1;
+      minimum = Math.min(minimum, similarity);
+    }
+  }
+  return minimum;
 }
 
 function targetUrl(target) {

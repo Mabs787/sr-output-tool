@@ -32,15 +32,15 @@ test("announces lists, headings, prices, links, and the list ending in DOM order
   `);
   assert.deepEqual(result.announcements, [
     "list 3 items",
-    "heading level 3, Apple iPhone 17 Pro, 1 of 3",
-    "£30 a month, 1 of 3",
-    "link, View deal, 1 of 3",
-    "heading level 3, Google Pixel 11, 2 of 3",
-    "£28 a month, 2 of 3",
-    "link, View deal, 2 of 3",
-    "heading level 3, Samsung Galaxy Z Flip8, 3 of 3",
-    "£35 a month, 3 of 3",
-    "link, View deal, 3 of 3",
+    "heading level 3 Apple iPhone 17 Pro 1 of 3",
+    "£30 a month 1 of 3",
+    "link View deal 1 of 3",
+    "heading level 3 Google Pixel 11 2 of 3",
+    "£28 a month 2 of 3",
+    "link View deal 2 of 3",
+    "heading level 3 Samsung Galaxy Z Flip8 3 of 3",
+    "£35 a month 3 of 3",
+    "link View deal 3 of 3",
     "end of list",
   ]);
   assert.equal(result.candidates.some((candidate) => candidate.disposition === "uncovered"), false);
@@ -64,23 +64,23 @@ test("does not repeat aria-labelledby or aria-describedby sources", () => {
     <input aria-labelledby="name" aria-describedby="help" value="me@example.test">
   `);
   assert.deepEqual(result.announcements, [
-    "text field, Account, me@example.test, Use your email address",
+    "Account Use your email address me@example.test edit text",
   ]);
   assert.equal(result.candidates.filter((candidate) => candidate.text === "Account")[0]?.disposition, "consumed");
 });
 
-test("labels are consumed by their controls", () => {
+test("visible labels are announced and also name their controls", () => {
   const result = scan(`<label for="email">Email address</label><input id="email" required>`);
-  assert.deepEqual(result.announcements, ["text field, Email address, required"]);
+  assert.deepEqual(result.announcements, ["Email address", "Email address edit text required"]);
 });
 
 test("text inside headings, paragraphs, links, and buttons is owned once", () => {
   const result = scan(`<h2>Title</h2><p>Introduction</p><a href="/a"><span>Read more</span></a><button><span>Save</span></button>`);
   assert.deepEqual(result.announcements, [
-    "heading level 2, Title",
+    "heading level 2 Title",
     "Introduction",
-    "link, Read more",
-    "button, Save",
+    "link Read more",
+    "Save button",
   ]);
   assert.equal(result.candidates.some((candidate) => candidate.disposition === "uncovered"), false);
 });
@@ -103,5 +103,33 @@ test("renders compact descriptors without accessing the production formatter", (
     tagName: "input",
     checked: true,
     provenance: { candidateIds: [], domPath: "input", source: "semantic" },
-  }), "checked, checkbox, Updates");
+  }), "Updates checked checkbox");
+});
+
+test("models Safari landmark entry and exit phrasing without exposing scripts", () => {
+  const result = scan(`
+    <script>window.secret = 'not accessible'</script>
+    <section aria-label="Cookies"><h2>Cookies</h2><button>Accept</button></section>
+    <header><nav aria-label="Primary"><a href="/"><img alt="Home"></a></nav></header>
+    <main><p>Page content</p></main><footer><hr><a href="/privacy">Privacy</a></footer>
+  `);
+  assert.deepEqual(result.announcements, [
+    "Cookies region",
+    "heading level 2 Cookies",
+    "Accept button",
+    "end of Cookies region",
+    "banner",
+    "Primary navigation",
+    "link image Home",
+    "end of Primary navigation",
+    "end of banner",
+    "main",
+    "Page content",
+    "end of main",
+    "content information",
+    "horizontal separator",
+    "link Privacy",
+    "end of content information",
+  ]);
+  assert.equal(result.announcements.some((announcement) => announcement.includes("secret")), false);
 });
