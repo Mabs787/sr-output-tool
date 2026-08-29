@@ -17,11 +17,18 @@ test("prefers lastPhrase and falls back to voCursorText", () => {
   assert.deepEqual(selectDirectVoiceOverSource({ lastPhrase: "", voCursorText: "View deal" }), {
     source: "voCursorText", text: "View deal", direct: true,
   });
+  assert.deepEqual(selectDirectVoiceOverSource({
+    lastPhrase: "Safari Example window Example web content has keyboard focus",
+    voCursorText: "SR Output Tool VoiceOver scan start marker",
+  }), {
+    source: "voCursorText", text: "SR Output Tool VoiceOver scan start marker", direct: true,
+  });
 });
 
 test("normalization only changes whitespace and removes explicit system noise", () => {
   assert.equal(normalizeDirectVoiceOverText(" heading level 3,  Product "), "heading level 3, Product");
   assert.equal(normalizeDirectVoiceOverText("Safari, Example, window"), "");
+  assert.equal(normalizeDirectVoiceOverText("Safari Example window Example web content has keyboard focus"), "");
   assert.equal(normalizeDirectVoiceOverText("list 4 items"), "list 4 items");
   assert.equal(isSafariSystemNoise("main"), false);
   assert.equal(isSafariSystemNoise("collection"), false);

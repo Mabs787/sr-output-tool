@@ -19,6 +19,7 @@ const scanMarkerTexts = {
   end: "SR Output Tool VoiceOver scan end marker",
 };
 const captureStepScreenshots = process.env.VOICEOVER_CAPTURE_STEP_SCREENSHOTS === "true";
+let stepScreenshotsEnabled = captureStepScreenshots;
 const captureStepSnapshots = process.env.VOICEOVER_CAPTURE_STEP_SNAPSHOTS === "true";
 const captureScreenRecording = process.env.VOICEOVER_CAPTURE_SCREEN_RECORDING === "true";
 const navigationMode = process.env.VOICEOVER_NAVIGATION_MODE === "plain-right-arrow"
@@ -109,6 +110,7 @@ export function isSafariSystemNoise(value) {
     announcement.includes("Open System Settings button") ||
     /^Safari(?:,)? .+ window$/i.test(announcement) ||
     /^Safari, .+, window(?:, .+ web content, has)?$/i.test(announcement) ||
+    /^Safari .+ window .+ web content has keyboard focus$/i.test(announcement) ||
     /^application,? alert,? system dialog/i.test(announcement) ||
     /requesting to bypass the system private window picker/i.test(announcement)
   );
@@ -121,6 +123,10 @@ export function normalizeDirectVoiceOverText(value) {
 }
 
 export function selectDirectVoiceOverSource(state) {
+  const rawPhrase = normalizeWhitespace(state?.lastPhrase);
+  const rawCursor = normalizeWhitespace(state?.voCursorText);
+  if (getScanBoundary(rawPhrase)) return { source: "lastPhrase", text: rawPhrase, direct: true };
+  if (getScanBoundary(rawCursor)) return { source: "voCursorText", text: rawCursor, direct: true };
   const lastPhrase = normalizeDirectVoiceOverText(state?.lastPhrase);
   const voCursorText = normalizeDirectVoiceOverText(state?.voCursorText);
   if (lastPhrase) return { source: "lastPhrase", text: lastPhrase, direct: true };
@@ -200,11 +206,23 @@ function targetName(target, index) {
 }
 
 function safariJavaScript(script, timeout = 15000) {
-  return runAppleScript(`
+  const appleScript = `
 tell application "Safari"
   do JavaScript ${appleString(script)} in document 1
 end tell
-`, timeout);
+`;
+  const attempts = [];
+  const dismissals = [];
+  let result = runAppleScript(appleScript, timeout);
+  attempts.push(result);
+  for (let attempt = 1; attempt <= 3 && !result.ok; attempt += 1) {
+    dismissals.push(dismissAutomationPermissionDialog());
+    activateSafari();
+    sleep(attempt);
+    result = runAppleScript(appleScript, timeout);
+    attempts.push(result);
+  }
+  return { ...result, attempts, dismissals };
 }
 
 function launchSafari(url) {
@@ -213,14 +231,19 @@ function launchSafari(url) {
   sleep(2);
   const open = run("open", ["-a", "Safari", url], { timeout: 15000 });
   sleep(2);
-  const windowSetup = runAppleScript(`
+  const windowSetupScript = `
 tell application "Safari"
   activate
   try
     set bounds of front window to {0, 0, ${viewport.width}, ${viewport.height}}
   end try
 end tell
-`, 10000);
+`;
+  let windowSetup = runAppleScript(windowSetupScript, 10000);
+  if (!windowSetup.ok) {
+    const permission = dismissAutomationPermissionDialog();
+    windowSetup = { ...runAppleScript(windowSetupScript, 10000), permission };
+  }
   return { quit, open, windowSetup };
 }
 
@@ -238,7 +261,7 @@ function launchVoiceOver() {
   return open;
 }
 
-function dismissVoiceOverAutomationPermissionDialog() {
+function dismissAutomationPermissionDialog() {
   return runAppleScript(`
 tell application "System Events"
   repeat with processToRead in application processes
@@ -302,7 +325,7 @@ function captureVoiceOverStateWithRecovery() {
   let result = captureVoiceOverState();
   attempts.push(result);
   for (let attempt = 1; attempt <= 3 && !result.ok; attempt += 1) {
-    dismissVoiceOverAutomationPermissionDialog();
+    dismissAutomationPermissionDialog();
     activateSafari();
     sleep(attempt);
     result = captureVoiceOverState();
@@ -444,13 +467,21 @@ function captureRenderedHtml() {
   return safariJavaScript(script, 30000);
 }
 
-function captureScreenshot(outputDir, index) {
-  if (!captureStepScreenshots) return null;
+function captureScreenshot(outputDir, index, force = false) {
+  if (!stepScreenshotsEnabled && !force) return null;
   const screenshotDir = path.join(outputDir, "screenshots");
   mkdirSync(screenshotDir, { recursive: true });
   const filePath = path.join(screenshotDir, `${String(index).padStart(4, "0")}.png`);
-  const result = run("screencapture", ["-x", filePath], { timeout: 15000 });
-  return { ...result, path: path.relative(outputDir, filePath) };
+  const attempts = [];
+  let result = run("screencapture", ["-x", filePath], { timeout: 15000 });
+  attempts.push(result);
+  const permission = dismissAutomationPermissionDialog();
+  if (permission.stdout.startsWith("clicked=")) {
+    sleep(1);
+    result = run("screencapture", ["-x", filePath], { timeout: 15000 });
+    attempts.push(result);
+  }
+  return { ...result, path: path.relative(outputDir, filePath), permission, attempts };
 }
 
 function startScreenRecording(outputDir) {
@@ -554,9 +585,13 @@ async function scanTarget(target, index) {
   const markers = injectBoundaryMarkers();
   const initialPageState = pageStateSnapshot();
   const semanticFingerprint = initialPageState.parsed?.semanticFingerprint || "";
+  const screenshotPermissionPreflight = captureStepScreenshots
+    ? captureScreenshot(outputDir, "permission-preflight", true)
+    : { enabled: false };
+  if (captureStepScreenshots && !screenshotPermissionPreflight.ok) stepScreenshotsEnabled = false;
   const voiceOverLaunch = launchVoiceOver();
   sleep(3);
-  dismissVoiceOverAutomationPermissionDialog();
+  dismissAutomationPermissionDialog();
   const voiceOverPermissionPreflight = captureVoiceOverStateWithRecovery();
   activateSafari();
   const focus = focusStartMarker();
@@ -569,7 +604,7 @@ async function scanTarget(target, index) {
   for (let stepIndex = 0; stepIndex < maxSteps; stepIndex += 1) {
     const startedAt = Date.now();
     const navigation = stepIndex === 0 ? { ok: true, stdout: "initial capture" } : navigateRight();
-    if (stepIndex > 0 && stepIndex % 10 === 0) dismissVoiceOverAutomationPermissionDialog();
+    if (stepIndex > 0 && stepIndex % 10 === 0) dismissAutomationPermissionDialog();
     if (stepIndex > 0 && stepIndex % 25 === 0) dismissSafariDialogs();
     const captured = captureVoiceOverAfterNavigation(steps.at(-1)?.selected?.text || "");
     const raw = captured.raw;
@@ -645,6 +680,7 @@ async function scanTarget(target, index) {
     focus,
     voiceOverLaunch,
     voiceOverPermissionPreflight,
+    screenshotPermissionPreflight,
     semanticFingerprint,
     screenRecording,
     files: ["voiceover-output.json", "voiceover-sources.json", "rendered-html.html", "scan-debug.json", "runner-environment.json"],
