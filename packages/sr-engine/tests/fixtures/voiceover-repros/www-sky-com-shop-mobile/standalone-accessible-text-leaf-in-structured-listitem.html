@@ -224,18 +224,21 @@
             </div>
           </li>
           <li class="control-list-item">
-            <div aria-label="Accessible name owner">
-              <span class="visually-hidden-text">Accessible name owner</span>
-              <a href="#name-owner">View name control</a>
-            </div>
+            <button type="button" aria-labelledby="name-owner-source">
+              <span id="name-owner-source">Accessible name owner</span>
+            </button>
           </li>
           <li class="control-list-item">
-            <div aria-describedby="describedby-control-note">
-              <span class="visually-hidden-text" id="describedby-control-note">
-                Description source text
-              </span>
-              <a href="#description-owner">View description control</a>
-            </div>
+            <button type="button" aria-describedby="describedby-control-note">
+              View description control
+            </button>
+            <span hidden id="describedby-control-note">Description source text</span>
+          </li>
+          <li class="control-list-item">
+            <label>
+              <span class="visually-hidden-text">Native label owner</span>
+              <input type="text" value="">
+            </label>
           </li>
           <li class="control-list-item">
             <button type="button">
