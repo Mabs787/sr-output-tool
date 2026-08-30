@@ -10,6 +10,7 @@ const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 const repoRoot = path.resolve(packageRoot, "../..");
 const chromeFixturesRoot = path.join(repoRoot, "packages/sr-engine/tests/fixtures/voiceover");
 const manifest = JSON.parse(readFileSync(path.join(packageRoot, "fixtures/benchmark-manifest.json"), "utf8"));
+const evidenceCost = JSON.parse(readFileSync(path.join(packageRoot, "fixtures/evidence-cost.json"), "utf8"));
 const refinementManifest = JSON.parse(readFileSync(path.join(chromeFixturesRoot, "refinement-manifest.json"), "utf8"));
 const safariEngine = require(path.join(packageRoot, "dist/index.js"));
 const chromeEngine = require(path.join(repoRoot, "packages/sr-engine/dist/index.js"));
@@ -210,7 +211,13 @@ function markdownReport(report) {
     "",
     report.recommendation.reason,
     "",
+    `Safari engine freeze: \`${report.evidenceCost.engineFreezeCommit}\``,
+    "",
     "The comparison keeps browser evidence and engine implementation separate. Reduced Safari context is not treated as inherently better than Chrome context.",
+    "",
+    "## Key findings",
+    "",
+    ...report.findings.map((finding) => `- ${finding}`),
     "",
     "## Evidence status",
     "",
@@ -218,7 +225,20 @@ function markdownReport(report) {
     "",
     `Candidate Safari targets: ${report.candidateSafariTargets.length ? report.candidateSafariTargets.join(", ") : "none"}`,
     "",
+    `Trusted Chrome targets: ${report.trustedChromeTargets.length ? report.trustedChromeTargets.join(", ") : "none"}`,
+    "",
+    `Candidate Chrome targets: ${report.candidateChromeTargets.length ? report.candidateChromeTargets.join(", ") : "none"}`,
+    "",
     `Safari targets pending three-run trust: ${report.pendingSafariTargets.length ? report.pendingSafariTargets.join(", ") : "none"}`,
+    "",
+    "## Evidence cost",
+    "",
+    "| Browser | Attempts | Successful | Failed | Stable targets | Median job | p95 job | Manual refinement in fresh matrix |",
+    "|---|---:|---:|---:|---:|---:|---:|---|",
+    `| Safari | ${report.evidenceCost.safari.attempts} | ${report.evidenceCost.safari.successes} | ${report.evidenceCost.safari.failures} | ${report.evidenceCost.safari.stableTargets}/${report.evidenceCost.safari.totalTargets} | ${report.evidenceCost.safari.medianJobSeconds}s | ${report.evidenceCost.safari.p95JobSeconds}s | ${report.evidenceCost.manualRefinement.safariMatrix ? "yes" : "no"} |`,
+    `| Chrome | ${report.evidenceCost.chrome.attempts} | ${report.evidenceCost.chrome.successes} | ${report.evidenceCost.chrome.failures} | ${report.evidenceCost.chrome.stableTargets}/${report.evidenceCost.chrome.totalTargets} | ${report.evidenceCost.chrome.medianJobSeconds}s | ${report.evidenceCost.chrome.p95JobSeconds}s | ${report.evidenceCost.manualRefinement.chromeFreshMatrix ? "yes" : "no"} |`,
+    "",
+    `Safari canary: ${report.evidenceCost.canary.successes}/${report.evidenceCost.canary.attempts} successful. Historical Chrome corpus fixtures may still contain manually refined expectations; the fresh comparison matrix does not.`,
     "",
     "## Two-by-two results",
     "",
@@ -237,12 +257,16 @@ function main() {
   const pendingSafariTargets = [];
   const trustedSafariTargets = [];
   const candidateSafariTargets = [];
+  const trustedChromeTargets = [];
+  const candidateChromeTargets = [];
   for (const target of manifest.targets) {
     const safariCorpus = loadAssembledFixture("safari", target.name);
     const chromeCorpus = loadAssembledFixture("chrome", target.name) || loadExistingChromeFixture(target);
     if (!safariCorpus) pendingSafariTargets.push(target.name);
     else if (safariCorpus.status === "trusted") trustedSafariTargets.push(target.name);
     else candidateSafariTargets.push(target.name);
+    if (chromeCorpus && ["trusted", "refined"].includes(chromeCorpus.status)) trustedChromeTargets.push(target.name);
+    else if (chromeCorpus) candidateChromeTargets.push(target.name);
     for (const corpus of [safariCorpus, chromeCorpus].filter(Boolean)) {
       if (!corpus.expected.length) continue;
       for (const engine of ["safari", "chrome"]) {
@@ -281,11 +305,20 @@ function main() {
     pendingSafariTargets,
     trustedSafariTargets,
     candidateSafariTargets,
+    trustedChromeTargets,
+    candidateChromeTargets,
     evidenceCost: {
       requiredRunsPerBrowserPerTarget: manifest.browserSettings.repeatRuns,
-      manualSafariRefinementAllowed: false,
-      stableSafariTargetRate: `${trustedSafariTargets.length}/${manifest.targets.length}`,
+      ...evidenceCost,
     },
+    findings: [
+      "Safari produced trusted three-run evidence for 1 of 6 targets; Chrome produced trusted evidence for 3 of 6.",
+      "Two complete Safari Sky runs announced two prices but omitted the Samsung £38 price, so direct VoiceOver capture does not guarantee text coverage.",
+      "The Safari engine did not exactly match its only trusted Safari corpus; the Chrome engine also did not exactly match any trusted fresh Chrome corpus.",
+      "Safari capture was much faster, but 5 of 22 matrix attempts failed; all 18 Chrome attempts succeeded at substantially higher median and p95 cost.",
+      "The ownership ledger is useful, but W3C retained uncovered and duplicate candidates, while Apple retained uncovered candidates.",
+      "No production engine, extension, permission, or public API was changed by this experiment."
+    ],
     rows,
   };
   report.recommendation = recommendation(rows, pendingSafariTargets);

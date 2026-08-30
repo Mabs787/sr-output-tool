@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "engineFreezeCommit": "4d1725f",
+  "safari": {
+    "attempts": 22,
+    "successes": 17,
+    "failures": 5,
+    "stableTargets": 1,
+    "totalTargets": 6,
+    "medianJobSeconds": 216,
+    "p95JobSeconds": 458,
+    "workflowRunIds": [
+      33279309691,
+      33279309701,
+      33279309801,
+      33279525774,
+      33279525736,
+      33279525737,
+      33280219259,
+      33280220208,
+      33280219378,
+      33280364288
+    ],
+    "failureClasses": {
+      "largeRenderedPageBuffer": 3,
+      "preMarkerStall": 1,
+      "markerOrPermissionFailure": 1
+    }
+  },
+  "chrome": {
+    "attempts": 18,
+    "successes": 18,
+    "failures": 0,
+    "stableTargets": 3,
+    "totalTargets": 6,
+    "medianJobSeconds": 1667,
+    "p95JobSeconds": 3482,
+    "workflowRunIds": [
+      33280677645,
+      33280678358,
+      33280678359
+    ]
+  },
+  "manualRefinement": {
+    "safariMatrix": false,
+    "chromeFreshMatrix": false,
+    "historicalChromeCorpusContainsRefinedFixtures": true
+  },
+  "canary": {
+    "attempts": 2,
+    "successes": 1,
+    "failures": 1,
+    "workflowRunIds": [33278399428, 33278643997]
+  }
+}

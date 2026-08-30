@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 1,
+  "name": "github-com-login",
+  "browserProfile": "chrome-voiceover",
+  "status": "trusted",
+  "trustReasons": [],
+  "html": "github-com-login.html",
+  "expectedAnnouncements": [
+    "link, Skip to content",
+    "empty banner",
+    "main",
+    "heading level 1, Sign in to GitHub",
+    "Username or email address",
+    "Username or email address, required, edit text",
+    "Password",
+    "Password, required, secure text field",
+    "link, Forgot password?",
+    "Sign in, button",
+    "Continue with Google, button, group",
+    "Continue with Apple, button, group",
+    "New to GitHub?",
+    "link, Create an account",
+    "Sign in with a passkey, button",
+    "end of, main",
+    "content information",
+    "list 6 items",
+    "link, Terms, 1 of 6",
+    "link, Privacy, 2 of 6",
+    "link, Docs, 3 of 6",
+    "link, Contact GitHub Support, 4 of 6",
+    "Manage cookies, button, 5 of 6",
+    "Do not share my personal information, button, 6 of 6",
+    "end of list",
+    "end of, content information"
+  ],
+  "rawRuns": [
+    {
+      "run": 1,
+      "announcements": [
+        "link, Skip to content",
+        "empty banner",
+        "main",
+        "heading level 1, Sign in to GitHub",
+        "Username or email address",
+        "Username or email address, required, edit text",
+        "Password",
+        "Password, required, secure text field",
+        "link, Forgot password?",
+        "Sign in, button",
+        "Continue with Google, button, group",
+        "Continue with Apple, button, group",
+        "New to GitHub?",
+        "link, Create an account",
+        "Sign in with a passkey, button",
+        "end of, main",
+        "content information",
+        "list 6 items",
+        "link, Terms, 1 of 6",
+        "link, Privacy, 2 of 6",
+        "link, Docs, 3 of 6",
+        "link, Contact GitHub Support, 4 of 6",
+        "Manage cookies, button, 5 of 6",
+        "Do not share my personal information, button, 6 of 6",
+        "end of list",
+        "end of, content information"
+      ],
+      "sources": [
+        "caption-window-cropped-ocr-system-noise-filtered"
+      ],
+      "markers": {
+        "startReached": true,
+        "endReached": true
+      },
+      "errors": [],
+      "semanticFingerprint": "c7ff0e0f820d67b71e200827b5328245d565b991a2d1e821338e3a55f5a40d68",
+      "environment": {
+        "schemaVersion": 1,
+        "capturedAt": "2026-08-29T23:32:00.146Z",
+        "github": {
+          "actions": "true",
+          "runnerName": "GitHub Actions 1000002366",
+          "runnerOs": "macOS",
+          "runnerArch": "ARM64",
+          "runId": "33280677645",
+          "runAttempt": "1",
+          "repository": "Mabs787/sr-output-tool",
+          "ref": "refs/heads/main",
+          "sha": "cc113fc9c0679ac301d910ad9837697702ff4b31"
+        },
+        "host": {
+          "hostname": "sat12-bq160-f647051b-9f4c-43c9-93cb-70eccbf2a22b-3A3D77E8FB46.local",
+          "platform": "darwin",
+          "release": "25.5.0",
+          "arch": "arm64",
+          "node": "v24.18.0",
+          "locale": "en-US",
+          "timeZone": "UTC",
+          "timezoneOffsetMinutes": 0
+        },
+        "publicNetwork": {
+          "ok": true,
+          "provider": "api.ipify.org",
+          "ip": "13.105.117.149",
+          "city": "",
+          "region": "",
+          "countryCode": "",
+          "countryName": "",
+          "timezone": "",
+          "org": "",
+          "error": "{\"reason\": \"RateLimited\", \"message\": \"Please sign up for a paid plan at https://ipapi.co/pricing or contact us for a trial account\", \"wait\": 1.0, \"error\": true}"
+        },
+        "browser": {
+          "ok": true,
+          "capture": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "{\"href\":\"https://github.com/login\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36\",\"language\":\"en-US\",\"languages\":[\"en-US\",\"en\"],\"platform\":\"MacIntel\",\"timeZone\":\"UTC\",\"locale\":\"en-US\",\"viewport\":{\"width\":1200,\"height\":700,\"devicePixelRatio\":1},\"screen\":{\"width\":1024,\"height\":768,\"availWidth\":1024,\"availHeight\":677}}",
+            "stderr": "",
+            "error": "",
+            "source": "chrome-devtools"
+          },
+          "value": {
+            "href": "https://github.com/login",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+            "language": "en-US",
+            "languages": [
+              "en-US",
+              "en"
+            ],
+            "platform": "MacIntel",
+            "timeZone": "UTC",
+            "locale": "en-US",
+            "viewport": {
+              "width": 1200,
+              "height": 700,
+              "devicePixelRatio": 1
+            },
+            "screen": {
+              "width": 1024,
+              "height": 768,
+              "availWidth": 1024,
+              "availHeight": 677
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": 2,
+      "announcements": [
+        "link, Skip to content",
+        "empty banner",
+        "main",
+        "heading level 1, Sign in to GitHub",
+        "Username or email address",
+        "Username or email address, required, edit text",
+        "Password",
+        "Password, required, secure text field",
+        "link, Forgot password?",
+        "Sign in, button",
+        "Continue with Google, button, group",
+        "Continue with Apple, button, group",
+        "New to GitHub?",
+        "link, Create an account",
+        "Sign in with a passkey, button",
+        "end of, main",
+        "content information",
+        "list 6 items",
+        "link, Terms, 1 of 6",
+        "link, Privacy, 2 of 6",
+        "link, Docs, 3 of 6",
+        "link, Contact GitHub Support, 4 of 6",
+        "Manage cookies, button, 5 of 6",
+        "Do not share my personal information, button, 6 of 6",
+        "end of list",
+        "end of, content information"
+      ],
+      "sources": [
+        "caption-window-cropped-ocr-system-noise-filtered"
+      ],
+      "markers": {
+        "startReached": true,
+        "endReached": true
+      },
+      "errors": [],
+      "semanticFingerprint": "cba8b0a36cee0a0d39386a2fd70570daa2ebd73815004b53268c87973314e18b",
+      "environment": {
+        "schemaVersion": 1,
+        "capturedAt": "2026-08-30T00:37:09.865Z",
+        "github": {
+          "actions": "true",
+          "runnerName": "GitHub Actions 1000002382",
+          "runnerOs": "macOS",
+          "runnerArch": "ARM64",
+          "runId": "33280678358",
+          "runAttempt": "1",
+          "repository": "Mabs787/sr-output-tool",
+          "ref": "refs/heads/main",
+          "sha": "cc113fc9c0679ac301d910ad9837697702ff4b31"
+        },
+        "host": {
+          "hostname": "sjc22-bt146-9c74d303-bf8c-427f-b63b-f668c89bc6f7-22A1A53B086F.local",
+          "platform": "darwin",
+          "release": "25.5.0",
+          "arch": "arm64",
+          "node": "v24.18.0",
+          "locale": "en-US",
+          "timeZone": "UTC",
+          "timezoneOffsetMinutes": 0
+        },
+        "publicNetwork": {
+          "ok": true,
+          "provider": "ipapi.co",
+          "ip": "13.105.117.98",
+          "city": "San Antonio",
+          "region": "Texas",
+          "countryCode": "US",
+          "countryName": "United States",
+          "timezone": "America/Chicago",
+          "org": "Microsoft Corporation"
+        },
+        "browser": {
+          "ok": true,
+          "capture": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "{\"href\":\"https://github.com/login\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36\",\"language\":\"en-US\",\"languages\":[\"en-US\",\"en\"],\"platform\":\"MacIntel\",\"timeZone\":\"UTC\",\"locale\":\"en-US\",\"viewport\":{\"width\":1200,\"height\":700,\"devicePixelRatio\":1},\"screen\":{\"width\":1024,\"height\":768,\"availWidth\":1024,\"availHeight\":677}}",
+            "stderr": "",
+            "error": "",
+            "source": "chrome-devtools"
+          },
+          "value": {
+            "href": "https://github.com/login",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+            "language": "en-US",
+            "languages": [
+              "en-US",
+              "en"
+            ],
+            "platform": "MacIntel",
+            "timeZone": "UTC",
+            "locale": "en-US",
+            "viewport": {
+              "width": 1200,
+              "height": 700,
+              "devicePixelRatio": 1
+            },
+            "screen": {
+              "width": 1024,
+              "height": 768,
+              "availWidth": 1024,
+              "availHeight": 677
+            }
+          }
+        }
+      }
+    },
+    {
+      "run": 3,
+      "announcements": [
+        "link, Skip to content",
+        "empty banner",
+        "main",
+        "heading level 1, Sign in to GitHub",
+        "Username or email address",
+        "Username or email address, required, edit text",
+        "Password",
+        "Password, required, secure text field",
+        "link, Forgot password?",
+        "Sign in, button",
+        "Continue with Google, button, group",
+        "Continue with Apple, button, group",
+        "New to GitHub?",
+        "link, Create an account",
+        "Sign in with a passkey, button",
+        "end of, main",
+        "content information",
+        "list 6 items",
+        "link, Terms, 1 of 6",
+        "link, Privacy, 2 of 6",
+        "link, Docs, 3 of 6",
+        "link, Contact GitHub Support, 4 of 6",
+        "Manage cookies, button, 5 of 6",
+        "Do not share my personal information, button, 6 of 6",
+        "end of list",
+        "end of, content information"
+      ],
+      "sources": [
+        "caption-window-cropped-ocr-system-noise-filtered"
+      ],
+      "markers": {
+        "startReached": true,
+        "endReached": true
+      },
+      "errors": [],
+      "semanticFingerprint": "3f8b35f7910e00f59910b72f353965f61ad9c98af5bcf826c7b215966cf6920d",
+      "environment": {
+        "schemaVersion": 1,
+        "capturedAt": "2026-08-30T00:11:04.210Z",
+        "github": {
+          "actions": "true",
+          "runnerName": "GitHub Actions 1000002376",
+          "runnerOs": "macOS",
+          "runnerArch": "ARM64",
+          "runId": "33280678359",
+          "runAttempt": "1",
+          "repository": "Mabs787/sr-output-tool",
+          "ref": "refs/heads/main",
+          "sha": "cc113fc9c0679ac301d910ad9837697702ff4b31"
+        },
+        "host": {
+          "hostname": "sjc20-bb714-9ef9297e-304d-4e5c-9d7d-0e27c961f026-768B1168E7F6.local",
+          "platform": "darwin",
+          "release": "25.5.0",
+          "arch": "arm64",
+          "node": "v24.18.0",
+          "locale": "en-US",
+          "timeZone": "UTC",
+          "timezoneOffsetMinutes": 0
+        },
+        "publicNetwork": {
+          "ok": true,
+          "provider": "ipapi.co",
+          "ip": "13.105.220.6",
+          "city": "Ashburn",
+          "region": "Virginia",
+          "countryCode": "US",
+          "countryName": "United States",
+          "timezone": "America/New_York",
+          "org": "Microsoft Corporation"
+        },
+        "browser": {
+          "ok": true,
+          "capture": {
+            "ok": true,
+            "status": 0,
+            "signal": null,
+            "stdout": "{\"href\":\"https://github.com/login\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36\",\"language\":\"en-US\",\"languages\":[\"en-US\",\"en\"],\"platform\":\"MacIntel\",\"timeZone\":\"UTC\",\"locale\":\"en-US\",\"viewport\":{\"width\":1200,\"height\":700,\"devicePixelRatio\":1},\"screen\":{\"width\":1024,\"height\":768,\"availWidth\":1024,\"availHeight\":677}}",
+            "stderr": "",
+            "error": "",
+            "source": "chrome-devtools"
+          },
+          "value": {
+            "href": "https://github.com/login",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+            "language": "en-US",
+            "languages": [
+              "en-US",
+              "en"
+            ],
+            "platform": "MacIntel",
+            "timeZone": "UTC",
+            "locale": "en-US",
+            "viewport": {
+              "width": 1200,
+              "height": 700,
+              "devicePixelRatio": 1
+            },
+            "screen": {
+              "width": 1024,
+              "height": 768,
+              "availWidth": 1024,
+              "availHeight": 677
+            }
+          }
+        }
+      }
+    }
+  ]
+}
