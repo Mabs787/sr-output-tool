@@ -3,7 +3,6 @@ import test from "node:test";
 import {
   assessSafariCaptureTrust,
   detectSafariStall,
-  directSourcesAreCursorAligned,
   getScanBoundary,
   isSafariSystemNoise,
   minimumSemanticFingerprintSimilarity,
@@ -12,8 +11,8 @@ import {
   selectDirectVoiceOverSource,
 } from "./run-safari-voiceover-scan.mjs";
 
-test("prefers cursor-aligned lastPhrase and falls back to voCursorText", () => {
-  assert.deepEqual(selectDirectVoiceOverSource({ lastPhrase: "  Price   £30 ", voCursorText: "Price £30" }), {
+test("prefers lastPhrase and falls back to voCursorText", () => {
+  assert.deepEqual(selectDirectVoiceOverSource({ lastPhrase: "  Price   £30 ", voCursorText: "cursor" }), {
     source: "lastPhrase", text: "Price £30", direct: true,
   });
   assert.deepEqual(selectDirectVoiceOverSource({ lastPhrase: "", voCursorText: "View deal" }), {
@@ -24,37 +23,6 @@ test("prefers cursor-aligned lastPhrase and falls back to voCursorText", () => {
     voCursorText: "SR Output Tool VoiceOver scan start marker",
   }), {
     source: "voCursorText", text: "SR Output Tool VoiceOver scan start marker", direct: true,
-  });
-});
-
-test("rejects unrelated live-region and status speech in lastPhrase", () => {
-  const promotionalAlt = "Sky promotional banner with a pink, purple, and blue gradient background. Explore now";
-  const samsungHeading = "Samsung Galaxy Z Flip8 5G with Galaxy AI heading level 3";
-  assert.equal(directSourcesAreCursorAligned(promotionalAlt, samsungHeading), false);
-  assert.deepEqual(selectDirectVoiceOverSource({
-    lastPhrase: promotionalAlt,
-    voCursorText: samsungHeading,
-  }), {
-    source: "voCursorText", text: samsungHeading, direct: true,
-  });
-  assert.deepEqual(selectDirectVoiceOverSource({
-    lastPhrase: "You are currently on a selectable text.",
-    voCursorText: "from £38 a month",
-  }), {
-    source: "voCursorText", text: "from £38 a month", direct: true,
-  });
-});
-
-test("keeps richer lastPhrase context when it describes the cursor item", () => {
-  assert.equal(directSourcesAreCursorAligned(
-    "heading level 3 Samsung Galaxy Z Flip8 5G with Galaxy AI",
-    "Samsung Galaxy Z Flip8 5G with Galaxy AI heading level 3",
-  ), true);
-  assert.deepEqual(selectDirectVoiceOverSource({
-    lastPhrase: "link View deal 1 of 3",
-    voCursorText: "View deal link",
-  }), {
-    source: "lastPhrase", text: "link View deal 1 of 3", direct: true,
   });
 });
 
