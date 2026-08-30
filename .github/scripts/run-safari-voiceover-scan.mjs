@@ -123,6 +123,30 @@ export function normalizeDirectVoiceOverText(value) {
   return normalized;
 }
 
+function directSourceTokens(value) {
+  return normalizeWhitespace(value)
+    .toLocaleLowerCase("en")
+    .match(/[\p{L}\p{N}]+(?:[.'’-][\p{L}\p{N}]+)*/gu) || [];
+}
+
+export function directSourcesAreCursorAligned(lastPhrase, voCursorText) {
+  const phraseTokens = directSourceTokens(lastPhrase);
+  const cursorTokens = directSourceTokens(voCursorText);
+  if (!phraseTokens.length || !cursorTokens.length) return true;
+
+  const available = new Map();
+  for (const token of phraseTokens) available.set(token, (available.get(token) || 0) + 1);
+  let shared = 0;
+  for (const token of cursorTokens) {
+    const remaining = available.get(token) || 0;
+    if (!remaining) continue;
+    shared += 1;
+    available.set(token, remaining - 1);
+  }
+
+  return shared / Math.min(phraseTokens.length, cursorTokens.length) >= 0.75;
+}
+
 export function selectDirectVoiceOverSource(state) {
   const rawPhrase = normalizeWhitespace(state?.lastPhrase);
   const rawCursor = normalizeWhitespace(state?.voCursorText);
@@ -130,6 +154,9 @@ export function selectDirectVoiceOverSource(state) {
   if (getScanBoundary(rawCursor)) return { source: "voCursorText", text: rawCursor, direct: true };
   const lastPhrase = normalizeDirectVoiceOverText(state?.lastPhrase);
   const voCursorText = normalizeDirectVoiceOverText(state?.voCursorText);
+  if (lastPhrase && voCursorText && !directSourcesAreCursorAligned(lastPhrase, voCursorText)) {
+    return { source: "voCursorText", text: voCursorText, direct: true };
+  }
   if (lastPhrase) return { source: "lastPhrase", text: lastPhrase, direct: true };
   if (voCursorText) return { source: "voCursorText", text: voCursorText, direct: true };
   return { source: "none", text: "", direct: false };
