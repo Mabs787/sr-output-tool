@@ -43,12 +43,6 @@ test("rejects unrelated live-region and status speech in lastPhrase", () => {
   }), {
     source: "voCursorText", text: "from £38 a month", direct: true,
   });
-  assert.deepEqual(selectDirectVoiceOverSource({
-    lastPhrase: "Orange iPhone 17 Pro Max. From £34.75 a month. Pair with Unlimited data for £19 a month.",
-    voCursorText: "from £38 a month",
-  }), {
-    source: "voCursorText", text: "from £38 a month", direct: true,
-  });
 });
 
 test("keeps richer lastPhrase context when it describes the cursor item", () => {

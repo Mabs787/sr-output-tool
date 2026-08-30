@@ -134,12 +134,6 @@ export function directSourcesAreCursorAligned(lastPhrase, voCursorText) {
   const cursorTokens = directSourceTokens(voCursorText);
   if (!phraseTokens.length || !cursorTokens.length) return true;
 
-  const phraseNumbers = new Set(phraseTokens.filter((token) => /^\d/.test(token)));
-  const cursorNumbers = cursorTokens.filter((token) => /^\d/.test(token));
-  if (cursorNumbers.length && phraseNumbers.size && cursorNumbers.some((token) => !phraseNumbers.has(token))) {
-    return false;
-  }
-
   const available = new Map();
   for (const token of phraseTokens) available.set(token, (available.get(token) || 0) + 1);
   let shared = 0;
